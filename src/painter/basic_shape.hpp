@@ -1,10 +1,11 @@
-#ifndef BASIC_SHAPE_HPP
+#ifndef  BASIC_SHAPE_HPP
 #define BASIC_SHAPE_HPP
 
 #include <QColor>
 #include <QPoint>
 
 class QPainter;
+
 
 enum object_type {
         LINE = 0,
