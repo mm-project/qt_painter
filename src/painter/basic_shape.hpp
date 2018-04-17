@@ -1,4 +1,4 @@
-#ifndef BASIC_SHAPE_HPP
+#ifndef  BASIC_SHAPE_HPP
 #define BASIC_SHAPE_HPP
 
 #include <QColor>
