@@ -6,6 +6,7 @@
 
 class QPainter;
 
+
 enum object_type {
         LINE = 0,
         RECT,
