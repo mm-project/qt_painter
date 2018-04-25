@@ -6,25 +6,39 @@ OBJ_ROOT:=./.tmp/objroot
 UNITTEST_BIN_DIR:=./bin
 CODE_BASE_DIR:=./src
 
-
 MINGW_QT_ROOT=./ext/linux_qt/mingw53_32
-QT_ROOT=$(MINGW_QT_ROOT)
+LINUX_QT_ROOT=./ext/linux_qt/linux
+
+
+ifeq ($(OS),Windows_NT)
+	QT_ROOT=$(MINGW_QT_ROOT)
+else
+	QT_ROOT=$(LINUX_QT_ROOT)
+endif
 
 QT_INCL_ROOT=$(QT_ROOT)/include
 QT_LIB_ROOT=$(QT_ROOT)/lib
 QTINCLUDES:=-I $(QT_INCL_ROOT) -I $(QT_INCL_ROOT)/QtWidgets -I $(QT_INCL_ROOT)/QtGui -I $(QT_INCL_ROOT)/QtCore
+QTLIBS:=$(QT_LIB_ROOT)/libQt5Widgets.a $(QT_LIB_ROOT)/libQt5Gui.a $(QT_LIB_ROOT)/libQt5Core.a 
 
-#MOCFLAGS:=-DUNICODE -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_NEEDS_QMAIN -D__GNUC__ -DWIN32 -IC:/Qt_linux/5.7/mingw53_32/mkspecs/win32-g++ -IC:/Users/levons/Desktop/333/PAINTER -IC:/Users/levons/Desktop/333/PAINTER -IC:/Qt_linux/5.7/mingw53_32/include -I$(QT_INCL_ROOT)/QtWidgets -I$(QT_INCL_ROOT)/QtGui -I$(QT_INCL_ROOT)/QtANGLE -I$(QT_INCL_ROOT)/QtCore -I. -IC:/Qt_linux/Tools/mingw530_32/lib/gcc/i686-w64-mingw32/5.3.0/include -IC:/Qt_linux/Tools/mingw530_32/lib/gcc/i686-w64-mingw32/5.3.0/include-fixed -IC:/Qt_linux/Tools/mingw530_32/i686-w64-mingw32/include -IC:/Qt_linux/Tools/mingw530_32/i686-w64-mingw32/include/c++ -IC:/Qt_linux/Tools/mingw530_32/i686-w64-mingw32/include/c++/i686-w64-mingw32 -IC:/Qt_linux/Tools/mingw530_32/i686-w64-mingw32/include/c++/backward
+ifeq ($(OS),Windows_NT)
+	EXT_LD:=-static-libstdc++ -Wl,-subsystem,windows -mthreads -lmingw32 -L -lshell32 $(QT_LIB_ROOT)/libqtmain.a 
+	EXT_MOCFLAGS:=-DUNICODE -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_NEEDS_QMAIN -D__GNUC__ -DWIN32 $(QTINCLUDES)
+	EXT_CFLAGS:=-g -Wunused-parameter -std=gnu++0x -Idebug -pipe -fno-keep-inline-dllexport -g -std=gnu++11 -frtti -Wall -Wextra -fexceptions -mthreads -DUNICODE -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_NEEDS_QMAIN 
+else
+	EXT_LD:=
+	EXT_MOCFLAGS:=
+	EXT_CFLAGS:=-g -Wunused-parameter -std=gnu++0x -Idebug -pipe -fno-keep-inline-dllexport -g -std=gnu++11 -frtti -Wall -Wextra -fexceptions -mthreads 
+endif
 
-MOCFLAGS:=-DUNICODE -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_NEEDS_QMAIN -D__GNUC__ -DWIN32 $(QTINCLUDES)
 
-CFLAGS:=-g -Wunused-parameter -std=gnu++0x -Idebug -pipe -fno-keep-inline-dllexport -g -std=gnu++11 -frtti -Wall -Wextra -fexceptions -mthreads -DUNICODE -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_NEEDS_QMAIN $(QTINCLUDES)
 
-LDFLAGS:=-static-libstdc++ -Wl,-subsystem,windows -mthreads -lmingw32 -L -lshell32 $(QT_LIB_ROOT)/libqtmain.a $(QT_LIB_ROOT)/libQt5Widgets.a $(QT_LIB_ROOT)/libQt5Gui.a $(QT_LIB_ROOT)/libQt5Core.a 
+MOCFLAGS:= $(EXT_MOCFLAGS) $(QTINCLUDES)
+CFLAGS:= $(EXT_CFLAGS) $(QTINCLUDES)
+LDFLAGS:= $(EXT_LD) $(QTLIBS)
 
 CXX:=g++
 CXXFLAGS:=$(CFLAGS)
-
 MODULE=painter
 TEST_NAME:=$(MODULE)Test
 TEST_TARGET:=$(UNITTEST_BIN_DIR)/$(TEST_NAME)
