@@ -2,6 +2,8 @@
 #define CANVAS_HPP
 
 #include "basic_shape.hpp"
+#include "command.hpp"
+
 
 #include <QWidget>
 
@@ -37,6 +39,9 @@ private:
 
         working_set* m_working_set;
         runtime_environment* m_runtime_environment;
+		
+		command_manager* cm;
+		basecommand* m_active_command;
 };
 
 #endif
