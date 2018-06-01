@@ -23,8 +23,8 @@ canvas::canvas(QWidget* p)
         m_runtime_environment = new runtime_environment();
 		//m_working_set = 0;
 		m_active_command = 0;
-		
-		cm = new command_manager(m_runtime_environment);
+		m_renderer = new renderer(this);
+		cm = new command_manager(m_runtime_environment,m_working_set);
 		
 }
 
@@ -72,19 +72,33 @@ void canvas::mouseMoveEvent(QMouseEvent* e)
 		update();
 }
 
+
+
+void canvas::wheelEvent(QWheelEvent* event)
+{
+        //if (is_runtime_mode) {
+        //        m_runtime_environment->set_pos2(e->pos());
+        //       
+        //}
+		
+		//if( ! m_active_command ) return;
+		//m_active_command->mouse_move(e->pos().x(),e->pos().y());
+		///dynamic_cast<WPainter>
+		//dynamic_cast<WPainter*>(painter)->incr_zoom_factor();
+		m_renderer->incr_zoom_factor();
+		update();
+		
+}
+
 void canvas::paintEvent(QPaintEvent*)
 {
-        QPainter painter(this);
-        QRect rect(QPoint(0, 0), size());
-        QBrush b(Qt::black);
-        painter.setBrush(b);
-        painter.drawRect(rect);
-
-        std::vector<basic_shape*> shapes = m_working_set->get_objects();
-        for (auto i = shapes.begin(); i != shapes.end(); ++i) {
-                (*i)->draw(&painter);
-        }
-        m_runtime_environment->draw_runtime(&painter);
+		m_renderer->start();
+			std::vector<basic_shape*> shapes = m_working_set->get_objects();
+			for (auto i = shapes.begin(); i != shapes.end(); ++i) {
+					(*i)->draw(m_renderer->get_painter());
+			}
+			m_runtime_environment->draw_runtime(m_renderer->get_painter());
+		m_renderer->stop();
 }
 
 void canvas::create_line()

@@ -23,8 +23,8 @@ public:
         virtual void paintEvent(QPaintEvent*);
         virtual void mousePressEvent(QMouseEvent*);
         virtual void mouseMoveEvent(QMouseEvent*);
-
         virtual void mouseDoubleClicked(QMouseEvent*);
+		virtual void wheelEvent(QWheelEvent* event);
 
 public slots:
         void current_type_changed();
@@ -42,6 +42,7 @@ private:
 		
 		command_manager* cm;
 		basecommand* m_active_command;
+		renderer* m_renderer;
 };
 
 #endif
