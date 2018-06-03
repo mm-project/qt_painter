@@ -1,6 +1,7 @@
 #include "canvas.hpp"
 
 #include "command.hpp"
+#include "command_manager.hpp"
 #include "controller.hpp"
 #include "shapes.hpp"
 #include "working_set.hpp"
@@ -36,8 +37,10 @@ canvas::canvas(QWidget* p)
 void canvas::mousePressEvent(QMouseEvent* e)
 {
 		QPoint p(e->pos());
-        if( ! m_active_command ) return;
+        //cm->
+		if( ! m_active_command ) return;
 		m_active_command->mouse_clicked(p.x(),p.y());
+		
 		update();
 		/*
 		if (is_runtime_mode) {

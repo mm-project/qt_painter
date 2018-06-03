@@ -9,7 +9,7 @@
 #include "runtime_environment.hpp"
 #include "working_set.hpp"
 
-class basecommand
+class command_base
 {
 	public:
 		void virtual execute() {
@@ -26,7 +26,7 @@ class basecommand
 	
 };
 
-class create_rectangle : public basecommand
+class create_rectangle : public command_base
 {
 	public:
 		create_rectangle(runtime_environment* r,working_set* s):re(r),ws(s) {
@@ -74,95 +74,6 @@ class create_rectangle : public basecommand
 
 
 
-class command_manager  {
-	
-	public:
-		
-		command_manager(runtime_environment* r, working_set* s):re(r),ws(s) {
-				
-		}
-	
-		basecommand* get_create_rectangle_command() {
-			return ( new create_rectangle(re,ws) );
-		}
-		
-		//void register_command() {
-		//	
-		//}
-	
-		//get_active_command() {
-		//	
-		//}
-		
-	private:
-		//std::map<>;
-		
-		runtime_environment* re;
-		working_set* ws;
-		
-};
-
-
-class renderer
-{
-	//Q_OBJECT
-	public:
-		//WPainter(QPaintDevice* p):QPainter(p){
-		renderer (QWidget* w) { 	
-			m_zoom_factor = 1;
-			painter = new QPainter(w);
-			parent_windget = w;
-			
-			
-		}
-		
-		~renderer() {
-			
-		}
-		
-		//void drawRect(const QRect& r) {
-		//	QRect r2(r);
-		//	r2.setHeight(r.height());
-		//	r2.setWidth(r.width());
-		//	QPainter::drawRect(r2);
-		//}
-		
-		void start() {
-			painter->begin(parent_windget);
-		}
-		
-		void stop() {
-			painter->end();
-		}
-		
-		void incr_zoom_factor() {
-				m_zoom_factor++;
-		}
-		
-		void decr_zoom_factor() {
-				m_zoom_factor--;
-		}
-		
-		//void pan(int x, int y) {
-		//	
-		//}
-		
-		QPainter*  get_painter() {
-				QRect rect(QPoint(0, 0), QSize(1000,1000));
-				QBrush b(Qt::black);
-				painter->setBrush(b);
-				painter->drawRect(rect);
-				
-			return painter;
-		}
-		
-	private:
-		int m_zoom_factor;
-		
-	private:
-		QPainter* painter;
-		QWidget* parent_windget;
-};
 
 
 
