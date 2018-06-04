@@ -23,9 +23,10 @@ canvas::canvas(QWidget* p)
         m_working_set = new working_set;
         m_runtime_environment = new runtime_environment();
 		//m_working_set = 0;
-		m_active_command = 0;
+		//m_active_command = 0;
 		m_renderer = new renderer(this);
 		cm = new command_manager(m_runtime_environment,m_working_set);
+		cm->init();
 		
 }
 
@@ -37,9 +38,9 @@ canvas::canvas(QWidget* p)
 void canvas::mousePressEvent(QMouseEvent* e)
 {
 		QPoint p(e->pos());
-        //cm->
-		if( ! m_active_command ) return;
-		m_active_command->mouse_clicked(p.x(),p.y());
+        
+		if( cm->is_idle() ) return;
+		cm->get_active_command()->mouse_clicked(p.x(),p.y());
 		
 		update();
 		/*
@@ -70,8 +71,8 @@ void canvas::mouseMoveEvent(QMouseEvent* e)
         //       
         //}
 		
-		if( ! m_active_command ) return;
-		m_active_command->mouse_move(e->pos().x(),e->pos().y());
+		if( cm->is_idle() ) return;
+		cm->get_active_command()->mouse_move(e->pos().x(),e->pos().y());
 		update();
 }
 
@@ -111,8 +112,10 @@ void canvas::create_line()
 
 void canvas::create_rect()
 {
+		cm->invoke_command();
+		//create_rectangle_command);
 		
-		m_active_command = cm->get_create_rectangle_command();
+		//m_active_command = cm->get_create_rectangle_command();
 }
 
 void canvas::create_ellipse()

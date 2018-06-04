@@ -102,7 +102,6 @@ private:
         runtime_environment* m_runtime_environment;
 		
 		command_manager* cm;
-		command_base* m_active_command;
 		renderer* m_renderer;
 };
 
