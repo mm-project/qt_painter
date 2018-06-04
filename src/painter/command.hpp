@@ -9,6 +9,7 @@
 #include "runtime_environment.hpp"
 #include "working_set.hpp"
 
+
 class command_base
 {
 	public:
@@ -48,40 +49,11 @@ class idle_command : public command_base {
 class create_rectangle_command : public command_base
 {
 	public:
-		create_rectangle_command(runtime_environment* r,working_set* s):re(r),ws(s) {
-			m_is_first_click = true;
-			m_finished = false;
-			re->change_object_type(RECT);
-		}
-		
-		//virtual bool isFinished() {
-		//	return m_finished;
-		//}
-		
-		virtual void process() {
-			m_finished = true;
-		}
-		
-		virtual void  mouse_clicked(int x, int y) {
-			if ( m_is_first_click ) { 
-                controller* c = controller::get_instance();
-                re->change_basic_properties(c->get_basic_properties());
-                re->set_pos1(QPoint(x,y));
-                m_is_first_click = false;
-			} else {
-				re->set_pos2(QPoint(x,y));
-				m_finished = true;
-                ws->add_object(re);
-                re->reset();
-			}
-		}
-		
-		virtual void  mouse_move(int x, int y) {
-			if ( m_finished ) return;
-			re->set_pos2(QPoint(x,y));
-		}
-		
-		//void virtual 
+		create_rectangle_command(runtime_environment* r,working_set* s);
+		virtual bool isFinished();
+		virtual void process();
+		virtual void  mouse_clicked(int x, int y) override;
+		virtual void  mouse_move(int x, int y);
 		
 	private:
 		bool m_is_first_click;

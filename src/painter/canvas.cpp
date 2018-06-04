@@ -25,7 +25,8 @@ canvas::canvas(QWidget* p)
 		//m_working_set = 0;
 		//m_active_command = 0;
 		m_renderer = new renderer(this);
-		cm = new command_manager(m_runtime_environment,m_working_set);
+		cm = command_manager::get_instance();
+		cm->init2(m_runtime_environment,m_working_set);
 		cm->init();
 		
 }
@@ -39,7 +40,7 @@ void canvas::mousePressEvent(QMouseEvent* e)
 {
 		QPoint p(e->pos());
         
-		if( cm->is_idle() ) return;
+		//if( cm->is_idle() ) return;
 		cm->get_active_command()->mouse_clicked(p.x(),p.y());
 		
 		update();
@@ -71,7 +72,7 @@ void canvas::mouseMoveEvent(QMouseEvent* e)
         //       
         //}
 		
-		if( cm->is_idle() ) return;
+		//if( cm->is_idle() ) return;
 		cm->get_active_command()->mouse_move(e->pos().x(),e->pos().y());
 		update();
 }

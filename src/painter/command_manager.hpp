@@ -6,13 +6,25 @@
 #include "working_set.hpp"
 
 #include <string>
-
+#include <iostream>
  
 class command_manager  {
 	
 	public:
+		static command_manager* get_instance() {
+			if ( ! m_instance ) return (new command_manager);
+			return m_instance;
+		}
 		
-		command_manager(runtime_environment* r, working_set* s):re(r),ws(s),m_current_command(0),m_idle_command(new idle_command()) {
+	public:
+		//command_manager() {
+		//}
+		
+		void init2(runtime_environment* r, working_set* s) {
+			re = {r};
+			ws = {s};
+			m_current_command = {0};
+			m_idle_command = new idle_command();
 			
 		}
 		
@@ -49,6 +61,18 @@ class command_manager  {
 			return ( m_current_command == m_idle_command );
 		}
 		
+		void return_to_idle() {
+			std::cout << "ASENQ IDLE" << std::endl;
+			m_current_command = m_idle_command;
+		}
+		
+		//void handle_mouse_event() {
+		//}
+		
+		//void handle_key_event() {
+		//	
+		//}
+		
 	private:
 		//FIXME !!! map with string
 		std::map<std::string, command_base*> m_name2command;
@@ -60,7 +84,13 @@ class command_manager  {
 		runtime_environment* re;
 		working_set* ws;
 		//bool m_is_idle;
+
+	public:
+		static command_manager* m_instance;
 };
+
+
+
 
 #endif
 
