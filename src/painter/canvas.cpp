@@ -28,22 +28,22 @@ canvas::canvas(QWidget* p)
 		cm = command_manager::get_instance();
 		cm->init2(m_runtime_environment,m_working_set);
 		cm->init();
-		
+
 }
 
 //todo
 //void canvas::mouseDoubleClickEven(QMouseEvent* e) {
-//	
+//
 //}
 
 void canvas::mousePressEvent(QMouseEvent* e)
 {
 		QPoint p(e->pos());
-        
+
 		//if( cm->is_idle() ) return;
 		cm->get_active_command()->mouse_clicked(p.x(),p.y());
-		
-		update();
+
+		// update(); NOTE: only update after commiting object, now is working as object is runtime
 		/*
 		if (is_runtime_mode) {
                 m_runtime_environment->set_pos2(p);
@@ -69,9 +69,9 @@ void canvas::mouseMoveEvent(QMouseEvent* e)
 {
         //if (is_runtime_mode) {
         //        m_runtime_environment->set_pos2(e->pos());
-        //       
+        //
         //}
-		
+
 		//if( cm->is_idle() ) return;
 		cm->get_active_command()->mouse_move(e->pos().x(),e->pos().y());
 		update();
@@ -83,16 +83,16 @@ void canvas::wheelEvent(QWheelEvent* event)
 {
         //if (is_runtime_mode) {
         //        m_runtime_environment->set_pos2(e->pos());
-        //       
+        //
         //}
-		
+
 		//if( ! m_active_command ) return;
 		//m_active_command->mouse_move(e->pos().x(),e->pos().y());
 		///dynamic_cast<WPainter>
 		//dynamic_cast<WPainter*>(painter)->incr_zoom_factor();
 		m_renderer->incr_zoom_factor();
 		update();
-		
+
 }
 
 void canvas::paintEvent(QPaintEvent*)
@@ -115,7 +115,7 @@ void canvas::create_rect()
 {
 		cm->invoke_command();
 		//create_rectangle_command);
-		
+
 		//m_active_command = cm->get_create_rectangle_command();
 }
 
@@ -126,10 +126,10 @@ void canvas::create_ellipse()
 
 void canvas::create_polygon()
 {
-        //1. fixme shared 
+        //1. fixme shared
 		//m_active_command = cm.get_create_polygon_command();
 		//cmd->execute();
-	
+
 }
 
 void canvas::reset()
@@ -142,7 +142,7 @@ void canvas::mouseDoubleClicked(QMouseEvent*)
 {
 		//if( ! m_active_command ) return;
 		//m_active_command.try_to_commit();
-		
+
         //is_runtime_mode = false;
 }
 
