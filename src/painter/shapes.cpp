@@ -133,28 +133,29 @@ polygon::polygon(QPolygonF p, basic_properties b)
 
 polygon* polygon::clone()
 {
-        //return new polygon(m_object, m_properties);
+        return new polygon(m_object, m_properties);
 }
 
 void polygon::draw(QPainter* p)
 {
-        //QPen pen(m_properties.pen_color, m_properties.pen_width,
-        //                m_properties.pen_style, m_properties.pen_cap_style, m_properties.pen_join_style);
-        //QBrush brush(m_properties.brush_color, m_properties.brush_style);
-        //p->setBrush(brush);
-        //p->setPen(pen);
-        //p->drawPolygon(m_object);
+        QPen pen(m_properties.pen_color, m_properties.pen_width,
+                        m_properties.pen_style, m_properties.pen_cap_style, m_properties.pen_join_style);
+        QBrush brush(m_properties.brush_color, m_properties.brush_style);
+        p->setBrush(brush);
+        p->setPen(pen);
+        p->drawPolygon(m_object);
 }
 
 void polygon::reset()
 {
-	//m_object.setRect(0, 0, 0, 0);
+            
+    //m_object.setQPolygn(0, 0, 0, 0);
 }
 
 void polygon::set_pos1(const QPoint& p)
 {
 	//arachin
-	//m_object.
+        m_object << p;
 }
 
 void polygon::set_pos2(const QPoint& p)

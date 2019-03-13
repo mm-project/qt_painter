@@ -84,7 +84,7 @@ public:
         virtual void paintEvent(QPaintEvent*);
         virtual void mousePressEvent(QMouseEvent*);
         virtual void mouseMoveEvent(QMouseEvent*);
-        virtual void mouseDoubleClicked(QMouseEvent*);
+        virtual void mouseDoubleClickEvent(QMouseEvent*) override;
 		virtual void wheelEvent(QWheelEvent* event);
 
 public slots:

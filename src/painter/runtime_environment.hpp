@@ -6,6 +6,7 @@
 class line;
 class rectangle;
 class ellipse;
+class polygon;
 
 class runtime_environment
 {
@@ -30,6 +31,7 @@ private:
         line* runtime_line;
         rectangle* runtime_rectangle;
         ellipse* runtime_ellipse;
+        polygon* runtime_polygon;
 };
 
 #endif

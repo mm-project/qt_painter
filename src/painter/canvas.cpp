@@ -113,7 +113,7 @@ void canvas::create_line()
 
 void canvas::create_rect()
 {
-		cm->invoke_command();
+		///cm->invoke_command();
 		//create_rectangle_command);
 
 		//m_active_command = cm->get_create_rectangle_command();
@@ -129,6 +129,7 @@ void canvas::create_polygon()
         //1. fixme shared
 		//m_active_command = cm.get_create_polygon_command();
 		//cmd->execute();
+        cm->invoke_command();
 
 }
 
@@ -138,9 +139,11 @@ void canvas::reset()
         update();
 }
 
-void canvas::mouseDoubleClicked(QMouseEvent*)
+void canvas::mouseDoubleClickEvent(QMouseEvent* e)
 {
-		//if( ! m_active_command ) return;
+
+    cm->get_active_command()->mouse_dbl_clicked(e->pos().x(),e->pos().y());
+    //if( ! m_active_command ) return;
 		//m_active_command.try_to_commit();
 
         //is_runtime_mode = false;

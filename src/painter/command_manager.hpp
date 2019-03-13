@@ -12,8 +12,9 @@ class command_manager  {
 	
 	public:
 		static command_manager* get_instance() {
-			if ( ! m_instance ) return (new command_manager);
-			return m_instance;
+                    if ( ! m_instance ) 
+                        m_instance = new command_manager;
+                    return m_instance;
 		}
 		
 	public:
@@ -33,6 +34,7 @@ class command_manager  {
 			//register_command("create_rect",new create_rectangle_command(re,ws));
 			//register_command("idle", new idle_command());
 			m_rect_command = new create_rectangle_command(re,ws);
+                        m_polygon_command = new create_polygon_command(re,ws);
 			m_current_command = m_idle_command;
 		}
 	
@@ -41,8 +43,8 @@ class command_manager  {
 		//}
 		
 		command_base* invoke_command() {
-			m_current_command = m_rect_command;
-			return m_rect_command;
+			m_current_command = m_polygon_command;
+			return m_current_command;
 		}
 		
 		//command_base* get_command() {
@@ -80,6 +82,7 @@ class command_manager  {
 		command_base* m_current_command;
 		command_base* m_idle_command;
 		command_base* m_rect_command;
+                command_base* m_polygon_command;
 		
 		runtime_environment* re;
 		working_set* ws;
