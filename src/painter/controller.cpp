@@ -4,7 +4,7 @@ controller* controller::m_instance = 0;
 
 controller::controller()
 {
-        type = object_type::LINE;
+        type = LINE;
         //basic properties?
 }
 
@@ -16,7 +16,7 @@ controller* controller::get_instance()
         return m_instance;
 }
 
-void controller::change_object_type(object_type t)
+void controller::change_object_type(ObjectType t)
 {
         type = t;
 }
@@ -57,7 +57,7 @@ void controller::change_brush_style(Qt::BrushStyle s)
 }
 
 // getter functions
-object_type controller::get_object_type() const
+ObjectType controller::get_object_type() const
 {
         return type;
 }

@@ -8,7 +8,7 @@ class controller
 public:
         static controller* get_instance();
 
-        void change_object_type(object_type);
+        void change_object_type(ObjectType);
         void change_pen_width(int);
         void change_pen_color(QColor);
         void change_brush_color(QColor);
@@ -17,8 +17,8 @@ public:
         void change_pen_join_style(Qt::PenJoinStyle);
         void change_brush_style(Qt::BrushStyle);
 
-        basic_properties get_basic_properties() const {return properties;}
-        object_type get_object_type() const;
+        ShapeProperties get_shape_properties() const {return properties;}
+        ObjectType get_object_type() const;
         int get_pen_width() const;
         QColor get_pen_color() const;
         QColor get_brush_color() const;
@@ -34,8 +34,8 @@ private:
 private:
         static controller* m_instance;
 
-        object_type type;
-        basic_properties properties;
+        ObjectType type;
+        ShapeProperties properties;
 };
 
 #endif

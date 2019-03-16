@@ -1,13 +1,22 @@
 #ifndef COMMAND_MANAGER_HPP
 #define COMMAND_MANAGER_HPP
 
+///////////////////////////////////////////////////////////////////////////////
+//
+// Includes
+//
 #include "command.hpp"
 #include "runtime_environment.hpp"
 #include "working_set.hpp"
 
+// Stl
 #include <string>
 #include <iostream>
  
+///////////////////////////////////////////////////////////////////////////////
+//
+// @class command manager
+//
 class command_manager  {
 	
 	public:
@@ -18,15 +27,12 @@ class command_manager  {
 		}
 		
 	public:
-		//command_manager() {
-		//}
 		
 		void init2(runtime_environment* r, working_set* s) {
 			re = {r};
 			ws = {s};
 			m_current_command = {0};
 			m_idle_command = new idle_command();
-			
 		}
 		
 		//FIMXE should be called from outside
@@ -82,7 +88,7 @@ class command_manager  {
 		command_base* m_current_command;
 		command_base* m_idle_command;
 		command_base* m_rect_command;
-                command_base* m_polygon_command;
+        command_base* m_polygon_command;
 		
 		runtime_environment* re;
 		working_set* ws;

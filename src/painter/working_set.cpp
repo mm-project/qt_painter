@@ -2,12 +2,12 @@
 
 #include "runtime_environment.hpp"
 
-void working_set::add_object(basic_shape* s)
+void working_set::add_object(IBasicShape* s)
 {
         shapes.push_back(s->clone());
 }
 
-std::vector<basic_shape*> working_set::get_objects()
+std::vector<IBasicShape*> working_set::get_objects()
 {
         return shapes;
 }

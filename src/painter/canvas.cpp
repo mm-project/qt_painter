@@ -98,7 +98,7 @@ void canvas::wheelEvent(QWheelEvent* event)
 void canvas::paintEvent(QPaintEvent*)
 {
 		m_renderer->start();
-			std::vector<basic_shape*> shapes = m_working_set->get_objects();
+			std::vector<IBasicShape*> shapes = m_working_set->get_objects();
 			for (auto i = shapes.begin(); i != shapes.end(); ++i) {
 					(*i)->draw(m_renderer->get_painter());
 			}
@@ -115,6 +115,7 @@ void canvas::create_rect()
 {
 		///cm->invoke_command();
 		//create_rectangle_command);
+        m_runtime_environment->change_object_type(RECT);
 
 		//m_active_command = cm->get_create_rectangle_command();
 }
@@ -129,6 +130,7 @@ void canvas::create_polygon()
         //1. fixme shared
 		//m_active_command = cm.get_create_polygon_command();
 		//cmd->execute();
+        m_runtime_environment->change_object_type(POLYGON);
         cm->invoke_command();
 
 }
