@@ -40,7 +40,7 @@ void canvas::mousePressEvent(QMouseEvent* e)
 {
 		QPoint p(e->pos());
 
-		//if( cm->is_idle() ) return;
+		if( cm->is_idle() ) return;
 		cm->get_active_command()->mouse_clicked(p.x(),p.y());
 
 		// update(); NOTE: only update after commiting object, now is working as object is runtime
@@ -72,7 +72,7 @@ void canvas::mouseMoveEvent(QMouseEvent* e)
         //
         //}
 
-		//if( cm->is_idle() ) return;
+		if( cm->is_idle() ) return;
 		cm->get_active_command()->mouse_move(e->pos().x(),e->pos().y());
 		update();
 }
@@ -97,13 +97,18 @@ void canvas::wheelEvent(QWheelEvent* event)
 
 void canvas::paintEvent(QPaintEvent*)
 {
-		m_renderer->start();
-			std::vector<IBasicShape*> shapes = m_working_set->get_objects();
-			for (auto i = shapes.begin(); i != shapes.end(); ++i) {
-					(*i)->draw(m_renderer->get_painter());
-			}
-			m_runtime_environment->draw_runtime(m_renderer->get_painter());
-		m_renderer->stop();
+	auto painter = m_renderer->get_painter();
+	m_renderer->start();
+	QRect rect(QPoint(0, 0), QSize(1000,1000));
+	QBrush b(Qt::black);
+	painter->setBrush(b);
+	painter->drawRect(rect);
+	std::vector<IBasicShape*> shapes = m_working_set->get_objects();
+	for (auto i = shapes.begin(); i != shapes.end(); ++i) {
+			(*i)->draw(painter);
+	}
+	m_runtime_environment->draw_runtime(painter);
+	m_renderer->stop();
 }
 
 void canvas::create_line()

@@ -57,11 +57,6 @@ class renderer
 		//}
 		
 		QPainter*  get_painter() {
-				QRect rect(QPoint(0, 0), QSize(1000,1000));
-				QBrush b(Qt::black);
-				painter->setBrush(b);
-				painter->drawRect(rect);
-				
 			return painter;
 		}
 		
@@ -83,7 +78,7 @@ public:
 public:
         virtual void paintEvent(QPaintEvent*);
         virtual void mousePressEvent(QMouseEvent*);
-        virtual void mouseMoveEvent(QMouseEvent*);
+        virtual void mouseMoveEvent(QMouseEvent*) override;
         virtual void mouseDoubleClickEvent(QMouseEvent*) override;
 		virtual void wheelEvent(QWheelEvent* event);
 

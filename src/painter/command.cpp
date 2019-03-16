@@ -31,7 +31,7 @@ void  create_rectangle_command::mouse_clicked(int x, int y)
 	} else {
 		re->set_pos2(QPoint(x,y));
 		m_finished = true;
-		ws->add_object(re);
+		ws->add_object(re->get_runtime_object());
 		re->reset();
 		command_manager::get_instance()->return_to_idle();
 		m_is_first_click = true;
@@ -85,7 +85,9 @@ void  create_polygon_command::mouse_dbl_clicked(int x, int y)
         //assert(0);
         re->set_pos2(QPoint(x,y));
         m_finished = true;
-        ws->add_object(re);
+		controller* c = controller::get_instance();
+		re->change_basic_properties(c->get_shape_properties());
+        ws->add_object(re->get_runtime_object());
         re->reset();
         command_manager::get_instance()->return_to_idle();
         m_is_first_click = true;    
@@ -94,5 +96,5 @@ void  create_polygon_command::mouse_dbl_clicked(int x, int y)
 void  create_polygon_command::mouse_move(int x, int y)
 {
 	if ( m_finished ) return;
-	//re->set_pos2(QPoint(x,y));
+	re->set_pos2(QPoint(x,y));
 }
