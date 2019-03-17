@@ -15,9 +15,10 @@ class command_idle : public icommand_base
         void virtual execute_and_log() {} 
         void virtual process() {} 
         void virtual mouse_clicked(int, int) {}
-        void virtual mouse_move(int, int) {} 
+        void virtual mouse_moved(int, int) {} 
         void virtual mouse_dbl_clicked(int, int) {};
         void virtual log() {}
+        void virtual update() {}
 };
 
 
@@ -58,15 +59,18 @@ class command_create_shape : public icommand_base
             
         }
 
-        virtual void mouse_move(int x, int y) {
+        virtual void mouse_moved(int x, int y) {
             if ( m_finished ) return;
-            //FIXME changing each time
-            re->change_basic_properties(controller::get_instance()->get_shape_properties());
             re->set_pos2(QPoint(x,y));
         }
         
+        virtual void update() {
+            re->change_basic_properties(controller::get_instance()->get_shape_properties());
+        } 
+        
         virtual void mouse_dbl_clicked(int, int) {}
 
+        virtual ~command_create_shape() { }
     //FIXME add accessors so derives can use them
     //private:
         bool m_is_first_click;
@@ -109,7 +113,7 @@ class command_create_shape<POLYGON> : public command_create_shape<RECT>
             m_is_first_click = true;    
         }
 
-        void  mouse_move(int x, int y)
+        void  mouse_moved(int x, int y)
         {
             if ( m_finished ) 
                 return;
@@ -117,6 +121,9 @@ class command_create_shape<POLYGON> : public command_create_shape<RECT>
             re->set_pos2(QPoint(x,y));
         }
         
+        
+        virtual ~command_create_shape() { }
+
 };
 
 

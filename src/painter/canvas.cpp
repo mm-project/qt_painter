@@ -29,13 +29,17 @@ canvas::canvas(QWidget* p)
 
 }
 
+void canvas::keyPressEvent(QKeyEvent*) {
+    //cm->key_pressed();
+}
+
 void canvas::mousePressEvent(QMouseEvent* e)
 {
     if( cm->is_idle() ) 
         return;
 
     QPoint p(e->pos());
-    cm->get_active_command()->mouse_clicked(p.x(),p.y());
+    cm->mouse_clicked(p.x(),p.y());
 
 }
 
@@ -52,7 +56,7 @@ void canvas::mouseMoveEvent(QMouseEvent* e)
     if( cm->is_idle() ) 
         return;
     
-    cm->get_active_command()->mouse_move(e->pos().x(),e->pos().y());
+    cm->mouse_moved(e->pos().x(),e->pos().y());
     update();
 }
 
@@ -78,7 +82,7 @@ void canvas::paintEvent(QPaintEvent*)
     m_renderer->stop();
 }
 
-//YES FIXME!!! 
+//FIXME ( may be other more nicer way?)
 #define CMD_CREATE_OBJ(S) new command_create_shape<S>(m_runtime_environment,m_working_set)
 void canvas::create_line()
 {
@@ -108,6 +112,11 @@ void canvas::reset()
 
 void canvas::mouseDoubleClickEvent(QMouseEvent* e)
 {
-    cm->get_active_command()->mouse_dbl_clicked(e->pos().x(),e->pos().y());
+    cm->mouse_dbl_clicked(e->pos().x(),e->pos().y());
+}
+
+void canvas::on_update()
+{
+    cm->update();
 }
 

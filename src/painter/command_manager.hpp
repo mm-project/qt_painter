@@ -40,6 +40,13 @@ class command_manager
         bool is_idle(); 
         void return_to_idle(); 
         
+        void mouse_dbl_clicked(int x, int y);
+        void mouse_clicked(int x, int y);
+        void mouse_moved(int x, int y);
+        void key_pressed();
+        void update();
+        
+        
     private:
         //FIXME !!! map with string
         std::map<std::string, icommand_base*> m_name2command;

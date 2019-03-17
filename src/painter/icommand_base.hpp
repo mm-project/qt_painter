@@ -20,8 +20,12 @@ class icommand_base
         void virtual process() = 0;
         void virtual mouse_clicked(int, int) = 0;
         void virtual mouse_dbl_clicked(int, int) = 0;
-        void virtual mouse_move(int, int) = 0;
+        void virtual mouse_moved(int, int) = 0;
+        void virtual update() = 0;
         //void virtual log() = 0;
+        
+        //FIXME bug, pure virtual dtor makes compiler sad:/
+        virtual ~icommand_base() {}
 };
 
 #endif

@@ -38,7 +38,8 @@ main_window::main_window(QWidget* p)
 
 void main_window::make_connections()
 {
-        connect(m_shapes, SIGNAL(shape_changed()), m_canvas, SLOT(current_type_changed()));
+        //connect(m_shapes, SIGNAL(shape_changed()), m_canvas, SLOT(current_type_changed()));
+        connect(m_pen_brush, SIGNAL(something_changed()), m_canvas, SLOT(on_update()));
 }
 
 void main_window::init_menu()

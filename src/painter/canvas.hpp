@@ -78,6 +78,7 @@ public:
 
 public:
         virtual void paintEvent(QPaintEvent*) override;
+        virtual void keyPressEvent(QKeyEvent*) override;
         virtual void mousePressEvent(QMouseEvent*) override;
         virtual void mouseMoveEvent(QMouseEvent*) override;
         virtual void mouseDoubleClickEvent(QMouseEvent*) override;
@@ -90,6 +91,7 @@ public slots:
         void create_ellipse();
         void create_polygon();
         void reset();
+        void on_update();
 
 private:
         bool is_runtime_mode;

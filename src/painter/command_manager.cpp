@@ -30,11 +30,13 @@ void command_manager::init() {
 //}
 
 icommand_base* command_manager::invoke_command() {
-    m_current_command = m_polygon_command;
+    //m_current_command = m_polygon_command;
     return m_current_command;
 }
 
 void command_manager::activate_command(icommand_base* cmd) {
+    //FIXME crashes obviously
+    //delete m_current_command;
     m_current_command = cmd;
 }
 //icommand_base* get_command() {
@@ -55,8 +57,28 @@ bool command_manager::is_idle() {
 
 void command_manager::return_to_idle() {
     std::cout << "(cm) back to idle" << std::endl;
+    //delete m_last_command;
     m_current_command = m_idle_command;
 }
 
+
+void command_manager::mouse_dbl_clicked(int x, int y) {
+    m_current_command->mouse_dbl_clicked(x,y);
+}
+
+void command_manager::mouse_clicked(int x, int y) {
+     m_current_command->mouse_clicked(x,y);
+}
+
+void command_manager::mouse_moved(int x, int y) {
+     m_current_command->mouse_moved(x,y);
+}
+
+void command_manager::key_pressed() {
+}
+
+void command_manager::update() {
+     m_current_command->update();
+}
 
 
