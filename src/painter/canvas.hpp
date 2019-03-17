@@ -6,6 +6,7 @@
 #include "command_manager.hpp"
 
 #include <QWidget>
+#include <QPainter>
 
 class rectangle;
 class line;
@@ -80,7 +81,7 @@ public:
         virtual void mousePressEvent(QMouseEvent*);
         virtual void mouseMoveEvent(QMouseEvent*) override;
         virtual void mouseDoubleClickEvent(QMouseEvent*) override;
-		virtual void wheelEvent(QWheelEvent* event);
+        virtual void wheelEvent(QWheelEvent* event);
 
 public slots:
         void current_type_changed();
@@ -96,8 +97,8 @@ private:
         working_set* m_working_set;
         runtime_environment* m_runtime_environment;
 		
-		command_manager* cm;
-		renderer* m_renderer;
+        command_manager* cm;
+        renderer* m_renderer;
 };
 
 
