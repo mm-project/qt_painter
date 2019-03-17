@@ -6,7 +6,6 @@
 // Includes
 //
 #include "icommand_base.hpp"
-#include "command.hpp"
 #include "runtime_environment.hpp"
 #include "working_set.hpp"
 

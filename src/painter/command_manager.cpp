@@ -1,4 +1,5 @@
 #include "command_manager.hpp"
+#include "command.hpp"
 
 command_manager* command_manager::m_instance = 0;
 
@@ -15,12 +16,11 @@ void command_manager::init() {
     //register_command("create_rect",new create_rectangle_command(re,ws));
     //register_command("idle", new idle_command());
     
-
-    m_rect_command = new command_create_shape<RECT>(re,ws);
-    m_elipse_command = new command_create_shape<ELLIPSE>(re,ws);
-    m_line_command = new command_create_shape<LINE>(re,ws);
-    m_polygon_command = new command_create_shape<POLYGON>(re,ws);
     
+    //m_rect_command = new command_create_shape<RECT>(re,ws);
+    //m_elipse_command = new command_create_shape<ELLIPSE>(re,ws);
+    //m_line_command = new command_create_shape<LINE>(re,ws);
+    //m_polygon_command = new command_create_shape<POLYGON>(re,ws);
     
     m_current_command = m_idle_command;
 }
@@ -54,7 +54,7 @@ bool command_manager::is_idle() {
 }
 
 void command_manager::return_to_idle() {
-    std::cout << "NOW IDLE" << std::endl;
+    std::cout << "(cm) back to idle" << std::endl;
     m_current_command = m_idle_command;
 }
 

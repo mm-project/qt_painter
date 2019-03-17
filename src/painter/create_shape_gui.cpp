@@ -23,7 +23,7 @@ create_shape_gui::create_shape_gui(QWidget* p)
 	//m_layout->addWidget(m_rect_button);
 	//m_layout->addWidget(m_ellipse_button);
 	//m_layout->addWidget(m_polygon_button);
-	m_layout->addStretch();
+	//m_layout->addStretch();
 
 	setLayout(m_layout);
 
