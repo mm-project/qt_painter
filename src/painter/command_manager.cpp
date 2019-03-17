@@ -1,5 +1,6 @@
 #include "command_manager.hpp"
 #include "command.hpp"
+#include <cassert>
 
 command_manager* command_manager::m_instance = 0;
 
@@ -75,6 +76,8 @@ void command_manager::mouse_moved(int x, int y) {
 }
 
 void command_manager::key_pressed() {
+    return_to_idle();
+    //assert(0);
 }
 
 void command_manager::update() {

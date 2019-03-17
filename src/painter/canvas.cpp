@@ -19,6 +19,7 @@
 canvas::canvas(QWidget* p)
         : QWidget(p), is_runtime_mode(false)
 {
+        setFocusPolicy(Qt::StrongFocus);
         setMouseTracking(true);
         m_working_set = new working_set;
         m_runtime_environment = new runtime_environment();
@@ -30,7 +31,9 @@ canvas::canvas(QWidget* p)
 }
 
 void canvas::keyPressEvent(QKeyEvent*) {
-    //cm->key_pressed();
+    //FIXME some interface needed
+    //assert(0);
+    cm->key_pressed();
 }
 
 void canvas::mousePressEvent(QMouseEvent* e)
