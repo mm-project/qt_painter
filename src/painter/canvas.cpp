@@ -89,18 +89,21 @@ void canvas::paintEvent(QPaintEvent*)
 #define CMD_CREATE_OBJ(S) new command_create_shape<S>(m_runtime_environment,m_working_set)
 void canvas::create_line()
 {
-    cm->activate_command(CMD_CREATE_OBJ(LINE));
+    //cm->activate_command(CMD_CREATE_OBJ(LINE));
+    cm->activate_command(new command_Nangle_creator_with_sides_num<2>(m_runtime_environment,m_working_set));
 }
 
 void canvas::create_rect()
 {
-    cm->activate_command(new triangle_create(m_runtime_environment,m_working_set));
+    cm->activate_command(new command_Nangle_creator_with_sides_num<3>(m_runtime_environment,m_working_set));
     //cm->activate_command(CMD_CREATE_OBJ(RECT));
 }
 
 void canvas::create_ellipse()
 {
-    cm->activate_command(CMD_CREATE_OBJ(ELLIPSE));
+    cm->activate_command(new command_Nangle_creator_with_sides_num<6>(m_runtime_environment,m_working_set));
+    
+    //cm->activate_command(CMD_CREATE_OBJ(ELLIPSE));
 }
 
 void canvas::create_polygon()

@@ -114,20 +114,21 @@ class rect_create : public interactive_command_base
 };
 
 
-class triangle_create : public interactive_command_base 
+template<int T>
+class command_Nangle_creator_with_sides_num : public interactive_command_base 
 {
         int count;
     public:
         
-        triangle_create(runtime_environment* r, working_set*s ):interactive_command_base(r,s)
+        command_Nangle_creator_with_sides_num(runtime_environment* r, working_set*s ):interactive_command_base(r,s)
         {
             rt()->change_object_type(POLYGON);
-            set_next_step(MEMBER_FUNCTION(triangle_create,idle));
+            set_next_step(MEMBER_FUNCTION(command_Nangle_creator_with_sides_num<T>,idle));
             reset_count();
         }
         
         void reset_count() {
-            count = 2;
+            count = T-1;
         }
         
         void idle(const EvType& ev) {
@@ -137,7 +138,7 @@ class triangle_create : public interactive_command_base
                 return;
             
             runtime_set_pos1();
-            set_next_step(MEMBER_FUNCTION(triangle_create,on_first_click));
+            set_next_step(MEMBER_FUNCTION(command_Nangle_creator_with_sides_num<T>,on_first_click));
         }
         
         void on_first_click(const EvType& ev) {
@@ -145,10 +146,10 @@ class triangle_create : public interactive_command_base
 
             if ( ev == MC ) {
                 runtime_set_pos1();
-                set_next_step(MEMBER_FUNCTION(triangle_create,on_first_click));
+                set_next_step(MEMBER_FUNCTION(command_Nangle_creator_with_sides_num<T>,on_first_click));
                 if (--count == 0) {
                     std::cout << "triangle count 0 ..." << std::endl;
-                    set_next_step(MEMBER_FUNCTION(triangle_create,on_commit));
+                    set_next_step(MEMBER_FUNCTION(command_Nangle_creator_with_sides_num<T>,on_commit));
                 }
                     
             }
@@ -158,7 +159,7 @@ class triangle_create : public interactive_command_base
             std::cout << "triangle COMMIT..." << std::endl;
 
             commit();
-            set_next_step(MEMBER_FUNCTION(triangle_create,idle));
+            set_next_step(MEMBER_FUNCTION(command_Nangle_creator_with_sides_num<T>,idle));
             reset_count();
         }
 };

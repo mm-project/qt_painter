@@ -4,7 +4,7 @@
 class icommand_base
 {
     public:
-        void virtual execute() {
+        virtual void execute() {
                 //while ( isFinished() ) {
                 //	process();
                 //}
@@ -16,13 +16,13 @@ class icommand_base
         }
         
         //bool virtual isFinished() = 0;
-        //void virtual execute_and_log() = 0;
-        void virtual process() = 0;
-        void virtual mouse_clicked(int, int) = 0;
-        void virtual mouse_dbl_clicked(int, int) = 0;
-        void virtual mouse_moved(int, int) = 0;
-        void virtual update() = 0;
-        //void virtual log() = 0;
+        //virtual void execute_and_log() = 0;
+        virtual void process() = 0;
+        virtual void mouse_clicked(int, int) = 0;
+        virtual void mouse_dbl_clicked(int, int) = 0;
+        virtual void mouse_moved(int, int) = 0;
+        virtual void update() = 0;
+        //virtual void log() = 0;
         
         //FIXME bug, pure virtual dtor makes compiler sad:/
         virtual ~icommand_base() {}
