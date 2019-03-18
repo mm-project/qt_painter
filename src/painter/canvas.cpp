@@ -94,7 +94,8 @@ void canvas::create_line()
 
 void canvas::create_rect()
 {
-    cm->activate_command(CMD_CREATE_OBJ(RECT));
+    cm->activate_command(new triangle_create(m_runtime_environment,m_working_set));
+    //cm->activate_command(CMD_CREATE_OBJ(RECT));
 }
 
 void canvas::create_ellipse()

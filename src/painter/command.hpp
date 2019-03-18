@@ -9,6 +9,8 @@
 #include "working_set.hpp"
 
 
+#include <functional>
+
 class command_idle : public icommand_base 
 {
     public:
@@ -19,6 +21,146 @@ class command_idle : public icommand_base
         void virtual mouse_dbl_clicked(int, int) {};
         void virtual log() {}
         void virtual update() {}
+};
+
+enum EvType { MC, MDC, MM, KP };
+#define MEMBER_FUNCTION(C,M) std::bind(&C::M,this,std::placeholders::_1)
+
+
+typedef std::function<void( const EvType& )> CmdMemFun;
+
+class interactive_command_base : public icommand_base 
+{
+    public:
+        interactive_command_base(runtime_environment* r,working_set*s):re(r),ws(s) {}
+        
+    public:
+        void virtual execute_and_log() {} 
+        void virtual process() {} 
+        void virtual mouse_clicked(int, int) {m_current_handler(MC);}
+        void virtual mouse_moved(int x, int y) {last.setX(x),last.setY(y),m_current_handler(MM);} 
+        void virtual mouse_dbl_clicked(int, int) {m_current_handler(MDC);};
+        void virtual log() {}
+        void virtual update() {}
+        
+        void set_next_step( CmdMemFun fun ) {
+            m_current_handler = fun;
+        }
+        
+        void commit() {
+            ws->add_object(re->get_runtime_object());
+            fini();
+        }
+        
+        void fini() {
+            re->reset();
+        }
+        
+        QPoint get_last_point() {
+            return last;
+        }
+        
+        void runtime_set_pos1() {
+            re->set_pos1(last);
+        }
+        
+        void runtime_set_pos2() {
+            re->set_pos2(last);
+        }
+        
+        runtime_environment* rt() {
+            return re;
+        }
+        
+        
+    private:
+        CmdMemFun m_current_handler;
+        QPoint last;
+        runtime_environment* re;
+        working_set* ws;
+
+};
+
+class rect_create : public interactive_command_base 
+{
+    public:
+        
+        rect_create(runtime_environment* r, working_set*s ):interactive_command_base(r,s)
+        {
+            rt()->change_object_type(RECT);
+            set_next_step(MEMBER_FUNCTION(rect_create,idle));
+        }
+        
+        void idle(const EvType& ev) {
+            //waiting for first mouse click
+            if ( ev != MC )
+                return;
+            
+            runtime_set_pos1();
+            set_next_step(MEMBER_FUNCTION(rect_create,on_first_click));
+        }
+        
+        void on_first_click(const EvType& ev) {
+            if ( ev == MM )
+                runtime_set_pos2();
+            else if ( ev == MC || ev == KP )
+                set_next_step(MEMBER_FUNCTION(rect_create,on_commit));
+        }
+    
+        void on_commit(const EvType&) {
+            commit();
+            set_next_step(MEMBER_FUNCTION(rect_create,idle));
+        }
+};
+
+
+class triangle_create : public interactive_command_base 
+{
+        int count;
+    public:
+        
+        triangle_create(runtime_environment* r, working_set*s ):interactive_command_base(r,s)
+        {
+            rt()->change_object_type(POLYGON);
+            set_next_step(MEMBER_FUNCTION(triangle_create,idle));
+            reset_count();
+        }
+        
+        void reset_count() {
+            count = 2;
+        }
+        
+        void idle(const EvType& ev) {
+            //waiting for first mouse click
+            std::cout << "triangle in idle..." << std::endl;
+            if ( ev != MC )
+                return;
+            
+            runtime_set_pos1();
+            set_next_step(MEMBER_FUNCTION(triangle_create,on_first_click));
+        }
+        
+        void on_first_click(const EvType& ev) {
+            std::cout << "triangle clicked ..." << std::endl;
+
+            if ( ev == MC ) {
+                runtime_set_pos1();
+                set_next_step(MEMBER_FUNCTION(triangle_create,on_first_click));
+                if (--count == 0) {
+                    std::cout << "triangle count 0 ..." << std::endl;
+                    set_next_step(MEMBER_FUNCTION(triangle_create,on_commit));
+                }
+                    
+            }
+        }
+        
+        void on_commit(const EvType&) {
+            std::cout << "triangle COMMIT..." << std::endl;
+
+            commit();
+            set_next_step(MEMBER_FUNCTION(triangle_create,idle));
+            reset_count();
+        }
 };
 
 
