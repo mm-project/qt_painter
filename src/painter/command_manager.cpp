@@ -102,8 +102,8 @@ void command_manager::mouse_moved(int x, int y) {
 }
 
 void command_manager::key_pressed() {
-    //m_current_command->handle_keypress();
-    return_to_idle();
+    m_current_command->handle_key_press();
+    //return_to_idle();
     //assert(0);
 }
 

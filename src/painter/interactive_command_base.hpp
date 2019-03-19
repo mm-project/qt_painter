@@ -34,6 +34,10 @@ class InteractiveCommandBase : public CommandBase
             m_current_event_handler(MDC);
         }
        
+        virtual void handle_key_press() {
+            //log("dblclick "+x+" "+y);
+            m_current_event_handler(KP);
+        }
        
     public:
         void set_next_step( CmdMemFun fun ) {

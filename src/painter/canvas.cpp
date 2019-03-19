@@ -37,6 +37,10 @@ canvas::canvas(QWidget* p)
 void canvas::keyPressEvent(QKeyEvent*) {
     //FIXME some interface needed
     //assert(0);
+
+    if( cm->is_idle() ) 
+        return;
+
     cm->key_pressed();
 }
 
