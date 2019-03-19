@@ -13,6 +13,7 @@ class ICommand
         virtual void execute_and_log() = 0;
         virtual void log(const std::string&) = 0;
         virtual void execute() = 0;
+        virtual void abort() = 0;
         virtual std::string get_name() = 0;
         virtual CommandType get_type() = 0;
         

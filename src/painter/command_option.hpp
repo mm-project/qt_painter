@@ -5,7 +5,8 @@
 
 class ICommandOption {
     public:
-        virtual ~ICommandOption() = 0;
+        //FIXME again compiler unhappy with = 0
+        virtual ~ICommandOption() {}
 
 };  
 
@@ -13,6 +14,7 @@ class ICommandOption {
 class PointCommandOption : public ICommandOption 
 {
     public:
+        PointCommandOption(const QPoint& p):m_x(p.x()),m_y(p.y()) {}
         PointCommandOption(int x, int y):m_x(x),m_y(y) {}
     
         operator QPoint() {return QPoint(m_x,m_y);}

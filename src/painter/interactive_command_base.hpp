@@ -34,6 +34,7 @@ class InteractiveCommandBase : public CommandBase
             m_current_event_handler(MDC);
         }
        
+       
     public:
         void set_next_step( CmdMemFun fun ) {
             m_current_event_handler = fun;

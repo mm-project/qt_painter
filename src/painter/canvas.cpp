@@ -1,5 +1,7 @@
 #include "canvas.hpp"
 
+#include "direct_command_base.hpp"
+#include "basic_commands.hpp"
 #include "shape_creator_commands.hpp"
 #include "command_manager.hpp"
 #include "controller.hpp"
@@ -40,6 +42,11 @@ void canvas::keyPressEvent(QKeyEvent*) {
 
 void canvas::mousePressEvent(QMouseEvent* e)
 {
+    //cm->activate_command(INCMD_CREATE_OBJ(RECT));
+    DirectCommandBase* cmd = new dicmdCanvasAddPoint();
+    cmd->add_arg(new PointCommandOption(e->pos()));
+    cmd->execute_and_log();
+    
     if( cm->is_idle() ) 
         return;
 
@@ -98,29 +105,28 @@ void canvas::paintEvent(QPaintEvent*)
 }
 
 //FIXME ( may be other more nicer way?)
-//#define CMD_CREATE_OBJ(S) new command_create_shape<S>(m_runtime_environment,m_working_set)
+#define INCMD_CREATE_OBJ(S) new incmdCreateObj<S>(m_runtime_environment,m_working_set)
 void canvas::create_line()
 {
     //cm->activate_command("cmdCreateNthgon<2>");
-    //cm->activate_command(CMD_CREATE_OBJ(LINE));
-    cm->activate_command(new incmdCreateNthgon<2>(m_runtime_environment,m_working_set));
+    cm->activate_command(INCMD_CREATE_OBJ(LINE));
+    //cm->activate_command(new incmdCreateNthgon<2>(m_runtime_environment,m_working_set));
 }
 
 void canvas::create_rect()
 {
-    cm->activate_command(new incmdCreateNthgon<3>(m_runtime_environment,m_working_set));
-    //cm->activate_command(CMD_CREATE_OBJ(RECT));
+    //cm->activate_command(new incmdCreateNthgon<3>(m_runtime_environment,m_working_set));
+    cm->activate_command(INCMD_CREATE_OBJ(RECT));
 }
 
 void canvas::create_ellipse()
 {
-    cm->activate_command(new incmdCreateNthgon<6>(m_runtime_environment,m_working_set));
-    //cm->activate_command(CMD_CREATE_OBJ(ELLIPSE));
+    cm->activate_command(INCMD_CREATE_OBJ(ELLIPSE));
 }
 
 void canvas::create_polygon()
 {
-    //cm->activate_command(CMD_CREATE_OBJ(POLYGON));
+    cm->activate_command(INCMD_CREATE_OBJ(POLYGON));
 }
 
 void canvas::reset()

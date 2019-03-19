@@ -2,16 +2,20 @@
 #define shape_creator_commands_hpp
 
 
+#include "controller.hpp"
+
 #include "interactive_command_base.hpp"
 
 
 class incmdObjCreationBase : public InteractiveCommandBase 
 {
     public:
-        incmdObjCreationBase(runtime_environment* r,working_set*s):re(r),ws(s) {}
+        incmdObjCreationBase(runtime_environment* r,working_set*s):re(r),ws(s) {
+            m_controller =  controller::get_instance();
+        }
 
         virtual void handle_update() {
-            //change runtime attributes
+            re->change_basic_properties(m_controller->get_shape_properties());
         }
 
         void commit() {
@@ -35,11 +39,19 @@ class incmdObjCreationBase : public InteractiveCommandBase
             return re;
         }
         
-        
+        virtual void abort() {
+            log("decmdAbortActiveCommand");
+            //FIXME crashing in recursion
+            //dicmdAbortActiveCommand d;
+            //d.execute_and_log();
+            fini();
+        }
+
         
     private:
         runtime_environment* re;
         working_set* ws;
+        controller* m_controller; 
 
 };
 
@@ -60,6 +72,11 @@ class incmdCreateObj : public incmdObjCreationBase
         virtual void execute() {
             set_next_step(MEMBER_FUNCTION(incmdCreateObj<T>,idle));
         }
+        
+        virtual std::string get_name() {
+            return "incmdCreateObj"+ObjType2String(T);
+        }
+
         
         void idle(const EvType& ev) {
             //waiting for first mouse click
@@ -82,41 +99,36 @@ class incmdCreateObj : public incmdObjCreationBase
             set_next_step(MEMBER_FUNCTION(incmdCreateObj<T>,idle));
         }
         
-        virtual std::string get_name() {
-            return "incmdCreateObj"+ObjType2String(T);
-        }
-        
-        
     
 };
 
 
 
 //produces command to create N-angle polygon
-// cmd_Nangle_creator_with_sides_num<2> => line
-// cmd_Nangle_creator_with_sides_num<3> => triangle
-// cmd_Nangle_creator_with_sides_num<6> => hexagon
-
-
+// incmdCreateNthgon<2> => line
+// incmdCreateNthgon<3> => triangle
+// incmdCreateNthgon<6> => hexagon
 template<int T>
 class incmdCreateNthgon : public incmdObjCreationBase 
 {
         int count;
+
     public:
+        incmdCreateNthgon(runtime_environment* r, working_set*s ):incmdObjCreationBase(r,s)
+        {
+            rt()->change_object_type(POLYGON);
+            reset_count();
+        }
         
         virtual std::string get_name() {
-            return "incmdCreateNthgon+Nfixme";
+            //FIXME keep stringstream for converting int to str
+            return "incmdCreateNthgon+NfixmefromT";
         }
         
         virtual void execute() {
             set_next_step(MEMBER_FUNCTION(incmdCreateNthgon<T>,idle));
         }
 
-        incmdCreateNthgon(runtime_environment* r, working_set*s ):incmdObjCreationBase(r,s)
-        {
-            rt()->change_object_type(POLYGON);
-            reset_count();
-        }
         
         void reset_count() {
             count = T-1;
@@ -147,7 +159,6 @@ class incmdCreateNthgon : public incmdObjCreationBase
         
         void on_commit(const EvType&) {
             //std::cout << "interactive command COMMIT..." << std::endl;
-
             commit();
             set_next_step(MEMBER_FUNCTION(incmdCreateNthgon<T>,idle));
             reset_count();

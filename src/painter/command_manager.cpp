@@ -40,6 +40,10 @@ CommandBase* command_manager::invoke_command() {
 void command_manager::activate_command(CommandBase* cmd) {
     //FIXME crashes obviously
     //delete m_current_command;
+    
+    if ( !is_idle() )
+        m_current_command->abort(); 
+    
     m_current_command = cmd;
     
     //if ( m_current_command->get_type == Interactive )
@@ -66,9 +70,10 @@ bool command_manager::is_idle() {
 }
 
 void command_manager::return_to_idle() {
-    std::cout << "(cm) back to idle" << std::endl;
+    //std::cout << "(cm) back to idle" << std::endl;
     //delete m_last_command;
     m_current_command = m_idle_command;
+    m_current_command->execute_and_log();
 }
 
 //FIXME by keeping wrapper to function 
