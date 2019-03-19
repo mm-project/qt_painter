@@ -47,6 +47,8 @@ void canvas::keyPressEvent(QKeyEvent*) {
 void canvas::mousePressEvent(QMouseEvent* e)
 {
     //cm->activate_command(INCMD_CREATE_OBJ(RECT));
+    
+    //FIXME new? how is deleting
     DirectCommandBase* cmd = new dicmdCanvasAddPoint();
     cmd->add_arg(new PointCommandOption(e->pos()));
     cmd->execute_and_log();
@@ -109,6 +111,7 @@ void canvas::paintEvent(QPaintEvent*)
 }
 
 //FIXME ( may be other more nicer way?)
+//FIXME use register_command instead
 #define INCMD_CREATE_OBJ(S) new incmdCreateObj<S>(m_runtime_environment,m_working_set)
 void canvas::create_line()
 {
