@@ -5,9 +5,9 @@
 
 class ICommandOption {
     public:
-        ~ICommandOption() = 0;
-    
-}
+        virtual ~ICommandOption() = 0;
+
+};  
 
 
 class PointCommandOption : public ICommandOption 

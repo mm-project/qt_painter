@@ -1,5 +1,7 @@
 #include "command_manager.hpp"
-#include "command.hpp"
+#include "icommand_base.hpp"
+#include "basic_commands.hpp"
+
 #include <cassert>
 
 command_manager* command_manager::m_instance = 0;
@@ -9,7 +11,7 @@ void command_manager::init2(runtime_environment* r, working_set* s) {
     re = {r};
     ws = {s};
     m_current_command = {0};
-    m_idle_command = new command_idle();
+    m_idle_command = new incmdIdle();
 }
 
 //FIMXE should be called from outside
@@ -26,30 +28,36 @@ void command_manager::init() {
     m_current_command = m_idle_command;
 }
 
-//icommand_base* get_create_rectangle_command() {
+//CommandBase* get_create_rectangle_command() {
 //	return 
 //}
 
-icommand_base* command_manager::invoke_command() {
+CommandBase* command_manager::invoke_command() {
     //m_current_command = m_polygon_command;
     return m_current_command;
 }
 
-void command_manager::activate_command(icommand_base* cmd) {
+void command_manager::activate_command(CommandBase* cmd) {
     //FIXME crashes obviously
     //delete m_current_command;
     m_current_command = cmd;
-    m_current_command->execute();
+    
+    //if ( m_current_command->get_type == Interactive )
+    //        not dummy
+    //else
+    //        dummy
+            
+    m_current_command->execute_and_log();
 }
-//icommand_base* get_command() {
+//CommandBase* get_command() {
 //	return 0;
 //}
 
-//void command_manager::register_command(const char* nm, icommand_base* cmd) {
-//    m_name2command[nm] = cmd;
+//void command_manager::register_command(CommandBase* cmd) {
+//    m_name2command[cmd.get_name()] = cmd;
 //}
 
-icommand_base* command_manager::get_active_command() {
+CommandBase* command_manager::get_active_command() {
     return m_current_command;
 }
 
@@ -63,26 +71,39 @@ void command_manager::return_to_idle() {
     m_current_command = m_idle_command;
 }
 
+//FIXME by keeping wrapper to function 
+// when invoking check if m_current_command type is interactive
+// otherwise put wrapper to dummy
+
+/*
+void command_manager::dummy(int x, int y) {
+}
+
+void command_manager::event_wrapper() {
+    
+}
+*/
 
 void command_manager::mouse_dbl_clicked(int x, int y) {
-    m_current_command->mouse_dbl_clicked(x,y);
+    m_current_command->handle_mouse_dblclick(x,y);
 }
 
 void command_manager::mouse_clicked(int x, int y) {
-     m_current_command->mouse_clicked(x,y);
+    m_current_command->handle_mouse_click(x,y);
 }
 
 void command_manager::mouse_moved(int x, int y) {
-     m_current_command->mouse_moved(x,y);
+     m_current_command->handle_mouse_move(x,y);
 }
 
 void command_manager::key_pressed() {
+    //m_current_command->handle_keypress();
     return_to_idle();
     //assert(0);
 }
 
 void command_manager::update() {
-     m_current_command->update();
+     m_current_command->handle_update();
 }
 
 

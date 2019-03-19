@@ -2,7 +2,6 @@
 #define CANVAS_HPP
 
 #include "basic_shape.hpp"
-#include "command.hpp"
 #include "command_manager.hpp"
 
 #include <QWidget>

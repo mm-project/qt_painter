@@ -32,11 +32,11 @@ class command_manager
         void init2(runtime_environment* r, working_set* s);
         void init();
         
-        void activate_command(icommand_base* cmd);
-        icommand_base* invoke_command();
-        //icommand_base* get_command();
-        //void register_command(const char* nm, icommand_base* cmd) 
-        icommand_base* get_active_command();
+        void activate_command(CommandBase* cmd);
+        CommandBase* invoke_command();
+        //CommandBase* get_command();
+        //void register_command(const char* nm, CommandBase* cmd) 
+        CommandBase* get_active_command();
         bool is_idle(); 
         void return_to_idle(); 
         
@@ -49,15 +49,15 @@ class command_manager
         
     private:
         //FIXME !!! map with string
-        std::map<std::string, icommand_base*> m_name2command;
+        std::map<std::string, CommandBase*> m_name2command;
         
-        icommand_base* m_current_command;
-        icommand_base* m_idle_command;
+        CommandBase* m_current_command;
+        CommandBase* m_idle_command;
  
-        icommand_base* m_elipse_command;
-        icommand_base* m_line_command;
-        icommand_base* m_rect_command;
-        icommand_base* m_polygon_command;
+        //CommandBase* m_elipse_command;
+        //CommandBase* m_line_command;
+        //CommandBase* m_rect_command;
+        //CommandBase* m_polygon_command;
 
         
         runtime_environment* re;

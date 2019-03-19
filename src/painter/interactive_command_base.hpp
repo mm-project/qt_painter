@@ -1,51 +1,40 @@
 #ifndef interactive_command_base
 #define interactive_command_base
 
-#include "icommand.hpp"
+#include "icommand_base.hpp"
 #include "event.hpp"
 
-
 #include <string>
+#include <functional>
 
 #define MEMBER_FUNCTION(C,M) std::bind(&C::M,this,std::placeholders::_1)
 typedef std::function<void( const EvType& )> CmdMemFun;
 
-class interactive_command_base : public icommand
+class InteractiveCommandBase : public CommandBase
+{
 
     public:
-        interactive_command_base(runtime_environment* r,working_set*s):re(r),ws(s) {}
-        
-    public:
-
-        void virtual log(const std::string&) {
-            //if ( ... )
-            std::cout << msg << std::endl;
+        virtual CommandType get_type() {
+            return Interactive;
         }
-        
-        void virtual execute_and_log() {
-            log(get_name())
-            execute();
-        } 
-        
-        
-        void virtual mouse_clicked(int x, inty) {
-            log("click "+x+" "+y);
+
+        virtual void handle_mouse_click(int , int ) {
+            //log("click "+x+" "+y);
             m_current_event_handler(MC);
         }
         
-        void virtual mouse_moved(int x, int y) {
+        virtual void handle_mouse_move(int x, int y) {
             m_last_cursor_point.setX(x);
             m_last_cursor_point.setY(y);
             m_current_event_handler(MM);
         } 
         
-        void virtual mouse_dbl_clicked(int, int) {
-            log("dblclick "+x+" "+y);
+        virtual void handle_mouse_dblclick(int, int) {
+            //log("dblclick "+x+" "+y);
             m_current_event_handler(MDC);
         }
-        
-        void virtual update() = 0
-        
+       
+    public:
         void set_next_step( CmdMemFun fun ) {
             m_current_event_handler = fun;
         }

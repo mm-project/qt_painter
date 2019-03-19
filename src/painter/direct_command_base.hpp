@@ -1,23 +1,27 @@
 #ifndef direct_command_base_hpp
 #define direct_command_base_hpp
 
-#include "icommand.hpp"
+#include "icommand_base.hpp"
 #include "command_option.hpp"
 
-class direct_command_base: public icommand
+class DirectCommandBase: public CommandBase
 {
     public:
-        virtual void add_arg(CommandOption* o ) {
+        virtual CommandType get_type() {
+            return Directive;
+        }
+        
+        virtual void add_arg(ICommandOption* o ) {
             m_op = o;
         }
 
-    public
-        CommandOption* get_arg() {
+    public:
+        ICommandOption* get_arg() {
             return m_op;
         }
     
     private:
-        CommandOption* m_op;
+        ICommandOption* m_op;
 };
 
 #endif

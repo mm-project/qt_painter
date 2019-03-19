@@ -1,6 +1,6 @@
 #include "canvas.hpp"
 
-#include "command.hpp"
+#include "shape_creator_commands.hpp"
 #include "command_manager.hpp"
 #include "controller.hpp"
 #include "shapes.hpp"
@@ -71,6 +71,16 @@ void canvas::wheelEvent(QWheelEvent*)
     update();
 }
 
+void canvas::mouseDoubleClickEvent(QMouseEvent* e)
+{
+    cm->mouse_dbl_clicked(e->pos().x(),e->pos().y());
+}
+
+void canvas::on_update()
+{
+    cm->update();
+}
+
 void canvas::paintEvent(QPaintEvent*)
 {
     auto painter = m_renderer->get_painter();
@@ -88,30 +98,29 @@ void canvas::paintEvent(QPaintEvent*)
 }
 
 //FIXME ( may be other more nicer way?)
-#define CMD_CREATE_OBJ(S) new command_create_shape<S>(m_runtime_environment,m_working_set)
+//#define CMD_CREATE_OBJ(S) new command_create_shape<S>(m_runtime_environment,m_working_set)
 void canvas::create_line()
 {
-    cm->activate_command("create_");
+    //cm->activate_command("cmdCreateNthgon<2>");
     //cm->activate_command(CMD_CREATE_OBJ(LINE));
-    cm->activate_command(new command_Nangle_creator_with_sides_num<T=2>(m_runtime_environment,m_working_set));
+    cm->activate_command(new incmdCreateNthgon<2>(m_runtime_environment,m_working_set));
 }
 
 void canvas::create_rect()
 {
-    cm->activate_command(new command_Nangle_creator_with_sides_num<3>(m_runtime_environment,m_working_set));
+    cm->activate_command(new incmdCreateNthgon<3>(m_runtime_environment,m_working_set));
     //cm->activate_command(CMD_CREATE_OBJ(RECT));
 }
 
 void canvas::create_ellipse()
 {
-    cm->activate_command(new command_Nangle_creator_with_sides_num<6>(m_runtime_environment,m_working_set));
-    
+    cm->activate_command(new incmdCreateNthgon<6>(m_runtime_environment,m_working_set));
     //cm->activate_command(CMD_CREATE_OBJ(ELLIPSE));
 }
 
 void canvas::create_polygon()
 {
-    cm->activate_command(CMD_CREATE_OBJ(POLYGON));
+    //cm->activate_command(CMD_CREATE_OBJ(POLYGON));
 }
 
 void canvas::reset()
@@ -120,13 +129,4 @@ void canvas::reset()
     update();
 }
 
-void canvas::mouseDoubleClickEvent(QMouseEvent* e)
-{
-    cm->mouse_dbl_clicked(e->pos().x(),e->pos().y());
-}
-
-void canvas::on_update()
-{
-    cm->update();
-}
 
