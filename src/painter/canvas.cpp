@@ -21,6 +21,8 @@ canvas::canvas(QWidget* p)
 {
         setFocusPolicy(Qt::StrongFocus);
         setMouseTracking(true);
+        setObjectName("CANVAS");
+        
         m_working_set = new working_set;
         m_runtime_environment = new runtime_environment();
         m_renderer = new renderer(this);
@@ -89,8 +91,9 @@ void canvas::paintEvent(QPaintEvent*)
 #define CMD_CREATE_OBJ(S) new command_create_shape<S>(m_runtime_environment,m_working_set)
 void canvas::create_line()
 {
+    cm->activate_command("create_");
     //cm->activate_command(CMD_CREATE_OBJ(LINE));
-    cm->activate_command(new command_Nangle_creator_with_sides_num<2>(m_runtime_environment,m_working_set));
+    cm->activate_command(new command_Nangle_creator_with_sides_num<T=2>(m_runtime_environment,m_working_set));
 }
 
 void canvas::create_rect()

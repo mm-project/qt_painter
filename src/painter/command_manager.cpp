@@ -39,6 +39,7 @@ void command_manager::activate_command(icommand_base* cmd) {
     //FIXME crashes obviously
     //delete m_current_command;
     m_current_command = cmd;
+    m_current_command->execute();
 }
 //icommand_base* get_command() {
 //	return 0;
