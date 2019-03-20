@@ -9,52 +9,73 @@
 #include <QWidget>
 #include <QMouseEvent>
 
-class incmdIdle : public InteractiveCommandBase
+class incmdIdle : public DirectCommandBase
 {
     public:
         virtual void execute() {} 
-        virtual void abort() {}
-        virtual void log(const std::string& msg) {}
         virtual std::string get_name() { "incmdIdle"; }
 };
 
 
 class dicmdAbortActiveCommand: public DirectCommandBase
 {
-    public:
-        virtual void execute() {
-            command_manager::get_instance()->get_active_command()->abort();
-        }
-        
+    public:        
         virtual std::string get_name() {
             return "dicmdAbortActiveCommand";
         }
-    
-        virtual void abort() {}
 
+        virtual void execute() {
+            command_manager::get_instance()->get_active_command()->abort();
+        }
+
+};
+
+class dicmdguiSelectRadioButton: public DirectCommandBase 
+{
+
+    std::string m_on;
+    public:
+        dicmdguiSelectRadioButton() {
+        }
+        
+        dicmdguiSelectRadioButton(const std::string& on):DirectCommandBase("-object",new StringCommandOptionValue(on)) 
+        { m_on = on; }
+        
+        virtual std::string get_name() {
+            return "dicmdguiSelectRadioButton";
+        }
+        
+        virtual void execute() {
+            //check option added
+            //qApp->findChildren<QWidget*>(m_on)->setSelected(true);
+        }
 };
 
 class dicmdCanvasAddPoint: public DirectCommandBase
 {
-    bool m_is_dummy;
     
+    QPoint m_p;
     public:
-        dicmdCanvasAddPoint(bool dummy = false ):m_is_dummy(dummy) {
+
+        dicmdCanvasAddPoint() {
         }
         
-        virtual void execute() {
-            if ( ! m_is_dummy ) {
-                QList<QWidget*> ws = qApp->findChildren<QWidget*>();
-                //std::cout << ws.size() << std::endl;
-                //assert(0);
-                //QMouseEvent event(QEvent::MouseButtonPress, point(), Qt::LeftButton, 0, 0);
-                //QApplication::sendEvent(w, &event);
-            }
-        } 
-
+        dicmdCanvasAddPoint(const QPoint& p):DirectCommandBase("-point",new PointCommandOptionValue(p)) 
+        { m_p = p; }
+        
         virtual std::string get_name() {
             return "dicmdCanvasAddPoint";
         }
+        
+        virtual void execute() {
+            //QList<QWidget*> ws = qApp->findChildren<QWidget*>();
+            //std::cout << ws.size() << std::endl;
+            //assert(0);
+            //QMouseEvent event(QEvent::MouseButtonPress, point(), Qt::LeftButton, 0, 0);
+            //QApplication::sendEvent(w, &event);
+            //}
+        } 
+
                 
         
         //FIXME make generic

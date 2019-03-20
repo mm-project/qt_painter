@@ -85,6 +85,9 @@ void pen_brush_gui::init_layout()
         QString module_name("pbgui");
         m_solid_line = new QRadioButton("Solid Line", this);
         m_solid_line ->setObjectName(module_name+"/"+"rbSolidLine");
+        
+        //set_log_name(m_solid_line);
+        
         //FIXME automate this with following function
         //void set_log_name(Widget* obj)
         //   recursively , parent = parent + "/";

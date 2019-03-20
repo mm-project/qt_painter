@@ -10,6 +10,11 @@ class DirectCommandBase: public CommandBase
     
     public:
         //DirectCommandBase():m_is_aborted(false) {}
+        DirectCommandBase() {}
+        DirectCommandBase(const std::string& n, ICommandOptionValue* v ) {
+            add_option(n,v);
+        }
+        
         virtual ~DirectCommandBase() {
             for (std::pair<const std::string,ICommandOptionValue*>& x: m_ops) {
                 delete x.second;

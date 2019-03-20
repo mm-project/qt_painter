@@ -1,7 +1,7 @@
 #ifndef shape_creator_commands_hpp
 #define shape_creator_commands_hpp
 
-
+#include "command_manager.hpp"
 #include "controller.hpp"
 
 #include "interactive_command_base.hpp"
@@ -41,10 +41,12 @@ class incmdObjCreationBase : public InteractiveCommandBase
         
         virtual void abort() {
             log("dicmdAbortActiveCommand");
+            re->reset();
             //FIXME crashing in recursion
             //dicmdAbortActiveCommand d;
             //d.execute_and_log();
-            fini();
+            //fini();
+            command_manager::get_instance()->return_to_idle();
         }
 
         
@@ -70,7 +72,7 @@ class incmdCreateObj : public incmdObjCreationBase
         }
         
         virtual void execute() {
-            set_next_step(MEMBER_FUNCTION(incmdCreateObj<T>,idle));
+            set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,idle));
         }
         
         virtual std::string get_name() {
@@ -82,28 +84,28 @@ class incmdCreateObj : public incmdObjCreationBase
         void idle(const EvType& ev) {
             //waiting for first mouse click
             if ( ev == KP )
-                set_next_step(MEMBER_FUNCTION(incmdCreateObj<T>,abort1));
+                set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,abort1));
             
             if ( ev != MC )
                 return;
             
             runtime_set_pos1();
-            set_next_step(MEMBER_FUNCTION(incmdCreateObj<T>,on_first_click));
+            set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,on_first_click));
         }
         
         void on_first_click(const EvType& ev) {
             if ( ev == KP )
-                set_next_step(MEMBER_FUNCTION(incmdCreateObj<T>,abort1));
+                set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,abort1));
             
             if ( ev == MM )
                 runtime_set_pos2();
             else if ( ev == MC || ev == KP )
-                set_next_step(MEMBER_FUNCTION(incmdCreateObj<T>,on_commit));
+                set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,on_commit));
         }
     
         void on_commit(const EvType&) {
             commit();
-            set_next_step(MEMBER_FUNCTION(incmdCreateObj<T>,idle));
+            set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,idle));
         }
         
         //FIXME doesn't work
@@ -137,7 +139,7 @@ class incmdCreateNthgon : public incmdObjCreationBase
         }
         
         virtual void execute() {
-            set_next_step(MEMBER_FUNCTION(incmdCreateNthgon<T>,idle));
+            set_next_handler(HANDLE_FUNCTION(incmdCreateNthgon<T>,idle));
         }
 
         
@@ -153,17 +155,17 @@ class incmdCreateNthgon : public incmdObjCreationBase
                 return;
             
             runtime_set_pos1();
-            set_next_step(MEMBER_FUNCTION(incmdCreateNthgon<T>,on_first_click));
+            set_next_handler(HANDLE_FUNCTION(incmdCreateNthgon<T>,on_first_click));
         }
         
         void on_first_click(const EvType& ev) {
             if ( ev == MC ) {
                 //std::cout << "interactive command clicked. Remains " << count << " click to commit " << std::endl;
                 runtime_set_pos1();
-                set_next_step(MEMBER_FUNCTION(incmdCreateNthgon<T>,on_first_click));
+                set_next_handler(HANDLE_FUNCTION(incmdCreateNthgon<T>,on_first_click));
                 if (--count == 0) {
                     //std::cout << "triangle count 0 ..." << std::endl;
-                    set_next_step(MEMBER_FUNCTION(incmdCreateNthgon<T>,on_commit));
+                    set_next_handler(HANDLE_FUNCTION(incmdCreateNthgon<T>,on_commit));
                 }
                     
             }
@@ -172,7 +174,7 @@ class incmdCreateNthgon : public incmdObjCreationBase
         void on_commit(const EvType&) {
             //std::cout << "interactive command COMMIT..." << std::endl;
             commit();
-            set_next_step(MEMBER_FUNCTION(incmdCreateNthgon<T>,idle));
+            set_next_handler(HANDLE_FUNCTION(incmdCreateNthgon<T>,idle));
             reset_count();
         }
 };

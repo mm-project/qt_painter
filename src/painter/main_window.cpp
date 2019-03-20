@@ -1,5 +1,6 @@
 #include "main_window.hpp"
 
+#include "basic_commands.hpp"
 #include "canvas.hpp"
 #include "create_shape_gui.hpp"
 #include "pen_brush_gui.hpp"
@@ -19,18 +20,19 @@ bool main_window::eventFilter(QObject *obj, QEvent *event)
 {
     if (qobject_cast<QRadioButton*>(obj) ) {
         if (event->type() == QEvent::MouseButtonPress ) {
-            std::cout << obj->objectName().toStdString() << std::endl;
+            dicmdguiSelectRadioButton(obj->objectName().toStdString()).log("");
+            //std::cout << obj->objectName().toStdString() << std::endl;
             //assert(0);
             //QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
             //qDebug() << "Ate key press" << keyEvent->key();
-            return true;
-        } else {
-            return false;
+            //return true;
+        //} else {
+         //   return false;
         }
-    } else {
+    } //else {
         // pass the event on to the parent class
         return QMainWindow::eventFilter(obj, event);
-    }
+    //}
 }
 
 main_window::main_window(QWidget* p)

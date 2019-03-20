@@ -41,7 +41,8 @@ void canvas::keyPressEvent(QKeyEvent*) {
     if( cm->is_idle() ) 
         return;
 
-    cm->key_pressed();
+    command_manager::get_instance()->get_active_command()->abort();
+    //cm->key_pressed();
 }
 
 void canvas::mousePressEvent(QMouseEvent* e)
@@ -49,11 +50,21 @@ void canvas::mousePressEvent(QMouseEvent* e)
     //cm->activate_command(INCMD_CREATE_OBJ(RECT));
     
     //FIXME new? how is deleting
+    dicmdCanvasAddPoint(e->pos()).log("");
+    
+    /*
+    ICommand* cmd = command_manager->get_command("dicmdCanvasAddPoint");
+    cmd->add_option("-point",new PointCommandOptionValue(e->pos()));
+    cmd->execute_and_log();
+    */
+    
+    /*
     DirectCommandBase* cmd = new dicmdCanvasAddPoint();
     //FIXME move to command itself, add just value to contructor
     cmd->add_option("-point",new PointCommandOptionValue(e->pos()));
     cmd->execute_and_log();
     delete cmd;
+    */
     
     if( cm->is_idle() ) 
         return;

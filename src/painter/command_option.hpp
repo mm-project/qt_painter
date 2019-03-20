@@ -22,6 +22,15 @@ class CommandOptionValueBase : public CommandOptionValue<void*> {
 };
 */
 
+class StringCommandOptionValue : public ICommandOptionValue 
+{
+    std::string m_str;
+    public:
+        StringCommandOptionValue(const std::string& s):m_str(s) {}
+        std::string get() { return m_str; }
+        std::string to_string() { return get();}
+    
+};
 
 class PointCommandOptionValue : public ICommandOptionValue //public ICommandOptionValue<QPoint> 
 {

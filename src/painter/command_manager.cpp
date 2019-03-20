@@ -73,7 +73,7 @@ void command_manager::return_to_idle() {
     //std::cout << "(cm) back to idle" << std::endl;
     //delete m_last_command;
     m_current_command = m_idle_command;
-    m_current_command->execute_and_log();
+    //m_current_command->execute_and_log();
 }
 
 //FIXME by keeping wrapper to function 
