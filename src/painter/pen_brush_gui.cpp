@@ -11,9 +11,10 @@
 #include <QColor>
 #include <QIcon>
 #include <QRadioButton>
-
+#include <QCoreApplication>
 #include <iostream>
 #include <map>
+
 
 pen_brush_gui::pen_brush_gui(QWidget* p)
         : QWidget(p)
@@ -37,6 +38,7 @@ void pen_brush_gui::init_layout()
         m_pen_width = new QSpinBox(this);
         m_pen_width->setMinimum(1);
         m_brush_color = new QComboBox(this);
+        
         m_pen_cap_style = new QComboBox(this);
         m_pen_join_style = new QComboBox(this);
         m_brush_style = new QComboBox(this);
@@ -81,11 +83,20 @@ void pen_brush_gui::init_layout()
         QHBoxLayout* h_l5 = new QHBoxLayout;
 
         m_solid_line = new QRadioButton("Solid Line", this);
-        m_dash_line = new QRadioButton("Dash Line", this);
-        m_dot_line = new QRadioButton("Dot Line", this);
-        m_dash_dot_line = new QRadioButton("Dash Dot Line", this);
-        m_dash_dot_dot_line = new QRadioButton("Dash Dot Dot Line", this);
+        m_solid_line ->setObjectName("pbguiSolidLine");
 
+        m_dash_line = new QRadioButton("Dash Line", this);
+        m_dash_line ->setObjectName("pbguiSolidLine");
+        
+        m_dot_line = new QRadioButton("Dot Line", this);
+        m_dot_line ->setObjectName("pbguiSolidLine");
+        
+        m_dash_dot_line = new QRadioButton("Dash Dot Line", this);
+        m_dash_dot_line ->setObjectName("pbguiSolidLine");
+        
+        m_dash_dot_dot_line = new QRadioButton("Dash Dot Dot Line", this);
+        m_dash_dot_dot_line ->setObjectName("pbguiSolidLine");
+        
         static QIcon i1("icons/solidline.jpg");
         static QIcon i2("icons/dash.jpg");
         static QIcon i3("icons/dot.jpg");
@@ -127,6 +138,8 @@ void pen_brush_gui::init_layout()
         layout->addWidget(pen_group);
         layout->addWidget(brush_group);
         setLayout(layout);
+        
+        
 }
 
 void pen_brush_gui::make_connections()

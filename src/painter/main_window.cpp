@@ -7,6 +7,31 @@
 #include <QDockWidget>
 #include <QMenu>
 #include <QMenuBar>
+#include <QEvent>
+#include <QCoreApplication>
+#include <QPushButton>
+#include <QRadioButton>
+
+#include <cassert>
+
+
+bool main_window::eventFilter(QObject *obj, QEvent *event)
+{
+    if (qobject_cast<QRadioButton*>(obj) ) {
+        if (event->type() == QEvent::MouseButtonPress ) {
+            std::cout << obj->objectName().toStdString() << std::endl;
+            assert(0);
+            //QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+            //qDebug() << "Ate key press" << keyEvent->key();
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        // pass the event on to the parent class
+        return QMainWindow::eventFilter(obj, event);
+    }
+}
 
 main_window::main_window(QWidget* p)
         : QMainWindow(p)
@@ -34,6 +59,7 @@ main_window::main_window(QWidget* p)
         setWindowIcon(main_window_icon);
 
         setDockOptions(QMainWindow::AllowTabbedDocks);
+        QCoreApplication::instance()->installEventFilter(this);
 }
 
 void main_window::make_connections()

@@ -13,6 +13,7 @@ class main_window : public QMainWindow
 
 public:
         main_window(QWidget* = 0 );
+        bool eventFilter(QObject *object, QEvent *event);
 
 private:
         void make_connections();
