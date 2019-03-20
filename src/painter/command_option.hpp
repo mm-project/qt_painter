@@ -3,21 +3,40 @@
 
 #include <QPoint>
 
-class ICommandOption {
+#include <sstream>
+
+//template<typename T>
+class ICommandOptionValue 
+{
     public:
+        //virtual T get() = 0;
+        virtual std::string to_string() = 0;
         //FIXME again compiler unhappy with = 0
-        virtual ~ICommandOption() {}
+        virtual ~ICommandOptionValue() {}
 
 };  
 
+/*
+class CommandOptionValueBase : public CommandOptionValue<void*> {
+    
+};
+*/
 
-class PointCommandOption : public ICommandOption 
+
+class PointCommandOptionValue : public ICommandOptionValue //public ICommandOptionValue<QPoint> 
 {
     public:
-        PointCommandOption(const QPoint& p):m_x(p.x()),m_y(p.y()) {}
-        PointCommandOption(int x, int y):m_x(x),m_y(y) {}
+        PointCommandOptionValue(const QPoint& p):m_x(p.x()),m_y(p.y()) {}
+        PointCommandOptionValue(int x, int y):m_x(x),m_y(y) {}
     
-        operator QPoint() {return QPoint(m_x,m_y);}
+        QPoint get() { return QPoint(m_x,m_y); }
+        
+        std::string to_string() {
+            std::stringstream z;
+            z << "("<<m_x<<","<<m_y<<")";
+            
+            return z.str();
+        }
     
     private:
         int m_x;

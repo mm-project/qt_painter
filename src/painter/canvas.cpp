@@ -50,8 +50,10 @@ void canvas::mousePressEvent(QMouseEvent* e)
     
     //FIXME new? how is deleting
     DirectCommandBase* cmd = new dicmdCanvasAddPoint();
-    cmd->add_arg(new PointCommandOption(e->pos()));
+    //FIXME move to command itself, add just value to contructor
+    cmd->add_option("-point",new PointCommandOptionValue(e->pos()));
     cmd->execute_and_log();
+    delete cmd;
     
     if( cm->is_idle() ) 
         return;

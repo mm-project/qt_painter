@@ -20,7 +20,7 @@ bool main_window::eventFilter(QObject *obj, QEvent *event)
     if (qobject_cast<QRadioButton*>(obj) ) {
         if (event->type() == QEvent::MouseButtonPress ) {
             std::cout << obj->objectName().toStdString() << std::endl;
-            assert(0);
+            //assert(0);
             //QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
             //qDebug() << "Ate key press" << keyEvent->key();
             return true;

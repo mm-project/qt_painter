@@ -82,20 +82,27 @@ void pen_brush_gui::init_layout()
         QHBoxLayout* h_l4 = new QHBoxLayout;
         QHBoxLayout* h_l5 = new QHBoxLayout;
 
+        QString module_name("pbgui");
         m_solid_line = new QRadioButton("Solid Line", this);
-        m_solid_line ->setObjectName("pbguiSolidLine");
+        m_solid_line ->setObjectName(module_name+"/"+"rbSolidLine");
+        //FIXME automate this with following function
+        //void set_log_name(Widget* obj)
+        //   recursively , parent = parent + "/";
+        //   prefix => switch/case on obj.type
+        //   text => camelcase of text
+        //obj.setObjectName(parent+prefix+text)
 
         m_dash_line = new QRadioButton("Dash Line", this);
-        m_dash_line ->setObjectName("pbguiSolidLine");
+        m_dash_line ->setObjectName(module_name+"/"+"rbDashLine");
         
         m_dot_line = new QRadioButton("Dot Line", this);
-        m_dot_line ->setObjectName("pbguiSolidLine");
+        m_dot_line ->setObjectName(module_name+"/"+"rbDotLine");
         
         m_dash_dot_line = new QRadioButton("Dash Dot Line", this);
-        m_dash_dot_line ->setObjectName("pbguiSolidLine");
+        m_dash_dot_line ->setObjectName(module_name+"/"+"rbDashDotLine");
         
         m_dash_dot_dot_line = new QRadioButton("Dash Dot Dot Line", this);
-        m_dash_dot_dot_line ->setObjectName("pbguiSolidLine");
+        m_dash_dot_dot_line ->setObjectName(module_name+"/"+"rbDashDotDotLine");
         
         static QIcon i1("icons/solidline.jpg");
         static QIcon i2("icons/dash.jpg");

@@ -51,23 +51,17 @@ class dicmdCanvasAddPoint: public DirectCommandBase
                 //QApplication::sendEvent(w, &event);
             }
         } 
-        
-        virtual void log(const std::string&) {
-            std::cout << get_name() << " " << point().x() << " " << point().y() << std::endl;
-        }
-        
+
         virtual std::string get_name() {
             return "dicmdCanvasAddPoint";
         }
-        
-        virtual void abort() {
-        }
+                
         
         //FIXME make generic
         //FIXME check dynamic_cast before *
-        QPoint point() {
-            return *(dynamic_cast<PointCommandOption*>(get_arg()));
-        }
+        //QPoint point() {
+        //    return *(dynamic_cast<PointCommandOption*>(get_arg()));
+        //}
 };
 
 
