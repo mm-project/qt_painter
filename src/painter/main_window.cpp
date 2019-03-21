@@ -19,7 +19,7 @@
 
 bool main_window::eventFilter(QObject *obj, QEvent *event)
 {
-    if (qobject_cast<QRadioButton*>(obj) ) {
+   /* if (qobject_cast<QRadioButton*>(obj) ) {
         if (event->type() == QEvent::MouseButtonPress ) {
             dicmdguiSelectRadioButton(obj->objectName().toStdString()).log();
             //std::cout << obj->objectName().toStdString() << std::endl;
@@ -34,6 +34,7 @@ bool main_window::eventFilter(QObject *obj, QEvent *event)
         // pass the event on to the parent class
         return QMainWindow::eventFilter(obj, event);
     //}
+    */
 }
 
 main_window::main_window(QWidget* p)

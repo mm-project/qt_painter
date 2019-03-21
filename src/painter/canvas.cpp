@@ -34,10 +34,10 @@ canvas::canvas(QWidget* p)
         cm->init2(m_runtime_environment,m_working_set);
         cm->init();
         
-        cm->register_command(new INCMD_CREATE_OBJ(LINE));
+        //cm->register_command(new INCMD_CREATE_OBJ(LINE));
         cm->register_command(new INCMD_CREATE_OBJ(RECT));
-        cm->register_command(new INCMD_CREATE_OBJ(ELLIPSE));
-        cm->register_command(new INCMD_CREATE_OBJ(POLYGON));
+        //cm->register_command(new INCMD_CREATE_OBJ(ELLIPSE));
+        //cm->register_command(new INCMD_CREATE_OBJ(POLYGON));
 
 }
 
@@ -56,7 +56,7 @@ void canvas::mousePressEvent(QMouseEvent* e)
 {
     //cm->activate_command(INCMD_CREATE_OBJ(RECT));
     
-    //FIXME new? how is deleting
+    //IF LOG MODE
     dicmdCanvasAddPoint(e->pos()).log();
     
     /*
@@ -78,6 +78,8 @@ void canvas::mousePressEvent(QMouseEvent* e)
 
     QPoint p(e->pos());
     cm->mouse_clicked(p.x(),p.y());
+    update();
+    //processEvents();
 
 }
 
@@ -136,19 +138,21 @@ void canvas::paintEvent(QPaintEvent*)
 //FIXME use register_command instead
 void canvas::create_line()
 {
-    //cm->activate_command("cmdCreateNthgon<2>");
+    cm->activate_command(cm->find_command("incmdCreateObjLine"));
     //cm->activate_command(INCMD_CREATE_OBJ(LINE));
     //cm->activate_command(new incmdCreateNthgon<2>(m_runtime_environment,m_working_set));
 }
 
 void canvas::create_rect()
 {
+    cm->activate_command(cm->find_command("incmdCreateObjRectangle"));
     //cm->activate_command(new incmdCreateNthgon<3>(m_runtime_environment,m_working_set));
     //cm->activate_command(INCMD_CREATE_OBJ(RECT));
 }
 
 void canvas::create_ellipse()
 {
+    cm->activate_command(cm->find_command("incmdCreateObjEllipse"));
     //cm->activate_command(INCMD_CREATE_OBJ(ELLIPSE));
 }
 

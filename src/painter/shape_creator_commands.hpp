@@ -95,6 +95,7 @@ class incmdCreateObj : public incmdObjCreationBase
         }
         
         void on_first_click(const EvType& ev) {
+            
             if ( ev == KP )
                 set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,abort1));
             

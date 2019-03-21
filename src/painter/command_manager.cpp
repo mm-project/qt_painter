@@ -43,6 +43,7 @@ void command_manager::init() {
 
 CommandBase* command_manager::find_command(const std::string& cmd_name) {
     //FIXME if non , put error and return idle_command
+    std::cout << m_name2command[cmd_name] << std::endl;
     return m_name2command[cmd_name];
     
     //return m_current_command;
@@ -51,6 +52,9 @@ CommandBase* command_manager::find_command(const std::string& cmd_name) {
 void command_manager::register_command(CommandBase* cmd) {
     //FIXME check is not 0
     m_name2command[cmd->get_name()] = cmd;
+    std::cout << "REGISTERING: " << cmd->get_name() << "---" << m_name2command[cmd->get_name()]  << std::endl;
+
+    
 }
 
 
@@ -58,7 +62,7 @@ void command_manager::activate_command(CommandBase* cmd) {
     //FIXME crashes obviously
     //delete m_current_command;
     
-    if ( !is_idle() )
+    if ( !is_idle() && cmd->get_type() == Interactive )
         m_current_command->abort(); 
     
     m_current_command = cmd;
@@ -68,7 +72,7 @@ void command_manager::activate_command(CommandBase* cmd) {
     //else
     //        dummy
             
-    m_current_command->execute_and_log();
+    m_current_command->execute();
 }
 //CommandBase* get_command() {
 //	return 0;

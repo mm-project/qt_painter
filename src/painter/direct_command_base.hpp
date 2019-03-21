@@ -55,7 +55,7 @@ class DirectCommandBase: public CommandBase
             return z.str();
         }
         
-        ICommandOptionValue* get_option_val(std::string& n) {
+        ICommandOptionValue* get_option_val(const std::string& n) {
             //FIXME check exisits
             return m_ops[n];
         }

@@ -49,7 +49,7 @@ class LogReader
                         //std::cout << "  ---<" << tokens[i].toStdString() << "> <=> <"<< tokens[i+1].toStdString() << ">" << std::endl;
                         cmd->set_arg(tokens[i].toStdString(),tokens[i+1].toStdString());
                 
-                cmd->execute_and_log();
+                command_manager::get_instance()->activate_command(dynamic_cast<CommandBase*>(cmd));
             }
             
         }

@@ -3,9 +3,11 @@
 
 #include <QPoint>
 
+#include <iostream>
 #include <string>
 #include <sstream>
 #include <cstdlib>
+#include <cassert>
 
 //template<typename T>
 class ICommandOptionValue 
@@ -42,11 +44,16 @@ class PointCommandOptionValue : public ICommandOptionValue //public ICommandOpti
         PointCommandOptionValue(const QPoint& p):m_x(p.x()),m_y(p.y()) {}
         PointCommandOptionValue(int x, int y):m_x(x),m_y(y) {}
 
-        void from_string(const std::string& s) {
-            //m_x = std::atoi(s.substr(0,1)); 
-            //m_y = std::atoi(s.substr(3,4)); 
-            m_x = 0;
-            m_y = 0;
+        void from_string(const std::string& str) {
+            //m_x = std::atoi(str.substr(0,1).c_str()); 
+            //m_y = std::atoi(str.substr(3,4).c_str()); 
+            //m_x = std::atoi(str.substr(0,3).c_str()); 
+            //m_y = std::atoi(str.substr(str.find(","),str.find(")")).c_str()); 
+            //std::cout << m_x << " " << m_y << std::endl;
+            
+            m_x = rand()%800;
+            m_y = rand()%800;
+            //assert(0);
         }
 
         QPoint get() { return QPoint(m_x,m_y); }
