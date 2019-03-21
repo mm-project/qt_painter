@@ -4,6 +4,7 @@
 #include "canvas.hpp"
 #include "create_shape_gui.hpp"
 #include "pen_brush_gui.hpp"
+#include "command_manager.hpp"
 
 #include <QDockWidget>
 #include <QMenu>
@@ -20,7 +21,7 @@ bool main_window::eventFilter(QObject *obj, QEvent *event)
 {
     if (qobject_cast<QRadioButton*>(obj) ) {
         if (event->type() == QEvent::MouseButtonPress ) {
-            dicmdguiSelectRadioButton(obj->objectName().toStdString()).log("");
+            dicmdguiSelectRadioButton(obj->objectName().toStdString()).log();
             //std::cout << obj->objectName().toStdString() << std::endl;
             //assert(0);
             //QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
@@ -62,6 +63,7 @@ main_window::main_window(QWidget* p)
 
         setDockOptions(QMainWindow::AllowTabbedDocks);
         QCoreApplication::instance()->installEventFilter(this);
+        command_manager::get_instance()->set_main_widget(this);
 }
 
 void main_window::make_connections()

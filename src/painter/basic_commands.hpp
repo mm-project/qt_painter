@@ -36,6 +36,7 @@ class dicmdguiSelectRadioButton: public DirectCommandBase
     std::string m_on;
     public:
         dicmdguiSelectRadioButton() {
+            add_option("-object",new StringCommandOptionValue(""));
         }
         
         dicmdguiSelectRadioButton(const std::string& on):DirectCommandBase("-object",new StringCommandOptionValue(on)) 
@@ -48,6 +49,9 @@ class dicmdguiSelectRadioButton: public DirectCommandBase
         virtual void execute() {
             //check option added
             //qApp->findChildren<QWidget*>(m_on)->setSelected(true);
+            //QMouseEvent event(QEvent::MouseButtonPress, m_p, Qt::LeftButton, 0, 0);
+            //QApplication::sendEvent(command_manager::get_instance()->get_main_widget()->findChild<QWidget*>(m_on), &event);
+            //command_manager::get_instance()->get_main_widget()->findChild<QWidget*>(m_on)->setChecked(true);
         }
 };
 
@@ -58,6 +62,7 @@ class dicmdCanvasAddPoint: public DirectCommandBase
     public:
 
         dicmdCanvasAddPoint() {
+            add_option("-point",new PointCommandOptionValue(QPoint(0,0)));
         }
         
         dicmdCanvasAddPoint(const QPoint& p):DirectCommandBase("-point",new PointCommandOptionValue(p)) 
@@ -68,12 +73,11 @@ class dicmdCanvasAddPoint: public DirectCommandBase
         }
         
         virtual void execute() {
-            //QList<QWidget*> ws = qApp->findChildren<QWidget*>();
+            //QList<QWidget*> ws = qApp->findChild<QWidget*>("CANVAS");
             //std::cout << ws.size() << std::endl;
             //assert(0);
-            //QMouseEvent event(QEvent::MouseButtonPress, point(), Qt::LeftButton, 0, 0);
-            //QApplication::sendEvent(w, &event);
-            //}
+            QMouseEvent event(QEvent::MouseButtonPress, m_p, Qt::LeftButton, 0, 0);
+            QApplication::sendEvent(command_manager::get_instance()->get_main_widget()->findChild<QWidget*>("CANVAS"), &event);
         } 
 
                 

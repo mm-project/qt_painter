@@ -3,7 +3,9 @@
 
 #include <QPoint>
 
+#include <string>
 #include <sstream>
+#include <cstdlib>
 
 //template<typename T>
 class ICommandOptionValue 
@@ -11,6 +13,7 @@ class ICommandOptionValue
     public:
         //virtual T get() = 0;
         virtual std::string to_string() = 0;
+        virtual void from_string(const std::string&) = 0;
         //FIXME again compiler unhappy with = 0
         virtual ~ICommandOptionValue() {}
 
@@ -29,6 +32,7 @@ class StringCommandOptionValue : public ICommandOptionValue
         StringCommandOptionValue(const std::string& s):m_str(s) {}
         std::string get() { return m_str; }
         std::string to_string() { return get();}
+        void from_string(const std::string& s) { m_str = s; }
     
 };
 
@@ -37,7 +41,14 @@ class PointCommandOptionValue : public ICommandOptionValue //public ICommandOpti
     public:
         PointCommandOptionValue(const QPoint& p):m_x(p.x()),m_y(p.y()) {}
         PointCommandOptionValue(int x, int y):m_x(x),m_y(y) {}
-    
+
+        void from_string(const std::string& s) {
+            //m_x = std::atoi(s.substr(0,1)); 
+            //m_y = std::atoi(s.substr(3,4)); 
+            m_x = 0;
+            m_y = 0;
+        }
+
         QPoint get() { return QPoint(m_x,m_y); }
         
         std::string to_string() {

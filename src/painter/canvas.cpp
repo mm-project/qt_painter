@@ -18,6 +18,8 @@
 #include <cassert>
 #include <iostream>
 
+#define INCMD_CREATE_OBJ(S) incmdCreateObj<S>(m_runtime_environment,m_working_set)
+
 canvas::canvas(QWidget* p)
         : QWidget(p), is_runtime_mode(false)
 {
@@ -31,6 +33,11 @@ canvas::canvas(QWidget* p)
         cm = command_manager::get_instance();
         cm->init2(m_runtime_environment,m_working_set);
         cm->init();
+        
+        cm->register_command(new INCMD_CREATE_OBJ(LINE));
+        cm->register_command(new INCMD_CREATE_OBJ(RECT));
+        cm->register_command(new INCMD_CREATE_OBJ(ELLIPSE));
+        cm->register_command(new INCMD_CREATE_OBJ(POLYGON));
 
 }
 
@@ -50,7 +57,7 @@ void canvas::mousePressEvent(QMouseEvent* e)
     //cm->activate_command(INCMD_CREATE_OBJ(RECT));
     
     //FIXME new? how is deleting
-    dicmdCanvasAddPoint(e->pos()).log("");
+    dicmdCanvasAddPoint(e->pos()).log();
     
     /*
     ICommand* cmd = command_manager->get_command("dicmdCanvasAddPoint");
@@ -100,11 +107,13 @@ void canvas::wheelEvent(QWheelEvent*)
 void canvas::mouseDoubleClickEvent(QMouseEvent* e)
 {
     cm->mouse_dbl_clicked(e->pos().x(),e->pos().y());
+    update();
 }
 
 void canvas::on_update()
 {
     cm->update();
+    update();
 }
 
 void canvas::paintEvent(QPaintEvent*)
@@ -125,28 +134,27 @@ void canvas::paintEvent(QPaintEvent*)
 
 //FIXME ( may be other more nicer way?)
 //FIXME use register_command instead
-#define INCMD_CREATE_OBJ(S) new incmdCreateObj<S>(m_runtime_environment,m_working_set)
 void canvas::create_line()
 {
     //cm->activate_command("cmdCreateNthgon<2>");
-    cm->activate_command(INCMD_CREATE_OBJ(LINE));
+    //cm->activate_command(INCMD_CREATE_OBJ(LINE));
     //cm->activate_command(new incmdCreateNthgon<2>(m_runtime_environment,m_working_set));
 }
 
 void canvas::create_rect()
 {
     //cm->activate_command(new incmdCreateNthgon<3>(m_runtime_environment,m_working_set));
-    cm->activate_command(INCMD_CREATE_OBJ(RECT));
+    //cm->activate_command(INCMD_CREATE_OBJ(RECT));
 }
 
 void canvas::create_ellipse()
 {
-    cm->activate_command(INCMD_CREATE_OBJ(ELLIPSE));
+    //cm->activate_command(INCMD_CREATE_OBJ(ELLIPSE));
 }
 
 void canvas::create_polygon()
 {
-    cm->activate_command(INCMD_CREATE_OBJ(POLYGON));
+    //cm->activate_command(INCMD_CREATE_OBJ(POLYGON));
 }
 
 void canvas::reset()

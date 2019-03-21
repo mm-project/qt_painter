@@ -10,12 +10,18 @@ class ICommand
 {
     public:
 
-        virtual void execute_and_log() = 0;
-        virtual void log(const std::string&) = 0;
+        //virtual void pre_execute() = 0;
         virtual void execute() = 0;
+        //virtual void post_execute() = 0;
         virtual void abort() = 0;
+        virtual void log() = 0;
         virtual std::string get_name() = 0;
         virtual CommandType get_type() = 0;
+        //FIXME
+        virtual void set_arg(const std::string& n, const std::string& v) {}
+    
+        //FIXME
+        virtual void execute_and_log() = 0;
         
         //FIXME bug, pure virtual dtor makes compiler sad:/
         virtual ~ICommand() {}
@@ -26,15 +32,19 @@ class CommandBase : public ICommand
 {
     public:
         virtual void execute_and_log() {
-            log(get_name());
-            //pre_execute();
-            execute();
-            //post_execute();
+            log();
+            try {
+                //pre_execute(); 
+                execute();
+                //post_execute() 
+            } catch(...) {
+                std::cout << " Error: Fixme Exception or Error?? " << std::endl;
+            }
         }
         
-        virtual void log(const std::string& msg) {
+        virtual void log() {
             //if ( ... )
-            std::cout << msg << std::endl;
+            std::cout << get_name() << std::endl;
         }
         
         //FIXME should not be here !!!

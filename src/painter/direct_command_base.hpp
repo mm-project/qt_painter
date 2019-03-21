@@ -28,7 +28,7 @@ class DirectCommandBase: public CommandBase
             return Directive;
         }
 
-        virtual void log(const std::string&) {
+        virtual void log() {
             std::cout << get_name() << " " << get_stringified_opts() << std::endl;
         }
         
@@ -37,6 +37,11 @@ class DirectCommandBase: public CommandBase
         }
 
     public:
+        virtual void set_arg(const std::string& n, const std::string& v) {
+            m_ops[n]->from_string(v);
+            
+        }
+        
         void add_option(const std::string& n, ICommandOptionValue* v ) {
             //FIXME check if exisitis
             m_ops[n] = v;

@@ -1,6 +1,10 @@
 #include "command_manager.hpp"
 #include "icommand_base.hpp"
 #include "basic_commands.hpp"
+#include "direct_command_base.hpp"
+#include "basic_commands.hpp"
+#include "shape_creator_commands.hpp"
+
 
 #include <cassert>
 
@@ -25,6 +29,11 @@ void command_manager::init() {
     //m_line_command = new command_create_shape<LINE>(re,ws);
     //m_polygon_command = new command_create_shape<POLYGON>(re,ws);
     
+
+    register_command(new dicmdCanvasAddPoint);
+    register_command(new dicmdguiSelectRadioButton);
+    register_command(new dicmdAbortActiveCommand);
+
     m_current_command = m_idle_command;
 }
 
@@ -32,10 +41,18 @@ void command_manager::init() {
 //	return 
 //}
 
-CommandBase* command_manager::invoke_command() {
-    //m_current_command = m_polygon_command;
-    return m_current_command;
+CommandBase* command_manager::find_command(const std::string& cmd_name) {
+    //FIXME if non , put error and return idle_command
+    return m_name2command[cmd_name];
+    
+    //return m_current_command;
 }
+
+void command_manager::register_command(CommandBase* cmd) {
+    //FIXME check is not 0
+    m_name2command[cmd->get_name()] = cmd;
+}
+
 
 void command_manager::activate_command(CommandBase* cmd) {
     //FIXME crashes obviously
@@ -111,4 +128,10 @@ void command_manager::update() {
      m_current_command->handle_update();
 }
 
+void command_manager::set_main_widget(QWidget* w) {
+    m_main_widget = w;
+}
 
+QWidget* command_manager::get_main_widget() {
+    return m_main_widget;
+}

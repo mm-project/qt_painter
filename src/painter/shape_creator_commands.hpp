@@ -6,6 +6,7 @@
 
 #include "interactive_command_base.hpp"
 
+#include <sstream>
 
 class incmdObjCreationBase : public InteractiveCommandBase 
 {
@@ -40,7 +41,7 @@ class incmdObjCreationBase : public InteractiveCommandBase
         }
         
         virtual void abort() {
-            log("dicmdAbortActiveCommand");
+            //log("dicmdAbortActiveCommand");
             re->reset();
             //FIXME crashing in recursion
             //dicmdAbortActiveCommand d;
@@ -135,7 +136,9 @@ class incmdCreateNthgon : public incmdObjCreationBase
         
         virtual std::string get_name() {
             //FIXME keep stringstream for converting int to str
-            return "incmdCreateNthgon+NfixmefromT";
+            std::stringstream z;
+            z << "incmdCreateNthgon<" << T << ">";
+            return z.str();
         }
         
         virtual void execute() {
