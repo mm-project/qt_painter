@@ -100,12 +100,14 @@ void pen_brush_gui::init_layout()
         
         m_dot_line = new QRadioButton("Dot Line", this);
         m_dot_line ->setObjectName(module_name+"/"+"rbDotLine");
+        std::cout << "------------------" << m_dot_line << std::endl;
         
         m_dash_dot_line = new QRadioButton("Dash Dot Line", this);
         m_dash_dot_line ->setObjectName(module_name+"/"+"rbDashDotLine");
         
         m_dash_dot_dot_line = new QRadioButton("Dash Dot Dot Line", this);
         m_dash_dot_dot_line ->setObjectName(module_name+"/"+"rbDashDotDotLine");
+        
         
         static QIcon i1("icons/solidline.jpg");
         static QIcon i2("icons/dash.jpg");

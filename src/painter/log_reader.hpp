@@ -89,7 +89,7 @@ class LogReader : public QObject
                 if ( cmd->get_type() == Interactive )    
                     command_manager::get_instance()->activate_command(dynamic_cast<CommandBase*>(cmd));
                 else
-                    cmd->execute();
+                    cmd->execute_and_log();
                 
                 //t->deleteLater();
                 QApplication::processEvents();

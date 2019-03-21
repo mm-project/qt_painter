@@ -8,6 +8,7 @@
 #include <QApplication>
 #include <QWidget>
 #include <QMouseEvent>
+#include <QRadioButton>
 
 class incmdIdle : public DirectCommandBase
 {
@@ -51,7 +52,13 @@ class dicmdguiSelectRadioButton: public DirectCommandBase
             //qApp->findChildren<QWidget*>(m_on)->setSelected(true);
             //QMouseEvent event(QEvent::MouseButtonPress, m_p, Qt::LeftButton, 0, 0);
             //QApplication::sendEvent(command_manager::get_instance()->get_main_widget()->findChild<QWidget*>(m_on), &event);
-            //command_manager::get_instance()->get_main_widget()->findChild<QWidget*>(m_on)->setChecked(true);
+            QWidget* btn = command_manager::get_instance()->get_main_widget()->findChild<QWidget*>(m_on.c_str());
+            std::cout << "-------------------------" << btn << std::endl;
+            
+            //btn->setChecked(true);
+            //btn->setEnabled(false);
+            //btn->setVisible(false);    
+            //btn->click();
         }
 };
 
