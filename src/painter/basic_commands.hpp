@@ -55,21 +55,21 @@ class dicmdguiSelectRadioButton: public DirectCommandBase
         }
 };
 
-class dicmdCanvasAddPoint: public DirectCommandBase
+class dicmdCanvasMouseClick: public DirectCommandBase
 {
     
     QPoint m_p;
     public:
 
-        dicmdCanvasAddPoint() {
+        dicmdCanvasMouseClick() {
             add_option("-point",new PointCommandOptionValue(QPoint(0,0)));
         }
         
-        dicmdCanvasAddPoint(const QPoint& p):DirectCommandBase("-point",new PointCommandOptionValue(p)) 
+        dicmdCanvasMouseClick(const QPoint& p):DirectCommandBase("-point",new PointCommandOptionValue(p)) 
         { m_p = p; }
         
         virtual std::string get_name() {
-            return "dicmdCanvasAddPoint";
+            return "dicmdCanvasMouseClick";
         }
         
         virtual void execute() {
@@ -77,12 +77,46 @@ class dicmdCanvasAddPoint: public DirectCommandBase
             //std::cout << ws.size() << std::endl;
             //assert(0);
             m_p = (dynamic_cast<PointCommandOptionValue*>(get_option_val("-point")))->get();
-            QMouseEvent event(QEvent::MouseButtonPress, QPointF(100,100), Qt::LeftButton, 0, 0);
+            QMouseEvent event(QEvent::MouseButtonPress, m_p, Qt::LeftButton, 0, 0);
             QApplication::sendEvent(command_manager::get_instance()->get_main_widget()->findChild<QWidget*>("CANVAS"), &event);
         } 
 
-                
+        //FIXME make generic
+        //FIXME check dynamic_cast before *
+        //QPoint point() {
+        //    return *(dynamic_cast<PointCommandOption*>(get_arg()));
+        //}
+};
+
+
+
+class dicmdCanvasMouseMove: public DirectCommandBase
+{
+    
+    QPoint m_p;
+    public:
+
+        dicmdCanvasMouseMove() {
+            add_option("-point",new PointCommandOptionValue(QPoint(0,0)));
+            //FIXME add not initizialize flag
+        }
         
+        dicmdCanvasMouseMove(const QPoint& p):DirectCommandBase("-point",new PointCommandOptionValue(p)) 
+        { m_p = p; }
+        
+        virtual std::string get_name() {
+            return "dicmdCanvasMouseMove";
+        }
+        
+        virtual void execute() {
+            //QList<QWidget*> ws = qApp->findChild<QWidget*>("CANVAS");
+            //std::cout << ws.size() << std::endl;
+            //assert(0);
+            m_p = (dynamic_cast<PointCommandOptionValue*>(get_option_val("-point")))->get();
+            QMouseEvent event(QEvent::MouseMove, m_p, Qt::LeftButton, 0, 0);
+            QApplication::sendEvent(command_manager::get_instance()->get_main_widget()->findChild<QWidget*>("CANVAS"), &event);
+        } 
+
         //FIXME make generic
         //FIXME check dynamic_cast before *
         //QPoint point() {

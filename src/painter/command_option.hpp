@@ -45,14 +45,15 @@ class PointCommandOptionValue : public ICommandOptionValue //public ICommandOpti
         PointCommandOptionValue(int x, int y):m_x(x),m_y(y) {}
 
         void from_string(const std::string& str) {
-            //m_x = std::atoi(str.substr(0,1).c_str()); 
-            //m_y = std::atoi(str.substr(3,4).c_str()); 
+            m_x = std::atoi(str.substr(1,str.find(",")).c_str()); 
+            m_y = std::atoi(str.substr(str.find(",")+1,str.find(")")).c_str()); 
+            
             //m_x = std::atoi(str.substr(0,3).c_str()); 
             //m_y = std::atoi(str.substr(str.find(","),str.find(")")).c_str()); 
-            //std::cout << m_x << " " << m_y << std::endl;
+            //std::cout << "atoooii" <<  str.find(",") << "---" << m_x << " " << m_y << std::endl;
             
-            m_x = rand()%800;
-            m_y = rand()%800;
+            //m_x = rand()%800;
+            //m_y = rand()%800;
             //assert(0);
         }
 

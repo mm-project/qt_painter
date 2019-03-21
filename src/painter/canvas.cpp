@@ -57,7 +57,7 @@ void canvas::mousePressEvent(QMouseEvent* e)
     //cm->activate_command(INCMD_CREATE_OBJ(RECT));
     
     //IF LOG MODE
-    dicmdCanvasAddPoint(e->pos()).log();
+    dicmdCanvasMouseClick(e->pos()).log();
     
     /*
     ICommand* cmd = command_manager->get_command("dicmdCanvasAddPoint");
@@ -78,7 +78,7 @@ void canvas::mousePressEvent(QMouseEvent* e)
 
     QPoint p(e->pos());
     cm->mouse_clicked(p.x(),p.y());
-    update();
+    //update();
     //processEvents();
 
 }
@@ -93,6 +93,8 @@ void canvas::current_type_changed()
 
 void canvas::mouseMoveEvent(QMouseEvent* e)
 {
+    dicmdCanvasMouseMove(e->pos()).log();
+    
     if( cm->is_idle() ) 
         return;
     

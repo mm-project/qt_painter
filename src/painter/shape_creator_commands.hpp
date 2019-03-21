@@ -62,6 +62,12 @@ class incmdObjCreationBase : public InteractiveCommandBase
 // incmdCreateObj<RECT> => rect
 // incmdCreateObj<ELLIPSE> => ellipse
 
+#include <QApplication>
+#include <QWidget>
+#include <QMouseEvent>
+#include <QPoint>
+
+
 template <ObjectType T>
 class incmdCreateObj : public incmdObjCreationBase 
 {
@@ -75,6 +81,9 @@ class incmdCreateObj : public incmdObjCreationBase
         virtual void execute() {
             //assert(0);
             set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,idle));
+            //QMouseEvent event(QEvent::MouseButtonPress, QPointF(100,100), Qt::LeftButton, 0, 0);
+            //QApplication::sendEvent(command_manager::get_instance()->get_main_widget()->findChild<QWidget*>("CANVAS"), &event);
+
         }
         
         virtual std::string get_name() {
@@ -94,6 +103,9 @@ class incmdCreateObj : public incmdObjCreationBase
             
             runtime_set_pos1();
             set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,on_first_click));
+            //QMouseEvent event(QEvent::MouseButtonPress, QPointF(200,200), Qt::LeftButton, 0, 0);
+            //QApplication::sendEvent(command_manager::get_instance()->get_main_widget()->findChild<QWidget*>("CANVAS"), &event);
+
         }
         
         void on_first_click(const EvType& ev) {

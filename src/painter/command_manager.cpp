@@ -30,7 +30,8 @@ void command_manager::init() {
     //m_polygon_command = new command_create_shape<POLYGON>(re,ws);
     
 
-    register_command(new dicmdCanvasAddPoint);
+    register_command(new dicmdCanvasMouseMove);
+    register_command(new dicmdCanvasMouseClick);
     register_command(new dicmdguiSelectRadioButton);
     register_command(new dicmdAbortActiveCommand);
 
@@ -72,7 +73,7 @@ void command_manager::activate_command(CommandBase* cmd) {
     //else
     //        dummy
             
-    m_current_command->execute();
+    m_current_command->execute_and_log();
 }
 //CommandBase* get_command() {
 //	return 0;
