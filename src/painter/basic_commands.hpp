@@ -77,7 +77,7 @@ class dicmdCanvasAddPoint: public DirectCommandBase
             //std::cout << ws.size() << std::endl;
             //assert(0);
             m_p = (dynamic_cast<PointCommandOptionValue*>(get_option_val("-point")))->get();
-            QMouseEvent event(QEvent::MouseButtonPress, m_p, Qt::LeftButton, 0, 0);
+            QMouseEvent event(QEvent::MouseButtonPress, QPointF(100,100), Qt::LeftButton, 0, 0);
             QApplication::sendEvent(command_manager::get_instance()->get_main_widget()->findChild<QWidget*>("CANVAS"), &event);
         } 
 

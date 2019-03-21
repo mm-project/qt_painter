@@ -35,6 +35,7 @@ bool main_window::eventFilter(QObject *obj, QEvent *event)
         return QMainWindow::eventFilter(obj, event);
     //}
     */
+return QMainWindow::eventFilter(obj, event);
 }
 
 main_window::main_window(QWidget* p)

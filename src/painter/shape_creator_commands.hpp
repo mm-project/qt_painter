@@ -73,6 +73,7 @@ class incmdCreateObj : public incmdObjCreationBase
         }
         
         virtual void execute() {
+            //assert(0);
             set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,idle));
         }
         
@@ -84,6 +85,7 @@ class incmdCreateObj : public incmdObjCreationBase
     public:      
         void idle(const EvType& ev) {
             //waiting for first mouse click
+            //assert(0);
             if ( ev == KP )
                 set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,abort1));
             
@@ -95,7 +97,7 @@ class incmdCreateObj : public incmdObjCreationBase
         }
         
         void on_first_click(const EvType& ev) {
-            
+            //assert(0);
             if ( ev == KP )
                 set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,abort1));
             
@@ -106,6 +108,7 @@ class incmdCreateObj : public incmdObjCreationBase
         }
     
         void on_commit(const EvType&) {
+            //assert(0);
             commit();
             set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,idle));
         }
