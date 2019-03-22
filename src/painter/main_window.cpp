@@ -16,25 +16,18 @@
 
 #include <cassert>
 
-
+//FIXME tobo enhanced~!
 bool main_window::eventFilter(QObject *obj, QEvent *event)
 {
-    if (qobject_cast<QRadioButton*>(obj) ) {
-        if (event->type() == QEvent::MouseButtonPress ) {
-            std::cout << "=================================" << obj << std::endl;
-            dicmdguiSelectRadioButton(obj->objectName().toStdString()).log();
-            //std::cout << obj->objectName().toStdString() << std::endl;
-            //assert(0);
-            //QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-            //qDebug() << "Ate key press" << keyEvent->key();
-            //return true;
-        //} else {
-         //   return false;
-        }
-    } //else {
-        // pass the event on to the parent class
-        return QMainWindow::eventFilter(obj, event);
-    //}
+        if (qobject_cast<QRadioButton*>(obj) ) {
+            if (event->type() == QEvent::MouseButtonPress ) {
+                //std::cout << "=================================" << obj << std::endl;
+                dicmdguiSelectRadioButton(obj->objectName().toStdString()).log();
+                //return true;
+            //} else {
+            //   return false;
+            }
+        } //else {
     
 return QMainWindow::eventFilter(obj, event);
 }
@@ -83,11 +76,11 @@ void main_window::init_menu()
 
         QMenu* create_menu = menuBar()->addMenu("Create");
         static QIcon line_icon("icons/line.png");
-        create_menu->addAction(line_icon, "Line", m_canvas, SLOT(create_line()), tr("Ctrl+L"));
+        create_menu->addAction(line_icon, "Line", m_canvas, SLOT(invoke_create_line()), tr("Ctrl+L"));
         static QIcon rect_icon("icons/rectangle.png");
-        create_menu->addAction(rect_icon, "Rectangle", m_canvas, SLOT(create_rect()), tr("Ctrl+R"));
+        create_menu->addAction(rect_icon, "Rectangle", m_canvas, SLOT(invoke_create_rect()), tr("Ctrl+R"));
         static QIcon ellipse_icon("icons/ellipse.png");
-        create_menu->addAction(ellipse_icon, "Ellipse", m_canvas, SLOT(create_ellipse()), tr("Ctrl+E"));
+        create_menu->addAction(ellipse_icon, "Ellipse", m_canvas, SLOT(invoke_create_ellipse()), tr("Ctrl+E"));
         static QIcon polygon_icon("icons/polygon.png");
-        create_menu->addAction(polygon_icon, "Polygon", m_canvas, SLOT(create_polygon()));
+        create_menu->addAction(polygon_icon, "Polygon", m_canvas, SLOT(invoke_create_polygon()));
 }

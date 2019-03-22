@@ -80,6 +80,7 @@ class incmdCreateObj : public incmdObjCreationBase
         
         virtual void execute() {
             //assert(0);
+            //command_manager::get_instance()->return_to_idle();
             set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,idle));
             //QMouseEvent event(QEvent::MouseButtonPress, QPointF(100,100), Qt::LeftButton, 0, 0);
             //QApplication::sendEvent(command_manager::get_instance()->get_main_widget()->findChild<QWidget*>("CANVAS"), &event);

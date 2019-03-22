@@ -19,6 +19,8 @@
 #include <iostream>
 
 #define INCMD_CREATE_OBJ(S) incmdCreateObj<S>(m_runtime_environment,m_working_set)
+#define INCMD_CREATE_OBJ_POLYGON(N) incmdCreateNthgon<N>(m_runtime_environment,m_working_set)
+
 
 canvas::canvas(QWidget* p)
         : QWidget(p), is_runtime_mode(false)
@@ -34,53 +36,34 @@ canvas::canvas(QWidget* p)
         cm->init2(m_runtime_environment,m_working_set);
         cm->init();
         
+        //FIXME broken
         //cm->register_command(new INCMD_CREATE_OBJ(LINE));
-        cm->register_command(new INCMD_CREATE_OBJ(RECT));
+        //cm->register_command(new INCMD_CREATE_OBJ(RECT));
         //cm->register_command(new INCMD_CREATE_OBJ(ELLIPSE));
         //cm->register_command(new INCMD_CREATE_OBJ(POLYGON));
 
 }
 
 void canvas::keyPressEvent(QKeyEvent*) {
-    //FIXME some interface needed
+    //FIXME some interface for keys needed
     //assert(0);
 
     if( cm->is_idle() ) 
         return;
 
-    command_manager::get_instance()->get_active_command()->abort();
+    //if key pressed esc
+    //command_manager::get_instance()->get_active_command()->abort();
     //cm->key_pressed();
 }
 
 void canvas::mousePressEvent(QMouseEvent* e)
 {
-    //cm->activate_command(INCMD_CREATE_OBJ(RECT));
-    
-    //IF LOG MODE
-    dicmdCanvasMouseClick(e->pos()).log();
-    
-    /*
-    ICommand* cmd = command_manager->get_command("dicmdCanvasAddPoint");
-    cmd->add_option("-point",new PointCommandOptionValue(e->pos()));
-    cmd->execute_and_log();
-    */
-    
-    /*
-    DirectCommandBase* cmd = new dicmdCanvasAddPoint();
-    //FIXME move to command itself, add just value to contructor
-    cmd->add_option("-point",new PointCommandOptionValue(e->pos()));
-    cmd->execute_and_log();
-    delete cmd;
-    */
-    
     if( cm->is_idle() ) 
         return;
 
     QPoint p(e->pos());
+    dicmdCanvasMouseClick(p).log();
     cm->mouse_clicked(p.x(),p.y());
-    //update();
-    //processEvents();
-
 }
 
 //FIXME not needed anymore
@@ -93,12 +76,13 @@ void canvas::current_type_changed()
 
 void canvas::mouseMoveEvent(QMouseEvent* e)
 {
-    dicmdCanvasMouseMove(e->pos()).log();
-    
     if( cm->is_idle() ) 
         return;
     
     cm->mouse_moved(e->pos().x(),e->pos().y());
+    //FIXME add logMotion flag to enable
+    //dicmdCanvasMouseMove(e->pos()).log();
+
     update();
 }
 
@@ -136,31 +120,28 @@ void canvas::paintEvent(QPaintEvent*)
     m_renderer->stop();
 }
 
-//FIXME ( may be other more nicer way?)
-//FIXME use register_command instead
-void canvas::create_line()
+void canvas::invoke_create_line()
 {
-    cm->activate_command(cm->find_command("incmdCreateObjLine"));
-    //cm->activate_command(INCMD_CREATE_OBJ(LINE));
-    //cm->activate_command(new incmdCreateNthgon<2>(m_runtime_environment,m_working_set));
+    //cm->activate_command(cm->find_command("incmdCreateObjLine"));
+    cm->activate_command(new INCMD_CREATE_OBJ(LINE));
 }
 
-void canvas::create_rect()
+void canvas::invoke_create_rect()
 {
-    cm->activate_command(cm->find_command("incmdCreateObjRectangle"));
-    //cm->activate_command(new incmdCreateNthgon<3>(m_runtime_environment,m_working_set));
-    //cm->activate_command(INCMD_CREATE_OBJ(RECT));
+    //cm->activate_command(cm->find_command("incmdCreateObjRectangle"));
+    cm->activate_command(new INCMD_CREATE_OBJ(RECT));
 }
 
-void canvas::create_ellipse()
+void canvas::invoke_create_ellipse()
 {
-    cm->activate_command(cm->find_command("incmdCreateObjEllipse"));
-    //cm->activate_command(INCMD_CREATE_OBJ(ELLIPSE));
+    //cm->activate_command(cm->find_command("incmdCreateObjEllipse"));
+    cm->activate_command(new INCMD_CREATE_OBJ(ELLIPSE));
 }
 
-void canvas::create_polygon()
+void canvas::invoke_create_polygon()
 {
-    //cm->activate_command(INCMD_CREATE_OBJ(POLYGON));
+    //cm->activate_command(cm->find_command("incmdCreateObjPolygon"));
+   cm->activate_command(new INCMD_CREATE_OBJ_POLYGON(3));
 }
 
 void canvas::reset()
@@ -168,5 +149,3 @@ void canvas::reset()
     m_working_set->clear();
     update();
 }
-
-

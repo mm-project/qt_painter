@@ -8,8 +8,9 @@ int main(int argc, char** argv)
 	QApplication app(argc, argv);
 	main_window window;
 	window.show();
-        LogReader r;
-        r.replay_log("replay.log");
+        //FIXME add argument check and replay if needed
+        //LogReader r;
+        //r.replay_log("replay.log");
         
 	return app.exec();
 }
