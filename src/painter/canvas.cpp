@@ -1,6 +1,9 @@
 #include "canvas.hpp"
 
-#include "command.hpp"
+#include "direct_command_base.hpp"
+#include "basic_commands.hpp"
+#include "gui_commands.hpp"
+#include "shape_creator_commands.hpp"
 #include "command_manager.hpp"
 #include "controller.hpp"
 #include "shapes.hpp"
@@ -16,24 +19,42 @@
 #include <cassert>
 #include <iostream>
 
+#define INCMD_CREATE_OBJ(S) incmdCreateObj<S>(m_runtime_environment,m_working_set)
+#define INCMD_CREATE_OBJ_POLYGON(N) incmdCreateNthgon<N>(m_runtime_environment,m_working_set)
+
+
 canvas::canvas(QWidget* p)
         : QWidget(p), is_runtime_mode(false)
 {
         setFocusPolicy(Qt::StrongFocus);
         setMouseTracking(true);
+        setObjectName("CANVAS");
+        
         m_working_set = new working_set;
         m_runtime_environment = new runtime_environment();
         m_renderer = new renderer(this);
         cm = command_manager::get_instance();
         cm->init2(m_runtime_environment,m_working_set);
         cm->init();
+        
+        //FIXME broken
+        cm->register_command(new INCMD_CREATE_OBJ(LINE));
+        cm->register_command(new INCMD_CREATE_OBJ(RECT));
+        cm->register_command(new INCMD_CREATE_OBJ(ELLIPSE));
+        cm->register_command(new INCMD_CREATE_OBJ(POLYGON));
 
 }
 
 void canvas::keyPressEvent(QKeyEvent*) {
-    //FIXME some interface needed
+    //FIXME some interface for keys needed
     //assert(0);
-    cm->key_pressed();
+
+    if( cm->is_idle() ) 
+        return;
+
+    //if key pressed esc
+    //command_manager::get_instance()->get_active_command()->abort();
+    //cm->key_pressed();
 }
 
 void canvas::mousePressEvent(QMouseEvent* e)
@@ -42,8 +63,8 @@ void canvas::mousePressEvent(QMouseEvent* e)
         return;
 
     QPoint p(e->pos());
+    dicmdCanvasMouseClick(p).log();
     cm->mouse_clicked(p.x(),p.y());
-
 }
 
 //FIXME not needed anymore
@@ -60,12 +81,27 @@ void canvas::mouseMoveEvent(QMouseEvent* e)
         return;
     
     cm->mouse_moved(e->pos().x(),e->pos().y());
+    //FIXME add logMotion flag to enable
+    //dicmdCanvasMouseMove(e->pos()).log();
+
     update();
 }
 
 void canvas::wheelEvent(QWheelEvent*)
 {
     m_renderer->incr_zoom_factor();
+    update();
+}
+
+void canvas::mouseDoubleClickEvent(QMouseEvent* e)
+{
+    cm->mouse_dbl_clicked(e->pos().x(),e->pos().y());
+    update();
+}
+
+void canvas::on_update()
+{
+    cm->update();
     update();
 }
 
@@ -85,26 +121,32 @@ void canvas::paintEvent(QPaintEvent*)
     m_renderer->stop();
 }
 
-//FIXME ( may be other more nicer way?)
-#define CMD_CREATE_OBJ(S) new command_create_shape<S>(m_runtime_environment,m_working_set)
-void canvas::create_line()
+void canvas::invoke_create_line()
 {
-    cm->activate_command(CMD_CREATE_OBJ(LINE));
+    m_runtime_environment->change_object_type(LINE);
+    cm->activate_command(cm->find_command("incmdCreateObjLine"));
+    //cm->activate_command(new INCMD_CREATE_OBJ(LINE));
 }
 
-void canvas::create_rect()
+void canvas::invoke_create_rect()
 {
-    cm->activate_command(CMD_CREATE_OBJ(RECT));
+    m_runtime_environment->change_object_type(RECT);
+    cm->activate_command(cm->find_command("incmdCreateObjRectangle"));
+    //cm->activate_command(new INCMD_CREATE_OBJ(RECT));
 }
 
-void canvas::create_ellipse()
+void canvas::invoke_create_ellipse()
 {
-    cm->activate_command(CMD_CREATE_OBJ(ELLIPSE));
+    m_runtime_environment->change_object_type(ELLIPSE);
+    cm->activate_command(cm->find_command("incmdCreateObjEllipse"));
+    //cm->activate_command(new INCMD_CREATE_OBJ(ELLIPSE));
 }
 
-void canvas::create_polygon()
+void canvas::invoke_create_polygon()
 {
-    cm->activate_command(CMD_CREATE_OBJ(POLYGON));
+    m_runtime_environment->change_object_type(POLYGON);
+    cm->activate_command(cm->find_command("incmdCreateObjPolygon"));
+   //cm->activate_command(new INCMD_CREATE_OBJ_POLYGON(3));
 }
 
 void canvas::reset()
@@ -112,14 +154,3 @@ void canvas::reset()
     m_working_set->clear();
     update();
 }
-
-void canvas::mouseDoubleClickEvent(QMouseEvent* e)
-{
-    cm->mouse_dbl_clicked(e->pos().x(),e->pos().y());
-}
-
-void canvas::on_update()
-{
-    cm->update();
-}
-

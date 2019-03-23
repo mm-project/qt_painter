@@ -14,6 +14,7 @@ class pen_brush_gui : public QWidget
 
 public:
         pen_brush_gui(QWidget* = 0);
+        //bool eventFilter(QObject *object, QEvent *event);
 
 private:
         void init_layout();

@@ -10,6 +10,9 @@
 #include <QColor>
 #include <QPoint>
 
+// STL
+#include <string>
+
 class QPainter;
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -22,6 +25,25 @@ enum ObjectType {
 	ELLIPSE,
 	POLYGON
 };
+
+
+namespace {
+    std::string ObjType2String(const ObjectType& t) {
+        switch (t) {
+                case LINE :
+                        return "Line";
+                case RECT:
+                        return "Rectangle";
+                case ELLIPSE:
+                        return "Ellipse";
+                case POLYGON:
+                        return "Polygon";
+        }
+        return "Unknown";
+    }
+    
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //

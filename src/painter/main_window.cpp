@@ -1,12 +1,42 @@
 #include "main_window.hpp"
 
+#include "gui_commands.hpp"
 #include "canvas.hpp"
 #include "create_shape_gui.hpp"
 #include "pen_brush_gui.hpp"
+#include "command_manager.hpp"
 
 #include <QDockWidget>
 #include <QMenu>
 #include <QMenuBar>
+#include <QEvent>
+#include <QCoreApplication>
+#include <QPushButton>
+#include <QRadioButton>
+#include <QComboBox>
+
+#include <cassert>
+
+//FIXME todo enhanced~! (from QApplication)
+bool main_window::eventFilter(QObject *obj, QEvent *event)
+{
+        if (qobject_cast<QRadioButton*>(obj) ) {
+            if (event->type() == QEvent::MouseButtonPress ) {
+                dicmdguiSelectRadioButton(obj->objectName().toStdString()).log();
+            }
+        }
+        
+        if ( QComboBox* cmb = qobject_cast<QComboBox*>(obj) ) {
+            if (event->type() == QEvent::MouseButtonRelease ) {
+                QString s(cmb->currentText());
+                s.replace(" ","/");
+                dicmdguiSelectComboValue(obj->objectName().toStdString(),s.toStdString()).log();
+            }
+        }
+        
+        
+return QMainWindow::eventFilter(obj, event);
+}
 
 main_window::main_window(QWidget* p)
         : QMainWindow(p)
@@ -34,6 +64,8 @@ main_window::main_window(QWidget* p)
         setWindowIcon(main_window_icon);
 
         setDockOptions(QMainWindow::AllowTabbedDocks);
+        QCoreApplication::instance()->installEventFilter(this);
+        command_manager::get_instance()->set_main_widget(this);
 }
 
 void main_window::make_connections()
@@ -50,11 +82,11 @@ void main_window::init_menu()
 
         QMenu* create_menu = menuBar()->addMenu("Create");
         static QIcon line_icon("icons/line.png");
-        create_menu->addAction(line_icon, "Line", m_canvas, SLOT(create_line()), tr("Ctrl+L"));
+        create_menu->addAction(line_icon, "Line", m_canvas, SLOT(invoke_create_line()), tr("Ctrl+L"));
         static QIcon rect_icon("icons/rectangle.png");
-        create_menu->addAction(rect_icon, "Rectangle", m_canvas, SLOT(create_rect()), tr("Ctrl+R"));
+        create_menu->addAction(rect_icon, "Rectangle", m_canvas, SLOT(invoke_create_rect()), tr("Ctrl+R"));
         static QIcon ellipse_icon("icons/ellipse.png");
-        create_menu->addAction(ellipse_icon, "Ellipse", m_canvas, SLOT(create_ellipse()), tr("Ctrl+E"));
+        create_menu->addAction(ellipse_icon, "Ellipse", m_canvas, SLOT(invoke_create_ellipse()), tr("Ctrl+E"));
         static QIcon polygon_icon("icons/polygon.png");
-        create_menu->addAction(polygon_icon, "Polygon", m_canvas, SLOT(create_polygon()));
+        create_menu->addAction(polygon_icon, "Polygon", m_canvas, SLOT(invoke_create_polygon()));
 }

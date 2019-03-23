@@ -2,7 +2,6 @@
 #define CANVAS_HPP
 
 #include "basic_shape.hpp"
-#include "command.hpp"
 #include "command_manager.hpp"
 
 #include <QWidget>
@@ -86,19 +85,17 @@ public:
 
 public slots:
         void current_type_changed();
-        void create_line();
-        void create_rect();
-        void create_ellipse();
-        void create_polygon();
+        void invoke_create_line();
+        void invoke_create_rect();
+        void invoke_create_ellipse();
+        void invoke_create_polygon();
         void reset();
         void on_update();
 
 private:
         bool is_runtime_mode;
-
         working_set* m_working_set;
         runtime_environment* m_runtime_environment;
-		
         command_manager* cm;
         renderer* m_renderer;
 };
