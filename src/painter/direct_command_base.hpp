@@ -11,6 +11,7 @@ class DirectCommandBase: public CommandBase
     public:
         //DirectCommandBase():m_is_aborted(false) {}
         DirectCommandBase() {}
+        //FIXME !!! how about many args?
         DirectCommandBase(const std::string& n, ICommandOptionValue* v ) {
             add_option(n,v);
         }
@@ -41,6 +42,14 @@ class DirectCommandBase: public CommandBase
             m_ops[n]->from_string(v);
             
         }
+
+        /*
+        add_option(CommandOptions().add(key,value).add(key_value)
+        void add_option(CommandOptions co) {
+            //for co. add_option(co)
+            
+        }
+        */
         
         void add_option(const std::string& n, ICommandOptionValue* v ) {
             //FIXME check if exisitis
@@ -50,8 +59,8 @@ class DirectCommandBase: public CommandBase
         std::string get_stringified_opts() {
             std::stringstream z;
             for (std::pair<const std::string,ICommandOptionValue*>& x: m_ops) {
-                z << x.first << " " << x.second->to_string();
-            }  
+                z << x.first << " " << x.second->to_string() << " ";
+            }   
             return z.str();
         }
         

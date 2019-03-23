@@ -977,3 +977,5 @@ dicmdCanvasMouseMove -point (725,322)
 dicmdCanvasMouseMove -point (753,286)
 dicmdCanvasMouseMove -point (779,254)
 dicmdCanvasMouseMove -point (805,226)
+dicmdguiSelectComboValue -object pbgui/penColor -value Red
+dicmdguiSelectComboValue -object pbgui/penColor -value White 

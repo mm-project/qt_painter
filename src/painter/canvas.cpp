@@ -123,26 +123,30 @@ void canvas::paintEvent(QPaintEvent*)
 
 void canvas::invoke_create_line()
 {
-    //cm->activate_command(cm->find_command("incmdCreateObjLine"));
-    cm->activate_command(new INCMD_CREATE_OBJ(LINE));
+    m_runtime_environment->change_object_type(LINE);
+    cm->activate_command(cm->find_command("incmdCreateObjLine"));
+    //cm->activate_command(new INCMD_CREATE_OBJ(LINE));
 }
 
 void canvas::invoke_create_rect()
 {
-    //cm->activate_command(cm->find_command("incmdCreateObjRectangle"));
-    cm->activate_command(new INCMD_CREATE_OBJ(RECT));
+    m_runtime_environment->change_object_type(RECT);
+    cm->activate_command(cm->find_command("incmdCreateObjRectangle"));
+    //cm->activate_command(new INCMD_CREATE_OBJ(RECT));
 }
 
 void canvas::invoke_create_ellipse()
 {
-    //cm->activate_command(cm->find_command("incmdCreateObjEllipse"));
-    cm->activate_command(new INCMD_CREATE_OBJ(ELLIPSE));
+    m_runtime_environment->change_object_type(ELLIPSE);
+    cm->activate_command(cm->find_command("incmdCreateObjEllipse"));
+    //cm->activate_command(new INCMD_CREATE_OBJ(ELLIPSE));
 }
 
 void canvas::invoke_create_polygon()
 {
-    //cm->activate_command(cm->find_command("incmdCreateObjPolygon"));
-   cm->activate_command(new INCMD_CREATE_OBJ_POLYGON(3));
+    m_runtime_environment->change_object_type(POLYGON);
+    cm->activate_command(cm->find_command("incmdCreateObjPolygon"));
+   //cm->activate_command(new INCMD_CREATE_OBJ_POLYGON(3));
 }
 
 void canvas::reset()

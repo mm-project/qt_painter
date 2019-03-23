@@ -8,6 +8,49 @@
 #include <QWidget>
 #include <QMouseEvent>
 #include <QRadioButton>
+#include <QComboBox>
+#include <QString>
+
+class dicmdguiSelectComboValue: public DirectCommandBase 
+{
+
+    std::string m_on;
+    std::string m_ov;
+    public:
+        dicmdguiSelectComboValue() {
+            add_option("-object",new StringCommandOptionValue(""));
+            add_option("-value",new StringCommandOptionValue(""));
+        }
+        
+        dicmdguiSelectComboValue(const std::string& on, const std::string& ov)//:DirectCommandBase("-object",new StringCommandOptionValue(on)) 
+        { 
+            //FIXME add_option()
+            m_on = on;
+            m_ov = ov;
+            
+            add_option("-object",new StringCommandOptionValue(m_on));
+            add_option("-value",new StringCommandOptionValue(m_ov));
+        }
+        
+        virtual std::string get_name() {
+            return "dicmdguiSelectComboValue";
+        }
+        
+        virtual void execute() {
+            /*//FIXME add checks
+            //FIXME some trick to be more easy?
+            m_on = GET_CMD_ARG(StringCommandOptionValue,"-object");
+            m_ov = GET_CMD_ARG(StringCommandOptionValue,"-value");
+            QString s(m_ov.c_str());
+            s.replace("/"," ");   
+            QComboBox* cmb = command_manager::get_instance()->get_main_widget()->findChild<QComboBox*>(m_on.c_str());
+            
+            std::cout << cmb->currentText().toStdString() << " " << m_on << " " << cmb->findData("White") << std::endl;
+            cmb->setCurrentIndex(cmb->findData("White"));
+            //btn->click();*/
+        }
+};
+
 
 class dicmdguiSelectRadioButton: public DirectCommandBase 
 {

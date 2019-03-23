@@ -25,6 +25,7 @@ void command_manager::init() {
     register_command(new dicmdCanvasMouseClick);
     register_command(new dicmdguiSelectRadioButton);
     register_command(new dicmdAbortActiveCommand);
+    register_command(new dicmdguiSelectComboValue); 
     m_current_command = m_idle_command;
 }
 

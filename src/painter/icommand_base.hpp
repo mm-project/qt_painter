@@ -18,7 +18,6 @@ class ICommand
         virtual std::string get_name() = 0;
         virtual CommandType get_type() = 0;
         //FIXME
-        virtual void set_arg(const std::string& n, const std::string& v) {}
     
         //FIXME
         virtual void execute_and_log() = 0;
@@ -47,6 +46,8 @@ class CommandBase : public ICommand
             std::cout << get_name() << std::endl;
         }
         
+        virtual void set_arg(const std::string&, const std::string& ) {}
+
         //FIXME should not be here !!!
         virtual void handle_mouse_click(int,int) {}
         virtual void handle_mouse_dblclick(int,int) {}

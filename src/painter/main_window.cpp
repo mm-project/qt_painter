@@ -13,6 +13,7 @@
 #include <QCoreApplication>
 #include <QPushButton>
 #include <QRadioButton>
+#include <QComboBox>
 
 #include <cassert>
 
@@ -24,6 +25,15 @@ bool main_window::eventFilter(QObject *obj, QEvent *event)
                 dicmdguiSelectRadioButton(obj->objectName().toStdString()).log();
             }
         }
+        
+        if ( QComboBox* cmb = qobject_cast<QComboBox*>(obj) ) {
+            if (event->type() == QEvent::MouseButtonRelease ) {
+                QString s(cmb->currentText());
+                s.replace(" ","/");
+                dicmdguiSelectComboValue(obj->objectName().toStdString(),s.toStdString()).log();
+            }
+        }
+        
         
 return QMainWindow::eventFilter(obj, event);
 }

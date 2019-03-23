@@ -34,7 +34,10 @@ void pen_brush_gui::init_layout()
 
         QGroupBox* pen_group = new QGroupBox("Pen", this);
         QGroupBox* brush_group = new QGroupBox("Brush", this);
+        QString module_name("pbgui");
+ 
         m_pen_color = new QComboBox(this);
+        m_pen_color->setObjectName(module_name+"/"+"penColor");
         m_pen_width = new QSpinBox(this);
         m_pen_width->setMinimum(1);
         m_brush_color = new QComboBox(this);
@@ -82,7 +85,7 @@ void pen_brush_gui::init_layout()
         QHBoxLayout* h_l4 = new QHBoxLayout;
         QHBoxLayout* h_l5 = new QHBoxLayout;
 
-        QString module_name("pbgui");
+        //QString module_name("pbgui");
         m_solid_line = new QRadioButton("Solid Line", this);
         m_solid_line ->setObjectName(module_name+"/"+"rbSolidLine");
         //set_log_name(m_solid_line);

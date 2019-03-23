@@ -20,7 +20,7 @@ class LogReader : public QObject
     Q_OBJECT 
     
     QTimer* timer ;
-    std::queue<ICommand*> m_command_queue;
+    std::queue<CommandBase*> m_command_queue;
     
     public:
         LogReader() {
@@ -58,10 +58,10 @@ class LogReader : public QObject
                 QStringList tokens = line.split(" ");
                 //std::cout << " --" << tokens[0].toStdString()  << "--" << std::endl;
                 
-                ICommand* cmd = command_manager::get_instance()->find_command(tokens[0].toStdString());
+                CommandBase* cmd = command_manager::get_instance()->find_command(tokens[0].toStdString());
                 
                 //if ( cmd->get_type() == Interactive )
-                    for (int i=1; i<tokens.size()-1; ++i ) {
+                    for (int i=1; i<tokens.size()-1; i=i+2 ) {
                         //std::cout << "  ---<" << tokens[i].toStdString() << "> <=> <"<< tokens[i+1].toStdString() << ">" << std::endl;
                         cmd->set_arg(tokens[i].toStdString(),tokens[i+1].toStdString());
                     }
