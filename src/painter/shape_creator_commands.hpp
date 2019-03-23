@@ -61,13 +61,6 @@ class incmdObjCreationBase : public InteractiveCommandBase
 // produces commands for creating shape by given obj change_object_type
 // incmdCreateObj<RECT> => rect
 // incmdCreateObj<ELLIPSE> => ellipse
-
-#include <QApplication>
-#include <QWidget>
-#include <QMouseEvent>
-#include <QPoint>
-
-
 template <ObjectType T>
 class incmdCreateObj : public incmdObjCreationBase 
 {
@@ -79,12 +72,7 @@ class incmdCreateObj : public incmdObjCreationBase
         }
         
         virtual void execute() {
-            //assert(0);
-            //command_manager::get_instance()->return_to_idle();
             set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,idle));
-            //QMouseEvent event(QEvent::MouseButtonPress, QPointF(100,100), Qt::LeftButton, 0, 0);
-            //QApplication::sendEvent(command_manager::get_instance()->get_main_widget()->findChild<QWidget*>("CANVAS"), &event);
-
         }
         
         virtual std::string get_name() {
@@ -96,22 +84,20 @@ class incmdCreateObj : public incmdObjCreationBase
         void idle(const EvType& ev) {
             //waiting for first mouse click
             //assert(0);
-            if ( ev == KP )
+            if ( ev == KP ) //key pressed, abort
                 set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,abort1));
             
-            if ( ev != MC )
+            if ( ev != MC ) //not mouse click, return
                 return;
             
+            //mouse clicked , set first point and go to next state 
             runtime_set_pos1();
             set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,on_first_click));
-            //QMouseEvent event(QEvent::MouseButtonPress, QPointF(200,200), Qt::LeftButton, 0, 0);
-            //QApplication::sendEvent(command_manager::get_instance()->get_main_widget()->findChild<QWidget*>("CANVAS"), &event);
-
         }
         
         void on_first_click(const EvType& ev) {
             //assert(0);
-            if ( ev == KP )
+            if ( ev == KP ) //key pressed, abort
                 set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,abort1));
             
             if ( ev == MM )
@@ -143,19 +129,22 @@ template<int T>
 class incmdCreateNthgon : public incmdObjCreationBase 
 {
         int count;
+        std::string m_name;
 
     public:
         incmdCreateNthgon(runtime_environment* r, working_set*s ):incmdObjCreationBase(r,s)
         {
             rt()->change_object_type(POLYGON);
             reset_count();
+    
+            std::stringstream z;
+            z << "incmdCreateNthgon<" << T << ">";
+            m_name = z.str();
         }
         
         virtual std::string get_name() {
             //FIXME keep stringstream for converting int to str
-            std::stringstream z;
-            z << "incmdCreateNthgon<" << T << ">";
-            return z.str();
+            return m_name;
         }
         
         virtual void execute() {

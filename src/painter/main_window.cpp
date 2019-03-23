@@ -1,6 +1,6 @@
 #include "main_window.hpp"
 
-#include "basic_commands.hpp"
+#include "gui_commands.hpp"
 #include "canvas.hpp"
 #include "create_shape_gui.hpp"
 #include "pen_brush_gui.hpp"
@@ -16,19 +16,15 @@
 
 #include <cassert>
 
-//FIXME tobo enhanced~!
+//FIXME todo enhanced~! (from QApplication)
 bool main_window::eventFilter(QObject *obj, QEvent *event)
 {
         if (qobject_cast<QRadioButton*>(obj) ) {
             if (event->type() == QEvent::MouseButtonPress ) {
-                //std::cout << "=================================" << obj << std::endl;
                 dicmdguiSelectRadioButton(obj->objectName().toStdString()).log();
-                //return true;
-            //} else {
-            //   return false;
             }
-        } //else {
-    
+        }
+        
 return QMainWindow::eventFilter(obj, event);
 }
 

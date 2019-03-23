@@ -3,6 +3,7 @@
 #include "basic_commands.hpp"
 #include "direct_command_base.hpp"
 #include "basic_commands.hpp"
+#include "gui_commands.hpp"
 #include "shape_creator_commands.hpp"
 
 

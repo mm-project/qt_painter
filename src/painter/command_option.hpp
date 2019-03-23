@@ -9,6 +9,8 @@
 #include <cstdlib>
 #include <cassert>
 
+//FIXME can't use template because everytime we write ICommandOptionValue,
+// we will force to write ICommandOptionValue<T> thus user should also be Template.
 //template<typename T>
 class ICommandOptionValue 
 {
@@ -21,12 +23,14 @@ class ICommandOptionValue
 
 };  
 
+//FIXME need to think more
 /*
 class CommandOptionValueBase : public CommandOptionValue<void*> {
     
 };
 */
 
+/*
 template < typename T >
 class CommandOptionValueGetter {
     
@@ -39,9 +43,12 @@ class CommandOptionValueGetter {
             return (dynamic_cast<T*>(m_i))->get();
         }
 };
-
 #define GET_CMD_ARG(S) CommandOptionValueGetter(get_option_val(S)).get()
 
+*/
+
+#define GET_CMD_ARG(T,Op) (dynamic_cast<T*>(get_option_val(Op)))->get()
+//#define GET_CMD_ARG1(Op)  (dynamic_cast<decltype get_option_val(Op)>(get_option_val(Op)))->get()
 
 
 class StringCommandOptionValue : public ICommandOptionValue 

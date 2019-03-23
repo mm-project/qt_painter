@@ -2,6 +2,7 @@
 
 #include "direct_command_base.hpp"
 #include "basic_commands.hpp"
+#include "gui_commands.hpp"
 #include "shape_creator_commands.hpp"
 #include "command_manager.hpp"
 #include "controller.hpp"
@@ -37,10 +38,10 @@ canvas::canvas(QWidget* p)
         cm->init();
         
         //FIXME broken
-        //cm->register_command(new INCMD_CREATE_OBJ(LINE));
+        cm->register_command(new INCMD_CREATE_OBJ(LINE));
         cm->register_command(new INCMD_CREATE_OBJ(RECT));
-        //cm->register_command(new INCMD_CREATE_OBJ(ELLIPSE));
-        //cm->register_command(new INCMD_CREATE_OBJ(POLYGON));
+        cm->register_command(new INCMD_CREATE_OBJ(ELLIPSE));
+        cm->register_command(new INCMD_CREATE_OBJ(POLYGON));
 
 }
 
@@ -81,7 +82,7 @@ void canvas::mouseMoveEvent(QMouseEvent* e)
     
     cm->mouse_moved(e->pos().x(),e->pos().y());
     //FIXME add logMotion flag to enable
-    dicmdCanvasMouseMove(e->pos()).log();
+    //dicmdCanvasMouseMove(e->pos()).log();
 
     update();
 }
