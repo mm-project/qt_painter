@@ -93,7 +93,7 @@ void pen_brush_gui::init_layout()
         //   recursively , parent = parent + "/";
         //   prefix => switch/case on obj.type
         //   text => camelcase of text
-        //obj.setObjectName(parent+prefix+text)
+        //   obj.setObjectName(parent+prefix+text)
 
         m_dash_line = new QRadioButton("Dash Line", this);
         m_dash_line ->setObjectName(module_name+"/"+"rbDashLine");

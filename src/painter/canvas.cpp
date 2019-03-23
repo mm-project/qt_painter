@@ -38,7 +38,7 @@ canvas::canvas(QWidget* p)
         
         //FIXME broken
         //cm->register_command(new INCMD_CREATE_OBJ(LINE));
-        //cm->register_command(new INCMD_CREATE_OBJ(RECT));
+        cm->register_command(new INCMD_CREATE_OBJ(RECT));
         //cm->register_command(new INCMD_CREATE_OBJ(ELLIPSE));
         //cm->register_command(new INCMD_CREATE_OBJ(POLYGON));
 
@@ -81,7 +81,7 @@ void canvas::mouseMoveEvent(QMouseEvent* e)
     
     cm->mouse_moved(e->pos().x(),e->pos().y());
     //FIXME add logMotion flag to enable
-    //dicmdCanvasMouseMove(e->pos()).log();
+    dicmdCanvasMouseMove(e->pos()).log();
 
     update();
 }

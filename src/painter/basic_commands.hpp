@@ -41,23 +41,23 @@ class dicmdguiSelectRadioButton: public DirectCommandBase
         }
         
         dicmdguiSelectRadioButton(const std::string& on):DirectCommandBase("-object",new StringCommandOptionValue(on)) 
-        { m_on = on; }
+        { 
+            //FIXME add_option()
+            m_on = on; 
+        }
         
         virtual std::string get_name() {
             return "dicmdguiSelectRadioButton";
         }
         
         virtual void execute() {
-            //check option added
-            //qApp->findChildren<QWidget*>(m_on)->setSelected(true);
-            //QMouseEvent event(QEvent::MouseButtonPress, m_p, Qt::LeftButton, 0, 0);
-            //QApplication::sendEvent(command_manager::get_instance()->get_main_widget()->findChild<QWidget*>(m_on), &event);
-            QWidget* btn = command_manager::get_instance()->get_main_widget()->findChild<QWidget*>(m_on.c_str());
-            //std::cout << "-------------------------" << btn << std::endl;
+            //FIXME some trick to be more easy?
+            m_on = (dynamic_cast<StringCommandOptionValue*>(get_option_val("-object")))->to_string();
+            QRadioButton* btn = command_manager::get_instance()->get_main_widget()->findChild<QRadioButton*>(m_on.c_str());
             //btn->setChecked(true);
             //btn->setEnabled(false);
             //btn->setVisible(false);    
-            //btn->click();
+            btn->click();
         }
 };
 

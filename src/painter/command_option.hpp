@@ -27,6 +27,23 @@ class CommandOptionValueBase : public CommandOptionValue<void*> {
 };
 */
 
+template < typename T >
+class CommandOptionValueGetter {
+    
+    ICommandOptionValue* m_i;    
+    
+    public:
+        CommandOptionValueGetter(ICommandOptionValue* i):m_i(i) {}
+        
+        T get() {
+            return (dynamic_cast<T*>(m_i))->get();
+        }
+};
+
+#define GET_CMD_ARG(S) CommandOptionValueGetter(get_option_val(S)).get()
+
+
+
 class StringCommandOptionValue : public ICommandOptionValue 
 {
     std::string m_str;

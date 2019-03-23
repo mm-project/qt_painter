@@ -30,8 +30,9 @@ class LogReader : public QObject
             QStringList stringList;
 
             QFile file(fname.c_str());
-            if(!file.open(QIODevice::ReadOnly)) {
-                QMessageBox::information(0, "error", file.errorString());
+            if(!file.exists() || !file.open(QIODevice::ReadOnly)) {
+                QMessageBox::warning(0, "log replay error", "Can't open file to replay");
+                return stringList;
             }
             
             QTextStream textStream(&file);
@@ -92,7 +93,7 @@ class LogReader : public QObject
                     cmd->execute_and_log();
                 
                 //t->deleteLater();
-                QApplication::processEvents();
+               // QApplication::processEvents();
             }
     
 };
