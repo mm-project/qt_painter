@@ -3,7 +3,7 @@
 
 #include <QApplication>
 
-#include <QtWidgets>
+//#include <QtWidgets>
     
 /*
 class Application: public QApplication
@@ -23,7 +23,7 @@ class Application: public QApplication
 int main(int argc, char** argv)
 {
 	//
-        QApplication app(argc, argv);
+	QApplication app(argc, argv);
 	main_window window;
 	window.show();
         

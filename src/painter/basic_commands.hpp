@@ -7,7 +7,7 @@
 class incmdIdle : public DirectCommandBase
 {
     public:
-        virtual std::string get_name() { "incmdIdle"; }
+        virtual std::string get_name() { return "incmdIdle"; }
         virtual void execute() {} 
 };
 
