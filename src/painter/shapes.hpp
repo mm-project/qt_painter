@@ -18,7 +18,7 @@
 //
 // @class line, wrapper for OA/Qt object 
 //
-class line : public IBasicShape
+class line : public IShape
 {
 public:
 	line(QLine, ShapeProperties);
@@ -45,7 +45,7 @@ private:
 //
 // @class rectangle, wrapper for OA/Qt object 
 //
-class rectangle : public IBasicShape
+class rectangle : public IShape
 {
 public:
 	rectangle(QRect, ShapeProperties);
@@ -72,7 +72,7 @@ private:
 //
 // @class ellipse, wrapper for OA/Qt object 
 //
-class ellipse : public IBasicShape
+class ellipse : public IShape
 {
 public:
 	ellipse(QRect, ShapeProperties);
@@ -95,7 +95,7 @@ private:
 	bool m_waitForSecondClick;
 };
 
-class polygon : public IBasicShape 
+class polygon : public IShape 
 {
 public:
 	polygon(QPolygonF, ShapeProperties);

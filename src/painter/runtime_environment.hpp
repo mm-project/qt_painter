@@ -17,7 +17,7 @@ public:
 
         void change_object_type(ObjectType);
 
-        IBasicShape* get_runtime_object() const;
+        IShape* get_runtime_object() const;
 
         void set_pos1(const QPoint&);
         void set_pos2(const QPoint&);

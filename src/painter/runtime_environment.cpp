@@ -27,12 +27,12 @@ void runtime_environment::change_object_type(ObjectType type)
 	runtime_object_type = type;
 }
 
-IBasicShape* runtime_environment::get_runtime_object() const
+IShape* runtime_environment::get_runtime_object() const
 {
 	switch (runtime_object_type) {
 			case LINE :
 					return runtime_line;
-			case RECT:
+			case RECTANGLE:
 					return runtime_rectangle;
 			case ELLIPSE:
 					return runtime_ellipse;
@@ -48,7 +48,7 @@ void runtime_environment::set_pos1(const QPoint& p)
 			case LINE :
 					runtime_line->addPoint(p);
 					break;
-			case RECT :
+			case RECTANGLE :
 					runtime_rectangle->addPoint(p);
 					break;
 			case ELLIPSE:
@@ -66,7 +66,7 @@ void runtime_environment::set_pos2(const QPoint& p)
 			case LINE :
 					runtime_line->addPoint(p);
 					break;
-			case RECT :
+			case RECTANGLE :
 					runtime_rectangle->addPoint(p);
 					break;
 			case ELLIPSE:
@@ -84,7 +84,7 @@ void runtime_environment::draw_runtime(QPainter* p)
 			case LINE:
 					runtime_line->draw(p);
 					break;
-			case RECT:
+			case RECTANGLE:
 					runtime_rectangle->draw(p);
 					break;
 			case ELLIPSE:

@@ -39,7 +39,7 @@ canvas::canvas(QWidget* p)
         
         //FIXME broken
         cm->register_command(new INCMD_CREATE_OBJ(LINE));
-        cm->register_command(new INCMD_CREATE_OBJ(RECT));
+        cm->register_command(new INCMD_CREATE_OBJ(RECTANGLE));
         cm->register_command(new INCMD_CREATE_OBJ(ELLIPSE));
         cm->register_command(new INCMD_CREATE_OBJ(POLYGON));
 
@@ -113,7 +113,7 @@ void canvas::paintEvent(QPaintEvent*)
     QBrush b(Qt::black);
     painter->setBrush(b);
     painter->drawRect(rect);
-    std::vector<IBasicShape*> shapes = m_working_set->get_objects();
+    std::vector<IShape*> shapes = m_working_set->get_objects();
     for (auto i = shapes.begin(); i != shapes.end(); ++i) {
                     (*i)->draw(painter);
     }
@@ -130,7 +130,7 @@ void canvas::invoke_create_line()
 
 void canvas::invoke_create_rect()
 {
-    m_runtime_environment->change_object_type(RECT);
+    m_runtime_environment->change_object_type(RECTANGLE);
     cm->activate_command(cm->find_command("incmdCreateObjRectangle"));
     //cm->activate_command(new INCMD_CREATE_OBJ(RECT));
 }
