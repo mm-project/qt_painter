@@ -19,8 +19,8 @@
 #include <cassert>
 #include <iostream>
 
-#define INCMD_CREATE_OBJ(S) incmdCreateObj<S>(m_runtime_environment,m_working_set)
-#define INCMD_CREATE_OBJ_POLYGON(N) incmdCreateNthgon<N>(m_runtime_environment,m_working_set)
+#define INCMD_CREATE_OBJ(S) incmdCreateObj<S>(m_sandbox, m_working_set)
+#define INCMD_CREATE_OBJ_POLYGON(N) incmdCreateNthgon<N>(m_sandbox, m_working_set)
 
 
 canvas::canvas(QWidget* p)
@@ -30,11 +30,11 @@ canvas::canvas(QWidget* p)
         setMouseTracking(true);
         setObjectName("CANVAS");
         
-        m_working_set = new working_set;
-        m_runtime_environment = new runtime_environment();
+        m_working_set = std::shared_ptr<WorkingSet>(new WorkingSet);
+        m_sandbox = std::shared_ptr<ObjectPoolSandbox>(new ObjectPoolSandbox);
         m_renderer = new renderer(this);
         cm = command_manager::get_instance();
-        cm->init2(m_runtime_environment,m_working_set);
+        cm->init2(m_sandbox, m_working_set);
         cm->init();
         
         //FIXME broken
@@ -109,42 +109,55 @@ void canvas::paintEvent(QPaintEvent*)
 {
     auto painter = m_renderer->get_painter();
     m_renderer->start();
+
+	// black hole :D
     QRect rect(QPoint(0, 0), QSize(1000,1000));
     QBrush b(Qt::black);
     painter->setBrush(b);
     painter->drawRect(rect);
-    std::vector<IShape*> shapes = m_working_set->get_objects();
-    for (auto i = shapes.begin(); i != shapes.end(); ++i) {
-                    (*i)->draw(painter);
-    }
-    m_runtime_environment->draw_runtime(painter);
+
+	// draw working set
+    std::vector<IShape*> shapes = m_working_set->getObjects();
+    for (auto i : shapes)
+                    i->draw(painter);
+   
+	// draw runtime
+	auto pools = m_sandbox->getChildren();
+	for (auto it : pools)
+	{
+		if (it == nullptr)
+			continue;
+		auto p = it->getPool();
+		if (p == nullptr)
+			continue;
+		auto objs = p->getObjects();
+		for (auto i : objs)
+			i->draw(painter);
+	}
+
     m_renderer->stop();
 }
 
 void canvas::invoke_create_line()
 {
-    m_runtime_environment->change_object_type(LINE);
     cm->activate_command(cm->find_command("incmdCreateObjLine"));
     //cm->activate_command(new INCMD_CREATE_OBJ(LINE));
 }
 
 void canvas::invoke_create_rect()
 {
-    m_runtime_environment->change_object_type(RECTANGLE);
     cm->activate_command(cm->find_command("incmdCreateObjRectangle"));
     //cm->activate_command(new INCMD_CREATE_OBJ(RECT));
 }
 
 void canvas::invoke_create_ellipse()
 {
-    m_runtime_environment->change_object_type(ELLIPSE);
     cm->activate_command(cm->find_command("incmdCreateObjEllipse"));
     //cm->activate_command(new INCMD_CREATE_OBJ(ELLIPSE));
 }
 
 void canvas::invoke_create_polygon()
 {
-    m_runtime_environment->change_object_type(POLYGON);
     cm->activate_command(cm->find_command("incmdCreateObjPolygon"));
    //cm->activate_command(new INCMD_CREATE_OBJ_POLYGON(3));
 }

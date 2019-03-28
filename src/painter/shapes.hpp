@@ -21,7 +21,7 @@
 class line : public IShape
 {
 public:
-	line(QLine, ShapeProperties);
+	line(QLine = QLine(), ShapeProperties = ShapeProperties());
 	virtual ~line();
 
 public:
@@ -48,7 +48,7 @@ private:
 class rectangle : public IShape
 {
 public:
-	rectangle(QRect, ShapeProperties);
+	rectangle(QRect = QRect(), ShapeProperties = ShapeProperties());
 	virtual ~rectangle();
 
 public:
@@ -75,7 +75,7 @@ private:
 class ellipse : public IShape
 {
 public:
-	ellipse(QRect, ShapeProperties);
+	ellipse(QRect = QRect(), ShapeProperties = ShapeProperties());
 	virtual ~ellipse();
 
 public:
@@ -98,7 +98,7 @@ private:
 class polygon : public IShape 
 {
 public:
-	polygon(QPolygonF, ShapeProperties);
+	polygon(QPolygonF = QPolygonF(), ShapeProperties = ShapeProperties());
 	virtual ~polygon();
 
 public:

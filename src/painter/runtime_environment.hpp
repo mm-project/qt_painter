@@ -2,36 +2,50 @@
 #define RUNTIME_ENVIRONMENT_HPP
 
 #include "basic_shape.hpp"
+#include "iobject_pool.hpp"
 
-class line;
-class rectangle;
-class ellipse;
-class polygon;
+#include <vector>
 
-class runtime_environment
+class ObjectSandbox;
+using ObjectSandboxPtr = std::shared_ptr<ObjectSandbox>;
+
+class ObjectPoolSandbox;
+using ObjectPoolSandboxPtr = std::shared_ptr<ObjectPoolSandbox>;
+
+class ObjectSandbox
 {
 public:
-        runtime_environment();
+	ObjectSandbox(ObjectPoolSandboxPtr = 0);
+	IObjectPoolPtr getPool() const;
+	void clear();
+	void addPoint(QPoint);
+	void addObject(IShape*);
+	/*void reset();
 
-        void reset();
+	void change_object_type(ObjectType);
 
-        void change_object_type(ObjectType);
+	IShape* get_runtime_object() const;
 
-        IShape* get_runtime_object() const;
+	void set_pos1(const QPoint&);
+	void set_pos2(const QPoint&);
 
-        void set_pos1(const QPoint&);
-        void set_pos2(const QPoint&);
+	void draw_runtime(QPainter* p);
 
-        void draw_runtime(QPainter* p);
-
-        void change_basic_properties(ShapeProperties);
+	void change_basic_properties(ShapeProperties);*/
 private:
-        ObjectType runtime_object_type;
+	IObjectPoolPtr m_pool;
+	ObjectPoolSandboxPtr m_parent;
+};
 
-        line* runtime_line;
-        rectangle* runtime_rectangle;
-        ellipse* runtime_ellipse;
-        polygon* runtime_polygon;
+class ObjectPoolSandbox
+{
+public:
+	ObjectPoolSandbox();
+	std::vector<ObjectSandboxPtr> getChildren() const;
+	void addChildren(ObjectSandboxPtr);
+	
+private:
+	std::vector<ObjectSandboxPtr> m_children;
 };
 
 #endif

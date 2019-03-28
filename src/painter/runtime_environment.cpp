@@ -2,18 +2,59 @@
 
 #include "shapes.hpp"
 #include "controller.hpp"
+#include "working_set.hpp"
 
-runtime_environment::runtime_environment()
+ObjectSandbox::ObjectSandbox(ObjectPoolSandboxPtr p)
+	: m_parent(p)
 {
-	controller* c = controller::get_instance();
+	m_pool = std::shared_ptr<WorkingSet>(new WorkingSet);
+}
+
+IObjectPoolPtr ObjectSandbox::getPool() const
+{
+	return m_pool;
+}
+
+void ObjectSandbox::clear()
+{
+	m_pool->clear();
+}
+
+void ObjectSandbox::addPoint(QPoint p)
+{
+	auto obs = m_pool->getObjects();
+	for (auto it : obs)
+		it->addPoint(p);
+}
+
+void ObjectSandbox::addObject(IShape* p)
+{
+	if (p != nullptr)
+		m_pool->addObject(p);
+}
+
+ObjectPoolSandbox::ObjectPoolSandbox()
+{
+	/*controller* c = controller::get_instance();
 	ShapeProperties b = c->get_shape_properties();
 	runtime_object_type = LINE;
 	runtime_line = new line(QLine(QPoint(0,0), QPoint(0,0)), b);
 	runtime_rectangle = new rectangle(QRect(0, 0 , 0, 0), b);
 	runtime_ellipse = new ellipse(QRect(0, 0 , 0, 0), b);
-	runtime_polygon = new polygon(QPolygonF(),b);
+	runtime_polygon = new polygon(QPolygonF(),b);*/
 }
 
+std::vector<ObjectSandboxPtr> ObjectPoolSandbox::getChildren() const
+{
+	return m_children;
+}
+
+void ObjectPoolSandbox::addChildren(ObjectSandboxPtr p)
+{
+	m_children.push_back(p);
+}
+
+/*
 void runtime_environment::reset()
 {
 	runtime_line->reset();
@@ -101,4 +142,4 @@ void runtime_environment::change_basic_properties(ShapeProperties b)
 	runtime_rectangle->updateProperties(b);
 	runtime_ellipse->updateProperties(b);
 	runtime_polygon->updateProperties(b);
-}
+}*/

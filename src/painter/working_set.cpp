@@ -1,23 +1,17 @@
 #include "working_set.hpp"
 
-#include "runtime_environment.hpp"
-
-void working_set::add_object(IShape* s)
+void WorkingSet::addObject(IShape* s)
 {
-        shapes.push_back(s->clone());
+        m_shapes.push_back(s->clone());
 }
 
-std::vector<IShape*> working_set::get_objects()
+std::vector<IShape*> WorkingSet::getObjects() const
 {
-        return shapes;
+        return m_shapes;
 }
 
-void working_set::clear()
+void WorkingSet::clear()
 {
-        shapes.clear();
+        m_shapes.clear();
 }
 
-void working_set::add_object(runtime_environment* r)
-{
-        shapes.push_back(r->get_runtime_object()->clone());
-}

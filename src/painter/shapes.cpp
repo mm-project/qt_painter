@@ -22,7 +22,7 @@ line::~line()
 
 line* line::clone()
 {
-	return new line(m_object, m_properties); //new Qline(*m_object) ?
+	return new line(m_object, m_properties);
 }
 
 void line::draw(QPainter* p)
