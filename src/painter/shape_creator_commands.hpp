@@ -159,8 +159,8 @@ public:
 
 	virtual void activate() override
 	{
-		ShapeCreatorPtr shapeCreator = ShapeCreator::getInstacne();
-		re->addObject(shapeCreator->create(Polygon));
+		ShapeCreatorPtr shapeCreator = ShapeCreator::getInstance();
+		re->addObject(shapeCreator->create(POLYGON));
 	}
 	
 public:

@@ -9,6 +9,7 @@
 #include "shapes.hpp"
 #include "working_set.hpp"
 #include "runtime_environment.hpp"
+#include "selection.hpp"
 
 #include <QRect>
 #include <QPainter>
@@ -30,8 +31,13 @@ canvas::canvas(QWidget* p)
         setMouseTracking(true);
         setObjectName("CANVAS");
         
+        //FIXME move to services
         m_working_set = std::shared_ptr<WorkingSet>(new WorkingSet);
         m_sandbox = std::shared_ptr<ObjectPoolSandbox>(new ObjectPoolSandbox);
+        Selection::get_instance()->set_working_set(m_working_set.get());
+        Selection::get_instance()->set_sandbox(m_sandbox.get());
+        
+        
         m_renderer = new renderer(this);
         cm = command_manager::get_instance();
         cm->init2(m_sandbox, m_working_set);
@@ -121,19 +127,21 @@ void canvas::paintEvent(QPaintEvent*)
     for (auto i : shapes)
                     i->draw(painter);
    
-	// draw runtime
-	auto pools = m_sandbox->getChildren();
-	for (auto it : pools)
-	{
-		if (it == nullptr)
-			continue;
-		auto p = it->getPool();
-		if (p == nullptr)
-			continue;
-		auto objs = p->getObjects();
-		for (auto i : objs)
-			i->draw(painter);
-	}
+    // draw runtime
+    auto pools = m_sandbox->getChildren();
+    for (auto it : pools)
+    {
+            if (it == nullptr)
+                    continue;
+
+            auto p = it->getPool();
+            if (p == nullptr)
+                    continue;
+
+            auto objs = p->getObjects();
+            for (auto i : objs)
+                    i->draw(painter);
+    }
 
     m_renderer->stop();
 }
@@ -161,6 +169,13 @@ void canvas::invoke_create_polygon()
     cm->activate_command(cm->find_command("incmdCreateObjPolygon"));
    //cm->activate_command(new INCMD_CREATE_OBJ_POLYGON(3));
 }
+
+void canvas::invoke_select_by_region()
+{
+    cm->activate_command(cm->find_command("incmdSelectShapesByRegion"));
+   //cm->activate_command(new INCMD_CREATE_OBJ_POLYGON(3));
+}
+
 
 void canvas::reset()
 {
