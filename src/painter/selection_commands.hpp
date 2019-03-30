@@ -63,17 +63,17 @@ private:
 //command cycle
 public:
         void on_idle(const EvType& ev) {
-                incmdCreateObj<RECTANGLE>::idle(ev);
-                
-                IShape* s = incmdCreateObj<RECTANGLE>::get_runtime_object();
-                assert(s);
-                
-                ShapeProperties sp;
-                sp.brush_color = Qt::red;
-                sp.pen_color = Qt::red;
-                sp.pen_style = Qt::DotLine;
-                
-                s->updateProperties(sp);
+                if ( incmdCreateObj<RECTANGLE>::idle(ev) ) {
+                    IShape* s = incmdCreateObj<RECTANGLE>::get_runtime_object();
+                    assert(s);
+                    
+                    ShapeProperties sp;
+                    sp.brush_color = Qt::red;
+                    sp.pen_color = Qt::red;
+                    sp.pen_style = Qt::DotLine;
+                    
+                    s->updateProperties(sp);
+                }
         }
         
 };

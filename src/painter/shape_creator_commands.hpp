@@ -98,22 +98,24 @@ public:
 
 public:      
         
-	void idle(const EvType& ev) {
-		ObjCreatorCommandBase<T>::create_runtime_object();
+	bool idle(const EvType& ev) {
 
                 //std::cout << "idle " << std::endl;
                 //waiting for first mouse click
 		//assert(0);
-		if ( ev == KP ) //key pressed, abort
-			InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,abort1));
+		//if ( ev == KP ) //key pressed, abort
+		//	InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,abort1));
 		
 		if ( ev != MC ) //not mouse click, return
-			return;
+			return false;
 		
 		//mouse clicked , set first point and go to next state 
+
+		ObjCreatorCommandBase<T>::create_runtime_object();
                 ObjCreatorCommandBase<T>::runtime_set_pos1();
 		InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,on_first_click));
-	}
+                return true;
+        }
 	
 	void on_first_click(const EvType& ev) {
 		//assert(0);
