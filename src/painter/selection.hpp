@@ -47,6 +47,8 @@ public:
             s->updateProperties(sp);
             
             m_sb->addObject(s);
+            
+            
         }
 };
 
