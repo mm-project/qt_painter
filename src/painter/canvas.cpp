@@ -4,6 +4,7 @@
 #include "basic_commands.hpp"
 #include "gui_commands.hpp"
 #include "shape_creator_commands.hpp"
+#include "selection_commands.hpp"
 #include "command_manager.hpp"
 #include "controller.hpp"
 #include "shapes.hpp"
@@ -22,6 +23,8 @@
 
 #define INCMD_CREATE_OBJ(S) incmdCreateObj<S>(m_sandbox, m_working_set)
 #define INCMD_CREATE_OBJ_POLYGON(N) incmdCreateNthgon<N>(m_sandbox, m_working_set)
+#define INCMD_HIGHLIGHT_BY_REGION incmdSelectShapesByRegion(m_sandbox, m_working_set)
+
 
 
 canvas::canvas(QWidget* p)
@@ -48,6 +51,7 @@ canvas::canvas(QWidget* p)
         cm->register_command(new INCMD_CREATE_OBJ(RECTANGLE));
         cm->register_command(new INCMD_CREATE_OBJ(ELLIPSE));
         cm->register_command(new INCMD_CREATE_OBJ(POLYGON));
+        cm->register_command(new INCMD_HIGHLIGHT_BY_REGION);
 
 }
 

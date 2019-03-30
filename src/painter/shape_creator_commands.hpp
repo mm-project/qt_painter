@@ -12,33 +12,40 @@
 template <ObjectType T>
 class ObjCreatorCommandBase : public InteractiveCommandBase 
 {
+IShape* m_rt_shape;
+
 public:
 	ObjCreatorCommandBase<T>(ObjectPoolSandboxPtr r, IObjectPoolPtr s): ws(s) 
 	{
 		re = std::shared_ptr<ObjectSandbox>(new ObjectSandbox);
 		r->addChildren(re);
 		m_controller =  controller::get_instance();
+                m_rt_shape = 0;
 	}
 
 	virtual void handle_update() {
 		//re->change_basic_properties(m_controller->get_shape_properties());
 	}
 
-	void commit() {
+	virtual void commit() {
 		auto ob = re->getPool()->getObjects();
 		for (auto i : ob)
 			ws->addObject(i);
 		finish();
 	}
 	
-	void finish() {
+	virtual void finish() {
 		re->clear();
 	}
 	
-	
+	IShape* get_runtime_object() {
+                return m_rt_shape;
+        }
+        
 	void create_runtime_object() {
                 ShapeCreatorPtr shapeCreator = ShapeCreator::getInstance();
-		re->addObject(shapeCreator->create(T));
+		m_rt_shape = shapeCreator->create(T);
+                re->addObject(m_rt_shape);
         }
 	
 	void runtime_set_pos1() {
@@ -80,7 +87,8 @@ public:
 	}
 	
 	virtual void execute() {
-            InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,idle));
+		//ObjCreatorCommandBase<T>::create_runtime_object();
+                InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,idle));
 	}
 	
 	virtual std::string get_name() {
@@ -91,7 +99,9 @@ public:
 public:      
         
 	void idle(const EvType& ev) {
-		//std::cout << "idle " << std::endl;
+		ObjCreatorCommandBase<T>::create_runtime_object();
+
+                //std::cout << "idle " << std::endl;
                 //waiting for first mouse click
 		//assert(0);
 		if ( ev == KP ) //key pressed, abort
@@ -101,7 +111,6 @@ public:
 			return;
 		
 		//mouse clicked , set first point and go to next state 
-		ObjCreatorCommandBase<T>::create_runtime_object();
                 ObjCreatorCommandBase<T>::runtime_set_pos1();
 		InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,on_first_click));
 	}
@@ -125,7 +134,7 @@ public:
 	
 	//FIXME doesn't work
 	void abort1(const EvType&) {
-	   ObjCreatorCommandBase<T>::abort();
+                ObjCreatorCommandBase<T>::abort();
 	}
 
 };
