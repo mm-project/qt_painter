@@ -38,10 +38,10 @@ public:
         
         virtual void commit() {
             //assert(0);
-           
         }
         
         virtual void on_commit_internal() {
+			re->clear();
             //assert(0);
         }
         
