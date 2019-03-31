@@ -9,6 +9,7 @@
 
 #include <cassert>
 
+
 class incmdSelectShapesByRegion : public incmdCreateObj<RECTANGLE>
 {
 	
@@ -36,7 +37,12 @@ public:
         }
         
         virtual void commit() {
+            //assert(0);
            
+        }
+        
+        virtual void on_commit_internal() {
+            //assert(0);
         }
         
         virtual void finish() {
@@ -77,18 +83,19 @@ public:
         }
         
 };
-
+/**/
 
 
 /*
 class incmdSelectShapesByRegion : public ObjCreatorCommandBase<RECTANGLE>
 {
 	
-	incmdSelectShapesByRegion(ObjectPoolSandboxPtr r, IObjectPoolPtr s ):ObjCreatorCommandBase<RECTANGLE>(r,s)
+public:
+        incmdSelectShapesByRegion(ObjectPoolSandboxPtr r, IObjectPoolPtr s ):ObjCreatorCommandBase<RECTANGLE>(r,s)
 	{
 	}
     
-public:
+
         virtual std::string get_name() {
                 //FIXME keep stringstream for converting int to str
                 return "incmdSelectShapesByRegion";
@@ -135,6 +142,6 @@ public:
                 set_next_handler(HANDLE_FUNCTION(incmdSelectShapesByRegion,on_idle));
         }
 };
-*/
+/**/
 
 #endif

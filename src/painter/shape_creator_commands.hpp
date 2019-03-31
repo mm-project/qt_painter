@@ -130,8 +130,7 @@ public:
 
 	void on_commit(const EvType&) {
 		//assert(0);
-		ObjCreatorCommandBase<T>::commit();
-		InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,idle));
+                on_commit_internal();
 	}
 	
 	//FIXME doesn't work
@@ -139,6 +138,10 @@ public:
                 ObjCreatorCommandBase<T>::abort();
 	}
 
+	virtual void on_commit_internal() {
+        	ObjCreatorCommandBase<T>::commit();
+		InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,idle));
+        }
 };
 
 
