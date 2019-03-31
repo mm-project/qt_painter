@@ -5,6 +5,7 @@
 #include "basic_commands.hpp"
 #include "gui_commands.hpp"
 #include "shape_creator_commands.hpp"
+#include "selection_commands.hpp"
 
 
 #include <cassert>
@@ -26,6 +27,9 @@ void command_manager::init() {
     register_command(new dicmdguiSelectRadioButton);
     register_command(new dicmdAbortActiveCommand);
     register_command(new dicmdguiSelectComboValue); 
+    
+    //register_command(new incmdSelectShapesByRegion);
+    
     m_current_command = m_idle_command;
 }
 
@@ -50,7 +54,7 @@ void command_manager::activate_command(CommandBase* cmd) {
         //m_current_command->abort(); 
     
     m_current_command = cmd;
-	m_current_command->activate();
+    //m_current_command->activate();
     
     //if ( m_current_command->get_type == Interactive )
     //        not dummy

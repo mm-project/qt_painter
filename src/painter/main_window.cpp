@@ -89,4 +89,7 @@ void main_window::init_menu()
         create_menu->addAction(ellipse_icon, "Ellipse", m_canvas, SLOT(invoke_create_ellipse()), tr("Ctrl+E"));
         static QIcon polygon_icon("icons/polygon.png");
         create_menu->addAction(polygon_icon, "Polygon", m_canvas, SLOT(invoke_create_polygon()));
+        
+        create_menu->addAction(polygon_icon, "SelectByRegion", m_canvas, SLOT(invoke_select_by_region()));
+        
 }

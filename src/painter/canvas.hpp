@@ -85,6 +85,8 @@ public slots:
         void invoke_create_rect();
         void invoke_create_ellipse();
         void invoke_create_polygon();
+        void invoke_select_by_region();
+        
         void reset();
         void on_update();
 
