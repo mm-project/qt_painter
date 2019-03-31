@@ -27,8 +27,6 @@ public:
         }
         
         virtual void execute() {
-                m_se->clear();
-                //incmdCreateObj<RECTANGLE>::execute();
                 ObjCreatorCommandBase<RECTANGLE>::set_next_handler(HANDLE_FUNCTION(incmdSelectShapesByRegion,on_idle));
         }
         
@@ -36,18 +34,25 @@ public:
                 //FIXME now what?
         }
         
+        //FIXME move to s...
         virtual void commit() {
             //assert(0);
         }
         
-        virtual void on_commit_internal() {
-			re->clear();
+                //FIXME move to so...
+        virtual void finish() {
             //assert(0);
         }
         
-        virtual void finish() {
+        virtual void on_commit_internal() {
             m_se->find_by_range_and_add_to_selected(m_reg);
             incmdCreateObj<RECTANGLE>::finish();
+            ObjCreatorCommandBase<RECTANGLE>::set_next_handler(HANDLE_FUNCTION(incmdSelectShapesByRegion,on_idle));
+            //
+
+
+            //assert(0);
+            //std::cout << "yerevi" << std::endl;
         }
         
         virtual void handle_mouse_click(int x , int y) {
@@ -69,21 +74,28 @@ private:
 //command cycle
 public:
         void on_idle(const EvType& ev) {
-                if ( incmdCreateObj<RECTANGLE>::idle(ev) ) {
-                    IShape* s = incmdCreateObj<RECTANGLE>::get_runtime_object();
-                    assert(s);
-                    
-                    ShapeProperties sp;
-                    sp.brush_color = Qt::red;
-                    sp.pen_color = Qt::red;
-                    sp.pen_style = Qt::DotLine;
-                    
-                    s->updateProperties(sp);
+            if ( ev == MC ) { 
+                if ( m_first_click ) {
+                    m_first_click = false;
+                    m_se->clear();
                 }
+                if ( incmdCreateObj<RECTANGLE>::idle(ev) ) {
+                        //std::cout << "setting.." << std::endl;
+                        IShape* s = incmdCreateObj<RECTANGLE>::get_runtime_object();
+                        assert(s);
+                        
+                        ShapeProperties sp;
+                        sp.brush_color = Qt::red;
+                        sp.pen_color = Qt::red;
+                        sp.pen_style = Qt::DotLine;
+                        
+                        s->updateProperties(sp);
+                    }
+            }
         }
         
 };
-/**/
+
 
 
 /*
@@ -142,6 +154,6 @@ public:
                 set_next_handler(HANDLE_FUNCTION(incmdSelectShapesByRegion,on_idle));
         }
 };
-/**/
+*/
 
 #endif
