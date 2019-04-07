@@ -8,6 +8,7 @@
 // Qt
 class QVBoxLayout;
 class QRadioButton;
+class QPushButton;
 
 #include <QWidget>
 
@@ -35,10 +36,10 @@ private slots:
 	void change_to_polygon();
 
 private:
-	QRadioButton* m_line_button;
-	QRadioButton* m_rect_button;
-	QRadioButton* m_ellipse_button;
-	QRadioButton* m_polygon_button;
+	QPushButton* m_line_button;
+	QPushButton* m_rect_button;
+	QPushButton* m_ellipse_button;
+	QPushButton* m_polygon_button;
 
 	QVBoxLayout* m_layout;
 };

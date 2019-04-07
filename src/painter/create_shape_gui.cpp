@@ -1,9 +1,18 @@
 #include "create_shape_gui.hpp"
 
 #include "controller.hpp"
+#include "icons.hpp"
+
+// qt Ribbon 
+#include "qribbon.h"
+#include "qribbongroup.h"
+#include "qribbonwidget.h"
 
 #include <QVBoxLayout>
+#include <QHBoxLayout>
 #include <QRadioButton>
+#include <QPushButton>
+#include <QGroupBox>
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -12,21 +21,58 @@
 create_shape_gui::create_shape_gui(QWidget* p)
 	: QWidget(p)
 {
+	QRibbonGroup* ribbonGroup = new QRibbonGroup;
+	ribbonGroup->setTitle("Shapes");
+
+	QGroupBox* bShapes = new QGroupBox(this);
 	m_layout = new QVBoxLayout;
 
-	m_line_button = new QRadioButton("Line", this);
-	m_rect_button = new QRadioButton("Rectangle", this);
-	m_ellipse_button = new QRadioButton("Ellipse", this);
-	m_polygon_button = new QRadioButton("Polygon", this);
+	static QIcon lineIcon(IconDir + "line.png");
+	m_line_button = new QPushButton(this);
+	m_line_button->setFixedSize(25, 20);
+	m_line_button->setIcon(lineIcon);
+	m_line_button->setFlat(true);
 
-	m_layout->addWidget(m_line_button);
-	m_layout->addWidget(m_rect_button);
-	m_layout->addWidget(m_ellipse_button);
-	m_layout->addWidget(m_polygon_button);
-	m_layout->addStretch();
+	m_rect_button = new QPushButton(this);
+	static QIcon rectIcon(IconDir + "rectangle.png");
+	m_rect_button->setFixedSize(25, 20);
+	m_rect_button->setIcon(rectIcon);
+	m_rect_button->setFlat(true);
 
+	m_ellipse_button = new QPushButton(this);
+	static QIcon ellipseIcon(IconDir + "ellipse.png");
+	m_ellipse_button->setFixedSize(25, 20);
+	m_ellipse_button->setIcon(ellipseIcon);
+	m_ellipse_button->setFlat(true);
+
+	m_polygon_button = new QPushButton(this);
+	static QIcon polygonIcon(IconDir + "polygon.png");
+	m_polygon_button->setFixedSize(25, 20);
+	m_polygon_button->setIcon(polygonIcon);
+	m_polygon_button->setFlat(true);
+
+	QHBoxLayout* s_layout = new QHBoxLayout;
+	s_layout->addWidget(m_line_button);
+	s_layout->addWidget(m_rect_button);
+	s_layout->addWidget(m_ellipse_button);
+	s_layout->addWidget(m_polygon_button);
+	bShapes->setLayout(s_layout);
+	
+	ribbonGroup->addButton(bShapes);
+
+	QRibbonWidget* ribbonWidget = new QRibbonWidget;
+	ribbonWidget->addGroup(ribbonGroup);
+
+	QRibbon* ribbon = new QRibbon;
+	ribbon->addTab(ribbonGroup, "Home");
+
+	//QGroupBox* pen_group = new QGroupBox("Pen", this);
+	//QGroupBox* brush_group = new QGroupBox("Brush", this);
+
+	m_layout->addWidget(ribbon);
+	//m_layout->addWidget(pen_group);
+	//m_layout->addWidget(brush_group);
 	setLayout(m_layout);
-
 	make_connections();
 	m_line_button->click();
 }
