@@ -79,36 +79,8 @@ create_shape_gui::create_shape_gui(QWidget* p)
 
 void create_shape_gui::make_connections()
 {
-	connect(m_line_button, SIGNAL(pressed()), this, SLOT(change_to_line()));
-	connect(m_rect_button, SIGNAL(pressed()), this, SLOT(change_to_rect()));
-	connect(m_ellipse_button, SIGNAL(pressed()), this, SLOT(change_to_ellipse()));
-	connect(m_polygon_button, SIGNAL(pressed()), this, SLOT(change_to_polygon()));
-}
-
-void create_shape_gui::change_to_line()
-{
-	controller* c = controller::get_instance();
-	//c->change_object_type(LINE);
-	emit shape_changed();
-}
-
-void create_shape_gui::change_to_rect()
-{
-	controller* c = controller::get_instance();
-	//c->change_object_type(RECT);
-	emit shape_changed();
-}
-
-void create_shape_gui::change_to_ellipse()
-{
-	controller* c = controller::get_instance();
-	//c->change_object_type(ELLIPSE);
-	emit shape_changed();
-}
-
-void create_shape_gui::change_to_polygon()
-{
-	controller* c = controller::get_instance();
-	//c->change_object_type(POLYGON);
-	emit shape_changed();
+	connect(m_line_button, SIGNAL(pressed()), this, SIGNAL(createLine()));
+	connect(m_rect_button, SIGNAL(pressed()), this, SIGNAL(createRect()));
+	connect(m_ellipse_button, SIGNAL(pressed()), this, SIGNAL(createEllipse()));
+	connect(m_polygon_button, SIGNAL(pressed()), this, SIGNAL(createPolygon()));
 }

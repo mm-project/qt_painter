@@ -69,9 +69,11 @@ main_window::main_window(QWidget* p)
 
 void main_window::make_connections()
 {
-	connect(m_shapes, SIGNAL(shape_changed()), m_canvas, SLOT(current_type_changed()));
-	//connect(m_shapes, SIGNAL(shape_changed()), m_canvas, SLOT(current_type_changed()));
 	connect(m_pen_brush, SIGNAL(something_changed()), m_canvas, SLOT(on_update()));
+	connect(m_shapes, SIGNAL(createLine()), m_canvas, SLOT(invoke_create_line()));
+	connect(m_shapes, SIGNAL(createRect()), m_canvas, SLOT(invoke_create_rect()));
+	connect(m_shapes, SIGNAL(createEllipse()), m_canvas, SLOT(invoke_create_ellipse()));
+	connect(m_shapes, SIGNAL(createPolygon()), m_canvas, SLOT(invoke_create_polygon()));
 }
 
 void main_window::init_menu()
@@ -79,7 +81,7 @@ void main_window::init_menu()
 	QMenu* design_menu = menuBar()->addMenu("Design");
 	design_menu->addAction("New", m_canvas, SLOT(reset()));
 	design_menu->addAction("Close" , this, SLOT(close()), tr("Ctrl+C"));
-
+	/*
 	QMenu* create_menu = menuBar()->addMenu("Create");
 	static QIcon line_icon("icons/line.png");
 	create_menu->addAction(line_icon, "Line", m_canvas, SLOT(invoke_create_line()), tr("Ctrl+L"));
@@ -88,5 +90,5 @@ void main_window::init_menu()
 	static QIcon ellipse_icon("icons/ellipse.png");
 	create_menu->addAction(ellipse_icon, "Ellipse", m_canvas, SLOT(invoke_create_ellipse()), tr("Ctrl+E"));
 	static QIcon polygon_icon("icons/polygon.png");
-	create_menu->addAction(polygon_icon, "Polygon", m_canvas, SLOT(invoke_create_polygon()));
+	create_menu->addAction(polygon_icon, "Polygon", m_canvas, SLOT(invoke_create_polygon()));*/
 }

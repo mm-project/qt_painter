@@ -28,12 +28,10 @@ private:
 
 signals:
 	void shape_changed();
-
-private slots:
-	void change_to_line();
-	void change_to_rect();
-	void change_to_ellipse();
-	void change_to_polygon();
+	void createLine();
+	void createRect();
+	void createEllipse();
+	void createPolygon();
 
 private:
 	QPushButton* m_line_button;
