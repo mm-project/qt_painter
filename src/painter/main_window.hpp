@@ -21,12 +21,8 @@ class main_window : public QMainWindow
 	Q_OBJECT
 
 public:
-<<<<<<< HEAD
 	main_window(QWidget* = 0 );
-=======
-        main_window(QWidget* = 0 );
-        bool eventFilter(QObject *object, QEvent *event);
->>>>>>> origin
+	bool eventFilter(QObject *object, QEvent *event);
 
 private:
 	void make_connections();

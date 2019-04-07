@@ -33,19 +33,11 @@ create_shape_gui::create_shape_gui(QWidget* p)
 	m_line_button->setIcon(lineIcon);
 	m_line_button->setFlat(true);
 
-<<<<<<< HEAD
 	m_rect_button = new QPushButton(this);
 	static QIcon rectIcon(IconDir + "rectangle.png");
 	m_rect_button->setFixedSize(25, 20);
 	m_rect_button->setIcon(rectIcon);
 	m_rect_button->setFlat(true);
-=======
-	//m_layout->addWidget(m_line_button);
-	//m_layout->addWidget(m_rect_button);
-	//m_layout->addWidget(m_ellipse_button);
-	//m_layout->addWidget(m_polygon_button);
-	//m_layout->addStretch();
->>>>>>> origin
 
 	m_ellipse_button = new QPushButton(this);
 	static QIcon ellipseIcon(IconDir + "ellipse.png");
