@@ -217,7 +217,11 @@ void polygon::reset()
 
 void polygon::addPoint(const QPoint& p)
 {
-	m_object << p;
+    //FIXME nicer way?
+    //if ( ! m_object.isEmpty() )
+    //    m_object.pop_back();
+    
+    m_object << p;
 }
 
 polygon::~polygon()

@@ -5,97 +5,74 @@
 //
 // Includes
 //
-#include "command.hpp"
+#include "icommand_base.hpp"
 #include "runtime_environment.hpp"
 #include "working_set.hpp"
 
 // Stl
 #include <string>
 #include <iostream>
+
+// Qt
+#include <QWidget>
  
 ///////////////////////////////////////////////////////////////////////////////
 //
 // @class command manager
 //
-class command_manager  {
-	
-	public:
-		static command_manager* get_instance() {
-                    if ( ! m_instance ) 
-                        m_instance = new command_manager;
-                    return m_instance;
-		}
-		
-	public:
-		
-		void init2(runtime_environment* r, working_set* s) {
-			re = {r};
-			ws = {s};
-			m_current_command = {0};
-			m_idle_command = new idle_command();
-		}
-		
-		//FIMXE should be called from outside
-		void init() {
-			//register_command("create_rect",new create_rectangle_command(re,ws));
-			//register_command("idle", new idle_command());
-			m_rect_command = new create_rectangle_command(re,ws);
-                        m_polygon_command = new create_polygon_command(re,ws);
-			m_current_command = m_idle_command;
-		}
-	
-		//command_base* get_create_rectangle_command() {
-		//	return 
-		//}
-		
-		command_base* invoke_command() {
-			m_current_command = m_polygon_command;
-			return m_current_command;
-		}
-		
-		//command_base* get_command() {
-		//	return 0;
-		//}
-		
-		void register_command(const char* nm, command_base* cmd) {
-			m_name2command[nm] = cmd;
-		}
-	
-		command_base* get_active_command() {
-			return m_current_command;
-		}
-		
-		bool is_idle() {
-			return ( m_current_command == m_idle_command );
-		}
-		
-		void return_to_idle() {
-			std::cout << "ASENQ IDLE" << std::endl;
-			m_current_command = m_idle_command;
-		}
-		
-		//void handle_mouse_event() {
-		//}
-		
-		//void handle_key_event() {
-		//	
-		//}
-		
-	private:
-		//FIXME !!! map with string
-		std::map<std::string, command_base*> m_name2command;
-		
-		command_base* m_current_command;
-		command_base* m_idle_command;
-		command_base* m_rect_command;
-        command_base* m_polygon_command;
-		
-		runtime_environment* re;
-		working_set* ws;
-		//bool m_is_idle;
+class command_manager  
+{
 
-	public:
-		static command_manager* m_instance;
+    public:
+        static command_manager* get_instance() {
+            if ( ! m_instance ) 
+                m_instance = new command_manager;
+            return m_instance;
+        }
+        
+    public:
+        void set_main_widget(QWidget* w);
+        QWidget* get_main_widget();
+        
+        void init2(runtime_environment* r, working_set* s);
+        void init();
+        
+        void activate_command(CommandBase* cmd);
+        void register_command(CommandBase* cmd);
+        CommandBase* find_command(const std::string&);
+        //CommandBase* get_command();
+        //void register_command(const char* nm, CommandBase* cmd) 
+        CommandBase* get_active_command();
+        bool is_idle(); 
+        void return_to_idle(); 
+        
+        void mouse_dbl_clicked(int x, int y);
+        void mouse_clicked(int x, int y);
+        void mouse_moved(int x, int y);
+        void key_pressed();
+        void update();
+        
+        
+    private:
+        //FIXME !!! map with string
+        std::map<std::string, CommandBase*> m_name2command;
+        
+        CommandBase* m_current_command;
+        CommandBase* m_idle_command;
+ 
+        //CommandBase* m_elipse_command;
+        //CommandBase* m_line_command;
+        //CommandBase* m_rect_command;
+        //CommandBase* m_polygon_command;
+
+        
+        runtime_environment* re;
+        working_set* ws;
+        //bool m_is_idle;
+        QWidget* m_main_widget;
+
+    public:
+        static command_manager* m_instance;
 };
 
 
