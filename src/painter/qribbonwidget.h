@@ -34,6 +34,8 @@ public:
 	// @brief Inserts group with the given index
 	void insertGroup(int, QRibbonGroup*);
 
+	void addStretch(int);
+
 private:
 	QVector<QRibbonGroup*> m_groups;
 	QHBoxLayout* m_groupLayout;

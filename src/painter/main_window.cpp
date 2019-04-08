@@ -16,6 +16,7 @@
 #include <QPushButton>
 #include <QRadioButton>
 #include <QComboBox>
+#include <QLayout>
 
 #include <cassert>
 
@@ -51,10 +52,11 @@ main_window::main_window(QWidget* p)
 	m_shapes = new create_shape_gui(this);
 	m_pen_brush =  new pen_brush_gui(this);
 
-	QToolBar* homeBar = new QToolBar(this);
-	homeBar->addWidget(m_shapes);
-
-	addToolBar(Qt::TopToolBarArea, homeBar);
+	QDockWidget* w = new QDockWidget(this);
+	w->setWidget(m_shapes);
+	w->setFeatures(QDockWidget::NoDockWidgetFeatures);
+	w->setTitleBarWidget(new QWidget());
+	addDockWidget(Qt::TopDockWidgetArea, w);
 
 	setFixedSize(1100, 700);
 	setCentralWidget(m_canvas);
@@ -69,7 +71,8 @@ main_window::main_window(QWidget* p)
 
 void main_window::make_connections()
 {
-	connect(m_pen_brush, SIGNAL(something_changed()), m_canvas, SLOT(on_update()));
+	//connect(m_pen_brush, SIGNAL(something_changed()), m_canvas, SLOT(on_update()));
+	connect(m_shapes, SIGNAL(something_changed()), m_canvas, SLOT(on_update()));
 	connect(m_shapes, SIGNAL(createLine()), m_canvas, SLOT(invoke_create_line()));
 	connect(m_shapes, SIGNAL(createRect()), m_canvas, SLOT(invoke_create_rect()));
 	connect(m_shapes, SIGNAL(createEllipse()), m_canvas, SLOT(invoke_create_ellipse()));

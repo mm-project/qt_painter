@@ -14,7 +14,8 @@ QRibbonGroup::QRibbonGroup(QWidget* p)
 
 	QVBoxLayout* labelLayout = new QVBoxLayout;
 	labelLayout->addLayout(m_buttonLayout);
-	labelLayout->addWidget(m_label, 0, Qt::AlignCenter);
+	labelLayout->addStretch();
+	labelLayout->addWidget(m_label, 0, Qt::AlignCenter | Qt::AlignBottom);
 
 	QHBoxLayout* mainLayout = new QHBoxLayout;
 	mainLayout->addLayout(labelLayout);

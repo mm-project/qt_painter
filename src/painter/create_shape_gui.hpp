@@ -12,6 +12,8 @@ class QPushButton;
 
 #include <QWidget>
 
+class QRibbonWidget;
+
 ///////////////////////////////////////////////////////////////////////////////
 //
 // @class create_shape_gui : Assistant for creating objects 
@@ -24,7 +26,13 @@ public:
 	create_shape_gui(QWidget* = 0);
 
 private:
-	void make_connections();
+	void build_shapes_group(QRibbonWidget*);
+	void build_colors(QRibbonWidget*);
+	void build_gap_style(QRibbonWidget*);
+
+private slots:
+	void createShape(int);
+	void pen_color_changed(const QString&);
 
 signals:
 	void shape_changed();
@@ -33,13 +41,13 @@ signals:
 	void createEllipse();
 	void createPolygon();
 
+	void something_changed();
+
 private:
 	QPushButton* m_line_button;
 	QPushButton* m_rect_button;
 	QPushButton* m_ellipse_button;
 	QPushButton* m_polygon_button;
-
-	QVBoxLayout* m_layout;
 };
 
 #endif
