@@ -1,4 +1,4 @@
-#include "qribbon.h"
+#include "qribbon.hpp"
 
 #include <QLayout>
 

@@ -1,4 +1,4 @@
-#include "qribbongroup.h"
+#include "qribbongroup.hpp"
 
 #include <QFrame>
 #include <QLabel>

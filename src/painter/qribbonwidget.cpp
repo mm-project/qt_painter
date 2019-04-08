@@ -1,5 +1,5 @@
-#include "qribbonwidget.h"
-#include "qribbongroup.h"
+#include "qribbonwidget.hpp"
+#include "qribbongroup.hpp"
 
 #include <QHBoxLayout>
 #include <QSpacerItem>

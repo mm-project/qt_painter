@@ -4,9 +4,9 @@
 #include "icons.hpp"
 
 // qt Ribbon 
-#include "qribbon.h"
-#include "qribbongroup.h"
-#include "qribbonwidget.h"
+#include "qribbon.hpp"
+#include "qribbongroup.hpp"
+#include "qribbonwidget.hpp"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
