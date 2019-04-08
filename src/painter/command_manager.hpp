@@ -34,7 +34,7 @@ class command_manager
         void set_main_widget(QWidget* w);
         QWidget* get_main_widget();
         
-        void init2(runtime_environment* r, working_set* s);
+        void init2(ObjectPoolSandboxPtr r, IObjectPoolPtr s);
         void init();
         
         void activate_command(CommandBase* cmd);
@@ -66,8 +66,8 @@ class command_manager
         //CommandBase* m_polygon_command;
 
         
-        runtime_environment* re;
-        working_set* ws;
+        ObjectPoolSandboxPtr re;
+        IObjectPoolPtr ws;
         //bool m_is_idle;
         QWidget* m_main_widget;
 

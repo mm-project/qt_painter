@@ -46,6 +46,7 @@ class CommandBase : public ICommand
             std::cout << get_name() << std::endl;
         }
         
+        //virtual void activate() {}
         virtual void set_arg(const std::string&, const std::string& ) {}
 
         //FIXME should not be here !!!

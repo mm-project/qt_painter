@@ -2,26 +2,27 @@
 #define WORKING_SET_HPP
 
 #include "basic_shape.hpp"
+#include "iobject_pool.hpp"
 
 #include <vector>
 #include <QObject>
 
-class runtime_environment;
-
-class working_set : public QObject
+class WorkingSet : public IObjectPool
 {
-        Q_OBJECT
-
 public:
-        void clear();
+	//
+	//	Interface
+	//
+	virtual void clear() override;
+	virtual std::vector<IShape*> getObjects() const override;
+	virtual void addObject(IShape*) override;
+	virtual ~WorkingSet() {}
 
-        void add_object(IBasicShape*);
-
-        void add_object(runtime_environment*);
-
-        std::vector<IBasicShape*> get_objects();
 private:
-        std::vector<IBasicShape*> shapes;
+	//
+	//	Methods
+	// 
+	std::vector<IShape*> m_shapes;
 };
 
 #endif

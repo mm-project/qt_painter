@@ -10,7 +10,7 @@
 // @line implementation 
 //
 line::line(QLine l, ShapeProperties p)
-	: IBasicShape(LINE, p),
+	: IShape(LINE, p),
 	m_waitForSecondClick(false)
 {
 	m_object = l;
@@ -22,7 +22,7 @@ line::~line()
 
 line* line::clone()
 {
-	return new line(m_object, m_properties); //new Qline(*m_object) ?
+	return new line(m_object, m_properties);
 }
 
 void line::draw(QPainter* p)
@@ -69,7 +69,7 @@ void line::setP2(const QPoint& p)
 // @rectangle implementation 
 //
 rectangle::rectangle(QRect r, ShapeProperties p)
-	: IBasicShape(RECT, p),
+	: IShape(RECTANGLE, p),
 	m_waitForSecondClick(false)
 {
 	m_object = r;
@@ -129,7 +129,7 @@ rectangle::~rectangle()
 // @ellipse implementation 
 //
 ellipse::ellipse(QRect r, ShapeProperties b)
-	: IBasicShape(ELLIPSE, b),
+	: IShape(ELLIPSE, b),
 	m_waitForSecondClick(false)
 {
 	m_object = r;
@@ -189,7 +189,7 @@ ellipse::~ellipse()
 // @polygon implementation 
 //
 polygon::polygon(QPolygonF p, ShapeProperties b)
-	: IBasicShape(POLYGON, b)
+	: IShape(POLYGON, b)
 {
 	m_object = p;
 }

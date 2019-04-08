@@ -5,6 +5,7 @@
 #include "basic_commands.hpp"
 #include "gui_commands.hpp"
 #include "shape_creator_commands.hpp"
+#include "selection_commands.hpp"
 
 
 #include <cassert>
@@ -12,8 +13,8 @@
 command_manager* command_manager::m_instance = 0;
 
 
-void command_manager::init2(runtime_environment* r, working_set* s) {
-    re = {r};
+void command_manager::init2(ObjectPoolSandboxPtr r, IObjectPoolPtr s) {
+	r = re;
     ws = {s};
     m_current_command = {0};
     m_idle_command = new incmdIdle();
@@ -26,6 +27,9 @@ void command_manager::init() {
     register_command(new dicmdguiSelectRadioButton);
     register_command(new dicmdAbortActiveCommand);
     register_command(new dicmdguiSelectComboValue); 
+    
+    //register_command(new incmdSelectShapesByRegion);
+    
     m_current_command = m_idle_command;
 }
 
@@ -50,6 +54,7 @@ void command_manager::activate_command(CommandBase* cmd) {
         //m_current_command->abort(); 
     
     m_current_command = cmd;
+    //m_current_command->activate();
     
     //if ( m_current_command->get_type == Interactive )
     //        not dummy

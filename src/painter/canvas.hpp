@@ -3,14 +3,10 @@
 
 #include "basic_shape.hpp"
 #include "command_manager.hpp"
+#include "iobject_pool.hpp"
 
 #include <QWidget>
 #include <QPainter>
-
-class rectangle;
-class line;
-class working_set;
-class runtime_environment;
 
 // REPONSIBLE FOR VIEWPORT CONTROLL
 class renderer
@@ -89,13 +85,15 @@ public slots:
         void invoke_create_rect();
         void invoke_create_ellipse();
         void invoke_create_polygon();
+        void invoke_select_by_region();
+        
         void reset();
         void on_update();
 
 private:
         bool is_runtime_mode;
-        working_set* m_working_set;
-        runtime_environment* m_runtime_environment;
+        IObjectPoolPtr m_working_set;
+        ObjectPoolSandboxPtr m_sandbox;
         command_manager* cm;
         renderer* m_renderer;
 };
