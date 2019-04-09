@@ -54,12 +54,12 @@ void create_shape_gui::build_design(QRibbonWidget* ribbonWidget)
 	group->setTitle("Design");
 
 	QPushButton* new_b = new QPushButton(this);
-	QIcon new_i(IconDir + "create.png");
+	QIcon new_i(getIconDir() + "create.png");
 	new_b->setIcon(new_i);
 	new_b->setIconSize(QSize(40, 40));
 	new_b->setFlat(true);
 	connect(new_b, SIGNAL(clicked()), this, SIGNAL(reset()));
-	QIcon close_i(IconDir + "close.png");
+	QIcon close_i(getIconDir() + "close.png");
 	QPushButton* close_b = new QPushButton(this);
 	close_b->setIconSize(QSize(40, 40));
 	close_b->setIcon(close_i);
@@ -81,7 +81,7 @@ void create_shape_gui::build_shapes_group(QRibbonWidget* ribbonWidget)
 
 	for (int i = 0; i < Shapes.size(); ++i)
 	{
-		QIcon icon(IconDir + Shapes[i] + ".png");
+		QIcon icon(getIconDir() + Shapes[i] + ".png");
 		QPushButton* button = new QPushButton(this);
 		button->setIcon(icon);
 		button->setIconSize(QSize(40, 40));
@@ -113,7 +113,7 @@ void create_shape_gui::build_colors(QRibbonWidget* ribbonWidget)
 
 	for (int i = 0; i < texts.size(); ++i)
 	{
-		QIcon icon(IconDir + texts[i] + ".png");
+		QIcon icon(getIconDir() + texts[i] + ".png");
 		QPushButton* button = new QPushButton(this);
 		button->setObjectName(texts[i]);
 		button->setIcon(icon);
