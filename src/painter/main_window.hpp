@@ -10,7 +10,6 @@
 
 class canvas;
 class create_shape_gui;
-class pen_brush_gui;
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -26,12 +25,10 @@ public:
 
 private:
 	void make_connections();
-	void init_menu();
 
 private:
 	canvas* m_canvas;
 	create_shape_gui* m_shapes;
-	pen_brush_gui* m_pen_brush;
 };
 
 #endif

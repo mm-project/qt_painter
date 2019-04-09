@@ -15,9 +15,11 @@
 #include <QGroupBox>
 #include <QLayout>
 #include <QSignalMapper>
+#include <QLabel>
+#include <QComboBox>
 
-const QSize globalSize(20, 20);
-const QStringList Shapes {"line", "rectangle", "ellipse", "polygon"};
+const QSize globalSize(22, 22);
+const QStringList Shapes {"Line", "Rectangle", "Ellipse", "Polygon"};
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -26,11 +28,15 @@ const QStringList Shapes {"line", "rectangle", "ellipse", "polygon"};
 create_shape_gui::create_shape_gui(QWidget* p)
 	: QWidget(p)
 {
-	QRibbonWidget* ribbonWidget = new QRibbonWidget;
+	QRibbonWidget* ribbonWidget = new QRibbonWidget(this);
+	build_design(ribbonWidget);
 	build_shapes_group(ribbonWidget);
 	build_colors(ribbonWidget);
+	build_gap_style(ribbonWidget);
+	build_join_style(ribbonWidget);
+	build_brush_and_pen_pattern(ribbonWidget);
 
-	QRibbon* ribbon = new QRibbon;
+	QRibbon* ribbon = new QRibbon(this);
 	ribbon->addTab(ribbonWidget, "Home");
 
 	QVBoxLayout* layout = new QVBoxLayout;
@@ -42,12 +48,32 @@ create_shape_gui::create_shape_gui(QWidget* p)
 	setLayout(layout);
 }
 
+void create_shape_gui::build_design(QRibbonWidget* ribbonWidget)
+{
+	QRibbonGroup* group = new QRibbonGroup(this);
+	group->setTitle("Design");
+
+	QPushButton* new_b = new QPushButton(this);
+	QIcon new_i(IconDir + "create.png");
+	new_b->setIcon(new_i);
+	new_b->setIconSize(QSize(40, 40));
+	new_b->setFlat(true);
+	connect(new_b, SIGNAL(clicked()), this, SIGNAL(reset()));
+	QIcon close_i(IconDir + "close.png");
+	QPushButton* close_b = new QPushButton(this);
+	close_b->setIconSize(QSize(40, 40));
+	close_b->setIcon(close_i);
+	close_b->setFlat(true);
+	connect(close_b, SIGNAL(clicked()), this, SIGNAL(close()));
+	group->addButton(new_b, "New", QRibbonButtonSize::size40);
+	group->addButton(close_b, "Close", QRibbonButtonSize::size40);
+	ribbonWidget->addGroup(group);
+}
+
 void create_shape_gui::build_shapes_group(QRibbonWidget* ribbonWidget)
 {
-	QRibbonGroup* ribbonGroup = new QRibbonGroup;
+	QRibbonGroup* ribbonGroup = new QRibbonGroup(this);
 	ribbonGroup->setTitle("Shapes");
-
-	QGroupBox* bShapes = new QGroupBox(this);
 
 	QHBoxLayout* s_layout = new QHBoxLayout;
 	QSignalMapper* mapper = new QSignalMapper(this);
@@ -58,15 +84,13 @@ void create_shape_gui::build_shapes_group(QRibbonWidget* ribbonWidget)
 		QIcon icon(IconDir + Shapes[i] + ".png");
 		QPushButton* button = new QPushButton(this);
 		button->setIcon(icon);
-		button->setFixedSize(globalSize);
+		button->setIconSize(QSize(40, 40));
 		button->setFlat(true);
-		s_layout->addWidget(button);
 		connect(button, SIGNAL(clicked()), mapper, SLOT(map()));
 		mapper->setMapping(button, i);
+		ribbonGroup->addButton(button, Shapes[i], QRibbonButtonSize::size40);
 	}
-	bShapes->setLayout(s_layout);
-	
-	ribbonGroup->addButton(bShapes);
+
 	ribbonWidget->addGroup(ribbonGroup);
 }
 
@@ -74,7 +98,7 @@ void create_shape_gui::build_colors(QRibbonWidget* ribbonWidget)
 {
 	QStringList texts {"white", "yellow", "green", "red", "gray", 
 		"blue", "magenta", "cyan"};
-	QRibbonGroup* ribbonGroup = new QRibbonGroup;
+	QRibbonGroup* ribbonGroup = new QRibbonGroup(this);
 	ribbonGroup->setTitle("Colors");
 
 	QWidget* widget = new QWidget;
@@ -109,14 +133,87 @@ void create_shape_gui::build_colors(QRibbonWidget* ribbonWidget)
 	widget->setLayout(layout);
 
 	ribbonGroup->addButton(widget);
+	m_pen_button = new QRadioButton(this);
+	m_pen_button->click();
+	QRadioButton* brush = new QRadioButton(this);
+	//ribbonGroup->addButton(m_pen_button, "Pen", QRibbonButtonSize::size24);
+	//ribbonGroup->addButton(brush, "Brush", QRibbonButtonSize::size24);
 	ribbonWidget->addGroup(ribbonGroup);
-	ribbonWidget->addStretch(20);
 }
 
 void create_shape_gui::build_gap_style(QRibbonWidget* ribbonWidget)
 {
-	QRibbonGroup* ribbonGroup = new QRibbonGroup;
-	ribbonGroup->setTitle("Gap Style");
+	QRibbonGroup* ribbonGroup = new QRibbonGroup(this);
+	ribbonGroup->setTitle("Cap Style");
+
+	QSignalMapper* mapper = new QSignalMapper(this);
+	connect(mapper, SIGNAL(mapped(const QString&)), this,
+		SLOT(cap_style_changed(const QString&)));
+
+	QStringList styles = { "Square Cap", "Flat Cap", "Round Cap" };
+
+	for (int i = 0; i < styles.size(); ++i)
+	{
+		QRadioButton* button = new QRadioButton(this);
+		connect(button, SIGNAL(clicked()), mapper, SLOT(map()));
+		mapper->setMapping(button, styles[i]);
+		ribbonGroup->addButton(button, styles[i], QRibbonButtonSize::size16);
+
+		if (i == 0)
+			button->click();
+	}
+
+	ribbonWidget->addGroup(ribbonGroup);
+}
+
+void create_shape_gui::build_brush_and_pen_pattern(QRibbonWidget* ribbonWidget)
+{
+	QRibbonGroup* ribbonGroup = new QRibbonGroup(this);
+	ribbonGroup->setTitle("Brush And Pen");
+
+	QStringList styles = {"Solid Pattern", "Dense1 Pattern", "Dense2 Pattern", "Dense3 Pattern"
+	"Dense4 Pattern", "Dense5 Pattern", "Dense6 Pattern", "Dense7 Pattern", "No Brush", "Horizontal Pattern",
+	"Vertical Pattern", "Cross Pattern", "BDiag Pattern", "FDiag Pattern", "Diag Cross Pattern" };
+
+	QComboBox* box = new QComboBox(this);
+	box->addItems(styles);
+
+	QStringList penStyles = {"Solid Line", "Dash Line", "Dot Line", "Dash Dot Line", "Dash Dot Dot Line",
+		"Custom Dash Line", "No Pen"};
+
+	QComboBox* pen = new QComboBox(this);
+	pen->addItems(penStyles);
+
+	ribbonGroup->addButton(box);
+	ribbonGroup->addButton(pen);
+	ribbonWidget->addGroup(ribbonGroup);
+	ribbonWidget->addStretch(10000);
+}
+
+void create_shape_gui::build_join_style(QRibbonWidget* ribbonWidget)
+{
+	QRibbonGroup* ribbonGroup = new QRibbonGroup(this);
+	ribbonGroup->setTitle("Join Style");
+
+	QSignalMapper* mapper = new QSignalMapper(this);
+	connect(mapper, SIGNAL(mapped(const QString&)), this,
+		SLOT(join_style_changed(const QString&)));
+
+	QStringList styles = { "Bevel Join", "Miter Join", "Round Join" };
+
+	for (int i = 0; i < styles.size(); ++i)
+	{
+		QRadioButton* button = new QRadioButton(this);
+		connect(button, SIGNAL(clicked()), mapper, SLOT(map()));
+		mapper->setMapping(button, styles[i]);
+		ribbonGroup->addButton(button, styles[i], QRibbonButtonSize::size16);
+
+		if (i == 0)
+			button->click();
+	}
+
+	ribbonWidget->addGroup(ribbonGroup);
+	ribbonWidget->addStretch(500);
 }
 
 namespace {
@@ -124,7 +221,6 @@ namespace {
 typedef std::map<QString, QColor> string_to_color;
 typedef std::map<QString, Qt::PenCapStyle> string_to_cap_style;
 typedef std::map<QString, Qt::PenJoinStyle> string_to_join_style;
-typedef std::map<QString, Qt::BrushStyle> string_to_brush_style;
 
 QColor get_color_from_string(const QString& s)
 {
@@ -167,36 +263,14 @@ Qt::PenJoinStyle get_join_style_from_string(const QString& s)
         auto it = map.find(s);
         return (*it).second;
 }
-
-Qt::BrushStyle get_brush_style_from_string(const QString& s)
-{
-        static string_to_brush_style map;
-        if (map.empty()) {
-                map["Solid Pattern"] = Qt::SolidPattern;
-                map["Dense1 Pattern"] = Qt::Dense1Pattern;
-                map["Dense2 Pattern"] = Qt::Dense2Pattern;
-                map["Dense3 Pattern"] = Qt::Dense3Pattern;
-                map["Dense4 Pattern"] = Qt::Dense4Pattern;
-                map["Dense5 Pattern"] = Qt::Dense5Pattern;
-                map["Dense6 Pattern"] = Qt::Dense6Pattern;
-                map["Dense7 Pattern"] = Qt::Dense7Pattern;
-                map["No Brush"] = Qt::NoBrush;
-                map["Horizontal Pattern"] = Qt::HorPattern;
-                map["Vertical Pattern"] = Qt::VerPattern;
-                map["Cross Pattern"] = Qt::CrossPattern;
-                map["BDiag Pattern"] = Qt::BDiagPattern;
-                map["FDiag Pattern"] = Qt::FDiagPattern;
-                map["Diag Cross Pattern"] = Qt::DiagCrossPattern;
-        }
-        auto it = map.find(s);
-        return (*it).second;
-}
 }
 
 void create_shape_gui::pen_color_changed(const QString& s)
 {
 	controller* c = controller::get_instance();
-	c->change_brush_color(get_color_from_string(s));
+	(m_pen_button->isChecked())
+		? c->change_pen_color(get_color_from_string(s))
+		: c->change_brush_color(get_color_from_string(s));
 	emit something_changed();
 }
 
@@ -217,4 +291,18 @@ void create_shape_gui::createShape(int i)
 		emit createPolygon();
 		break;
 	}
+}
+
+void create_shape_gui::cap_style_changed(const QString& s)
+{
+	controller* c = controller::get_instance();
+	c->change_pen_cap_style(get_cap_style_from_string(s));
+	emit something_changed();
+}
+
+void create_shape_gui::join_style_changed(const QString& s)
+{
+	controller* c = controller::get_instance();
+	c->change_pen_join_style(get_join_style_from_string(s));
+	emit something_changed();
 }

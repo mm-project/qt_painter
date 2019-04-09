@@ -22,8 +22,8 @@ pen_brush_gui::pen_brush_gui(QWidget* p)
         init_layout();
         //make_connections();
         //init_colors();
-        init_cap_style();
-        init_join_style();
+        //init_cap_style();
+        //init_join_style();
         init_brush_style();
 }
 
