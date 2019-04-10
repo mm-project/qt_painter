@@ -33,6 +33,13 @@ void ObjectSandbox::addObject(IShape* p)
 		m_pool->addObject(p);
 }
 
+void ObjectSandbox::changeBasicProperties(const ShapeProperties& b)
+{
+	auto obs = m_pool->getObjects();
+	for (auto it : obs)
+		it->updateProperties(b);
+}
+
 ObjectPoolSandbox::ObjectPoolSandbox()
 {
 	/*controller* c = controller::get_instance();

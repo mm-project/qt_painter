@@ -20,18 +20,8 @@ public:
 	void clear();
 	void addPoint(QPoint);
 	void addObject(IShape*);
-	/*void reset();
+	void changeBasicProperties(const ShapeProperties&);
 
-	void change_object_type(ObjectType);
-
-	IShape* get_runtime_object() const;
-
-	void set_pos1(const QPoint&);
-	void set_pos2(const QPoint&);
-
-	void draw_runtime(QPainter* p);
-
-	void change_basic_properties(ShapeProperties);*/
 private:
 	IObjectPoolPtr m_pool;
 	ObjectPoolSandboxPtr m_parent;

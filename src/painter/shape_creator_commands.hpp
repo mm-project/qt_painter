@@ -24,7 +24,7 @@ public:
 	}
 
 	virtual void handle_update() {
-		//re->change_basic_properties(m_controller->get_shape_properties());
+		re->changeBasicProperties(m_controller->get_shape_properties());
 	}
 
 	virtual void commit() {
