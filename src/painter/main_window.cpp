@@ -61,7 +61,7 @@ main_window::main_window(QWidget* p)
 	setCentralWidget(m_canvas);
 
 	make_connections();
-	static QIcon main_window_icon(IconDir + "shapes_simple.png");
+	static QIcon main_window_icon(getIconDir() + "shapes_simple.png");
 	setWindowIcon(main_window_icon);
 	QCoreApplication::instance()->installEventFilter(this);
 	command_manager::get_instance()->set_main_widget(this);
