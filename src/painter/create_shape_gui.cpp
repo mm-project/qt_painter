@@ -30,6 +30,7 @@ create_shape_gui::create_shape_gui(QWidget* p)
 {
 	QRibbonWidget* ribbonWidget = new QRibbonWidget(this);
 	build_design(ribbonWidget);
+	build_selection(ribbonWidget);
 	build_shapes_group(ribbonWidget);
 	build_colors(ribbonWidget);
 	build_gap_style(ribbonWidget);
@@ -70,6 +71,28 @@ void create_shape_gui::build_design(QRibbonWidget* ribbonWidget)
 	ribbonWidget->addGroup(group);
 }
 
+void create_shape_gui::build_selection(QRibbonWidget* ribbonWidget)
+{
+	QRibbonGroup* group = new QRibbonGroup(this);
+	group->setTitle("Select");
+
+	QPushButton* new_b = new QPushButton(this);
+	QIcon new_i(getIconDir() + "mouse.svg");
+	new_b->setIcon(new_i);
+	new_b->setIconSize(QSize(40, 40));
+	new_b->setFlat(true);
+	//connect(new_b, SIGNAL(clicked()), this, SIGNAL(reset()));
+	QIcon close_i(getIconDir() + "selection.svg");
+	QPushButton* close_b = new QPushButton(this);
+	close_b->setIconSize(QSize(40, 40));
+	close_b->setIcon(close_i);
+	close_b->setFlat(true);
+	connect(close_b, SIGNAL(clicked()), this, SIGNAL(selectByRegion()));
+	group->addButton(new_b, "Point", QRibbonButtonSize::size40);
+	group->addButton(close_b, "Region", QRibbonButtonSize::size40);
+	ribbonWidget->addGroup(group);
+}
+
 void create_shape_gui::build_shapes_group(QRibbonWidget* ribbonWidget)
 {
 	QRibbonGroup* ribbonGroup = new QRibbonGroup(this);
@@ -81,7 +104,7 @@ void create_shape_gui::build_shapes_group(QRibbonWidget* ribbonWidget)
 
 	for (int i = 0; i < Shapes.size(); ++i)
 	{
-		QIcon icon(getIconDir() + Shapes[i] + ".png");
+		QIcon icon(getIconDir() + Shapes[i] + ".svg");
 		QPushButton* button = new QPushButton(this);
 		button->setIcon(icon);
 		button->setIconSize(QSize(40, 40));
