@@ -50,8 +50,8 @@ void command_manager::activate_command(CommandBase* cmd) {
     //FIXME crashes obviously
     //delete m_current_command;
     
-    //if ( !is_idle() && cmd->get_type() == Interactive )
-        //m_current_command->abort(); 
+    if ( !is_idle() && cmd->get_type() == Interactive )
+		m_current_command->abort(); 
     
     m_current_command = cmd;
     //m_current_command->activate();
