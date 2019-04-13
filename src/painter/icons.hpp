@@ -6,7 +6,7 @@
 
 //define default value, but also give way to override from compiler options.
 #ifndef ICONPATH
-    #ifdef OS_WINDOWS
+    #ifdef Q_OS_WIN
         #define ICONPATH "C:\\Users\\elen\\Desktop\\my_projects\\qt_painter\\etc\\icons\\"
     #else
         //(in linux)

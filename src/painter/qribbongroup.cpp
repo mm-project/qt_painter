@@ -3,6 +3,7 @@
 #include <QFrame>
 #include <QLabel>
 #include <QHBoxLayout>
+#include <QFile>
 
 QRibbonGroup::QRibbonGroup(QWidget* p)
 	: QWidget(p), m_row(0), m_column(0)
@@ -21,7 +22,6 @@ QRibbonGroup::QRibbonGroup(QWidget* p)
 	mainLayout->addLayout(labelLayout);
 	mainLayout->addWidget(frame);
 	mainLayout->setContentsMargins(2, 2, 2, 2);
-	//mainLayout->addStretch();
 
 	setLayout(mainLayout);
 }

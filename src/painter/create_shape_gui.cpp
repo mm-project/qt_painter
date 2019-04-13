@@ -58,13 +58,13 @@ void create_shape_gui::build_design(QRibbonWidget* ribbonWidget)
 	QIcon new_i(getIconDir() + "create.png");
 	new_b->setIcon(new_i);
 	new_b->setIconSize(QSize(40, 40));
-	new_b->setFlat(true);
+	new_b->setObjectName("flatBurttonCreate");
 	connect(new_b, SIGNAL(clicked()), this, SIGNAL(reset()));
 	QIcon close_i(getIconDir() + "close.png");
 	QPushButton* close_b = new QPushButton(this);
 	close_b->setIconSize(QSize(40, 40));
 	close_b->setIcon(close_i);
-	close_b->setFlat(true);
+	close_b->setObjectName("flatBurttonClose");
 	connect(close_b, SIGNAL(clicked()), this, SIGNAL(close()));
 	group->addButton(new_b, "New", QRibbonButtonSize::size40);
 	group->addButton(close_b, "Close", QRibbonButtonSize::size40);
@@ -80,13 +80,15 @@ void create_shape_gui::build_selection(QRibbonWidget* ribbonWidget)
 	QIcon new_i(getIconDir() + "mouse.svg");
 	new_b->setIcon(new_i);
 	new_b->setIconSize(QSize(40, 40));
-	new_b->setFlat(true);
+	new_b->setObjectName("flatBurttonMouse");
+	//new_b->setFlat(true);
 	//connect(new_b, SIGNAL(clicked()), this, SIGNAL(reset()));
 	QIcon close_i(getIconDir() + "selection.svg");
 	QPushButton* close_b = new QPushButton(this);
 	close_b->setIconSize(QSize(40, 40));
 	close_b->setIcon(close_i);
-	close_b->setFlat(true);
+	close_b->setObjectName("flatBurttonClose");
+	//close_b->setFlat(true);
 	connect(close_b, SIGNAL(clicked()), this, SIGNAL(selectByRegion()));
 	group->addButton(new_b, "Point", QRibbonButtonSize::size40);
 	group->addButton(close_b, "Region", QRibbonButtonSize::size40);
@@ -96,7 +98,7 @@ void create_shape_gui::build_selection(QRibbonWidget* ribbonWidget)
 void create_shape_gui::build_shapes_group(QRibbonWidget* ribbonWidget)
 {
 	QRibbonGroup* ribbonGroup = new QRibbonGroup(this);
-	ribbonGroup->setTitle("Shapes");
+	ribbonGroup->setTitle("Create");
 
 	QHBoxLayout* s_layout = new QHBoxLayout;
 	QSignalMapper* mapper = new QSignalMapper(this);
@@ -108,7 +110,7 @@ void create_shape_gui::build_shapes_group(QRibbonWidget* ribbonWidget)
 		QPushButton* button = new QPushButton(this);
 		button->setIcon(icon);
 		button->setIconSize(QSize(40, 40));
-		button->setFlat(true);
+		button->setObjectName("flatBurtton" + Shapes[i]);
 		connect(button, SIGNAL(clicked()), mapper, SLOT(map()));
 		mapper->setMapping(button, i);
 		ribbonGroup->addButton(button, Shapes[i], QRibbonButtonSize::size40);

@@ -1,0 +1,8 @@
+QPushButton[objectName^="flat"] {
+	border: 1px;
+	border-color: lightgray;
+}
+
+QPushButton:hover {
+	background-color : lightblue;
+}
