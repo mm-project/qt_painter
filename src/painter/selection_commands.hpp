@@ -18,7 +18,7 @@ public:
 	{
                 m_first_click = true;
                 m_se = Selection::get_instance();
-
+            
 	}
 
         virtual std::string get_name() {
@@ -27,7 +27,18 @@ public:
         }
         
         virtual void execute() {
+                
                 ObjCreatorCommandBase<RECTANGLE>::set_next_handler(HANDLE_FUNCTION(incmdSelectShapesByRegion,on_idle));
+                
+                //FIXME how?
+                /*
+                ShapeProperties sp;
+                sp.brush_color = Qt::gray;
+                sp.pen_color = Qt::gray;
+                sp.pen_style = Qt::DotLine;
+                set_properties(sp);
+                /**/
+
         }
        
         virtual void handle_update() {
@@ -81,19 +92,24 @@ public:
                     m_se->clear();
                 }
                 
+                incmdCreateObj<RECTANGLE>::idle(ev);
+
                 //FIXME doesn't work!!!
+                //*
+                /*
                 if ( incmdCreateObj<RECTANGLE>::idle(ev) ) {
                         //std::cout << "setting.." << std::endl;
                         IShape* s = incmdCreateObj<RECTANGLE>::get_runtime_object();
                         assert(s);
                         
                         ShapeProperties sp;
-                        sp.brush_color = Qt::red;
-                        sp.pen_color = Qt::red;
+                        sp.brush_color = Qt::blue;
+                        sp.pen_color = Qt::blue;
                         sp.pen_style = Qt::DotLine;
                         
-                        s->updateProperties(sp);
-                    }
+                        //s->updateProperties(sp);
+                }
+                */
             }
         }
         
