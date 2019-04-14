@@ -29,9 +29,14 @@ public:
         virtual void execute() {
                 ObjCreatorCommandBase<RECTANGLE>::set_next_handler(HANDLE_FUNCTION(incmdSelectShapesByRegion,on_idle));
         }
-        
+       
+        virtual void handle_update() {
+                assert(0&&"applying properties to selection box?:)");
+        }
+       
+       /*
         virtual void abort() {
-                //FIXME now what?
+        //FIXME now what?
         }
         
         //FIXME move to s...
@@ -39,20 +44,16 @@ public:
             //assert(0);
         }
         
-                //FIXME move to so...
+        //FIXME move to so...
         virtual void finish() {
             //assert(0);
         }
+        */
         
         virtual void on_commit_internal() {
             m_se->find_by_range_and_add_to_selected(m_reg);
             incmdCreateObj<RECTANGLE>::finish();
             ObjCreatorCommandBase<RECTANGLE>::set_next_handler(HANDLE_FUNCTION(incmdSelectShapesByRegion,on_idle));
-            //
-
-
-            //assert(0);
-            //std::cout << "yerevi" << std::endl;
         }
         
         virtual void handle_mouse_click(int x , int y) {
@@ -79,6 +80,8 @@ public:
                     m_first_click = false;
                     m_se->clear();
                 }
+                
+                //FIXME doesn't work!!!
                 if ( incmdCreateObj<RECTANGLE>::idle(ev) ) {
                         //std::cout << "setting.." << std::endl;
                         IShape* s = incmdCreateObj<RECTANGLE>::get_runtime_object();

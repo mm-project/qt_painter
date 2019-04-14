@@ -60,7 +60,7 @@ public:
 		//log("dicmdAbortActiveCommand");
 		re->clear();
 		//FIXME crashing in recursion
-		//dicmdAbortActiveCommand d;
+		//dicmdAbortActiveCommand().log();
 		//d.execute_and_log();
 		//fini();
 		command_manager::get_instance()->return_to_idle();
