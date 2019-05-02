@@ -12,7 +12,7 @@
 template <ObjectType T>
 class ObjCreatorCommandBase : public InteractiveCommandBase 
 {
-IShape* m_rt_shape;
+
 
 public:
 	ObjCreatorCommandBase<T>(ObjectPoolSandboxPtr r, IObjectPoolPtr s): ws(s) 
@@ -24,7 +24,7 @@ public:
 	}
 
 	virtual void handle_update() {
-		re->changeBasicProperties(m_controller->get_shape_properties());
+		set_properties(m_controller->get_shape_properties());
 	}
 
 	virtual void commit() {
@@ -38,6 +38,10 @@ public:
 		re->clear();
 	}
 	
+	void set_properties(const ShapeProperties& p) {
+                re->changeBasicProperties(p);
+        }
+        
 	IShape* get_runtime_object() {
                 return m_rt_shape;
         }
@@ -60,7 +64,7 @@ public:
 		//log("dicmdAbortActiveCommand");
 		re->clear();
 		//FIXME crashing in recursion
-		//dicmdAbortActiveCommand d;
+		//dicmdAbortActiveCommand().log();
 		//d.execute_and_log();
 		//fini();
 		command_manager::get_instance()->return_to_idle();
@@ -71,6 +75,7 @@ protected:
 private:
 	IObjectPoolPtr ws;
 	controller* m_controller; 
+        IShape* m_rt_shape;
 
 };
 
