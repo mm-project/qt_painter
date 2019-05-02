@@ -1,8 +1,8 @@
-QPushButton[objectName^="flat"] {
+QRibbonButton {
 	border: 1px;
 	border-color: lightgray;
 }
 
-QPushButton:hover {
+QRibbonButton:hover {
 	background-color : lightblue;
 }

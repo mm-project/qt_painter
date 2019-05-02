@@ -6,13 +6,14 @@
 class QHBoxLayout;
 class QLabel;
 class QGridLayout;
+class QRibbonButton;
 
 enum class QRibbonButtonSize
 {
 	size16,
 	size24,
 	size32, // defualt?
-	size40
+	size46
 };
 
 //	@class QRibbonGroup
@@ -39,7 +40,9 @@ public:
 	// @brief Adds button into the group
 	void addButton(QWidget*);
 
-	void addButton(QWidget*, const QString&, QRibbonButtonSize);
+	void addButton(QWidget*, const QString&, QRibbonButtonSize = QRibbonButtonSize::size46);
+
+	void addRibbonButton(QRibbonButton*, QRibbonButtonSize = QRibbonButtonSize::size46);
 
 private:
 	QLabel* m_label;

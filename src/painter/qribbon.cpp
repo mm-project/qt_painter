@@ -6,7 +6,7 @@
 QRibbon::QRibbon(QWidget* p)
 	: QTabWidget(p)
 {
-	setFixedHeight(120);
+	setFixedHeight(127);
 
 	QFile styles("C:\\Users\\elen\\Desktop\\my_projects\\qt_painter\\src\\painter\\defaults.qss");
 	styles.open(QFile::ReadOnly);
