@@ -4,6 +4,7 @@
 #include "basic_shape.hpp"
 #include "command_manager.hpp"
 #include "iobject_pool.hpp"
+#include "RegionQueryService.hpp"
 
 #include <QWidget>
 #include <QPainter>
@@ -97,8 +98,5 @@ private:
         command_manager* cm;
         renderer* m_renderer;
 };
-
-
-
 
 #endif

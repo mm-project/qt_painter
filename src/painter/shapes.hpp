@@ -36,6 +36,9 @@ public:
 	void setP1(const QPoint&);
 	void setP2(const QPoint&);
 
+	QPoint getP1() const { return m_object.p1(); }
+	QPoint getP2() const { return m_object.p2(); }
+
 private:
 	QLine m_object;
 	bool m_waitForSecondClick;
