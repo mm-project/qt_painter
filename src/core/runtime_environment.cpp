@@ -1,7 +1,8 @@
 #include "runtime_environment.hpp"
 
+#include "../gui/controller.hpp"
+
 #include "shapes.hpp"
-#include "controller.hpp"
 #include "working_set.hpp"
 
 ObjectSandbox::ObjectSandbox(ObjectPoolSandboxPtr p)
