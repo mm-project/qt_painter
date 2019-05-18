@@ -1,0 +1,5 @@
+project (gui)
+file(GLOB SOURCES "*.cpp")
+add_library (gui STATIC ${SOURCES})
+add_dependencies(gui commands core)
+target_link_libraries (gui commands core)

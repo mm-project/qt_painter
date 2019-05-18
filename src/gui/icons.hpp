@@ -15,8 +15,22 @@
 #endif
 
     
+#ifndef STYLESPATH
+    #ifdef Q_OS_WIN
+        #define STYLESPATH "C:\\Users\\elen\\Desktop\\my_projects\\qt_painter\\etc\\styles\\"
+    #else
+        //(in linux)
+        #define STYLESPATH qApp->applicationDirPath()+"/../../etc/styles/"
+    #endif  
+#endif    
+    
     static QString getIconDir() {
         return ICONPATH;
+    };
+
+        
+    static QString getStylesDir() {
+        return STYLESPATH;
     };
 
     

@@ -2,10 +2,10 @@
 #define shape_creator_commands_hpp
 
 #include "command_manager.hpp"
-#include "controller.hpp"
-
 #include "interactive_command_base.hpp"
-#include "shape_creator.hpp"
+
+#include "../gui/controller.hpp"
+#include "../core/shape_creator.hpp"
 
 #include <sstream>
 

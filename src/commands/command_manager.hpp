@@ -6,8 +6,9 @@
 // Includes
 //
 #include "icommand_base.hpp"
-#include "runtime_environment.hpp"
-#include "working_set.hpp"
+
+#include "../core/runtime_environment.hpp"
+#include "../core/working_set.hpp"
 
 // Stl
 #include <string>

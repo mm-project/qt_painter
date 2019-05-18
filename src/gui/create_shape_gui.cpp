@@ -90,7 +90,7 @@ void create_shape_gui::build_shapes_group(QRibbonWidget* ribbonWidget)
 
 	for (int i = 0; i < Shapes.size(); ++i)
 	{
-		QRibbonButton* button = new QRibbonButton(this, Shapes[i], getIconDir() + Shapes[i] + ".svg");
+		QRibbonButton* button = new QRibbonButton(this, Shapes[i], getIconDir() + Shapes[i].toLower() + ".svg");
 		connect(button, SIGNAL(clicked()), mapper, SLOT(map()));
 		mapper->setMapping(button, i);
 		ribbonGroup->addRibbonButton(button);
