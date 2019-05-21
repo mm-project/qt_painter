@@ -11,17 +11,36 @@ else()
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/linux/)
 endif(WIN32)
 
+if (WIN32) 
+	set(QTDIR "C:\\Programs\\Qt\\5.11.1")
+	set(CMAKE_PREFIX_PATH ${QTDIR})
+endif (WIN32)
+
 find_package (Qt5Widgets)
 find_package (Qt5Core)
 find_package (Qt5Gui)
+find_package (Qt5Svg)
+find_package (Qt5Xml)
 
-set ( CMAKE_CXX_FLAGS "-g -fPIC -Wunused-parameter -pipe -std=gnu++11 -frtti -Wall -Wextra -fexceptions -pthread -Wno-unused-function -Wno-unused-variable")
+if (UNIX)
+	set ( CMAKE_CXX_FLAGS "-g -fPIC -Wunused-parameter -pipe -std=gnu++11 -frtti -Wall -Wextra -fexceptions -pthread -Wno-unused-function -Wno-unused-variable")
+endif (UNIX)
 
-include_directories(/usr/include/i386-linux-gnu/qt5)
-include_directories(/usr/include/i386-linux-gnu/qt5/QtWidgets)
-include_directories(/usr/include/i386-linux-gnu/qt5/QtCore)
-include_directories(/usr/include/i386-linux-gnu/qt5/QtGui)
+if (MSVC)
+	set(CMAKE_CXX_STANDARD 17)
+endif (MSVC)
 
+if (UNIX)
+	include_directories(/usr/include/i386-linux-gnu/qt5)
+	include_directories(/usr/include/i386-linux-gnu/qt5/QtWidgets)
+	include_directories(/usr/include/i386-linux-gnu/qt5/QtCore)
+	include_directories(/usr/include/i386-linux-gnu/qt5/QtGui)
+else ()
+	include_directories(${QTDIR}/include)
+	include_directories(${QTDIR}/include/QtCore)
+	include_directories(${QTDIR}/include/QtGui)
+	include_directories(${QTDIR}/include/QtWidgets)
+endif (UNIX)
 
 add_subdirectory (${PROJECT_SOURCE_DIR}/src/io)
 add_subdirectory (${PROJECT_SOURCE_DIR}/src/core)
@@ -30,7 +49,4 @@ add_subdirectory (${PROJECT_SOURCE_DIR}/src/gui)
 
 add_executable(painter ${PROJECT_SOURCE_DIR}/src/main.cpp )
 add_dependencies(painter io core commands gui)
-target_link_libraries (painter io core commands gui Qt5::Widgets Qt5::Core Qt5::Gui )
-
-
-
+target_link_libraries (painter io core commands gui Qt5::Widgets Qt5::Core Qt5::Gui Qt5::Svg Qt5::Xml)
