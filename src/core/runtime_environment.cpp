@@ -28,6 +28,13 @@ void ObjectSandbox::addPoint(QPoint p)
 		it->addPoint(p);
 }
 
+void ObjectSandbox::movePoint(QPoint p)
+{
+	auto obs = m_pool->getObjects();
+	for (auto it : obs)
+		it->movePoint(p);
+}
+
 void ObjectSandbox::addObject(IShape* p)
 {
 	if (p != nullptr)
