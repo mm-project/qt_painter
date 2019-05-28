@@ -1,10 +1,16 @@
 #ifndef CANVAS_HPP
 #define CANVAS_HPP
 
+<<<<<<< HEAD:src/painter/canvas.hpp
 #include "basic_shape.hpp"
 #include "command_manager.hpp"
 #include "iobject_pool.hpp"
 #include "RegionQueryService.hpp"
+=======
+#include "../core/iobject_pool.hpp"
+#include "../core/basic_shape.hpp"
+#include "../commands/command_manager.hpp"
+>>>>>>> 55894972024cbb2cb7870b8b6a942a5d0116f829:src/gui/canvas.hpp
 
 #include <QWidget>
 #include <QPainter>

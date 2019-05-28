@@ -21,8 +21,8 @@
 class line : public IShape
 {
 public:
-	line(QLine = QLine(), ShapeProperties = ShapeProperties());
-	virtual ~line();
+	inline line(QLine = QLine(), ShapeProperties = ShapeProperties());
+	virtual ~line() = default;
 
 public:
 	virtual line* clone() override;
@@ -51,8 +51,8 @@ private:
 class rectangle : public IShape
 {
 public:
-	rectangle(QRect = QRect(), ShapeProperties = ShapeProperties());
-	virtual ~rectangle();
+	inline rectangle(QRect = QRect(), ShapeProperties = ShapeProperties());
+	virtual ~rectangle() = default;
 
 public:
 	virtual rectangle* clone() override;
@@ -78,8 +78,8 @@ private:
 class ellipse : public IShape
 {
 public:
-	ellipse(QRect = QRect(), ShapeProperties = ShapeProperties());
-	virtual ~ellipse();
+	inline ellipse(QRect = QRect(), ShapeProperties = ShapeProperties());
+	virtual ~ellipse() = default;
 
 public:
 	virtual ellipse* clone() override;
@@ -101,8 +101,8 @@ private:
 class polygon : public IShape 
 {
 public:
-	polygon(QPolygonF = QPolygonF(), ShapeProperties = ShapeProperties());
-	virtual ~polygon();
+	inline polygon(QPolygon = QPolygon(), ShapeProperties = ShapeProperties());
+	virtual ~polygon() = default;
 
 public:
 	virtual polygon* clone() override;
@@ -111,9 +111,11 @@ public:
 public:
 	virtual void reset() override;
 	virtual void addPoint(const QPoint&) override;
+	virtual void movePoint(const QPoint&) override;
 
 private:
-	QPolygonF m_object;
+	QPolygon m_object;
+	bool m_first = true;
 };
 
 #endif

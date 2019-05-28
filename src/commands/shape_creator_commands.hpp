@@ -2,10 +2,10 @@
 #define shape_creator_commands_hpp
 
 #include "command_manager.hpp"
-#include "controller.hpp"
-
 #include "interactive_command_base.hpp"
-#include "shape_creator.hpp"
+
+#include "../gui/controller.hpp"
+#include "../core/shape_creator.hpp"
 
 #include <sstream>
 
@@ -59,6 +59,10 @@ public:
 	void runtime_set_pos2() {
 		re->addPoint(InteractiveCommandBase::get_last_point());
 	}
+
+	void runtime_movePoint() {
+		re->movePoint(InteractiveCommandBase::get_last_point());
+	}
 	
 	virtual void abort() {
 		//log("dicmdAbortActiveCommand");
@@ -75,7 +79,7 @@ protected:
 private:
 	IObjectPoolPtr ws;
 	controller* m_controller; 
-        IShape* m_rt_shape;
+    IShape* m_rt_shape;
 
 };
 
@@ -122,15 +126,16 @@ public:
                 return true;
         }
 	
-	void on_first_click(const EvType& ev) {
+	void on_first_click(const EvType& ev)
+	{
 		//assert(0);
-		if ( ev == KP ) //key pressed, abort
-			InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,abort1));
-		
 		if ( ev == MM )
 			ObjCreatorCommandBase<T>::runtime_set_pos2();
 		else if ( ev == MC || ev == KP )
 			InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,on_commit));
+
+		if ( ev == KP ) //key pressed, abort
+			InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,abort1));
 	}
 
 	void on_commit(const EvType&) {
@@ -150,6 +155,62 @@ public:
 };
 
 
+template <>
+class incmdCreateObj<POLYGON> : public ObjCreatorCommandBase<POLYGON>
+{
+public:
+	incmdCreateObj(ObjectPoolSandboxPtr r, IObjectPoolPtr s ) : ObjCreatorCommandBase<POLYGON>(r,s)
+	{
+	}
+
+	virtual std::string get_name() {
+		return "incmdCreateObj"+ObjType2String(POLYGON);
+	}
+
+	virtual void execute()
+	{
+		InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<POLYGON>, idle));
+	}
+
+	bool idle(const EvType& ev) {
+
+		if (ev != MC) //not mouse click, return
+			return false;
+
+		ObjCreatorCommandBase<POLYGON>::create_runtime_object();
+		ObjCreatorCommandBase<POLYGON>::runtime_set_pos1();
+		InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<POLYGON>, on_first_click));
+		return true;
+	}
+
+	void on_first_click(const EvType& ev)
+	{
+		//assert(0);
+		if ( ev == MC )
+			ObjCreatorCommandBase<POLYGON>::runtime_set_pos2();
+		else if ( ev == MM)
+			ObjCreatorCommandBase<POLYGON>::runtime_movePoint();
+
+		if ( ev == MDC  || ev == KP) //key pressed, abort
+			InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<POLYGON>,on_commit));
+	}
+	
+	void on_commit(const EvType&) {
+		//assert(0);
+		on_commit_internal();
+	}
+	
+	//FIXME doesn't work
+	void abort1(const EvType&) {
+		ObjCreatorCommandBase<POLYGON>::abort();
+	}
+
+	virtual void on_commit_internal() {
+		ObjCreatorCommandBase<POLYGON>::commit();
+		InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<POLYGON>,idle));
+	}
+
+};
 
 //produces command to create N-angle polygon
 // incmdCreateNthgon<2> => line

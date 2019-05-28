@@ -2,7 +2,8 @@
 #define interactive_command_base
 
 #include "icommand_base.hpp"
-#include "event.hpp"
+
+#include "../core/event.hpp"
 
 #include <string>
 #include <functional>

@@ -19,6 +19,7 @@ public:
 	IObjectPoolPtr getPool() const;
 	void clear();
 	void addPoint(QPoint);
+	void movePoint(QPoint);
 	void addObject(IShape*);
 	void changeBasicProperties(const ShapeProperties&);
 

@@ -2,7 +2,8 @@
 #define selection_commands_hpp
 
 #include "shape_creator_commands.hpp"
-#include "selection.hpp"
+
+#include "../core/selection.hpp"
 
 #include <QPoint>
 

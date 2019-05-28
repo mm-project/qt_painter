@@ -1,5 +1,5 @@
-#include "main_window.hpp"
-#include "log_reader.hpp"
+#include "gui/main_window.hpp"
+#include "io/log_reader.hpp"
 
 #include <QApplication>
 

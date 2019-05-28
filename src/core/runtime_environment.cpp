@@ -1,7 +1,8 @@
 #include "runtime_environment.hpp"
 
+#include "../gui/controller.hpp"
+
 #include "shapes.hpp"
-#include "controller.hpp"
 #include "working_set.hpp"
 
 ObjectSandbox::ObjectSandbox(ObjectPoolSandboxPtr p)
@@ -25,6 +26,13 @@ void ObjectSandbox::addPoint(QPoint p)
 	auto obs = m_pool->getObjects();
 	for (auto it : obs)
 		it->addPoint(p);
+}
+
+void ObjectSandbox::movePoint(QPoint p)
+{
+	auto obs = m_pool->getObjects();
+	for (auto it : obs)
+		it->movePoint(p);
 }
 
 void ObjectSandbox::addObject(IShape* p)
