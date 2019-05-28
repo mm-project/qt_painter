@@ -3,7 +3,7 @@
 
 #include "working_set.hpp"
 #include "service.h"
-#include "RegionQueryService.hpp"
+#include "rq/RegionQueryService.hpp"
 
 #include <QPoint>
 

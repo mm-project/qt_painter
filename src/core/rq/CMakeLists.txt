@@ -1,3 +1,3 @@
-project (core)
+project (rq)
 file(GLOB SOURCES "*.cpp")
-add_library (core STATIC ${SOURCES})
+add_library (rq STATIC ${SOURCES})
