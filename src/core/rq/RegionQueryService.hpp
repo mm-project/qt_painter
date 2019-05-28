@@ -13,7 +13,7 @@ public:
 	void insertObject(IShape*);
 	IShape* getShapeUnderPos(const QPoint&) const;
 
-public:
+private:
 	RegionQuery();
 	RegionQuery(const RegionQuery&) = default;
 	RegionQuery& operator=(const RegionQuery&) = default;

@@ -20,7 +20,7 @@ RegionQuery& RegionQuery::getInstance()
 
 void RegionQuery::insertObject(IShape* object)
 {
-	rq::RQobjectPtr<IShape> obj = std::shared_ptr<rq::RQline<line>>(new rq::RQline<line>(object));
+	rq::RQobjectPtr<line> obj = std::shared_ptr<rq::RQobject<line>>(new rq::RQobject<line>(object));
 
 	m_tree->insert(obj);
 }

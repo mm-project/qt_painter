@@ -79,61 +79,34 @@ private:
 };
 
 
-template <typename T>
-class RQobject;
-
-template <typename T>
-using RQobjectPtr = std::shared_ptr<RQobject<T>>;
-
-template <typename T>
-class RQobject
+class IRQobject
 {
 public:
-	RQobject() = default;
+	IRQobject() = default;
 
-	template <typename Tother>
-	RQobject(const RQobject<Tother>&)
-	{
+	virtual CPoint at(int) const = 0;
 
-	}
+	virtual bool contains(const CPoint&) const = 0;
 
-	template <typename Tother>
-	RQobject(const RQobjectPtr<Tother>&)
-	{
-
-	}
-
-	CPoint at(int) const
-	{
-		return CPoint();
-	}
-
-	bool contains(const CPoint&) const
-	{
-		return false;
-	}
-
-	IShape* getObject() const
-	{
-		return nullptr; 
-	}
+	virtual IShape* getObject() const = 0;
 };
 
 template <typename T>
-class RQline : public RQobject<T>
+using IRQobjectPtr = std::shared_ptr<IRQobject<T>>;
+
+class RQline : public IRQobject
 {
 public:
 
 	RQline() = default;
 
-	RQline(IShape* l) : m_object(static_cast<line*>(l))
-	{
+	virtual IShape* getObject() const override
+	{ 
+		return m_object;  
 	}
 
-	IShape* getObject() const { return m_object;  }
 
-
-	CPoint at(int i) const
+	virtual CPoint at(int i) const override
 	{
 		if (i > 2)
 			// throw;
@@ -144,7 +117,7 @@ public:
 		return CPoint(m_object->getP2());
 	}
 
-	bool contains(CPoint point)
+	virtual bool contains(const CPoint& point) const override
 	{
 		return true;
 
@@ -158,8 +131,5 @@ public:
 private:
 	line* m_object;
 };
-
-template <typename T>
-using RQlinePtr = std::shared_ptr<RQline<T>>;
 }
 #endif

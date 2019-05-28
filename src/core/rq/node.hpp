@@ -20,7 +20,7 @@ public:
 	CNode(const RQlinePtr<T>& = 0, CNodePtr<T> = 0, CNodePtr<T> = 0);
 	~CNode() = default;
 
-	RQlinePtr<T> m_object;
+	RQobjectPtr<T> m_object;
 	CNodePtr<T> m_left_ptr;
 	CNodePtr<T> m_right_ptr;
 };
