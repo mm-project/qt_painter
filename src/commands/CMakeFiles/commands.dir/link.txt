@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../.tmp/lib/libcommands.a  CMakeFiles/commands.dir/command_manager.cpp.o CMakeFiles/commands.dir/qa_commands.cpp.o CMakeFiles/commands.dir/commands_autogen/mocs_compilation.cpp.o
+/usr/bin/ranlib ../../.tmp/lib/libcommands.a

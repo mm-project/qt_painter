@@ -1008,3 +1008,4 @@ dicmdCanvasMouseMove -point (663,360)
 dicmdQaCanvasCompare
 dicmdAbortActiveCommand
 dicmdQaCanvasCompare
+dicmdQaToolExit
