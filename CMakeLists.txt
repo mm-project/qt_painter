@@ -19,8 +19,7 @@ endif (WIN32)
 find_package (Qt5Widgets)
 find_package (Qt5Core)
 find_package (Qt5Gui)
-find_package (Qt5Svg)
-find_package (Qt5Xml)
+
 
 if (UNIX)
 	set ( CMAKE_CXX_FLAGS "-g -fPIC -Wunused-parameter -pipe -std=gnu++11 -frtti -Wall -Wextra -fexceptions -pthread -Wno-unused-function -Wno-unused-variable")
@@ -49,4 +48,4 @@ add_subdirectory (${PROJECT_SOURCE_DIR}/src/gui)
 
 add_executable(painter ${PROJECT_SOURCE_DIR}/src/main.cpp )
 add_dependencies(painter io core commands gui)
-target_link_libraries (painter io core commands gui Qt5::Widgets Qt5::Core Qt5::Gui Qt5::Svg Qt5::Xml)
+target_link_libraries (painter io core commands gui Qt5::Widgets Qt5::Core Qt5::Gui)
