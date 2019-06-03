@@ -2,12 +2,12 @@ version: 2
 jobs:
   build:
     docker:
-        - image: ubuntu:bionic
+        - image: ubuntu:xenial
     steps:
       - checkout
       - run:
           name: deps
-          command: apt-get update && apt-get install -y cmake build-essential libwayland-egl1* libasound2-dev libwayland-* libfreetype6-dev libqt5-*
+          command: apt-get update && apt-get install -y cmake build-essential libqt5-dev
       - run:
           name: compile
           command: export TERM=xterm; cmake CMakeLists.txt; make
