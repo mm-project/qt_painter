@@ -11,3 +11,6 @@ jobs:
       - run:
           name: compile
           command: export TERM=xterm; cmake CMakeLists.txt; make
+      - run:
+          name: regressions
+          command: export TERM=xterm; export PAINTER_SQA_ROOT=/root/project; cd sqa/test_suites/flowtest1; ./run.sh
