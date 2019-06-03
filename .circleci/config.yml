@@ -7,7 +7,7 @@ jobs:
       - checkout
       - run:
           name: deps
-          command: apt-get update && apt-get install -y cmake build-essential libasound2-dev libwayland-* libfreetype6-dev libqt5-*
+          command: apt-get update && apt-get install -y cmake build-essential libwayland-egl1-mesa-lts-trusty libasound2-dev libwayland-* libfreetype6-dev libqt5-*
       - run:
           name: compile
           command: export TERM=xterm; cmake CMakeLists.txt; make
