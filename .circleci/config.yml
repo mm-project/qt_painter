@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-        - image: eoshep/build-essentials:bionic
+        - image: circleci/buildpack-deps:bionic
     steps:
       - checkout
       - run:
