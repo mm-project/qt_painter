@@ -7,7 +7,6 @@ std::unique_ptr<RegionQuery> RegionQuery::m_instance = nullptr;
 RegionQuery::RegionQuery()
 {
 	m_tree = std::shared_ptr<rq::RQtree<IShape>> (new rq::RQtree<IShape>());
-	//m_tree = std::shared_ptr < rq::RQtree <line>> (new rq::RQtree<line>());
 }
 
 RegionQuery& RegionQuery::getInstance()
@@ -20,14 +19,29 @@ RegionQuery& RegionQuery::getInstance()
 
 void RegionQuery::insertObject(IShape* object)
 {
-	rq::RQobjectPtr<line> obj = std::shared_ptr<rq::RQobject<line>>(new rq::RQobject<line>(object));
+	rq::RQobjectPtr obj;
+	switch (object->getType())
+	{
+	case IShape::Type::LINE:
+		//obj = std::shared_ptr<rq::IRQobject>(new rq::RQline(object));
+		break;
+	case IShape::Type::RECTANGLE:
+		obj = std::shared_ptr<rq::IRQobject>(new rq::RQrect(object));
+		break;
+	case IShape::Type::ELLIPSE:
+		obj = std::shared_ptr<rq::IRQobject>(new rq::RQellipse(object));
+		break;
+	case IShape::Type::POLYGON:
+		//obj = std::shared_ptr<rq::IRQobject>(new rq::RQline(object));
+		break;
+	}
 
 	m_tree->insert(obj);
 }
  
 IShape* RegionQuery::getShapeUnderPos(const QPoint& p) const
 {
-	rq::RQobjectPtr<IShape> obj = m_tree->getObject(rq::CPoint(p));
+	rq::RQobjectPtr obj = m_tree->getObject(rq::CPoint(p));
 
 	if (obj != nullptr)
 		return obj->getObject();

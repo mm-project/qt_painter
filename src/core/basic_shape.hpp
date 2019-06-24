@@ -70,6 +70,16 @@ struct ShapeProperties
 class IShape
 {
 public:
+	//	dynamic_cast is too slow
+	enum class Type
+	{
+		LINE = 0,
+		RECTANGLE,
+		ELLIPSE,
+		POLYGON
+	};
+
+public:
 	// @Constructor
 	inline IShape() = default;
 	inline IShape(ObjectType t) :
@@ -97,6 +107,8 @@ public:
 	virtual bool is_draw_mode() {return false;}
 
 	virtual void movePoint(const QPoint&) {}
+
+	virtual Type getType() const = 0;
 public:
 
 	virtual IShape* clone() = 0;

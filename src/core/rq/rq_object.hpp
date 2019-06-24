@@ -1,7 +1,7 @@
 #ifndef POINT_HPP
 #define POINT_HPP
 
-#include "shapes.hpp"
+#include "..\shapes.hpp"
 
 namespace rq {
 
@@ -57,28 +57,39 @@ private:
 };
 */
 
-// becouse qt dont have operator<
+// because qt dont have operator<
 class CPoint : public QPoint
 {
 public:
 	CPoint() = default;
-	explicit CPoint(QPoint p) : m_point(p) {}
+	explicit CPoint(QPoint p)
+	{
+		rx() = p.x();
+		ry() = p.y();
+	}
 
 public:
 	bool operator<(const CPoint& p) const
 	{
-		return (m_point.x() < p.x() && m_point.y() < p.y());
+		return (x() < p.x() && y() < p.y());
 	}
 
 	bool operator<(const QPoint& p) const
 	{
-		return (m_point.x() < p.x() && m_point.y() < p.y());
+		return (x() < p.x() && y() < p.y());
 	}
-private:
-	QPoint m_point;
+
+	QPoint get() const
+	{ 
+		return QPoint(x(), y()); 
+	}
 };
 
 
+
+//
+//	Interface for IShape wrapper
+//
 class IRQobject
 {
 public:
@@ -91,14 +102,19 @@ public:
 	virtual IShape* getObject() const = 0;
 };
 
-template <typename T>
-using IRQobjectPtr = std::shared_ptr<IRQobject<T>>;
+using RQobjectPtr = std::shared_ptr<IRQobject>;
 
+
+//
+//
+//
 class RQline : public IRQobject
 {
 public:
 
 	RQline() = default;
+
+	RQline(IShape* p) : m_object(static_cast<line*>(p)) {}
 
 	virtual IShape* getObject() const override
 	{ 
@@ -130,6 +146,42 @@ public:
 
 private:
 	line* m_object;
+};
+
+//
+//
+//
+class RQrect : public IRQobject
+{
+public:
+	RQrect() = default;
+	RQrect(IShape* p) : m_object(static_cast<rectangle*>(p)) {}
+
+public:
+	virtual CPoint at(int) const override;
+	virtual bool contains(const CPoint&) const override;
+	virtual IShape* getObject() const override;
+
+private:
+	rectangle* m_object;
+};
+
+//
+//	
+//
+class RQellipse : public IRQobject
+{
+public:
+	RQellipse() = default;
+	RQellipse(IShape* p) : m_object(static_cast<ellipse*>(p)) {}
+
+public:
+	virtual CPoint at(int) const override;
+	virtual bool contains(const CPoint&) const override;
+	virtual IShape* getObject() const override;
+
+private:
+	ellipse* m_object;
 };
 }
 #endif
