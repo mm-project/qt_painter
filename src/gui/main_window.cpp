@@ -59,7 +59,7 @@ main_window::main_window(QWidget* p)
 	w->setTitleBarWidget(new QWidget(this));
 	addDockWidget(Qt::TopDockWidgetArea, w);
 
-	setFixedSize(1100, 700);
+	resize(1100, 700);
 	setCentralWidget(m_canvas);
 
 	make_connections();

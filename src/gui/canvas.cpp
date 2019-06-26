@@ -122,7 +122,7 @@ void canvas::paintEvent(QPaintEvent*)
     m_renderer->start();
 
 	// black hole :D
-    QRect rect(QPoint(0, 0), QSize(1000,1000));
+    QRect rect(QPoint(0, 0), size());
     QBrush b(Qt::black);
     painter->setBrush(b);
     painter->drawRect(rect);
