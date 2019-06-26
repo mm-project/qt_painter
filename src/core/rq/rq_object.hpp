@@ -135,8 +135,6 @@ public:
 
 	virtual bool contains(const CPoint& point) const override
 	{
-		return true;
-
 		QPoint p1 = m_object->getP1();
 		QPoint p2 = m_object->getP2();
 
@@ -183,5 +181,24 @@ public:
 private:
 	ellipse* m_object;
 };
+
+//
+//	
+//
+class RQpolygon : public IRQobject
+{
+public:
+	RQpolygon() = default;
+	RQpolygon(IShape* p) : m_object(static_cast<polygon*>(p)) {}
+
+public:
+	virtual CPoint at(int) const override;
+	virtual bool contains(const CPoint&) const override;
+	virtual IShape* getObject() const override;
+
+private:
+	polygon* m_object;
+};
+
 }
 #endif

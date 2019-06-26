@@ -129,6 +129,10 @@ public:
 
 	virtual Type getType() const override { return Type::POLYGON; }
 
+	QPoint getTopLeft() const;
+	QPoint getBottomRight() const;
+	bool contains(const QPoint& point) const { return m_object.boundingRect().contains(point); }
+
 private:
 	QPolygon m_object;
 	bool m_first = true;

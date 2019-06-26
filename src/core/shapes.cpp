@@ -235,3 +235,13 @@ void polygon::movePoint(const QPoint& p)
 {
 	m_object.setPoint(m_object.size() - 1, p);
 }
+
+QPoint polygon::getTopLeft() const
+{
+	return m_object.boundingRect().topLeft();
+}
+
+QPoint polygon::getBottomRight() const
+{
+	return m_object.boundingRect().bottomRight();
+}

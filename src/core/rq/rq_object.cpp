@@ -48,4 +48,25 @@ IShape* RQellipse::getObject() const
 	return m_object;
 }
 
+CPoint RQpolygon::at(int point) const
+{
+	if (point > 2)
+		// throw;
+		return CPoint();
+
+	if (point == 0)
+		return CPoint(m_object->getTopLeft());
+	return CPoint(m_object->getBottomRight());
+}
+
+bool RQpolygon::contains(const CPoint& point) const
+{
+	return m_object->contains(point.get());
+
+}
+
+IShape* RQpolygon::getObject() const
+{
+	return m_object;
+}
 }
