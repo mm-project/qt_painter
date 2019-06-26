@@ -4,6 +4,7 @@
 #include "create_shape_gui.hpp"
 #include "pen_brush_gui.hpp"
 #include "icons.hpp"
+#include "statusbar_manager.hpp"
 
 #include "../commands/command_manager.hpp"
 #include "../commands/gui_commands.hpp"
@@ -66,6 +67,9 @@ main_window::main_window(QWidget* p)
 	setWindowIcon(main_window_icon);
 	QCoreApplication::instance()->installEventFilter(this);
 	command_manager::get_instance()->set_main_widget(this);
+
+	StatusBarManager& sBar = StatusBarManager::getInstance();
+	sBar.setStatusBar(statusBar());
 }
 
 void main_window::make_connections()
@@ -78,4 +82,10 @@ void main_window::make_connections()
 	connect(m_shapes, SIGNAL(reset()), m_canvas, SLOT(reset()));
 	connect(m_shapes, SIGNAL(close()), m_canvas, SLOT(close()));
 	connect(m_shapes, SIGNAL(selectByRegion()), m_canvas, SLOT(invoke_select_by_region()));
+}
+
+main_window::~main_window()
+{
+	StatusBarManager& sBar = StatusBarManager::getInstance();
+	sBar.clear();
 }
