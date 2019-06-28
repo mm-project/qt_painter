@@ -161,7 +161,7 @@ bool RQtree<T>::_search(CNodePtr<T> node, const RQobjectPtr& point, int depth) c
 	if (node->m_object == point)
 		return true;
 
-	size_t cd = depth % 2;
+	int cd = depth % 2;
 
 	if (point[cd] < node->m_object[cd])
 		return _search(node->m_left_ptr, point, depth + 1);
@@ -189,7 +189,7 @@ std::vector<RQobjectPtr> RQtree<T>::_nearest_points(CNodePtr<T> node, const RQob
 
 	if (node->m_point == point)
 	{
-		std::vector<CPoint<T>> nearests;
+		std::vector<CPoint> nearests;
 
 		if (node->m_left_ptr != nullptr)
 			nearests.push_back(node->m_left_ptr->m_point);
@@ -200,7 +200,7 @@ std::vector<RQobjectPtr> RQtree<T>::_nearest_points(CNodePtr<T> node, const RQob
 		return nearests;
 	}
 
-	size_t cd = depth % 2;
+	int cd = depth % 2;
 
 	if (point[cd] < node->m_object[cd])
 		return _nearest_points(node->m_left_ptr, point, depth + 1);
