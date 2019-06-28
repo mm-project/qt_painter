@@ -110,7 +110,7 @@ CNodePtr<T> RQtree<T>::_insert(CNodePtr<T>& root, const RQobjectPtr& point, int 
 		return root;
 	}
 
-	size_t cd = depth % 2; //change it , 2 means point size(x, y) :D
+	int cd = depth % 2; //change it , 2 means point size(x, y) :D
 
 	if (point->at(cd) < root->m_object->at(cd))
 		root->m_left_ptr = _insert(root->m_left_ptr, point, depth + 1);
@@ -223,7 +223,7 @@ RQobjectPtr RQtree<T>::_getObject(CNodePtr<T> node, const CPoint& point, int dep
 	if (node->m_object->contains(point))
 		return node->m_object;
 
-	size_t cd = depth % 2;
+	int cd = depth % 2;
 
 	if (point < node->m_object->at(cd))
 		return _getObject(node->m_left_ptr, point, depth + 1);
