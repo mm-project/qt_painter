@@ -91,16 +91,44 @@ void canvas::mouseMoveEvent(QMouseEvent* e)
     if( cm->is_idle() ) 
         return;
     
-    cm->mouse_moved(e->pos().x(),e->pos().y());
+	int _x = e->pos().x();
+	int _y = e->pos().y();
+	_x = (_x / m_scale) * m_scale;
+	_y = (_y / m_scale) * m_scale;
+	e->pos().setX(_x);
+	e->pos().setY(_y);
+    cm->mouse_moved(_x, _y);
     //FIXME add logMotion flag to enable
     //dicmdCanvasMouseMove(e->pos()).log();
 
     update();
 }
 
-void canvas::wheelEvent(QWheelEvent*)
+void canvas::wheelEvent(QWheelEvent* pEvent)
 {
-    m_renderer->incr_zoom_factor();
+	QPoint numDegrees = pEvent->angleDelta() / 8;
+	
+	int zoom = 0;
+	if (numDegrees.y() < 0)
+	{
+		m_renderer->incr_zoom_factor();
+		while (m_renderer->get_zoom_factor() < 2)
+			m_renderer->incr_zoom_factor();
+		zoom = m_renderer->get_zoom_factor();
+		if (zoom < 10)
+			m_scale *= zoom;
+	}
+	else if (numDegrees.y() > 0)
+	{
+		zoom = m_renderer->get_zoom_factor();
+		m_renderer->decr_zoom_factor();
+		if (zoom > 0)
+			m_scale /= zoom;
+	}
+	if (m_scale < 20)
+		m_scale = 20;
+
+	std::cout << m_scale << std::endl;
     update();
 }
 
@@ -126,6 +154,16 @@ void canvas::paintEvent(QPaintEvent*)
     QBrush b(Qt::black);
     painter->setBrush(b);
     painter->drawRect(rect);
+
+	//	Draw grid
+    QPen white(Qt::white);
+	white.setWidth(3);
+    painter->setPen(white);
+	int _height = height();
+	int _width = width();
+	for (int i = 0; i < _width; i += m_scale)
+		for (int j = 0; j < _height; j += m_scale)
+			painter->drawPoint(i, j);
 
 	// draw working set
     std::vector<IShape*> shapes = m_working_set->getObjects();
