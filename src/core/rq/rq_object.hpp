@@ -3,6 +3,8 @@
 
 #include "..\shapes.hpp"
 
+#include <memory>
+
 namespace rq {
 
 /*

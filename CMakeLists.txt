@@ -13,6 +13,7 @@ endif(WIN32)
 
 if (WIN32) 
 	set(QTDIR "C:\\Programs\\Qt\\5.11.1")
+	set(QTDIR "./ext/mingw73_32")
 	set(CMAKE_PREFIX_PATH ${QTDIR})
 endif (WIN32)
 
@@ -22,9 +23,11 @@ find_package (Qt5Gui)
 find_package (Qt5Svg)
 find_package (Qt5Xml)
 
-if (UNIX)
-	set ( CMAKE_CXX_FLAGS "-g -fPIC -Wunused-parameter -pipe -std=gnu++11 -frtti -Wall -Wextra -fexceptions -pthread -Wno-unused-function -Wno-unused-variable")
-endif (UNIX)
+set(CMAKE_CXX_STANDARD 17)
+
+#if (UNIX)
+	set ( CMAKE_CXX_FLAGS "-g -fPIC -Wunused-parameter -pipe -std=gnu++17 -frtti -Wall -Wextra -fexceptions -pthread -Wno-unused-function -Wno-unused-variable")
+#endif (UNIX)
 
 if (MSVC)
 	set(CMAKE_CXX_STANDARD 17)
@@ -43,11 +46,11 @@ else ()
 endif (UNIX)
 
 add_subdirectory (${PROJECT_SOURCE_DIR}/src/io)
-add_subdirectory (${PROJECT_SOURCE_DIR}/src/core)
 add_subdirectory (${PROJECT_SOURCE_DIR}/src/core/rq)
+add_subdirectory (${PROJECT_SOURCE_DIR}/src/core)
 add_subdirectory (${PROJECT_SOURCE_DIR}/src/commands)
 add_subdirectory (${PROJECT_SOURCE_DIR}/src/gui)
 
 add_executable(painter ${PROJECT_SOURCE_DIR}/src/main.cpp )
-add_dependencies(painter io core commands gui rq)
-target_link_libraries (painter io core commands rq gui Qt5::Widgets Qt5::Core Qt5::Gui Qt5::Svg Qt5::Xml)
+add_dependencies(painter rq	io core commands gui )
+target_link_libraries (painter gui rq io core commands rq Qt5::Widgets Qt5::Core Qt5::Gui Qt5::Svg Qt5::Xml)

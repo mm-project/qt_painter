@@ -1,6 +1,11 @@
 #include "canvas.hpp"
 #include "controller.hpp"
 
+#include "../core/shapes.hpp"
+#include "../core/working_set.hpp"
+#include "../core/runtime_environment.hpp"
+#include "../core/selection.hpp"
+
 #include "../commands/direct_command_base.hpp"
 #include "../commands/basic_commands.hpp"
 #include "../commands/gui_commands.hpp"
@@ -8,10 +13,6 @@
 #include "../commands/selection_commands.hpp"
 #include "../commands/command_manager.hpp"
 
-#include "../core/shapes.hpp"
-#include "../core/working_set.hpp"
-#include "../core/runtime_environment.hpp"
-#include "../core/selection.hpp"
 
 #include <QRect>
 #include <QPainter>
