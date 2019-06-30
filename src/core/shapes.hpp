@@ -21,8 +21,8 @@
 class line : public IShape
 {
 public:
-	line(QLine = QLine(), ShapeProperties = ShapeProperties());
-	virtual ~line();
+	inline line(QLine = QLine(), ShapeProperties = ShapeProperties());
+	virtual ~line() = default;
 
 public:
 	virtual line* clone() override;
@@ -36,6 +36,11 @@ public:
 	void setP1(const QPoint&);
 	void setP2(const QPoint&);
 
+	QPoint getP1() const { return m_object.p1(); }
+	QPoint getP2() const { return m_object.p2(); }
+
+	virtual Type getType() const override { return Type::LINE; }
+
 private:
 	QLine m_object;
 	bool m_waitForSecondClick;
@@ -48,8 +53,8 @@ private:
 class rectangle : public IShape
 {
 public:
-	rectangle(QRect = QRect(), ShapeProperties = ShapeProperties());
-	virtual ~rectangle();
+	inline rectangle(QRect = QRect(), ShapeProperties = ShapeProperties());
+	virtual ~rectangle() = default;
 
 public:
 	virtual rectangle* clone() override;
@@ -63,6 +68,12 @@ public:
 	void setTopLeft(const QPoint&);
 	void setBottomRight(const QPoint&);
 
+	QPoint getTopLeft() const;
+	QPoint getBottomRight() const;
+
+	bool contains(const QPoint& point) const { return m_object.contains(point); }
+	virtual Type getType() const override { return Type::RECTANGLE; }
+
 private:
 	QRect m_object;
 	bool m_waitForSecondClick;
@@ -75,9 +86,9 @@ private:
 class ellipse : public IShape
 {
 public:
-	ellipse(QRect = QRect(), ShapeProperties = ShapeProperties());
-	virtual ~ellipse();
-
+	inline ellipse(QRect = QRect(), ShapeProperties = ShapeProperties());
+	virtual ~ellipse() = default;
+  
 public:
 	virtual ellipse* clone() override;
 	virtual void draw(QPainter*) override;
@@ -90,6 +101,12 @@ public:
 	void setTopLeft(const QPoint&);
 	void setBottomRight(const QPoint&);
 
+	QPoint getTopLeft() const;
+	QPoint getBottomRight() const;
+
+	bool contains(const QPoint& point) const { return m_object.contains(point); }
+	virtual Type getType() const override { return Type::ELLIPSE; }
+
 private:
 	QRect m_object;
 	bool m_waitForSecondClick;
@@ -98,8 +115,9 @@ private:
 class polygon : public IShape 
 {
 public:
-	polygon(QPolygonF = QPolygonF(), ShapeProperties = ShapeProperties());
-	virtual ~polygon();
+
+	inline polygon(QPolygon = QPolygon(), ShapeProperties = ShapeProperties());
+	virtual ~polygon() = default;
 
 public:
 	virtual polygon* clone() override;
@@ -108,9 +126,18 @@ public:
 public:
 	virtual void reset() override;
 	virtual void addPoint(const QPoint&) override;
+	virtual void movePoint(const QPoint&) override;
+
+	virtual Type getType() const override { return Type::POLYGON; }
+
+	QPoint getTopLeft() const;
+	QPoint getBottomRight() const;
+	bool contains(const QPoint& point) const { return m_object.boundingRect().contains(point); }
 
 private:
-	QPolygonF m_object;
+	QPolygon m_object;
+	bool m_first = true;
+
 };
 
 #endif

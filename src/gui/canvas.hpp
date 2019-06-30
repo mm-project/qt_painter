@@ -46,7 +46,12 @@ class renderer
         void decr_zoom_factor() {
             m_zoom_factor--;
         }
-        
+
+		int get_zoom_factor() const
+		{
+			return m_zoom_factor;
+		}
+
         //void pan(int x, int y) {
         //	
         //}
@@ -96,9 +101,8 @@ private:
         ObjectPoolSandboxPtr m_sandbox;
         command_manager* cm;
         renderer* m_renderer;
+  		int m_scale = 20;
 };
-
-
 
 
 #endif
