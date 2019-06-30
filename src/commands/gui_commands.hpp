@@ -166,4 +166,5 @@ class dicmdCanvasMouseDblClick: public DirectCommandBase
 };
 
 
+
 #endif

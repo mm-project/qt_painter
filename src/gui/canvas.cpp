@@ -54,7 +54,6 @@ canvas::canvas(QWidget* p)
 	cm->register_command(new INCMD_CREATE_OBJ(ELLIPSE));
 	cm->register_command(new INCMD_CREATE_OBJ(POLYGON));
 	cm->register_command(new INCMD_HIGHLIGHT_BY_REGION);
-
 }
 
 void canvas::keyPressEvent(QKeyEvent*) {
@@ -91,7 +90,7 @@ void canvas::mouseMoveEvent(QMouseEvent* e)
 {
     if( cm->is_idle() ) 
         return;
-    
+
 	int _x = e->pos().x();
 	int _y = e->pos().y();
 	_x = (_x / m_scale) * m_scale;

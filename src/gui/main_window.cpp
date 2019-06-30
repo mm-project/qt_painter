@@ -67,9 +67,9 @@ main_window::main_window(QWidget* p)
 	setWindowIcon(main_window_icon);
 	QCoreApplication::instance()->installEventFilter(this);
 	command_manager::get_instance()->set_main_widget(this);
-
 	StatusBarManager& sBar = StatusBarManager::getInstance();
 	sBar.setStatusBar(statusBar());
+
 }
 
 void main_window::make_connections()

@@ -88,7 +88,7 @@ class ellipse : public IShape
 public:
 	inline ellipse(QRect = QRect(), ShapeProperties = ShapeProperties());
 	virtual ~ellipse() = default;
-
+  
 public:
 	virtual ellipse* clone() override;
 	virtual void draw(QPainter*) override;
@@ -115,6 +115,7 @@ private:
 class polygon : public IShape 
 {
 public:
+
 	inline polygon(QPolygon = QPolygon(), ShapeProperties = ShapeProperties());
 	virtual ~polygon() = default;
 
@@ -136,6 +137,7 @@ public:
 private:
 	QPolygon m_object;
 	bool m_first = true;
+
 };
 
 #endif

@@ -6,7 +6,6 @@
 #include "working_set.hpp"
 #include "service.h"
 
-
 #include <QPoint>
 
 class Selection : public Service<Selection> , public WorkingSet
