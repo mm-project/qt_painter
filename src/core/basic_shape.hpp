@@ -52,23 +52,15 @@ namespace {
 //
 struct ShapeProperties
 {
-	ShapeProperties() : 
-		pen_color(Qt::white), 
-		brush_color(Qt::black),
-		pen_width(1),
-		pen_style(Qt::SolidLine), 
-		pen_cap_style(Qt::SquareCap), 
-		pen_join_style(Qt::BevelJoin), 
-		brush_style(Qt::SolidPattern) 
-	{}
+	inline ShapeProperties() = default;
 
-	QColor pen_color;
-	QColor brush_color;
-	int pen_width;
-	Qt::PenStyle pen_style;
-	Qt::PenCapStyle pen_cap_style;
-	Qt::PenJoinStyle pen_join_style;
-	Qt::BrushStyle brush_style;
+	QColor					pen_color = Qt::white;
+	QColor					brush_color = Qt::black;
+	int						pen_width = 1;
+	Qt::PenStyle			pen_style = Qt::SolidLine;
+	Qt::PenCapStyle			pen_cap_style = Qt::SquareCap;
+	Qt::PenJoinStyle		pen_join_style = Qt::BevelJoin;
+	Qt::BrushStyle			brush_style = Qt::SolidPattern;
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -78,18 +70,28 @@ struct ShapeProperties
 class IShape
 {
 public:
+	//	dynamic_cast is too slow
+	enum class Type
+	{
+		LINE = 0,
+		RECTANGLE,
+		ELLIPSE,
+		POLYGON
+	};
+
+public:
 	// @Constructor
-	IShape() {}
-	IShape(ObjectType t) :
-		m_type(t) 
-	{}
-	IShape(ObjectType t, ShapeProperties p) :
+	inline IShape() = default;
+	inline IShape(ObjectType t) :
+		m_type(t) {}
+
+	inline IShape(ObjectType t, ShapeProperties p) :
 		m_type(t), 
 		m_properties(p) 
 	{}
 
 	// @Destructor
-	virtual ~IShape() {}
+	virtual ~IShape() = default;
 
 public:
 
@@ -104,6 +106,10 @@ public:
 
 	virtual bool is_draw_mode() {return false;}
 
+	virtual void movePoint(const QPoint&) {}
+
+	virtual Type getType() const = 0;
+  
 public:
 
 	virtual IShape* clone() = 0;

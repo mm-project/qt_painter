@@ -16,10 +16,6 @@ line::line(QLine l, ShapeProperties p)
 	m_object = l;
 }
 
-line::~line()
-{
-}
-
 line* line::clone()
 {
 	return new line(m_object, m_properties);
@@ -106,6 +102,16 @@ void rectangle::setBottomRight(const QPoint& p)
 	m_object.setBottomRight(p);
 }
 
+QPoint rectangle::getTopLeft() const
+{
+	return m_object.topLeft();
+}
+
+QPoint rectangle::getBottomRight() const
+{
+	return m_object.bottomRight();
+}
+
 void rectangle::addPoint(const QPoint& point)
 {
 	if (m_waitForSecondClick)
@@ -118,10 +124,6 @@ void rectangle::addPoint(const QPoint& point)
 		m_waitForSecondClick = true;
 	}
 
-}
-
-rectangle::~rectangle()
-{
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -166,6 +168,16 @@ void ellipse::setBottomRight(const QPoint& p)
 	m_object.setBottomRight(p);
 }
 
+QPoint ellipse::getTopLeft() const
+{
+	return m_object.topLeft();
+}
+
+QPoint ellipse::getBottomRight() const
+{
+	return m_object.bottomRight();
+}
+
 void ellipse::addPoint(const QPoint& point)
 {
 	if (m_waitForSecondClick)
@@ -180,15 +192,11 @@ void ellipse::addPoint(const QPoint& point)
 
 }
 
-ellipse::~ellipse()
-{
-}
-
 ///////////////////////////////////////////////////////////////////////////////
 //
 // @polygon implementation 
 //
-polygon::polygon(QPolygonF p, ShapeProperties b)
+polygon::polygon(QPolygon p, ShapeProperties b)
 	: IShape(POLYGON, b)
 {
 	m_object = p;
@@ -211,19 +219,29 @@ void polygon::draw(QPainter* p)
 
 void polygon::reset()
 {
-	QPolygonF p;
+	QPolygon p;
 	m_object.swap(p);
 }
 
 void polygon::addPoint(const QPoint& p)
 {
-    //FIXME nicer way?
-    //if ( ! m_object.isEmpty() )
-    //    m_object.pop_back();
-    
-    m_object << p;
+	if (m_first)
+		m_object << p;
+	m_object << p;
+	m_first = false;
 }
 
-polygon::~polygon()
+void polygon::movePoint(const QPoint& p)
 {
+	m_object.setPoint(m_object.size() - 1, p);
+}
+
+QPoint polygon::getTopLeft() const
+{
+	return m_object.boundingRect().topLeft();
+}
+
+QPoint polygon::getBottomRight() const
+{
+	return m_object.boundingRect().bottomRight();
 }

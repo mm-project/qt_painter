@@ -1,6 +1,11 @@
 #include "canvas.hpp"
 #include "controller.hpp"
 
+#include "../core/shapes.hpp"
+#include "../core/working_set.hpp"
+#include "../core/runtime_environment.hpp"
+#include "../core/selection.hpp"
+
 #include "../commands/direct_command_base.hpp"
 #include "../commands/basic_commands.hpp"
 #include "../commands/gui_commands.hpp"
@@ -8,10 +13,6 @@
 #include "../commands/selection_commands.hpp"
 #include "../commands/command_manager.hpp"
 
-#include "../core/shapes.hpp"
-#include "../core/working_set.hpp"
-#include "../core/runtime_environment.hpp"
-#include "../core/selection.hpp"
 
 #include <QRect>
 #include <QPainter>
@@ -31,29 +32,28 @@
 canvas::canvas(QWidget* p)
         : QWidget(p), is_runtime_mode(false)
 {
-        setFocusPolicy(Qt::StrongFocus);
-        setMouseTracking(true);
-        setObjectName("CANVAS");
-        
-        //FIXME move to services
-        m_working_set = std::shared_ptr<WorkingSet>(new WorkingSet);
-        m_sandbox = std::shared_ptr<ObjectPoolSandbox>(new ObjectPoolSandbox);
-        Selection::get_instance()->set_working_set(m_working_set.get());
-        Selection::get_instance()->set_sandbox(m_sandbox.get());
-        
-        
-        m_renderer = new renderer(this);
-        cm = command_manager::get_instance();
-        cm->init2(m_sandbox, m_working_set);
-        cm->init();
-        
-        //FIXME broken
-        cm->register_command(new INCMD_CREATE_OBJ(LINE));
-        cm->register_command(new INCMD_CREATE_OBJ(RECTANGLE));
-        cm->register_command(new INCMD_CREATE_OBJ(ELLIPSE));
-        cm->register_command(new INCMD_CREATE_OBJ(POLYGON));
-        cm->register_command(new INCMD_HIGHLIGHT_BY_REGION);
-
+	setFocusPolicy(Qt::StrongFocus);
+	setMouseTracking(true);
+	setObjectName("CANVAS");
+	
+	//FIXME move to services
+	m_working_set = std::shared_ptr<WorkingSet>(new WorkingSet);
+	m_sandbox = std::shared_ptr<ObjectPoolSandbox>(new ObjectPoolSandbox);
+	Selection::get_instance()->set_working_set(m_working_set.get());
+	Selection::get_instance()->set_sandbox(m_sandbox.get());
+	
+	
+	m_renderer = new renderer(this);
+	cm = command_manager::get_instance();
+	cm->init2(m_sandbox, m_working_set);
+	cm->init();
+	
+	//FIXME broken
+	cm->register_command(new INCMD_CREATE_OBJ(LINE));
+	cm->register_command(new INCMD_CREATE_OBJ(RECTANGLE));
+	cm->register_command(new INCMD_CREATE_OBJ(ELLIPSE));
+	cm->register_command(new INCMD_CREATE_OBJ(POLYGON));
+	cm->register_command(new INCMD_HIGHLIGHT_BY_REGION);
 }
 
 void canvas::keyPressEvent(QKeyEvent*) {
@@ -90,22 +90,51 @@ void canvas::mouseMoveEvent(QMouseEvent* e)
 {
     if( cm->is_idle() ) 
         return;
-    
-    cm->mouse_moved(e->pos().x(),e->pos().y());
+
+	int _x = e->pos().x();
+	int _y = e->pos().y();
+	_x = (_x / m_scale) * m_scale;
+	_y = (_y / m_scale) * m_scale;
+	e->pos().setX(_x);
+	e->pos().setY(_y);
+    cm->mouse_moved(_x, _y);
     //FIXME add logMotion flag to enable
     //dicmdCanvasMouseMove(e->pos()).log();
 
     update();
 }
 
-void canvas::wheelEvent(QWheelEvent*)
+void canvas::wheelEvent(QWheelEvent* pEvent)
 {
-    m_renderer->incr_zoom_factor();
+	QPoint numDegrees = pEvent->angleDelta() / 8;
+	
+	int zoom = 0;
+	if (numDegrees.y() < 0)
+	{
+		m_renderer->incr_zoom_factor();
+		while (m_renderer->get_zoom_factor() < 2)
+			m_renderer->incr_zoom_factor();
+		zoom = m_renderer->get_zoom_factor();
+		if (zoom < 10)
+			m_scale *= zoom;
+	}
+	else if (numDegrees.y() > 0)
+	{
+		zoom = m_renderer->get_zoom_factor();
+		m_renderer->decr_zoom_factor();
+		if (zoom > 0)
+			m_scale /= zoom;
+	}
+	if (m_scale < 20)
+		m_scale = 20;
+
+	std::cout << m_scale << std::endl;
     update();
 }
 
 void canvas::mouseDoubleClickEvent(QMouseEvent* e)
 {
+    dicmdCanvasMouseDblClick(e->pos()).log();
     cm->mouse_dbl_clicked(e->pos().x(),e->pos().y());
     update();
 }
@@ -122,10 +151,20 @@ void canvas::paintEvent(QPaintEvent*)
     m_renderer->start();
 
 	// black hole :D
-    QRect rect(QPoint(0, 0), QSize(1000,1000));
+    QRect rect(QPoint(0, 0), size());
     QBrush b(Qt::black);
     painter->setBrush(b);
     painter->drawRect(rect);
+
+	//	Draw grid
+    QPen white(Qt::white);
+	white.setWidth(3);
+    painter->setPen(white);
+	int _height = height();
+	int _width = width();
+	for (int i = 0; i < _width; i += m_scale)
+		for (int j = 0; j < _height; j += m_scale)
+			painter->drawPoint(i, j);
 
 	// draw working set
     std::vector<IShape*> shapes = m_working_set->getObjects();
