@@ -1,6 +1,8 @@
 #ifndef icommand_base_hpp
 #define icommand_base_hpp
 
+#include "../io/messenger.hpp"
+
 #include <string>
 #include <iostream>
 
@@ -41,9 +43,12 @@ class CommandBase : public ICommand
             }
         }
         
-        virtual void log() {
-            //if ( ... )
-            std::cout << get_name() << std::endl;
+        void log_impl(const std::string& str) {
+			Messenger::log_command(str);
+		}
+		
+		virtual void log() {
+			CommandBase::log_impl(get_name());
         }
         
         //virtual void activate() {}

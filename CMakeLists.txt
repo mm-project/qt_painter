@@ -54,4 +54,4 @@ add_subdirectory (${PROJECT_SOURCE_DIR}/src/gui)
 
 add_executable(painter ${PROJECT_SOURCE_DIR}/src/main.cpp )
 add_dependencies(painter rq	io core commands gui )
-target_link_libraries (painter gui rq io core commands rq Qt5::Widgets Qt5::Core Qt5::Gui Qt5::Svg Qt5::Xml)
+target_link_libraries (painter io gui rq io core commands rq Qt5::Widgets Qt5::Core Qt5::Gui Qt5::Svg Qt5::Xml)
