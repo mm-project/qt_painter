@@ -58,8 +58,8 @@ class command_manager
         //FIXME !!! map with string
         std::map<std::string, CommandBase*> m_name2command;
         
-        CommandBase* m_current_command;
-        CommandBase* m_idle_command;
+        CommandBase* m_current_command = nullptr;
+        CommandBase* m_idle_command = nullptr;
  
         //CommandBase* m_elipse_command;
         //CommandBase* m_line_command;
@@ -70,7 +70,7 @@ class command_manager
         ObjectPoolSandboxPtr re;
         IObjectPoolPtr ws;
         //bool m_is_idle;
-        QWidget* m_main_widget;
+        QWidget* m_main_widget	= nullptr;
 
     public:
         static command_manager* m_instance;
