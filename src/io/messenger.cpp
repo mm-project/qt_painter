@@ -2,6 +2,7 @@
 
 
 #include <QString>
+#include <QDateTime>
 
 #include <iostream>
 #include <sstream>
@@ -22,13 +23,16 @@ void Messenger::fini() {
 
 void Messenger::init() {
 	QString m_path("./logs");
+	QString id = QDateTime::currentDateTime().toString("yyyy-MM-dd-HH-mm-ss");
+	std::cout << id.toStdString() << std::endl;
+	
 	m_dir = new QDir;//;("logs");
 	
 	if (!m_dir->exists(m_path))
 	m_dir->mkpath(m_path); // You can check the success if needed
 
-	m_cmdfile = new QFile(m_path + "/painter.out");
-	m_logfile = new QFile(m_path + "/painter.log");
+	m_cmdfile = new QFile(m_path + "/painter."+id+".out");
+	m_logfile = new QFile(m_path + "/painter."+id+".log");
 	
 	/*
 	m_cmdfile->open( QIODevice::WriteOnly | QIODevice::Append ); 
@@ -51,6 +55,9 @@ std::string Messenger::decorate(const LogMsgSeverity& r) {
 		case warn:
 			return("#w ");
 			break;
+		case out:
+			return("#o ");
+			break;
 		default:
 			break;
 		}
@@ -62,36 +69,36 @@ void Messenger::expose_internal(const LogMsgSeverity& s, const std::string& msg 
 	std::stringstream z;
 	z << decorate(s) << msg << "\n";
 	
-	m_cmdfile->open( QIODevice::WriteOnly | QIODevice::Append ); 
 	m_logfile->open( QIODevice::WriteOnly | QIODevice::Append ); 
-	
 	log_stream = new QTextStream(m_logfile);
-	cmd_stream = new QTextStream(m_cmdfile);
-
 	(*log_stream) << z.str().c_str();
-	
-	if ( cmd )
-		(*cmd_stream) << msg
-	
-	m_cmdfile->flush();
 	m_logfile->flush();
-
-	m_cmdfile->close();
 	m_logfile->close();
 	
-	std::cout << z.str();
-		
+	
+	if ( cmd ) {
+		m_cmdfile->open( QIODevice::WriteOnly | QIODevice::Append ); 
+		cmd_stream = new QTextStream(m_cmdfile);
+		(*cmd_stream) << (msg+"\n").c_str();
+		m_cmdfile->flush();
+		m_cmdfile->close();
+	}
+	
+	
+	std::cout << z.str();	
 }
 			
-void Messenger::expose(const LogMsgSeverity& s, const std::string& msg)
+void Messenger::expose(const LogMsgSeverity& s, const std::string& msg, bool iscmd = false )
 {
-	Messenger::get_instance()->expose_internal(s,msg);
+	Messenger::get_instance()->expose_internal(s,msg,iscmd);
 }
     	
+//used by CommandBase internally , fixme add friend		
 void Messenger::log_command(const std::string& msg) 
 {
 	Messenger::expose(ok,msg,true);	
 }
 
+//Messenger::expose(err,"Error: ... ")
 	
 
