@@ -101,7 +101,7 @@ private:
         ObjectPoolSandboxPtr m_sandbox;
         command_manager* cm;
         renderer* m_renderer;
-  		int m_scale = 20;
+  		int m_scale = 15;
 };
 
 

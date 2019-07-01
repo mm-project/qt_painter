@@ -158,13 +158,23 @@ void canvas::paintEvent(QPaintEvent*)
 
 	//	Draw grid
     QPen white(Qt::white);
-	white.setWidth(3);
+	white.setWidth(1);
+	white.setJoinStyle(Qt::RoundJoin);
+	white.setCapStyle(Qt::RoundCap);
     painter->setPen(white);
 	int _height = height();
 	int _width = width();
-	for (int i = 0; i < _width; i += m_scale)
-		for (int j = 0; j < _height; j += m_scale)
+	for (int i = 0, _i  = 0; i < _width; i += m_scale, ++_i)
+		for (int j = 0, _j = 0; j < _height; j += m_scale, ++_j)
+		{
+			if ((_i % 5 == 0) && (_j % 5 == 0))
+				white.setWidth(4);
+			white.setJoinStyle(Qt::RoundJoin);
+			white.setCapStyle(Qt::RoundCap);
+			painter->setPen(white);
 			painter->drawPoint(i, j);
+			white.setWidth(1);
+		}
 
 	// draw working set
     std::vector<IShape*> shapes = m_working_set->getObjects();
