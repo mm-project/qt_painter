@@ -7,7 +7,7 @@
 //define default value, but also give way to override from compiler options.
 #ifndef ICONPATH
     #ifdef Q_OS_WIN
-        #define ICONPATH "C:\\Users\\elen\\Desktop\\my_projects\\qt_painter\\etc\\icons\\"
+        #define ICONPATH qApp->applicationDirPath() + "\\..\\..\\etc\\icons\\"
     #else
         //(in linux)
         #define ICONPATH qApp->applicationDirPath()+"/../../etc/icons/"
@@ -17,7 +17,7 @@
     
 #ifndef STYLESPATH
     #ifdef Q_OS_WIN
-        #define STYLESPATH "C:\\Users\\elen\\Desktop\\my_projects\\qt_painter\\etc\\styles\\"
+        #define STYLESPATH qApp->applicationDirPath() + "\\..\\..\\etc\\styles\\"
     #else
         //(in linux)
         #define STYLESPATH qApp->applicationDirPath()+"/../../etc/styles/"
