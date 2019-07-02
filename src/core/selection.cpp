@@ -26,7 +26,9 @@ void Selection::set_sandbox(ObjectPoolSandbox* ops) {
 
 //asenq te
 void Selection::select_and_highlight_shape_under_pos(const QPoint& p) {
+	clear();
 	highlight_on_off(false);
+
 
 	//FIXME need only one init during shape creation
 	RegionQuery& rq = RegionQuery::getInstance();
@@ -48,7 +50,7 @@ void Selection::find_by_range_and_add_to_selected(const std::pair<QPoint,QPoint>
 		return;
 
 	highlight_on_off(false);
-	clear();
+	
 	//asenq te select ( random objects )
 
 	RegionQuery& rq = RegionQuery::getInstance();
