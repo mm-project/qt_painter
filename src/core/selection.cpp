@@ -36,7 +36,7 @@ void Selection::select_and_highlight_shape_under_pos(const QPoint& p) {
 		rq.insertObject(obj);
 
 	IShape* shape = rq.getShapeUnderPos(p);
-	if (shape != nullptr && std::find(getObjects().begin(),getObjects().end(),shape) == getObjects().end() )
+	if (shape != nullptr)
 	{
 		addObject(shape);
 		highlight_on_off(true);
