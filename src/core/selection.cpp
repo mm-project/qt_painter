@@ -25,12 +25,30 @@ void Selection::set_sandbox(ObjectPoolSandbox* ops) {
 }
 
 //asenq te
+void Selection::select_and_highlight_shape_under_pos(const QPoint& p) {
+	highlight_on_off(false);
+
+	//FIXME need only one init during shape creation
+	RegionQuery& rq = RegionQuery::getInstance();
+	for (auto obj : m_ws->getObjects())
+		rq.insertObject(obj);
+
+	IShape* shape = rq.getShapeUnderPos(p);
+	if (shape != nullptr)
+	{
+		addObject(shape);
+		highlight_on_off(true);
+	}
+	
+	highlight_on_off(true);
+}
+
 void Selection::find_by_range_and_add_to_selected(const std::pair<QPoint,QPoint>& point) {
 	if ( m_ws->getObjects().empty() )
 		return;
 
 	highlight_on_off(false);
-	
+	clear();
 	//asenq te select ( random objects )
 
 	RegionQuery& rq = RegionQuery::getInstance();
@@ -44,11 +62,7 @@ void Selection::find_by_range_and_add_to_selected(const std::pair<QPoint,QPoint>
 		highlight_on_off(true);
 	}
 
-	//addObject(m_ws->getObjects()[rand()%m_ws->getObjects().size()]);
-	
-	//asenq te highlight
-	highlight_on_off(true);
-	//clear();
+	//highlight_on_off(true);
 }
 
 void Selection::highlight_on_off(bool m_h_on) {
