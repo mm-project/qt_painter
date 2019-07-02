@@ -36,7 +36,7 @@ void Selection::select_and_highlight_shape_under_pos(const QPoint& p) {
 		rq.insertObject(obj);
 
 	IShape* shape = rq.getShapeUnderPos(p);
-	if (shape != nullptr)
+	if (shape != nullptr && std::find(getObjects().begin(),getObjects().end(),shape) == getObjects().end() )
 	{
 		addObject(shape);
 		highlight_on_off(true);
@@ -51,14 +51,13 @@ void Selection::find_by_range_and_add_to_selected(const std::pair<QPoint,QPoint>
 
 	highlight_on_off(false);
 	
-	//asenq te select ( random objects )
-
 	RegionQuery& rq = RegionQuery::getInstance();
 	for (auto obj : m_ws->getObjects())
 		rq.insertObject(obj);
 
 	IShape* shape = rq.getShapeUnderPos(point.first);
-	if (shape != nullptr)
+	
+	if (shape != nullptr )
 	{
 		addObject(shape);
 		highlight_on_off(true);
