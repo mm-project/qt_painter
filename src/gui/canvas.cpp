@@ -26,6 +26,8 @@
 #define INCMD_CREATE_OBJ(S) incmdCreateObj<S>(m_sandbox, m_working_set)
 #define INCMD_CREATE_OBJ_POLYGON(N) incmdCreateNthgon<N>(m_sandbox, m_working_set)
 #define INCMD_HIGHLIGHT_BY_REGION incmdSelectShapesByRegion(m_sandbox, m_working_set)
+#define INCMD_HIGHLIGHT_BY_POINT incmdSelectUnderCursoer(m_sandbox, m_working_set)
+
 
 
 
@@ -54,6 +56,7 @@ canvas::canvas(QWidget* p)
 	cm->register_command(new INCMD_CREATE_OBJ(ELLIPSE));
 	cm->register_command(new INCMD_CREATE_OBJ(POLYGON));
 	cm->register_command(new INCMD_HIGHLIGHT_BY_REGION);
+	cm->register_command(new INCMD_HIGHLIGHT_BY_POINT);
 }
 
 void canvas::keyPressEvent(QKeyEvent*) {
@@ -230,6 +233,11 @@ void canvas::invoke_select_by_region()
    //cm->activate_command(new INCMD_CREATE_OBJ_POLYGON(3));
 }
 
+void canvas::invoke_select_by_point()
+{
+    cm->activate_command(cm->find_command("incmdSelectUnderCursoer"));
+   //cm->activate_command(new INCMD_CREATE_OBJ_POLYGON(3));
+}
 
 void canvas::reset()
 {
