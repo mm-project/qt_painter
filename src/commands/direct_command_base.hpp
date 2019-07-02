@@ -30,7 +30,7 @@ class DirectCommandBase: public CommandBase
         }
 
         virtual void log() {
-            std::cout << get_name() << " " << get_stringified_opts() << std::endl;
+            CommandBase::log_impl(get_cmdname_and_stringified_opts());
         }
         
         virtual void abort() {
@@ -56,8 +56,9 @@ class DirectCommandBase: public CommandBase
             m_ops[n] = v;
         }
 
-        std::string get_stringified_opts() {
+        std::string get_cmdname_and_stringified_opts() {
             std::stringstream z;
+			z << get_name() << " ";
             for (std::pair<const std::string,ICommandOptionValue*>& x: m_ops) {
                 z << x.first << " " << x.second->to_string() << " ";
             }   

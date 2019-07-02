@@ -4,6 +4,7 @@
 #include "command_manager.hpp"
 #include "direct_command_base.hpp"
 
+#incldue "../io/messenger.hpp"
 
 #include <QPixmap>
 #include <QWidget>
@@ -60,9 +61,11 @@ class dicmdQaCanvasCompare: public DirectCommandBase
             bool regoldenmode = true;
             
             if ( !regoldenmode && are_images_different(f.c_str(),g.c_str()) )
-                std::cout << "# dicmdQaCanvasCompare-compare-mismatch: " << f << " " << g << std::endl;
+                //std::cout << "# dicmdQaCanvasCompare-compare-mismatch: " << f << " " << g << std::endl;
+				Messenger::expose(out,"dicmdQaCanvasCompare-compare-mismatch: "+f+" "+g);
             else
-                std::cout << "# dicmdQaCanvasCompare-compare-ok: " << f << " " << g << std::endl;
+				Messenger::expose(out,"dicmdQaCanvasCompare-compare-ok: "+f+" "+g);
+				//std::cout << "# dicmdQaCanvasCompare-compare-ok: " << f << " " << g << std::endl;
                 
         }
         
