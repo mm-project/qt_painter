@@ -21,7 +21,7 @@ class Messenger : public Service<Messenger>
 	QTextStream* cmd_stream;
 
 	public:
-		static void expose(const LogMsgSeverity& s, const std::string& msg, bool iscmd);
+		static void expose(const LogMsgSeverity& s, const std::string& msg, bool iscmd = false );
 		static void log_command(const std::string& msg);
 		//FIXME
 		Messenger();
@@ -33,7 +33,7 @@ class Messenger : public Service<Messenger>
 		std::string decorate(const LogMsgSeverity&);
 		
 	public:
-        void expose_internal(const LogMsgSeverity& s, const std::string& msg, bool iscmd);
+        void expose_internal(const LogMsgSeverity& s, const std::string& msg, bool iscmd = false);
             
 };
 

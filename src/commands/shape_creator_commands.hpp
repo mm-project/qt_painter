@@ -5,6 +5,7 @@
 #include "interactive_command_base.hpp"
 
 #include "../gui/controller.hpp"
+#include "../gui/statusbar_manager.hpp"
 #include "../core/shape_creator.hpp"
 
 #include <sstream>
@@ -97,7 +98,8 @@ public:
 	
 	virtual void execute() {
 		//ObjCreatorCommandBase<T>::create_runtime_object();
-                InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,idle));
+			StatusBarManager::getInstance().updateStatusBar("Click and drag on canvas to create shape",1,0);
+			InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,idle));
 	}
 	
 	virtual std::string get_name() {
@@ -140,17 +142,20 @@ public:
 
 	void on_commit(const EvType&) {
 		//assert(0);
-                on_commit_internal();
+			StatusBarManager::getInstance().clear();
+			on_commit_internal();
 	}
 	
 	//FIXME doesn't work
 	void abort1(const EvType&) {
-                ObjCreatorCommandBase<T>::abort();
+			StatusBarManager::getInstance().clear();
+            ObjCreatorCommandBase<T>::abort();
 	}
 
 	virtual void on_commit_internal() {
-        	ObjCreatorCommandBase<T>::commit();
-		InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,idle));
+			StatusBarManager::getInstance().clear();
+			ObjCreatorCommandBase<T>::commit();
+			InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,idle));
         }
 };
 

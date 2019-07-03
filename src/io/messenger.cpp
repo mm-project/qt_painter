@@ -88,7 +88,7 @@ void Messenger::expose_internal(const LogMsgSeverity& s, const std::string& msg 
 	std::cout << z.str();	
 }
 			
-void Messenger::expose(const LogMsgSeverity& s, const std::string& msg, bool iscmd = false )
+void Messenger::expose(const LogMsgSeverity& s, const std::string& msg, bool iscmd )
 {
 	Messenger::get_instance()->expose_internal(s,msg,iscmd);
 }
