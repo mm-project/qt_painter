@@ -995,6 +995,7 @@ dicmdCanvasMouseClick -point (198,188)
 dicmdCanvasMouseDblClick -point (198,188)
 dicmdCanvasMouseDblClick -point (198,188)
 incmdCreateObjEllipse
+dicmdQaCanvasCompare
 dicmdCanvasMouseClick -point (383,156) 
 dicmdCanvasMouseClick -point (436,215) 
 dicmdCanvasMouseClick -point (607,313) 
@@ -1003,3 +1004,8 @@ dicmdCanvasMouseClick -point (663,360)
 incmdSelectShapesByRegion
 dicmdCanvasMouseClick -point (70,30) 
 dicmdCanvasMouseClick -point (798,602)
+dicmdCanvasMouseMove -point (663,360) 
+dicmdQaCanvasCompare
+dicmdAbortActiveCommand
+dicmdQaCanvasCompare
+dicmdQaToolExit
