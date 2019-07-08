@@ -51,13 +51,14 @@ signals:
 
 	void something_changed();
 	void selectByRegion();
+	void selectByPoint();
 
 private:
-	QPushButton* m_line_button;
-	QPushButton* m_rect_button;
-	QPushButton* m_ellipse_button;
-	QPushButton* m_polygon_button;
-	QRadioButton* m_pen_button;
+	QPushButton* m_line_button = nullptr;
+	QPushButton* m_rect_button = nullptr;
+	QPushButton* m_ellipse_button = nullptr;
+	QPushButton* m_polygon_button = nullptr;
+	QRadioButton* m_pen_button = nullptr;
 };
 
 #endif

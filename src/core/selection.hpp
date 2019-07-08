@@ -6,7 +6,6 @@
 #include "working_set.hpp"
 #include "service.h"
 
-
 #include <QPoint>
 
 class Selection : public Service<Selection> , public WorkingSet
@@ -19,6 +18,7 @@ class Selection : public Service<Selection> , public WorkingSet
 
 public:   
         void clear();
+		void select_and_highlight_shape_under_pos(const QPoint& p );
         void set_working_set(IObjectPool* ws);
         void set_sandbox(ObjectPoolSandbox* ops);
         void find_by_range_and_add_to_selected(const std::pair<QPoint,QPoint>& point);

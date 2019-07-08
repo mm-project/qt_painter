@@ -109,6 +109,7 @@ public:
 	virtual void movePoint(const QPoint&) {}
 
 	virtual Type getType() const = 0;
+  
 public:
 
 	virtual IShape* clone() = 0;

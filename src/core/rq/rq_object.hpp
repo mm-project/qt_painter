@@ -140,8 +140,9 @@ public:
 		QPoint p1 = m_object->getP1();
 		QPoint p2 = m_object->getP2();
 
-		return (((point.x() - p1.x()) / (p2.x() - p1.x())) 
-			== ((point.y() - p1.y()) / (p2.y() - p1.y())));
+		float x = (float) (point.x() - p1.x()) / (p2.x() - p1.x());
+		float y = (float) (point.y() - p1.y()) / (p2.y() - p1.y());
+		return x == y;
 	}
 
 private:

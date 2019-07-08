@@ -69,6 +69,7 @@ void create_shape_gui::build_selection(QRibbonWidget* ribbonWidget)
 	group->setTitle("Select");
 
 	QRibbonButton* new_b = new QRibbonButton(this, "Point", getIconDir() + "mouse.svg");
+	connect(new_b, SIGNAL(clicked()), this, SIGNAL(selectByPoint()));
 	//new_b->setFlat(true);
 	//connect(new_b, SIGNAL(clicked()), this, SIGNAL(reset()));
 	QRibbonButton* close_b = new QRibbonButton(this, "Region", getIconDir() + "selection.svg");

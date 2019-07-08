@@ -34,7 +34,7 @@ private:
 private:
         static controller* m_instance;
 
-        ObjectType type;
+        ObjectType type	= LINE;
         ShapeProperties properties;
 };
 
