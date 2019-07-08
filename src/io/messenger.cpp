@@ -14,8 +14,8 @@
 
 Messenger::Messenger() {
 	init();
-	//LePostman::get_instance()->register_callback(INTERACTIVE_COMMAND_PRE_COMMIT,std::bind(&Messenger::test,this,std::placeholders::_1));
 	REGISTER_CALLBACK(INTERACTIVE_COMMAND_PRE_COMMIT,&Messenger::test);
+	REGISTER_CALLBACK(INTERACTIVE_COMMAND_POST_COMMIT,&Messenger::test);
 }
 
 Messenger::~Messenger() {

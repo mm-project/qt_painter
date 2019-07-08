@@ -46,10 +46,11 @@ class LeCallback
         void purge();
         void call();
         void call(LeCallbackData& data);
+		std::string get_name();
         
     private:
-        LeCallback(callBackFun1 f1, int id, const LeCallbackType& t);
-        LeCallback(callBackFun2 f2, int id, const LeCallbackType& t);
+        LeCallback(const std::string& n, callBackFun1 f1, int id, const LeCallbackType& t);
+        LeCallback(const std::string& n, callBackFun2 f2, int id, const LeCallbackType& t);
         
     private:
         callBackFun1 m_f1;
@@ -57,6 +58,7 @@ class LeCallback
         int m_internal_id;
         LeCallbackType m_type;
         bool m_is_purged;
+		std::string m_name;
 };
 
 #endif

@@ -14,10 +14,14 @@
 #endif
 */
 
-LeCallback::LeCallback(callBackFun1 f1, int id, const LeCallbackType& t):m_f1(f1),m_f2(NULL),m_internal_id(id),m_type(t),m_is_purged(false) {
+std::string LeCallback::get_name() {
+	return m_name;
 }
 
-LeCallback::LeCallback(callBackFun2 f2, int id, const LeCallbackType& t):m_f1(NULL),m_f2(f2),m_internal_id(id),m_type(t),m_is_purged(false) {
+LeCallback::LeCallback(const std::string& n, callBackFun1 f1, int id, const LeCallbackType& t):m_name(n),m_f1(f1),m_f2(NULL),m_internal_id(id),m_type(t),m_is_purged(false) {
+}
+
+LeCallback::LeCallback(const std::string& n, callBackFun2 f2, int id, const LeCallbackType& t):m_name(n),m_f1(NULL),m_f2(f2),m_internal_id(id),m_type(t),m_is_purged(false) {
 }
 
 void LeCallback::purge() {

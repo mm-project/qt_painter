@@ -23,13 +23,13 @@ LeCallbackType LePostman::get_callbacktype_byname(const std::string&) {
 }
 */
 
-LeCallback LePostman::register_callback(const LeCallbackType& t,callBackFun1 f) {
-    m_type2vecfun[t].push_back(LeCallback(f,m_type2vecfun[t].size()+1,t));
+LeCallback LePostman::register_callback(const std::string& n, const LeCallbackType& t,callBackFun1 f) {
+    m_type2vecfun[t].push_back(LeCallback(n,f,m_type2vecfun[t].size()+1,t));
     return m_type2vecfun[t].back();
 }
 
-LeCallback LePostman::register_callback(const LeCallbackType& t,callBackFun2 f) {
-    m_type2vecfun[t].push_back(LeCallback(f,m_type2vecfun[t].size()+1,t));
+LeCallback LePostman::register_callback(const std::string& n, const LeCallbackType& t,callBackFun2 f) {
+    m_type2vecfun[t].push_back(LeCallback(n,f,m_type2vecfun[t].size()+1,t));
     return m_type2vecfun[t].back();
 }
 
@@ -38,15 +38,17 @@ void LePostman::deregister_callback(LeCallbackType& t, int id) {
 }
 
 void LePostman::notify(const LeCallbackType& t) {
-    std::cout << "notify1" << std::endl;
+    //std::cout << "notify1" << std::endl;
     for( auto it : m_type2vecfun[t] ) {
-        it.call();
+        std::cout << it.get_name() << std::endl;
+		it.call();
     }
 }
 
 void LePostman::notify(const LeCallbackType& t,LeCallbackData& data) {
-    std::cout << "notify2" << std::endl;
+    //std::cout << "notify2" << std::endl;
     for( auto it : m_type2vecfun[t] ) {
+        std::cout << it.get_name() << std::endl;
         it.call(data);
     }
 }
