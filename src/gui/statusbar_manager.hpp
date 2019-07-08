@@ -8,7 +8,7 @@
 #include <QLabel>
 
 //
-//	class StatusBarManager : Singtone
+//	class StatusBarManager : Singletone
 //	Manages StatusBar in MainWindow, allows to change status everywhere
 //
 class StatusBarManager

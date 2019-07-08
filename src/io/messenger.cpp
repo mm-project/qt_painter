@@ -1,19 +1,29 @@
 #include "messenger.hpp"
 
+#include "../core/postman.hpp"
+#include "../core/callback.hpp"
 
 #include <QString>
 #include <QDateTime>
 
 #include <iostream>
 #include <sstream>
+#include <functional>
 #include <cassert>
+
 
 Messenger::Messenger() {
 	init();
+	//LePostman::get_instance()->register_callback(INTERACTIVE_COMMAND_PRE_COMMIT,std::bind(&Messenger::test,this,std::placeholders::_1));
+	REGISTER_CALLBACK(INTERACTIVE_COMMAND_PRE_COMMIT,&Messenger::test);
 }
 
 Messenger::~Messenger() {
 	fini();
+}
+
+void Messenger::test(LeCallbackData& d) {
+	Messenger::expose(out,"Callback working");
 }
 
 void Messenger::fini() {

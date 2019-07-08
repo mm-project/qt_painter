@@ -1,4 +1,5 @@
 #include "selection.hpp"
+//#include "postman.hpp"
 #include "rq/RegionQueryService.hpp"
 
 void Selection::clear() {
@@ -84,4 +85,6 @@ void Selection::highlight_on_off(bool m_h_on) {
 		it->updateProperties(sp);
 		m_sb->addObject(it);
 	}
+	
+	//LePostman::get_instance()->notify(INTERACTIVE_COMMAND_PRE_COMMIT);
 }
