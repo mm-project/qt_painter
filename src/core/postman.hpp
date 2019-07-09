@@ -9,8 +9,8 @@
 #include <string>
 #include <functional>
 
-#define REGISTER_CALLBACK(A,B) LePostman::get_instance()->register_callback("#A->#B",A,std::bind(B,this,std::placeholders::_1));
-
+#define REGISTER_CALLBACK(A, B)																			\
+	LePostman::get_instance()->register_callback("hop", A, callBackFun1(std::bind(B, this, std::placeholders::_1)));  
 
 class LePostman : public Service<LePostman>
 {
@@ -38,8 +38,5 @@ private:
         std::map<int,LeCallbackType> m_index2type;
         int m_types_count;
 };
-
-
-
 
 #endif
