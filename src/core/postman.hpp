@@ -42,7 +42,4 @@ private:
         int m_types_count;
 };
 
-
-
-
 #endif
