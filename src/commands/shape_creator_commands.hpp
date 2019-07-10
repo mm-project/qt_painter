@@ -33,12 +33,13 @@ public:
 
 	virtual void commit() {
 		LeCallbackData a;
-		m_postman->notify(INTERACTIVE_COMMAND_PRE_COMMIT,a);
+		NOTIFY(INTERACTIVE_COMMAND_PRE_COMMIT,a)
+		//m_postman->notify(INTERACTIVE_COMMAND_PRE_COMMIT,a);
 		auto ob = re->getPool()->getObjects();
 		for (auto i : ob)
 			ws->addObject(i);
 		finish();
-		m_postman->notify(INTERACTIVE_COMMAND_POST_COMMIT,a);
+		//m_postman->notify(INTERACTIVE_COMMAND_POST_COMMIT,a);
 	}
 	
 	virtual void finish() {

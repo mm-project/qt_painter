@@ -8,9 +8,12 @@
 #include <vector>
 #include <string>
 #include <functional>
+#include <typeinfo> 
 
-#define REGISTER_CALLBACK(A,B) LePostman::get_instance()->register_callback("#A->#B",A,std::bind(B,this,std::placeholders::_1));
-
+#define STR_EXPAND(tok) #tok
+#define STR(tok) STR_EXPAND(tok)
+#define REGISTER_CALLBACK(A,B) LePostman::get_instance()->register_callback(std::string(STR(A))+std::string("-->" )+std::string(STR(B)),A,std::bind(B,this,std::placeholders::_1));
+#define NOTIFY(A,B) LePostman::get_instance()->notify(std::string(typeid(this).name())+std::string(__FUNCTION__),A,B);
 
 class LePostman : public Service<LePostman>
 {
@@ -30,8 +33,8 @@ private:
         LeCallback register_callback(const std::string& n, const LeCallbackType& t, callBackFun2 f);
         void deregister_callback(LeCallbackType& t, int id);
 
-        void notify(const LeCallbackType&);
-        void notify(const LeCallbackType&, LeCallbackData&);
+        void notify(const std::string&, const LeCallbackType&);
+        void notify(const std::string&, const LeCallbackType&, LeCallbackData&);
 
     private:
         std::map<LeCallbackType,std::vector<LeCallback>> m_type2vecfun;

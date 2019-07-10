@@ -37,18 +37,19 @@ void LePostman::deregister_callback(LeCallbackType& t, int id) {
     m_type2vecfun[t].erase(m_type2vecfun[t].begin()+id); 
 }
 
-void LePostman::notify(const LeCallbackType& t) {
+void LePostman::notify(const std::string& n, const LeCallbackType& t) {
     //std::cout << "notify1" << std::endl;
     for( auto it : m_type2vecfun[t] ) {
-        std::cout << it.get_name() << std::endl;
+        std::cout << n << " " << it.get_name() << std::endl;
 		it.call();
     }
 }
 
-void LePostman::notify(const LeCallbackType& t,LeCallbackData& data) {
+void LePostman::notify(const std::string& n, const LeCallbackType& t,LeCallbackData& data) {
     //std::cout << "notify2" << std::endl;
     for( auto it : m_type2vecfun[t] ) {
-        std::cout << it.get_name() << std::endl;
+        std::cout << n << " " << it.get_name() << std::endl;
+		std::cout << n << " called to " << " via " << std::endl;
         it.call(data);
     }
 }
