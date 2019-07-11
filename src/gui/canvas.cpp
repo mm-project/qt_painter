@@ -95,7 +95,8 @@ void canvas::mouseMoveEvent(QMouseEvent* e)
 	//e->pos().setX(_x);
 	//e->pos().setY(_y);
     cm->mouse_moved(_x, _y);
-    //FIXME add logMotion flag to enable
+    
+	//FIXME add logMotion flag to enable
     //dicmdCanvasMouseMove(e->pos()).log();
 	/**/
 	
@@ -105,32 +106,6 @@ void canvas::mouseMoveEvent(QMouseEvent* e)
 void canvas::wheelEvent(QWheelEvent* pEvent)
 {
 	m_renderer->zoom((pEvent->delta()/120));
-	
-	/*
-	QPoint numDegrees = pEvent->angleDelta() / 8;
-	
-	int zoom = 0;
-	if (numDegrees.y() < 0)
-	{
-		m_renderer->incr_zoom_factor();
-		while (m_renderer->get_zoom_factor() < 2)
-			m_renderer->incr_zoom_factor();
-		zoom = m_renderer->get_zoom_factor();
-		if (zoom < 10)
-			m_scale *= zoom;
-	}
-	else if (numDegrees.y() > 0)
-	{
-		zoom = m_renderer->get_zoom_factor();
-		m_renderer->decr_zoom_factor();
-		if (zoom > 0)
-			m_scale /= zoom;
-	}
-	if (m_scale < 20)
-		m_scale = 20;
-
-	std::cout << m_scale << std::endl;
-	*/
     update();
 }
 

@@ -47,7 +47,7 @@ class renderer
         }
         
         void zoomout() {
-            if ( m_zoom_factor > 2)
+            if ( m_zoom_factor > 0)
 				m_zoom_factor/=2;
         }
 
