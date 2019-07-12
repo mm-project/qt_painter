@@ -18,7 +18,11 @@ bool RQrect::contains(const CPoint& point) const
 {
 	// point is null, fix it
 	return m_object->contains(point.get());
+}
 
+bool RQrect::intersects(const QRect& oRect) const
+{
+	return m_object->intersects(oRect);
 }
 
 IShape* RQrect::getObject() const
@@ -41,6 +45,11 @@ bool RQellipse::contains(const CPoint& point) const
 {
 	return m_object->contains(point.get());
 
+}
+
+bool RQellipse::intersects(const QRect& oRect) const
+{
+	return m_object->intersects(oRect);
 }
 
 IShape* RQellipse::getObject() const
@@ -68,5 +77,10 @@ bool RQpolygon::contains(const CPoint& point) const
 IShape* RQpolygon::getObject() const
 {
 	return m_object;
+}
+
+bool RQpolygon::intersects(const QRect& oRect) const
+{
+	return m_object->intersects(oRect);
 }
 }

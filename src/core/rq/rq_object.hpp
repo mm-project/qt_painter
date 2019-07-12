@@ -102,6 +102,8 @@ public:
 	virtual bool contains(const CPoint&) const = 0;
 
 	virtual IShape* getObject() const = 0;
+
+	virtual bool intersects(const QRect&) const = 0;
 };
 
 using RQobjectPtr = std::shared_ptr<IRQobject>;
@@ -145,6 +147,12 @@ public:
 		return x == y;
 	}
 
+	virtual bool intersects(const QRect& oRect) const override
+	{
+		// think 
+		return false;
+	}
+
 private:
 	line* m_object;
 };
@@ -162,6 +170,7 @@ public:
 	virtual CPoint at(int) const override;
 	virtual bool contains(const CPoint&) const override;
 	virtual IShape* getObject() const override;
+	virtual bool intersects(const QRect& oRect) const override;
 
 private:
 	rectangle* m_object;
@@ -180,6 +189,7 @@ public:
 	virtual CPoint at(int) const override;
 	virtual bool contains(const CPoint&) const override;
 	virtual IShape* getObject() const override;
+	virtual bool intersects(const QRect& oRect) const override;
 
 private:
 	ellipse* m_object;
@@ -198,6 +208,7 @@ public:
 	virtual CPoint at(int) const override;
 	virtual bool contains(const CPoint&) const override;
 	virtual IShape* getObject() const override;
+	virtual bool intersects(const QRect& oRect) const override;
 
 private:
 	polygon* m_object;
