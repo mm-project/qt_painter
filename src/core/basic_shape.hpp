@@ -115,6 +115,8 @@ public:
 	virtual IShape* clone() = 0;
 	virtual void draw(QPainter*) = 0;
 
+	//virtual bool intersects(const QRect&) const = 0;
+
 protected:
 	//
 	// Members

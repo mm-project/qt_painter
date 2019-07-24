@@ -28,7 +28,6 @@
 #define INCMD_HIGHLIGHT_BY_REGION incmdSelectShapesByRegion(m_sandbox, m_working_set)
 #define INCMD_HIGHLIGHT_BY_POINT incmdSelectUnderCursoer(m_sandbox, m_working_set)
 
-
 canvas::canvas(QWidget* p)
         : QWidget(p), is_runtime_mode(false)
 {
@@ -87,7 +86,6 @@ void canvas::mouseMoveEvent(QMouseEvent* e)
     if( cm->is_idle() ) 
         return;
 
-	
 	int _x = e->pos().x();
 	int _y = e->pos().y();
 	//_x = (_x / m_scale) * m_scale;

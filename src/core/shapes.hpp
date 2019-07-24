@@ -72,6 +72,7 @@ public:
 	QPoint getBottomRight() const;
 
 	bool contains(const QPoint& point) const { return m_object.contains(point); }
+	bool intersects(const QRect& oRect) const { return m_object.intersects(oRect); }
 	virtual Type getType() const override { return Type::RECTANGLE; }
 
 private:
@@ -105,6 +106,7 @@ public:
 	QPoint getBottomRight() const;
 
 	bool contains(const QPoint& point) const { return m_object.contains(point); }
+	bool intersects(const QRect& oRect) const { return m_object.intersects(oRect); }
 	virtual Type getType() const override { return Type::ELLIPSE; }
 
 private:
@@ -132,7 +134,15 @@ public:
 
 	QPoint getTopLeft() const;
 	QPoint getBottomRight() const;
-	bool contains(const QPoint& point) const { return m_object.boundingRect().contains(point); }
+	bool contains(const QPoint& point) const
+	{
+		return m_object.boundingRect().contains(point); 
+	}
+
+	bool intersects(const QRect& oRect) const 
+	{
+		return m_object.boundingRect().intersects(oRect); 
+	}
 
 private:
 	QPolygon m_object;
