@@ -37,7 +37,10 @@ void Selection::select_and_highlight_shape_under_pos(const QPoint& p) {
 
 	IShape* shape = rq.getShapeUnderPos(p);
 	if (shape != nullptr)
+	{
 		addObject(shape);
+		highlight_on_off(true);
+	}
 	
 	highlight_on_off(true);
 }
@@ -58,6 +61,7 @@ void Selection::find_by_range_and_add_to_selected(const std::pair<QPoint,QPoint>
 		addObject(it);
 
 	highlight_on_off(true);
+
 }
 
 void Selection::highlight_on_off(bool m_h_on) {

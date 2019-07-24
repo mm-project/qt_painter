@@ -1,6 +1,7 @@
 #ifndef CANVAS_HPP
 #define CANVAS_HPP
 
+#include "../core/renderer.hpp"
 #include "../core/iobject_pool.hpp"
 #include "../core/basic_shape.hpp"
 #include "../commands/command_manager.hpp"
