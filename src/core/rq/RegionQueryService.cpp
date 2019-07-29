@@ -48,3 +48,16 @@ IShape* RegionQuery::getShapeUnderPos(const QPoint& p) const
 
 	return nullptr;
 }
+
+std::vector<IShape*> RegionQuery::getShapesUnderRect(const QRect& oRect) const
+{
+	std::vector<IShape*> shapes;
+
+	std::vector<rq::RQobjectPtr> objects = m_tree->getObjects(oRect);
+
+	for (auto it : objects)
+		if (it != nullptr)
+			shapes.push_back(it->getObject());
+
+	return shapes;
+}

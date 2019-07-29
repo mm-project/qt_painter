@@ -52,7 +52,8 @@ class CommandBase : public ICommand
         }
         
         //virtual void activate() {}
-        virtual CommandBase* set_arg(const std::string&, const std::string& ) {}
+		virtual CommandBase* set_arg(const std::string&, const std::string&) { return nullptr; }
+
 
         //FIXME should not be here !!!
         virtual void handle_mouse_click(int,int) {}
