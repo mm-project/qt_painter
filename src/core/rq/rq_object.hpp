@@ -1,7 +1,7 @@
 #ifndef POINT_HPP
 #define POINT_HPP
 
-#include "..\shapes.hpp"
+#include "../shapes.hpp"
 
 #include <memory>
 
