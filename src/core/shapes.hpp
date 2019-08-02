@@ -14,6 +14,7 @@
 #include <QMouseEvent>
 #include <QPolygonF>
 
+
 ///////////////////////////////////////////////////////////////////////////////
 //
 // @class line, wrapper for OA/Qt object 
@@ -38,6 +39,7 @@ public:
 
 	QPoint getP1() const { return m_object.p1(); }
 	QPoint getP2() const { return m_object.p2(); }
+	
 
 	virtual Type getType() const override { return Type::LINE; }
 
