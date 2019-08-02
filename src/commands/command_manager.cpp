@@ -33,6 +33,7 @@ void command_manager::init() {
     //register_command(new incmdSelectShapesByRegion);
     register_command(new dicmdQaCanvasCompare);
     register_command(new dicmdQaToolExit);
+    register_command(new dicmdTestCmdListOptions);
     
     
     m_current_command = m_idle_command;

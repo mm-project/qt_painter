@@ -29,9 +29,11 @@ public:
 	}
 
 	virtual void commit() {
-		auto ob = re->getPool()->getObjects();
+		//begin transaction
+                auto ob = re->getPool()->getObjects();
 		for (auto i : ob)
 			ws->addObject(i);
+                //end transaction
 		finish();
 	}
 	
@@ -98,8 +100,8 @@ public:
 	
 	virtual void execute() {
 		//ObjCreatorCommandBase<T>::create_runtime_object();
-			StatusBarManager::getInstance().updateStatusBar("Click and drag on canvas to create shape",1,0);
-			InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,idle));
+                StatusBarManager::getInstance().updateStatusBar("Click and drag on canvas to create shape",1,0);
+                InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,idle));
 	}
 	
 	virtual std::string get_name() {
@@ -149,7 +151,7 @@ public:
 	//FIXME doesn't work
 	void abort1(const EvType&) {
 			StatusBarManager::getInstance().clear();
-            ObjCreatorCommandBase<T>::abort();
+                ObjCreatorCommandBase<T>::abort();
 	}
 
 	virtual void on_commit_internal() {
