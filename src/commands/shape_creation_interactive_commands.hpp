@@ -3,7 +3,7 @@
 
 #include "command_manager.hpp"
 #include "interactive_command_base.hpp"
-#include "shape_creation_direct_commands.hpp"
+#include "shape_creation_directive_commands.hpp"
 
 #include "../gui/controller.hpp"
 #include "../gui/statusbar_manager.hpp"
@@ -32,17 +32,18 @@ public:
 
 	virtual void commit() {
 		//begin transaction
-                //m_internal_vec.push_back(InteractiveCommandBase::get_last_point());
+                m_internal_vec.push_back(InteractiveCommandBase::get_last_point());
                 auto ob = re->getPool()->getObjects();
 		for (auto i : ob)
-                    //dicmdCreateObj<T>(m_internal_vec,ws).silent_execute();
-                    ws->addObject(i);
+                    dicmdCreateObj<T>(m_internal_vec,ws).silent_execute();
+                    //ws->addObject(i);
                 //end transaction
 		finish();
 	}
 	
 	virtual void finish() {
-		re->clear();
+		m_internal_vec.clear();
+                re->clear();
 	}
 	
 	void set_properties(const ShapeProperties& p) {
@@ -71,12 +72,14 @@ public:
 
 	void runtime_movePoint() {
 		re->movePoint(InteractiveCommandBase::get_last_point());
-                //m_internal_vec.push_back(InteractiveCommandBase::get_last_point);
+                m_internal_vec.push_back(InteractiveCommandBase::get_last_point());
         }
 	
 	virtual void abort() {
 		//log("dicmdAbortActiveCommand");
-		re->clear();
+                finish();
+                //m_internal_vec.clear();
+		//re->clear();
 		//FIXME crashing in recursion
 		//dicmdAbortActiveCommand().log();
 		//d.execute_and_log();

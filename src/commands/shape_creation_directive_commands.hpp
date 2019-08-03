@@ -24,11 +24,6 @@ public:
        	dicmdCreateObj<T>(const std::vector<PointCommandOptionValue>& pl, IObjectPoolPtr s): ws(s) {
                 add_option("-points",new PointListCommandOptionValue(pl));
         }
- 
-	void silent_execute() {
-                execute();
-                Messenger::expose(out,DirectCommandBase::get_cmdname_and_stringified_opts(),false);
-        }
         
 	virtual void execute() {
                 //std::vector<QPoint> v(GET_CMD_ARG(PointListCommandOptionValue,"-points"));

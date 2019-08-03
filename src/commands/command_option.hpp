@@ -91,6 +91,7 @@ class ListCommandOptionValue : public ICommandOptionValue
         std::vector<T> get() { return m_data; }
 
         void from_string(const std::string& str) {
+            m_data.clear();
             std::string s = str;
             s = s.substr(1, s.size() - 2);
             std::cout << s << std::endl;
