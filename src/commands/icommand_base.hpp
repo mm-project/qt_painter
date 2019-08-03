@@ -44,15 +44,15 @@ class CommandBase : public ICommand
         }
         
         void log_impl(const std::string& str) {
-			Messenger::log_command(str);
-		}
+            Messenger::log_command(str);
+        }
 		
-		virtual void log() {
-			CommandBase::log_impl(get_name());
+        virtual void log() {
+            CommandBase::log_impl(get_name());
         }
         
         //virtual void activate() {}
-		virtual CommandBase* set_arg(const std::string&, const std::string&) { return nullptr; }
+        virtual CommandBase* set_arg(const std::string&, const std::string&) { return nullptr; }
 
 
         //FIXME should not be here !!!

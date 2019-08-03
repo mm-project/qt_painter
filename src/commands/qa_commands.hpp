@@ -166,6 +166,23 @@ class dicmdQaCanvasCompare: public DirectCommandBase
 };    
 
 
+class dicmdTestCmdListOptions: public DirectCommandBase
+{
+    public:        
+        dicmdTestCmdListOptions() {
+            add_option("-strings",new StringListCommandOptionValue());
+            add_option("-points",new PointListCommandOptionValue());
+        }
+        
+        virtual std::string get_name() {
+            return "dicmdTestCmdListOptions";
+        }
+
+        virtual void execute() {
+            //std::string f(GET_CMD_ARG(StringListCommandOptionValue,"-list1"));
+            //std::string g(GET_CMD_ARG(StringListCommandOptionValue,"-list2"));
+        }
+};
 
 
 

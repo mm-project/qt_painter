@@ -9,7 +9,8 @@
 #include "../commands/direct_command_base.hpp"
 #include "../commands/basic_commands.hpp"
 #include "../commands/gui_commands.hpp"
-#include "../commands/shape_creator_commands.hpp"
+#include "../commands/shape_creation_interactive_commands.hpp"
+#include "../commands/shape_creation_directive_commands.hpp"
 #include "../commands/selection_commands.hpp"
 #include "../commands/command_manager.hpp"
 
@@ -56,6 +57,11 @@ canvas::canvas(QWidget* p)
 	cm->register_command(new INCMD_CREATE_OBJ(POLYGON));
 	cm->register_command(new INCMD_HIGHLIGHT_BY_REGION);
 	cm->register_command(new INCMD_HIGHLIGHT_BY_POINT);
+        cm->register_command(new dicmdCreateObj<RECTANGLE>(m_working_set));
+        cm->register_command(new dicmdCreateObj<LINE>(m_working_set));
+        cm->register_command(new dicmdCreateObj<ELLIPSE>(m_working_set));
+        cm->register_command(new dicmdCreateObj<POLYGON>(m_working_set));
+        
 }
 
 void canvas::keyPressEvent(QKeyEvent*) {
@@ -92,10 +98,10 @@ void canvas::mouseMoveEvent(QMouseEvent* e)
 	//_y = (_y / m_scale) * m_scale;
 	//e->pos().setX(_x);
 	//e->pos().setY(_y);
-    cm->mouse_moved(_x, _y);
+        cm->mouse_moved(_x, _y);
     
 	//FIXME add logMotion flag to enable
-    //dicmdCanvasMouseMove(e->pos()).log();
+        //dicmdCanvasMouseMove(e->pos()).log();
 	/**/
 	
     update();

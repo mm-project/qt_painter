@@ -3,10 +3,12 @@
 
 #include "command_manager.hpp"
 #include "interactive_command_base.hpp"
+#include "shape_creation_directive_commands.hpp"
 
 #include "../gui/controller.hpp"
 #include "../gui/statusbar_manager.hpp"
 #include "../core/shape_creator.hpp"
+
 
 #include <sstream>
 
@@ -29,14 +31,19 @@ public:
 	}
 
 	virtual void commit() {
-		auto ob = re->getPool()->getObjects();
+		//begin transaction
+                m_internal_vec.push_back(InteractiveCommandBase::get_last_point());
+                auto ob = re->getPool()->getObjects();
 		for (auto i : ob)
-			ws->addObject(i);
+                    //dicmdCreateObj<T>(m_internal_vec,ws).silent_execute();
+                    ws->addObject(i);
+                //end transaction
 		finish();
 	}
 	
 	virtual void finish() {
-		re->clear();
+		m_internal_vec.clear();
+                re->clear();
 	}
 	
 	void set_properties(const ShapeProperties& p) {
@@ -55,19 +62,24 @@ public:
 	
 	void runtime_set_pos1() {
 		re->addPoint(InteractiveCommandBase::get_last_point());
+                m_internal_vec.push_back(InteractiveCommandBase::get_last_point());
 	}
 	
 	void runtime_set_pos2() {
 		re->addPoint(InteractiveCommandBase::get_last_point());
+                //m_internal_vec.push_back(InteractiveCommandBase::get_last_point());
 	}
 
 	void runtime_movePoint() {
 		re->movePoint(InteractiveCommandBase::get_last_point());
-	}
+                m_internal_vec.push_back(InteractiveCommandBase::get_last_point());
+        }
 	
 	virtual void abort() {
 		//log("dicmdAbortActiveCommand");
-		re->clear();
+                finish();
+                //m_internal_vec.clear();
+		//re->clear();
 		//FIXME crashing in recursion
 		//dicmdAbortActiveCommand().log();
 		//d.execute_and_log();
@@ -80,7 +92,8 @@ protected:
 private:
 	IObjectPoolPtr ws;
 	controller* m_controller; 
-    IShape* m_rt_shape;
+        IShape* m_rt_shape;
+        std::vector<PointCommandOptionValue> m_internal_vec;
 
 };
 
@@ -98,8 +111,8 @@ public:
 	
 	virtual void execute() {
 		//ObjCreatorCommandBase<T>::create_runtime_object();
-			StatusBarManager::getInstance().updateStatusBar("Click and drag on canvas to create shape",1,0);
-			InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,idle));
+                StatusBarManager::getInstance().updateStatusBar("Click and drag on canvas to create shape",1,0);
+                InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,idle));
 	}
 	
 	virtual std::string get_name() {
@@ -149,7 +162,7 @@ public:
 	//FIXME doesn't work
 	void abort1(const EvType&) {
 			StatusBarManager::getInstance().clear();
-            ObjCreatorCommandBase<T>::abort();
+                        ObjCreatorCommandBase<T>::abort();
 	}
 
 	virtual void on_commit_internal() {
