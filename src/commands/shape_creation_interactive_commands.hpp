@@ -35,8 +35,8 @@ public:
                 m_internal_vec.push_back(InteractiveCommandBase::get_last_point());
                 auto ob = re->getPool()->getObjects();
 		for (auto i : ob)
-                    dicmdCreateObj<T>(m_internal_vec,ws).silent_execute();
-                    //ws->addObject(i);
+                    //dicmdCreateObj<T>(m_internal_vec,ws).silent_execute();
+                    ws->addObject(i);
                 //end transaction
 		finish();
 	}
