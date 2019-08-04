@@ -26,12 +26,7 @@ QStringList LogReader::read_file(const std::string& fname) {
     return stringList;
 }
 
-void LogReader::replay_log(const std::string& fname) {
-    timer = new QTimer(this);
-    //connect(timer, SIGNAL(timeout()), this, SLOT(execute_command()));
-    //timer->start(10);
-
-    for (  auto line : read_file(fname)  ) {
+void LogReader::replay_command(const std::string& cmd) {
         //std::cout << "-" << line.toStdString() << std::endl;
         QStringList tokens = line.split(" ");
         //std::cout << " --" << tokens[0].toStdString()  << "--" << std::endl;
@@ -46,7 +41,17 @@ void LogReader::replay_log(const std::string& fname) {
         
         m_command_queue.push(cmd);
         execute_command();
-    }
+    
+}
+
+void LogReader::replay_log(const std::string& fname) {
+    timer = new QTimer(this);
+    //connect(timer, SIGNAL(timeout()), this, SLOT(execute_command()));
+    //timer->start(10);
+
+    for (  auto line : read_file(fname)  ) {
+        replay_command(line.toStdString()
+    
     
 }
 
