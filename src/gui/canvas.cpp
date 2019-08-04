@@ -92,6 +92,7 @@ void canvas::mouseMoveEvent(QMouseEvent* e)
     if( cm->is_idle() ) 
         return;
 
+	
 	int _x = e->pos().x();
 	int _y = e->pos().y();
 	//_x = (_x / m_scale) * m_scale;
@@ -100,16 +101,16 @@ void canvas::mouseMoveEvent(QMouseEvent* e)
 	//e->pos().setY(_y);
         cm->mouse_moved(_x, _y);
     
-	//FIXME add logMotion flag to enable
-        //dicmdCanvasMouseMove(e->pos()).log();
+
+  //dicmdCanvasMouseMove(e->pos()).log();
 	/**/
 	
     update();
 }
 
-void canvas::wheelEvent(QWheelEvent* pEvent)
+void canvas::wheelEvent(QWheelEvent* e)
 {
-	m_renderer->zoom((pEvent->delta()/120));
+	m_renderer->zoom((e->delta()/120),e->pos());
     update();
 }
 

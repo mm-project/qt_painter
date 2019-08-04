@@ -9,8 +9,6 @@
 #include <QWidget>
 #include <QPainter>
 
-// REPONSIBLE FOR VIEWPORT CONTROLL
-
 // ACTUALL CANVAS
 class canvas : public QWidget
 {
@@ -45,7 +43,7 @@ private:
         ObjectPoolSandboxPtr m_sandbox;
         command_manager* cm;
         renderer* m_renderer;
-  		int m_scale = 15;
+  		
 };
 
 
