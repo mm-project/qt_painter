@@ -24,7 +24,14 @@ class DirectCommandBase: public CommandBase
         }
     
     public:
+        virtual bool can_undo() { return true; }
         
+        
+        virtual void silent_execute() {
+            execute();
+            Messenger::expose(out,get_cmdname_and_stringified_opts(),false);
+        }
+ 
         virtual CommandType get_type() {
             return Directive;
         }
@@ -39,6 +46,7 @@ class DirectCommandBase: public CommandBase
 
     public:
         virtual CommandBase* set_arg(const std::string& n, const std::string& v) {
+            std::cout << n << " " << v << std::endl;
             m_ops[n]->from_string(v);
             return this;
         }

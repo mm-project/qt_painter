@@ -20,9 +20,15 @@ void StatusBarManager::setStatusBar(QStatusBar* pBar)
 
 void StatusBarManager::clear()
 {
-	m_pStatusBar = nullptr;
+	m_pStatusBarLabel->setText("");
 }
 
+void StatusBarManager::removeStatusBar()
+{
+	m_pStatusBar = nullptr;
+	m_pGif->stop();
+	m_pGifLabel->setHidden(true);
+}
 
 StatusBarManager::StatusBarManager()
 {

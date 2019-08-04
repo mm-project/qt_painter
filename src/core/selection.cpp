@@ -56,15 +56,13 @@ void Selection::find_by_range_and_add_to_selected(const std::pair<QPoint,QPoint>
 	for (auto obj : m_ws->getObjects())
 		rq.insertObject(obj);
 
-	IShape* shape = rq.getShapeUnderPos(point.first);
+	std::vector<IShape*> shapes = rq.getShapesUnderRect(QRect(point.first, point.second));
 	
-	if (shape != nullptr )
-	{
-		addObject(shape);
-		highlight_on_off(true);
-	}
+	for (auto it : shapes)
+		addObject(it);
 
-	//highlight_on_off(true);
+	highlight_on_off(true);
+
 }
 
 void Selection::highlight_on_off(bool m_h_on) {

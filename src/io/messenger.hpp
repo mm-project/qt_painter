@@ -10,7 +10,7 @@
 
 #include <string>
 
-enum LogMsgSeverity { err=1, warn, ok, out };
+enum LogMsgSeverity { err=1, warn, ok, out, test, cont };
 
 class Messenger : public Service<Messenger>
 {    
@@ -26,7 +26,7 @@ class Messenger : public Service<Messenger>
 		static void log_command(const std::string& msg);
 		//FIXME
 		Messenger();
-		void test(LeCallbackData& d);
+		void test1(LeCallbackData& d);
 	
 	private:
 		~Messenger();

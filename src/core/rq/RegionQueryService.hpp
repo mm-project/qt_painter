@@ -12,6 +12,7 @@ public:
 public:
 	void insertObject(IShape*);
 	IShape* getShapeUnderPos(const QPoint&) const;
+	std::vector<IShape*> getShapesUnderRect(const QRect&) const;
 
 private:
 	RegionQuery();

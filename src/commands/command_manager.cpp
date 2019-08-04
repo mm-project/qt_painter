@@ -4,7 +4,6 @@
 #include "direct_command_base.hpp"
 #include "basic_commands.hpp"
 #include "gui_commands.hpp"
-#include "shape_creator_commands.hpp"
 #include "selection_commands.hpp"
 #include "qa_commands.hpp"
 
@@ -33,6 +32,7 @@ void command_manager::init() {
     //register_command(new incmdSelectShapesByRegion);
     register_command(new dicmdQaCanvasCompare);
     register_command(new dicmdQaToolExit);
+    register_command(new dicmdTestCmdListOptions);
     
     
     m_current_command = m_idle_command;

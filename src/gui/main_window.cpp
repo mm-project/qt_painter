@@ -89,5 +89,5 @@ void main_window::make_connections()
 main_window::~main_window()
 {
 	StatusBarManager& sBar = StatusBarManager::getInstance();
-	sBar.clear();
+	sBar.removeStatusBar();
 }
