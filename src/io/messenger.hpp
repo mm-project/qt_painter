@@ -9,7 +9,7 @@
 
 #include <string>
 
-enum LogMsgSeverity { err=1, warn, ok, out };
+enum LogMsgSeverity { err=1, warn, ok, out, test, cont };
 
 class Messenger : public Service<Messenger>
 {    

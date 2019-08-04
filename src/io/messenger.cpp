@@ -22,17 +22,24 @@ void Messenger::fini() {
 }
 
 void Messenger::init() {
-	QString m_path("./logs");
-	QString id = QDateTime::currentDateTime().toString("yyyy-MM-dd-HH-mm-ss");
-	std::cout << id.toStdString() << std::endl;
+    
+        QString pathenv = QString::fromLocal8Bit( qgetenv("PAINTER_LOGS_DIR").constData() );
+        QString idpostfix = QString::fromLocal8Bit( qgetenv("PAINTER_LOGFILE_PREFIX").constData());
+        
+	QString m_path = pathenv.isEmpty()?"./logs/":pathenv;
+        
+        
+	QString postfix = "painter"+QDateTime::currentDateTime().toString("yyyy-MM-dd-HH-mm-ss");
+	postfix = idpostfix.isEmpty()?postfix:idpostfix;
+        //std::cout << id.toStdString() << std::endl;
 	
 	m_dir = new QDir;//;("logs");
 	
 	if (!m_dir->exists(m_path))
 	m_dir->mkpath(m_path); // You can check the success if needed
 
-	m_cmdfile = new QFile(m_path + "/painter."+id+".out");
-	m_logfile = new QFile(m_path + "/painter."+id+".log");
+	m_cmdfile = new QFile(m_path + postfix +".lvi");
+	m_logfile = new QFile(m_path + postfix +".log");
 	
 	/*
 	m_cmdfile->open( QIODevice::WriteOnly | QIODevice::Append ); 
@@ -58,8 +65,15 @@ std::string Messenger::decorate(const LogMsgSeverity& r) {
 		case out:
 			return("#o ");
 			break;
-		default:
-			break;
+                case cont:
+                        return("#c ");
+                        break;
+                case test:
+                        return("#t ");
+                        break;
+                default:
+			return("#? ");
+                        break;
 		}
 }
 
