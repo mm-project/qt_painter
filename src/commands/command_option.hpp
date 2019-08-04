@@ -94,7 +94,7 @@ class ListCommandOptionValue : public ICommandOptionValue
             m_data.clear();
             std::string s = str;
             s = s.substr(1, s.size() - 2);
-            std::cout << s << std::endl;
+            //std::cout << s << std::endl;
             for ( auto it: split(s,';') ) {
                 T t;
                 t.from_string(it);
