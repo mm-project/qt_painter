@@ -12,6 +12,7 @@
 
 // STL
 #include <string>
+#include <vector>
 
 class QPainter;
 
@@ -115,7 +116,13 @@ public:
 	virtual IShape* clone() = 0;
 	virtual void draw(QPainter*) = 0;
         
-        //virtual std::vector<QPoint> getPoints() = 0;
+        virtual std::vector<QPoint> getPoints() {
+            std::vector<QPoint> res;
+            res.push_back(QPoint(0,0));
+            res.push_back(QPoint(100,150));
+            
+            return res;
+        }
 
 	//virtual bool intersects(const QRect&) const = 0;
 

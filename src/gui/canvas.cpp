@@ -12,8 +12,8 @@
 #include "../commands/shape_creation_interactive_commands.hpp"
 #include "../commands/shape_creation_directive_commands.hpp"
 #include "../commands/selection_commands.hpp"
+#include "../commands/load_save_commands.hpp"
 #include "../commands/command_manager.hpp"
-
 
 #include <QRect>
 #include <QPainter>
@@ -61,6 +61,9 @@ canvas::canvas(QWidget* p)
         cm->register_command(new dicmdCreateObj<LINE>(m_working_set));
         cm->register_command(new dicmdCreateObj<ELLIPSE>(m_working_set));
         cm->register_command(new dicmdCreateObj<POLYGON>(m_working_set));
+        cm->register_command(new dicmdDesignSave(m_working_set));
+        cm->register_command(new dicmdDesignLoad(m_working_set));
+        
         
 }
 
