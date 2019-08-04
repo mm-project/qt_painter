@@ -3,23 +3,24 @@ Wishlist for rel 1.0.0
 
 
 ### Platform Support
-* Linux32 ubuntu
-* Linux64 ubuntu
-* Windows64 - Mingw
-* Windows64 - MVCS
+* Linux32 ubuntu 18.04
+* Linux64 ubuntu 18.04
+* Windows64 - Mingw (???)
+* Windows64 - MVCS (???)
 * Docker image
 
 ### Usability Features
 * GUI Ribbon
-* GUI statusbar
-* Shape creation ( rect,line,elipse,polygon )
-* Basic properties ( border color, fill color, stiple )
-* Zoomin/Zoomout/Pan
+* GUI Statusbar
+* GUI SimpleConsole
+* Shape creation/deletion ( rect,line,elipse,polygon )
+* Shape Copy/Move
+* Shape Selection/Highlighting
+* Shape basic properties ( border color, fill color, stiple )
+* Canvas Zoomin/Zoomout/Pan
 * Data Save/Load
+* Data Undo/Redo
 * 1-on-1 Logging/Replaying
-* Undo/Redo
-* Copy/Move
-* Selection/Highlighting
 
 ### API Features
 * Messenger
@@ -44,4 +45,5 @@ Wishlist for rel 1.0.0
 * Smoke/Regression test-cases
 * Building docker image 
 * Building on all platforms
+* Automation on quality tools ( valgrind, clang-tidy, lcov... )
 
