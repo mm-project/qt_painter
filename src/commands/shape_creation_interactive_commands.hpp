@@ -8,6 +8,7 @@
 #include "../gui/controller.hpp"
 #include "../gui/statusbar_manager.hpp"
 #include "../core/shape_creator.hpp"
+#include "../core/postman.hpp"
 
 
 #include <sstream>
@@ -16,14 +17,16 @@ template <ObjectType T>
 class ObjCreatorCommandBase : public InteractiveCommandBase 
 {
 
-
+	LePostman* m_postman;
+	
 public:
 	ObjCreatorCommandBase<T>(ObjectPoolSandboxPtr r, IObjectPoolPtr s): ws(s) 
 	{
 		re = std::shared_ptr<ObjectSandbox>(new ObjectSandbox);
 		r->addChildren(re);
 		m_controller =  controller::get_instance();
-                m_rt_shape = 0;
+		m_rt_shape = 0;
+		m_postman = LePostman::get_instance();
 	}
 
 	virtual void handle_update() {
@@ -33,12 +36,14 @@ public:
 	virtual void commit() {
 		//begin transaction
                 m_internal_vec.push_back(InteractiveCommandBase::get_last_point());
+		//m_postman->notify(INTERACTIVE_COMMAND_PRE_COMMIT,a);
                 auto ob = re->getPool()->getObjects();
 		for (auto i : ob)
                     //dicmdCreateObj<T>(m_internal_vec,ws).silent_execute();
                     ws->addObject(i);
                 //end transaction
 		finish();
+		//m_postman->notify(INTERACTIVE_COMMAND_POST_COMMIT,a);
 	}
 	
 	virtual void finish() {
@@ -47,8 +52,8 @@ public:
 	}
 	
 	void set_properties(const ShapeProperties& p) {
-                re->changeBasicProperties(p);
-        }
+		re->changeBasicProperties(p);
+	}
         
 	IShape* get_runtime_object() {
                 return m_rt_shape;
