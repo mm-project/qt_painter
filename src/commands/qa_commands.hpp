@@ -84,23 +84,23 @@ class dicmdQaCanvasCompareInternal: public DirectCommandBase
             dicmdQaDumpCanvas().set_arg("-filename",f)->execute();
             z << "cp " << f << " " << g;
             
-            //fixme
-            //bool regoldenmode = true;
-            //if ( qgetenv("ELEN_PAINTER_REGOLDEN").isEmpty() )
+            bool regoldenmode = true;
+        
+            if ( QString::fromLocal8Bit( qgetenv("ELEN_PAINTER_REGOLDEN").constData() ).isEmpty() )
                 bool regoldenmode = false;
             
             if ( regoldenmode ) {
-				Messenger::expose(out,"dicmdQaCanvasCompare-compare-regolden: "+f+" "+g);
-				//std::cout << "#/t CanvasCompare REGOLDENED: " << f << " " << g << std::endl;
+                Messenger::expose(test,"dicmdQaCanvasCompare-compare-pass: "+f+" "+g);
+                //Messenger::expose(test,"dicmdQaCanvasCompare-compare-regolden: "+f+" "+g);
+                //std::cout << "#/t CanvasCompare REGOLDENED: " << f << " " << g << std::endl;
                 //FIXME not compatible with other OS
-                system(z.str().c_str());
-
+                //system(z.str().c_str());
             } else {
             
                 if ( are_images_different(f.c_str(),g.c_str()) )
-					Messenger::expose(out,"dicmdQaCanvasCompare-compare-mismatch: "+f+" "+g);
+                    Messenger::expose(test,"dicmdQaCanvasCompare-compare-mismatch: "+f+" "+g);
                 else 
-					Messenger::expose(out,"dicmdQaCanvasCompare-compare-pass: "+f+" "+g);
+                    Messenger::expose(test,"dicmdQaCanvasCompare-compare-pass: "+f+" "+g);
             }
             
         }
@@ -166,6 +166,23 @@ class dicmdQaCanvasCompare: public DirectCommandBase
 };    
 
 
+class dicmdTestCmdListOptions: public DirectCommandBase
+{
+    public:        
+        dicmdTestCmdListOptions() {
+            add_option("-strings",new StringListCommandOptionValue());
+            add_option("-points",new PointListCommandOptionValue());
+        }
+        
+        virtual std::string get_name() {
+            return "dicmdTestCmdListOptions";
+        }
+
+        virtual void execute() {
+            //std::string f(GET_CMD_ARG(StringListCommandOptionValue,"-list1"));
+            //std::string g(GET_CMD_ARG(StringListCommandOptionValue,"-list2"));
+        }
+};
 
 
 

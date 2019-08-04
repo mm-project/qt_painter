@@ -2,6 +2,7 @@
 #define messenger_hpp
 
 #include "../core/service.h"
+#include "../core/callback.hpp"
 
 #include <QFile>
 #include <QDir>
@@ -9,7 +10,7 @@
 
 #include <string>
 
-enum LogMsgSeverity { err=1, warn, ok, out };
+enum LogMsgSeverity { err=1, warn, ok, out, test, cont };
 
 class Messenger : public Service<Messenger>
 {    
@@ -25,6 +26,7 @@ class Messenger : public Service<Messenger>
 		static void log_command(const std::string& msg);
 		//FIXME
 		Messenger();
+		void test1(LeCallbackData& d);
 	
 	private:
 		~Messenger();
