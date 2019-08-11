@@ -10,6 +10,8 @@
 #include <QRadioButton>
 #include <QComboBox>
 #include <QString>
+#include <QMessageBox>
+#include <QPushButton>
 
 class dicmdguiSelectComboValue: public DirectCommandBase 
 {
@@ -48,6 +50,40 @@ class dicmdguiSelectComboValue: public DirectCommandBase
             std::cout << cmb->currentText().toStdString() << " " << m_on << " " << cmb->findData("White") << std::endl;
             cmb->setCurrentIndex(cmb->findData("White"));
             //btn->click();*/
+        }
+};
+
+
+class dicmdguiPressButton: public DirectCommandBase 
+{
+
+    std::string m_op1;
+    std::string m_op2;
+    
+    public:
+        dicmdguiPressButton() {
+            add_option("-btn_name",new StringCommandOptionValue(""));
+            add_option("-in_window",new StringCommandOptionValue(""));
+        }
+        
+        dicmdguiPressButton(const std::string& op1, const std::string& op2)
+        { 
+            add_option("-btn_name",new StringCommandOptionValue(op1));
+            add_option("-in_window",new StringCommandOptionValue(op2));
+        }
+        
+        virtual std::string get_name() {
+            return "dicmdguiPressButton";
+        }
+        
+        virtual void execute() {
+            QWidget* w = command_manager::get_instance()->get_main_widget();
+            m_op1 = GET_CMD_ARG(StringCommandOptionValue,"-btn_name");
+            m_op2 = GET_CMD_ARG(StringCommandOptionValue,"-in_window");
+            QMessageBox* box = w->findChild<QMessageBox*>();
+            box->buttons().back()->click();
+            //QPushButton* btn = box->findChild<QPushButton*>(m_op1.c_str());
+            //btn->click();
         }
 };
 

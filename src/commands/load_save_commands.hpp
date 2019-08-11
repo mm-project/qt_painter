@@ -14,15 +14,6 @@
 class dicmdDesignLoad : public DirectCommandBase 
 {
         IObjectPoolPtr ws;
-
-        bool is_agreed_with_user(const std::string& tl, const std::string& bd) {
-                QMessageBox::StandardButton reply;
-                reply = QMessageBox::question(0, tl.c_str() , bd.c_str());//QMessageBox::Yes|QMessageBox::No);
-                if (reply == QMessageBox::Yes) 
-                    return true;
-                
-                return false;
-        }
         
 public:
 	dicmdDesignLoad(IObjectPoolPtr s): ws(s) {
@@ -34,10 +25,6 @@ public:
         }
         
 	virtual void execute() {
-                
-                if ( ! is_agreed_with_user("Loading design","Do you want to discard changes?") ) 
-                    return ;
-                
                 ws->clear();
                 std::string fname(GET_CMD_ARG(StringCommandOptionValue,"-filename"));
                 LogReader().replay_log(fname);

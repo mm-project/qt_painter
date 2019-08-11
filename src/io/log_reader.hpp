@@ -28,10 +28,10 @@ class LogReader : public QObject
     public:
         LogReader();
         void replay_log(const std::string& fname);
-        replay_command(const std::string& cmd);
+        void replay_command(const std::string& cmd);
         
     public slots:
-        void execute_command();
+        void execute_next_command();
     
 };
 
