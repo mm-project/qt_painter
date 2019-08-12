@@ -1,7 +1,7 @@
 #ifndef selection_commands_hpp
 #define selection_commands_hpp
 
-#include "shape_creator_commands.hpp"
+#include "shape_creation_interactive_commands.hpp"
 
 #include "../core/selection.hpp"
 

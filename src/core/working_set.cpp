@@ -17,3 +17,5 @@ void WorkingSet::clear()
 	m_shapes.clear();
 }
 
+
+
