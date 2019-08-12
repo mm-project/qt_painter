@@ -176,7 +176,9 @@ private:
 		float s = q / d;
 		if (r < 0 || r > 1 || s < 0 || s > 1)
 			return false;
-		return true;
+        
+                return true;
+        }	
 
 private:
 	line* m_object;

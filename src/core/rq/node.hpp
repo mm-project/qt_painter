@@ -33,4 +33,5 @@ CNode<T>::CNode(const RQobjectPtr& p, CNodePtr<T> left, CNodePtr<T> right)
 {}
 
 }
+
 #endif
