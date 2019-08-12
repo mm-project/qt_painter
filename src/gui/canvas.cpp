@@ -92,7 +92,6 @@ void canvas::mouseMoveEvent(QMouseEvent* e)
     if( cm->is_idle() ) 
         return;
 
-	
 	int _x = e->pos().x();
 	int _y = e->pos().y();
 	//_x = (_x / m_scale) * m_scale;

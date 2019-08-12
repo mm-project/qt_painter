@@ -119,6 +119,8 @@ public:
 
 	//virtual bool intersects(const QRect&) const = 0;
 
+	//virtual bool intersects(const QRect&) const = 0;
+
 protected:
 	//
 	// Members

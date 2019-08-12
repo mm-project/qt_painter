@@ -177,7 +177,6 @@ private:
 		if (r < 0 || r > 1 || s < 0 || s > 1)
 			return false;
 		return true;
-	}
 
 private:
 	line* m_object;
