@@ -71,7 +71,7 @@ void LogReader::execute_next_command() {
         cmd->execute_and_log();
     
     //t->deleteLater();
-    // QApplication::processEvents();
+    //QApplication::processEvents();
 }
     
 
