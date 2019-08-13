@@ -5,6 +5,7 @@
 #include "../core/working_set.hpp"
 #include "../core/runtime_environment.hpp"
 #include "../core/selection.hpp"
+#include "../core/application.hpp"
 
 #include "../commands/direct_command_base.hpp"
 #include "../commands/basic_commands.hpp"
@@ -75,7 +76,9 @@ void canvas::mousePressEvent(QMouseEvent* e)
         return;
 
     QPoint p(e->pos());
-    dicmdCanvasMouseClick(p).log();
+    if(!Application::is_log_mode())
+        dicmdCanvasMouseClick(p).log();
+    
     cm->mouse_clicked(p.x(),p.y());
 }
 
@@ -101,7 +104,7 @@ void canvas::mouseMoveEvent(QMouseEvent* e)
         cm->mouse_moved(_x, _y);
     
 
-  //dicmdCanvasMouseMove(e->pos()).log();
+        //dicmdCanvasMouseMove(e->pos()).log();
 	/**/
 	
     update();
@@ -109,14 +112,15 @@ void canvas::mouseMoveEvent(QMouseEvent* e)
 
 void canvas::wheelEvent(QWheelEvent* e)
 {
-	m_renderer->zoom((e->delta()/120),e->pos());
+    m_renderer->zoom((e->delta()/120),e->pos());
     update();
 }
 
 void canvas::mouseDoubleClickEvent(QMouseEvent* e)
 {
     dicmdCanvasMouseDblClick(e->pos()).log();
-    cm->mouse_dbl_clicked(e->pos().x(),e->pos().y());
+    if(!Application::is_log_mode())
+        cm->mouse_dbl_clicked(e->pos().x(),e->pos().y());
     update();
 }
 
@@ -128,8 +132,8 @@ void canvas::on_update()
 
 void canvas::paintEvent(QPaintEvent*)
 {
- 	m_renderer->render();
-	update();
+    m_renderer->render();
+    update();
 }
 
 void canvas::invoke_create_line()

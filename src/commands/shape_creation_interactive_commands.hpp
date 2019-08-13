@@ -39,8 +39,8 @@ public:
 		//m_postman->notify(INTERACTIVE_COMMAND_PRE_COMMIT,a);
                 auto ob = re->getPool()->getObjects();
 		for (auto i : ob)
-                    //dicmdCreateObj<T>(m_internal_vec,ws).silent_execute();
-                    ws->addObject(i);
+                    dicmdCreateObj<T>(m_internal_vec,ws).silent_execute();
+                    //ws->addObject(i);
                 //end transaction
 		finish();
 		//m_postman->notify(INTERACTIVE_COMMAND_POST_COMMIT,a);

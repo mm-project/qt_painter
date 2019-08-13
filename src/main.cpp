@@ -1,25 +1,11 @@
 #include "gui/main_window.hpp"
 #include "io/log_reader.hpp"
+#include "core/application.hpp"
 
 #include <QApplication>
 
 //#include <QtWidgets>
     
-/*
-class Application: public QApplication
-{
-    public:
-        using QApplication::QApplication;
-    public:
-        bool notify(QObject *receiver, QEvent *event) {
-            if( QWidget *button = qobject_cast<QWidget *>(receiver))
-                if(event->type() == QEvent::MouseButtonPress)
-                    qDebug()<< button->objectName();
-            return QApplication::notify(receiver, event);
-        }
-};
-*/
-
 int main(int argc, char** argv)
 {
 	//
@@ -28,6 +14,7 @@ int main(int argc, char** argv)
 	window.show();
         //FIXME ehnance handling cmd args
         if ( argc == 3 ) { // && argv[1] == "-replay" ) {
+            Application::get_instance()->set_log_mode(true);
             LogReader r;
             r.replay_log(argv[2]);
         }
