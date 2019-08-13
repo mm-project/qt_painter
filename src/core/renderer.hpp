@@ -6,7 +6,6 @@
 
 #include <QPainter>
 #include <QWidget>
-#include <QPoint>
 
 // REPONSIBLE FOR VIEWPORT CONTROLL
 class renderer
@@ -14,7 +13,6 @@ class renderer
 	IObjectPoolPtr m_working_set;
 	ObjectPoolSandboxPtr m_sandbox;
 	int m_scale = 15;
-    QPoint m_zoom_point = {0,0};
 	
     //Q_OBJECT
     public:
@@ -44,15 +42,12 @@ class renderer
             painter->end();
         }
         
-        void zoomin(QPoint p) {
+        void zoomin() {
             m_zoom_factor*=2;
-            m_zoom_point = p;
-            
         }
         
         void zoomout() {
-            m_zoom_point = QPoint(0,0);
-            if ( m_zoom_factor > 1 )
+            if ( m_zoom_factor > 0)
 				m_zoom_factor/=2;
         }
 
@@ -70,7 +65,7 @@ class renderer
         }
         
 		void draw_background() {
-			QRect rect(m_zoom_point, parent_windget->size());
+			QRect rect(QPoint(0, 0), parent_windget->size());
 			QBrush b(Qt::black);
 			painter->setBrush(b);
 			painter->drawRect(rect);
@@ -105,16 +100,12 @@ class renderer
 				i->draw(painter);
 		}
 		
-		void make_viewport_adjustments() {
-			painter->scale(m_zoom_factor,m_zoom_factor);
-            painter->translate(QPoint(-1*m_zoom_point.x(),-1*m_zoom_point.y()));
-        }
-        
 		void draw_all() {
-            draw_background();
+			painter->scale(m_zoom_factor,m_zoom_factor);
+			draw_background();
 			draw_grid();
 			draw_runtime_pools();
-            draw_objects();
+			draw_objects();
 		}
 		
 		void draw_objects() {
@@ -137,14 +128,13 @@ class renderer
 		
 		void render() {
 			start();
-            make_viewport_adjustments();
 			draw_all();
 			stop();
 		}
 		
-		void zoom(int factor, QPoint p ) {
+		void zoom(int factor) {
 			if ( factor > 0 )
-				zoomin(p);
+				zoomin();
 			else
 				zoomout();
 		}

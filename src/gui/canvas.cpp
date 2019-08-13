@@ -103,16 +103,16 @@ void canvas::mouseMoveEvent(QMouseEvent* e)
 	//e->pos().setY(_y);
         cm->mouse_moved(_x, _y);
     
-
-  //dicmdCanvasMouseMove(e->pos()).log();
+	//FIXME add logMotion flag to enable
+        //dicmdCanvasMouseMove(e->pos()).log();
 	/**/
 	
     update();
 }
 
-void canvas::wheelEvent(QWheelEvent* e)
+void canvas::wheelEvent(QWheelEvent* pEvent)
 {
-	m_renderer->zoom((e->delta()/120),e->pos());
+	m_renderer->zoom((pEvent->delta()/120));
     update();
 }
 

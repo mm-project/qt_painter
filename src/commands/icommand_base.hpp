@@ -55,7 +55,6 @@ class CommandBase : public ICommand
         virtual CommandBase* set_arg(const std::string&, const std::string&) { return nullptr; }
 
 
-
         //FIXME should not be here !!!
         virtual void handle_mouse_click(int,int) {}
         virtual void handle_mouse_dblclick(int,int) {}
