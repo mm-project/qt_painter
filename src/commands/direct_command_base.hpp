@@ -26,10 +26,13 @@ class DirectCommandBase: public CommandBase
     public:
         virtual bool can_undo() { return true; }
         
+        virtual bool is_transaction_cmd() {
+            return true;
+        }    
         
         virtual void silent_execute() {
             execute();
-            Messenger::expose(out,get_cmdname_and_stringified_opts(),false);
+            Messenger::expose_msg(out,get_cmdname_and_stringified_opts(),is_transaction_cmd());
         }
  
         virtual CommandType get_type() {

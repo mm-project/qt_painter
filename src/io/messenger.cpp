@@ -23,7 +23,7 @@ Messenger::~Messenger() {
 }
 
 void Messenger::test1(LeCallbackData& d) {
-	Messenger::expose(out,"Callback working");
+	Messenger::expose_msg(out,"Callback working");
 }
 
 void Messenger::fini() {
@@ -60,20 +60,23 @@ void Messenger::init() {
 	*/
 }
 	
-std::string Messenger::decorate(const LogMsgSeverity& r) {
+std::string Messenger::decorate_for_logging(const LogMsgSeverity& r) {
 	
 	switch (r) {
-		case err:
-			return("#e ");
-			//break;
-		case ok:
+                case ok:
+                        return("#i ");
+                        break;
+                case err:
+			return("#e --> ");
+			break;
+		case info:
 			return("#i ");
 			break;
 		case warn:
-			return("#w ");
+			return("#w --> ");
 			break;
 		case out:
-			return("#o ");
+			return("#o --> ");
 			break;
                 case cont:
                         return("#c ");
@@ -81,6 +84,9 @@ std::string Messenger::decorate(const LogMsgSeverity& r) {
                 case test:
                         return("#t ");
                         break;
+                case modal:
+                        return("#m ");
+                        break;                           
                 default:
 			return("#? ");
                         break;
@@ -88,39 +94,52 @@ std::string Messenger::decorate(const LogMsgSeverity& r) {
 }
 
 //FIXME
-void Messenger::expose_internal(const LogMsgSeverity& s, const std::string& msg , bool cmd) 
+void Messenger::expose_internal(const LogMsgSeverity& severity, const std::string& msg , bool iscmd) 
 {
-	std::stringstream z;
-	z << decorate(s) << msg << "\n";
+	write_entry_to_console_gui(severity,msg);
+        
+        std::stringstream z;
+	z << decorate_for_logging(severity) << msg << "\n";
+	write_entry_to_logfile(z.str());
 	
+	// if this is <real> command, write also to lvi file.
+	if ( iscmd ) 
+            write_entry_to_cmdfile(msg);
+        
+}
+
+void Messenger::write_entry_to_console_gui(const LogMsgSeverity& s, const std::string& msg) {
+        //nagaina update please update here :)
+}
+	
+	
+//fixme duplicates
+void Messenger::write_entry_to_logfile(const std::string& msg) {
 	m_logfile->open( QIODevice::WriteOnly | QIODevice::Append ); 
 	log_stream = new QTextStream(m_logfile);
-	(*log_stream) << z.str().c_str();
+	(*log_stream) << msg.c_str();
 	m_logfile->flush();
 	m_logfile->close();
-	
-	
-	if ( cmd ) {
-		m_cmdfile->open( QIODevice::WriteOnly | QIODevice::Append ); 
-		cmd_stream = new QTextStream(m_cmdfile);
-		(*cmd_stream) << (msg+"\n").c_str();
-		m_cmdfile->flush();
-		m_cmdfile->close();
-	}
-	
-	
-	std::cout << z.str();	
+}
+
+void Messenger::write_entry_to_cmdfile(const std::string& msg) {
+        m_cmdfile->open( QIODevice::WriteOnly | QIODevice::Append ); 
+        cmd_stream = new QTextStream(m_cmdfile);
+        (*cmd_stream) << (msg+"\n").c_str();
+        m_cmdfile->flush();
+        m_cmdfile->close();
 }
 			
-void Messenger::expose(const LogMsgSeverity& s, const std::string& msg, bool iscmd )
+//static			
+void Messenger::expose_msg(const LogMsgSeverity& s, const std::string& msg, bool iscmd )
 {
 	Messenger::get_instance()->expose_internal(s,msg,iscmd);
 }
     	
-//used by CommandBase internally , fixme add friend		
-void Messenger::log_command(const std::string& msg) 
+//static used by CommandBase internally , fixme add friend		
+void Messenger::log_command(const std::string& msg, bool iscmd) 
 {
-	Messenger::expose(ok,msg,true);	
+	Messenger::expose_msg(ok,msg,iscmd);	
 }
 
 //Messenger::expose(err,"Error: ... ")
