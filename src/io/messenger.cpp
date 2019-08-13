@@ -64,13 +64,13 @@ std::string Messenger::decorate_for_logging(const LogMsgSeverity& r) {
 	
 	switch (r) {
                 case ok:
-                        return("#i ");
+                        return("");
                         break;
                 case err:
 			return("#e --> ");
 			break;
 		case info:
-			return("#i ");
+			return("#i --> ");
 			break;
 		case warn:
 			return("#w --> ");
@@ -82,7 +82,7 @@ std::string Messenger::decorate_for_logging(const LogMsgSeverity& r) {
                         return("#c ");
                         break;
                 case test:
-                        return("#t ");
+                        return("#t --> ");
                         break;
                 case modal:
                         return("#m ");
@@ -109,6 +109,7 @@ void Messenger::expose_internal(const LogMsgSeverity& severity, const std::strin
 }
 
 void Messenger::write_entry_to_console_gui(const LogMsgSeverity& s, const std::string& msg) {
+        std::cout << msg << std::endl;
         //nagaina update please update here :)
 }
 	

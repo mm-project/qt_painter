@@ -1,6 +1,8 @@
 #ifndef log_reader_hpp
 #define log_reader_hpp
 
+#include "command_interpreter.hpp"
+
 #include "../commands/icommand_base.hpp"
 #include "../commands/command_manager.hpp"
 
@@ -21,6 +23,7 @@ class LogReader : public QObject
     
     QTimer* timer ;
     std::queue<CommandBase*> m_command_queue;
+    CommandInterp* m_interp;
     
     public:
         LogReader();
@@ -28,7 +31,7 @@ class LogReader : public QObject
         void replay_log(const std::string& fname);
         
     public slots:
-        void execute_command();
+        void execute_next_command();
     
 };
 
