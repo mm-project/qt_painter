@@ -85,7 +85,7 @@ function postprocess
             fi
 
             if [ "$c" != "" ]; then
-                succ=`expr $succ - 1`
+                #succ=`expr $succ - 1`
                 echo "MISMTACH painter.out <--> painter.out.golden "
             fi
 
