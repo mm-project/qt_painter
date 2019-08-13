@@ -10,9 +10,14 @@
 // Qt
 #include <QObject>
 #include <QLine>
+#include <QPoint>
 #include <QRect>
 #include <QMouseEvent>
 #include <QPolygonF>
+
+
+//stl
+#include <vector>
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -43,6 +48,9 @@ public:
 	
 
 	virtual ObjectType getType() const override { return LINE; }
+	
+	//FIXME need proper fix and member handling
+	virtual std::vector<QPoint> getPoints() { return std::vector<QPoint>(2) =  {m_object.p1(),m_object.p2()}; }
 
 private:
 	QLine m_object;
@@ -77,6 +85,9 @@ public:
 	bool contains(const QPoint& point) const { return m_object.contains(point); }
 	bool intersects(const QRect& oRect) const { return m_object.intersects(oRect); }
 	virtual ObjectType getType() const override { return RECTANGLE; }
+	
+    //FIXME need proper fix and member handling
+	virtual std::vector<QPoint> getPoints() { return std::vector<QPoint>(2) =  {getBottomRight(),getTopLeft()}; }
 
 private:
 	QRect m_object;
@@ -111,6 +122,9 @@ public:
 	bool contains(const QPoint& point) const { return m_object.contains(point); }
 	bool intersects(const QRect& oRect) const { return m_object.intersects(oRect); }
 	virtual ObjectType getType() const override { return ELLIPSE; }
+	
+	    //FIXME need proper fix and member handling
+	virtual std::vector<QPoint> getPoints() { return std::vector<QPoint>(2) =  {getBottomRight(),getTopLeft()}; }
 
 private:
 	QRect m_object;
@@ -147,6 +161,9 @@ public:
 		return m_object.boundingRect().intersects(oRect); 
 	}
 
+    //FIXME need proper fix and member handling
+	virtual std::vector<QPoint> getPoints() { return m_object.toStdVector(); }
+	
 private:
 	QPolygon m_object;
 	bool m_first = true;
