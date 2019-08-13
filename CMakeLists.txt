@@ -33,7 +33,7 @@ if (UNIX)
         set(QT_INCLUDE_DIR "/usr/include/i386-linux-gnu/qt5/")
     endif()
 else ()
-    set(QT_INCLUDE_DIR $QTDIR/include)
+    set(QT_INCLUDE_DIR ${QTDIR}/include)
 endif (UNIX)
 
 include_directories(${QT_INCLUDE_DIR}/)
