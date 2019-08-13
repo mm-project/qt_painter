@@ -3,7 +3,7 @@
 
 #include "../core/renderer.hpp"
 #include "../core/iobject_pool.hpp"
-#include "../core/basic_shape.hpp"
+#include "../core/ishape.hpp"
 #include "../commands/command_manager.hpp"
 
 #include <QWidget>

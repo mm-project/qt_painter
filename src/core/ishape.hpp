@@ -70,14 +70,7 @@ struct ShapeProperties
 class IShape
 {
 public:
-	//	dynamic_cast is too slow
-	enum class Type
-	{
-		LINE = 0,
-		RECTANGLE,
-		ELLIPSE,
-		POLYGON
-	};
+
 
 public:
 	// @Constructor
@@ -108,16 +101,15 @@ public:
 
 	virtual void movePoint(const QPoint&) {}
 
-	virtual Type getType() const = 0;
+	//FIXME should return ObjectType instead
+	virtual ObjectType getType() const = 0;
   
 public:
 
 	virtual IShape* clone() = 0;
 	virtual void draw(QPainter*) = 0;
         
-        //virtual std::vector<QPoint> getPoints() = 0;
-
-	//virtual bool intersects(const QRect&) const = 0;
+    //virtual std::vector<QPoint> getPoints() = 0;
 
 	//virtual bool intersects(const QRect&) const = 0;
 

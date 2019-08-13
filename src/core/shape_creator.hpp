@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "basic_shape.hpp"
+#include "ishape.hpp"
 
 //
 //	class ShapeCreator

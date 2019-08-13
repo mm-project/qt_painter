@@ -5,7 +5,7 @@
 //
 // Includes
 //
-#include "basic_shape.hpp"
+#include "ishape.hpp"
 
 // Qt
 #include <QObject>
@@ -33,15 +33,16 @@ public:
 	virtual void reset() override;
 	virtual void addPoint(const QPoint&) override;
 
-public:
+private:
 	void setP1(const QPoint&);
 	void setP2(const QPoint&);
 
+public: 
 	QPoint getP1() const { return m_object.p1(); }
 	QPoint getP2() const { return m_object.p2(); }
 	
 
-	virtual Type getType() const override { return Type::LINE; }
+	virtual ObjectType getType() const override { return LINE; }
 
 private:
 	QLine m_object;
@@ -75,7 +76,7 @@ public:
 
 	bool contains(const QPoint& point) const { return m_object.contains(point); }
 	bool intersects(const QRect& oRect) const { return m_object.intersects(oRect); }
-	virtual Type getType() const override { return Type::RECTANGLE; }
+	virtual ObjectType getType() const override { return RECTANGLE; }
 
 private:
 	QRect m_object;
@@ -109,7 +110,7 @@ public:
 
 	bool contains(const QPoint& point) const { return m_object.contains(point); }
 	bool intersects(const QRect& oRect) const { return m_object.intersects(oRect); }
-	virtual Type getType() const override { return Type::ELLIPSE; }
+	virtual ObjectType getType() const override { return ELLIPSE; }
 
 private:
 	QRect m_object;
@@ -132,7 +133,7 @@ public:
 	virtual void addPoint(const QPoint&) override;
 	virtual void movePoint(const QPoint&) override;
 
-	virtual Type getType() const override { return Type::POLYGON; }
+	virtual ObjectType getType() const override { return POLYGON; }
 
 	QPoint getTopLeft() const;
 	QPoint getBottomRight() const;
