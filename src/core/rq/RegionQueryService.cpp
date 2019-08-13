@@ -22,16 +22,16 @@ void RegionQuery::insertObject(IShape* object)
 	rq::RQobjectPtr obj;
 	switch (object->getType())
 	{
-	case IShape::Type::LINE:
+	case LINE:
 		obj = std::shared_ptr<rq::IRQobject>(new rq::RQline(object));
 		break;
-	case IShape::Type::RECTANGLE:
+	case RECTANGLE:
 		obj = std::shared_ptr<rq::IRQobject>(new rq::RQrect(object));
 		break;
-	case IShape::Type::ELLIPSE:
+	case ELLIPSE:
 		obj = std::shared_ptr<rq::IRQobject>(new rq::RQellipse(object));
 		break;
-	case IShape::Type::POLYGON:
+	case POLYGON:
 		obj = std::shared_ptr<rq::IRQobject>(new rq::RQpolygon(object));
 		break;
 	}

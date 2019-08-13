@@ -1,8 +1,9 @@
 #ifndef CONTROLLER_HPP
 #define CONTROLLER_HPP
 
-#include "../core/basic_shape.hpp"
+#include "../core/ishape.hpp"
 
+//fixme should be inherited from service
 class controller
 {
 public:

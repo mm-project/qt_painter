@@ -22,7 +22,7 @@ class dicmdCreateObj : public DirectCommandBase
         IObjectPoolPtr ws;
         
 public:
-	dicmdCreateObj<T>(IObjectPoolPtr s): ws(s) {
+        dicmdCreateObj<T>(IObjectPoolPtr s): ws(s) {
                 add_option("-points",new PointListCommandOptionValue());
         }
 

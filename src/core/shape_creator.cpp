@@ -1,5 +1,4 @@
 #include "shape_creator.hpp"
-
 #include "shapes.hpp"
 
 ShapeCreatorPtr ShapeCreator::m_instance = 0;
