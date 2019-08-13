@@ -52,6 +52,7 @@ function postprocess
             mkdir -p ../golden
             cp ./logs/painter.log ../golden/painter.log.golden
             cp ./logs/painter.lvi ../golden/painter.lvi.golden
+            cp painter.out ../golden/painter.out.golden
             cnvscprs=`find -name "*canvas_compare*"`
             for i in $cnvscprs; do
                 cp $i ../golden/$i.golden
@@ -61,10 +62,11 @@ function postprocess
             return 0;
         fi
         
-        succ=3
+        succ=4
         if [ -d "../golden" ]; then
             a=`diff ./logs/painter.log painter.log.golden`
             b=`diff ./logs/painter.lvi painter.lvi.golden`
+            c=`diff painter.out painter.out.golden`
         else
             succ=`expr $succ - 1`
             echo "CAN'T FIND GOLDEN DIR"
@@ -81,6 +83,12 @@ function postprocess
                 succ=`expr $succ - 1`
                 echo "MISMTACH ./logs/painter.lvi <--> painter.lvi.golden "
             fi
+
+            if [ "$c" != "" ]; then
+                succ=`expr $succ - 1`
+                echo "MISMTACH painter.out <--> painter.out.golden "
+            fi
+
         #fi
         
         #FIXME super inefficent
@@ -98,7 +106,7 @@ function postprocess
             #exit 0
         fi
         
-        if [ "$succ" != 3 ]; then
+        if [ "$succ" != 4 ]; then
             echo "Test failed."
             exit 1
         else

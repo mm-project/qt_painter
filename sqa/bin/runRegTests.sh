@@ -23,6 +23,9 @@ for i in `cat $PAINTER_SQA_ROOT/tests.lst`; do
             res=1
         else
             echo "error"
+            echo "************"
+            cat test.info
+            echo "==========="
             res=1
         fi
     cd - &> /dev/null
