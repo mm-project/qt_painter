@@ -111,6 +111,8 @@ void Messenger::expose_internal(const LogMsgSeverity& severity, const std::strin
 void Messenger::write_entry_to_console_gui(const LogMsgSeverity& s, const std::string& msg) {
         std::cout << msg << std::endl;
         //nagaina update please update here :)
+		if (m_console_callback != nullptr)
+			m_console_callback(msg);
 }
 	
 	

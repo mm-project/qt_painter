@@ -25,6 +25,7 @@ class CommandInterp : public Service<CommandInterp>
         
         bool interpret_from_string(const std::string& n) {
             execute_cmd(get_cmd_obj(QString(n.c_str())));
+			return true;
         }
         
         
