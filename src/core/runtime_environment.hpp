@@ -1,7 +1,7 @@
 #ifndef RUNTIME_ENVIRONMENT_HPP
 #define RUNTIME_ENVIRONMENT_HPP
 
-#include "basic_shape.hpp"
+#include "ishape.hpp"
 #include "iobject_pool.hpp"
 
 #include <vector>

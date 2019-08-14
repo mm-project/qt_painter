@@ -2,6 +2,7 @@
 
 
 LogReader::LogReader() {
+    m_interp = CommandInterp::get_instance();
 }
 
 QStringList LogReader::read_file(const std::string& fname) {
@@ -29,43 +30,28 @@ QStringList LogReader::read_file(const std::string& fname) {
 void LogReader::replay_log(const std::string& fname) {
     timer = new QTimer(this);
     //connect(timer, SIGNAL(timeout()), this, SLOT(execute_command()));
-    //timer->start(10);
-
+    //timer->start(1);
     for (  auto line : read_file(fname)  ) {
-        //std::cout << "-" << line.toStdString() << std::endl;
-        QStringList tokens = line.split(" ");
-        //std::cout << " --" << tokens[0].toStdString()  << "--" << std::endl;
-        
-        CommandBase* cmd = command_manager::get_instance()->find_command(tokens[0].toStdString());
-        
-        //if ( cmd->get_type() == Interactive )
-            for (int i=1; i<tokens.size()-1; i=i+2 ) {
-                //std::cout << "  ---<" << tokens[i].toStdString() << "> <=> <"<< tokens[i+1].toStdString() << ">" << std::endl;
-                cmd->set_arg(tokens[i].toStdString(),tokens[i+1].toStdString());
-            }
-        
-        m_command_queue.push(cmd);
-        execute_command();
+        //m_interp->interpret_from_string(line.toStdString());
+        m_command_queue.push(m_interp->get_cmd_obj(line));
+        execute_next_command();
     }
     
 }
 
-void LogReader::execute_command() {
-        //return;
+void LogReader::execute_next_command() {
+    //return;
     if (m_command_queue.empty())
         return;
     
     //std::cout << "dolya varavsyaka" << std::endl;
-    ICommand* cmd = m_command_queue.front();
+    CommandBase* cmd = m_command_queue.front();
     m_command_queue.pop();
     
     if (m_command_queue.empty())
         disconnect(timer, 0, 0, 0);
     
-    if ( cmd->get_type() == Interactive )    
-        command_manager::get_instance()->activate_command(dynamic_cast<CommandBase*>(cmd));
-    else
-        cmd->execute_and_log();
+    m_interp->execute_cmd(cmd);
     
     //t->deleteLater();
     // QApplication::processEvents();

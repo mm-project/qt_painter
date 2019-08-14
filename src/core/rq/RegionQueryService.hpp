@@ -2,7 +2,7 @@
 #define REQGION_QUERY_SERVICE_HPP
 
 #include "RQtree.hpp"
-#include "../basic_shape.hpp"
+#include "../ishape.hpp"
 
 class RegionQuery
 {

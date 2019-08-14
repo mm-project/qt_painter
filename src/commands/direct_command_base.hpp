@@ -26,10 +26,13 @@ class DirectCommandBase: public CommandBase
     public:
         virtual bool can_undo() { return true; }
         
+        virtual bool is_transaction_cmd() {
+            return true;
+        }    
         
         virtual void silent_execute() {
             execute();
-            Messenger::expose(out,get_cmdname_and_stringified_opts(),false);
+            Messenger::expose_msg(out,get_cmdname_and_stringified_opts(),is_transaction_cmd());
         }
  
         virtual CommandType get_type() {
@@ -46,7 +49,7 @@ class DirectCommandBase: public CommandBase
 
     public:
         virtual CommandBase* set_arg(const std::string& n, const std::string& v) {
-            std::cout << n << " " << v << std::endl;
+            //std::cout << n << " " << v << std::endl;
             m_ops[n]->from_string(v);
             return this;
         }
@@ -66,7 +69,7 @@ class DirectCommandBase: public CommandBase
 
         std::string get_cmdname_and_stringified_opts() {
             std::stringstream z;
-			z << get_name() << " ";
+            z << get_name() << " ";
             for (std::pair<const std::string,ICommandOptionValue*>& x: m_ops) {
                 z << x.first << " " << x.second->to_string() << " ";
             }   

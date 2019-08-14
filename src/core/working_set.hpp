@@ -1,7 +1,7 @@
 #ifndef WORKING_SET_HPP
 #define WORKING_SET_HPP
 
-#include "basic_shape.hpp"
+#include "ishape.hpp"
 #include "iobject_pool.hpp"
 
 #include <vector>
