@@ -33,6 +33,8 @@ public:
 		set_properties(m_controller->get_shape_properties());
 	}
 
+	//command commits by invoking corresonding non-interactive command
+	//and passes gathered points 
 	virtual void commit() {
 		//begin transaction
                 m_internal_vec.push_back(InteractiveCommandBase::get_last_point());
@@ -72,12 +74,14 @@ public:
 	
 	void runtime_set_pos2() {
 		re->addPoint(InteractiveCommandBase::get_last_point());
-                //m_internal_vec.push_back(InteractiveCommandBase::get_last_point());
+                if ( T == POLYGON ) 
+                    m_internal_vec.push_back(InteractiveCommandBase::get_last_point());
 	}
 
 	void runtime_movePoint() {
 		re->movePoint(InteractiveCommandBase::get_last_point());
-                m_internal_vec.push_back(InteractiveCommandBase::get_last_point());
+                if ( T != POLYGON ) 
+                    m_internal_vec.push_back(InteractiveCommandBase::get_last_point());
         }
 	
 	virtual void abort() {
