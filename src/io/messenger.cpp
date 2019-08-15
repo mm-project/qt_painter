@@ -67,13 +67,13 @@ std::string Messenger::decorate_for_logging(const LogMsgSeverity& r) {
                         return("");
                         break;
                 case err:
-			return("#e --> ");
+			return("#e --> ERROR: ");
 			break;
 		case info:
 			return("#i --> ");
 			break;
 		case warn:
-			return("#w --> ");
+			return("#w --> WARNING: ");
 			break;
 		case out:
 			return("#o --> ");
@@ -82,7 +82,7 @@ std::string Messenger::decorate_for_logging(const LogMsgSeverity& r) {
                         return("#c ");
                         break;
                 case test:
-                        return("#t --> ");
+                        return("#t --> TEST: ");
                         break;
                 case modal:
                         return("#m ");
@@ -93,14 +93,18 @@ std::string Messenger::decorate_for_logging(const LogMsgSeverity& r) {
 		}
 }
 
+
 //FIXME
 void Messenger::expose_internal(const LogMsgSeverity& severity, const std::string& msg , bool iscmd) 
 {
-	write_entry_to_console_gui(severity,msg);
+	
         
         std::stringstream z;
-	z << decorate_for_logging(severity) << msg << "\n";
-	write_entry_to_logfile(z.str());
+	z << decorate_for_logging(severity) << msg;
+        write_entry_to_console_gui(severity,z.str());
+        z << "\n";
+        write_entry_to_logfile(z.str());
+
 	
 	// if this is <real> command, write also to lvi file.
 	if ( iscmd ) 
@@ -111,8 +115,8 @@ void Messenger::expose_internal(const LogMsgSeverity& severity, const std::strin
 void Messenger::write_entry_to_console_gui(const LogMsgSeverity& s, const std::string& msg) {
         std::cout << msg << std::endl;
         //nagaina update please update here :)
-		if (m_console_callback != nullptr)
-			m_console_callback(msg);
+        if (m_console_callback != nullptr)
+            m_console_callback(msg);
 }
 	
 	
