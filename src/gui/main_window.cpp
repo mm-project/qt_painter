@@ -57,6 +57,7 @@ main_window::main_window(QWidget* p)
 	w->setWidget(m_shapes);
 	w->setFeatures(QDockWidget::NoDockWidgetFeatures);
 	w->setTitleBarWidget(new QWidget(this));
+	w->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 	addDockWidget(Qt::TopDockWidgetArea, w);
 
 	resize(1100, 700);
@@ -80,7 +81,7 @@ void main_window::make_connections()
 	connect(m_shapes, SIGNAL(createEllipse()), m_canvas, SLOT(invoke_create_ellipse()));
 	connect(m_shapes, SIGNAL(createPolygon()), m_canvas, SLOT(invoke_create_polygon()));
 	connect(m_shapes, SIGNAL(reset()), m_canvas, SLOT(reset()));
-	connect(m_shapes, SIGNAL(close()), m_canvas, SLOT(close()));
+	connect(m_shapes, SIGNAL(close()), this, SLOT(close()));
 	connect(m_shapes, SIGNAL(selectByRegion()), m_canvas, SLOT(invoke_select_by_region()));
 	connect(m_shapes, SIGNAL(selectByPoint()), m_canvas, SLOT(invoke_select_by_point()));
 	
