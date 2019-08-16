@@ -170,3 +170,13 @@ void canvas::reset()
     m_working_set->clear();
     update();
 }
+
+void canvas::invoke_save()
+{
+
+}
+
+void canvas::invoke_load()
+{
+
+}
