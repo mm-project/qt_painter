@@ -58,7 +58,13 @@ void create_shape_gui::build_design(QRibbonWidget* ribbonWidget)
 	connect(new_b, SIGNAL(clicked()), this, SIGNAL(reset()));
 	QRibbonButton* close_b = new QRibbonButton(this, "Close", getIconDir() + "close.png");
 	connect(close_b, SIGNAL(clicked()), this, SIGNAL(close()));
+	QRibbonButton* save_b = new QRibbonButton(this, "Save", getIconDir() + "save.svg");
+	connect(new_b, SIGNAL(clicked()), this, SIGNAL(save()));
+	QRibbonButton* load_b = new QRibbonButton(this, "Load", getIconDir() + "upload.svg");
+	connect(close_b, SIGNAL(clicked()), this, SIGNAL(load()));
 	group->addRibbonButton(new_b);
+	group->addRibbonButton(save_b);
+	group->addRibbonButton(load_b);
 	group->addRibbonButton(close_b);
 	ribbonWidget->addGroup(group);
 }
