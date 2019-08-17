@@ -2,6 +2,11 @@
 //#include "postman.hpp"
 #include "rq/RegionQueryService.hpp"
 
+std::string Selection::getName() 
+{
+        return "Selection";
+}
+
 void Selection::clear() {
 	highlight_on_off(false);
 	WorkingSet::clear();

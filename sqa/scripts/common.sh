@@ -2,6 +2,7 @@
 
 exit_code=""
 need_dbg=""
+succ=4
 
 export PAINTER_LOGFILE_PREFIX="painter"
 #mode="regolden"
@@ -35,6 +36,9 @@ function prepocess
     cd output
     if [ "$mode" != "regolden" ]; then
         cp ../golden/* ./ -rf
+        if [ "$?" != 0 ]; then
+            succ=`expr $succ - 1`
+        fi
     fi
 }
 
@@ -62,7 +66,6 @@ function postprocess
             return 0;
         fi
         
-        succ=4
         if [ -d "../golden" ]; then
             a=`diff ./logs/painter.log painter.log.golden`
             b=`diff ./logs/painter.lvi painter.lvi.golden`
