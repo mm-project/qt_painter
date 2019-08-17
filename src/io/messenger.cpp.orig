@@ -67,13 +67,21 @@ std::string Messenger::decorate_for_logging(const LogMsgSeverity& r) {
                         return("");
                         break;
                 case err:
+<<<<<<< HEAD
+			return("#e --> ERROR: ");
+=======
 			return("#e --> ");
+>>>>>>> dev
 			break;
 		case info:
 			return("#i --> ");
 			break;
 		case warn:
+<<<<<<< HEAD
+			return("#w --> WARNING: ");
+=======
 			return("#w --> ");
+>>>>>>> dev
 			break;
 		case out:
 			return("#o --> ");
@@ -82,7 +90,11 @@ std::string Messenger::decorate_for_logging(const LogMsgSeverity& r) {
                         return("#c ");
                         break;
                 case test:
+<<<<<<< HEAD
+                        return("#t --> TEST: ");
+=======
                         return("#t --> ");
+>>>>>>> dev
                         break;
                 case modal:
                         return("#m ");
@@ -97,6 +109,30 @@ std::string Messenger::decorate_for_logging(const LogMsgSeverity& r) {
 //FIXME
 void Messenger::expose_internal(const LogMsgSeverity& severity, const std::string& msg , bool iscmd) 
 {
+<<<<<<< HEAD
+	
+        
+        std::stringstream z;
+	z << decorate_for_logging(severity) << msg;
+        write_entry_to_console_gui(severity,z.str());
+        z << "\n";
+        write_entry_to_logfile(z.str());
+
+	
+	// if this is <real> command, write also to lvi file.
+	if ( iscmd ) 
+            write_entry_to_cmdfile(msg);
+        
+}
+
+void Messenger::write_entry_to_console_gui(const LogMsgSeverity& s, const std::string& msg) {
+        std::cout << msg << std::endl;
+        //nagaina update please update here :)
+        if (m_console_callback != nullptr)
+            m_console_callback(msg);
+}
+	
+=======
 	write_entry_to_console_gui(severity,msg);
         
         std::stringstream z;
@@ -112,10 +148,9 @@ void Messenger::expose_internal(const LogMsgSeverity& severity, const std::strin
 void Messenger::write_entry_to_console_gui(const LogMsgSeverity& s, const std::string& msg) {
         std::cout << msg << std::endl;
         //nagaina update please update here :)
-        if (m_console_callback != nullptr)
-            m_console_callback(msg);
 }
 	
+>>>>>>> dev
 	
 //fixme duplicates
 void Messenger::write_entry_to_logfile(const std::string& msg) {
