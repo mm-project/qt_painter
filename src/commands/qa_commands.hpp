@@ -203,7 +203,7 @@ class dicmdQaCompareInternal: public NonTransactionalDirectCommandBase
                 bool regoldenmode = false;
             
             if ( regoldenmode ) {
-                Messenger::expose_msg(test,"FIXME"+f+" "+g);
+                Messenger::expose_msg(test,"comparision->"+qaCompType2string(T)+":PASS "+f+" "+g);
                 //Messenger::expose_msg(test,"dicmdQaCanvasCompare-compare-regolden: "+f+" "+g);
                 //std::cout << "#/t CanvasCompare REGOLDENED: " << f << " " << g << std::endl;
                 //FIXME not compatible with other OS
@@ -211,9 +211,9 @@ class dicmdQaCompareInternal: public NonTransactionalDirectCommandBase
             } else {
             
                 if ( are_two_files_different(T,f.c_str(),g.c_str()) )
-                    Messenger::expose_msg(test,"FIXME"+f+" "+g);
+                    Messenger::expose_msg(test,"comparision->"+qaCompType2string(T)+":PASS "+f+" "+g);
                 else 
-                    Messenger::expose_msg(test,"FIXME"+f+" "+g);
+                    Messenger::expose_msg(test,"comparision->"+qaCompType2string(T)+":MISMATCH "+f+" "+g);
             }
             
         }

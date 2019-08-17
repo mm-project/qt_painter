@@ -67,22 +67,22 @@ std::string Messenger::decorate_for_logging(const LogMsgSeverity& r) {
                         return("");
                         break;
                 case err:
-			return("#e --> ");
+			return("#e --> Error: ");
 			break;
 		case info:
-			return("#i --> ");
+			return("#i --> Info: ");
 			break;
 		case warn:
-			return("#w --> ");
+			return("#w --> Warning: ");
 			break;
 		case out:
-			return("#o --> ");
+			return("#o --> Out: ");
 			break;
                 case cont:
                         return("#c ");
                         break;
                 case test:
-                        return("#t --> ");
+                        return("#t --> Test: ");
                         break;
                 case modal:
                         return("#m ");
