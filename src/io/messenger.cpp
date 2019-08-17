@@ -14,16 +14,10 @@
 
 Messenger::Messenger() {
 	init();
-	REGISTER_CALLBACK(INTERACTIVE_COMMAND_PRE_COMMIT, &Messenger::test1);
-	REGISTER_CALLBACK(INTERACTIVE_COMMAND_POST_COMMIT,&Messenger::test1);
 }
 
 Messenger::~Messenger() {
 	fini();
-}
-
-void Messenger::test1(LeCallbackData& d) {
-	Messenger::expose_msg(out,"Callback working");
 }
 
 void Messenger::fini() {
@@ -111,9 +105,13 @@ void Messenger::expose_internal(const LogMsgSeverity& severity, const std::strin
 
 void Messenger::write_entry_to_console_gui(const LogMsgSeverity& s, const std::string& msg) {
         std::cout << msg << std::endl;
-        //nagaina update please update here :)
-        if (m_console_callback != nullptr)
-            m_console_callback(msg);
+
+        std::string errcode = "";
+        if ( s != ok )
+            errcode  = "PROJ-001";
+
+        MessengerCallbackData data(s,msg,errcode);    
+        NOTIFY(MESSENGER,data);
 }
 	
 	

@@ -40,16 +40,20 @@ void LePostman::deregister_callback(LeCallbackType& t, int id) {
 void LePostman::notify(const std::string& n, const LeCallbackType& t) {
     //std::cout << "notify1" << std::endl;
     for( auto it : m_type2vecfun[t] ) {
-        std::cout << n << " " << it.get_name() << std::endl;
-		it.call();
+        //std::cout << n << " " << it.get_name() << std::endl;
+        it.call();
     }
 }
 
-void LePostman::notify(const std::string& n, const LeCallbackType& t,LeCallbackData& data) {
+//void LePostman::notify(const std::string& n, const LeCallbackType& t,LeCallbackData data) {
+//        notify(n,t,data)
+//}
+
+void LePostman::notify(const std::string& n, const LeCallbackType& t, LeCallbackData& data) {
     //std::cout << "notify2" << std::endl;
     for( auto it : m_type2vecfun[t] ) {
-        std::cout << n << " " << it.get_name() << std::endl;
-		std::cout << n << " called to " << " via " << std::endl;
+        //std::cout << n << " function is calling " << it.get_name() << " via  ENUM:" << t << std::endl;
+        //std::cout << n << " called to " << " via " << std::endl;
         it.call(data);
     }
 }

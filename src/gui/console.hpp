@@ -1,6 +1,8 @@
 #ifndef CONSOLE_GUI_HPP
 #define CONSOLR_GUI_HPP
 
+#include "../io/messenger.hpp"
+
 #include <QFrame>
 #include <QTextEdit>
 #include <QLineEdit>
@@ -16,7 +18,7 @@ public:
 
 public:
 	//	Methods
-	void updateView(const std::string&);
+	void updateView(LeCallbackData& data);
 	
 private slots:
 	void onCommandEntered();
