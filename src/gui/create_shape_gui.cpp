@@ -143,8 +143,8 @@ void create_shape_gui::build_colors(QRibbonWidget* ribbonWidget)
 	widget->setLayout(layout);
 
 	ribbonGroup->addButton(widget);
-	m_pen_button = new QRadioButton(this);
-	m_pen_button->click();
+	//m_pen_button = new QRadioButton(this);
+	//m_pen_button->click();
 	//ribbonGroup->addButton(m_pen_button, "Pen", QRibbonButtonSize::size24);
 	//ribbonGroup->addButton(brush, "Brush", QRibbonButtonSize::size24);
 	ribbonWidget->addGroup(ribbonGroup);
@@ -277,9 +277,9 @@ Qt::PenJoinStyle get_join_style_from_string(const QString& s)
 void create_shape_gui::pen_color_changed(const QString& s)
 {
 	controller* c = controller::get_instance();
-	(m_pen_button->isChecked())
-		? c->change_pen_color(get_color_from_string(s))
-		: c->change_brush_color(get_color_from_string(s));
+	//(m_pen_button->isChecked())
+	//	? c->change_pen_color(get_color_from_string(s))
+	//	: c->change_brush_color(get_color_from_string(s));
 	emit something_changed();
 }
 

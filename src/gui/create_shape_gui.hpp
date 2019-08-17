@@ -60,7 +60,7 @@ private:
 	QPushButton* m_rect_button = nullptr;
 	QPushButton* m_ellipse_button = nullptr;
 	QPushButton* m_polygon_button = nullptr;
-	QRadioButton* m_pen_button = nullptr;
+	//QRadioButton* m_pen_button = nullptr;
 };
 
 #endif
