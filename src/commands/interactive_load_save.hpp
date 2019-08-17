@@ -9,17 +9,17 @@
 
 #include <string>
 
-enum SL_ACTION { LOAD, SAVE };
+enum desAction { LOAD, SAVE, NEW, CLOSE };
 
 namespace {
-    std::string sl_action2string(SL_ACTION a) {
+    std::string sl_action2string(desAction a) {
         if ( a == LOAD ) return "Load";
         return "Save";
     }
 }
 
-template<SL_ACTION T>
-class InteractiveLoadSave: public InteractiveCommandBase
+template<desAction T>
+class InteractiveDesAction: public InteractiveCommandBase
 {
     
     IObjectPoolPtr m_ws;
@@ -27,15 +27,15 @@ class InteractiveLoadSave: public InteractiveCommandBase
     
     public:
 	
-        InteractiveLoadSave<SL_ACTION>(IObjectPoolPtr s ):m_ws(s) { 
+        InteractiveDesAction<T>(IObjectPoolPtr s ):m_ws(s) { 
         }
 
         virtual std::string get_name() {
-                return "incmdDesign"+sl_action2string(SL_ACTION);
+                return "incmdDesign"+sl_action2string(T);
         }
         
         virtual void execute() {
-                set_next_handler(HANDLE_FUNCTION(InteractiveLoadSave<SL_ACTION>,on_commit));
+                set_next_handler(HANDLE_FUNCTION(InteractiveDesAction<T>,on_commit));
         }
 
         virtual void abort() {
@@ -46,7 +46,7 @@ class InteractiveLoadSave: public InteractiveCommandBase
     private:
         void on_commit(const EvType& ev) {
             if (is_agreed_with_user())    
-                if ( SL_ACTION == load ) 
+                if ( T == LOAD  ) 
                     dicmdDesignLoad(m_ws,m_fn).execute();
                 else
                     dicmdDesignSave(m_ws,m_fn).execute();
@@ -55,9 +55,9 @@ class InteractiveLoadSave: public InteractiveCommandBase
 
 		
         bool is_agreed_with_user() {
-                return mmModalDialog::ask_yn_question("DesignLoad","Do you want to continue?");
+                return mmModalDialog::ask_yn_question("Design"+sl_action2string(T),"Do you want to continue?");
         }
-        
+
 			
 };
 

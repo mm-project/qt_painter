@@ -5,6 +5,7 @@
 #include "../core/working_set.hpp"
 #include "../core/runtime_environment.hpp"
 #include "../core/selection.hpp"
+#include "../core/application.hpp"
 
 #include "../commands/direct_command_base.hpp"
 #include "../commands/basic_commands.hpp"
@@ -62,8 +63,8 @@ canvas::canvas(QWidget* p)
         cm->register_command(new dicmdCreateObj<LINE>(m_working_set));
         cm->register_command(new dicmdCreateObj<ELLIPSE>(m_working_set));
         cm->register_command(new dicmdCreateObj<POLYGON>(m_working_set));
-        cm->register_command(new InteractiveLoadSave<LOAD>(m_working_set));
-        cm->register_command(new InteractiveLoadSave<SAVE>(m_working_set));
+        cm->register_command(new InteractiveDesAction<LOAD>(m_working_set));
+        cm->register_command(new InteractiveDesAction<SAVE>(m_working_set));
         cm->register_command(new dicmdDesignSave(m_working_set));
         cm->register_command(new dicmdDesignLoad(m_working_set));
 }
@@ -85,7 +86,9 @@ void canvas::mousePressEvent(QMouseEvent* e)
         return;
 
     QPoint p(e->pos());
-    dicmdCanvasMouseClick(p).log();
+    if(!Application::is_log_mode())
+        dicmdCanvasMouseClick(p).log();
+    
     cm->mouse_clicked(p.x(),p.y());
 }
 
@@ -117,16 +120,17 @@ void canvas::mouseMoveEvent(QMouseEvent* e)
     update();
 }
 
-void canvas::wheelEvent(QWheelEvent* pEvent)
+void canvas::wheelEvent(QWheelEvent* e)
 {
-    m_renderer->zoom((pEvent->delta()/120));
+    m_renderer->zoom((e->delta()/120),e->pos());
     update();
 }
 
 void canvas::mouseDoubleClickEvent(QMouseEvent* e)
 {
     dicmdCanvasMouseDblClick(e->pos()).log();
-    cm->mouse_dbl_clicked(e->pos().x(),e->pos().y());
+    if(!Application::is_log_mode())
+        cm->mouse_dbl_clicked(e->pos().x(),e->pos().y());
     update();
 }
 
@@ -174,11 +178,11 @@ void canvas::invoke_select_by_point()
 
 void canvas::invoke_save()
 {
-    cm->activate_command(cm->find_command("incmdSaveDesign"));
+    cm->activate_command(cm->find_command("incmdDesignSave"));
 }
 
 void canvas::invoke_load()
 {
-    cm->activate_command(cm->find_command("incmdLoadDesign"));
+    cm->activate_command(cm->find_command("incmdDesignLoad"));
 
 }

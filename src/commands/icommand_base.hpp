@@ -43,12 +43,13 @@ class CommandBase : public ICommand
             }
         }
         
-        void log_impl(const std::string& str) {
-            Messenger::log_command(str);
+        virtual bool is_transaction_cmd() {
+            return false;
         }
-		
+        // by default commands log just their name,
+        // for anothers like directive commands, they can redifne what they need to do
         virtual void log() {
-            log_impl(get_name());
+           log_impl(get_name());
         }
         
         //virtual void activate() {}
@@ -61,7 +62,12 @@ class CommandBase : public ICommand
         virtual void handle_mouse_move(int,int) {}
         virtual void handle_key_press() {}
         virtual void handle_update() {}
-                
+
+        //standart implementation
+        void log_impl(const std::string& str) {
+            Messenger::log_command(str,is_transaction_cmd());
+        }
+
 };
 
 

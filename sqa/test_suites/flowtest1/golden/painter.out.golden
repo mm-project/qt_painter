@@ -1,3 +1,5 @@
+QWidget::paintEngine: Should no longer be called
+QPainter::begin: Paint device returned engine == 0, type: 1
 incmdCreateObjRectangle
 dicmdCanvasMouseMove -point (120,31) 
 dicmdCanvasMouseMove -point (120,32) 
@@ -67,7 +69,7 @@ dicmdCanvasMouseMove -point (184,180)
 dicmdCanvasMouseMove -point (184,181) 
 dicmdCanvasMouseClick -point (184,181) 
 dicmdCanvasMouseMove -point (187,185) 
-#o --> dicmdCreateObjRectangle -points {(109,98);(187,185)} 
+dicmdCreateObjRectangle -points {(109,98);(187,185)} 
 dicmdCanvasMouseMove -point (190,189) 
 dicmdCanvasMouseMove -point (193,192) 
 dicmdCanvasMouseMove -point (195,194) 
@@ -124,7 +126,7 @@ dicmdCanvasMouseMove -point (367,327)
 dicmdCanvasMouseMove -point (368,328) 
 dicmdCanvasMouseClick -point (368,328) 
 dicmdCanvasMouseMove -point (370,327) 
-#o --> dicmdCreateObjRectangle -points {(230,235);(370,327)} 
+dicmdCreateObjRectangle -points {(230,235);(370,327)} 
 dicmdCanvasMouseMove -point (371,326) 
 dicmdCanvasMouseMove -point (377,326) 
 dicmdCanvasMouseMove -point (383,326) 
@@ -162,7 +164,7 @@ dicmdCanvasMouseMove -point (778,511)
 dicmdCanvasMouseMove -point (778,513) 
 dicmdCanvasMouseClick -point (778,513) 
 dicmdCanvasMouseMove -point (778,507) 
-#o --> dicmdCreateObjRectangle -points {(512,397);(778,507)} 
+dicmdCreateObjRectangle -points {(512,397);(778,507)} 
 dicmdCanvasMouseMove -point (779,501) 
 dicmdCanvasMouseMove -point (782,493) 
 dicmdCanvasMouseMove -point (783,484) 
@@ -232,7 +234,7 @@ dicmdCanvasMouseMove -point (537,193)
 dicmdCanvasMouseMove -point (536,193) 
 dicmdCanvasMouseClick -point (536,193) 
 dicmdCanvasMouseMove -point (537,193) 
-#o --> dicmdCreateObjRectangle -points {(748,247);(537,193)} 
+dicmdCreateObjRectangle -points {(748,247);(537,193)} 
 dicmdCanvasMouseMove -point (539,194) 
 dicmdCanvasMouseMove -point (545,195) 
 dicmdCanvasMouseMove -point (558,198) 
@@ -340,7 +342,7 @@ dicmdCanvasMouseMove -point (671,120)
 dicmdCanvasMouseMove -point (672,120) 
 dicmdCanvasMouseClick -point (672,120) 
 dicmdCanvasMouseMove -point (672,119) 
-#o --> dicmdCreateObjRectangle -points {(535,64);(672,119)} 
+dicmdCreateObjRectangle -points {(535,64);(672,119)} 
 dicmdCanvasMouseMove -point (672,118) 
 dicmdCanvasMouseMove -point (677,119) 
 dicmdCanvasMouseMove -point (689,123) 
@@ -414,7 +416,7 @@ dicmdCanvasMouseMove -point (411,549)
 dicmdCanvasMouseMove -point (412,551) 
 dicmdCanvasMouseClick -point (412,551) 
 dicmdCanvasMouseMove -point (412,545) 
-#o --> dicmdCreateObjRectangle -points {(297,444);(412,545)} 
+dicmdCreateObjRectangle -points {(297,444);(412,545)} 
 dicmdCanvasMouseMove -point (412,539) 
 dicmdCanvasMouseMove -point (412,525) 
 dicmdCanvasMouseMove -point (412,516) 
@@ -501,7 +503,7 @@ dicmdCanvasMouseMove -point (437,185)
 dicmdCanvasMouseMove -point (437,186) 
 dicmdCanvasMouseClick -point (437,186) 
 dicmdCanvasMouseMove -point (441,184) 
-#o --> dicmdCreateObjRectangle -points {(338,86);(441,184)} 
+dicmdCreateObjRectangle -points {(338,86);(441,184)} 
 dicmdCanvasMouseMove -point (455,188) 
 dicmdCanvasMouseMove -point (481,198) 
 dicmdCanvasMouseMove -point (513,208) 
@@ -602,7 +604,7 @@ dicmdCanvasMouseMove -point (200,466)
 dicmdCanvasMouseMove -point (200,467) 
 dicmdCanvasMouseClick -point (200,467) 
 dicmdCanvasMouseMove -point (200,464) 
-#o --> dicmdCreateObjRectangle -points {(97,342);(200,464)} 
+dicmdCreateObjRectangle -points {(97,342);(200,464)} 
 dicmdCanvasMouseMove -point (201,460) 
 dicmdCanvasMouseMove -point (203,455) 
 dicmdCanvasMouseMove -point (203,447) 
@@ -670,7 +672,7 @@ dicmdCanvasMouseMove -point (279,313)
 dicmdCanvasMouseMove -point (279,314) 
 dicmdCanvasMouseClick -point (279,314) 
 dicmdCanvasMouseMove -point (279,312) 
-#o --> dicmdCreateObjRectangle -points {(182,273);(279,312)} 
+dicmdCreateObjRectangle -points {(182,273);(279,312)} 
 dicmdCanvasMouseMove -point (279,308) 
 dicmdCanvasMouseMove -point (278,303) 
 dicmdCanvasMouseMove -point (275,297) 
@@ -857,7 +859,7 @@ dicmdCanvasMouseMove -point (313,165)
 dicmdCanvasMouseMove -point (314,166) 
 dicmdCanvasMouseClick -point (314,166) 
 dicmdCanvasMouseMove -point (314,168) 
-#o --> dicmdCreateObjRectangle -points {(240,96);(314,168)} 
+dicmdCreateObjRectangle -points {(240,96);(314,168)} 
 dicmdCanvasMouseMove -point (320,168) 
 dicmdCanvasMouseMove -point (333,165) 
 dicmdCanvasMouseMove -point (351,165) 
@@ -974,7 +976,7 @@ dicmdCanvasMouseMove -point (614,448)
 dicmdCanvasMouseMove -point (613,447) 
 dicmdCanvasMouseClick -point (613,447) 
 dicmdCanvasMouseMove -point (612,447) 
-#o --> dicmdCreateObjRectangle -points {(744,323);(612,447)} 
+dicmdCreateObjRectangle -points {(744,323);(612,447)} 
 dicmdCanvasMouseMove -point (624,435) 
 dicmdCanvasMouseMove -point (659,398) 
 dicmdCanvasMouseMove -point (697,356) 
@@ -1009,21 +1011,21 @@ dicmdCanvasMouseDblClick -point (198,188)
 dicmdCanvasMouseDblClick -point (198,188) 
 incmdCreateObjEllipse
 dicmdQaCanvasCompare 
-#t --> dicmdQaCanvasCompare-compare-pass: canvas_compare_0.png canvas_compare_0.png.golden
+dicmdQaCanvasCompare-compare-pass: canvas_compare_0.png canvas_compare_0.png.golden
 dicmdCanvasMouseClick -point (383,156) 
 dicmdCanvasMouseClick -point (436,215) 
 dicmdCanvasMouseClick -point (607,313) 
-#o --> dicmdCreateObjEllipse -points {(383,156);(607,313)} 
+dicmdCreateObjEllipse -points {(383,156);(607,313)} 
 dicmdCanvasMouseClick -point (663,360) 
 dicmdCanvasMouseClick -point (663,360) 
-#o --> dicmdCreateObjEllipse -points {(607,313);(663,360)} 
+dicmdCreateObjEllipse -points {(607,313);(663,360)} 
 incmdSelectShapesByRegion
 dicmdCanvasMouseClick -point (70,30) 
 dicmdCanvasMouseClick -point (798,602) 
 dicmdCanvasMouseMove -point (663,360) 
 dicmdQaCanvasCompare 
-#t --> dicmdQaCanvasCompare-compare-pass: canvas_compare_1.png canvas_compare_1.png.golden
+dicmdQaCanvasCompare-compare-pass: canvas_compare_1.png canvas_compare_1.png.golden
 dicmdAbortActiveCommand 
 dicmdQaCanvasCompare 
-#t --> dicmdQaCanvasCompare-compare-pass: canvas_compare_2.png canvas_compare_2.png.golden
+dicmdQaCanvasCompare-compare-pass: canvas_compare_2.png canvas_compare_2.png.golden
 dicmdQaToolExit 

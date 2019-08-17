@@ -3,6 +3,7 @@
 
 #include "command_manager.hpp"
 #include "direct_command_base.hpp"
+#include "gui_commands.hpp"
 
 #include "../io/messenger.hpp"
 
@@ -19,7 +20,7 @@
 namespace fs = std::filesystem;
 */
 
-class dicmdQaToolExit: public DirectCommandBase
+class dicmdQaToolExit: public NonTransactionalDirectCommandBase
 {
     public:
         
@@ -36,7 +37,7 @@ class dicmdQaToolExit: public DirectCommandBase
     
 };
 
-class dicmdQaDumpCanvas: public DirectCommandBase
+class dicmdQaDumpCanvas: public NonTransactionalDirectCommandBase
 {
     public:        
         
@@ -64,7 +65,7 @@ class dicmdQaDumpCanvas: public DirectCommandBase
 };
 
 
-class dicmdQaCanvasCompareInternal: public DirectCommandBase
+class dicmdQaCanvasCompareInternal: public NonTransactionalDirectCommandBase
 {
     public:        
         dicmdQaCanvasCompareInternal() {
@@ -90,17 +91,17 @@ class dicmdQaCanvasCompareInternal: public DirectCommandBase
                 bool regoldenmode = false;
             
             if ( regoldenmode ) {
-                Messenger::expose(test,"dicmdQaCanvasCompare-compare-pass: "+f+" "+g);
-                //Messenger::expose(test,"dicmdQaCanvasCompare-compare-regolden: "+f+" "+g);
+                Messenger::expose_msg(test,"dicmdQaCanvasCompare-compare-pass: "+f+" "+g);
+                //Messenger::expose_msg(test,"dicmdQaCanvasCompare-compare-regolden: "+f+" "+g);
                 //std::cout << "#/t CanvasCompare REGOLDENED: " << f << " " << g << std::endl;
                 //FIXME not compatible with other OS
                 //system(z.str().c_str());
             } else {
             
                 if ( are_images_different(f.c_str(),g.c_str()) )
-                    Messenger::expose(test,"dicmdQaCanvasCompare-compare-mismatch: "+f+" "+g);
+                    Messenger::expose_msg(test,"dicmdQaCanvasCompare-compare-mismatch: "+f+" "+g);
                 else 
-                    Messenger::expose(test,"dicmdQaCanvasCompare-compare-pass: "+f+" "+g);
+                    Messenger::expose_msg(test,"dicmdQaCanvasCompare-compare-pass: "+f+" "+g);
             }
             
         }
@@ -138,7 +139,7 @@ class dicmdQaCanvasCompareInternal: public DirectCommandBase
     
 };
 
-class dicmdQaCanvasCompare: public DirectCommandBase 
+class dicmdQaCanvasCompare: public NonTransactionalDirectCommandBase 
 {
     static int n_index;
         
@@ -166,7 +167,7 @@ class dicmdQaCanvasCompare: public DirectCommandBase
 };    
 
 
-class dicmdTestCmdListOptions: public DirectCommandBase
+class dicmdTestCmdListOptions: public NonTransactionalDirectCommandBase
 {
     public:        
         dicmdTestCmdListOptions() {

@@ -13,7 +13,18 @@
 #include <QMessageBox>
 #include <QPushButton>
 
-class dicmdguiSelectComboValue: public DirectCommandBase 
+class NonTransactionalDirectCommandBase : public DirectCommandBase
+{
+    public:
+         NonTransactionalDirectCommandBase() {}
+        NonTransactionalDirectCommandBase(const std::string& n, ICommandOptionValue* v ):DirectCommandBase(n,v) {}
+        virtual bool is_transaction_cmd() {
+            return false;
+        }
+    
+};
+
+class dicmdguiSelectComboValue: public NonTransactionalDirectCommandBase 
 {
 
     std::string m_on;
@@ -24,7 +35,7 @@ class dicmdguiSelectComboValue: public DirectCommandBase
             add_option("-value",new StringCommandOptionValue(""));
         }
         
-        dicmdguiSelectComboValue(const std::string& on, const std::string& ov)//:DirectCommandBase("-object",new StringCommandOptionValue(on)) 
+        dicmdguiSelectComboValue(const std::string& on, const std::string& ov)//:NonTransactionalDirectCommandBase("-object",new StringCommandOptionValue(on)) 
         { 
             //FIXME add_option()
             m_on = on;
@@ -88,7 +99,7 @@ class dicmdguiPressButton: public DirectCommandBase
 };
 
 
-class dicmdguiSelectRadioButton: public DirectCommandBase 
+class dicmdguiSelectRadioButton: public NonTransactionalDirectCommandBase 
 {
 
     std::string m_on;
@@ -97,7 +108,7 @@ class dicmdguiSelectRadioButton: public DirectCommandBase
             add_option("-object",new StringCommandOptionValue(""));
         }
         
-        dicmdguiSelectRadioButton(const std::string& on):DirectCommandBase("-object",new StringCommandOptionValue(on)) 
+        dicmdguiSelectRadioButton(const std::string& on):NonTransactionalDirectCommandBase("-object",new StringCommandOptionValue(on)) 
         { 
             //FIXME add_option()
             m_on = on; 
@@ -118,7 +129,7 @@ class dicmdguiSelectRadioButton: public DirectCommandBase
 };
 
 
-class dicmdCanvasMouseMove: public DirectCommandBase
+class dicmdCanvasMouseMove: public NonTransactionalDirectCommandBase
 {
     
     QPoint m_p;
@@ -129,7 +140,7 @@ class dicmdCanvasMouseMove: public DirectCommandBase
             //FIXME add not initizialize flag
         }
         
-        dicmdCanvasMouseMove(const QPoint& p):DirectCommandBase("-point",new PointCommandOptionValue(p)) 
+        dicmdCanvasMouseMove(const QPoint& p):NonTransactionalDirectCommandBase("-point",new PointCommandOptionValue(p)) 
         { m_p = p; }
         
         virtual std::string get_name() {
@@ -146,7 +157,7 @@ class dicmdCanvasMouseMove: public DirectCommandBase
 };
 
 
-class dicmdCanvasMouseClick: public DirectCommandBase
+class dicmdCanvasMouseClick: public NonTransactionalDirectCommandBase
 {
     
     QPoint m_p;
@@ -156,7 +167,7 @@ class dicmdCanvasMouseClick: public DirectCommandBase
             add_option("-point",new PointCommandOptionValue(QPoint(0,0)));
         }
         
-        dicmdCanvasMouseClick(const QPoint& p):DirectCommandBase("-point",new PointCommandOptionValue(p)) 
+        dicmdCanvasMouseClick(const QPoint& p):NonTransactionalDirectCommandBase("-point",new PointCommandOptionValue(p)) 
         { m_p = p; }
         
         virtual std::string get_name() {
@@ -175,7 +186,7 @@ class dicmdCanvasMouseClick: public DirectCommandBase
 
 
 //FIXME code duplication
-class dicmdCanvasMouseDblClick: public DirectCommandBase
+class dicmdCanvasMouseDblClick: public NonTransactionalDirectCommandBase
 {
     
     QPoint m_p;
@@ -185,7 +196,7 @@ class dicmdCanvasMouseDblClick: public DirectCommandBase
             add_option("-point",new PointCommandOptionValue(QPoint(0,0)));
         }
         
-        dicmdCanvasMouseDblClick(const QPoint& p):DirectCommandBase("-point",new PointCommandOptionValue(p)) 
+        dicmdCanvasMouseDblClick(const QPoint& p):NonTransactionalDirectCommandBase("-point",new PointCommandOptionValue(p)) 
         { m_p = p; }
         
         virtual std::string get_name() {

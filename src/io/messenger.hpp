@@ -10,7 +10,7 @@
 
 #include <string>
 
-enum LogMsgSeverity { err=1, warn, ok, out, test, cont };
+enum LogMsgSeverity { err=1, warn, ok, out, test, cont, modal, info };
 
 class Messenger : public Service<Messenger>
 {    
@@ -22,20 +22,22 @@ class Messenger : public Service<Messenger>
 	QTextStream* cmd_stream;
 
 	public:
-		static void expose(const LogMsgSeverity& s, const std::string& msg, bool iscmd = false );
-		static void log_command(const std::string& msg);
+		static void expose_msg(const LogMsgSeverity& s, const std::string& msg, bool iscmd = false );
+		static void log_command(const std::string& msg, bool iscmd);
 		//FIXME
 		Messenger();
-		void test1(LeCallbackData& d);
-	
-	private:
-		~Messenger();
+                ~Messenger();
+		
+        
+        private:
 		void init();
 		void fini();
-		std::string decorate(const LogMsgSeverity&);
-		
-	public:
-        void expose_internal(const LogMsgSeverity& s, const std::string& msg, bool iscmd = false);
+                void test1(LeCallbackData& d);
+		std::string decorate_for_logging(const LogMsgSeverity&);
+                void write_entry_to_logfile(const std::string& msg);
+                void write_entry_to_cmdfile(const std::string& msg);
+                void write_entry_to_console_gui(const LogMsgSeverity& s, const std::string& msg);   
+                void expose_internal(const LogMsgSeverity& s, const std::string& msg, bool iscmd = false);
             
 };
 
