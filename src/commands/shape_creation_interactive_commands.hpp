@@ -33,11 +33,13 @@ public:
 		set_properties(m_controller->get_shape_properties());
 	}
 
+	//command commits by invoking corresonding non-interactive command
+	//and passes gathered points 
 	virtual void commit() {
 		//begin transaction
-                m_internal_vec.push_back(InteractiveCommandBase::get_last_point());
+		m_internal_vec.push_back(InteractiveCommandBase::get_last_point());
 		//m_postman->notify(INTERACTIVE_COMMAND_PRE_COMMIT,a);
-                auto ob = re->getPool()->getObjects();
+		auto ob = re->getPool()->getObjects();
 		for (auto i : ob)
                     dicmdCreateObj<T>(m_internal_vec,ws).silent_execute();
                     //ws->addObject(i);
@@ -48,7 +50,7 @@ public:
 	
 	virtual void finish() {
 		m_internal_vec.clear();
-                re->clear();
+		re->clear();
 	}
 	
 	void set_properties(const ShapeProperties& p) {
@@ -67,17 +69,19 @@ public:
 	
 	void runtime_set_pos1() {
 		re->addPoint(InteractiveCommandBase::get_last_point());
-                m_internal_vec.push_back(InteractiveCommandBase::get_last_point());
+		m_internal_vec.push_back(InteractiveCommandBase::get_last_point());
 	}
 	
 	void runtime_set_pos2() {
 		re->addPoint(InteractiveCommandBase::get_last_point());
-                //m_internal_vec.push_back(InteractiveCommandBase::get_last_point());
+		if ( T == POLYGON ) 
+			m_internal_vec.push_back(InteractiveCommandBase::get_last_point());
 	}
 
 	void runtime_movePoint() {
 		re->movePoint(InteractiveCommandBase::get_last_point());
-                m_internal_vec.push_back(InteractiveCommandBase::get_last_point());
+		if ( T != POLYGON ) 
+			m_internal_vec.push_back(InteractiveCommandBase::get_last_point());
         }
 	
 	virtual void abort() {
@@ -141,7 +145,8 @@ public:
 		//mouse clicked , set first point and go to next state 
 
 		ObjCreatorCommandBase<T>::create_runtime_object();
-                ObjCreatorCommandBase<T>::runtime_set_pos1();
+        ObjCreatorCommandBase<T>::runtime_set_pos1();
+        ObjCreatorCommandBase<T>::runtime_set_pos2();
 		InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,on_first_click));
                 return true;
         }
