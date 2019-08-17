@@ -67,6 +67,12 @@ canvas::canvas(QWidget* p)
         
 }
 
+void canvas::reset()
+{
+    m_working_set->clear();
+    update();
+}
+
 void canvas::keyPressEvent(QKeyEvent*) {
     if( cm->is_idle() ) 
         return;
@@ -163,12 +169,6 @@ void canvas::invoke_select_by_region()
 void canvas::invoke_select_by_point()
 {
     cm->activate_command(cm->find_command("incmdSelectUnderCursoer"));
-}
-
-void canvas::reset()
-{
-    m_working_set->clear();
-    update();
 }
 
 void canvas::invoke_save()
