@@ -13,6 +13,7 @@
 #include "../commands/shape_creation_directive_commands.hpp"
 #include "../commands/selection_commands.hpp"
 #include "../commands/load_save_commands.hpp"
+#include "../commands/interactive_load_save.hpp"
 #include "../commands/command_manager.hpp"
 
 #include <QRect>
@@ -63,6 +64,8 @@ canvas::canvas(QWidget* p)
         cm->register_command(new dicmdCreateObj<POLYGON>(m_working_set));
         cm->register_command(new dicmdDesignSave(m_working_set));
         cm->register_command(new dicmdDesignLoad(m_working_set));
+        cm->register_command(new incmdDesignLoad(m_working_set));
+        
         
         
 }

@@ -26,14 +26,9 @@ QStringList LogReader::read_file(const std::string& fname) {
     return stringList;
 }
 
-void LogReader::replay_log(const std::string& fname) {
-    timer = new QTimer(this);
-    //connect(timer, SIGNAL(timeout()), this, SLOT(execute_command()));
-    //timer->start(10);
-
-    for (  auto line : read_file(fname)  ) {
+void LogReader::replay_command(const std::string& line) {
         //std::cout << "-" << line.toStdString() << std::endl;
-        QStringList tokens = line.split(" ");
+        QStringList tokens = QString(line.c_str()).split(" ");
         //std::cout << " --" << tokens[0].toStdString()  << "--" << std::endl;
         
         CommandBase* cmd = command_manager::get_instance()->find_command(tokens[0].toStdString());
@@ -45,12 +40,20 @@ void LogReader::replay_log(const std::string& fname) {
             }
         
         m_command_queue.push(cmd);
-        execute_command();
-    }
+        execute_next_command();
     
 }
 
-void LogReader::execute_command() {
+void LogReader::replay_log(const std::string& fname) {
+    timer = new QTimer(this);
+    //connect(timer, SIGNAL(timeout()), this, SLOT(execute_command()));
+    //timer->start(10);
+
+    for (  auto line : read_file(fname)  )
+        replay_command(line.toStdString());
+}
+
+void LogReader::execute_next_command() {
         //return;
     if (m_command_queue.empty())
         return;
@@ -68,7 +71,7 @@ void LogReader::execute_command() {
         cmd->execute_and_log();
     
     //t->deleteLater();
-    // QApplication::processEvents();
+    //QApplication::processEvents();
 }
     
 

@@ -48,7 +48,7 @@ class CommandBase : public ICommand
         }
 		
         virtual void log() {
-            CommandBase::log_impl(get_name());
+            log_impl(get_name());
         }
         
         //virtual void activate() {}

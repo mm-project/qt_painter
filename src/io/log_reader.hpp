@@ -22,13 +22,16 @@ class LogReader : public QObject
     QTimer* timer ;
     std::queue<CommandBase*> m_command_queue;
     
+    private:
+        QStringList read_file(const std::string& fname);
+            
     public:
         LogReader();
-        QStringList read_file(const std::string& fname);
         void replay_log(const std::string& fname);
+        void replay_command(const std::string& cmd);
         
     public slots:
-        void execute_command();
+        void execute_next_command();
     
 };
 

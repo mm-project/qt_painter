@@ -46,7 +46,7 @@ class DirectCommandBase: public CommandBase
 
     public:
         virtual CommandBase* set_arg(const std::string& n, const std::string& v) {
-            std::cout << n << " " << v << std::endl;
+            //std::cout << n << " " << v << std::endl;
             m_ops[n]->from_string(v);
             return this;
         }
@@ -66,7 +66,7 @@ class DirectCommandBase: public CommandBase
 
         std::string get_cmdname_and_stringified_opts() {
             std::stringstream z;
-			z << get_name() << " ";
+            z << get_name() << " ";
             for (std::pair<const std::string,ICommandOptionValue*>& x: m_ops) {
                 z << x.first << " " << x.second->to_string() << " ";
             }   
