@@ -65,7 +65,7 @@ class dicmdguiSelectComboValue: public NonTransactionalDirectCommandBase
 };
 
 
-class dicmdguiPressButton: public DirectCommandBase 
+class dicmdguiPressButton: public NonTransactionalDirectCommandBase 
 {
 
     std::string m_op1;

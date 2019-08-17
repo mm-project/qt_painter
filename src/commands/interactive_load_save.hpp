@@ -7,6 +7,8 @@
 
 #include "../gui/modal_dialog.hpp"
 
+#include<QFileDialog>
+
 #include <string>
 
 enum desAction { LOAD, SAVE, NEW, CLOSE };
@@ -35,7 +37,8 @@ class InteractiveDesAction: public InteractiveCommandBase
         }
         
         virtual void execute() {
-                set_next_handler(HANDLE_FUNCTION(InteractiveDesAction<T>,on_commit));
+                //set_next_handler(HANDLE_FUNCTION(InteractiveDesAction<T>,on_commit));
+                on_commit(OTHER);
         }
 
         virtual void abort() {
@@ -45,11 +48,13 @@ class InteractiveDesAction: public InteractiveCommandBase
 		
     private:
         void on_commit(const EvType& ev) {
-            if (is_agreed_with_user())    
+            if (is_agreed_with_user()) {    
+                m_fn = "test.txt"; //QFileDialog::getOpenFileName(command_manager::get_instance()->get_main_widget(),"aaa","aaa","*.*").toStdString();
                 if ( T == LOAD  ) 
-                    dicmdDesignLoad(m_ws,m_fn).execute();
+                    dicmdDesignLoad(m_ws,m_fn).silent_execute();
                 else
-                    dicmdDesignSave(m_ws,m_fn).execute();
+                    dicmdDesignSave(m_ws,m_fn).silent_execute();
+            }
             abort();
         }
 
