@@ -1009,7 +1009,7 @@ dicmdCanvasMouseDblClick -point (198,188)
 dicmdCanvasMouseDblClick -point (198,188) 
 incmdCreateObjEllipse
 dicmdQaCanvasCompare 
-#t --> TEST: dicmdQaCanvasCompare-compare-pass: canvas_compare_0.png canvas_compare_0.png.golden
+#t --> dicmdQaCanvasCompare-compare-pass: canvas_compare_0.png canvas_compare_0.png.golden
 dicmdCanvasMouseClick -point (383,156) 
 dicmdCanvasMouseClick -point (436,215) 
 dicmdCanvasMouseClick -point (607,313) 
@@ -1022,8 +1022,8 @@ dicmdCanvasMouseClick -point (70,30)
 dicmdCanvasMouseClick -point (798,602) 
 dicmdCanvasMouseMove -point (663,360) 
 dicmdQaCanvasCompare 
-#t --> TEST: dicmdQaCanvasCompare-compare-pass: canvas_compare_1.png canvas_compare_1.png.golden
+#t --> dicmdQaCanvasCompare-compare-pass: canvas_compare_1.png canvas_compare_1.png.golden
 dicmdAbortActiveCommand 
 dicmdQaCanvasCompare 
-#t --> TEST: dicmdQaCanvasCompare-compare-pass: canvas_compare_2.png canvas_compare_2.png.golden
+#t --> dicmdQaCanvasCompare-compare-pass: canvas_compare_2.png canvas_compare_2.png.golden
 dicmdQaToolExit 
