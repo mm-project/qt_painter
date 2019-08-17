@@ -6,6 +6,7 @@
 #include "gui_commands.hpp"
 
 #include "../io/messenger.hpp"
+#include "../core/selection.hpp"
 
 #include <QApplication>
 #include <QPixmap>
@@ -20,95 +21,35 @@
 namespace fs = std::filesystem;
 */
 
-class dicmdQaToolExit: public NonTransactionalDirectCommandBase
-{
-    public:
-        
-        virtual std::string get_name() {
-            return "dicmdQaToolExit";
-        }
-        
-        virtual void execute() {
-            //FIXME
-            QApplication::quit();
-            QApplication::exit();
-            exit(0);
-        }
-    
-};
+enum qaCompType { DESIGN, SELECTION, CANVAS, RUNTIME };
 
-class dicmdQaDumpCanvas: public NonTransactionalDirectCommandBase
-{
-    public:        
-        
-        dicmdQaDumpCanvas() {
-            add_option("-filename",new StringCommandOptionValue("hopar.png"));
-        }
-        
-        virtual std::string get_name() {
-            return "dicmdQaDumpCanvas";
-        }
+namespace {
+       
+    bool are_textfiles_different(const QString &file1, const QString &file2) 
+    {
+            QFile data1(file1);
+            if (!data1.open(QIODevice::ReadOnly | QIODevice::Text)){
+                return false;
+            }
 
-        virtual void execute() {
-                        
-            QWidget* w = command_manager::get_instance()->get_main_widget()->findChild<QWidget*>("CANVAS");
-            
-            //FIXME exception on error or what?
-            if ( !w )
-                return;
-            
-            QPixmap pixmap(w->size());
-            w->render(&pixmap);
-            pixmap.save(GET_CMD_ARG(StringCommandOptionValue,"-filename").c_str());
-        }
+            QFile data2(file2);
+            if (!data2.open(QIODevice::ReadOnly | QIODevice::Text)){
+                return false;
+            }
 
-};
-
-
-class dicmdQaCanvasCompareInternal: public NonTransactionalDirectCommandBase
-{
-    public:        
-        dicmdQaCanvasCompareInternal() {
-            add_option("-dumpfile",new StringCommandOptionValue("hopar.png"));
-            add_option("-goldenfile",new StringCommandOptionValue("hopar.png.golden"));
-        }
-        
-        virtual std::string get_name() {
-            return "dicmdQaCanvasCompareInternal";
-        }
-
-        virtual void execute() {
-            std::stringstream z;
-            std::string f(GET_CMD_ARG(StringCommandOptionValue,"-dumpfile"));
-            std::string g(GET_CMD_ARG(StringCommandOptionValue,"-goldenfile"));
-            
-            dicmdQaDumpCanvas().set_arg("-filename",f)->execute();
-            z << "cp " << f << " " << g;
-            
-            bool regoldenmode = true;
-        
-            if ( QString::fromLocal8Bit( qgetenv("ELEN_PAINTER_REGOLDEN").constData() ).isEmpty() )
-                bool regoldenmode = false;
-            
-            if ( regoldenmode ) {
-                Messenger::expose_msg(test,"dicmdQaCanvasCompare-compare-pass: "+f+" "+g);
-                //Messenger::expose_msg(test,"dicmdQaCanvasCompare-compare-regolden: "+f+" "+g);
-                //std::cout << "#/t CanvasCompare REGOLDENED: " << f << " " << g << std::endl;
-                //FIXME not compatible with other OS
-                //system(z.str().c_str());
-            } else {
-            
-                if ( are_images_different(f.c_str(),g.c_str()) )
-                    Messenger::expose_msg(test,"dicmdQaCanvasCompare-compare-mismatch: "+f+" "+g);
-                else 
-                    Messenger::expose_msg(test,"dicmdQaCanvasCompare-compare-pass: "+f+" "+g);
+            QTextStream in1(&data1), in2(&data2);
+            while ( !in1.atEnd() && !in2.atEnd() ) {
+                QString num1 = in1.readLine();
+                QString num2 = in2.readLine();
+                if ( num1 != num2  )
+                    return true;
             }
             
-        }
-        
-    private:
-        
-        bool are_images_different(const QString &file1, const QString &file2) {
+            return false;
+    }
+
+   
+    bool are_imagefiles_different(const QString &file1, const QString &file2) {
             QImage img1(file1);
             QImage img2(file2);
 
@@ -136,28 +77,175 @@ class dicmdQaCanvasCompareInternal: public NonTransactionalDirectCommandBase
 
             return false;
         }
+     
+    bool are_two_files_different(qaCompType type, const QString &file1, const QString &file2) 
+    {
+            if ( type == CANVAS ) 
+                return are_imagefiles_different(file1,file2);
+            return are_textfiles_different(file1,file2);
+    }
+    
+    
+}
+
+class dicmdQaToolExit: public NonTransactionalDirectCommandBase
+{
+    public:
+        
+        virtual std::string get_name() {
+            return "dicmdQaToolExit";
+        }
+        
+        virtual void execute() {
+            //FIXME
+            QApplication::quit();
+            QApplication::exit();
+            exit(0);
+        }
     
 };
 
-class dicmdQaCanvasCompare: public NonTransactionalDirectCommandBase 
+namespace {
+    std::string qaCompType2string(qaCompType type) {
+    	switch (type) {
+                case DESIGN:
+                        return("Design");
+                        break;
+                case SELECTION:
+			return("Selection");
+			break;
+		case CANVAS:
+			return("Canvas");
+			break;
+		case RUNTIME:
+			return("Runtime");
+			break;            
+            }
+    }
+    
+}
+
+template <qaCompType T>
+class dicmdQaDump: public NonTransactionalDirectCommandBase
+{
+    std::string m_fname;
+    public:        
+        
+        dicmdQaDump<T>() {
+            add_option("-filename",new StringCommandOptionValue("hopar.png"));
+        }
+        
+        virtual std::string get_name() {
+            return "dicmdQaDump"+qaCompType2string(T);
+        }
+
+        virtual void execute() {
+                m_fname = GET_CMD_ARG(StringCommandOptionValue,"-filename");
+                switch (T) {
+                    case DESIGN:
+                            return dump_design();
+                            break;
+                    case SELECTION:
+                            return dump_selection();
+                            break;
+                    case CANVAS:
+                            return dump_canvas();
+                            break;
+                    }
+        }
+        
+    private:
+        void dump_canvas() {
+            QWidget* w = command_manager::get_instance()->get_main_widget()->findChild<QWidget*>("CANVAS");
+            //FIXME exception on error or what?
+            if ( !w )
+                return;
+ 
+            QPixmap pixmap(w->size());
+            w->render(&pixmap);
+            pixmap.save(m_fname.c_str());
+        }
+        
+        void dump_selection() {
+            Selection::get_instance()->dumpToFile(m_fname);
+        }
+        
+        void dump_design() {
+            //WorkingSet::get_instance()->dump_to_file(fname);
+        }
+    
+};
+
+
+template <qaCompType T>
+class dicmdQaCompareInternal: public NonTransactionalDirectCommandBase
+{
+    public:        
+        dicmdQaCompareInternal<T>() {
+            add_option("-dumpfile",new StringCommandOptionValue("hopar.png"));
+            add_option("-goldenfile",new StringCommandOptionValue("hopar.png.golden"));
+        }
+        
+        virtual std::string get_name() {
+            return "dicmdQaCompareInternal"+qaCompType2string(T);
+        }
+
+        virtual void execute() {
+            std::stringstream z;
+            std::string f(GET_CMD_ARG(StringCommandOptionValue,"-dumpfile"));
+            std::string g(GET_CMD_ARG(StringCommandOptionValue,"-goldenfile"));
+            
+            dicmdQaDump<T>().set_arg("-filename",f)->execute();
+            z << "cp " << f << " " << g;
+            
+            bool regoldenmode = true;
+            if ( QString::fromLocal8Bit( qgetenv("ELEN_PAINTER_REGOLDEN").constData() ).isEmpty() )
+                bool regoldenmode = false;
+            
+            if ( regoldenmode ) {
+                Messenger::expose_msg(test,"FIXME"+f+" "+g);
+                //Messenger::expose_msg(test,"dicmdQaCanvasCompare-compare-regolden: "+f+" "+g);
+                //std::cout << "#/t CanvasCompare REGOLDENED: " << f << " " << g << std::endl;
+                //FIXME not compatible with other OS
+                //system(z.str().c_str());
+            } else {
+            
+                if ( are_two_files_different(T,f.c_str(),g.c_str()) )
+                    Messenger::expose_msg(test,"FIXME"+f+" "+g);
+                else 
+                    Messenger::expose_msg(test,"FIXME"+f+" "+g);
+            }
+            
+        }
+        
+    private:
+        
+    
+};
+
+template <qaCompType T>
+class dicmdQaCompare: public NonTransactionalDirectCommandBase 
 {
     static int n_index;
         
         std::string get_index_str() {
             std::stringstream z;
-            z << "canvas_compare_"<<n_index<<".png";
-            
+            z << qaCompType2string(T) << "_Compare_"<<n_index;
+            if ( T == CANVAS ) 
+               z <<".png";
+            else 
+                z << ".txt";
             return z.str();
         }
     
     
     public:        
         virtual std::string get_name() {
-            return "dicmdQaCanvasCompare";
+            return "dicmdQaCompare"+qaCompType2string(T);
         }
 
         virtual void execute() {
-            dicmdQaCanvasCompareInternal()
+            dicmdQaCompareInternal<T>()
             .set_arg("-dumpfile",get_index_str())
             ->set_arg("-goldenfile",get_index_str()+".golden")
             ->execute();
@@ -165,6 +253,10 @@ class dicmdQaCanvasCompare: public NonTransactionalDirectCommandBase
             n_index++;
         }
 };    
+
+
+
+
 
 
 class dicmdTestCmdListOptions: public NonTransactionalDirectCommandBase
