@@ -16,6 +16,8 @@ class Selection : public Service<Selection> , public WorkingSet
         ObjectSandbox* m_sb;
         //bool m_h_on;
 
+public:
+        virtual std::string getName() override;
 public:   
         void clear();
 		void select_and_highlight_shape_under_pos(const QPoint& p );

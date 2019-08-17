@@ -13,7 +13,7 @@ class LeCallbackData
 };
 
 
-enum LeCallbackType {INTERACTIVE_COMMAND_PRE_COMMIT,INTERACTIVE_COMMAND_POST_COMMIT};
+enum LeCallbackType {MESSENGER,INTERACTIVE_COMMAND_PRE_COMMIT,INTERACTIVE_COMMAND_POST_COMMIT};
 //typedef std::string LeCallbackType;
 
 /*
@@ -46,7 +46,8 @@ class LeCallback
         void purge();
         void call();
         void call(LeCallbackData& data);
-		std::string get_name();
+        //void call(LeCallbackData data);
+        std::string get_name();
         
     private:
         LeCallback(const std::string& n, callBackFun1 f1, int id, const LeCallbackType& t);

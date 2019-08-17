@@ -137,7 +137,7 @@ class renderer
 		
 		void render() {
 			start();
-            make_viewport_adjustments();
+                        make_viewport_adjustments();
 			draw_all();
 			stop();
 		}

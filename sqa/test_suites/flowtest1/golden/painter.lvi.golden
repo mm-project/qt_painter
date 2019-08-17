@@ -11,4 +11,5 @@ dicmdCreateObjRectangle -points {(240,96);(314,168)}
 dicmdCreateObjRectangle -points {(744,323);(612,447)} 
 dicmdCreateObjEllipse -points {(383,156);(607,313)} 
 dicmdCreateObjEllipse -points {(607,313);(663,360)} 
+dicmdSelectShapesByRegion -end (798,602) -start (70,30) 
 dicmdAbortActiveCommand 

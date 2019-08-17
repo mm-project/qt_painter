@@ -35,6 +35,8 @@ private:
 
         void notify(const std::string&, const LeCallbackType&);
         void notify(const std::string&, const LeCallbackType&, LeCallbackData&);
+        //void notify(const std::string&, const LeCallbackType&, LeCallbackData);
+        
 
     private:
         std::map<LeCallbackType,std::vector<LeCallback>> m_type2vecfun;
