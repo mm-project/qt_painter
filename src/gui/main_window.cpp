@@ -22,23 +22,46 @@
 #include <QLayout>
 
 #include <cassert>
+#include <iostream>
 
 //FIXME todo enhanced~! (from QApplication)
 bool main_window::eventFilter(QObject *obj, QEvent *event)
 {
+        //std::cout << "------("<<obj->objectName().toStdString() << ") " << event->type() << std::endl;
+        
         if (qobject_cast<QRadioButton*>(obj) ) {
             if (event->type() == QEvent::MouseButtonPress ) {
                 dicmdguiSelectRadioButton(obj->objectName().toStdString()).log();
             }
         }
-        
-        if ( QComboBox* cmb = qobject_cast<QComboBox*>(obj) ) {
-            if (event->type() == QEvent::MouseButtonRelease ) {
-                QString s(cmb->currentText());
-                s.replace(" ","/");
-                dicmdguiSelectComboValue(obj->objectName().toStdString(),s.toStdString()).log();
+
+        if ( QAbstractButton* btn = qobject_cast<QAbstractButton*>(obj) ) {
+            if (event->type() == QEvent::MouseButtonPress ) {
+                QString s(btn->text());
+                //s.replace(" ","/");
+                //dicmdguiSelectComboValue(obj->objectName().toStdString(),s.toStdString()).log();
+                //std::cout << "("<<s.toStdString() << ") (" << obj->objectName().toStdString() <<")" << std::endl;
             }
         }
+        //qcomboboxlist
+        /*
+        if ( QComboBoxListView* cmb = qobject_cast<QComboBox*>(obj) ) {
+            //if (event->type() == QEvent::MouseButtonPress ) {
+                QString s(cmb->currentText());
+                s.replace(" ","/");
+                //dicmdguiSelectComboValue(obj->objectName().toStdString(),s.toStdString()).log();
+                std::cout << "("<<s.toStdString() << ") (" << obj->objectName().toStdString() <<")" << event->type() << std::endl;
+            //}
+        }*/
+        /*
+        if ( QComboBox* cmb = qobject_cast<QComboBox*>(obj) ) {
+            //if (event->type() == QEvent::MouseButtonPress ) {
+                QString s(cmb->currentText());
+                s.replace(" ","/");
+                //dicmdguiSelectComboValue(obj->objectName().toStdString(),s.toStdString()).log();
+                std::cout << "("<<s.toStdString() << ") (" << obj->objectName().toStdString() <<")" << event->type() << std::endl;
+            //}
+        }*/
         
         
 return QMainWindow::eventFilter(obj, event);

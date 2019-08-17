@@ -1,4 +1,5 @@
 #include "console.hpp"
+#include "../core/postman.hpp"
 #include "../io/messenger.hpp"
 #include "../io/command_interpreter.hpp"
 
@@ -25,16 +26,19 @@ Console::Console(QWidget* parent)
 	layout->setMargin(0);
 	setLayout(layout);
 
-	// Initialize messenger and console connection
-	Messenger* pMes = Messenger::get_instance();
-	pMes->m_console_callback = std::bind(&Console::updateView, this, std::placeholders::_1);
+	// Listening for MESSENGER callback in updateView
+        REGISTER_CALLBACK(MESSENGER,&Console::updateView);
 
 	connect(m_console, SIGNAL(editingFinished()), this, SLOT(onCommandEntered()));
 }
 
-void Console::updateView(const std::string& m)
+void Console::updateView(LeCallbackData& d)
 {
-	m_view->append(QString::fromStdString(m));
+	MessengerCallbackData& data = dynamic_cast<MessengerCallbackData&>(d);
+        LogMsgSeverity s = data.get_severity();
+        std::string errcode = data.get_errorcode();
+        //nagaina , do something else if severity != ok :)))
+        m_view->append(QString::fromStdString(data.get_message()));
 }
 
 void Console::onCommandEntered()

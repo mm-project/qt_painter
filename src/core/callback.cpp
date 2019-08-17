@@ -38,3 +38,7 @@ void LeCallback::call() {
 void LeCallback::call(LeCallbackData& data) {
     if ( m_f1 != NULL ) m_f1(data);
 }
+
+//void LeCallback::call(LeCallbackData data) {
+//    if ( m_f1 != NULL ) m_f1(data);
+//}
