@@ -51,7 +51,7 @@ canvas::canvas(QWidget* p)
 	cm->init2(m_sandbox, m_working_set);
 	cm->init();
 	
-	//fixme to other place
+	//fixme move to other place
 	cm->register_command(new INCMD_CREATE_OBJ(LINE));
 	cm->register_command(new INCMD_CREATE_OBJ(RECTANGLE));
 	cm->register_command(new INCMD_CREATE_OBJ(ELLIPSE));
@@ -62,12 +62,10 @@ canvas::canvas(QWidget* p)
         cm->register_command(new dicmdCreateObj<LINE>(m_working_set));
         cm->register_command(new dicmdCreateObj<ELLIPSE>(m_working_set));
         cm->register_command(new dicmdCreateObj<POLYGON>(m_working_set));
+        cm->register_command(new InteractiveLoadSave<LOAD>(m_working_set));
+        cm->register_command(new InteractiveLoadSave<SAVE>(m_working_set));
         cm->register_command(new dicmdDesignSave(m_working_set));
         cm->register_command(new dicmdDesignLoad(m_working_set));
-        cm->register_command(new incmdDesignLoad(m_working_set));
-        
-        
-        
 }
 
 void canvas::reset()
@@ -121,7 +119,7 @@ void canvas::mouseMoveEvent(QMouseEvent* e)
 
 void canvas::wheelEvent(QWheelEvent* pEvent)
 {
-	m_renderer->zoom((pEvent->delta()/120));
+    m_renderer->zoom((pEvent->delta()/120));
     update();
 }
 
@@ -140,8 +138,8 @@ void canvas::on_update()
 
 void canvas::paintEvent(QPaintEvent*)
 {
- 	m_renderer->render();
-	update();
+    m_renderer->render();
+    update();
 }
 
 void canvas::invoke_create_line()
@@ -176,10 +174,11 @@ void canvas::invoke_select_by_point()
 
 void canvas::invoke_save()
 {
-
+    cm->activate_command(cm->find_command("incmdSaveDesign"));
 }
 
 void canvas::invoke_load()
 {
+    cm->activate_command(cm->find_command("incmdLoadDesign"));
 
 }

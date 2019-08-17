@@ -48,14 +48,8 @@ public:
         dicmdDesignSave(IObjectPoolPtr s, const std::string& fname ): ws(s) {
                 add_option("-filename",new StringCommandOptionValue(fname));
         }
-        
-        std::vector<PointCommandOptionValue> transform(const std::vector<QPoint>& v) {
-                std::vector<PointCommandOptionValue> res(v.size());
-                for ( auto it: v ) 
-                    res.push_back(PointCommandOptionValue(it));
-                return res;
-        }
-        
+                
+        //fixme , refactor
         virtual void execute() {
                 std::string fname(GET_CMD_ARG(StringCommandOptionValue,"-filename"));
                 CommandBase* cmd;
@@ -95,6 +89,15 @@ public:
             return "dicmdDesignSave";
         }
             
+    private:
+        std::vector<PointCommandOptionValue> transform(const std::vector<QPoint>& v) {
+                std::vector<PointCommandOptionValue> res(v.size());
+                for ( auto it: v ) 
+                    res.push_back(PointCommandOptionValue(it));
+                return res;
+        }
+
+    
 };
 
 

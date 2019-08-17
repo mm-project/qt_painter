@@ -7,7 +7,19 @@
 
 #include "../gui/modal_dialog.hpp"
 
-class incmdDesignLoad: public InteractiveCommandBase
+#include <string>
+
+enum SL_ACTION { LOAD, SAVE };
+
+namespace {
+    std::string sl_action2string(SL_ACTION a) {
+        if ( a == LOAD ) return "Load";
+        return "Save";
+    }
+}
+
+template<SL_ACTION T>
+class InteractiveLoadSave: public InteractiveCommandBase
 {
     
     IObjectPoolPtr m_ws;
@@ -15,15 +27,15 @@ class incmdDesignLoad: public InteractiveCommandBase
     
     public:
 	
-        incmdDesignLoad(IObjectPoolPtr s ):m_ws(s) { 
+        InteractiveLoadSave<SL_ACTION>(IObjectPoolPtr s ):m_ws(s) { 
         }
 
         virtual std::string get_name() {
-                return "incmdDesignLoad";
+                return "incmdDesign"+sl_action2string(SL_ACTION);
         }
         
         virtual void execute() {
-                set_next_handler(HANDLE_FUNCTION(incmdDesignLoad,on_commit));
+                set_next_handler(HANDLE_FUNCTION(InteractiveLoadSave<SL_ACTION>,on_commit));
         }
 
         virtual void abort() {
@@ -34,8 +46,10 @@ class incmdDesignLoad: public InteractiveCommandBase
     private:
         void on_commit(const EvType& ev) {
             if (is_agreed_with_user())    
-                dicmdDesignLoad(m_ws,m_fn).execute();
-            
+                if ( SL_ACTION == load ) 
+                    dicmdDesignLoad(m_ws,m_fn).execute();
+                else
+                    dicmdDesignSave(m_ws,m_fn).execute();
             abort();
         }
 
