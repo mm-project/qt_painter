@@ -245,6 +245,11 @@ class dicmdQaCompare: public NonTransactionalDirectCommandBase
         }
 
         virtual void execute() {
+            //if not a canvas compare, do extra canvas compare in any case
+            if ( T != CANVAS ) {
+                dicmdQaDump<CANVAS>().set_arg("-filename","CanvasFor_"+get_index_str()+".png")->execute();
+            }
+            
             dicmdQaCompareInternal<T>()
             .set_arg("-dumpfile",get_index_str())
             ->set_arg("-goldenfile",get_index_str()+".golden")

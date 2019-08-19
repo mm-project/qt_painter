@@ -1,0 +1,12 @@
+Name: Selection
+ObjCount: 8
+======
+Rectangle:
+Rectangle:
+Rectangle:
+Rectangle:
+Rectangle:
+Rectangle:
+Rectangle:
+Rectangle:
+--------

@@ -9,7 +9,7 @@ class Application: public Service<Application> //, public QApplication
     public:
         //using QApplication::QApplication;
         Application() { m_mode = false; }
-        void set_log_mode(bool m) { m_mode = m; }
+        void set_replay_mode(bool m) { m_mode = m; }
         bool get_mode() { return m_mode; }
         
     public:

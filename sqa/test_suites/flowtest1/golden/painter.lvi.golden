@@ -9,6 +9,7 @@ dicmdCreateObjRectangle -points {(97,342);(200,464)}
 dicmdCreateObjRectangle -points {(182,273);(279,312)} 
 dicmdCreateObjRectangle -points {(240,96);(314,168)} 
 dicmdCreateObjRectangle -points {(744,323);(612,447)} 
+dicmdCreateObjPolygon -points {(261,160);(261,160);(500,88);(500,88);(513,211);(513,211);(433,288);(433,288);(433,288);(433,288);(305,280);(305,280);(243,254);(243,254);(237,204);(237,204);(198,188);(198,188);(198,188);(198,188);(198,188)} 
 dicmdCreateObjEllipse -points {(383,156);(607,313)} 
 dicmdCreateObjEllipse -points {(607,313);(663,360)} 
 dicmdSelectShapesByRegion -end (798,602) -start (70,30) 

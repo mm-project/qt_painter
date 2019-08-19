@@ -1,0 +1,9 @@
+dicmdCreateObjRectangle -points {(221,39);(292,115)} 
+dicmdCreateObjRectangle -points {(268,111);(323,173)} 
+dicmdCreateObjRectangle -points {(241,181);(410,242)} 
+dicmdCreateObjRectangle -points {(325,181);(378,252)} 
+dicmdCreateObjRectangle -points {(248,82);(354,225)} 
+dicmdSelectShapesByRegion -end (242,51) -start (212,23) 
+dicmdSelectShapesByRegion -end (215,168) -start (226,177) 
+dicmdSelectShapesByRegion -end (282,73) -start (275,227) 
+dicmdSelectShapesByRegion -end (377,137) -start (297,22) 

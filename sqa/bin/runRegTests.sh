@@ -8,13 +8,15 @@ while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symli
 done
 DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 
+options="$@"
+
 #echo $DIR
 export PAINTER_SQA_ROOT=$DIR/..
 res=0
 for i in `cat $PAINTER_SQA_ROOT/tests.lst`; do
     cd $PAINTER_SQA_ROOT/$i
         echo -ne  "Running $PAINTER_SQA_ROOT/$i --- "
-        a=`./run.sh &> test.info `
+        a=`./run.sh "$options" &> test.info `
         r=$?
         if [ "$r" == 0 ]; then
             echo "pass"
@@ -24,7 +26,7 @@ for i in `cat $PAINTER_SQA_ROOT/tests.lst`; do
         else
             echo "error"
             echo "************"
-            cat test.info
+            awk '{ print " ----> ", $0 }' test.info
             echo "==========="
             res=1
         fi

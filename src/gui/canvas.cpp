@@ -65,9 +65,17 @@ canvas::canvas(QWidget* p)
         
 }
 
-void canvas::keyPressEvent(QKeyEvent*) {
-    if( cm->is_idle() ) 
-        return;
+void canvas::keyPressEvent(QKeyEvent* ev) {
+    //if( cm->is_idle() ) 
+    //    return;
+    
+    //binding goes here
+    //if(ev->modifiers() & Qt::ShiftModifier) {
+        if ( ev->key() == Qt::Key_1 )  cm->activate_command(cm->find_command("dicmdQaCompareCanvas"));
+        if ( ev->key() == Qt::Key_2 )  cm->activate_command(cm->find_command("dicmdQaCompareSelection"));
+        if ( ev->key() == Qt::Key_3 )  cm->activate_command(cm->find_command("dicmdQaCompareDesign"));
+    //}
+    //cm->key_pressed(_x, _y);
 }
 
 void canvas::mousePressEvent(QMouseEvent* e)
@@ -76,8 +84,8 @@ void canvas::mousePressEvent(QMouseEvent* e)
         return;
 
     QPoint p(e->pos());
-    if(!Application::is_log_mode())
-        dicmdCanvasMouseClick(p).log();
+    //if(!Application::is_log_mode())
+    dicmdCanvasMouseClick(p).log();
     
     cm->mouse_clicked(p.x(),p.y());
 }
@@ -103,8 +111,8 @@ void canvas::mouseMoveEvent(QMouseEvent* e)
 	//e->pos().setY(_y);
         cm->mouse_moved(_x, _y);
     
-
-        //dicmdCanvasMouseMove(e->pos()).log();
+        //if Preference::isSet("guiLogMouseMove")
+        dicmdCanvasMouseMove(e->pos()).log();
 	/**/
 	
     update();
@@ -118,9 +126,10 @@ void canvas::wheelEvent(QWheelEvent* e)
 
 void canvas::mouseDoubleClickEvent(QMouseEvent* e)
 {
-    dicmdCanvasMouseDblClick(e->pos()).log();
-    if(!Application::is_log_mode())
-        cm->mouse_dbl_clicked(e->pos().x(),e->pos().y());
+    cm->mouse_dbl_clicked(e->pos().x(),e->pos().y());
+    //if(!Application::is_log_mode())
+        dicmdCanvasMouseDblClick(e->pos()).log();
+    
     update();
 }
 
