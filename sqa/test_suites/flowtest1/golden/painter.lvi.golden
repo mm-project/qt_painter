@@ -1,16 +1,15 @@
-dicmdCreateObjRectangle -points {(109,98);(187,185)} 
-dicmdCreateObjRectangle -points {(230,235);(370,327)} 
-dicmdCreateObjRectangle -points {(512,397);(778,507)} 
-dicmdCreateObjRectangle -points {(748,247);(537,193)} 
-dicmdCreateObjRectangle -points {(535,64);(672,119)} 
-dicmdCreateObjRectangle -points {(297,444);(412,545)} 
-dicmdCreateObjRectangle -points {(338,86);(441,184)} 
-dicmdCreateObjRectangle -points {(97,342);(200,464)} 
-dicmdCreateObjRectangle -points {(182,273);(279,312)} 
-dicmdCreateObjRectangle -points {(240,96);(314,168)} 
-dicmdCreateObjRectangle -points {(744,323);(612,447)} 
+dicmdCreateObjRectangle -points {(109,98);(184,181)} 
+dicmdCreateObjRectangle -points {(230,235);(368,328)} 
+dicmdCreateObjRectangle -points {(512,397);(778,513)} 
+dicmdCreateObjRectangle -points {(748,247);(536,193)} 
+dicmdCreateObjRectangle -points {(535,64);(672,120)} 
+dicmdCreateObjRectangle -points {(297,444);(412,551)} 
+dicmdCreateObjRectangle -points {(338,86);(437,186)} 
+dicmdCreateObjRectangle -points {(97,342);(200,467)} 
+dicmdCreateObjRectangle -points {(182,273);(279,314)} 
+dicmdCreateObjRectangle -points {(240,96);(314,166)} 
+dicmdCreateObjRectangle -points {(744,323);(613,447)} 
 dicmdCreateObjPolygon -points {(261,160);(261,160);(500,88);(500,88);(513,211);(513,211);(433,288);(433,288);(433,288);(433,288);(305,280);(305,280);(243,254);(243,254);(237,204);(237,204);(198,188);(198,188);(198,188);(198,188);(198,188)} 
-dicmdCreateObjEllipse -points {(383,156);(607,313)} 
+dicmdCreateObjEllipse -points {(383,156);(436,215)} 
 dicmdCreateObjEllipse -points {(607,313);(663,360)} 
 dicmdSelectShapesByRegion -end (798,602) -start (70,30) 
-dicmdAbortActiveCommand 

@@ -97,4 +97,16 @@ class DirectCommandBase: public CommandBase
         //ICommandOptionValue* m_op;
 };
 
+
+
+class NonTransactionalDirectCommandBase : public DirectCommandBase
+{
+    public:
+         NonTransactionalDirectCommandBase() {}
+         NonTransactionalDirectCommandBase(const std::string& n, ICommandOptionValue* v ):DirectCommandBase(n,v) {}
+         virtual bool is_transaction_cmd() {
+            return false;
+         }
+    
+};
 #endif

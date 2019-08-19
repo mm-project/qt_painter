@@ -11,16 +11,6 @@
 #include <QComboBox>
 #include <QString>
 
-class NonTransactionalDirectCommandBase : public DirectCommandBase
-{
-    public:
-         NonTransactionalDirectCommandBase() {}
-        NonTransactionalDirectCommandBase(const std::string& n, ICommandOptionValue* v ):DirectCommandBase(n,v) {}
-        virtual bool is_transaction_cmd() {
-            return false;
-        }
-    
-};
 
 class dicmdguiSelectComboValue: public NonTransactionalDirectCommandBase 
 {

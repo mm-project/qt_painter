@@ -39,11 +39,12 @@ public slots:
 
 private:
         bool is_runtime_mode;
+        bool m_need_motionlog = false;
         IObjectPoolPtr m_working_set;
         ObjectPoolSandboxPtr m_sandbox;
         command_manager* cm;
         renderer* m_renderer;
-  		int m_scale = 15;
+        int m_scale = 15;
 };
 
 

@@ -37,6 +37,9 @@ canvas::canvas(QWidget* p)
 	setMouseTracking(true);
 	setObjectName("CANVAS");
 	
+        //fixme need preferences
+        m_need_motionlog = !QString::fromLocal8Bit( qgetenv("PAINTER_LOG_MOTION").constData() ).isEmpty();
+        
 	//FIXME move to services
 	m_working_set = std::shared_ptr<WorkingSet>(new WorkingSet);
 	m_sandbox = std::shared_ptr<ObjectPoolSandbox>(new ObjectPoolSandbox);
@@ -66,16 +69,23 @@ canvas::canvas(QWidget* p)
 }
 
 void canvas::keyPressEvent(QKeyEvent* ev) {
-    //if( cm->is_idle() ) 
-    //    return;
     
     //binding goes here
     //if(ev->modifiers() & Qt::ShiftModifier) {
-        if ( ev->key() == Qt::Key_1 )  cm->activate_command(cm->find_command("dicmdQaCompareCanvas"));
-        if ( ev->key() == Qt::Key_2 )  cm->activate_command(cm->find_command("dicmdQaCompareSelection"));
-        if ( ev->key() == Qt::Key_3 )  cm->activate_command(cm->find_command("dicmdQaCompareDesign"));
+        //if ( ev->key() == Qt::Key_1 )  cm->find_command("dicmdQaCompareCanvas")->execute();
+        if ( ev->key() == Qt::Key_2 )  
+            cm->find_command("dicmdQaCompareSelection")->execute_and_log();
+        else {
+            if( cm->is_idle() ) 
+                return;
+        
+            cm->disactivate_active_command();
+        }
+            //if ( ev->key() == Qt::Key_3 )  cm->find_command("dicmdQaCompareDesign")->execute();
     //}
     //cm->key_pressed(_x, _y);
+
+
 }
 
 void canvas::mousePressEvent(QMouseEvent* e)
@@ -112,7 +122,8 @@ void canvas::mouseMoveEvent(QMouseEvent* e)
         cm->mouse_moved(_x, _y);
     
         //if Preference::isSet("guiLogMouseMove")
-        dicmdCanvasMouseMove(e->pos()).log();
+        if ( m_need_motionlog )
+            dicmdCanvasMouseMove(e->pos()).log();
 	/**/
 	
     update();
