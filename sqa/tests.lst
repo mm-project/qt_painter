@@ -6,4 +6,3 @@ test_suites/selection/byregion/basic_test1
 test_suites/generic/all_shapes_runtime
 test_suites/test123
 test_suites/basic/directive/shape_creation/polygons
-test_suites/selection_by_point_basic
