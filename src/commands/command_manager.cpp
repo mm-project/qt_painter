@@ -35,7 +35,8 @@ void command_manager::init() {
     register_command(new dicmdQaCompare<DESIGN>);
     register_command(new dicmdQaCompare<SELECTION>);
     register_command(new dicmdSelectShapesByRegion);
-    register_command(new dicmdguiPressButton);
+    register_command(new dicmdguiClickButton);
+    register_command(new dicmdguiClickModalButton);
     
     
     

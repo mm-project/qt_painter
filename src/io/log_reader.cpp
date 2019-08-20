@@ -1,5 +1,7 @@
 #include "log_reader.hpp"
 
+#include "../core/application.hpp"
+#include "../gui/modal_dialog.hpp"
 
 LogReader::LogReader() {
     m_interp = CommandInterp::get_instance();
@@ -12,7 +14,8 @@ QStringList LogReader::read_file(const std::string& fname) {
     QFile file(fname.c_str());
     if(!file.exists() || !file.open(QIODevice::ReadOnly)) {
         //fixme call mmModalDialog , that will also put error message to console and log
-        QMessageBox::warning(0, "log replay error", "Can't open file to replay");
+        Application::get_instance()->set_replay_mode(false);
+        mmModalDialog::critical("Log replay error", "Can't open file "+fname+" to replay");
         return stringList;
     }
     
@@ -30,27 +33,39 @@ QStringList LogReader::read_file(const std::string& fname) {
     return stringList;
 }
 
-void LogReader::replay_logfile(const std::string& fname) {
+bool LogReader::replay_logfile(const std::string& fname) {
     connect(m_timer, SIGNAL(timeout()), this, SLOT(execute_next_command()));
+    QStringList lines = read_file(fname);
     
-    for (  auto line : read_file(fname)  ) {
+    if ( lines.size() == 0 )
+        return false;
+
+    Application::get_instance()->set_replay_mode(true);
+    
+    for (  auto line : lines  ) {
         //m_interp->interpret_from_string(line.toStdString());
         m_command_queue.push(line);
         //execute_next_command();
     }
-    
+ 
+    return true;
     m_timer->start(5);
 }
 
 void LogReader::replay_cmd(const std::string& cmd_str ) {
+    Application::get_instance()->set_replay_mode(true);
     m_command_queue.push(QString::fromStdString(cmd_str));
     execute_next_command();
+    Application::get_instance()->set_replay_mode(false);
+
 }
 
 void LogReader::execute_next_command() {
     //return;
-    if (m_command_queue.empty())
+    if (m_command_queue.empty()) {
+        Application::get_instance()->set_replay_mode(false);
         return;
+    }
     
     //std::cout << "dolya varavsyaka" << std::endl;
     CommandBase* cmd = m_interp->get_cmd_obj(m_command_queue.front().toStdString());

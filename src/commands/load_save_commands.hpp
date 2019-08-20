@@ -26,11 +26,12 @@ public:
         virtual void execute() {
                 ws->clear();
                 std::string fname(GET_CMD_ARG(StringCommandOptionValue,"-filename"));
-                LogReader().replay_logfile(fname);
+                if ( ! LogReader().replay_logfile(fname) )
+                    throw 1;
         }
 	
         virtual std::string get_name() {
-            return "dicmdDesignLoad";
+                return "dicmdDesignLoad";
         }
 };
 

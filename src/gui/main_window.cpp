@@ -38,12 +38,13 @@ bool main_window::eventFilter(QObject *obj, QEvent *event)
 
         if ( QAbstractButton* btn = qobject_cast<QAbstractButton*>(obj) ) {
             if (event->type() == QEvent::MouseButtonPress ) {
-                QString s(btn->text());
-                //s.replace(" ","/");
-                //dicmdguiSelectComboValue(obj->objectName().toStdString(),s.toStdString()).log();
-                //std::cout << "("<<s.toStdString() << ") (" << obj->objectName().toStdString() <<")" << std::endl;
+                if ( btn->parent() && btn->parentWidget()->isModal() )
+                    dicmdguiClickModalButton(obj->objectName().toStdString()).log();
+                else if ( !btn->objectName().isEmpty() )
+                    dicmdguiClickButton(obj->objectName().toStdString()).log();
             }
         }
+        
         //qcomboboxlist
         /*
         if ( QComboBoxListView* cmb = qobject_cast<QComboBox*>(obj) ) {

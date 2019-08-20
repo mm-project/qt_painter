@@ -12,6 +12,7 @@
 #include <QString>
 #include <QMessageBox>
 #include <QPushButton>
+#include <QAbstractButton>
 
 #define CM command_manager::get_instance()->get_main_widget()
 //fixme SHOULD be templated classes
@@ -56,36 +57,70 @@ class dicmdguiSelectComboValue: public NonTransactionalDirectCommandBase
 };
 
 
-class dicmdguiPressButton: public NonTransactionalDirectCommandBase 
+class dicmdguiClickModalButton: public NonTransactionalDirectCommandBase 
 {
 
     std::string m_op1;
-    std::string m_op2;
-    
+
     public:
-        dicmdguiPressButton() {
-            add_option("-btn_name",new StringCommandOptionValue(""));
-            add_option("-in_window",new StringCommandOptionValue(""));
+        dicmdguiClickModalButton() {
+            add_option("-btn",new StringCommandOptionValue(""));
         }
         
-        dicmdguiPressButton(const std::string& op1, const std::string& op2)
+        dicmdguiClickModalButton(const std::string& on):NonTransactionalDirectCommandBase("-btn",new StringCommandOptionValue(on)) 
         { 
-            add_option("-btn_name",new StringCommandOptionValue(op1));
-            add_option("-in_window",new StringCommandOptionValue(op2));
+            //FIXME add_option()
+           // m_on = on; 
         }
         
         virtual std::string get_name() {
-            return "dicmdguiPressButton";
+            return "dicmdguiClickModalButton";
         }
         
         virtual void execute() {
             QWidget* w = command_manager::get_instance()->get_main_widget();
-            m_op1 = GET_CMD_ARG(StringCommandOptionValue,"-btn_name");
-            m_op2 = GET_CMD_ARG(StringCommandOptionValue,"-in_window");
+            m_op1 = GET_CMD_ARG(StringCommandOptionValue,"-btn");
+            //m_op2 = GET_CMD_ARG(StringCommandOptionValue,"-in_window");
             QMessageBox* box = w->findChild<QMessageBox*>();
-            box->buttons().back()->click();
-            //QPushButton* btn = box->findChild<QPushButton*>(m_op1.c_str());
+            //box->buttons().back()->click();
+            for ( auto it: box->buttons() ) 
+                if (  it->text().toStdString() == m_op1  ) {
+                    it->click();
+                    return;
+                }
+                    
+            //std::cout <<  it->objectName().toStdString() << "  " << it->text().toStdString() << std::endl;
+            //QAbstractButton* btn = box->findChild<QAbstractButton*>(m_op1.c_str());
             //btn->click();
+        }
+};
+
+class dicmdguiClickButton: public NonTransactionalDirectCommandBase 
+{
+
+    std::string m_on;
+    public:
+        dicmdguiClickButton() {
+            add_option("-object",new StringCommandOptionValue(""));
+        }
+        
+        dicmdguiClickButton(const std::string& on):NonTransactionalDirectCommandBase("-object",new StringCommandOptionValue(on)) 
+        { 
+            //FIXME add_option()
+            m_on = on; 
+        }
+        
+        virtual std::string get_name() {
+            return "dicmdguiClickButton";
+        }
+        
+        virtual void execute() {
+            //FIXME add checks
+            //FIXME some trick to be more easy?
+            m_on = GET_CMD_ARG(StringCommandOptionValue,"-object");
+            //m_on = (dynamic_cast<StringCommandOptionValue*>(get_option_val("-object")))->to_string();
+            QAbstractButton* btn = CM->findChild<QAbstractButton*>(m_on.c_str());
+            btn->click();
         }
 };
 

@@ -37,8 +37,15 @@ class DirectCommandBase: public CommandBase
         }    
         
         virtual void silent_execute() {
-            execute();
-            Messenger::expose_msg(out,get_cmdname_and_stringified_opts(),is_transaction_cmd());
+            bool clean = true;
+            try {
+                execute();
+            } catch (...) {
+                clean = false;
+            }
+            
+            if ( clean )
+                Messenger::expose_msg(out,get_cmdname_and_stringified_opts(),is_transaction_cmd());
         }
  
         virtual CommandType get_type() {

@@ -1,19 +1,21 @@
 #include "gui/main_window.hpp"
 #include "io/log_reader.hpp"
 #include "core/application.hpp"
+#include "core/stackdump.hpp"
 
 #include <QApplication>
 
-//#include <QtWidgets>
+#ifdef OS_LINUX
+    #include <signal.h>
+#endif
     
 //fixme put to application class    
 void handle_replaying(const std::string& fname)
 {
-        Application::get_instance()->set_replay_mode(true);
         LogReader* r = new LogReader;
         r->replay_logfile(fname);
+        //fixme how deletes?
         //delete r;
-        Application::get_instance()->set_replay_mode(false);
 }
 
 void hande_commandline_options(int argc, char** argv)
@@ -25,7 +27,10 @@ void hande_commandline_options(int argc, char** argv)
 
 int main(int argc, char** argv)
 {
-	QApplication app(argc, argv);
+#ifdef OS_LINUX
+        signal(SIGSEGV, handler);   
+#endif
+        QApplication app(argc, argv);
 	main_window window;
 	window.show();
         //FIXME ehnance handling cmd args
