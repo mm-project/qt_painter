@@ -41,7 +41,7 @@ bool main_window::eventFilter(QObject *obj, QEvent *event)
                 QString s(btn->text());
                 //s.replace(" ","/");
                 //dicmdguiSelectComboValue(obj->objectName().toStdString(),s.toStdString()).log();
-                std::cout << "("<<s.toStdString() << ") (" << obj->objectName().toStdString() <<")" << std::endl;
+                //std::cout << "("<<s.toStdString() << ") (" << obj->objectName().toStdString() <<")" << std::endl;
             }
         }
         //qcomboboxlist
