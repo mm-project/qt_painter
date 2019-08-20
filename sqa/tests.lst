@@ -1,3 +1,8 @@
 test_suites/flowtest1
 test_suites/interactive_directive
 test_suites/selection/byregion/test1
+test_suites/selection/byregion/test5
+test_suites/selection/byregion/basic_test1
+test_suites/generic/all_shapes_runtime
+test_suites/test123
+test_suites/basic/directive/shape_creation/polygons

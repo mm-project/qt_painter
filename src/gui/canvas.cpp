@@ -38,6 +38,9 @@ canvas::canvas(QWidget* p)
 	setMouseTracking(true);
 	setObjectName("CANVAS");
 	
+        //fixme need preferences
+        m_need_motionlog = !QString::fromLocal8Bit( qgetenv("PAINTER_LOG_MOTION").constData() ).isEmpty();
+        
 	//FIXME move to services
 	m_working_set = std::shared_ptr<WorkingSet>(new WorkingSet);
 	m_sandbox = std::shared_ptr<ObjectPoolSandbox>(new ObjectPoolSandbox);
@@ -75,9 +78,24 @@ void canvas::reset()
     update();
 }
 
-void canvas::keyPressEvent(QKeyEvent*) {
-    if( cm->is_idle() ) 
-        return;
+void canvas::keyPressEvent(QKeyEvent* ev) {
+    
+    //binding goes here
+    //if(ev->modifiers() & Qt::ShiftModifier) {
+        //if ( ev->key() == Qt::Key_1 )  cm->find_command("dicmdQaCompareCanvas")->execute();
+        if ( ev->key() == Qt::Key_2 )  
+            cm->find_command("dicmdQaCompareSelection")->execute_and_log();
+        else {
+            if( cm->is_idle() ) 
+                return;
+        
+            cm->disactivate_active_command();
+        }
+            //if ( ev->key() == Qt::Key_3 )  cm->find_command("dicmdQaCompareDesign")->execute();
+    //}
+    //cm->key_pressed(_x, _y);
+
+
 }
 
 void canvas::mousePressEvent(QMouseEvent* e)
@@ -86,8 +104,8 @@ void canvas::mousePressEvent(QMouseEvent* e)
         return;
 
     QPoint p(e->pos());
-    if(!Application::is_log_mode())
-        dicmdCanvasMouseClick(p).log();
+    //if(!Application::is_log_mode())
+    dicmdCanvasMouseClick(p).log();
     
     cm->mouse_clicked(p.x(),p.y());
 }
@@ -113,8 +131,10 @@ void canvas::mouseMoveEvent(QMouseEvent* e)
 	//e->pos().setY(_y);
         cm->mouse_moved(_x, _y);
     
-	//FIXME add logMotion flag to enable
-        //dicmdCanvasMouseMove(e->pos()).log();
+        //if Preference::isSet("guiLogMouseMove")
+        if ( m_need_motionlog )
+            dicmdCanvasMouseMove(e->pos()).log();
+
 	/**/
 	
     update();
@@ -128,9 +148,10 @@ void canvas::wheelEvent(QWheelEvent* e)
 
 void canvas::mouseDoubleClickEvent(QMouseEvent* e)
 {
+    cm->mouse_dbl_clicked(e->pos().x(),e->pos().y());
+    //if(!Application::is_log_mode())
     dicmdCanvasMouseDblClick(e->pos()).log();
-    if(!Application::is_log_mode())
-        cm->mouse_dbl_clicked(e->pos().x(),e->pos().y());
+    
     update();
 }
 

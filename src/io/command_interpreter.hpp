@@ -6,6 +6,8 @@
 #include "../core/service.h"
 #include "../commands/command_manager.hpp"
 #include "../commands/icommand_base.hpp"
+#include "../commands/direct_command_base.hpp"
+
 
 
 #include <QStringList>
@@ -62,11 +64,14 @@ class CommandInterp : public Service<CommandInterp>
         void execute_cmd(CommandBase* cmd) {
             if(!cmd)
                 return;
+            //std::cout << "<"<<n.toStdString()<<">" << tokens[0].toStdString() << std::endl;
             
             if ( cmd->get_type() == Interactive )    
                 m_cm->activate_command(dynamic_cast<CommandBase*>(cmd));
             else
                 cmd->execute_and_log();
+                //std::cout  << "!!!!" << dynamic_cast<DirectCommandBase*>(cmd)->get_cmdname_and_stringified_opts() << std::endl;
+                
         }
 };
 

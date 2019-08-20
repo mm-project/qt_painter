@@ -2,6 +2,7 @@
 
 #include "controller.hpp"
 #include "icons.hpp"
+#include "utilities.hpp"
 
 // qt Ribbon 
 #include "qribbon.hpp"
@@ -128,6 +129,7 @@ void create_shape_gui::build_colors(QRibbonWidget* ribbonWidget)
 		button->setObjectName(texts[i]);
 		button->setIcon(icon);
 		button->setFixedSize(globalSize);
+        //set_object_name_for_logging(button);
 		layout->addWidget(button, i / 5, i % 5);
 		connect(button, SIGNAL(clicked()), mapper, SLOT(map()));
 		mapper->setMapping(button, texts[i]);
