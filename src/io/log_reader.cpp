@@ -40,6 +40,7 @@ bool LogReader::replay_logfile(const std::string& fname) {
     if ( lines.size() == 0 )
         return false;
 
+    std::cout << "noway" << std::endl;
     Application::get_instance()->set_replay_mode(true);
     
     for (  auto line : lines  ) {
@@ -48,8 +49,8 @@ bool LogReader::replay_logfile(const std::string& fname) {
         //execute_next_command();
     }
  
-    return true;
     m_timer->start(5);
+    return true;
 }
 
 void LogReader::replay_cmd(const std::string& cmd_str ) {

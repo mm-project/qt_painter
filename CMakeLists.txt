@@ -1,6 +1,7 @@
 cmake_minimum_required (VERSION 3.0)
 project (painter)
 
+set(LD_AUX "") 
 if (WIN32) 
 	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/windows/)
 	if (MSVC)
@@ -11,7 +12,8 @@ if (WIN32)
             set(QTDIR "./ext/mingw73_32")
 	endif(MSVC)
 else()
-	set ( CMAKE_CXX_FLAGS "-DOS_LINUX -g -fPIC -Wunused-parameter -pipe -std=gnu++17 -frtti -Wall -Wextra -fexceptions -pthread -Wno-unused-function -Wno-unused-variable")
+	set(LD_AUX "dl") 
+	set(CMAKE_CXX_FLAGS "-DOS_LINUX -g -fPIC -Wunused-parameter -pipe -std=gnu++17 -frtti -Wall -Wextra -fexceptions -pthread -Wno-unused-function -Wno-unused-variable")
         set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/linux/)
 endif (WIN32)
 
@@ -53,4 +55,4 @@ add_subdirectory (${PROJECT_SOURCE_DIR}/src/gui)
 
 add_executable(painter ${PROJECT_SOURCE_DIR}/src/main.cpp )
 add_dependencies(painter rq io core commands gui )
-target_link_libraries (painter gui rq io core commands rq Qt5::Widgets Qt5::Core Qt5::Gui dl)
+target_link_libraries (painter gui rq io core commands rq Qt5::Widgets Qt5::Core Qt5::Gui ${LD_AUX})
