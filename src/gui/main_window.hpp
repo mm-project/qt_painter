@@ -27,6 +27,7 @@ public:
 
 private:
 	void make_connections();
+    void setRecursiveChildWidgetsObjectName(QWidget*);
 
 private:
 	canvas* m_canvas;

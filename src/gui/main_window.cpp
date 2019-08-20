@@ -6,6 +6,7 @@
 #include "icons.hpp"
 #include "statusbar_manager.hpp"
 #include "console.hpp"
+#include "utilities.hpp"
 
 #include "../commands/command_manager.hpp"
 #include "../commands/gui_commands.hpp"
@@ -40,7 +41,7 @@ bool main_window::eventFilter(QObject *obj, QEvent *event)
                 QString s(btn->text());
                 //s.replace(" ","/");
                 //dicmdguiSelectComboValue(obj->objectName().toStdString(),s.toStdString()).log();
-                //std::cout << "("<<s.toStdString() << ") (" << obj->objectName().toStdString() <<")" << std::endl;
+                std::cout << "("<<s.toStdString() << ") (" << obj->objectName().toStdString() <<")" << std::endl;
             }
         }
         //qcomboboxlist
@@ -100,8 +101,29 @@ main_window::main_window(QWidget* p)
 	command_manager::get_instance()->set_main_widget(this);
 	StatusBarManager& sBar = StatusBarManager::getInstance();
 	sBar.setStatusBar(statusBar());
+    setObjectName("mw");
+    
+    setRecursiveChildWidgetsObjectName(this);
 
 }
+
+
+void main_window::setRecursiveChildWidgetsObjectName(QWidget* w) {
+    if ( w->objectName().isEmpty() )
+        set_object_name_for_logging(w,true);
+    else
+        set_object_name_for_logging(w);
+    
+    QObjectList children = w->children();
+    QObjectList::const_iterator it = children.begin();
+    QObjectList::const_iterator eIt = children.end();
+    while ( it != eIt )
+    {
+        QWidget * pChild = (QWidget *)(*it++);
+        setRecursiveChildWidgetsObjectName(pChild);
+    }    
+}
+
 
 void main_window::make_connections()
 {
