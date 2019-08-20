@@ -13,8 +13,9 @@
 #include "../commands/shape_creation_interactive_commands.hpp"
 #include "../commands/shape_creation_directive_commands.hpp"
 #include "../commands/selection_commands.hpp"
+#include "../commands/load_save_commands.hpp"
+#include "../commands/interactive_load_save.hpp"
 #include "../commands/command_manager.hpp"
-
 
 #include <QRect>
 #include <QPainter>
@@ -54,7 +55,7 @@ canvas::canvas(QWidget* p)
 	cm->init2(m_sandbox, m_working_set);
 	cm->init();
 	
-	//fixme to other place
+	//fixme move to other place
 	cm->register_command(new INCMD_CREATE_OBJ(LINE));
 	cm->register_command(new INCMD_CREATE_OBJ(RECTANGLE));
 	cm->register_command(new INCMD_CREATE_OBJ(ELLIPSE));
@@ -65,7 +66,16 @@ canvas::canvas(QWidget* p)
         cm->register_command(new dicmdCreateObj<LINE>(m_working_set));
         cm->register_command(new dicmdCreateObj<ELLIPSE>(m_working_set));
         cm->register_command(new dicmdCreateObj<POLYGON>(m_working_set));
-        
+        cm->register_command(new InteractiveDesAction<LOAD>(m_working_set));
+        cm->register_command(new InteractiveDesAction<SAVE>(m_working_set));
+        cm->register_command(new dicmdDesignSave(m_working_set));
+        cm->register_command(new dicmdDesignLoad(m_working_set));
+}
+
+void canvas::reset()
+{
+    m_working_set->clear();
+    update();
 }
 
 void canvas::keyPressEvent(QKeyEvent* ev) {
@@ -124,6 +134,7 @@ void canvas::mouseMoveEvent(QMouseEvent* e)
         //if Preference::isSet("guiLogMouseMove")
         if ( m_need_motionlog )
             dicmdCanvasMouseMove(e->pos()).log();
+
 	/**/
 	
     update();
@@ -139,7 +150,7 @@ void canvas::mouseDoubleClickEvent(QMouseEvent* e)
 {
     cm->mouse_dbl_clicked(e->pos().x(),e->pos().y());
     //if(!Application::is_log_mode())
-        dicmdCanvasMouseDblClick(e->pos()).log();
+    dicmdCanvasMouseDblClick(e->pos()).log();
     
     update();
 }
@@ -186,8 +197,13 @@ void canvas::invoke_select_by_point()
     cm->activate_command(cm->find_command("incmdSelectUnderCursoer"));
 }
 
-void canvas::reset()
+void canvas::invoke_save()
 {
-    m_working_set->clear();
-    update();
+    cm->activate_command(cm->find_command("incmdDesignSave"));
+}
+
+void canvas::invoke_load()
+{
+    cm->activate_command(cm->find_command("incmdDesignLoad"));
+
 }

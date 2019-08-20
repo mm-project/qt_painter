@@ -30,6 +30,7 @@ QStringList LogReader::read_file(const std::string& fname) {
     return stringList;
 }
 
+
 void LogReader::replay_logfile(const std::string& fname) {
     connect(m_timer, SIGNAL(timeout()), this, SLOT(execute_next_command()));
     
@@ -62,7 +63,7 @@ void LogReader::execute_next_command() {
     m_interp->execute_cmd(cmd);
     
     //t->deleteLater();
-    // QApplication::processEvents();
+    //QApplication::processEvents();
 }
     
 

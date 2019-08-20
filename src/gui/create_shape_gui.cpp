@@ -55,12 +55,18 @@ void create_shape_gui::build_design(QRibbonWidget* ribbonWidget)
 {
 	QRibbonGroup* group = new QRibbonGroup(this);
 	group->setTitle("Design");
-	QRibbonButton* new_b = new QRibbonButton(this, "New", getIconDir() + "create.png");
-	connect(new_b, SIGNAL(clicked()), this, SIGNAL(reset()));
-	QRibbonButton* close_b = new QRibbonButton(this, "Close", getIconDir() + "close.png");
-	connect(close_b, SIGNAL(clicked()), this, SIGNAL(close()));
-	group->addRibbonButton(new_b);
-	group->addRibbonButton(close_b);
+	QRibbonButton* new_b1 = new QRibbonButton(this, "New", getIconDir() + "create.png");
+	connect(new_b1, SIGNAL(clicked()), this, SIGNAL(reset()));
+	QRibbonButton* close_b1 = new QRibbonButton(this, "Close", getIconDir() + "close.png");
+	connect(close_b1, SIGNAL(clicked()), this, SIGNAL(close()));
+	QRibbonButton* save_b2 = new QRibbonButton(this, "Save", getIconDir() + "save.svg");
+	connect(save_b2, SIGNAL(clicked()), this, SIGNAL(save()));
+	QRibbonButton* load_b = new QRibbonButton(this, "Load", getIconDir() + "upload.svg");
+	connect(load_b, SIGNAL(clicked()), this, SIGNAL(load()));
+	group->addRibbonButton(new_b1);
+	group->addRibbonButton(save_b2);
+	group->addRibbonButton(load_b);
+	group->addRibbonButton(close_b1);
 	ribbonWidget->addGroup(group);
 }
 

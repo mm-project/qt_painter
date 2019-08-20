@@ -139,7 +139,8 @@ void main_window::make_connections()
 	connect(m_shapes, SIGNAL(close()), this, SLOT(close()));
 	connect(m_shapes, SIGNAL(selectByRegion()), m_canvas, SLOT(invoke_select_by_region()));
 	connect(m_shapes, SIGNAL(selectByPoint()), m_canvas, SLOT(invoke_select_by_point()));
-	
+	connect(m_shapes, SIGNAL(save()), m_canvas, SLOT(invoke_save()));
+	connect(m_shapes, SIGNAL(load()), m_canvas, SLOT(invoke_load()));
 }
 
 main_window::~main_window()

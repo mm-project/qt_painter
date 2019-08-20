@@ -26,6 +26,9 @@ class LogReader : public QObject
     std::queue<QString> m_command_queue;
     CommandInterp* m_interp;
     
+    private:
+        QStringList read_file(const std::string& fname);
+            
     public:
         LogReader();
         void replay_logfile(const std::string& fname);
