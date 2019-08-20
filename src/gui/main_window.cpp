@@ -101,9 +101,12 @@ main_window::main_window(QWidget* p)
 	command_manager::get_instance()->set_main_widget(this);
 	StatusBarManager& sBar = StatusBarManager::getInstance();
 	sBar.setStatusBar(statusBar());
-    setObjectName("mw");
     
-    setRecursiveChildWidgetsObjectName(this);
+        //name-ing
+        setObjectName("mw");
+        setRecursiveChildWidgetsObjectName(this);
+        m_canvas->setObjectName("CANVAS");
+        
 
 }
 

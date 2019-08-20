@@ -19,17 +19,18 @@ for i in `cat $PAINTER_SQA_ROOT/tests.lst`; do
         a=`./run.sh "$options" &> test.info `
         r=$?
         if [ "$r" == 0 ]; then
-            echo "Pass"
+            echo -e "\e[32mPass\e[0m"
         elif [ "$r" == 3 ]; then
-            echo "CRASH"
+            echo -e "\e[4;5;41mC R A S H\e[0;25m"
             res=1
         else
-            echo "Error"
+            echo -e "\e[31mError\e[0m"
             echo "************"
             awk '{ print " ----> ", $0 }' test.info
             echo "==========="
             res=1
         fi
+        echo "------------------------------------------------------------------------------------"
     cd - &> /dev/null
 done
 
