@@ -26,7 +26,7 @@ public:
         virtual void execute() {
                 ws->clear();
                 std::string fname(GET_CMD_ARG(StringCommandOptionValue,"-filename"));
-                LogReader().replay_log(fname);
+                LogReader().replay_logfile(fname);
         }
 	
         virtual std::string get_name() {

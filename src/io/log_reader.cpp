@@ -30,7 +30,6 @@ QStringList LogReader::read_file(const std::string& fname) {
     return stringList;
 }
 
-
 void LogReader::replay_logfile(const std::string& fname) {
     connect(m_timer, SIGNAL(timeout()), this, SLOT(execute_next_command()));
     
@@ -54,7 +53,7 @@ void LogReader::execute_next_command() {
         return;
     
     //std::cout << "dolya varavsyaka" << std::endl;
-    CommandBase* cmd = m_interp->get_cmd_obj(m_command_queue.front());
+    CommandBase* cmd = m_interp->get_cmd_obj(m_command_queue.front().toStdString());
     m_command_queue.pop();
     
     if (m_command_queue.empty())

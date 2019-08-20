@@ -34,9 +34,6 @@ class LogReader : public QObject
         void replay_logfile(const std::string& fname);
         void replay_cmd(const std::string& str);
 
-    private:
-        QStringList read_file(const std::string& fname);
-
     private slots:
         void execute_next_command();
         
