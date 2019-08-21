@@ -2,22 +2,29 @@ cmake_minimum_required (VERSION 3.0)
 project (painter)
 
 set(LD_AUX "") 
+#windows
 if (WIN32) 
-	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/windows/)
+	# on visual
 	if (MSVC)
             set ( CMAKE_CXX_FLAGS "-DOS_WINDOWS")
             set(QTDIR "C:\\Programs\\Qt\\5.11.1")
+	# on min mingw
 	else()
             set ( CMAKE_CXX_FLAGS "-DOS_LINUX -g -fPIC -Wunused-parameter -pipe -std=gnu++17 -frtti -Wall -Wextra -fexceptions -pthread -Wno-unused-function -Wno-unused-variable")
             set(QTDIR "./ext/mingw73_32")
 	endif(MSVC)
+
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/windows/)
     set(QT_INCLUDE_DIR ${QTDIR}/include)
+#linux
 else()
 	set(LD_AUX "dl") 
 	set(CMAKE_CXX_FLAGS "-DOS_LINUX -g -fPIC -Wunused-parameter -pipe -std=gnu++17 -frtti -Wall -Wextra -fexceptions -pthread -Wno-unused-function -Wno-unused-variable")
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/linux/)
+    #linux64
     if (EXISTS "/usr/include/x86_64-linux-gnu/qt5/")
             set(QT_INCLUDE_DIR "/usr/include/x86_64-linux-gnu/qt5/")
+    #linux32
     else()
             set(QT_INCLUDE_DIR "/usr/include/i386-linux-gnu/qt5/")
     endif()

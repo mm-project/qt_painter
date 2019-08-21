@@ -1,3 +1,4 @@
+#i --> Info: Set to mode1
 incmdCreateObjRectangle
 dicmdCanvasMouseMove -point (120,31) 
 dicmdCanvasMouseMove -point (120,32) 

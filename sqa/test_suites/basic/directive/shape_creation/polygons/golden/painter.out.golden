@@ -1,5 +1,21 @@
 QWidget::paintEngine: Should no longer be called
 QPainter::begin: Paint device returned engine == 0, type: 1
+Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QPushButton in mw/5/10/15/qt_tabwidget_stackedwidget/18/58/64/
+Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QPushButton in mw/5/10/15/qt_tabwidget_stackedwidget/18/58/64/
+Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QPushButton in mw/5/10/15/qt_tabwidget_stackedwidget/18/58/64/
+Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QPushButton in mw/5/10/15/qt_tabwidget_stackedwidget/18/58/64/
+Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QPushButton in mw/5/10/15/qt_tabwidget_stackedwidget/18/58/64/
+Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QPushButton in mw/5/10/15/qt_tabwidget_stackedwidget/18/58/64/
+Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QPushButton in mw/5/10/15/qt_tabwidget_stackedwidget/18/58/64/
+Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QRadioButton in mw/5/10/15/qt_tabwidget_stackedwidget/18/81/
+Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QRadioButton in mw/5/10/15/qt_tabwidget_stackedwidget/18/81/
+Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QRadioButton in mw/5/10/15/qt_tabwidget_stackedwidget/18/81/
+Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QRadioButton in mw/5/10/15/qt_tabwidget_stackedwidget/18/96/
+Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QRadioButton in mw/5/10/15/qt_tabwidget_stackedwidget/18/96/
+Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QRadioButton in mw/5/10/15/qt_tabwidget_stackedwidget/18/96/
+Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QToolButton in mw/5/10/15/qt_tabwidget_tabbar/
+Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QToolButton in mw/5/10/15/qt_tabwidget_tabbar/
+Set to mode1
 dicmdCreateObjPolygon -points {(188,76);(272,144);(184,207);(184,207)} 
 dicmdCreateObjPolygon -points {(192,224);(207,174);(227,220);(227,220)} 
 dicmdCreateObjPolygon -points {(358,117);(546,146);(498,215);(485,115);(449,202);(445,122);(401,201);(401,104);(363,186);(363,96);(412,96);(551,89);(551,88)} 

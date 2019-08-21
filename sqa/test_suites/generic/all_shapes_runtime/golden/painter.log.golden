@@ -1,3 +1,4 @@
+#i --> Info: Set to mode1
 incmdCreateObjLine
 dicmdCanvasMouseMove -point (239,16) 
 dicmdCanvasMouseMove -point (232,29) 
