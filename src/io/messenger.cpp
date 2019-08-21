@@ -2,7 +2,6 @@
 
 #include "../core/postman.hpp"
 #include "../core/callback.hpp"
-#include "../core/application.hpp"
 
 #include <QString>
 #include <QDateTime>
@@ -90,24 +89,17 @@ std::string Messenger::decorate_for_logging(const LogMsgSeverity& r) {
 
 
 //FIXME
-void Messenger::expose_internal(const LogMsgSeverity& severity, const std::string& m , bool iscmd) 
+void Messenger::expose_internal(const LogMsgSeverity& severity, const std::string& msg , bool iscmd) 
 {
-	if ( Application::is_load_mode() )
-            return;
+	write_entry_to_console_gui(severity,msg);
         
-        QString lines(m.c_str());
-        for ( auto line : lines.split("\n") ) {
-            std::string msg = line.toStdString();
-            write_entry_to_console_gui(severity,msg);
-            
-            std::stringstream z;
-            z << decorate_for_logging(severity) << msg << "\n";
-            write_entry_to_logfile(z.str());
-            
-            // if this is <real> command, write also to lvi file.
-            if ( iscmd ) 
-                write_entry_to_cmdfile(msg);
-        }
+        std::stringstream z;
+	z << decorate_for_logging(severity) << msg << "\n";
+	write_entry_to_logfile(z.str());
+	
+	// if this is <real> command, write also to lvi file.
+	if ( iscmd ) 
+            write_entry_to_cmdfile(msg);
         
 }
 

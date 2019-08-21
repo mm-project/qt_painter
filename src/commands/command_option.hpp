@@ -47,7 +47,6 @@ class CommandOptionValueGetter {
 
 */
 
-//FIXME what if dynamic cast is 0?
 #define GET_CMD_ARG(T,Op) (dynamic_cast<T*>(get_option_val(Op)))->get()
 //#define GET_CMD_ARG1(Op)  (dynamic_cast<decltype get_option_val(Op)>(get_option_val(Op)))->get()
 
