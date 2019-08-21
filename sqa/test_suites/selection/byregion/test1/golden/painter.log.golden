@@ -1,3 +1,4 @@
+#i --> Info: Set to mode1
 dicmdCreateObjRectangle -points {(58,36);(165,154)} 
 dicmdCreateObjRectangle -points {(141,129);(236,211)} 
 dicmdCreateObjRectangle -points {(276,44);(428,196)} 

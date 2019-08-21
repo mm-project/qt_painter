@@ -1,0 +1,3 @@
+dicmdCreateObjRectangle -points {(131,77);(242,172)} 
+dicmdCreateObjRectangle -points {(217,142);(342,262)} 
+dicmdCreateObjRectangle -points {(316,245);(453,324)} 
