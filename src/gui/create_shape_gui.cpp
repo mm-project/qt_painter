@@ -2,7 +2,6 @@
 
 #include "controller.hpp"
 #include "icons.hpp"
-#include "utilities.hpp"
 
 // qt Ribbon 
 #include "qribbon.hpp"
@@ -55,18 +54,12 @@ void create_shape_gui::build_design(QRibbonWidget* ribbonWidget)
 {
 	QRibbonGroup* group = new QRibbonGroup(this);
 	group->setTitle("Design");
-	QRibbonButton* new_b1 = new QRibbonButton(this, "New", getIconDir() + "create.png");
-	connect(new_b1, SIGNAL(clicked()), this, SIGNAL(reset()));
-	QRibbonButton* close_b1 = new QRibbonButton(this, "Close", getIconDir() + "close.png");
-	connect(close_b1, SIGNAL(clicked()), this, SIGNAL(close()));
-	QRibbonButton* save_b2 = new QRibbonButton(this, "Save", getIconDir() + "save.svg");
-	connect(save_b2, SIGNAL(clicked()), this, SIGNAL(save()));
-	QRibbonButton* load_b = new QRibbonButton(this, "Load", getIconDir() + "upload.svg");
-	connect(load_b, SIGNAL(clicked()), this, SIGNAL(load()));
-	group->addRibbonButton(new_b1);
-	group->addRibbonButton(save_b2);
-	group->addRibbonButton(load_b);
-	group->addRibbonButton(close_b1);
+	QRibbonButton* new_b = new QRibbonButton(this, "New", getIconDir() + "create.png");
+	connect(new_b, SIGNAL(clicked()), this, SIGNAL(reset()));
+	QRibbonButton* close_b = new QRibbonButton(this, "Close", getIconDir() + "close.png");
+	connect(close_b, SIGNAL(clicked()), this, SIGNAL(close()));
+	group->addRibbonButton(new_b);
+	group->addRibbonButton(close_b);
 	ribbonWidget->addGroup(group);
 }
 
@@ -129,7 +122,6 @@ void create_shape_gui::build_colors(QRibbonWidget* ribbonWidget)
 		button->setObjectName(texts[i]);
 		button->setIcon(icon);
 		button->setFixedSize(globalSize);
-        //set_object_name_for_logging(button);
 		layout->addWidget(button, i / 5, i % 5);
 		connect(button, SIGNAL(clicked()), mapper, SLOT(map()));
 		mapper->setMapping(button, texts[i]);

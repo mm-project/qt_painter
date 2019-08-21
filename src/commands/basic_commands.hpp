@@ -4,7 +4,7 @@
 #include "command_manager.hpp"
 #include "direct_command_base.hpp"
 
-class incmdIdle : public NonTransactionalDirectCommandBase
+class incmdIdle : public DirectCommandBase
 {
     public:
         virtual std::string get_name() { return "incmdIdle"; }
@@ -12,7 +12,7 @@ class incmdIdle : public NonTransactionalDirectCommandBase
 };
 
 
-class dicmdAbortActiveCommand: public NonTransactionalDirectCommandBase
+class dicmdAbortActiveCommand: public DirectCommandBase
 {
     public:        
         virtual std::string get_name() {

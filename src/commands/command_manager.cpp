@@ -35,8 +35,6 @@ void command_manager::init() {
     register_command(new dicmdQaCompare<DESIGN>);
     register_command(new dicmdQaCompare<SELECTION>);
     register_command(new dicmdSelectShapesByRegion);
-    register_command(new dicmdguiClickButton);
-    register_command(new dicmdguiClickModalButton);
     
     
     
@@ -80,17 +78,6 @@ CommandBase* command_manager::get_active_command() {
 
 bool command_manager::is_idle() {
     return ( m_current_command == m_idle_command );
-}
-
-
-void command_manager::disactivate_active_command() {
-    if ( !is_idle() && m_current_command->get_type() == Interactive ) {
-            //fixme , abort should be logged implicitly from interactive command base
-            dicmdAbortActiveCommand().log();
-            m_current_command->abort(); 
-    }
-    
-    return_to_idle();
 }
 
 void command_manager::return_to_idle() {

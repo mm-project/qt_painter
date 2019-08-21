@@ -87,7 +87,6 @@ void pen_brush_gui::init_layout()
 
         //QString module_name("pbgui");
         m_solid_line = new QRadioButton("Solid Line", this);
-        //set_object_name_for_logging(m_solid_line);
         m_solid_line ->setObjectName(module_name+"/"+"rbSolidLine");
         //set_log_name(m_solid_line);
         

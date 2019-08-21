@@ -37,17 +37,8 @@ class DirectCommandBase: public CommandBase
         }    
         
         virtual void silent_execute() {
-            bool clean = true;
-            try {
-                execute();
-            } catch (...) {
-                clean = false;
-            }
-            
-            if ( clean )
-                Messenger::expose_msg(out,get_cmdname_and_stringified_opts(),is_transaction_cmd());
-            else
-                Messenger::expose_msg(err,"unknown error");
+            execute();
+            Messenger::expose_msg(out,get_cmdname_and_stringified_opts(),is_transaction_cmd());
         }
  
         virtual CommandType get_type() {
@@ -106,16 +97,4 @@ class DirectCommandBase: public CommandBase
         //ICommandOptionValue* m_op;
 };
 
-
-
-class NonTransactionalDirectCommandBase : public DirectCommandBase
-{
-    public:
-         NonTransactionalDirectCommandBase() {}
-         NonTransactionalDirectCommandBase(const std::string& n, ICommandOptionValue* v ):DirectCommandBase(n,v) {}
-         virtual bool is_transaction_cmd() {
-            return false;
-         }
-    
-};
 #endif

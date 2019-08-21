@@ -9,7 +9,6 @@
 #include <QStringList>
 #include <QFile>
 #include <QMessageBox>
-#include <QString>
 #include <QTextStream>
 #include <QTimer>
 #include <QApplication>
@@ -22,23 +21,18 @@ class LogReader : public QObject
 {
     Q_OBJECT 
     
-    QTimer* m_timer ;
-    std::queue<QString> m_command_queue;
+    QTimer* timer ;
+    std::queue<CommandBase*> m_command_queue;
     CommandInterp* m_interp;
     
-    private:
-        QStringList read_file(const std::string& fname);
-            
     public:
         LogReader();
-        bool replay_logfile(const std::string& fname);
-        bool replay_logfile_imi(const std::string& fname);
-        void replay_cmd(const std::string& str);
+        QStringList read_file(const std::string& fname);
+        void replay_log(const std::string& fname);
         
-
-    private slots:
+    public slots:
         void execute_next_command();
-        
+    
 };
 
 #endif

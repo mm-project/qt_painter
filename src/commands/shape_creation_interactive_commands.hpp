@@ -145,8 +145,8 @@ public:
 		//mouse clicked , set first point and go to next state 
 
 		ObjCreatorCommandBase<T>::create_runtime_object();
-                ObjCreatorCommandBase<T>::runtime_set_pos1();
-                ObjCreatorCommandBase<T>::runtime_set_pos2();
+        ObjCreatorCommandBase<T>::runtime_set_pos1();
+        ObjCreatorCommandBase<T>::runtime_set_pos2();
 		InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,on_first_click));
                 return true;
         }
@@ -157,8 +157,7 @@ public:
 		if ( ev == MM )
 			ObjCreatorCommandBase<T>::runtime_set_pos2();
 		else if ( ev == MC || ev == KP )
-                        on_commit(OTHER);
-                        //InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,on_commit));
+			InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,on_commit));
 
 		if ( ev == KP ) //key pressed, abort
 			InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,abort1));
@@ -221,8 +220,7 @@ public:
 			ObjCreatorCommandBase<POLYGON>::runtime_movePoint();
 
 		if ( ev == MDC  || ev == KP) //key pressed, abort
-			on_commit(OTHER);
-                        //InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<POLYGON>,on_commit));
+			InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<POLYGON>,on_commit));
 	}
 	
 	void on_commit(const EvType&) {

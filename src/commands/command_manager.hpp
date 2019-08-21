@@ -38,7 +38,6 @@ class command_manager
         void init2(ObjectPoolSandboxPtr r, IObjectPoolPtr s);
         void init();
         
-        void disactivate_active_command();
         void activate_command(CommandBase* cmd);
         void register_command(CommandBase* cmd);
         CommandBase* find_command(const std::string&);
