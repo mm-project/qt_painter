@@ -6,15 +6,18 @@
 #include "icons.hpp"
 #include "statusbar_manager.hpp"
 #include "console.hpp"
+#include "utilities.hpp"
 
 #include "../commands/command_manager.hpp"
 #include "../commands/gui_commands.hpp"
+#include "../commands/qa_commands.hpp"
 
 #include <QDockWidget>
 #include <QMenu>
 #include <QMenuBar>
 #include <QToolBar>
 #include <QEvent>
+#include <QCloseEvent>
 #include <QCoreApplication>
 #include <QPushButton>
 #include <QRadioButton>
@@ -37,12 +40,13 @@ bool main_window::eventFilter(QObject *obj, QEvent *event)
 
         if ( QAbstractButton* btn = qobject_cast<QAbstractButton*>(obj) ) {
             if (event->type() == QEvent::MouseButtonPress ) {
-                QString s(btn->text());
-                //s.replace(" ","/");
-                //dicmdguiSelectComboValue(obj->objectName().toStdString(),s.toStdString()).log();
-                //std::cout << "("<<s.toStdString() << ") (" << obj->objectName().toStdString() <<")" << std::endl;
+                if ( btn->parent() && btn->parentWidget()->isModal() )
+                    dicmdguiClickModalButton(obj->objectName().toStdString()).log();
+                else if ( !btn->objectName().isEmpty() )
+                    dicmdguiClickButton(obj->objectName().toStdString()).log();
             }
         }
+        
         //qcomboboxlist
         /*
         if ( QComboBoxListView* cmb = qobject_cast<QComboBox*>(obj) ) {
@@ -100,8 +104,32 @@ main_window::main_window(QWidget* p)
 	command_manager::get_instance()->set_main_widget(this);
 	StatusBarManager& sBar = StatusBarManager::getInstance();
 	sBar.setStatusBar(statusBar());
+    
+        //name-ing
+        setObjectName("mw");
+        setRecursiveChildWidgetsObjectName(this);
+        m_canvas->setObjectName("CANVAS");
+        
 
 }
+
+
+void main_window::setRecursiveChildWidgetsObjectName(QWidget* w) {
+    if ( w->objectName().isEmpty() )
+        set_object_name_for_logging(w,true);
+    else
+        set_object_name_for_logging(w);
+    
+    QObjectList children = w->children();
+    QObjectList::const_iterator it = children.begin();
+    QObjectList::const_iterator eIt = children.end();
+    while ( it != eIt )
+    {
+        QWidget * pChild = (QWidget *)(*it++);
+        setRecursiveChildWidgetsObjectName(pChild);
+    }    
+}
+
 
 void main_window::make_connections()
 {
@@ -114,7 +142,13 @@ void main_window::make_connections()
 	connect(m_shapes, SIGNAL(close()), this, SLOT(close()));
 	connect(m_shapes, SIGNAL(selectByRegion()), m_canvas, SLOT(invoke_select_by_region()));
 	connect(m_shapes, SIGNAL(selectByPoint()), m_canvas, SLOT(invoke_select_by_point()));
-	
+	connect(m_shapes, SIGNAL(save()), m_canvas, SLOT(invoke_save()));
+	connect(m_shapes, SIGNAL(load()), m_canvas, SLOT(invoke_load()));
+}
+
+
+void main_window::closeEvent(QCloseEvent *event) {
+    dicmdQaToolExit().log();
 }
 
 main_window::~main_window()
@@ -122,3 +156,5 @@ main_window::~main_window()
 	StatusBarManager& sBar = StatusBarManager::getInstance();
 	sBar.removeStatusBar();
 }
+
+

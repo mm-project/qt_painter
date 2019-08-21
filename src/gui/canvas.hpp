@@ -9,6 +9,8 @@
 #include <QWidget>
 #include <QPainter>
 
+// REPONSIBLE FOR VIEWPORT CONTROLL
+
 // ACTUALL CANVAS
 class canvas : public QWidget
 {
@@ -33,17 +35,20 @@ public slots:
         void invoke_create_polygon();
         void invoke_select_by_region();
         void invoke_select_by_point();
+        void invoke_save();
+        void invoke_load();
         
         void reset();
         void on_update();
 
 private:
         bool is_runtime_mode;
+        bool m_need_motionlog = false;
         IObjectPoolPtr m_working_set;
         ObjectPoolSandboxPtr m_sandbox;
         command_manager* cm;
         renderer* m_renderer;
-  		int m_scale = 15;
+        int m_scale = 15;
 };
 
 
