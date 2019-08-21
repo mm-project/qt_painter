@@ -14,9 +14,12 @@
 enum desAction { LOAD, SAVE, NEW, CLOSE };
 
 namespace {
+    //fixmeeeeeeee
     std::string sl_action2string(desAction a) {
         if ( a == LOAD ) return "Load";
-        return "Save";
+        if ( a == SAVE ) return "Save";
+        if ( a == NEW )  return "New";
+        if ( a == CLOSE ) return "Close";
     }
 }
 
@@ -53,15 +56,20 @@ class InteractiveDesAction: public InteractiveCommandBase
         void on_commit(const EvType& ev) {
             if ( T == LOAD  ) {
                 if ( is_agreed_with_user() )  {
-                    m_fn = QFileDialog::getOpenFileName(0,"Load Design","","*.des",0,QFileDialog::DontUseNativeDialog).toStdString();
+                    m_fn = QFileDialog::getOpenFileName(0,"Load Design","","*.*",0,QFileDialog::DontUseNativeDialog).toStdString();
                     dicmdDesignLoad(m_ws,m_fn).silent_execute();
                 }
-            } else {
+            } else if ( T == SAVE ) {
                  if ( is_agreed_with_user() ) {  
-                    m_fn = QFileDialog::getSaveFileName(0,"Save Design","","*.des",0,QFileDialog::DontUseNativeDialog).toStdString();
+                    m_fn = QFileDialog::getSaveFileName(0,"Save Design","","*.*",0,QFileDialog::DontUseNativeDialog).toStdString();
                     dicmdDesignSave(m_ws,m_fn).silent_execute();
                     m_is_saved = true;
                  }
+            } else if ( T == NEW ) {
+                if ( is_agreed_with_user() ) {    
+                    m_ws->clear();
+                    command_manager::get_instance()->get_main_widget()->update();
+                }
             }
             abort();
         }

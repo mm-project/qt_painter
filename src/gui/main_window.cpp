@@ -10,12 +10,14 @@
 
 #include "../commands/command_manager.hpp"
 #include "../commands/gui_commands.hpp"
+#include "../commands/qa_commands.hpp"
 
 #include <QDockWidget>
 #include <QMenu>
 #include <QMenuBar>
 #include <QToolBar>
 #include <QEvent>
+#include <QCloseEvent>
 #include <QCoreApplication>
 #include <QPushButton>
 #include <QRadioButton>
@@ -144,8 +146,15 @@ void main_window::make_connections()
 	connect(m_shapes, SIGNAL(load()), m_canvas, SLOT(invoke_load()));
 }
 
+
+void main_window::closeEvent(QCloseEvent *event) {
+    dicmdQaToolExit().log();
+}
+
 main_window::~main_window()
 {
 	StatusBarManager& sBar = StatusBarManager::getInstance();
 	sBar.removeStatusBar();
 }
+
+

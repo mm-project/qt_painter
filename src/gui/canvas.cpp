@@ -62,21 +62,19 @@ canvas::canvas(QWidget* p)
 	cm->register_command(new INCMD_CREATE_OBJ(POLYGON));
 	cm->register_command(new INCMD_HIGHLIGHT_BY_REGION);
 	cm->register_command(new INCMD_HIGHLIGHT_BY_POINT);
-        cm->register_command(new dicmdCreateObj<RECTANGLE>(m_working_set));
-        cm->register_command(new dicmdCreateObj<LINE>(m_working_set));
-        cm->register_command(new dicmdCreateObj<ELLIPSE>(m_working_set));
-        cm->register_command(new dicmdCreateObj<POLYGON>(m_working_set));
-        cm->register_command(new InteractiveDesAction<LOAD>(m_working_set));
-        cm->register_command(new InteractiveDesAction<SAVE>(m_working_set));
-        cm->register_command(new dicmdDesignSave(m_working_set));
-        cm->register_command(new dicmdDesignLoad(m_working_set));
+    cm->register_command(new dicmdCreateObj<RECTANGLE>(m_working_set));
+    cm->register_command(new dicmdCreateObj<LINE>(m_working_set));
+    cm->register_command(new dicmdCreateObj<ELLIPSE>(m_working_set));
+    cm->register_command(new dicmdCreateObj<POLYGON>(m_working_set));
+    cm->register_command(new InteractiveDesAction<LOAD>(m_working_set));
+    cm->register_command(new InteractiveDesAction<SAVE>(m_working_set));
+    cm->register_command(new InteractiveDesAction<NEW>(m_working_set));   
+    cm->register_command(new dicmdDesignSave(m_working_set));
+    cm->register_command(new dicmdDesignLoad(m_working_set));
+        
 }
 
-void canvas::reset()
-{
-    m_working_set->clear();
-    update();
-}
+
 
 void canvas::keyPressEvent(QKeyEvent* ev) {
     
@@ -205,5 +203,9 @@ void canvas::invoke_save()
 void canvas::invoke_load()
 {
     cm->activate_command(cm->find_command("incmdDesignLoad"));
+}
 
+void canvas::reset()
+{
+    cm->activate_command(cm->find_command("incmdDesignNew"));
 }
