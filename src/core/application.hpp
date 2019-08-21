@@ -2,16 +2,25 @@
 #define application_hpp
 
 #include "service.h"
+#include "../io/messenger.hpp"
 
-enum appMode {NORM,REPLAY,TESTING};
+#include <QString>
+
+enum appMode {APPNORM, APPREPLAY, APPTESTING, APPLOAD};
 
 class Application: public Service<Application> //, public QApplication
 {
     appMode m_mode;
     public:
         //using QApplication::QApplication;
-        Application() { m_mode = NORM; }
-        void set_replay_mode(bool m) { m_mode = m?REPLAY:NORM; }
+        Application() { m_mode = APPNORM; }
+        
+        void set_replay_mode(bool m) { 
+            Messenger::expose_msg(info,"Set to mode"+QString::number(int(m)).toStdString());
+            m_mode = m?APPREPLAY:APPNORM; 
+        }
+        
+        void set_mode(const appMode& m) { m_mode = m; } 
         appMode get_mode() { return m_mode; }
         
     public:
@@ -24,8 +33,10 @@ class Application: public Service<Application> //, public QApplication
         }
         /**/
         
-        static bool is_replay_mode() { return ( Application::get_instance()->get_mode() == REPLAY); }
-        static bool is_testing_mode() { return (Application::get_instance()->get_mode() == TESTING); }
+        static bool is_replay_mode() { return ( Application::get_instance()->get_mode() == APPREPLAY); }
+        static bool is_testing_mode() { return (Application::get_instance()->get_mode() == APPTESTING); }
+        static bool is_load_mode() { return (Application::get_instance()->get_mode() == APPLOAD); }
+        
 };
 
 

@@ -2,6 +2,7 @@
 
 #include "../core/postman.hpp"
 #include "../core/callback.hpp"
+#include "../core/application.hpp"
 
 #include <QString>
 #include <QDateTime>
@@ -91,7 +92,10 @@ std::string Messenger::decorate_for_logging(const LogMsgSeverity& r) {
 //FIXME
 void Messenger::expose_internal(const LogMsgSeverity& severity, const std::string& m , bool iscmd) 
 {
-	QString lines(m.c_str());
+	if ( Application::is_load_mode() )
+            return;
+        
+        QString lines(m.c_str());
         for ( auto line : lines.split("\n") ) {
             std::string msg = line.toStdString();
             write_entry_to_console_gui(severity,msg);

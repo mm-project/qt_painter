@@ -40,7 +40,7 @@ bool LogReader::replay_logfile(const std::string& fname) {
     if ( lines.size() == 0 )
         return false;
 
-    std::cout << "noway" << std::endl;
+    //std::cout << "noway" << std::endl;
     Application::get_instance()->set_replay_mode(true);
     
     for (  auto line : lines  ) {
@@ -53,11 +53,29 @@ bool LogReader::replay_logfile(const std::string& fname) {
     return true;
 }
 
+bool LogReader::replay_logfile_imi(const std::string& fname) {
+    QStringList lines = read_file(fname);
+    
+    if ( lines.size() == 0 )
+        return false;
+
+    //std::cout << "noway" << std::endl;
+    Application::get_instance()->set_mode(APPLOAD);
+    
+    for (  auto line : lines  ) {
+        replay_cmd(line.toStdString());
+    }
+
+    Application::get_instance()->set_replay_mode(false);
+
+    return true;    
+}
+
 void LogReader::replay_cmd(const std::string& cmd_str ) {
-    Application::get_instance()->set_replay_mode(true);
+    //Application::get_instance()->set_replay_mode(true);
     m_command_queue.push(QString::fromStdString(cmd_str));
     execute_next_command();
-    Application::get_instance()->set_replay_mode(false);
+    //Application::get_instance()->set_replay_mode(false);
 
 }
 

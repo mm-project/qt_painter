@@ -32,7 +32,9 @@ class LogReader : public QObject
     public:
         LogReader();
         bool replay_logfile(const std::string& fname);
+        bool replay_logfile_imi(const std::string& fname);
         void replay_cmd(const std::string& str);
+        
 
     private slots:
         void execute_next_command();

@@ -10,6 +10,8 @@
 
 #include <QPoint>
 
+#include <iostream>
+
 class dicmdDesignLoad : public DirectCommandBase 
 {
         IObjectPoolPtr ws;
@@ -26,7 +28,7 @@ public:
         virtual void execute() {
                 ws->clear();
                 std::string fname(GET_CMD_ARG(StringCommandOptionValue,"-filename"));
-                if ( ! LogReader().replay_logfile(fname) )
+                if ( ! LogReader().replay_logfile_imi(fname) )
                     throw 1;
         }
 	
@@ -91,10 +93,12 @@ public:
         }
             
     private:
-        std::vector<PointCommandOptionValue> transform(const std::vector<QPoint>& v) {
-                std::vector<PointCommandOptionValue> res(v.size());
-                for ( auto it: v ) 
+        std::vector<PointCommandOptionValue> transform(const std::vector<QPoint>& v) 
+        {
+                std::vector<PointCommandOptionValue> res;//(v.size());
+                for ( auto it : v ) {
                     res.push_back(PointCommandOptionValue(it));
+                }
                 return res;
         }
 

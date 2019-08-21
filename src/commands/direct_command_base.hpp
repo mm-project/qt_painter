@@ -46,6 +46,8 @@ class DirectCommandBase: public CommandBase
             
             if ( clean )
                 Messenger::expose_msg(out,get_cmdname_and_stringified_opts(),is_transaction_cmd());
+            else
+                Messenger::expose_msg(err,"unknown error");
         }
  
         virtual CommandType get_type() {
