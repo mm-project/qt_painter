@@ -17,10 +17,10 @@ enum panDirection { PANUP, PANDOWN, PANLEFT, PANRIGHT };
 class canvasTransformClbkDt: public LeCallbackData
 {
     public:
-        canvasTransformClbkDt(int kx, int dx, int ky,int dy):m_kx(kx),m_dx(dx),m_ky(ky),m_dy(dy) {}
+        canvasTransformClbkDt(float kx, int dx, float ky,int dy):m_kx(kx),m_dx(dx),m_ky(ky),m_dy(dy) {}
         
-        int m_kx = 1;
-        int m_ky = 1;
+        float m_kx = 1;
+        float m_ky = 1;
         int m_dx = 0;
         int m_dy = 0;
     
@@ -32,7 +32,7 @@ class renderer
 	IObjectPoolPtr m_working_set;
 	ObjectPoolSandboxPtr m_sandbox;
 	int m_scale = 15;
-        int m_pan_step = 5;
+        int m_pan_step = 15;
         QPoint m_origin_point = {0,0};
         bool m_need_adjustment = false;
         QRect* m_users_pov_rect;
@@ -105,9 +105,11 @@ class renderer
         }
 
         void zoomout() {
-            if ( m_zoom_factor > 1 ) 
-                    m_zoom_factor/=2;
-            notify_viewport_changed();
+            std::cout << "zzomout" << m_zoom_factor << std::endl;
+            if ( m_zoom_factor > 0.05 ) {
+                    m_zoom_factor*=0.5;
+                    notify_viewport_changed();
+            }
         }
 
         void notify_viewport_changed() 
@@ -132,7 +134,7 @@ class renderer
         
         void draw_background() {
             m_qt_painter->setBrush(QBrush(Qt::black));
-            m_qt_painter->drawRect(QRect(QPoint(-1*m_origin_point.x(),-1*m_origin_point.y()), m_plane->size()));
+            m_qt_painter->drawRect(QRect(QPoint(m_origin_point.x(),m_origin_point.y()), m_plane->size()));
             //m_plane->setStyleSheet("background-color:black;");
         }
 
@@ -216,7 +218,7 @@ class renderer
 		
 		
     private:
-            int m_zoom_factor;
+            float m_zoom_factor;
             
     private:
             QPainter* m_qt_painter;

@@ -29,6 +29,10 @@ int main(int argc, char** argv)
 {
 #ifdef OS_LINUX
         signal(SIGSEGV, handler);   
+        signal(SIGILL, handler);   
+        signal(SIGFPE, handler); 
+        signal(SIGTERM, handler);
+        signal(SIGABRT, handler);
 #endif
         QApplication app(argc, argv);
 	main_window window;

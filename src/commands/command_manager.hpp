@@ -75,8 +75,8 @@ class command_manager
         IObjectPoolPtr ws;
         //bool m_is_idle;
         QWidget* m_main_widget	= nullptr;
-        int m_kx = 1;
-        int m_ky = 1;
+        float m_kx = 1;
+        float m_ky = 1;
         int m_dx = 0;
         int m_dy = 0;
 
