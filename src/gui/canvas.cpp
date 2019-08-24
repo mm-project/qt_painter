@@ -37,6 +37,7 @@ canvas::canvas(QWidget* p)
 	setFocusPolicy(Qt::StrongFocus);
 	setMouseTracking(true);
 	setObjectName("CANVAS");
+        //setStyleSheet("background-color:black;");
 	
         //fixme need preferences
         m_need_motionlog = !QString::fromLocal8Bit( qgetenv("PAINTER_LOG_MOTION").constData() ).isEmpty();
@@ -62,15 +63,15 @@ canvas::canvas(QWidget* p)
 	cm->register_command(new INCMD_CREATE_OBJ(POLYGON));
 	cm->register_command(new INCMD_HIGHLIGHT_BY_REGION);
 	cm->register_command(new INCMD_HIGHLIGHT_BY_POINT);
-    cm->register_command(new dicmdCreateObj<RECTANGLE>(m_working_set));
-    cm->register_command(new dicmdCreateObj<LINE>(m_working_set));
-    cm->register_command(new dicmdCreateObj<ELLIPSE>(m_working_set));
-    cm->register_command(new dicmdCreateObj<POLYGON>(m_working_set));
-    cm->register_command(new InteractiveDesAction<LOAD>(m_working_set));
-    cm->register_command(new InteractiveDesAction<SAVE>(m_working_set));
-    cm->register_command(new InteractiveDesAction<NEW>(m_working_set));   
-    cm->register_command(new dicmdDesignSave(m_working_set));
-    cm->register_command(new dicmdDesignLoad(m_working_set));
+        cm->register_command(new dicmdCreateObj<RECTANGLE>(m_working_set));
+        cm->register_command(new dicmdCreateObj<LINE>(m_working_set));
+        cm->register_command(new dicmdCreateObj<ELLIPSE>(m_working_set));
+        cm->register_command(new dicmdCreateObj<POLYGON>(m_working_set));
+        cm->register_command(new InteractiveDesAction<LOAD>(m_working_set));
+        cm->register_command(new InteractiveDesAction<SAVE>(m_working_set));
+        cm->register_command(new InteractiveDesAction<NEW>(m_working_set));   
+        cm->register_command(new dicmdDesignSave(m_working_set));
+        cm->register_command(new dicmdDesignLoad(m_working_set));
         
 }
 
@@ -81,6 +82,7 @@ void canvas::keyPressEvent(QKeyEvent* ev) {
     //binding goes here
     //if(ev->modifiers() & Qt::ShiftModifier) {
         //if ( ev->key() == Qt::Key_1 )  cm->find_command("dicmdQaCompareCanvas")->execute();
+        //better handling
         if ( ev->key() == Qt::Key_2 )  
             cm->find_command("dicmdQaCompareSelection")->execute_and_log();
         else if ( ev->key() == Qt::Key_Z ) 

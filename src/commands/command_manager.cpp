@@ -125,21 +125,22 @@ void command_manager::on_viewport_changed(LeCallbackData& d)
     m_dx = d1.m_dx;
     m_ky = d1.m_ky;
     m_dy = d1.m_dy;
-    std::cout << "&&&\n";
+    /*std::cout << "&&&\n";
     std::cout << m_kx << " " << m_ky << std::endl;
     std::cout << m_dx << " " << m_dy << std::endl;
     std::cout << "***\n";
+    */
     
 }
 
 void command_manager::mouse_dbl_clicked(int x, int y) {
-    std::cout << x << "(" << x/m_kx-m_dx << ")  --- " << y << "(" << y/m_ky-m_dy << ")" << std::endl;  
+    //std::cout << x << "(" << x/m_kx-m_dx << ")  --- " << y << "(" << y/m_ky-m_dy << ")" << std::endl;  
 
     m_current_command->handle_mouse_dblclick(x/m_kx-m_dx,y/m_ky-m_dy);
 }
 
 void command_manager::mouse_clicked(int x, int y) {
-    std::cout << x << "(" << x/m_kx-m_dx << ")  --- " << y << "(" << y/m_ky-m_dy << ")" << std::endl;  
+   // std::cout << x << "(" << x/m_kx-m_dx << ")  --- " << y << "(" << y/m_ky-m_dy << ")" << std::endl;  
     m_current_command->handle_mouse_click(x/m_kx-m_dx,y/m_ky-m_dy);
 }
 
