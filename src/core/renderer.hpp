@@ -139,7 +139,10 @@ class renderer
             auto _w = s.width();            
             int w = _w/m_zoom_factor; //m_zoom_factor>1?m_zoom_factor/_w:m_zoom_factor/_w;
             int h = _h/m_zoom_factor; //m_zoom_factor>1?m_zoom_factor/_h:m_zoom_factor*_h;
-            m_qt_painter->drawRect(QRect(m_origin_point, QSize(w,h)));
+            int x = -1*m_origin_point.x();//m_origin_point.x() > 0 ? -1*m_origin_point.x() : m_origin_point.x();
+            int y = -1*m_origin_point.y(); //m_origin_point.y() > 0 ? -1*m_origin_point.y() : m_origin_point.y();
+            
+            m_qt_painter->drawRect(QRect(QPoint(x,y), QSize(w,h)));
             //m_plane->setStyleSheet("background-color:black;");
         }
 
