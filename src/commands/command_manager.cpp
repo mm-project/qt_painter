@@ -133,18 +133,18 @@ void command_manager::on_viewport_changed(LeCallbackData& d)
 }
 
 void command_manager::mouse_dbl_clicked(int x, int y) {
-    std::cout << x << "(" << x/m_kx+m_dx << ")  --- " << y << "(" << y/m_ky+m_dy << ")" << std::endl;  
+    std::cout << x << "(" << x/m_kx-m_dx << ")  --- " << y << "(" << y/m_ky-m_dy << ")" << std::endl;  
 
-    m_current_command->handle_mouse_dblclick(x/m_kx+m_dx,y/m_ky+m_dy);
+    m_current_command->handle_mouse_dblclick(x/m_kx-m_dx,y/m_ky-m_dy);
 }
 
 void command_manager::mouse_clicked(int x, int y) {
-    std::cout << x << "(" << x/m_kx+m_dx << ")  --- " << y << "(" << y/m_ky+m_dy << ")" << std::endl;  
-    m_current_command->handle_mouse_click(x/m_kx+m_dx,y/m_ky+m_dy);
+    std::cout << x << "(" << x/m_kx-m_dx << ")  --- " << y << "(" << y/m_ky-m_dy << ")" << std::endl;  
+    m_current_command->handle_mouse_click(x/m_kx-m_dx,y/m_ky-m_dy);
 }
 
 void command_manager::mouse_moved(int x, int y) {
-    m_current_command->handle_mouse_move(x/m_kx+m_dx,y/m_ky+m_dy);
+    m_current_command->handle_mouse_move(x/m_kx-m_dx,y/m_ky-m_dy);
 }
 
 //FIXME interface?

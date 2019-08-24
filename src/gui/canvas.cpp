@@ -88,7 +88,13 @@ void canvas::keyPressEvent(QKeyEvent* ev) {
         else if ( ev->key() == Qt::Key_X ) 
             m_renderer->zoomin();
         else if ( ev->key() == Qt::Key_Up )
+            m_renderer->pan(PANUP);
+        else if ( ev->key() == Qt::Key_Down )
+            m_renderer->pan(PANDOWN);
+        else if ( ev->key() == Qt::Key_Left )
             m_renderer->pan(PANLEFT);
+        else if ( ev->key() == Qt::Key_Right )
+            m_renderer->pan(PANRIGHT);
         else {
             if( cm->is_idle() ) 
                 return;
