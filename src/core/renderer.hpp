@@ -134,7 +134,12 @@ class renderer
         
         void draw_background() {
             m_qt_painter->setBrush(QBrush(Qt::black));
-            m_qt_painter->drawRect(QRect(QPoint(m_origin_point.x(),m_origin_point.y()), m_plane->size()));
+            QSize s = m_plane->size();
+            auto _h = s.height();
+            auto _w = s.width();            
+            int w = _w/m_zoom_factor; //m_zoom_factor>1?m_zoom_factor/_w:m_zoom_factor/_w;
+            int h = _h/m_zoom_factor; //m_zoom_factor>1?m_zoom_factor/_h:m_zoom_factor*_h;
+            m_qt_painter->drawRect(QRect(m_origin_point, QSize(w,h)));
             //m_plane->setStyleSheet("background-color:black;");
         }
 
