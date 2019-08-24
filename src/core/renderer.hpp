@@ -10,6 +10,8 @@
 #include <QWidget>
 #include <QPoint>
 
+enum panDirection { PANUP, PANDOWN, PANLEFT, PANRIGHT };
+
 class canvasTransformClbkDt: public LeCallbackData
 {
     public:
@@ -58,29 +60,51 @@ class renderer
             painter->end();
         }
         
+        void pan(panDirection d) {
+            switch (d) {
+                case PANLEFT: m_zoom_point.setX(m_zoom_point.y()+10); 
+                            break;
+                case PANRIGHT: m_zoom_point.setX(m_zoom_point.y()-10); 
+                            break;
+                case PANUP: m_zoom_point.setY(m_zoom_point.x()+10); 
+                            break;
+                case PANDOWN: m_zoom_point.setY(m_zoom_point.x()-10); 
+                            break;
+            }
+            notify_viewport_changed();    
+        }
+                
+        void zoomin_p(QPoint p) {
+            m_zoom_point = p;
+            zoomin();
+        }
+        
+        void zoomout_p(QPoint p) {
+            m_zoom_point = p;
+            zoomout();
+        }
+
         void zoomin() {
             m_zoom_factor*=2;
-            canvasTransformClbkDt d(m_zoom_factor,1,m_zoom_factor,1);
-            NOTIFY(CANVAS_VIEWPORT_CHANGED,d);
+            notify_viewport_changed();
+
         }
 
-        void zoomin_p(QPoint p) {
-            zoomin();
-            //m_zoom_point = p;
-        }
-        
         void zoomout() {
-            m_zoom_point = QPoint(0,0);
-            if ( m_zoom_factor > 1 )
-				m_zoom_factor/=2;
-        
-            canvasTransformClbkDt d(m_zoom_factor,1,m_zoom_factor,1);
-            NOTIFY(CANVAS_VIEWPORT_CHANGED,d);
+            if ( m_zoom_factor > 1 ) 
+                    m_zoom_factor/=2;
+            notify_viewport_changed();
         }
 
+        void notify_viewport_changed() 
+        {
+            canvasTransformClbkDt d(m_zoom_factor,m_zoom_point.x(),m_zoom_factor,m_zoom_point.y());
+            NOTIFY(CANVAS_VIEWPORT_CHANGED,d);
+        }
+        
         int get_zoom_factor() const
         {
-                    return m_zoom_factor;
+            return m_zoom_factor;
         }
 
         //void pan(int x, int y) {
@@ -129,7 +153,7 @@ class renderer
 		
 		void make_viewport_adjustments() {
 			painter->scale(m_zoom_factor,m_zoom_factor);
-                        //painter->translate(QPoint(-1*m_zoom_point.x(),-1*m_zoom_point.y()));
+                        painter->translate(QPoint(m_zoom_point.x(),m_zoom_point.y()));
                 }
         
 		void draw_all() {
