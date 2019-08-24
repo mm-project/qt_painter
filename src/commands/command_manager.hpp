@@ -9,6 +9,7 @@
 
 #include "../core/runtime_environment.hpp"
 #include "../core/working_set.hpp"
+#include "../core/callback.hpp"
 
 // Stl
 #include <string>
@@ -54,6 +55,8 @@ class command_manager
         void key_pressed();
         void update();
         
+        void on_viewport_changed(LeCallbackData& d);
+
         
     private:
         //FIXME !!! map with string
@@ -72,10 +75,16 @@ class command_manager
         IObjectPoolPtr ws;
         //bool m_is_idle;
         QWidget* m_main_widget	= nullptr;
+        int m_kx = 1;
+        int m_ky = 1;
+        int m_dx = 0;
+        int m_dy = 0;
 
     public:
         static command_manager* m_instance;
 };
+
+
 
 
 

@@ -83,6 +83,10 @@ void canvas::keyPressEvent(QKeyEvent* ev) {
         //if ( ev->key() == Qt::Key_1 )  cm->find_command("dicmdQaCompareCanvas")->execute();
         if ( ev->key() == Qt::Key_2 )  
             cm->find_command("dicmdQaCompareSelection")->execute_and_log();
+        else if ( ev->key() == Qt::Key_Z ) 
+            m_renderer->zoomout();
+        else if ( ev->key() == Qt::Key_X ) 
+            m_renderer->zoomin();
         else {
             if( cm->is_idle() ) 
                 return;

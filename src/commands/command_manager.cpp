@@ -7,6 +7,10 @@
 #include "selection_commands.hpp"
 #include "qa_commands.hpp"
 
+#include "../core/postman.hpp"
+#include "../core/callback.hpp"
+#include "../core/renderer.hpp"
+
 
 #include <cassert>
 
@@ -19,6 +23,8 @@ void command_manager::init2(ObjectPoolSandboxPtr r, IObjectPoolPtr s) {
     ws = {s};
     m_current_command = {0};
     m_idle_command = new incmdIdle();
+    
+    REGISTER_CALLBACK(CANVAS_VIEWPORT_CHANGED,&command_manager::on_viewport_changed);
 }
 
 //FIMXE should be called from outside
@@ -111,16 +117,34 @@ void command_manager::event_wrapper() {
 }
 */
 
+
+void command_manager::on_viewport_changed(LeCallbackData& d)
+{
+    canvasTransformClbkDt& d1 = dynamic_cast<canvasTransformClbkDt&>(d);
+    m_kx = d1.m_kx;
+    m_dx = d1.m_dx;
+    m_ky = d1.m_ky;
+    m_dy = d1.m_dy;
+    std::cout << "&&&\n";
+    std::cout << m_kx << " " << m_ky << std::endl;
+    std::cout << m_dx << " " << m_dy << std::endl;
+    std::cout << "***\n";
+    
+}
+
 void command_manager::mouse_dbl_clicked(int x, int y) {
-    m_current_command->handle_mouse_dblclick(x,y);
+    std::cout << x << "(" << x/m_kx+m_dx << ")  --- " << y << "(" << y/m_ky+m_dy << ")" << std::endl;  
+
+    m_current_command->handle_mouse_dblclick(x/m_kx+m_dx,y/m_ky+m_dy);
 }
 
 void command_manager::mouse_clicked(int x, int y) {
-    m_current_command->handle_mouse_click(x,y);
+    std::cout << x << "(" << x/m_kx+m_dx << ")  --- " << y << "(" << y/m_ky+m_dy << ")" << std::endl;  
+    m_current_command->handle_mouse_click(x/m_kx+m_dx,y/m_ky+m_dy);
 }
 
 void command_manager::mouse_moved(int x, int y) {
-     m_current_command->handle_mouse_move(x,y);
+    m_current_command->handle_mouse_move(x/m_kx+m_dx,y/m_ky+m_dy);
 }
 
 //FIXME interface?

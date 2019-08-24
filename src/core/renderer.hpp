@@ -3,10 +3,24 @@
 
 #include "iobject_pool.hpp"
 #include "runtime_environment.hpp"
+#include "postman.hpp"
+#include "callback.hpp"
 
 #include <QPainter>
 #include <QWidget>
 #include <QPoint>
+
+class canvasTransformClbkDt: public LeCallbackData
+{
+    public:
+        canvasTransformClbkDt(int kx, int dx, int ky,int dy):m_kx(kx),m_dx(dx),m_ky(ky),m_dy(dy) {}
+        
+        int m_kx = 1;
+        int m_ky = 1;
+        int m_dx = 0;
+        int m_dy = 0;
+    
+};
 
 // REPONSIBLE FOR VIEWPORT CONTROLL
 class renderer
@@ -14,7 +28,7 @@ class renderer
 	IObjectPoolPtr m_working_set;
 	ObjectPoolSandboxPtr m_sandbox;
 	int m_scale = 15;
-    QPoint m_zoom_point = {0,0};
+        QPoint m_zoom_point = {0,0};
 	
     //Q_OBJECT
     public:
@@ -44,22 +58,30 @@ class renderer
             painter->end();
         }
         
-        void zoomin(QPoint p) {
+        void zoomin() {
             m_zoom_factor*=2;
-            m_zoom_point = p;
-            
+            canvasTransformClbkDt d(m_zoom_factor,1,m_zoom_factor,1);
+            NOTIFY(CANVAS_VIEWPORT_CHANGED,d);
+        }
+
+        void zoomin_p(QPoint p) {
+            zoomin();
+            //m_zoom_point = p;
         }
         
         void zoomout() {
             m_zoom_point = QPoint(0,0);
             if ( m_zoom_factor > 1 )
 				m_zoom_factor/=2;
+        
+            canvasTransformClbkDt d(m_zoom_factor,1,m_zoom_factor,1);
+            NOTIFY(CANVAS_VIEWPORT_CHANGED,d);
         }
 
-		int get_zoom_factor() const
-		{
-			return m_zoom_factor;
-		}
+        int get_zoom_factor() const
+        {
+                    return m_zoom_factor;
+        }
 
         //void pan(int x, int y) {
         //	
@@ -107,14 +129,14 @@ class renderer
 		
 		void make_viewport_adjustments() {
 			painter->scale(m_zoom_factor,m_zoom_factor);
-            painter->translate(QPoint(-1*m_zoom_point.x(),-1*m_zoom_point.y()));
-        }
+                        //painter->translate(QPoint(-1*m_zoom_point.x(),-1*m_zoom_point.y()));
+                }
         
 		void draw_all() {
-            draw_background();
+                        draw_background();
 			draw_grid();
 			draw_runtime_pools();
-            draw_objects();
+                        draw_objects();
 		}
 		
 		void draw_objects() {
@@ -144,7 +166,7 @@ class renderer
 		
 		void zoom(int factor, QPoint p ) {
 			if ( factor > 0 )
-				zoomin(p);
+				zoomin_p(p);
 			else
 				zoomout();
 		}
