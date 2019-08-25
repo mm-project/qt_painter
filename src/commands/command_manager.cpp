@@ -131,6 +131,7 @@ void command_manager::on_viewport_changed(LeCallbackData& d)
     std::cout << m_dx << " " << m_dy << std::endl;
     std::cout << "***\n";
     /**/
+   
     
 }
 

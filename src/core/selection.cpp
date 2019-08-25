@@ -71,7 +71,7 @@ void Selection::highlight_on_off(bool m_h_on) {
 		sp.pen_color = Qt::yellow;
                 sp.brush_color = Qt::blue;
                 sp.pen_style = Qt::DotLine;
-                sp.brush_style = Qt::CrossPattern;
+                sp.brush_style = Qt::DiagCrossPattern;
                 sp.pen_width = 5;
         } else {
 		sp.pen_color = Qt::white;

@@ -86,9 +86,9 @@ void canvas::keyPressEvent(QKeyEvent* ev) {
         if ( ev->key() == Qt::Key_2 )  
             cm->find_command("dicmdQaCompareSelection")->execute_and_log();
         else if ( ev->key() == Qt::Key_Z ) 
-            m_renderer->zoomout();
+            m_renderer->zoomout_p(m_last_cursor);
         else if ( ev->key() == Qt::Key_X ) 
-            m_renderer->zoomin();
+            m_renderer->zoomin_p(m_last_cursor);
         else if ( ev->key() == Qt::Key_Up )
             m_renderer->pan(PANUP);
         else if ( ev->key() == Qt::Key_Down )
@@ -132,6 +132,7 @@ void canvas::current_type_changed()
 
 void canvas::mouseMoveEvent(QMouseEvent* e)
 {
+    m_last_cursor = e->pos();
     if( cm->is_idle() ) 
         return;
 

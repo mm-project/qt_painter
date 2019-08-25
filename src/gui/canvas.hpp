@@ -50,6 +50,7 @@ private:
         command_manager* cm;
         renderer* m_renderer;
         int m_scale = 15;
+        QPoint m_last_cursor = {0,0};
 };
 
 

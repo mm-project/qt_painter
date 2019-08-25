@@ -16,7 +16,7 @@
 #include <string>
 
 template <ObjectType T>
-class dicmdCreateObj : public DirectCommandBase 
+class dicmdCreateObj : public DirectCommandBase  
 {
 
         IShape* m_shape;    
@@ -56,7 +56,9 @@ public:
 	virtual std::string get_name() {
 		return "dicmdCreateObj"+ObjType2String(T);
         }
-            
+         
+         
 };
+
 
 #endif

@@ -85,16 +85,26 @@ class renderer
                 if ( factor > 0 )
                         zoomin_p(p);
                 else
-                        zoomout();
+                        zoomout_p(p);
         }
-                
-        void zoomin_p(QPoint p) {
-            m_origin_point = p;
-            zoomin();
+
+        
+        void prezoom(QPoint p) {
+            
+            
         }
         
+        void zoomin_p(QPoint p) {
+            std::cout << "!!!!!!!!!!!!!!!!!!!!" << p.x() << " " << p.y() << std::endl;
+            m_origin_point = m_zoom_factor*p;
+            zoomin();
+            //notify_viewport_changed();
+        }
+        
+        
         void zoomout_p(QPoint p) {
-            m_origin_point = p;
+            //m_origin_point = m_origin_point - p;
+            m_origin_point = m_zoom_factor*p;
             zoomout();
         }
 
@@ -146,14 +156,19 @@ class renderer
             //m_plane->setStyleSheet("background-color:black;");
         }
 
+        //broken
+        /*
         void draw_grid() {
+            m_qt_painter->scale(1,1);
+            m_qt_painter->translate(QPoint(0,0);
+
             QPen white(Qt::red);
             white.setWidth(1);
             white.setJoinStyle(Qt::RoundJoin);
             white.setCapStyle(Qt::RoundCap);
-            int _height = 1000;//m_origin_point.y()>0?m_plane->height()+m_origin_point.y():m_plane->height()-m_origin_point.y();
-            int _width = 1000;//*m_origin_point.x()+m_plane->size().width()-20; //m_plane->size().width();///m_pan_step0;//m_origin_point.x()>0?m_plane->width()+m_origin_point.x():m_plane->width()-m_origin_point.x();
-            int startx = -1*m_origin_point.x();
+            int _height = m_plane->height();//m_origin_point.y()>0?m_plane->height()+m_origin_point.y():m_plane->height()-m_origin_point.y();
+            int _width = m_plane->width();//*m_origin_point.x()+m_plane->size().width()-20; //m_plane->size().width();///m_pan_step0;//m_origin_point.x()>0?m_plane->width()+m_origin_point.x():m_plane->width()-m_origin_point.x();
+            int startx = 0
             int starty = -1*m_origin_point.y();
             for (int i = startx, _i = startx; i < _width; i += m_scale, ++_i)
                     for (int j = starty, _j = starty; j < _height; j += m_scale, ++_j)
@@ -168,7 +183,7 @@ class renderer
                             white.setWidth(1);
                     }
         }
-        
+        */
         
         void draw_objects() {
                 // draw working set
@@ -187,7 +202,7 @@ class renderer
                 //std::cout << "adjust!!! " << std::endl;
                 //musers_pov_rect->setTopLeft(m_origin_point);
                 m_qt_painter->scale(m_zoom_factor,m_zoom_factor);
-                m_qt_painter->translate(QPoint(m_origin_point.x(),m_origin_point.y()));
+                m_qt_painter->translate(m_origin_point);
                 //m_users_pov_rect->adjust(0,0,-1*m_origin_point.y(),-1*m_origin_point.x());
                 m_need_adjustment = false;
         }
@@ -212,7 +227,7 @@ class renderer
         
         void draw_all() {
                 draw_background();
-                draw_grid();            
+                //draw_grid();            
                 draw_objects();
                 draw_runtime_pools();
         }
