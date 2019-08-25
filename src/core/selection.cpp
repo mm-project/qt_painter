@@ -34,13 +34,7 @@ void Selection::set_sandbox(ObjectPoolSandbox* ops) {
 void Selection::select_and_highlight_shape_under_pos(const QPoint& p) {
 	clear();
 	highlight_on_off(false);
-
-
-	//FIXME need only one init during shape creation
-	RegionQuery& rq = RegionQuery::getInstance();
-	for (auto obj : m_ws->getObjects())
-		rq.insertObject(obj);
-
+        RegionQuery& rq = RegionQuery::getInstance();
 	IShape* shape = rq.getShapeUnderPos(p);
 	if (shape != nullptr)
 	{
@@ -55,15 +49,9 @@ void Selection::find_by_range_and_add_to_selected(const std::pair<QPoint,QPoint>
 	if ( m_ws->getObjects().empty() )
 		return;
 
-	highlight_on_off(false);
-	
-	RegionQuery& rq = RegionQuery::getInstance();
-	for (auto obj : m_ws->getObjects())
-		rq.insertObject(obj);
-
-	std::vector<IShape*> shapes = rq.getShapesUnderRect(QRect(point.first, point.second));
-	
-	for (auto it : shapes)
+        highlight_on_off(false);	
+        RegionQuery& rq = RegionQuery::getInstance();
+        for (auto it : rq.getShapesUnderRect(QRect(point.first, point.second)))
 		addObject(it);
 
 	highlight_on_off(true);
@@ -79,11 +67,20 @@ void Selection::highlight_on_off(bool m_h_on) {
 	
 	//FIXME remember old propoerties by map
 	ShapeProperties sp;
-	if ( m_h_on )
-		sp.pen_color = Qt::red;
-	else
+	if ( m_h_on ) {
+		sp.pen_color = Qt::yellow;
+                sp.brush_color = Qt::blue;
+                sp.pen_style = Qt::DotLine;
+                sp.brush_style = Qt::CrossPattern;
+                sp.pen_width = 5;
+        } else {
 		sp.pen_color = Qt::white;
-	
+                sp.brush_color = Qt::black;
+                sp.pen_style = Qt::SolidLine;
+                sp.brush_style = Qt::NoBrush;
+                sp.pen_width = 1;
+        }
+        
 	for ( auto it: getObjects() ) {
 		it->updateProperties(sp);
 		m_sb->addObject(it);

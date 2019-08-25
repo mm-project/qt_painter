@@ -7,6 +7,7 @@
 #include "../core/runtime_environment.hpp"
 
 #include "../io/messenger.hpp"
+#include "../core/rq/RegionQueryService.hpp"
 
 #include <QFile>
 #include <QTextStream>
@@ -20,9 +21,9 @@ class dicmdCreateObj : public DirectCommandBase
 
         IShape* m_shape;    
         IObjectPoolPtr ws;
-        
+        //RegionQuery& rq;
 public:
-        dicmdCreateObj<T>(IObjectPoolPtr s): ws(s) {
+        dicmdCreateObj<T>(IObjectPoolPtr s): ws(s) { //rq(RegionQuery::getInstance()) {
                 add_option("-points",new PointListCommandOptionValue());
         }
 
@@ -41,13 +42,17 @@ public:
         }
         
 	virtual void execute() {
-                //std::vector<QPoint> v(GET_CMD_ARG(PointListCommandOptionValue,"-points"));
+               RegionQuery& rq = RegionQuery::getInstance();
+                //* //std::vector<QPoint> v(GET_CMD_ARG(PointListCommandOptionValue,"-points"));
                 m_shape = ShapeCreator::getInstance()->create(T);
                 for( auto it: GET_CMD_ARG(PointListCommandOptionValue,"-points") )
                     m_shape->addPoint(it.get());
+
                 ws->addObject(m_shape);
-	}
-	
+                rq.insertObject(m_shape);
+                /**/
+        }
+        
 	virtual std::string get_name() {
 		return "dicmdCreateObj"+ObjType2String(T);
         }
