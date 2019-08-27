@@ -80,7 +80,8 @@ main_window::main_window(QWidget* p)
 {
 	m_canvas = new canvas(this);
 	m_shapes = new create_shape_gui(this);
-	m_console = new Console(this);
+	QDockWidget* console_widget = new QDockWidget(this);
+	m_console = new ConsoleAssistant(*console_widget, this);
 	m_console->setFixedHeight(145);
 
 	QDockWidget* w = new QDockWidget(this);
@@ -90,7 +91,6 @@ main_window::main_window(QWidget* p)
 	w->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 	addDockWidget(Qt::TopDockWidgetArea, w);
 
-	QDockWidget* console_widget = new QDockWidget("Console", this);
 	console_widget->setWidget(m_console);
 	addDockWidget(Qt::BottomDockWidgetArea, console_widget);
 

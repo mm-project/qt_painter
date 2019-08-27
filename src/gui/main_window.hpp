@@ -10,7 +10,7 @@
 
 class canvas;
 class create_shape_gui;
-class Console;
+class ConsoleAssistant;
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -33,7 +33,7 @@ private:
 private:
 	canvas* m_canvas;
 	create_shape_gui* m_shapes;
-	Console* m_console;
+	ConsoleAssistant* m_console;
 };
 
 #endif
