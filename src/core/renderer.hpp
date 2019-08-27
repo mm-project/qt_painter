@@ -95,30 +95,38 @@ class renderer
         }
         
         void zoomin_p(QPoint p) {
-            std::cout << "!!!!!!!!!!!!!!!!!!!!" << p.x() << " " << p.y() << std::endl;
-            m_origin_point = m_zoom_factor*p;
+            std::cout << "in!!!!!!!!!!!!!!!!!!!!" << p.x() << " " << p.y() << std::endl;
+
             zoomin();
-            //notify_viewport_changed();
+            m_origin_point = p;
+
+            std::cout << "NNNNN!!!!!!!!!!!!!!!!!!!!" << m_origin_point.x() << " " << m_origin_point.y() << std::endl;
+
+            notify_viewport_changed();
         }
         
         
         void zoomout_p(QPoint p) {
+            std::cout << "OU!!!!!!!!!!!!!!!!!!!!" << p.x() << " " << p.y() << std::endl;
+
             //m_origin_point = m_origin_point - p;
-            m_origin_point = m_zoom_factor*p;
             zoomout();
+            m_origin_point = p;
+            
+            notify_viewport_changed();
         }
 
         void zoomin() {
-            m_zoom_factor*=2;
-            notify_viewport_changed();
+            m_zoom_factor*=1.2;
+            //notify_viewport_changed();
 
         }
 
         void zoomout() {
             std::cout << "zzomout" << m_zoom_factor << std::endl;
             if ( m_zoom_factor > 0.05 ) {
-                    m_zoom_factor*=0.5;
-                    notify_viewport_changed();
+                    m_zoom_factor*=0.8;
+                    //notify_viewport_changed();
             }
         }
 
