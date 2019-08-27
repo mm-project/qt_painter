@@ -14,7 +14,7 @@ ConsoleWidget::ConsoleWidget(QWidget* parent)
 	// viewer part
 	m_view = new QTextEdit(this);
 	m_view->setTextInteractionFlags(Qt::TextSelectableByMouse);
-	m_view->setFixedHeight(120);
+	//m_view->setMinimumHeight(100);
 	m_view->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
 	// writable part
 	m_console = new QLineEdit(this);
@@ -88,7 +88,7 @@ OutputWidget::OutputWidget(QWidget* parent) : QFrame(parent)
 {
 	m_view = new QTextEdit(this);
 	m_view->setTextInteractionFlags(Qt::TextSelectableByMouse);
-	m_view->setFixedHeight(120);
+	//m_view->setMinimumHeight(100);
 	m_view->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
 
 	QVBoxLayout* layout = new QVBoxLayout;

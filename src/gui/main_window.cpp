@@ -82,7 +82,7 @@ main_window::main_window(QWidget* p)
 	m_shapes = new create_shape_gui(this);
 	QDockWidget* console_widget = new QDockWidget(this);
 	m_console = new ConsoleAssistant(*console_widget, this);
-	m_console->setFixedHeight(145);
+	m_console->setMinimumHeight(125);
 
 	QDockWidget* w = new QDockWidget(this);
 	w->setWidget(m_shapes);
