@@ -28,20 +28,27 @@ ConsoleWidget::ConsoleWidget(QWidget* parent)
 	setLayout(layout);
 }
 
-void ConsoleWidget::appendText(const QString& text, LogMsgSeverity severity)
+void ConsoleWidget::appendText(const QString& text, LogMsgSeverity severity, QString code)
 {
 	switch (severity)
 	{
 	case err:
-		m_view->setTextColor(Qt::red);
-		break;
+		//m_view->setTextColor(Qt::red);
+                m_view->append("<font color=\"red\">Error: "+text+ "</font> <u><font color=\"blue\">("+code+")</u></font> ");
+                return;
 	case warn:
-		m_view->setTextColor(Qt::blue);
-		break;
-	case ok:
+                m_view->append("<font color=\"yellow\">Warning: "+text+ "</font> <u><font color=\"blue\">("+code+")</u></font> ");
+                return;
+	case usr:
 		m_view->setTextColor(Qt::black);
 		break;
-	case test:
+        case ok:
+		m_view->setTextColor(Qt::black);
+		break;
+        case out:
+		m_view->setTextColor(Qt::black);
+		break;
+        case test:
 		m_view->setTextColor(Qt::black);
 		break;
 	case cont:
@@ -51,10 +58,11 @@ void ConsoleWidget::appendText(const QString& text, LogMsgSeverity severity)
 		m_view->setTextColor(Qt::black);
 		break;
 	case info:
-		m_view->setTextColor(Qt::green);
+                m_view->append("<font color=\"blue\">Information: "+text+ "</font> <u><font color=\"blue\">("+code+")</u></font> ");
 		break;
 	}
-	m_view->append(text);
+	
+        m_view->append(text);
 }
 
 void ConsoleWidget::onCommandEntered()
@@ -98,25 +106,30 @@ OutputWidget::OutputWidget(QWidget* parent) : QFrame(parent)
 	setLayout(layout);
 }
 
-void OutputWidget::appendText(const QString& text, LogMsgSeverity)
+void OutputWidget::appendText(const QString& text, LogMsgSeverity svr, bool need_decorate = false )
 {
-	m_view->append(text);
+	if (need_decorate)
+            m_view->append(QString::fromStdString(Messenger::decorate_for_logging(svr))+text);
+        else
+            m_view->append(text);
 }
 
 ConsoleAssistant::ConsoleAssistant(QDockWidget& b, QWidget* parent) : QFrame(parent), m_base(b)
 {
 	m_console = new ConsoleWidget(this);
 	m_output = new OutputWidget(this);
+        m_log = new OutputWidget(this);
 	m_tabs = new QTabWidget(this);
 	m_tabs->addTab(m_console, QStringLiteral("Console"));
-	m_tabs->addTab(m_output, QStringLiteral("Output"));
+	m_tabs->addTab(m_output, QStringLiteral("Actions History"));
+        m_tabs->addTab(m_log, QStringLiteral("Event Log"));
 	m_tabs->setTabPosition(QTabWidget::South);
 	QHBoxLayout* layout = new QHBoxLayout;
 	layout->addWidget(m_tabs);
 	layout->setSpacing(0);
 	layout->setMargin(0);
 	setLayout(layout);
-	m_base.setWindowTitle("Console");
+	m_base.setWindowTitle("Command Interpreter");
 
 	// Listening for MESSENGER callback in updateView
 	REGISTER_CALLBACK(MESSENGER,&ConsoleAssistant::updateView);
@@ -126,14 +139,31 @@ ConsoleAssistant::ConsoleAssistant(QDockWidget& b, QWidget* parent) : QFrame(par
 void ConsoleAssistant::updateView(LeCallbackData& d)
 {
 	MessengerCallbackData& data = dynamic_cast<MessengerCallbackData&>(d);
-	LogMsgSeverity s = data.get_severity();
-	std::string errcode = data.get_errorcode();
-	(s != out)
-		? m_console->appendText(QString::fromStdString(data.get_message()), s)
-		: m_output->appendText(QString::fromStdString(data.get_message()), s);
+	LogMsgSeverity svr = data.get_severity();
+	QString msgcode = QString::fromStdString(data.get_errorcode());
+        QString msg = QString::fromStdString(data.get_message());
+        
+        // write important things to console
+        if ( svr == usr || svr == err || svr == warn  ) {
+            m_console->appendText(msg, svr, msgcode);
+        }
+        //write only transaction out's to output
+        if ( svr == out ) {
+            m_output->appendText(msg, svr);
+            return;
+        }
+        
+        //otherwise write to log
+        m_log->appendText(msg, svr,true);
 }
 
 void ConsoleAssistant::updateWindowTitle(int index)
 {
-	index == 0 ? m_base.setWindowTitle("Console") : m_base.setWindowTitle("Output");
+	//what? :)
+        if ( index == 0 ) 
+            m_base.setWindowTitle("Command Interpreter");
+        else if ( index == 1 )
+            m_base.setWindowTitle("Actions History");
+        else if ( index == 2 ) 
+            m_base.setWindowTitle("Event Log");
 }

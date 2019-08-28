@@ -38,7 +38,7 @@ class CommandInterp : public Service<CommandInterp>
             
             CommandBase* cmd = command_manager::get_instance()->find_command(cmd_name);
             if ( !cmd ) {
-                Messenger::expose_msg(ok,cmd_name);
+                Messenger::expose_msg(usr,cmd_name);
                 Messenger::expose_msg(err,cmd_name+" command not found"); //FIXME enhance with message.err file
                 return 0;
             }
@@ -51,7 +51,7 @@ class CommandInterp : public Service<CommandInterp>
             for (int i=1; i<tokens.size()-1; i=i+2 ) {
                 //std::cout << "  ---<" << tokens[i].toStdString() << "> <=> <"<< tokens[i+1].toStdString() << ">" << std::endl;
                 if ( ! cmd->set_arg(tokens[i].toStdString(),tokens[i+1].toStdString()) ) {
-                    Messenger::expose_msg(ok,cmd_name+" "+tokens[i].toStdString()+" "+tokens[i+1].toStdString());
+                    Messenger::expose_msg(usr,cmd_name+" "+tokens[i].toStdString()+" "+tokens[i+1].toStdString());
                     Messenger::expose_msg(err,tokens[i].toStdString()+" argument is in invalid ");
                     return 0;
                 }

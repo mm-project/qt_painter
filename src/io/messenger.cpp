@@ -61,6 +61,9 @@ std::string Messenger::decorate_for_logging(const LogMsgSeverity& r) {
                 case ok:
                         return("");
                         break;
+                case usr:
+                        return("#u --> User: ");
+                        break;
                 case err:
 			return("#e --> Error: ");
 			break;
