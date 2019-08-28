@@ -162,7 +162,7 @@ void canvas::on_update()
 void canvas::paintEvent(QPaintEvent*)
 {
     m_renderer->render();
-    update();
+    //update(); why?
 }
 
 void canvas::invoke_create_line()

@@ -11,7 +11,7 @@
 #include <string>
 #include <functional>
 
-enum LogMsgSeverity { err=1, warn, ok, out, test, cont, modal, info };
+enum LogMsgSeverity { err=1, usr, warn, ok, out, test, cont, modal, info };
 
 class MessengerCallbackData : public LeCallbackData 
 {
@@ -41,6 +41,7 @@ class Messenger : public Service<Messenger>
 public:
         static void expose_msg(const LogMsgSeverity& s, const std::string& msg, bool iscmd = false );
         static void log_command(const std::string& msg, bool iscmd);
+        static std::string decorate_for_logging(const LogMsgSeverity&);
 	//FIXME
 	Messenger();
         ~Messenger();
@@ -49,7 +50,7 @@ public:
 private:
 	void init();
 	void fini();
-        std::string decorate_for_logging(const LogMsgSeverity&);
+        
         void write_entry_to_logfile(const std::string& msg);
         void write_entry_to_cmdfile(const std::string& msg);
         void write_entry_to_console_gui(const LogMsgSeverity& s, const std::string& msg);   
