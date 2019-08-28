@@ -1052,7 +1052,7 @@ dicmdCanvasMouseDblClick -point (198,188)
 dicmdCanvasMouseDblClick -point (198,188) 
 dicmdCanvasMouseDblClick -point (198,188) 
 incmdCreateObjEllipse
-dicmdQaCanvasCompare
+#u --> User: dicmdQaCanvasCompare
 #e --> Error: dicmdQaCanvasCompare command not found
 dicmdCanvasMouseClick -point (383,156) 
 dicmdCanvasMouseClick -point (383,156) 
@@ -1073,9 +1073,9 @@ dicmdCanvasMouseClick -point (798,602)
 dicmdCanvasMouseClick -point (798,602) 
 #o --> Out: dicmdSelectShapesByRegion -end (798,602) -start (70,30) 
 dicmdCanvasMouseMove -point (663,360) 
-dicmdQaCanvasCompare
+#u --> User: dicmdQaCanvasCompare
 #e --> Error: dicmdQaCanvasCompare command not found
 dicmdAbortActiveCommand 
-dicmdQaCanvasCompare
+#u --> User: dicmdQaCanvasCompare
 #e --> Error: dicmdQaCanvasCompare command not found
 dicmdQaToolExit 
