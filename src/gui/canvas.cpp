@@ -103,11 +103,7 @@ void canvas::keyPressEvent(QKeyEvent* ev) {
         
             cm->disactivate_active_command();
         }
-            //if ( ev->key() == Qt::Key_3 )  cm->find_command("dicmdQaCompareDesign")->execute();
-    //}
-    //cm->key_pressed(_x, _y);
-
-
+        update();    
 }
 
 void canvas::mousePressEvent(QMouseEvent* e)
