@@ -29,6 +29,7 @@ QRibbonGroup::QRibbonGroup(QWidget* p)
 	mainLayout->addLayout(labelLayout);
 	mainLayout->addWidget(separator);
 	mainLayout->setContentsMargins(2, 2, 2, 2);
+	mainLayout->addStretch();
 
 	setLayout(mainLayout);
 }

@@ -46,3 +46,12 @@ void WorkingSet::dumpToFile(const std::string& fname)
     file.flush();
     file.close();
 }
+
+void WorkingSet::deleteShape(IShape* obj)
+{
+	auto it = std::find(m_shapes.begin(), m_shapes.end(), obj);
+	if (it == m_shapes.end())
+		return;
+	m_shapes.erase(it);
+	delete obj;
+}

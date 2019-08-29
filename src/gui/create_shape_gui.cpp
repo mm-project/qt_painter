@@ -33,7 +33,6 @@ create_shape_gui::create_shape_gui(QWidget* p)
 	QRibbonWidget* ribbonWidget = new QRibbonWidget(this);
 	build_design(ribbonWidget);
 	build_selection(ribbonWidget);
-	build_shapes_group(ribbonWidget);
 	build_colors(ribbonWidget);
 	build_gap_style(ribbonWidget);
 	build_join_style(ribbonWidget);
@@ -41,6 +40,10 @@ create_shape_gui::create_shape_gui(QWidget* p)
 
 	QRibbon* ribbon = new QRibbon(this);
 	ribbon->addTab(ribbonWidget, "Home");
+
+	QRibbonWidget* shapes = new QRibbonWidget(this);
+	build_shapes_group(shapes);
+	ribbon->addTab(shapes, "Shapes");
 
 	QVBoxLayout* layout = new QVBoxLayout;
 	layout->addWidget(ribbon);
@@ -103,6 +106,15 @@ void create_shape_gui::build_shapes_group(QRibbonWidget* ribbonWidget)
 	}
 
 	ribbonWidget->addGroup(ribbonGroup);
+
+	QRibbonGroup* edit = new QRibbonGroup(this);
+	edit->setTitle("Edit");
+
+	QRibbonButton* delete_b = new QRibbonButton(this, "Delete", getIconDir() + QStringLiteral("delete.svg"));
+	connect(delete_b, SIGNAL(clicked()), this, SIGNAL(deleteShape()));
+	edit->addRibbonButton(delete_b);
+	ribbonWidget->addGroup(edit);
+	ribbonWidget->addStretch(10);
 }
 
 void create_shape_gui::build_colors(QRibbonWidget* ribbonWidget)
