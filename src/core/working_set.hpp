@@ -19,7 +19,7 @@ public:
 	virtual ~WorkingSet() {}
 	virtual std::string getName() override;
 	virtual void dumpToFile(const std::string&);
-	void deleteShape(IShape*);
+	void removeObject(IShape*);
 
 private:
 	//

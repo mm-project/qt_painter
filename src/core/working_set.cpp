@@ -47,7 +47,7 @@ void WorkingSet::dumpToFile(const std::string& fname)
     file.close();
 }
 
-void WorkingSet::deleteShape(IShape* obj)
+void WorkingSet::removeObject(IShape* obj)
 {
 	auto it = std::find(m_shapes.begin(), m_shapes.end(), obj);
 	if (it == m_shapes.end())

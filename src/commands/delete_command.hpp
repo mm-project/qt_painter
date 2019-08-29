@@ -39,7 +39,7 @@ public:
 		rq.clear(); // temp solution for the crash
 		if (shape != nullptr)
 		{
-			m_workingSet->deleteShape(shape);
+			m_workingSet->removeObject(shape);
 		}
 
 	}
@@ -58,12 +58,6 @@ public:
 	virtual std::string get_name() override
 	{
 		return "incmdDeleteShape";
-	}
-
-	virtual void handle_mouse_click(int x, int y) override
-	{
-		InteractiveCommandBase::handle_mouse_click(x, y); // update state
-		m_position = QPoint(x, y);
 	}
 
 	virtual void abort() override
