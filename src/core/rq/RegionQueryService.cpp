@@ -61,3 +61,8 @@ std::vector<IShape*> RegionQuery::getShapesUnderRect(const QRect& oRect) const
 
 	return shapes;
 }
+
+void RegionQuery::clear()
+{
+	m_tree->clear();
+}

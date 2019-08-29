@@ -49,6 +49,5 @@ private:
 	QGridLayout* m_buttonLayout;
 	int m_row;
 	int m_column;
-
 };
 #endif
