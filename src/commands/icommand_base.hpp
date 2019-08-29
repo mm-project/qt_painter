@@ -1,10 +1,13 @@
 #ifndef icommand_base_hpp
 #define icommand_base_hpp
 
+#include "command_manager.hpp"
+
 #include "../io/messenger.hpp"
 
 #include <string>
 #include <iostream>
+
 
 enum CommandType { Interactive = 0, Directive };
 
@@ -31,7 +34,13 @@ class ICommand
 
 class CommandBase : public ICommand
 {
+    //command_manager* m_cm;
+    
     public:
+        CommandBase() {
+            //m_cm = command_manager::get_instance();
+        }
+        
         virtual void execute_and_log() {
             log();
             try {
@@ -63,6 +72,10 @@ class CommandBase : public ICommand
         virtual void handle_key_press() {}
         virtual void handle_update() {}
 
+        //CommandManager* cm() {
+        //    return m_cm;
+        //}
+        
         //standart implementation
         void log_impl(const std::string& str) {
             Messenger::log_command(str,is_transaction_cmd());

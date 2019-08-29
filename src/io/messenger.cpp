@@ -2,6 +2,7 @@
 
 #include "../core/postman.hpp"
 #include "../core/callback.hpp"
+#include "../core/application.hpp"
 
 #include <QString>
 #include <QDateTime>
@@ -14,16 +15,10 @@
 
 Messenger::Messenger() {
 	init();
-	REGISTER_CALLBACK(INTERACTIVE_COMMAND_PRE_COMMIT, &Messenger::test1);
-	REGISTER_CALLBACK(INTERACTIVE_COMMAND_POST_COMMIT,&Messenger::test1);
 }
 
 Messenger::~Messenger() {
 	fini();
-}
-
-void Messenger::test1(LeCallbackData& d) {
-	Messenger::expose_msg(out,"Callback working");
 }
 
 void Messenger::fini() {
@@ -66,23 +61,26 @@ std::string Messenger::decorate_for_logging(const LogMsgSeverity& r) {
                 case ok:
                         return("");
                         break;
+                case usr:
+                        return("#u --> User: ");
+                        break;
                 case err:
-			return("#e --> ");
+			return("#e --> Error: ");
 			break;
 		case info:
-			return("#i --> ");
+			return("#i --> Info: ");
 			break;
 		case warn:
-			return("#w --> ");
+			return("#w --> Warning: ");
 			break;
 		case out:
-			return("#o --> ");
+			return("#o --> Out: ");
 			break;
                 case cont:
                         return("#c ");
                         break;
                 case test:
-                        return("#t --> ");
+                        return("#t --> Test: ");
                         break;
                 case modal:
                         return("#m ");
@@ -93,24 +91,38 @@ std::string Messenger::decorate_for_logging(const LogMsgSeverity& r) {
 		}
 }
 
+
 //FIXME
-void Messenger::expose_internal(const LogMsgSeverity& severity, const std::string& msg , bool iscmd) 
+void Messenger::expose_internal(const LogMsgSeverity& severity, const std::string& m , bool iscmd) 
 {
-	write_entry_to_console_gui(severity,msg);
+	if ( Application::is_load_mode() )
+            return;
         
-        std::stringstream z;
-	z << decorate_for_logging(severity) << msg << "\n";
-	write_entry_to_logfile(z.str());
-	
-	// if this is <real> command, write also to lvi file.
-	if ( iscmd ) 
-            write_entry_to_cmdfile(msg);
+        QString lines(m.c_str());
+        for ( auto line : lines.split("\n") ) {
+            std::string msg = line.toStdString();
+            write_entry_to_console_gui(severity,msg);
+            
+            std::stringstream z;
+            z << decorate_for_logging(severity) << msg << "\n";
+            write_entry_to_logfile(z.str());
+            
+            // if this is <real> command, write also to lvi file.
+            if ( iscmd ) 
+                write_entry_to_cmdfile(msg);
+        }
         
 }
 
 void Messenger::write_entry_to_console_gui(const LogMsgSeverity& s, const std::string& msg) {
         std::cout << msg << std::endl;
-        //nagaina update please update here :)
+
+        std::string errcode = "";
+        if ( s != ok )
+            errcode  = "PROJ-001";
+
+        MessengerCallbackData data(s,msg,errcode);    
+        NOTIFY(MESSENGER,data);
 }
 	
 	

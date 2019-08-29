@@ -13,8 +13,9 @@
 #include "../commands/shape_creation_interactive_commands.hpp"
 #include "../commands/shape_creation_directive_commands.hpp"
 #include "../commands/selection_commands.hpp"
+#include "../commands/load_save_commands.hpp"
+#include "../commands/interactive_load_save.hpp"
 #include "../commands/command_manager.hpp"
-
 
 #include <QRect>
 #include <QPainter>
@@ -37,6 +38,9 @@ canvas::canvas(QWidget* p)
 	setMouseTracking(true);
 	setObjectName("CANVAS");
 	
+        //fixme need preferences
+        m_need_motionlog = !QString::fromLocal8Bit( qgetenv("PAINTER_LOG_MOTION").constData() ).isEmpty();
+        
 	//FIXME move to services
 	m_working_set = std::shared_ptr<WorkingSet>(new WorkingSet);
 	m_sandbox = std::shared_ptr<ObjectPoolSandbox>(new ObjectPoolSandbox);
@@ -51,23 +55,45 @@ canvas::canvas(QWidget* p)
 	cm->init2(m_sandbox, m_working_set);
 	cm->init();
 	
-	//fixme to other place
+	//fixme move to other place
 	cm->register_command(new INCMD_CREATE_OBJ(LINE));
 	cm->register_command(new INCMD_CREATE_OBJ(RECTANGLE));
 	cm->register_command(new INCMD_CREATE_OBJ(ELLIPSE));
 	cm->register_command(new INCMD_CREATE_OBJ(POLYGON));
 	cm->register_command(new INCMD_HIGHLIGHT_BY_REGION);
 	cm->register_command(new INCMD_HIGHLIGHT_BY_POINT);
-        cm->register_command(new dicmdCreateObj<RECTANGLE>(m_working_set));
-        cm->register_command(new dicmdCreateObj<LINE>(m_working_set));
-        cm->register_command(new dicmdCreateObj<ELLIPSE>(m_working_set));
-        cm->register_command(new dicmdCreateObj<POLYGON>(m_working_set));
+    cm->register_command(new dicmdCreateObj<RECTANGLE>(m_working_set));
+    cm->register_command(new dicmdCreateObj<LINE>(m_working_set));
+    cm->register_command(new dicmdCreateObj<ELLIPSE>(m_working_set));
+    cm->register_command(new dicmdCreateObj<POLYGON>(m_working_set));
+    cm->register_command(new InteractiveDesAction<LOAD>(m_working_set));
+    cm->register_command(new InteractiveDesAction<SAVE>(m_working_set));
+    cm->register_command(new InteractiveDesAction<NEW>(m_working_set));   
+    cm->register_command(new dicmdDesignSave(m_working_set));
+    cm->register_command(new dicmdDesignLoad(m_working_set));
         
 }
 
-void canvas::keyPressEvent(QKeyEvent*) {
-    if( cm->is_idle() ) 
-        return;
+
+
+void canvas::keyPressEvent(QKeyEvent* ev) {
+    
+    //binding goes here
+    //if(ev->modifiers() & Qt::ShiftModifier) {
+        //if ( ev->key() == Qt::Key_1 )  cm->find_command("dicmdQaCompareCanvas")->execute();
+        if ( ev->key() == Qt::Key_2 )  
+            cm->find_command("dicmdQaCompareSelection")->execute_and_log();
+        else {
+            if( cm->is_idle() ) 
+                return;
+        
+            cm->disactivate_active_command();
+        }
+            //if ( ev->key() == Qt::Key_3 )  cm->find_command("dicmdQaCompareDesign")->execute();
+    //}
+    //cm->key_pressed(_x, _y);
+
+
 }
 
 void canvas::mousePressEvent(QMouseEvent* e)
@@ -76,8 +102,8 @@ void canvas::mousePressEvent(QMouseEvent* e)
         return;
 
     QPoint p(e->pos());
-    if(!Application::is_log_mode())
-        dicmdCanvasMouseClick(p).log();
+    //if(!Application::is_log_mode())
+    dicmdCanvasMouseClick(p).log();
     
     cm->mouse_clicked(p.x(),p.y());
 }
@@ -103,8 +129,10 @@ void canvas::mouseMoveEvent(QMouseEvent* e)
 	//e->pos().setY(_y);
         cm->mouse_moved(_x, _y);
     
+        //if Preference::isSet("guiLogMouseMove")
+        if ( m_need_motionlog )
+            dicmdCanvasMouseMove(e->pos()).log();
 
-        //dicmdCanvasMouseMove(e->pos()).log();
 	/**/
 	
     update();
@@ -118,9 +146,10 @@ void canvas::wheelEvent(QWheelEvent* e)
 
 void canvas::mouseDoubleClickEvent(QMouseEvent* e)
 {
+    cm->mouse_dbl_clicked(e->pos().x(),e->pos().y());
+    //if(!Application::is_log_mode())
     dicmdCanvasMouseDblClick(e->pos()).log();
-    if(!Application::is_log_mode())
-        cm->mouse_dbl_clicked(e->pos().x(),e->pos().y());
+    
     update();
 }
 
@@ -133,7 +162,7 @@ void canvas::on_update()
 void canvas::paintEvent(QPaintEvent*)
 {
     m_renderer->render();
-    update();
+    //update(); why?
 }
 
 void canvas::invoke_create_line()
@@ -166,8 +195,17 @@ void canvas::invoke_select_by_point()
     cm->activate_command(cm->find_command("incmdSelectUnderCursoer"));
 }
 
+void canvas::invoke_save()
+{
+    cm->activate_command(cm->find_command("incmdDesignSave"));
+}
+
+void canvas::invoke_load()
+{
+    cm->activate_command(cm->find_command("incmdDesignLoad"));
+}
+
 void canvas::reset()
 {
-    m_working_set->clear();
-    update();
+    cm->activate_command(cm->find_command("incmdDesignNew"));
 }

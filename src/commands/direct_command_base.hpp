@@ -23,6 +23,12 @@ class DirectCommandBase: public CommandBase
             }  
         }
     
+    private: 
+        bool check_option_exists(const std::string& s ) {
+        //std::map::iterator<std::string,ICommandOptionValue*> i;
+            return m_ops.find(s) != m_ops.end();
+        }
+    
     public:
         virtual bool can_undo() { return true; }
         
@@ -31,8 +37,17 @@ class DirectCommandBase: public CommandBase
         }    
         
         virtual void silent_execute() {
-            execute();
-            Messenger::expose_msg(out,get_cmdname_and_stringified_opts(),is_transaction_cmd());
+            bool clean = true;
+            try {
+                execute();
+            } catch (...) {
+                clean = false;
+            }
+            
+            if ( clean )
+                Messenger::expose_msg(out,get_cmdname_and_stringified_opts(),is_transaction_cmd());
+            else
+                Messenger::expose_msg(err,"unknown error");
         }
  
         virtual CommandType get_type() {
@@ -48,8 +63,12 @@ class DirectCommandBase: public CommandBase
         }
 
     public:
+        //ued by replay_log
         virtual CommandBase* set_arg(const std::string& n, const std::string& v) {
             //std::cout << n << " " << v << std::endl;
+            if ( ! check_option_exists(n) )
+                return 0;
+            
             m_ops[n]->from_string(v);
             return this;
         }
@@ -62,6 +81,7 @@ class DirectCommandBase: public CommandBase
         }
         */
         
+        //used by us
         void add_option(const std::string& n, ICommandOptionValue* v ) {
             //FIXME check if exisitis
             m_ops[n] = v;
@@ -86,4 +106,16 @@ class DirectCommandBase: public CommandBase
         //ICommandOptionValue* m_op;
 };
 
+
+
+class NonTransactionalDirectCommandBase : public DirectCommandBase
+{
+    public:
+         NonTransactionalDirectCommandBase() {}
+         NonTransactionalDirectCommandBase(const std::string& n, ICommandOptionValue* v ):DirectCommandBase(n,v) {}
+         virtual bool is_transaction_cmd() {
+            return false;
+         }
+    
+};
 #endif

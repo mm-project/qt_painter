@@ -10,6 +10,7 @@
 
 class canvas;
 class create_shape_gui;
+class ConsoleAssistant;
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -23,13 +24,16 @@ public:
 	main_window(QWidget* = 0 );
 	~main_window();
 	bool eventFilter(QObject *object, QEvent *event);
-
+    void closeEvent(QCloseEvent *event);
+    
 private:
 	void make_connections();
+    void setRecursiveChildWidgetsObjectName(QWidget*);
 
 private:
 	canvas* m_canvas;
 	create_shape_gui* m_shapes;
+	ConsoleAssistant* m_console;
 };
 
 #endif

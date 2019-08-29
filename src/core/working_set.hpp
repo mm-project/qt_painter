@@ -17,6 +17,8 @@ public:
 	virtual std::vector<IShape*> getObjects() const override;
 	virtual void addObject(IShape*) override;
 	virtual ~WorkingSet() {}
+	virtual std::string getName() override;
+        virtual void dumpToFile(const std::string&);
 
 private:
 	//

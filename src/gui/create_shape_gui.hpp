@@ -45,6 +45,8 @@ private slots:
 signals:
 	void reset();
 	void close();
+	void save();
+	void load();
 	void shape_changed();
 	void createLine();
 	void createRect();

@@ -145,7 +145,8 @@ public:
 		float x = (float) (point.x() - p1.x()) / (p2.x() - p1.x());
 		float y = (float) (point.y() - p1.y()) / (p2.y() - p1.y());
 		return x == y;
-}
+	}
+
 
 	virtual bool intersects(const QRect& oRect) const override
 	{
@@ -158,7 +159,7 @@ public:
 			|| intersectsLine(oRect.bottomRight(), oRect.topRight())
 			|| oRect.contains(p1) || oRect.contains(p2);
 	}
-
+	
 private:
 	bool intersectsLine(QPoint a1, QPoint b1) const
 	{
@@ -176,11 +177,9 @@ private:
 		float s = q / d;
 		if (r < 0 || r > 1 || s < 0 || s > 1)
 			return false;
-        
+
                 return true;
         }	
-
-private:
 	line* m_object;
 };
 

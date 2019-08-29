@@ -12,7 +12,7 @@
 
 command_manager* command_manager::m_instance = 0;
 ///FIXME ????
-int dicmdQaCanvasCompare::n_index = 0;
+//int dicmdQaCanvasCompare::n_index = 0;
 
 void command_manager::init2(ObjectPoolSandboxPtr r, IObjectPoolPtr s) {
 	r = re;
@@ -29,10 +29,15 @@ void command_manager::init() {
     register_command(new dicmdguiSelectRadioButton);
     register_command(new dicmdAbortActiveCommand);
     register_command(new dicmdguiSelectComboValue); 
-    //register_command(new incmdSelectShapesByRegion);
-    register_command(new dicmdQaCanvasCompare);
     register_command(new dicmdQaToolExit);
     register_command(new dicmdTestCmdListOptions);
+    register_command(new dicmdQaCompare<CANVAS>);
+    register_command(new dicmdQaCompare<DESIGN>);
+    register_command(new dicmdQaCompare<SELECTION>);
+    register_command(new dicmdSelectShapesByRegion);
+    register_command(new dicmdguiClickButton);
+    register_command(new dicmdguiClickModalButton);
+    
     
     
     m_current_command = m_idle_command;
@@ -75,6 +80,17 @@ CommandBase* command_manager::get_active_command() {
 
 bool command_manager::is_idle() {
     return ( m_current_command == m_idle_command );
+}
+
+
+void command_manager::disactivate_active_command() {
+    if ( !is_idle() && m_current_command->get_type() == Interactive ) {
+            //fixme , abort should be logged implicitly from interactive command base
+            dicmdAbortActiveCommand().log();
+            m_current_command->abort(); 
+    }
+    
+    return_to_idle();
 }
 
 void command_manager::return_to_idle() {
