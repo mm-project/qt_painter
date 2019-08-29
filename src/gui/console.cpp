@@ -48,7 +48,7 @@ void ConsoleWidget::appendText(const QString& text, LogMsgSeverity severity, QSt
         case out:
 		m_view->setTextColor(Qt::black);
 		break;
-        case test:
+  case test:
 		m_view->setTextColor(Qt::black);
 		break;
 	case cont:
@@ -118,6 +118,7 @@ ConsoleAssistant::ConsoleAssistant(QDockWidget& b, QWidget* parent) : QFrame(par
 {
 	m_console = new ConsoleWidget(this);
 	m_output = new OutputWidget(this);
+
         m_log = new OutputWidget(this);
 	m_tabs = new QTabWidget(this);
 	m_tabs->addTab(m_console, QStringLiteral("Console"));
@@ -129,6 +130,7 @@ ConsoleAssistant::ConsoleAssistant(QDockWidget& b, QWidget* parent) : QFrame(par
 	layout->setSpacing(0);
 	layout->setMargin(0);
 	setLayout(layout);
+
 	m_base.setWindowTitle("Command Interpreter");
 
 	// Listening for MESSENGER callback in updateView
