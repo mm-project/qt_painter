@@ -47,7 +47,7 @@ dicmdCanvasMouseMove -point (648,285)
 dicmdCanvasMouseClick -point (648,285) 
 dicmdCanvasMouseClick -point (648,285) 
 #o --> Out: dicmdCreateObjRectangle -points {(337,101);(648,285)} 
-#o
+#u --> User: #o
 #e --> Error: #o command not found
 dicmdCanvasMouseMove -point (648,284) 
 dicmdCanvasMouseMove -point (648,281) 

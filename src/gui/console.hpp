@@ -22,7 +22,7 @@ public:
 
 public:
 	//	Methods
-	void appendText(const QString&, LogMsgSeverity);
+	void appendText(const QString&, LogMsgSeverity, QString);
 	
 private slots:
 	void onCommandEntered();
@@ -45,7 +45,7 @@ public:
 	OutputWidget(QWidget* = nullptr);
 
 public:
-	void appendText(const QString&, LogMsgSeverity);
+	void appendText(const QString&, LogMsgSeverity, bool);
 
 private:
 	QTextEdit* m_view = nullptr;
@@ -70,6 +70,7 @@ private slots:
 private:
 	ConsoleWidget* m_console = nullptr;
 	OutputWidget* m_output = nullptr;
+  OutputWidget* m_log = nullptr;
 	QDockWidget& m_base;
 	QTabWidget* m_tabs = nullptr;
 };

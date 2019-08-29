@@ -34,7 +34,7 @@ StatusBarManager::StatusBarManager()
 {
 	m_pGif = new QMovie(getIconDir() + "process.gif");
 	m_pGif->setScaledSize(QSize(20, 20));
-	m_pStatusBarLabel = new QLabel("StatusBar");
+	m_pStatusBarLabel = new QLabel("");
 	m_pGifLabel = new QLabel();
 	m_pGifLabel->setMovie(m_pGif);
 	m_pGifLabel->setHidden(true);
