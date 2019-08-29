@@ -12,6 +12,8 @@
 #include "../commands/gui_commands.hpp"
 #include "../commands/qa_commands.hpp"
 
+#include "../io/messenger.hpp"
+
 #include <QDockWidget>
 #include <QMenu>
 #include <QMenuBar>
@@ -109,7 +111,8 @@ main_window::main_window(QWidget* p)
         setObjectName("mw");
         setRecursiveChildWidgetsObjectName(this);
         m_canvas->setObjectName("CANVAS");
-        
+        Messenger::expose_msg(info,"Welcome to this project. Feel free to expirment. ");
+
 
 }
 

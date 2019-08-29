@@ -1,22 +1,40 @@
 QWidget::paintEngine: Should no longer be called
 QPainter::begin: Paint device returned engine == 0, type: 1
 Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QToolButton in mw/5/10/11/qt_tabwidget_tabbar/
+No locator for QToolButton in mw/5/10/11/qt_tabwidget_tabbar/
 Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QToolButton in mw/5/10/11/qt_tabwidget_tabbar/
+No locator for QToolButton in mw/5/10/11/qt_tabwidget_tabbar/
 Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QPushButton in mw/65/70/75/qt_tabwidget_stackedwidget/78/118/124/
+No locator for QPushButton in mw/65/70/75/qt_tabwidget_stackedwidget/78/118/124/
 Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QPushButton in mw/65/70/75/qt_tabwidget_stackedwidget/78/118/124/
+No locator for QPushButton in mw/65/70/75/qt_tabwidget_stackedwidget/78/118/124/
 Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QPushButton in mw/65/70/75/qt_tabwidget_stackedwidget/78/118/124/
+No locator for QPushButton in mw/65/70/75/qt_tabwidget_stackedwidget/78/118/124/
 Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QPushButton in mw/65/70/75/qt_tabwidget_stackedwidget/78/118/124/
+No locator for QPushButton in mw/65/70/75/qt_tabwidget_stackedwidget/78/118/124/
 Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QPushButton in mw/65/70/75/qt_tabwidget_stackedwidget/78/118/124/
+No locator for QPushButton in mw/65/70/75/qt_tabwidget_stackedwidget/78/118/124/
 Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QPushButton in mw/65/70/75/qt_tabwidget_stackedwidget/78/118/124/
+No locator for QPushButton in mw/65/70/75/qt_tabwidget_stackedwidget/78/118/124/
 Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QPushButton in mw/65/70/75/qt_tabwidget_stackedwidget/78/118/124/
+No locator for QPushButton in mw/65/70/75/qt_tabwidget_stackedwidget/78/118/124/
 Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QRadioButton in mw/65/70/75/qt_tabwidget_stackedwidget/78/141/
+No locator for QRadioButton in mw/65/70/75/qt_tabwidget_stackedwidget/78/141/
 Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QRadioButton in mw/65/70/75/qt_tabwidget_stackedwidget/78/141/
+No locator for QRadioButton in mw/65/70/75/qt_tabwidget_stackedwidget/78/141/
 Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QRadioButton in mw/65/70/75/qt_tabwidget_stackedwidget/78/141/
+No locator for QRadioButton in mw/65/70/75/qt_tabwidget_stackedwidget/78/141/
 Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QRadioButton in mw/65/70/75/qt_tabwidget_stackedwidget/78/156/
+No locator for QRadioButton in mw/65/70/75/qt_tabwidget_stackedwidget/78/156/
 Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QRadioButton in mw/65/70/75/qt_tabwidget_stackedwidget/78/156/
+No locator for QRadioButton in mw/65/70/75/qt_tabwidget_stackedwidget/78/156/
 Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QRadioButton in mw/65/70/75/qt_tabwidget_stackedwidget/78/156/
+No locator for QRadioButton in mw/65/70/75/qt_tabwidget_stackedwidget/78/156/
 Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QToolButton in mw/65/70/75/qt_tabwidget_tabbar/
+No locator for QToolButton in mw/65/70/75/qt_tabwidget_tabbar/
 Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QToolButton in mw/65/70/75/qt_tabwidget_tabbar/
+No locator for QToolButton in mw/65/70/75/qt_tabwidget_tabbar/
+Welcome to this project. Feel free to expirment. 
 Set to mode1
 dicmdTestCmdListOptions -points {(123,23);(555,444);(12,2)} -strings {aaa;bb;ccc} 
 dicmdCreateObjRectangle -points {(0,0);(100,100)} 

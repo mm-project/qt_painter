@@ -1,6 +1,8 @@
 #ifndef UTILITIES_HPP
 #define UTILITIES_HPP
 
+#include "../io/messenger.hpp"
+
 #include <iostream>
 
 #include <QAbstractButton>
@@ -66,6 +68,8 @@ namespace {
             if ( wn.isEmpty() ) {
                 if ( isleaf && is_w_from_desired_list(w) ) {
                     std::cout << "Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : " << cn.toStdString() << " in " << pn.toStdString() << "\n";
+                    Messenger::expose_msg(warn,"No locator for "+cn.toStdString()+" in " +pn.toStdString());
+
                     QPalette palette(Qt::red);
                     w->setPalette(palette);
                 }
