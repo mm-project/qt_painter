@@ -220,7 +220,5 @@ void canvas::invoke_delete()
 
 void canvas::abordCommand()
 {
-	CommandBase* command = cm->get_active_command();
-	if (command != nullptr)
-		command->abort();
+	cm->activate_command(cm->find_command("dicmdAbortActiveCommand"));
 }

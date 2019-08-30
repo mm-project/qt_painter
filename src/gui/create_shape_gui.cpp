@@ -112,7 +112,7 @@ void create_shape_gui::build_shapes_group(QRibbonWidget* ribbonWidget)
 	{
 		QRibbonButton* button = new QRibbonButton(this, Shapes[i], getIconDir() + Shapes[i].toLower() + ".svg");
 		connect(button, SIGNAL(start()), mapper, SLOT(map()));
-		connect(button, SIGNAL(end()), mapper, SLOT(abord()));
+		connect(button, SIGNAL(end()), this, SIGNAL(abord()));
 		connect(button, SIGNAL(start()), this, SLOT(discard()));
 		connect(button, SIGNAL(end()), this, SLOT(restore()));
 		mapper->setMapping(button, i);
@@ -394,8 +394,12 @@ void create_shape_gui::change_fill(const QString& s)
 void create_shape_gui::discard()
 {
 	if (m_active != nullptr)
+	{
 		// dicard previous command
+		m_active->mute(true);
 		m_active->click();
+		m_active->mute(false);
+	}
 	m_active = qobject_cast<QRibbonButton*>(sender());
 }
 

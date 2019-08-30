@@ -10,6 +10,7 @@ class QRibbonButton : public QToolButton
 public:
 	QRibbonButton(QWidget* p = nullptr, const QString& = "", const QString& = "", bool = true);
 
+	void mute(bool f);
 signals:
 	void start();
 	void end();
@@ -21,6 +22,7 @@ private slots:
 private:
 	bool m_running = false;
 	QString m_style;
+	bool m_mute = false;
 };
 
 #endif

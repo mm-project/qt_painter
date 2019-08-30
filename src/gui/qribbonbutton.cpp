@@ -17,12 +17,19 @@ void QRibbonButton::process()
 		m_style = styleSheet();
 		m_running = true;
 		setStyleSheet("background-color : lightblue;");
-		emit start();
+		if (!m_mute)
+			emit start();
 	}
 	else
 	{
 		m_running = false;
 		setStyleSheet(m_style);
-		emit end();
+		if (!m_mute)
+			emit end();
 	}
+}
+
+void QRibbonButton::mute(bool f)
+{
+	m_mute = f;
 }
