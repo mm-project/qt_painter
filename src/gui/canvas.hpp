@@ -41,6 +41,10 @@ public slots:
         
         void reset();
         void on_update();
+		void abordCommand();
+
+signals:
+	void discardAction();
 
 private:
         bool is_runtime_mode;
