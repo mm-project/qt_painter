@@ -12,3 +12,4 @@ test_suites/interactive_selection_lines
 test_suites/viewport_manipulations
 test_suites/selection_sanity
 test_suites/interactive_point_selection1
+test_suites/directive/flow_1

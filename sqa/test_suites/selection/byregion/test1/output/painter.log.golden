@@ -1,0 +1,55 @@
+#w --> Warning: No locator for QToolButton in mw/5/10/11/qt_tabwidget_tabbar/
+#w --> Warning: No locator for QToolButton in mw/5/10/11/qt_tabwidget_tabbar/
+#w --> Warning: No locator for QPushButton in mw/65/70/74/qt_tabwidget_stackedwidget/111/137/143/
+#w --> Warning: No locator for QPushButton in mw/65/70/74/qt_tabwidget_stackedwidget/111/137/143/
+#w --> Warning: No locator for QPushButton in mw/65/70/74/qt_tabwidget_stackedwidget/111/137/143/
+#w --> Warning: No locator for QPushButton in mw/65/70/74/qt_tabwidget_stackedwidget/111/137/143/
+#w --> Warning: No locator for QPushButton in mw/65/70/74/qt_tabwidget_stackedwidget/111/137/143/
+#w --> Warning: No locator for QPushButton in mw/65/70/74/qt_tabwidget_stackedwidget/111/137/143/
+#w --> Warning: No locator for QPushButton in mw/65/70/74/qt_tabwidget_stackedwidget/111/137/143/
+#w --> Warning: No locator for QRadioButton in mw/65/70/74/qt_tabwidget_stackedwidget/111/160/
+#w --> Warning: No locator for QRadioButton in mw/65/70/74/qt_tabwidget_stackedwidget/111/160/
+#w --> Warning: No locator for QRadioButton in mw/65/70/74/qt_tabwidget_stackedwidget/111/160/
+#w --> Warning: No locator for QRadioButton in mw/65/70/74/qt_tabwidget_stackedwidget/111/175/
+#w --> Warning: No locator for QRadioButton in mw/65/70/74/qt_tabwidget_stackedwidget/111/175/
+#w --> Warning: No locator for QRadioButton in mw/65/70/74/qt_tabwidget_stackedwidget/111/175/
+#w --> Warning: No locator for QToolButton in mw/65/70/74/qt_tabwidget_tabbar/
+#w --> Warning: No locator for QToolButton in mw/65/70/74/qt_tabwidget_tabbar/
+#i --> Info: Welcome to this project. Feel free to expirment. 
+#i --> Info: Set to mode1
+dicmdCreateObjRectangle -points {(58,36);(165,154)} 
+dicmdCreateObjRectangle -points {(141,129);(236,211)} 
+dicmdCreateObjRectangle -points {(276,44);(428,196)} 
+dicmdCreateObjRectangle -points {(375,252);(514,333)} 
+dicmdCreateObjRectangle -points {(705,196);(813,278)} 
+dicmdCreateObjRectangle -points {(541,136);(646,222)} 
+dicmdCreateObjEllipse -points {(250,254);(330,313)} 
+dicmdCreateObjEllipse -points {(376,121);(445,196)} 
+dicmdCreateObjEllipse -points {(523,167);(576,213)} 
+dicmdCreateObjEllipse -points {(437,294);(563,370)} 
+dicmdCreateObjEllipse -points {(583,63);(775,224)} 
+dicmdSelectShapesByRegion -end (280,303) -start (45,17) 
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_0.txt Selection_Compare_0.txt.golden
+dicmdSelectShapesByRegion -end (245,219) -start (97,98) 
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_1.txt Selection_Compare_1.txt.golden
+dicmdSelectShapesByRegion -end (251,226) -start (171,182) 
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_2.txt Selection_Compare_2.txt.golden
+dicmdSelectShapesByRegion -end (291,236) -start (106,108) 
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_3.txt Selection_Compare_3.txt.golden
+dicmdSelectShapesByRegion -end (373,347) -start (232,74) 
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_4.txt Selection_Compare_4.txt.golden
+dicmdSelectShapesByRegion -end (628,242) -start (488,119) 
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_5.txt Selection_Compare_5.txt.golden
+dicmdSelectShapesByRegion -end (594,366) -start (412,249) 
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_6.txt Selection_Compare_6.txt.golden
+dicmdSelectShapesByRegion -end (845,292) -start (668,165) 
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_7.txt Selection_Compare_7.txt.golden
+dicmdQaToolExit 

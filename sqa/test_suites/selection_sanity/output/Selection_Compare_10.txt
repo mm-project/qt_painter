@@ -1,0 +1,9 @@
+Name: Selection
+ObjCount: 5
+======
+Ellipse:
+Ellipse:
+Polygon:
+Line:
+Line:
+--------

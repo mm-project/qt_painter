@@ -1,0 +1,13 @@
+Name: Selection
+ObjCount: 9
+======
+Rectangle:
+Rectangle:
+Rectangle:
+Rectangle:
+Rectangle:
+Ellipse:
+Polygon:
+Polygon:
+Polygon:
+--------
