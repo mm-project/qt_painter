@@ -95,26 +95,20 @@ class renderer
         }
         
         void zoomin_p(QPoint p) {
-            std::cout << "in!!!!!!!!!!!!!!!!!!!!" << p.x() << " " << p.y() << std::endl;
-
-            m_origin_point = p;
+            //std::cout << "in!!!!!!!!!!!!!!!!!!!!" << p.x() << " " << p.y() << std::endl;
+            //m_origin_point = p;
             zoomin();
-            
-
-            std::cout << "NNNNN!!!!!!!!!!!!!!!!!!!!" << m_origin_point.x() << " " << m_origin_point.y() << std::endl;
-
+            //std::cout << "NNNNN!!!!!!!!!!!!!!!!!!!!" << m_origin_point.x() << " " << m_origin_point.y() << std::endl;
             notify_viewport_changed();
         }
         
         
         void zoomout_p(QPoint p) {
-            std::cout << "OU!!!!!!!!!!!!!!!!!!!!" << p.x() << " " << p.y() << std::endl;
-
+            //std::cout << "OU!!!!!!!!!!!!!!!!!!!!" << p.x() << " " << p.y() << std::endl;
             //m_origin_point = m_origin_point - p;
             //m_origin_point = m_origin_point+m_scale_factor*p;
             zoomout();
             //m_origin_point = p;
-            
             notify_viewport_changed();
         }
 
@@ -176,9 +170,9 @@ class renderer
             white.setWidth(1);
             white.setJoinStyle(Qt::RoundJoin);
             white.setCapStyle(Qt::RoundCap);
-            int _height = m_plane->height();//m_origin_point.y()>0?m_plane->height()+m_origin_point.y():m_plane->height()-m_origin_point.y();
-            int _width = m_plane->width();//*m_origin_point.x()+m_plane->size().width()-20; //m_plane->size().width();///m_pan_step0;//m_origin_point.x()>0?m_plane->width()+m_origin_point.x():m_plane->width()-m_origin_point.x();
-            int startx = 0;
+            int _height = m_zoom_factor*m_plane->height();//m_origin_point.y()>0?m_plane->height()+m_origin_point.y():m_plane->height()-m_origin_point.y();
+            int _width = m_zoom_factor*m_plane->width();//*m_origin_point.x()+m_plane->size().width()-20; //m_plane->size().width();///m_pan_step0;//m_origin_point.x()>0?m_plane->width()+m_origin_point.x():m_plane->width()-m_origin_point.x();
+            int startx = -1*m_origin_point.x();;
             int starty = -1*m_origin_point.y();
             for (int i = startx, _i = startx; i < _width; i += m_scale, ++_i)
                     for (int j = starty, _j = starty; j < _height; j += m_scale, ++_j)
