@@ -1843,6 +1843,8 @@ dicmdCanvasMouseMove -point (153,71)
 dicmdCanvasMouseMove -point (153,71) 
 dicmdCanvasMouseMove -point (153,72) 
 dicmdCanvasMouseMove -point (153,72) 
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_0.txt Selection_Compare_0.txt.golden
 dicmdCanvasMouseMove -point (156,76) 
 dicmdCanvasMouseMove -point (156,76) 
 dicmdCanvasMouseMove -point (162,82) 
@@ -1935,6 +1937,8 @@ dicmdCanvasMouseMove -point (205,165)
 dicmdCanvasMouseMove -point (205,165) 
 dicmdCanvasMouseMove -point (205,166) 
 dicmdCanvasMouseMove -point (205,166) 
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_1.txt Selection_Compare_1.txt.golden
 dicmdCanvasMouseMove -point (205,165) 
 dicmdCanvasMouseMove -point (205,165) 
 dicmdCanvasMouseMove -point (205,168) 
@@ -2003,6 +2007,8 @@ dicmdCanvasMouseMove -point (196,306)
 dicmdCanvasMouseMove -point (196,306) 
 dicmdCanvasMouseMove -point (195,306) 
 dicmdCanvasMouseMove -point (195,306) 
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_2.txt Selection_Compare_2.txt.golden
 dicmdCanvasMouseMove -point (195,304) 
 dicmdCanvasMouseMove -point (195,304) 
 dicmdCanvasMouseMove -point (195,302) 
@@ -2119,6 +2125,8 @@ dicmdCanvasMouseMove -point (288,266)
 dicmdCanvasMouseMove -point (288,266) 
 dicmdCanvasMouseMove -point (288,265) 
 dicmdCanvasMouseMove -point (288,265) 
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_3.txt Selection_Compare_3.txt.golden
 dicmdCanvasMouseMove -point (287,265) 
 dicmdCanvasMouseMove -point (287,265) 
 dicmdCanvasMouseMove -point (286,265) 
@@ -2179,6 +2187,8 @@ dicmdCanvasMouseMove -point (257,254)
 dicmdCanvasMouseMove -point (257,254) 
 dicmdCanvasMouseMove -point (257,253) 
 dicmdCanvasMouseMove -point (257,253) 
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_4.txt Selection_Compare_4.txt.golden
 dicmdCanvasMouseMove -point (257,252) 
 dicmdCanvasMouseMove -point (257,252) 
 dicmdCanvasMouseMove -point (257,251) 
@@ -2237,6 +2247,8 @@ dicmdCanvasMouseMove -point (291,210)
 dicmdCanvasMouseMove -point (291,210) 
 dicmdCanvasMouseMove -point (292,209) 
 dicmdCanvasMouseMove -point (292,209) 
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_5.txt Selection_Compare_5.txt.golden
 dicmdCanvasMouseMove -point (292,208) 
 dicmdCanvasMouseMove -point (292,208) 
 dicmdCanvasMouseMove -point (294,204) 
@@ -2273,6 +2285,8 @@ dicmdCanvasMouseMove -point (370,139)
 dicmdCanvasMouseMove -point (370,139) 
 dicmdCanvasMouseMove -point (371,139) 
 dicmdCanvasMouseMove -point (371,139) 
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_6.txt Selection_Compare_6.txt.golden
 dicmdCanvasMouseMove -point (371,137) 
 dicmdCanvasMouseMove -point (371,137) 
 dicmdCanvasMouseMove -point (373,134) 
@@ -2349,6 +2363,8 @@ dicmdCanvasMouseMove -point (484,79)
 dicmdCanvasMouseMove -point (484,79) 
 dicmdCanvasMouseMove -point (484,78) 
 dicmdCanvasMouseMove -point (484,78) 
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_7.txt Selection_Compare_7.txt.golden
 dicmdCanvasMouseMove -point (484,79) 
 dicmdCanvasMouseMove -point (484,79) 
 dicmdCanvasMouseMove -point (484,80) 
@@ -2539,6 +2555,8 @@ dicmdCanvasMouseMove -point (657,113)
 dicmdCanvasMouseMove -point (657,113) 
 dicmdCanvasMouseMove -point (658,113) 
 dicmdCanvasMouseMove -point (658,113) 
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_8.txt Selection_Compare_8.txt.golden
 dicmdCanvasMouseMove -point (657,113) 
 dicmdCanvasMouseMove -point (657,113) 
 dicmdCanvasMouseMove -point (656,113) 
@@ -2599,6 +2617,8 @@ dicmdCanvasMouseMove -point (651,112)
 dicmdCanvasMouseMove -point (651,112) 
 dicmdCanvasMouseMove -point (651,113) 
 dicmdCanvasMouseMove -point (651,113) 
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_9.txt Selection_Compare_9.txt.golden
 dicmdCanvasMouseMove -point (651,112) 
 dicmdCanvasMouseMove -point (651,112) 
 dicmdCanvasMouseMove -point (649,112) 
@@ -2759,6 +2779,8 @@ dicmdCanvasMouseMove -point (563,100)
 dicmdCanvasMouseMove -point (563,100) 
 dicmdCanvasMouseMove -point (564,102) 
 dicmdCanvasMouseMove -point (564,102) 
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_10.txt Selection_Compare_10.txt.golden
 dicmdCanvasMouseMove -point (564,103) 
 dicmdCanvasMouseMove -point (564,103) 
 dicmdCanvasMouseMove -point (569,108) 
@@ -2797,6 +2819,8 @@ dicmdCanvasMouseMove -point (628,208)
 dicmdCanvasMouseMove -point (628,208) 
 dicmdCanvasMouseMove -point (628,209) 
 dicmdCanvasMouseMove -point (628,209) 
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_11.txt Selection_Compare_11.txt.golden
 dicmdCanvasMouseMove -point (629,208) 
 dicmdCanvasMouseMove -point (629,208) 
 dicmdCanvasMouseMove -point (631,205) 
@@ -2849,6 +2873,8 @@ dicmdCanvasMouseMove -point (874,118)
 dicmdCanvasMouseMove -point (874,118) 
 dicmdCanvasMouseMove -point (874,117) 
 dicmdCanvasMouseMove -point (874,117) 
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_12.txt Selection_Compare_12.txt.golden
 dicmdCanvasMouseMove -point (870,117) 
 dicmdCanvasMouseMove -point (870,117) 
 dicmdCanvasMouseMove -point (859,117) 
@@ -4460,6 +4486,8 @@ dicmdCanvasMouseMove -point (435,285)
 dicmdCanvasMouseMove -point (435,285) 
 dicmdCanvasMouseMove -point (436,285) 
 dicmdCanvasMouseMove -point (436,285) 
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_13.txt Selection_Compare_13.txt.golden
 dicmdCanvasMouseMove -point (436,284) 
 dicmdCanvasMouseMove -point (436,284) 
 dicmdCanvasMouseMove -point (436,283) 
@@ -4538,6 +4566,8 @@ dicmdCanvasMouseMove -point (590,315)
 dicmdCanvasMouseMove -point (590,315) 
 dicmdCanvasMouseMove -point (589,316) 
 dicmdCanvasMouseMove -point (589,316) 
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_14.txt Selection_Compare_14.txt.golden
 dicmdCanvasMouseMove -point (591,316) 
 dicmdCanvasMouseMove -point (591,316) 
 dicmdCanvasMouseMove -point (597,316) 
@@ -4594,6 +4624,8 @@ dicmdCanvasMouseMove -point (538,317)
 dicmdCanvasMouseMove -point (538,317) 
 dicmdCanvasMouseMove -point (537,317) 
 dicmdCanvasMouseMove -point (537,317) 
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_15.txt Selection_Compare_15.txt.golden
 dicmdCanvasMouseMove -point (537,319) 
 dicmdCanvasMouseMove -point (537,319) 
 dicmdCanvasMouseMove -point (532,325) 
@@ -4642,6 +4674,8 @@ dicmdCanvasMouseMove -point (483,304)
 dicmdCanvasMouseMove -point (483,304) 
 dicmdCanvasMouseMove -point (483,303) 
 dicmdCanvasMouseMove -point (483,303) 
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_16.txt Selection_Compare_16.txt.golden
 dicmdCanvasMouseMove -point (483,304) 
 dicmdCanvasMouseMove -point (483,304) 
 dicmdCanvasMouseMove -point (483,310) 
@@ -4700,6 +4734,8 @@ dicmdCanvasMouseMove -point (841,274)
 dicmdCanvasMouseMove -point (841,274) 
 dicmdCanvasMouseMove -point (840,274) 
 dicmdCanvasMouseMove -point (840,274) 
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_17.txt Selection_Compare_17.txt.golden
 dicmdCanvasMouseMove -point (839,274) 
 dicmdCanvasMouseMove -point (839,274) 
 dicmdCanvasMouseMove -point (839,275) 
@@ -4734,6 +4770,8 @@ dicmdCanvasMouseMove -point (751,301)
 dicmdCanvasMouseMove -point (751,301) 
 dicmdCanvasMouseMove -point (750,301) 
 dicmdCanvasMouseMove -point (750,301) 
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_18.txt Selection_Compare_18.txt.golden
 dicmdCanvasMouseMove -point (751,301) 
 dicmdCanvasMouseMove -point (751,301) 
 dicmdCanvasMouseMove -point (752,301) 
@@ -4780,6 +4818,8 @@ dicmdCanvasMouseMove -point (820,277)
 dicmdCanvasMouseMove -point (820,277) 
 dicmdCanvasMouseMove -point (820,276) 
 dicmdCanvasMouseMove -point (820,276) 
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_19.txt Selection_Compare_19.txt.golden
 dicmdCanvasMouseMove -point (819,276) 
 dicmdCanvasMouseMove -point (819,276) 
 dicmdCanvasMouseMove -point (813,278) 
@@ -4806,6 +4846,8 @@ dicmdCanvasMouseMove -point (751,299)
 dicmdCanvasMouseMove -point (751,299) 
 dicmdCanvasMouseMove -point (749,299) 
 dicmdCanvasMouseMove -point (749,299) 
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_20.txt Selection_Compare_20.txt.golden
 dicmdCanvasMouseMove -point (749,298) 
 dicmdCanvasMouseMove -point (749,298) 
 dicmdCanvasMouseMove -point (749,288) 
@@ -4896,6 +4938,8 @@ dicmdCanvasMouseMove -point (804,163)
 dicmdCanvasMouseMove -point (804,163) 
 dicmdCanvasMouseMove -point (805,163) 
 dicmdCanvasMouseMove -point (805,163) 
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_21.txt Selection_Compare_21.txt.golden
 dicmdCanvasMouseMove -point (804,163) 
 dicmdCanvasMouseMove -point (804,163) 
 dicmdCanvasMouseMove -point (801,165) 
@@ -5396,6 +5440,8 @@ dicmdCanvasMouseMove -point (343,66)
 dicmdCanvasMouseMove -point (343,66) 
 dicmdCanvasMouseMove -point (344,66) 
 dicmdCanvasMouseMove -point (344,66) 
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_22.txt Selection_Compare_22.txt.golden
 dicmdCanvasMouseMove -point (344,65) 
 dicmdCanvasMouseMove -point (344,65) 
 dicmdCanvasMouseMove -point (338,59) 
@@ -5438,6 +5484,8 @@ dicmdCanvasMouseMove -point (298,36)
 dicmdCanvasMouseMove -point (298,36) 
 dicmdCanvasMouseMove -point (298,34) 
 dicmdCanvasMouseMove -point (298,34) 
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_23.txt Selection_Compare_23.txt.golden
 dicmdCanvasMouseMove -point (297,34) 
 dicmdCanvasMouseMove -point (297,34) 
 dicmdCanvasMouseMove -point (294,29) 
@@ -5723,6 +5771,8 @@ dicmdCanvasMouseMove -point (749,94)
 dicmdCanvasMouseMove -point (749,94) 
 dicmdCanvasMouseMove -point (749,91) 
 dicmdCanvasMouseMove -point (749,91) 
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_24.txt Selection_Compare_24.txt.golden
 dicmdCanvasMouseMove -point (745,91) 
 dicmdCanvasMouseMove -point (745,91) 
 dicmdCanvasMouseMove -point (708,82) 
@@ -5757,6 +5807,8 @@ dicmdCanvasMouseMove -point (729,82)
 dicmdCanvasMouseMove -point (729,82) 
 dicmdCanvasMouseMove -point (732,82) 
 dicmdCanvasMouseMove -point (732,82) 
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_25.txt Selection_Compare_25.txt.golden
 dicmdCanvasMouseMove -point (733,82) 
 dicmdCanvasMouseMove -point (733,82) 
 dicmdCanvasMouseMove -point (738,82) 
@@ -6214,6 +6266,8 @@ dicmdCanvasMouseMove -point (208,147)
 dicmdCanvasMouseMove -point (208,147) 
 dicmdCanvasMouseMove -point (209,147) 
 dicmdCanvasMouseMove -point (209,147) 
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_26.txt Selection_Compare_26.txt.golden
 dicmdCanvasMouseMove -point (210,147) 
 dicmdCanvasMouseMove -point (210,147) 
 dicmdCanvasMouseMove -point (226,146) 
@@ -6238,6 +6292,8 @@ dicmdCanvasMouseMove -point (407,144)
 dicmdCanvasMouseMove -point (407,144) 
 dicmdCanvasMouseMove -point (409,144) 
 dicmdCanvasMouseMove -point (409,144) 
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_27.txt Selection_Compare_27.txt.golden
 dicmdCanvasMouseMove -point (409,143) 
 dicmdCanvasMouseMove -point (409,143) 
 dicmdCanvasMouseMove -point (401,125) 
@@ -6310,6 +6366,8 @@ dicmdCanvasMouseMove -point (438,156)
 dicmdCanvasMouseMove -point (438,156) 
 dicmdCanvasMouseMove -point (437,156) 
 dicmdCanvasMouseMove -point (437,156) 
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_28.txt Selection_Compare_28.txt.golden
 dicmdCanvasMouseMove -point (436,156) 
 dicmdCanvasMouseMove -point (436,156) 
 dicmdCanvasMouseMove -point (436,151) 
@@ -6378,6 +6436,8 @@ dicmdCanvasMouseMove -point (834,251)
 dicmdCanvasMouseMove -point (834,251) 
 dicmdCanvasMouseMove -point (834,252) 
 dicmdCanvasMouseMove -point (834,252) 
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_29.txt Selection_Compare_29.txt.golden
 dicmdCanvasMouseMove -point (834,251) 
 dicmdCanvasMouseMove -point (834,251) 
 dicmdCanvasMouseMove -point (775,216) 
@@ -6402,6 +6462,8 @@ dicmdCanvasMouseMove -point (649,206)
 dicmdCanvasMouseMove -point (649,206) 
 dicmdCanvasMouseMove -point (652,206) 
 dicmdCanvasMouseMove -point (652,206) 
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_30.txt Selection_Compare_30.txt.golden
 dicmdCanvasMouseMove -point (652,205) 
 dicmdCanvasMouseMove -point (652,205) 
 dicmdCanvasMouseMove -point (696,171) 

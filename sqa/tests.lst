@@ -11,3 +11,4 @@ test_suites/different_selections
 test_suites/interactive_selection_lines
 test_suites/viewport_manipulations
 test_suites/selection_sanity
+test_suites/interactive_point_selection1

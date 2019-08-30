@@ -4,34 +4,8 @@
 #include "command_manager.hpp"
 #include "direct_command_base.hpp"
 
-enum panDirection { PANUP, PANDOWN, PANLEFT, PANRIGHT };
-enum zoomDirection  { ZOOMIN, ZOOMOUT };
+#include "../core/renderer.hpp"
 
-namespace
-{
-        std::string panDirection2str(const panDirection& p ) {
-            switch (p) {
-                case PANUP:
-                     return "PanUp";
-                case PANDOWN:
-                     return "PanDown";
-                case PANLEFT:
-                     return "PanLeft";
-                case PANRIGHT:
-                     return "PanRight";                     
-            }
-        }
-        
-        std::string zoomDirection2str(const zoomDirection& p ) {
-            switch (p) {
-                case ZOOMIN:
-                     return "ZoomIn";
-                case ZOOMOUT:
-                     return "ZoomOut";
-              
-            }
-        }
-}
 
 /*
 dicmdCanvasOriginPanLeft

@@ -6,7 +6,6 @@
 #include "postman.hpp"
 #include "callback.hpp"
 
-#include "../commands/canvas_commands.hpp"
 
 #include <QPainter>
 #include <QWidget>
@@ -14,6 +13,34 @@
 
 #include <iostream>
 
+enum panDirection { PANUP, PANDOWN, PANLEFT, PANRIGHT };
+enum zoomDirection  { ZOOMIN, ZOOMOUT };
+
+namespace
+{
+        std::string panDirection2str(const panDirection& p ) {
+            switch (p) {
+                case PANUP:
+                     return "PanUp";
+                case PANDOWN:
+                     return "PanDown";
+                case PANLEFT:
+                     return "PanLeft";
+                case PANRIGHT:
+                     return "PanRight";                     
+            }
+        }
+        
+        std::string zoomDirection2str(const zoomDirection& p ) {
+            switch (p) {
+                case ZOOMIN:
+                     return "ZoomIn";
+                case ZOOMOUT:
+                     return "ZoomOut";
+              
+            }
+        }
+}
 
 class canvasTransformClbkDt: public LeCallbackData
 {
@@ -30,6 +57,46 @@ class canvasTransformClbkDt: public LeCallbackData
 // REPONSIBLE FOR VIEWPORT CONTROLL
 class renderer
 {
+    //Q_OBJECT
+    public:
+        renderer ( QWidget* w, ObjectPoolSandboxPtr r, IObjectPoolPtr s );
+        ~renderer(); 
+        void render(); 
+        void pan(const panDirection& d); 
+
+        void zoom_internal(const zoomDirection& z, QPoint p ); 
+
+        void zoom(int factor, QPoint p ); 
+        void zoomin_p(QPoint p); 
+        void zoomout_p(QPoint p); 
+        
+    private:
+        QPainter*  get_painter();
+        void start(); 
+        void stop(); 
+        void notify_viewport_changed(); 
+        float get_zoom_factor(); 
+
+        void prezoom(QPoint p); 
+        void zoomin(); 
+        void zoomout(); 
+        
+        void make_viewport_adjustments(); 
+
+        void draw_background();
+        void draw_grid(); 
+        void draw_objects(); 
+        void draw_runtime_pools(); 
+        void draw_all();
+		
+		
+    private:
+        float m_scale_factor = 1;
+        float m_zoom_factor = 1.1;
+            
+    private:
+        QPainter* m_qt_painter;
+
 	IObjectPoolPtr m_working_set;
 	ObjectPoolSandboxPtr m_sandbox;
 	int m_scale = 15;
@@ -38,238 +105,7 @@ class renderer
         bool m_need_adjustment = false;
         QRect* m_users_pov_rect;
  	
-    //Q_OBJECT
-    public:
-        //WPainter(QPaintDevice* p):QPainter(p){
-        renderer ( QWidget* w, ObjectPoolSandboxPtr r, IObjectPoolPtr s ):m_sandbox(r),m_working_set(s) { 	
-            m_scale_factor = 1;
-            m_qt_painter = new QPainter(w);
-            m_plane = w;
-            m_users_pov_rect = new QRect(QPoint(0,0), m_plane->size());            
-        }
-        
-        ~renderer() {
-            delete m_qt_painter;
-            m_qt_painter = 0;
-        }
-        
-        //void drawRect(const QRect& r) {
-        //	QRect r2(r);
-        //	r2.setHeight(r.height());
-        //	r2.setWidth(r.width());
-        //	QPainter::drawRect(r2);
-        //}
-        
-        void start() {
-            m_qt_painter->begin(m_plane);
-        }
-        
-        void stop() {
-            m_qt_painter->end();
-        }
-        
-        void pan(const panDirection& d) {
-            
-            switch (d) {
-                case PANLEFT: m_origin_point.setX(m_origin_point.x()-m_pan_step); 
-                            dicmdCanvasOrigin<PANLEFT>().log();
-                            break;
-                case PANRIGHT: m_origin_point.setX(m_origin_point.x()+m_pan_step); 
-                            dicmdCanvasOrigin<PANRIGHT>().log();
-                            break;
-                case PANUP: m_origin_point.setY(m_origin_point.y()-m_pan_step); 
-                            dicmdCanvasOrigin<PANUP>().log();
-                            break;
-                case PANDOWN: m_origin_point.setY(m_origin_point.y()+m_pan_step); 
-                            dicmdCanvasOrigin<PANDOWN>().log();
-                            break;
-            }
-            notify_viewport_changed();    
-        }
-
-        void zoom_internal(const zoomDirection& z, QPoint p ) {
-                if ( z == ZOOMIN )
-                    zoomin_p(p);
-                else
-                    zoomout_p(p);
-        }
-
-        void zoom(int factor, QPoint p ) {
-                if ( factor > 0 )
-                    zoom_internal(ZOOMIN,p);
-                else
-                    zoom_internal(ZOOMOUT,p);
-        }
-
-        
-        void prezoom(QPoint p) {
-            
-            
-        }
-        
-        void zoomin_p(QPoint p) {
-            //std::cout << "in!!!!!!!!!!!!!!!!!!!!" << p.x() << " " << p.y() << std::endl;
-            //m_origin_point = p;
-            dicmdCanvasViewport<ZOOMIN>(p).log();
-            zoomin();
-            //std::cout << "NNNNN!!!!!!!!!!!!!!!!!!!!" << m_origin_point.x() << " " << m_origin_point.y() << std::endl;
-            notify_viewport_changed();
-        }
-        
-        
-        void zoomout_p(QPoint p) {
-            //std::cout << "OU!!!!!!!!!!!!!!!!!!!!" << p.x() << " " << p.y() << std::endl;
-            //m_origin_point = m_origin_point - p;
-            //m_origin_point = m_origin_point+m_scale_factor*p;
-            dicmdCanvasViewport<ZOOMOUT>(p).log();
-            zoomout();
-            //m_origin_point = p;
-            notify_viewport_changed();
-        }
-
-        void zoomin() {
-            m_scale_factor*=m_zoom_factor;
-            //notify_viewport_changed();
-
-        }
-
-        void zoomout() {
-            //std::cout << "zzomout" << m_scale_factor << std::endl;
-            if ( m_scale_factor > 0.05 ) {
-                    m_scale_factor/=m_zoom_factor;
-                    //notify_viewport_changed();
-            }
-        }
-
-        void notify_viewport_changed() 
-        {
-            canvasTransformClbkDt d(m_scale_factor,m_origin_point.x(),m_scale_factor,m_origin_point.y());
-            NOTIFY(CANVAS_VIEWPORT_CHANGED,d);
-            m_need_adjustment = true;
-        }
-        
-        float get_zoom_factor() const
-        {
-            return m_scale_factor;
-        }
-
-        //void pan(int x, int y) {
-        //	
-        //}
-        
-        QPainter*  get_painter() {
-            return m_qt_painter;
-        }
-        
-        void draw_background() {
-            m_qt_painter->setBrush(QBrush(Qt::black));
-            QSize s = m_plane->size();
-            auto _h = s.height();
-            auto _w = s.width();            
-            int w = _w/m_scale_factor; //m_scale_factor>1?m_scale_factor/_w:m_scale_factor/_w;
-            int h = _h/m_scale_factor; //m_scale_factor>1?m_scale_factor/_h:m_scale_factor*_h;
-            int x = -1*m_origin_point.x();//m_origin_point.x() > 0 ? -1*m_origin_point.x() : m_origin_point.x();
-            int y = -1*m_origin_point.y(); //m_origin_point.y() > 0 ? -1*m_origin_point.y() : m_origin_point.y();
-            
-            m_qt_painter->drawRect(QRect(QPoint(x,y), QSize(w,h)));
-            //m_plane->setStyleSheet("background-color:black;");
-        }
-
-        //broken
-        //*
-        void draw_grid() {
-            //m_qt_painter->scale(1,1);
-            //m_qt_painter->translate(QPoint(0,0));
-
-            QPen white(Qt::red);
-            white.setWidth(1);
-            white.setJoinStyle(Qt::RoundJoin);
-            white.setCapStyle(Qt::RoundCap);
-            
-            //std::cout <<   1/get_zoom_factor() << std::endl;
-            int _height =  1/get_zoom_factor()*(m_plane->height());//m_origin_point.y()>0?m_plane->height()+m_origin_point.y():m_plane->height()-m_origin_point.y();
-            int _width = 1/get_zoom_factor()*(m_plane->width());//*m_origin_point.x()+m_plane->size().width()-20; //m_plane->size().width();///m_pan_step0;//m_origin_point.x()>0?m_plane->width()+m_origin_point.x():m_plane->width()-m_origin_point.x();
-            int startx = m_origin_point.x();;
-            int starty = m_origin_point.y();
-            
-            //std::cout << startx << " " << _width << "      " << starty << " " << _height << std::endl;
-            for (int i = startx, _i = startx; i < _width; i += m_scale, ++_i)
-                    for (int j = starty, _j = starty; j < _height; j += m_scale, ++_j)
-                    {
-                            if ((_i % 5 == 0) && (_j % 5 == 0))
-                                    white.setWidth(3);
-                            
-                            white.setJoinStyle(Qt::RoundJoin);
-                            white.setCapStyle(Qt::RoundCap);
-                            m_qt_painter->setPen(white);
-                            m_qt_painter->drawPoint(i, j);
-                            white.setWidth(1);
-                    }
-        }
-        /**/
-        
-        void draw_objects() {
-                // draw working set
-                std::vector<IShape*> shapes = m_working_set->getObjects();
-                // fixme draw all objects in the bbox, from rq.
-                // std::vector<IShape*> shapes = rq.getShapesUnderRect(m_users_pov_rect);
-                for (auto i : shapes)
-                        i->draw(m_qt_painter);
-        }
-        
-        void make_viewport_adjustments() {
-                //don't whant to scale and trasnform each time
-                //if ( ! m_need_adjustment )
-                //    return;
-                
-                //std::cout << "adjust!!! " << std::endl;
-                //musers_pov_rect->setTopLeft(m_origin_point);
-                m_qt_painter->scale(m_scale_factor,m_scale_factor);
-                m_qt_painter->translate(m_origin_point);
-                //m_users_pov_rect->adjust(0,0,-1*m_origin_point.y(),-1*m_origin_point.x());
-                m_need_adjustment = false;
-        }
-            
-        void draw_runtime_pools() {
-                // draw runtime
-            auto pools = m_sandbox->getChildren();
-            for (auto it : pools)
-            {
-                if (it == nullptr)
-                                continue;
-
-                auto p = it->getPool();
-                if (p == nullptr)
-                                continue;
-
-                auto objs = p->getObjects();
-                for (auto i : objs)
-                        i->draw(m_qt_painter);
-            }
-        }
-        
-        void draw_all() {
-                draw_background();
-                draw_grid();            
-                draw_objects();
-                draw_runtime_pools();
-        }
-
-        void render() {
-                start();
-                make_viewport_adjustments();
-                draw_all();
-                stop();
-        }
-		
-		
-    private:
-            float m_scale_factor = 1;
-            float m_zoom_factor = 1.1;
-            
-    private:
-            QPainter* m_qt_painter;
-            QWidget* m_plane;
+        QWidget* m_plane;
 };
 
 #endif
