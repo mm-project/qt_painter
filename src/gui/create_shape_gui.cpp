@@ -49,7 +49,6 @@ create_shape_gui::create_shape_gui(QWidget* p)
 	buildToolButtons(tools);
 	ribbon->addTab(tools, "Tools");
 	
-
 	QVBoxLayout* layout = new QVBoxLayout;
 	layout->addWidget(ribbon);
 
