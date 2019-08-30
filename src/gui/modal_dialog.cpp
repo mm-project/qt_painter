@@ -33,6 +33,7 @@ bool mmModalDialog::ask_yn_question(const std::string& tl, const std::string& bd
         }
     
     }
+	return false; // warning
 }
 
 
