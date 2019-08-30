@@ -217,7 +217,6 @@ void canvas::invoke_delete()
 {
 	cm->activate_command(cm->find_command("incmdDeleteShape"));
 }
-
 void canvas::abordCommand()
 {
 	CommandBase* command = cm->get_active_command();
