@@ -11,6 +11,7 @@
 #include "../core/working_set.hpp"
 #include "../core/callback.hpp"
 
+
 // Stl
 #include <string>
 #include <iostream>
@@ -22,6 +23,7 @@
 //
 // @class command manager
 //
+class renderer;
 class command_manager  
 {
 
@@ -35,6 +37,9 @@ class command_manager
     public:
         void set_main_widget(QWidget* w);
         QWidget* get_main_widget();
+        void set_main_renderer(renderer* r);
+        renderer* get_main_renderer();
+        
         
         void init2(ObjectPoolSandboxPtr r, IObjectPoolPtr s);
         void init();
@@ -59,6 +64,7 @@ class command_manager
 
         
     private:
+        renderer* m_renderer;
         //FIXME !!! map with string
         std::map<std::string, CommandBase*> m_name2command;
         

@@ -28,6 +28,9 @@ public:
         virtual void mouseDoubleClickEvent(QMouseEvent*) override;
         virtual void wheelEvent(QWheelEvent* event) override;
 
+public:
+        renderer* get_renderer();
+        
 public slots:
         void current_type_changed();
         void invoke_create_line();
@@ -38,10 +41,14 @@ public slots:
         void invoke_select_by_point();
         void invoke_save();
         void invoke_load();
-		void invoke_delete();
+        void invoke_delete();
         
         void reset();
         void on_update();
+        void abordCommand();
+
+signals:
+	void discardAction();
 
 private:
         bool is_runtime_mode;

@@ -6,13 +6,14 @@
 #include "postman.hpp"
 #include "callback.hpp"
 
+#include "../commands/basic_commands.hpp"
+
 #include <QPainter>
 #include <QWidget>
 #include <QPoint>
 
 #include <iostream>
 
-enum panDirection { PANUP, PANDOWN, PANLEFT, PANRIGHT };
 
 class canvasTransformClbkDt: public LeCallbackData
 {
@@ -67,25 +68,37 @@ class renderer
             m_qt_painter->end();
         }
         
-        void pan(panDirection d) {
+        void pan(const panDirection& d) {
+            
             switch (d) {
                 case PANLEFT: m_origin_point.setX(m_origin_point.x()-m_pan_step); 
+                            dicmdCanvasOrigin<PANLEFT>().log();
                             break;
                 case PANRIGHT: m_origin_point.setX(m_origin_point.x()+m_pan_step); 
+                            dicmdCanvasOrigin<PANRIGHT>().log();
                             break;
                 case PANUP: m_origin_point.setY(m_origin_point.y()-m_pan_step); 
+                            dicmdCanvasOrigin<PANUP>().log();
                             break;
                 case PANDOWN: m_origin_point.setY(m_origin_point.y()+m_pan_step); 
+                            dicmdCanvasOrigin<PANDOWN>().log();
                             break;
             }
             notify_viewport_changed();    
         }
 
+        void zoom_internal(const zoomDirection& z, QPoint p ) {
+                if ( z == ZOOMIN )
+                    zoomin_p(p);
+                else
+                    zoomout_p(p);
+        }
+
         void zoom(int factor, QPoint p ) {
                 if ( factor > 0 )
-                        zoomin_p(p);
+                    zoom_internal(ZOOMIN,p);
                 else
-                        zoomout_p(p);
+                    zoom_internal(ZOOMOUT,p);
         }
 
         
@@ -97,6 +110,7 @@ class renderer
         void zoomin_p(QPoint p) {
             //std::cout << "in!!!!!!!!!!!!!!!!!!!!" << p.x() << " " << p.y() << std::endl;
             //m_origin_point = p;
+            dicmdCanvasViewport<ZOOMIN>(p).log();
             zoomin();
             //std::cout << "NNNNN!!!!!!!!!!!!!!!!!!!!" << m_origin_point.x() << " " << m_origin_point.y() << std::endl;
             notify_viewport_changed();
@@ -107,6 +121,7 @@ class renderer
             //std::cout << "OU!!!!!!!!!!!!!!!!!!!!" << p.x() << " " << p.y() << std::endl;
             //m_origin_point = m_origin_point - p;
             //m_origin_point = m_origin_point+m_scale_factor*p;
+            dicmdCanvasViewport<ZOOMOUT>(p).log();
             zoomout();
             //m_origin_point = p;
             notify_viewport_changed();
@@ -119,7 +134,7 @@ class renderer
         }
 
         void zoomout() {
-            std::cout << "zzomout" << m_scale_factor << std::endl;
+            //std::cout << "zzomout" << m_scale_factor << std::endl;
             if ( m_scale_factor > 0.05 ) {
                     m_scale_factor/=m_zoom_factor;
                     //notify_viewport_changed();
@@ -133,7 +148,7 @@ class renderer
             m_need_adjustment = true;
         }
         
-        int get_zoom_factor() const
+        float get_zoom_factor() const
         {
             return m_scale_factor;
         }
@@ -163,17 +178,21 @@ class renderer
         //broken
         //*
         void draw_grid() {
-            m_qt_painter->scale(1,1);
-            m_qt_painter->translate(QPoint(0,0));
+            //m_qt_painter->scale(1,1);
+            //m_qt_painter->translate(QPoint(0,0));
 
             QPen white(Qt::red);
             white.setWidth(1);
             white.setJoinStyle(Qt::RoundJoin);
             white.setCapStyle(Qt::RoundCap);
-            int _height = m_zoom_factor*m_plane->height();//m_origin_point.y()>0?m_plane->height()+m_origin_point.y():m_plane->height()-m_origin_point.y();
-            int _width = m_zoom_factor*m_plane->width();//*m_origin_point.x()+m_plane->size().width()-20; //m_plane->size().width();///m_pan_step0;//m_origin_point.x()>0?m_plane->width()+m_origin_point.x():m_plane->width()-m_origin_point.x();
-            int startx = -1*m_origin_point.x();;
-            int starty = -1*m_origin_point.y();
+            
+            //std::cout <<   1/get_zoom_factor() << std::endl;
+            int _height =  1/get_zoom_factor()*(m_plane->height());//m_origin_point.y()>0?m_plane->height()+m_origin_point.y():m_plane->height()-m_origin_point.y();
+            int _width = 1/get_zoom_factor()*(m_plane->width());//*m_origin_point.x()+m_plane->size().width()-20; //m_plane->size().width();///m_pan_step0;//m_origin_point.x()>0?m_plane->width()+m_origin_point.x():m_plane->width()-m_origin_point.x();
+            int startx = m_origin_point.x();;
+            int starty = m_origin_point.y();
+            
+            //std::cout << startx << " " << _width << "      " << starty << " " << _height << std::endl;
             for (int i = startx, _i = startx; i < _width; i += m_scale, ++_i)
                     for (int j = starty, _j = starty; j < _height; j += m_scale, ++_j)
                     {

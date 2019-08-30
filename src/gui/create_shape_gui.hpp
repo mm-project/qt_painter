@@ -9,6 +9,7 @@
 class QVBoxLayout;
 class QRadioButton;
 class QPushButton;
+class QRibbonButton;
 
 #include <QWidget>
 
@@ -33,6 +34,7 @@ private:
 	void build_join_style(QRibbonWidget*);
 	void build_brush_and_fill(QRibbonWidget*);
 	void build_selection(QRibbonWidget*);
+	void buildToolButtons(QRibbonWidget*);
 
 private slots:
 	void createShape(int);
@@ -41,6 +43,11 @@ private slots:
 	void join_style_changed(const QString&);
 	void change_fill(const QString&);
 	void change_brush(const QString&);
+	void discard();
+	void restore();
+
+public slots:
+	void discardAction();
 
 signals:
 	void reset();
@@ -53,11 +60,17 @@ signals:
 	void createEllipse();
 	void createPolygon();
 	void deleteShape();
+	void abord();
 
 	void something_changed();
 	void selectByRegion();
 	void selectByPoint();
 
+	void showConsole();
+	void hideConsole();
+
+private:
+	QRibbonButton* m_active = nullptr;
 };
 
 #endif

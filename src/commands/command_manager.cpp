@@ -43,6 +43,13 @@ void command_manager::init() {
     register_command(new dicmdSelectShapesByRegion);
     register_command(new dicmdguiClickButton);
     register_command(new dicmdguiClickModalButton);
+    register_command(new dicmdCanvasOrigin<PANDOWN>);
+    register_command(new dicmdCanvasOrigin<PANLEFT>);
+    register_command(new dicmdCanvasOrigin<PANRIGHT>);
+    register_command(new dicmdCanvasOrigin<PANUP>);
+    register_command(new dicmdCanvasViewport<ZOOMIN>);
+    register_command(new dicmdCanvasViewport<ZOOMOUT>);
+    
     
     m_current_command = m_idle_command;
 }
@@ -116,6 +123,16 @@ void command_manager::event_wrapper() {
 */
 
 
+void command_manager::set_main_renderer(renderer* r) 
+{
+    m_renderer = r;
+}
+
+renderer* command_manager::get_main_renderer()
+{
+    return m_renderer;
+}
+
 void command_manager::on_viewport_changed(LeCallbackData& d)
 {
     canvasTransformClbkDt& d1 = dynamic_cast<canvasTransformClbkDt&>(d);
@@ -123,7 +140,8 @@ void command_manager::on_viewport_changed(LeCallbackData& d)
     m_dx = d1.m_dx;
     m_ky = d1.m_ky;
     m_dy = d1.m_dy;
-    //*
+    
+    /*
     std::cout << "&&&\n";
     std::cout << m_kx << " " << m_ky << std::endl;
     std::cout << m_dx << " " << m_dy << std::endl;
@@ -140,7 +158,7 @@ void command_manager::mouse_dbl_clicked(int x, int y) {
 }
 
 void command_manager::mouse_clicked(int x, int y) {
-    std::cout << x << "(" << x/m_kx-m_dx << ")  --- " << y << "(" << y/m_ky-m_dy << ")" << std::endl;  
+    //std::cout << x << "(" << x/m_kx-m_dx << ")  --- " << y << "(" << y/m_ky-m_dy << ")" << std::endl;  
     m_current_command->handle_mouse_click(x/m_kx-m_dx,y/m_ky-m_dy);
 }
 

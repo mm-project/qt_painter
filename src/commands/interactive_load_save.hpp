@@ -20,6 +20,7 @@ namespace {
         if ( a == SAVE ) return "Save";
         if ( a == NEW )  return "New";
         if ( a == CLOSE ) return "Close";
+		return "";
     }
 }
 

@@ -56,6 +56,7 @@ canvas::canvas(QWidget* p)
 	cm = command_manager::get_instance();
 	cm->init2(m_sandbox, m_working_set);
 	cm->init();
+        cm->set_main_renderer(m_renderer);
 	
 	//fixme move to other place
 	cm->register_command(new INCMD_CREATE_OBJ(LINE));
@@ -79,6 +80,10 @@ canvas::canvas(QWidget* p)
 
 
 
+renderer* canvas::get_renderer() {
+        return m_renderer;
+}
+ 
 void canvas::keyPressEvent(QKeyEvent* ev) {
     
     //binding goes here
@@ -106,6 +111,8 @@ void canvas::keyPressEvent(QKeyEvent* ev) {
             cm->disactivate_active_command();
         }
         update();    
+        if (ev->key() == Qt::Key_Escape)
+                emit discardAction();
 }
 
 void canvas::mousePressEvent(QMouseEvent* e)
@@ -226,4 +233,8 @@ void canvas::reset()
 void canvas::invoke_delete()
 {
 	cm->activate_command(cm->find_command("incmdDeleteShape"));
+}
+void canvas::abordCommand()
+{
+	cm->activate_command(cm->find_command("dicmdAbortActiveCommand"));
 }

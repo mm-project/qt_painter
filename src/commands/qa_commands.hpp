@@ -121,8 +121,8 @@ namespace {
 			return("Runtime");
 			break;            
             }
+		return "";
     }
-    
 }
 
 template <qaCompType T>
