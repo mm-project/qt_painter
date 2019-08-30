@@ -153,6 +153,7 @@ public:
 		if (!b)
 			// vertical and horizontal case
 			return point.x() == p1.x() || point.x() == p2.x() || point.y() == p1.y() || point.y() == p2.y();
+		return b;
 	}
 
 
