@@ -144,7 +144,8 @@ public:
 		QPoint p2 = m_object->getP2();
 		QRectF bbox(p1, p2);
 		if (!bbox.contains(point))
-			return false;
+			// vertical and horizontal case
+			return point.x() == p1.x() || point.x() == p2.x() || point.y() == p1.y() || point.y() == p2.y();
 		float x = (float) (point.x() - p1.x()) / (p2.x() - p1.x());
 		float y = (float) (point.y() - p1.y()) / (p2.y() - p1.y());
 		float out =  x / y  * 100000 / 100000;

@@ -58,13 +58,13 @@ void create_shape_gui::build_design(QRibbonWidget* ribbonWidget)
 {
 	QRibbonGroup* group = new QRibbonGroup(this);
 	group->setTitle("Design");
-	QRibbonButton* new_b1 = new QRibbonButton(this, "New", getIconDir() + "create.png");
+	QRibbonButton* new_b1 = new QRibbonButton(this, "New", getIconDir() + "create.png", false);
 	connect(new_b1, SIGNAL(clicked()), this, SIGNAL(reset()));
-	QRibbonButton* close_b1 = new QRibbonButton(this, "Close", getIconDir() + "close.png");
+	QRibbonButton* close_b1 = new QRibbonButton(this, "Close", getIconDir() + "close.png", false);
 	connect(close_b1, SIGNAL(clicked()), this, SIGNAL(close()));
-	QRibbonButton* save_b2 = new QRibbonButton(this, "Save", getIconDir() + "save.svg");
+	QRibbonButton* save_b2 = new QRibbonButton(this, "Save", getIconDir() + "save.svg", false);
 	connect(save_b2, SIGNAL(clicked()), this, SIGNAL(save()));
-	QRibbonButton* load_b = new QRibbonButton(this, "Load", getIconDir() + "upload.svg");
+	QRibbonButton* load_b = new QRibbonButton(this, "Load", getIconDir() + "upload.svg", false);
 	connect(load_b, SIGNAL(clicked()), this, SIGNAL(load()));
 	group->addRibbonButton(new_b1);
 	group->addRibbonButton(save_b2);
@@ -79,11 +79,17 @@ void create_shape_gui::build_selection(QRibbonWidget* ribbonWidget)
 	group->setTitle("Select");
 
 	QRibbonButton* new_b = new QRibbonButton(this, "Point", getIconDir() + "mouse.svg");
-	connect(new_b, SIGNAL(clicked()), this, SIGNAL(selectByPoint()));
+	connect(new_b, SIGNAL(start()), this, SIGNAL(selectByPoint()));
+	connect(new_b, SIGNAL(end()), this, SIGNAL(abord()));
+	connect(new_b, SIGNAL(start()), this, SLOT(discard()));
+	connect(new_b, SIGNAL(end()), this, SLOT(restore()));
 	//new_b->setFlat(true);
 	//connect(new_b, SIGNAL(clicked()), this, SIGNAL(reset()));
 	QRibbonButton* close_b = new QRibbonButton(this, "Region", getIconDir() + "selection.svg");
-	connect(close_b, SIGNAL(clicked()), this, SIGNAL(selectByRegion()));
+	connect(close_b, SIGNAL(start()), this, SIGNAL(selectByRegion()));
+	connect(close_b, SIGNAL(end()), this, SIGNAL(abord()));
+	connect(close_b, SIGNAL(start()), this, SLOT(discard()));
+	connect(close_b, SIGNAL(end()), this, SLOT(restore()));
 	group->addRibbonButton(new_b);
 	group->addRibbonButton(close_b);
 	ribbonWidget->addGroup(group);
@@ -100,7 +106,10 @@ void create_shape_gui::build_shapes_group(QRibbonWidget* ribbonWidget)
 	for (int i = 0; i < Shapes.size(); ++i)
 	{
 		QRibbonButton* button = new QRibbonButton(this, Shapes[i], getIconDir() + Shapes[i].toLower() + ".svg");
-		connect(button, SIGNAL(clicked()), mapper, SLOT(map()));
+		connect(button, SIGNAL(start()), mapper, SLOT(map()));
+		connect(button, SIGNAL(end()), mapper, SLOT(abord()));
+		connect(button, SIGNAL(start()), this, SLOT(discard()));
+		connect(button, SIGNAL(end()), this, SLOT(restore()));
 		mapper->setMapping(button, i);
 		ribbonGroup->addRibbonButton(button);
 	}
@@ -111,7 +120,10 @@ void create_shape_gui::build_shapes_group(QRibbonWidget* ribbonWidget)
 	edit->setTitle("Edit");
 
 	QRibbonButton* delete_b = new QRibbonButton(this, "Delete", getIconDir() + QStringLiteral("delete.svg"));
-	connect(delete_b, SIGNAL(clicked()), this, SIGNAL(deleteShape()));
+	connect(delete_b, SIGNAL(start()), this, SIGNAL(deleteShape()));
+	connect(delete_b, SIGNAL(end()), this, SIGNAL(abord()));
+	connect(delete_b, SIGNAL(start()), this, SLOT(discard()));
+	connect(delete_b, SIGNAL(end()), this, SLOT(restore()));
 	edit->addRibbonButton(delete_b);
 	ribbonWidget->addGroup(edit);
 	ribbonWidget->addStretch(10);
@@ -372,4 +384,25 @@ void create_shape_gui::change_fill(const QString& s)
 	controller* c = controller::get_instance();
 	c->change_pen_style(mm[s.toStdString()]);
 	emit something_changed();
+}
+
+void create_shape_gui::discard()
+{
+	if (m_active != nullptr)
+		// dicard previous command
+		m_active->click();
+	m_active = qobject_cast<QRibbonButton*>(sender());
+}
+
+void create_shape_gui::restore()
+{
+	m_active = nullptr;
+}
+
+void create_shape_gui::discardAction()
+{
+	if (m_active != nullptr)
+		// dicard previous command
+		m_active->click();
+	m_active = nullptr;
 }

@@ -95,7 +95,8 @@ void canvas::keyPressEvent(QKeyEvent* ev) {
     //}
     //cm->key_pressed(_x, _y);
 
-
+		if (ev->key() == Qt::Key_Escape)
+			emit discardAction();
 }
 
 void canvas::mousePressEvent(QMouseEvent* e)
@@ -215,4 +216,11 @@ void canvas::reset()
 void canvas::invoke_delete()
 {
 	cm->activate_command(cm->find_command("incmdDeleteShape"));
+}
+
+void canvas::abordCommand()
+{
+	CommandBase* command = cm->get_active_command();
+	if (command != nullptr)
+		command->abort();
 }
