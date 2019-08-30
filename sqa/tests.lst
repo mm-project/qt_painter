@@ -10,3 +10,4 @@ test_suites/directive/save_load_reset_basic
 test_suites/different_selections
 test_suites/interactive_selection_lines
 test_suites/viewport_manipulations
+test_suites/selection_sanity

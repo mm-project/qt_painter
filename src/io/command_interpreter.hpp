@@ -35,6 +35,8 @@ class CommandInterp : public Service<CommandInterp>
             QStringList tokens = QString(n.c_str()).split(" ");  
             std::string cmd_name = tokens[0].toStdString();
             //std::cout << "<"<<n.toStdString()<<">" << tokens[0].toStdString() << std::endl;
+            if ( cmd_name.front() == '#' )
+                return 0;
             
             CommandBase* cmd = command_manager::get_instance()->find_command(cmd_name);
             if ( !cmd ) {

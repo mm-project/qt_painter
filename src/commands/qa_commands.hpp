@@ -29,12 +29,12 @@ namespace {
     {
             QFile data1(file1);
             if (!data1.open(QIODevice::ReadOnly | QIODevice::Text)){
-                return false;
+                return true;
             }
 
             QFile data2(file2);
             if (!data2.open(QIODevice::ReadOnly | QIODevice::Text)){
-                return false;
+                return true;
             }
 
             QTextStream in1(&data1), in2(&data2);
@@ -197,21 +197,23 @@ class dicmdQaCompareInternal: public NonTransactionalDirectCommandBase
             
             dicmdQaDump<T>().set_arg("-filename",f)->execute();
             
-            
+            std::cout << QString::fromLocal8Bit( qgetenv("ELEN_PAINTER_REGOLDEN").constData() ).toStdString() << std::endl;
             bool regoldenmode = false;
             if ( ! QString::fromLocal8Bit( qgetenv("ELEN_PAINTER_REGOLDEN").constData() ).isEmpty() )
-                bool regoldenmode = true;
+                regoldenmode = true;
             
             if ( regoldenmode ) {
+                 //std::cout << "aaaaaaaaar" << std::endl;
                 //Messenger::expose_msg(test,"dicmdQaCanvasCompare-compare-regolden: "+f+" "+g);
                 //std::cout << "#/t CanvasCompare REGOLDENED: " << f << " " << g << std::endl;
                 //FIXME not compatible with other OS
                 #ifdef OS_LINUX
+                    //std::cout << "hoparrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr" << std::endl;
                     z << "cp " << f << " " << g;
                     system(z.str().c_str());
                     Messenger::expose_msg(test,"comparision->"+qaCompType2string(T)+":PASS "+f+" "+g);
                 #else
-                    Messenger::expose_msg(err."Auto regoldening is availble only in linux ( currently )");
+                    Messenger::expose_msg(err."Autoregoldening is availble only in linux ( currently )");
                 #endif
             } else {
             

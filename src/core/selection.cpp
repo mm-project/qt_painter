@@ -8,7 +8,8 @@ std::string Selection::getName()
 }
 
 void Selection::clear() {
-	m_sel_highlight_set->clear();
+	WorkingSet::clear();
+        m_sel_highlight_set->clear();
 	m_oa_highlight_set->clear();
         m_sb->clear();
 }
@@ -61,7 +62,6 @@ void Selection::highlight_shape_under_pos(const QPoint& p) {
 	IShape* shape = rq.getShapeUnderPos(p);
 	if (shape != nullptr)
 	{
-		addObject(shape);
 		m_oa_highlight_set->addObject(shape);
                 m_oa_highlight_set->highlight_on();
 	}
@@ -91,9 +91,9 @@ HighlightSet::HighlightSet(const std::string& n,const ShapeProperties& p ):m_nam
 
 
 void HighlightSet::create_sandbox(ObjectPoolSandbox* ops) {
-	m_rt_pools = ops;
-	m_sb = new ObjectSandbox();
-	m_rt_pools->addChildren(std::shared_ptr<ObjectSandbox>(m_sb));
+    m_rt_pools = ops;
+    m_sb = new ObjectSandbox();
+    m_rt_pools->addChildren(std::shared_ptr<ObjectSandbox>(m_sb));
 }
 
 std::string HighlightSet::getName() {
@@ -104,7 +104,6 @@ void HighlightSet::highlight_on()
 {
     highlight_on_off(true);
 }
-
 
 void HighlightSet::clear() {
     WorkingSet::clear();

@@ -114,7 +114,7 @@ dicmdCanvasMouseMove -point (434,296)
 dicmdCanvasMouseMove -point (433,296) 
 dicmdCanvasMouseMove -point (432,296) 
 dicmdCanvasMouseMove -point (432,297) 
-dicmdQaCompareDesign 
+dicmdQaCompareSelection 
 #t --> Test: comparision->Design:PASS Design_Compare_0.txt Design_Compare_0.txt.golden
 dicmdCanvasMouseMove -point (432,298) 
 dicmdCanvasMouseMove -point (432,297) 
