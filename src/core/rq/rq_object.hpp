@@ -4,6 +4,7 @@
 #include "../shapes.hpp"
 
 #include <memory>
+#include <iostream>
 
 namespace rq {
 
@@ -141,10 +142,17 @@ public:
 	{
 		QPoint p1 = m_object->getP1();
 		QPoint p2 = m_object->getP2();
-
+		QRectF bbox(p1, p2);
+		if (!bbox.contains(point))
+			return false;
 		float x = (float) (point.x() - p1.x()) / (p2.x() - p1.x());
 		float y = (float) (point.y() - p1.y()) / (p2.y() - p1.y());
-		return x == y;
+		float out =  x / y  * 100000 / 100000;
+		std::cout << out << std::endl;
+		bool b = out > 0.95 && out < 1.25;
+		if (!b)
+			// vertical and horizontal case
+			return point.x() == p1.x() || point.x() == p2.x() || point.y() == p1.y() || point.y() == p2.y();
 	}
 
 
