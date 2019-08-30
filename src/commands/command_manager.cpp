@@ -6,6 +6,7 @@
 #include "gui_commands.hpp"
 #include "selection_commands.hpp"
 #include "qa_commands.hpp"
+#include "canvas_commands.hpp"
 
 #include "../core/postman.hpp"
 #include "../core/callback.hpp"

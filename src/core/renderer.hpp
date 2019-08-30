@@ -6,7 +6,7 @@
 #include "postman.hpp"
 #include "callback.hpp"
 
-#include "../commands/basic_commands.hpp"
+#include "../commands/canvas_commands.hpp"
 
 #include <QPainter>
 #include <QWidget>
