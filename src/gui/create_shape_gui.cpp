@@ -45,6 +45,11 @@ create_shape_gui::create_shape_gui(QWidget* p)
 	build_shapes_group(shapes);
 	ribbon->addTab(shapes, "Shapes");
 
+	QRibbonWidget* tools = new QRibbonWidget(this);
+	buildToolButtons(tools);
+	ribbon->addTab(tools, "Tools");
+	
+
 	QVBoxLayout* layout = new QVBoxLayout;
 	layout->addWidget(ribbon);
 
@@ -405,4 +410,18 @@ void create_shape_gui::discardAction()
 		// dicard previous command
 		m_active->click();
 	m_active = nullptr;
+}
+
+void create_shape_gui::buildToolButtons(QRibbonWidget* widget)
+{
+	QRibbonGroup* group = new QRibbonGroup(this);
+	//group->setTitle("");
+	QRibbonButton* btn = new QRibbonButton(this, "Console", getIconDir() + "console.svg");
+	//default is shown
+	btn->click();
+	connect(btn, SIGNAL(start()), this, SIGNAL(showConsole()));
+	connect(btn, SIGNAL(end()), this, SIGNAL(hideConsole()));
+	group->addRibbonButton(btn);
+	widget->addGroup(group);
+	widget->addStretch(1);
 }

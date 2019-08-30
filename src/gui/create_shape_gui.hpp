@@ -34,6 +34,7 @@ private:
 	void build_join_style(QRibbonWidget*);
 	void build_brush_and_fill(QRibbonWidget*);
 	void build_selection(QRibbonWidget*);
+	void buildToolButtons(QRibbonWidget*);
 
 private slots:
 	void createShape(int);
@@ -64,6 +65,9 @@ signals:
 	void something_changed();
 	void selectByRegion();
 	void selectByPoint();
+
+	void showConsole();
+	void hideConsole();
 
 private:
 	QRibbonButton* m_active = nullptr;
