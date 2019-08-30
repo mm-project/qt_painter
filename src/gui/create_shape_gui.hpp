@@ -31,7 +31,7 @@ private:
 	void build_colors(QRibbonWidget*);
 	void build_gap_style(QRibbonWidget*);
 	void build_join_style(QRibbonWidget*);
-	void build_brush_and_pen_pattern(QRibbonWidget*);
+	void build_brush_and_fill(QRibbonWidget*);
 	void build_selection(QRibbonWidget*);
 
 private slots:
@@ -39,6 +39,8 @@ private slots:
 	void pen_color_changed(const QString&);
 	void cap_style_changed(const QString&);
 	void join_style_changed(const QString&);
+	void change_fill(const QString&);
+	void change_brush(const QString&);
 
 signals:
 	void reset();
@@ -50,17 +52,12 @@ signals:
 	void createRect();
 	void createEllipse();
 	void createPolygon();
+	void deleteShape();
 
 	void something_changed();
 	void selectByRegion();
 	void selectByPoint();
 
-private:
-	QPushButton* m_line_button = nullptr;
-	QPushButton* m_rect_button = nullptr;
-	QPushButton* m_ellipse_button = nullptr;
-	QPushButton* m_polygon_button = nullptr;
-	//QRadioButton* m_pen_button = nullptr;
 };
 
 #endif

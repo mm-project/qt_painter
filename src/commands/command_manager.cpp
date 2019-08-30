@@ -44,8 +44,6 @@ void command_manager::init() {
     register_command(new dicmdguiClickButton);
     register_command(new dicmdguiClickModalButton);
     
-    
-    
     m_current_command = m_idle_command;
 }
 

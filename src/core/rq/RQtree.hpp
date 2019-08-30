@@ -53,6 +53,8 @@ public:
 
 	//	Returns 2 left and right childs
 	std::vector<RQobjectPtr> nearest_points(const RQobjectPtr&) const;
+	
+	void clear();
 
 private:
 	//
@@ -262,5 +264,10 @@ void  RQtree<T>::_getObjects(CNodePtr<T> node, const QRect& oRect, int depth, st
 	return _getObjects(node->m_right_ptr, oRect, depth + 1, shapes);
 }
 
+template <typename T>
+void RQtree<T>::clear()
+{
+	m_root = nullptr;
+}
 }
 #endif

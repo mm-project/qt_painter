@@ -85,7 +85,6 @@ main_window::main_window(QWidget* p)
 	QDockWidget* console_widget = new QDockWidget(this);
 	m_console = new ConsoleAssistant(*console_widget, this);
 	m_console->setMinimumHeight(125);
-
 	QDockWidget* w = new QDockWidget(this);
 	w->setWidget(m_shapes);
 	w->setFeatures(QDockWidget::NoDockWidgetFeatures);
@@ -147,6 +146,7 @@ void main_window::make_connections()
 	connect(m_shapes, SIGNAL(selectByPoint()), m_canvas, SLOT(invoke_select_by_point()));
 	connect(m_shapes, SIGNAL(save()), m_canvas, SLOT(invoke_save()));
 	connect(m_shapes, SIGNAL(load()), m_canvas, SLOT(invoke_load()));
+	connect(m_shapes, SIGNAL(deleteShape()), m_canvas, SLOT(invoke_delete()));
 }
 
 

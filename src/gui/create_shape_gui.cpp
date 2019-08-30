@@ -33,14 +33,17 @@ create_shape_gui::create_shape_gui(QWidget* p)
 	QRibbonWidget* ribbonWidget = new QRibbonWidget(this);
 	build_design(ribbonWidget);
 	build_selection(ribbonWidget);
-	build_shapes_group(ribbonWidget);
 	build_colors(ribbonWidget);
-	build_gap_style(ribbonWidget);
-	build_join_style(ribbonWidget);
-	build_brush_and_pen_pattern(ribbonWidget);
+	//build_gap_style(ribbonWidget);
+	//build_join_style(ribbonWidget);
+	build_brush_and_fill(ribbonWidget);
 
 	QRibbon* ribbon = new QRibbon(this);
 	ribbon->addTab(ribbonWidget, "Home");
+
+	QRibbonWidget* shapes = new QRibbonWidget(this);
+	build_shapes_group(shapes);
+	ribbon->addTab(shapes, "Shapes");
 
 	QVBoxLayout* layout = new QVBoxLayout;
 	layout->addWidget(ribbon);
@@ -103,6 +106,15 @@ void create_shape_gui::build_shapes_group(QRibbonWidget* ribbonWidget)
 	}
 
 	ribbonWidget->addGroup(ribbonGroup);
+
+	QRibbonGroup* edit = new QRibbonGroup(this);
+	edit->setTitle("Edit");
+
+	QRibbonButton* delete_b = new QRibbonButton(this, "Delete", getIconDir() + QStringLiteral("delete.svg"));
+	connect(delete_b, SIGNAL(clicked()), this, SIGNAL(deleteShape()));
+	edit->addRibbonButton(delete_b);
+	ribbonWidget->addGroup(edit);
+	ribbonWidget->addStretch(10);
 }
 
 void create_shape_gui::build_colors(QRibbonWidget* ribbonWidget)
@@ -129,10 +141,10 @@ void create_shape_gui::build_colors(QRibbonWidget* ribbonWidget)
 		button->setObjectName(texts[i]);
 		button->setIcon(icon);
 		button->setFixedSize(globalSize);
-        //set_object_name_for_logging(button);
+                //set_object_name_for_logging(button);
 		layout->addWidget(button, i / 5, i % 5);
-		connect(button, SIGNAL(clicked()), mapper, SLOT(map()));
 		mapper->setMapping(button, texts[i]);
+		connect(button, SIGNAL(clicked()), mapper, SLOT(map()));
 	}
 
 	for (int i = 8; i < 15; ++i)
@@ -177,27 +189,49 @@ void create_shape_gui::build_gap_style(QRibbonWidget* ribbonWidget)
 	ribbonWidget->addGroup(ribbonGroup);
 }
 
-void create_shape_gui::build_brush_and_pen_pattern(QRibbonWidget* ribbonWidget)
+void create_shape_gui::build_brush_and_fill(QRibbonWidget* ribbonWidget)
 {
 	QRibbonGroup* ribbonGroup = new QRibbonGroup(this);
-	ribbonGroup->setTitle("Brush And Pen");
+	ribbonGroup->setTitle("Brush");
+	QSignalMapper* mapper = new QSignalMapper(this);
+	connect(mapper, SIGNAL(mapped(const QString&)), this,
+		SLOT(change_brush(const QString&)));
 
-	QStringList styles = {"Solid Pattern", "Dense1 Pattern", "Dense2 Pattern", "Dense3 Pattern"
-	"Dense4 Pattern", "Dense5 Pattern", "Dense6 Pattern", "Dense7 Pattern", "No Brush", "Horizontal Pattern",
-	"Vertical Pattern", "Cross Pattern", "BDiag Pattern", "FDiag Pattern", "Diag Cross Pattern" };
+	QStringList styles = { "Horizontal", "Vertical", "Cross" };
 
-	QComboBox* box = new QComboBox(this);
-	box->addItems(styles);
+	for (int i = 0; i < styles.size(); ++i)
+	{
+		QRadioButton* button = new QRadioButton(this);
+		connect(button, SIGNAL(clicked()), mapper, SLOT(map()));
+		mapper->setMapping(button, styles[i]);
+		ribbonGroup->addButton(button, styles[i], QRibbonButtonSize::size16);
 
-	QStringList penStyles = {"Solid Line", "Dash Line", "Dot Line", "Dash Dot Line", "Dash Dot Dot Line",
-		"Custom Dash Line", "No Pen"};
+		if (i == 0)
+			button->click();
+	}
 
-	QComboBox* pen = new QComboBox(this);
-	pen->addItems(penStyles);
-
-	ribbonGroup->addButton(box);
-	ribbonGroup->addButton(pen);
 	ribbonWidget->addGroup(ribbonGroup);
+
+	QRibbonGroup* ribbonGroup1 = new QRibbonGroup(this);
+	ribbonGroup1->setTitle("Fill");
+	QSignalMapper* mapper1 = new QSignalMapper(this);
+	connect(mapper1, SIGNAL(mapped(const QString&)), this,
+		SLOT(change_fill(const QString&)));
+
+	QStringList styles1 = { "Solid", "Dash", "Dot" };
+
+	for (int i = 0; i < styles.size(); ++i)
+	{
+		QRadioButton* button = new QRadioButton(this);
+		connect(button, SIGNAL(clicked()), mapper1, SLOT(map()));
+		mapper1->setMapping(button, styles[i]);
+		ribbonGroup1->addButton(button, styles1[i], QRibbonButtonSize::size16);
+
+		if (i == 0)
+			button->click();
+	}
+
+	ribbonWidget->addGroup(ribbonGroup1);
 	ribbonWidget->addStretch(10000);
 }
 
@@ -279,9 +313,10 @@ Qt::PenJoinStyle get_join_style_from_string(const QString& s)
 void create_shape_gui::pen_color_changed(const QString& s)
 {
 	controller* c = controller::get_instance();
-	//(m_pen_button->isChecked())
-	//	? c->change_pen_color(get_color_from_string(s))
-	//	: c->change_brush_color(get_color_from_string(s));
+	//fixme nagaina
+        //(m_pen_button->isChecked())
+	c->change_pen_color(get_color_from_string(s));
+	c->change_brush_color(get_color_from_string(s));
 	emit something_changed();
 }
 
@@ -315,5 +350,27 @@ void create_shape_gui::join_style_changed(const QString& s)
 {
 	controller* c = controller::get_instance();
 	c->change_pen_join_style(get_join_style_from_string(s));
+	emit something_changed();
+}
+
+void create_shape_gui::change_brush(const QString& s)
+{
+	std::map<std::string, Qt::BrushStyle> mm; 
+	mm["Horizontal"] = Qt::HorPattern;
+	mm["Vertical"] = Qt::VerPattern;
+	mm["Cross"] = Qt::CrossPattern;
+	controller* c = controller::get_instance();
+	c->change_brush_style(mm[s.toStdString()]);
+	emit something_changed();
+}
+
+void create_shape_gui::change_fill(const QString& s)
+{
+	std::map<std::string, Qt::PenStyle> mm;
+	mm["Horizontal"] = Qt::SolidLine;
+	mm["Vertical"] = Qt::DashLine;
+	mm["Cross"] = Qt::DotLine;
+	controller* c = controller::get_instance();
+	c->change_pen_style(mm[s.toStdString()]);
 	emit something_changed();
 }

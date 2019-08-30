@@ -25,5 +25,27 @@ class dicmdAbortActiveCommand: public NonTransactionalDirectCommandBase
 
 };
 
+/*
+dicmdCanvasOriginPanLeft
+dicmdCanvasOriginPanRight
+dicmdCanvasOriginPanUp
+dicmdCanvasOriginPanDown
+dicmdCanvasZoomIn -to_point
+dicmdCanvasZoomOut -from_point
 
+template <... T>
+class dicmdCanvasPan: public NonTransactionalDirectCommandBase
+{
+    public:        
+        virtual std::string get_name() {
+            return "";
+        }
+
+        virtual void execute() {
+            NOTIFY()
+        }
+
+};
+
+*/
 #endif

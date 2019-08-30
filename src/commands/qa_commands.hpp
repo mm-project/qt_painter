@@ -196,24 +196,29 @@ class dicmdQaCompareInternal: public NonTransactionalDirectCommandBase
             std::string g(GET_CMD_ARG(StringCommandOptionValue,"-goldenfile"));
             
             dicmdQaDump<T>().set_arg("-filename",f)->execute();
-            z << "cp " << f << " " << g;
             
-            bool regoldenmode = true;
-            if ( QString::fromLocal8Bit( qgetenv("ELEN_PAINTER_REGOLDEN").constData() ).isEmpty() )
-                bool regoldenmode = false;
+            
+            bool regoldenmode = false;
+            if ( ! QString::fromLocal8Bit( qgetenv("ELEN_PAINTER_REGOLDEN").constData() ).isEmpty() )
+                bool regoldenmode = true;
             
             if ( regoldenmode ) {
-                Messenger::expose_msg(test,"comparision->"+qaCompType2string(T)+":PASS "+f+" "+g);
                 //Messenger::expose_msg(test,"dicmdQaCanvasCompare-compare-regolden: "+f+" "+g);
                 //std::cout << "#/t CanvasCompare REGOLDENED: " << f << " " << g << std::endl;
                 //FIXME not compatible with other OS
-                //system(z.str().c_str());
+                #ifdef OS_LINUX
+                    z << "cp " << f << " " << g;
+                    system(z.str().c_str());
+                    Messenger::expose_msg(test,"comparision->"+qaCompType2string(T)+":PASS "+f+" "+g);
+                #else
+                    Messenger::expose_msg(err."Auto regoldening is availble only in linux ( currently )");
+                #endif
             } else {
             
                 if ( are_two_files_different(T,f.c_str(),g.c_str()) )
-                    Messenger::expose_msg(test,"comparision->"+qaCompType2string(T)+":PASS "+f+" "+g);
-                else 
                     Messenger::expose_msg(test,"comparision->"+qaCompType2string(T)+":MISMATCH "+f+" "+g);
+                else 
+                    Messenger::expose_msg(test,"comparision->"+qaCompType2string(T)+":PASS "+f+" "+g);
             }
             
         }

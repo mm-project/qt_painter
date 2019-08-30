@@ -48,6 +48,7 @@ class CommandBase : public ICommand
                 execute();
                 //post_execute() 
             } catch(...) {
+                Messenger::expose_msg(err,"something went wrong with this command");
                 std::cout << " Error: Fixme Exception or Error?? " << std::endl;
             }
         }

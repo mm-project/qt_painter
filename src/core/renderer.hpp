@@ -41,7 +41,7 @@ class renderer
     public:
         //WPainter(QPaintDevice* p):QPainter(p){
         renderer ( QWidget* w, ObjectPoolSandboxPtr r, IObjectPoolPtr s ):m_sandbox(r),m_working_set(s) { 	
-            m_zoom_factor = 1;
+            m_scale_factor = 1;
             m_qt_painter = new QPainter(w);
             m_plane = w;
             m_users_pov_rect = new QRect(QPoint(0,0), m_plane->size());            
@@ -97,8 +97,9 @@ class renderer
         void zoomin_p(QPoint p) {
             std::cout << "in!!!!!!!!!!!!!!!!!!!!" << p.x() << " " << p.y() << std::endl;
 
-            zoomin();
             m_origin_point = p;
+            zoomin();
+            
 
             std::cout << "NNNNN!!!!!!!!!!!!!!!!!!!!" << m_origin_point.x() << " " << m_origin_point.y() << std::endl;
 
@@ -110,36 +111,37 @@ class renderer
             std::cout << "OU!!!!!!!!!!!!!!!!!!!!" << p.x() << " " << p.y() << std::endl;
 
             //m_origin_point = m_origin_point - p;
+            //m_origin_point = m_origin_point+m_scale_factor*p;
             zoomout();
-            m_origin_point = p;
+            //m_origin_point = p;
             
             notify_viewport_changed();
         }
 
         void zoomin() {
-            m_zoom_factor*=1.2;
+            m_scale_factor*=m_zoom_factor;
             //notify_viewport_changed();
 
         }
 
         void zoomout() {
-            std::cout << "zzomout" << m_zoom_factor << std::endl;
-            if ( m_zoom_factor > 0.05 ) {
-                    m_zoom_factor*=0.8;
+            std::cout << "zzomout" << m_scale_factor << std::endl;
+            if ( m_scale_factor > 0.05 ) {
+                    m_scale_factor/=m_zoom_factor;
                     //notify_viewport_changed();
             }
         }
 
         void notify_viewport_changed() 
         {
-            canvasTransformClbkDt d(m_zoom_factor,m_origin_point.x(),m_zoom_factor,m_origin_point.y());
+            canvasTransformClbkDt d(m_scale_factor,m_origin_point.x(),m_scale_factor,m_origin_point.y());
             NOTIFY(CANVAS_VIEWPORT_CHANGED,d);
             m_need_adjustment = true;
         }
         
         int get_zoom_factor() const
         {
-            return m_zoom_factor;
+            return m_scale_factor;
         }
 
         //void pan(int x, int y) {
@@ -155,8 +157,8 @@ class renderer
             QSize s = m_plane->size();
             auto _h = s.height();
             auto _w = s.width();            
-            int w = _w/m_zoom_factor; //m_zoom_factor>1?m_zoom_factor/_w:m_zoom_factor/_w;
-            int h = _h/m_zoom_factor; //m_zoom_factor>1?m_zoom_factor/_h:m_zoom_factor*_h;
+            int w = _w/m_scale_factor; //m_scale_factor>1?m_scale_factor/_w:m_scale_factor/_w;
+            int h = _h/m_scale_factor; //m_scale_factor>1?m_scale_factor/_h:m_scale_factor*_h;
             int x = -1*m_origin_point.x();//m_origin_point.x() > 0 ? -1*m_origin_point.x() : m_origin_point.x();
             int y = -1*m_origin_point.y(); //m_origin_point.y() > 0 ? -1*m_origin_point.y() : m_origin_point.y();
             
@@ -165,10 +167,10 @@ class renderer
         }
 
         //broken
-        /*
+        //*
         void draw_grid() {
             m_qt_painter->scale(1,1);
-            m_qt_painter->translate(QPoint(0,0);
+            m_qt_painter->translate(QPoint(0,0));
 
             QPen white(Qt::red);
             white.setWidth(1);
@@ -176,7 +178,7 @@ class renderer
             white.setCapStyle(Qt::RoundCap);
             int _height = m_plane->height();//m_origin_point.y()>0?m_plane->height()+m_origin_point.y():m_plane->height()-m_origin_point.y();
             int _width = m_plane->width();//*m_origin_point.x()+m_plane->size().width()-20; //m_plane->size().width();///m_pan_step0;//m_origin_point.x()>0?m_plane->width()+m_origin_point.x():m_plane->width()-m_origin_point.x();
-            int startx = 0
+            int startx = 0;
             int starty = -1*m_origin_point.y();
             for (int i = startx, _i = startx; i < _width; i += m_scale, ++_i)
                     for (int j = starty, _j = starty; j < _height; j += m_scale, ++_j)
@@ -191,7 +193,7 @@ class renderer
                             white.setWidth(1);
                     }
         }
-        */
+        /**/
         
         void draw_objects() {
                 // draw working set
@@ -209,7 +211,7 @@ class renderer
                 
                 //std::cout << "adjust!!! " << std::endl;
                 //musers_pov_rect->setTopLeft(m_origin_point);
-                m_qt_painter->scale(m_zoom_factor,m_zoom_factor);
+                m_qt_painter->scale(m_scale_factor,m_scale_factor);
                 m_qt_painter->translate(m_origin_point);
                 //m_users_pov_rect->adjust(0,0,-1*m_origin_point.y(),-1*m_origin_point.x());
                 m_need_adjustment = false;
@@ -235,7 +237,7 @@ class renderer
         
         void draw_all() {
                 draw_background();
-                //draw_grid();            
+                draw_grid();            
                 draw_objects();
                 draw_runtime_pools();
         }
@@ -249,7 +251,8 @@ class renderer
 		
 		
     private:
-            float m_zoom_factor;
+            float m_scale_factor = 1;
+            float m_zoom_factor = 1.1;
             
     private:
             QPainter* m_qt_painter;

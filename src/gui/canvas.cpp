@@ -15,6 +15,7 @@
 #include "../commands/selection_commands.hpp"
 #include "../commands/load_save_commands.hpp"
 #include "../commands/interactive_load_save.hpp"
+#include "../commands/delete_command.hpp"
 #include "../commands/command_manager.hpp"
 
 #include <QRect>
@@ -72,7 +73,8 @@ canvas::canvas(QWidget* p)
         cm->register_command(new InteractiveDesAction<NEW>(m_working_set));   
         cm->register_command(new dicmdDesignSave(m_working_set));
         cm->register_command(new dicmdDesignLoad(m_working_set));
-        
+	cm->register_command(new InteractiveDeleteAction(m_working_set));
+	cm->register_command(new dicmdDeleteObj(m_working_set));
 }
 
 
@@ -219,4 +221,9 @@ void canvas::invoke_load()
 void canvas::reset()
 {
     cm->activate_command(cm->find_command("incmdDesignNew"));
+}
+
+void canvas::invoke_delete()
+{
+	cm->activate_command(cm->find_command("incmdDeleteShape"));
 }

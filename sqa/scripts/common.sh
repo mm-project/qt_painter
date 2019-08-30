@@ -32,6 +32,7 @@ function prepocess
     
     verbose "prepocess..."
     rm -rf output
+    mkdir -p golden
     mkdir output
     cd output
     if [ "$mode" != "regolden" ]; then

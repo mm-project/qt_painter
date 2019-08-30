@@ -38,6 +38,7 @@ public slots:
         void invoke_select_by_point();
         void invoke_save();
         void invoke_load();
+		void invoke_delete();
         
         void reset();
         void on_update();

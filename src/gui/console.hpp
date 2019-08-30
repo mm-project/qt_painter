@@ -70,8 +70,7 @@ private slots:
 private:
 	ConsoleWidget* m_console = nullptr;
 	OutputWidget* m_output = nullptr;
-        OutputWidget* m_log = nullptr;
-        
+  OutputWidget* m_log = nullptr;
 	QDockWidget& m_base;
 	QTabWidget* m_tabs = nullptr;
 };
