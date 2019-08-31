@@ -120,6 +120,7 @@ class dicmdguiClickButton: public NonTransactionalDirectCommandBase
             m_on = GET_CMD_ARG(StringCommandOptionValue,"-object");
             //m_on = (dynamic_cast<StringCommandOptionValue*>(get_option_val("-object")))->to_string();
             QAbstractButton* btn = CM->findChild<QAbstractButton*>(m_on.c_str());
+            if ( !btn ) throw 123;
             btn->click();
         }
 };
@@ -150,6 +151,7 @@ class dicmdguiSelectRadioButton: public NonTransactionalDirectCommandBase
             m_on = GET_CMD_ARG(StringCommandOptionValue,"-object");
             //m_on = (dynamic_cast<StringCommandOptionValue*>(get_option_val("-object")))->to_string();
             QRadioButton* btn = CM->findChild<QRadioButton*>(m_on.c_str());
+            if ( !btn ) throw 123;
             btn->click();
         }
 };

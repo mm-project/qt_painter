@@ -38,6 +38,7 @@ canvas::canvas(QWidget* p)
 	setFocusPolicy(Qt::StrongFocus);
 	setMouseTracking(true);
 	setObjectName("CANVAS");
+        //setStyleSheet("background-color:black;");
 	
         //fixme need preferences
         m_need_motionlog = !QString::fromLocal8Bit( qgetenv("PAINTER_LOG_MOTION").constData() ).isEmpty();
@@ -55,6 +56,7 @@ canvas::canvas(QWidget* p)
 	cm = command_manager::get_instance();
 	cm->init2(m_sandbox, m_working_set);
 	cm->init();
+        cm->set_main_renderer(m_renderer);
 	
 	//fixme move to other place
 	cm->register_command(new INCMD_CREATE_OBJ(LINE));
@@ -63,40 +65,54 @@ canvas::canvas(QWidget* p)
 	cm->register_command(new INCMD_CREATE_OBJ(POLYGON));
 	cm->register_command(new INCMD_HIGHLIGHT_BY_REGION);
 	cm->register_command(new INCMD_HIGHLIGHT_BY_POINT);
-    cm->register_command(new dicmdCreateObj<RECTANGLE>(m_working_set));
-    cm->register_command(new dicmdCreateObj<LINE>(m_working_set));
-    cm->register_command(new dicmdCreateObj<ELLIPSE>(m_working_set));
-    cm->register_command(new dicmdCreateObj<POLYGON>(m_working_set));
-    cm->register_command(new InteractiveDesAction<LOAD>(m_working_set));
-    cm->register_command(new InteractiveDesAction<SAVE>(m_working_set));
-    cm->register_command(new InteractiveDesAction<NEW>(m_working_set));   
-    cm->register_command(new dicmdDesignSave(m_working_set));
-    cm->register_command(new dicmdDesignLoad(m_working_set));
+        cm->register_command(new dicmdCreateObj<RECTANGLE>(m_working_set));
+        cm->register_command(new dicmdCreateObj<LINE>(m_working_set));
+        cm->register_command(new dicmdCreateObj<ELLIPSE>(m_working_set));
+        cm->register_command(new dicmdCreateObj<POLYGON>(m_working_set));
+        cm->register_command(new InteractiveDesAction<LOAD>(m_working_set));
+        cm->register_command(new InteractiveDesAction<SAVE>(m_working_set));
+        cm->register_command(new InteractiveDesAction<NEW>(m_working_set));   
+        cm->register_command(new dicmdDesignSave(m_working_set));
+        cm->register_command(new dicmdDesignLoad(m_working_set));
 	cm->register_command(new InteractiveDeleteAction(m_working_set));
 	cm->register_command(new dicmdDeleteObj(m_working_set));
 }
 
 
 
+renderer* canvas::get_renderer() {
+        return m_renderer;
+}
+ 
 void canvas::keyPressEvent(QKeyEvent* ev) {
     
     //binding goes here
     //if(ev->modifiers() & Qt::ShiftModifier) {
         //if ( ev->key() == Qt::Key_1 )  cm->find_command("dicmdQaCompareCanvas")->execute();
+        //better handling
         if ( ev->key() == Qt::Key_2 )  
             cm->find_command("dicmdQaCompareSelection")->execute_and_log();
+        else if ( ev->key() == Qt::Key_Z ) 
+            m_renderer->zoomout_p(m_last_cursor);
+        else if ( ev->key() == Qt::Key_X ) 
+            m_renderer->zoomin_p(m_last_cursor);
+        else if ( ev->key() == Qt::Key_Up )
+            m_renderer->pan(PANUP);
+        else if ( ev->key() == Qt::Key_Down )
+            m_renderer->pan(PANDOWN);
+        else if ( ev->key() == Qt::Key_Left )
+            m_renderer->pan(PANLEFT);
+        else if ( ev->key() == Qt::Key_Right )
+            m_renderer->pan(PANRIGHT);
         else {
             if( cm->is_idle() ) 
                 return;
         
             cm->disactivate_active_command();
         }
-            //if ( ev->key() == Qt::Key_3 )  cm->find_command("dicmdQaCompareDesign")->execute();
-    //}
-    //cm->key_pressed(_x, _y);
-
-		if (ev->key() == Qt::Key_Escape)
-			emit discardAction();
+        update();    
+        if (ev->key() == Qt::Key_Escape)
+                emit discardAction();
 }
 
 void canvas::mousePressEvent(QMouseEvent* e)
@@ -121,6 +137,7 @@ void canvas::current_type_changed()
 
 void canvas::mouseMoveEvent(QMouseEvent* e)
 {
+    m_last_cursor = e->pos();
     if( cm->is_idle() ) 
         return;
 

@@ -1,3 +1,4 @@
+#i --> Info: Welcome to this project. Feel free to expirment. 
 #i --> Info: Set to mode1
 dicmdCreateObjRectangle -points {(120,115);(250,228)} 
 dicmdCreateObjRectangle -points {(297,241);(431,351)} 

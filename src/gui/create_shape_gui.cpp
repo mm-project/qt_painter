@@ -157,10 +157,10 @@ void create_shape_gui::build_colors(QRibbonWidget* ribbonWidget)
 		button->setObjectName(texts[i]);
 		button->setIcon(icon);
 		button->setFixedSize(globalSize);
-        //set_object_name_for_logging(button);
+                //set_object_name_for_logging(button);
 		layout->addWidget(button, i / 5, i % 5);
-		connect(button, SIGNAL(clicked()), mapper, SLOT(map()));
 		mapper->setMapping(button, texts[i]);
+		connect(button, SIGNAL(clicked()), mapper, SLOT(map()));
 	}
 
 	for (int i = 8; i < 15; ++i)
@@ -329,9 +329,10 @@ Qt::PenJoinStyle get_join_style_from_string(const QString& s)
 void create_shape_gui::pen_color_changed(const QString& s)
 {
 	controller* c = controller::get_instance();
-	//(m_pen_button->isChecked())
-	//	? c->change_pen_color(get_color_from_string(s))
-	//	: c->change_brush_color(get_color_from_string(s));
+	//fixme nagaina
+        //(m_pen_button->isChecked())
+	c->change_pen_color(get_color_from_string(s));
+	c->change_brush_color(get_color_from_string(s));
 	emit something_changed();
 }
 

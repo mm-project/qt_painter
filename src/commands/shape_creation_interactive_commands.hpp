@@ -145,6 +145,7 @@ public:
 		//mouse clicked , set first point and go to next state 
 
 		ObjCreatorCommandBase<T>::create_runtime_object();
+                ObjCreatorCommandBase<T>::handle_update();
                 ObjCreatorCommandBase<T>::runtime_set_pos1();
                 ObjCreatorCommandBase<T>::runtime_set_pos2();
 		InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,on_first_click));
