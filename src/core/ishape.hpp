@@ -106,7 +106,8 @@ public:
 	virtual ~IShape() = default;
 
 public:
-
+        
+        virtual void moveCenterToPoint(QPoint&) = 0; 
 	virtual void reset() = 0;
 
 	virtual void addPoint(const QPoint&) = 0;

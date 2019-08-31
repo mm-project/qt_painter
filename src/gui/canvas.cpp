@@ -16,6 +16,7 @@
 #include "../commands/load_save_commands.hpp"
 #include "../commands/interactive_load_save.hpp"
 #include "../commands/delete_command.hpp"
+#include "../commands/copy_move_commands.hpp"
 #include "../commands/command_manager.hpp"
 
 #include <QRect>
@@ -76,6 +77,8 @@ canvas::canvas(QWidget* p)
         cm->register_command(new dicmdDesignLoad(m_working_set));
 	cm->register_command(new InteractiveDeleteAction(m_working_set));
 	cm->register_command(new dicmdDeleteObj(m_working_set));
+        cm->register_command(new incmdObjRelocateBy<MOVE>(m_sandbox,m_working_set));
+        cm->register_command(new incmdObjRelocateBy<COPY>(m_sandbox,m_working_set));
 }
 
 
@@ -90,7 +93,11 @@ void canvas::keyPressEvent(QKeyEvent* ev) {
     //if(ev->modifiers() & Qt::ShiftModifier) {
         //if ( ev->key() == Qt::Key_1 )  cm->find_command("dicmdQaCompareCanvas")->execute();
         //better handling
-        if ( ev->key() == Qt::Key_2 )  
+        if ( ev->key() == Qt::Key_M )  
+             cm->activate_command(cm->find_command("incmdObjRelocateByMove"));
+        else if ( ev->key() == Qt::Key_C )  
+             cm->activate_command(cm->find_command("incmdObjRelocateByCopy"));        
+        else if ( ev->key() == Qt::Key_2 ) 
             cm->find_command("dicmdQaCompareSelection")->execute_and_log();
         else if ( ev->key() == Qt::Key_Z ) 
             m_renderer->zoomout_p(m_last_cursor);
