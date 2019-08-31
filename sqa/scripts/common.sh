@@ -7,6 +7,11 @@ succ=4
 export PAINTER_LOGFILE_PREFIX="painter"
 #mode="regolden"
 mode=""
+extras=""
+
+function extra_comparision {
+    extras="$1"
+}
 
 function process_options
 {
@@ -56,6 +61,9 @@ function postprocess
             echo "Regoldning..."
             rm -rf ../golden 
             mkdir -p ../golden
+            for e in $extras; do
+                cp $e ../golden/$e.golden
+            done
             cp ./logs/painter.log ../golden/painter.log.golden
             cp ./logs/painter.lvi ../golden/painter.lvi.golden
             cp painter.out ../golden/painter.out.golden
@@ -73,6 +81,17 @@ function postprocess
             a=`diff ./logs/painter.log painter.log.golden`
             b=`diff ./logs/painter.lvi painter.lvi.golden`
             c=`diff painter.out painter.out.golden`
+
+            res_d=""
+            problems=""
+            for ex in $extras; do
+                d=`diff $ex $ex.golden`
+                if [ "$d" != "" ]; then
+                    problems="$ex <--> $ex.golden $problems"
+                fi
+                res_d="$res_d$d"
+            done
+
         else
             succ=`expr $succ - 1`
             echo "CAN'T FIND GOLDEN DIR"
@@ -93,6 +112,11 @@ function postprocess
             if [ "$c" != "" ]; then
                 #succ=`expr $succ - 1`
                 echo "MISMTACH painter.out <--> painter.out.golden "
+            fi
+
+            if [ "$res_d" != "" ]; then
+                succ=`expr $succ - 1`
+                echo "MISMTACH $problems "
             fi
 
         #fi

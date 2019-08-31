@@ -34,7 +34,7 @@ dicmdCanvasMouseMove -point (241,173)
 dicmdCanvasMouseMove -point (242,173) 
 dicmdCanvasMouseClick -point (242,173) 
 dicmdCanvasMouseClick -point (242,173) 
-#o --> Out: dicmdCreateObjRectangle -points {(131,77);(242,173)} 
+#o --> Out: dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(131,77);(242,173)} 
 dicmdCanvasMouseMove -point (242,172) 
 dicmdCanvasMouseMove -point (242,169) 
 dicmdCanvasMouseMove -point (242,165) 
@@ -66,7 +66,7 @@ dicmdCanvasMouseMove -point (343,262)
 dicmdCanvasMouseMove -point (344,262) 
 dicmdCanvasMouseClick -point (344,262) 
 dicmdCanvasMouseClick -point (344,262) 
-#o --> Out: dicmdCreateObjRectangle -points {(217,142);(344,262)} 
+#o --> Out: dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(217,142);(344,262)} 
 dicmdCanvasMouseMove -point (342,262) 
 dicmdCanvasMouseMove -point (339,260) 
 dicmdCanvasMouseMove -point (335,256) 
@@ -98,7 +98,7 @@ dicmdCanvasMouseMove -point (453,325)
 dicmdCanvasMouseMove -point (454,325) 
 dicmdCanvasMouseClick -point (454,325) 
 dicmdCanvasMouseClick -point (454,325) 
-#o --> Out: dicmdCreateObjRectangle -points {(316,245);(454,325)} 
+#o --> Out: dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(316,245);(454,325)} 
 dicmdCanvasMouseMove -point (453,324) 
 dicmdCanvasMouseMove -point (452,323) 
 dicmdCanvasMouseMove -point (451,321) 

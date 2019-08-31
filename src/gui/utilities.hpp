@@ -12,11 +12,13 @@
 #include <QPalette>
 #include <QStringList>
 #include <QMap>
+#include <QTabBar>
+#include <QTabWidget>
 
 // fixme move tho class 
 namespace {
     bool is_w_from_desired_list(QWidget* w) {
-        return ( dynamic_cast<QAbstractButton*>(w) ); // ||   qobject_cast<QAbsractButton*>(w)
+        return ( dynamic_cast<QAbstractButton*>(w)   ||  dynamic_cast<QTabWidget*>(w) ||  dynamic_cast<QTabBar*>(w) ); // ||   qobject_cast<QAbsractButton*>(w)
     }
     /*
     void process_unnamed(QWidget* w) {
@@ -63,8 +65,14 @@ namespace {
         if ( ! w->objectName().isEmpty() )
             wn = w->objectName();
         else {
-            QVariant v = w->property("text");
-            wn = v.isValid()?v.toString():w->objectName();
+            if ( dynamic_cast<QAbstractButton*>(w) ) {
+                QVariant v;
+                v = w->property("text");
+                wn = v.isValid()?v.toString():w->objectName();
+            } else if ( QTabWidget* tb = dynamic_cast<QTabWidget*>(w) ) {
+                std::cout << " tab bar " << std::endl;
+                wn = tb->tabText(0).isEmpty()?w->objectName():tb->tabText(0);
+            }            
             if ( wn.isEmpty() ) {
                 if ( isleaf && is_w_from_desired_list(w) ) {
                     //fixme : if only in test-mode !
