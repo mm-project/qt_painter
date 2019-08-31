@@ -7,7 +7,7 @@ jobs:
       - checkout
       - run:
           name: deps
-          command: apt-get update && apt-get install -y cmake xvfb build-essential qt5-default
+          command: apt-get update && apt-get install -y git less ping cmake xvfb build-essential qt5-default
       - run:
           name: compile
           command: export TERM=xterm; cmake CMakeLists.txt; make
