@@ -1,17 +1,17 @@
-dicmdCreateObjLine -points {(99,128);(255,82)} 
-dicmdCreateObjLine -points {(168,61);(321,59)} 
-dicmdCreateObjLine -points {(295,124);(258,88)} 
-dicmdCreateObjLine -points {(265,134);(205,111)} 
-dicmdCreateObjLine -points {(492,96);(775,91)} 
-dicmdCreateObjLine -points {(554,151);(703,16)} 
-dicmdCreateObjLine -points {(600,47);(682,170)} 
-dicmdCreateObjLine -points {(1012,117);(1116,76)} 
-dicmdCreateObjLine -points {(1106,112);(956,217)} 
-dicmdCreateObjLine -points {(931,169);(944,169)} 
-dicmdCreateObjLine -points {(897,154);(879,61)} 
-dicmdCreateObjLine -points {(810,267);(823,183)} 
-dicmdCreateObjLine -points {(602,198);(646,213)} 
-dicmdCreateObjLine -points {(414,112);(484,182)} 
+dicmdCreateObjLine -brush 1 -color #000000 -fill 9 -points {(99,128);(255,82)} 
+dicmdCreateObjLine -brush 1 -color #000000 -fill 9 -points {(168,61);(321,59)} 
+dicmdCreateObjLine -brush 1 -color #000000 -fill 9 -points {(295,124);(258,88)} 
+dicmdCreateObjLine -brush 1 -color #000000 -fill 9 -points {(265,134);(205,111)} 
+dicmdCreateObjLine -brush 1 -color #000000 -fill 9 -points {(492,96);(775,91)} 
+dicmdCreateObjLine -brush 1 -color #000000 -fill 9 -points {(554,151);(703,16)} 
+dicmdCreateObjLine -brush 1 -color #000000 -fill 9 -points {(600,47);(682,170)} 
+dicmdCreateObjLine -brush 1 -color #000000 -fill 9 -points {(1012,117);(1116,76)} 
+dicmdCreateObjLine -brush 1 -color #000000 -fill 9 -points {(1106,112);(956,217)} 
+dicmdCreateObjLine -brush 1 -color #000000 -fill 9 -points {(931,169);(944,169)} 
+dicmdCreateObjLine -brush 1 -color #000000 -fill 9 -points {(897,154);(879,61)} 
+dicmdCreateObjLine -brush 1 -color #000000 -fill 9 -points {(810,267);(823,183)} 
+dicmdCreateObjLine -brush 1 -color #000000 -fill 9 -points {(602,198);(646,213)} 
+dicmdCreateObjLine -brush 1 -color #000000 -fill 9 -points {(414,112);(484,182)} 
 dicmdSelectShapesByRegion -end (361,212) -start (40,26) 
 dicmdSelectShapesByRegion -end (495,215) -start (393,62) 
 dicmdSelectShapesByRegion -end (502,218) -start (373,79) 
@@ -24,7 +24,7 @@ dicmdSelectShapesByRegion -end (569,233) -start (373,76)
 dicmdSelectShapesByRegion -end (420,62) -start (417,60) 
 dicmdSelectShapesByRegion -end (734,196) -start (428,58) 
 dicmdSelectShapesByRegion -end (559,169) -start (649,162) 
-dicmdCreateObjLine -points {(355,87);(381,213)} 
+dicmdCreateObjLine -brush 1 -color #000000 -fill 9 -points {(355,87);(381,213)} 
 dicmdSelectShapesByRegion -end (333,202) -start (109,49) 
 dicmdSelectShapesByRegion -end (524,243) -start (330,83) 
 dicmdSelectShapesByRegion -end (536,211) -start (406,127) 

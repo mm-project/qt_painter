@@ -1,11 +1,14 @@
 Name: Selection
-ObjCount: 14
+ObjCount: 17
 ======
 Line:
 Line:
 Rectangle:
 Ellipse:
 Rectangle:
+Ellipse:
+Ellipse:
+Ellipse:
 Ellipse:
 Ellipse:
 Ellipse:

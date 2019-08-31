@@ -1,5 +1,5 @@
 Name: Selection
-ObjCount: 18
+ObjCount: 20
 ======
 Line:
 Line:
@@ -11,9 +11,11 @@ Ellipse:
 Ellipse:
 Ellipse:
 Ellipse:
+Ellipse:
+Ellipse:
+Ellipse:
 Rectangle:
 Rectangle:
-Polygon:
 Polygon:
 Polygon:
 Polygon:

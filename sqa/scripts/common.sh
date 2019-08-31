@@ -87,7 +87,7 @@ function postprocess
             for ex in $extras; do
                 d=`diff $ex $ex.golden`
                 if [ "$d" != "" ]; then
-                    problems="$problems  $ex <--> $ex.golden "
+                    problems="$ex <--> $ex.golden $problems"
                 fi
                 res_d="$res_d$d"
             done
