@@ -1,6 +1,0 @@
-Name: Selection
-ObjCount: 2
-======
-Rectangle:
-Rectangle:
---------
