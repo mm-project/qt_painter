@@ -241,7 +241,18 @@ void canvas::invoke_delete()
 {
 	cm->activate_command(cm->find_command("incmdDeleteShape"));
 }
+
 void canvas::abordCommand()
 {
 	cm->activate_command(cm->find_command("dicmdAbortActiveCommand"));
+}
+
+void canvas::invoke_copy()
+{
+	cm->activate_command(cm->find_command("incmdObjRelocateByCopy"));
+}
+
+void canvas::invoke_move()
+{
+	cm->activate_command(cm->find_command("incmdObjRelocateByMove"));
 }
