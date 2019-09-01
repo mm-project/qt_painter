@@ -20,7 +20,11 @@ class Application: public Service<Application> //, public QApplication
             m_mode = m?APPREPLAY:APPNORM; 
         }
         
-        void set_mode(const appMode& m) { m_mode = m; } 
+        void set_mode(const appMode& m) { 
+            Messenger::expose_msg(info,"Set to mode"+QString::number(int(m)).toStdString());
+            m_mode = m; 
+        } 
+        
         appMode get_mode() { return m_mode; }
         
     public:

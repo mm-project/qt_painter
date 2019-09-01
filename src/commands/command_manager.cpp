@@ -12,6 +12,9 @@
 #include "../core/callback.hpp"
 #include "../core/renderer.hpp"
 
+#include "../gui/statusbar_manager.hpp"
+#include "../gui/main_window.hpp"
+
 
 #include <cassert>
 
@@ -108,7 +111,10 @@ void command_manager::disactivate_active_command() {
 void command_manager::return_to_idle() {
     //std::cout << "(cm) back to idle" << std::endl;
     //delete m_last_command;
+    StatusBarManager::getInstance().updateStatusBar("Idle.",1,0);
     m_current_command = m_idle_command;
+    dynamic_cast<main_window*>(m_main_widget)->onCommandDiscard();
+    m_main_widget->update();
 }
 
 //FIXME by keeping wrapper to function 
@@ -173,7 +179,7 @@ void command_manager::key_pressed() {
 }
 
 //FIXME interface?
-void command_manager::update() {
+void command_manager::update_tookplace() {
      m_current_command->handle_update();
 }
 

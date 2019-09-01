@@ -102,7 +102,7 @@ void canvas::keyPressEvent(QKeyEvent* ev) {
         else if ( ev->key() == Qt::Key_Z ) 
             m_renderer->zoomout_p(m_last_cursor);
         else if ( ev->key() == Qt::Key_X ) 
-            m_renderer->zoomin_p(m_last_cursor);
+            m_renderer->zoomin_p(m_last_cursor); 
         else if ( ev->key() == Qt::Key_Up )
             m_renderer->pan(PANUP);
         else if ( ev->key() == Qt::Key_Down )
@@ -112,14 +112,14 @@ void canvas::keyPressEvent(QKeyEvent* ev) {
         else if ( ev->key() == Qt::Key_Right )
             m_renderer->pan(PANRIGHT);
         else {
+            
             if( cm->is_idle() ) 
                 return;
-        
+            
             cm->disactivate_active_command();
         }
-        update();    
-        if (ev->key() == Qt::Key_Escape)
-                emit discardAction();
+       
+        update();        
 }
 
 void canvas::mousePressEvent(QMouseEvent* e)
@@ -167,6 +167,7 @@ void canvas::mouseMoveEvent(QMouseEvent* e)
 
 void canvas::wheelEvent(QWheelEvent* e)
 {
+    //fixme need log?
     m_renderer->zoom((e->delta()/120),e->pos());
     update();
 }
@@ -182,7 +183,7 @@ void canvas::mouseDoubleClickEvent(QMouseEvent* e)
 
 void canvas::on_update()
 {
-    cm->update();
+    cm->update_tookplace();
     update();
 }
 
@@ -239,9 +240,9 @@ void canvas::reset()
 
 void canvas::invoke_delete()
 {
-	cm->activate_command(cm->find_command("incmdDeleteShape"));
+    cm->activate_command(cm->find_command("incmdDeleteShape"));
 }
 void canvas::abordCommand()
 {
-	cm->activate_command(cm->find_command("dicmdAbortActiveCommand"));
+    cm->activate_command(cm->find_command("dicmdAbortActiveCommand"));
 }

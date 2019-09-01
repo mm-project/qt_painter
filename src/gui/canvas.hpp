@@ -47,9 +47,6 @@ public slots:
         void on_update();
         void abordCommand();
 
-signals:
-	void discardAction();
-
 private:
         bool is_runtime_mode;
         bool m_need_motionlog = false;
