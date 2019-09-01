@@ -62,6 +62,8 @@ signals:
 	void createEllipse();
 	void createPolygon();
 	void deleteShape();
+	void copyShape();
+	void moveShape();
 	void abord();
 
 	void something_changed();

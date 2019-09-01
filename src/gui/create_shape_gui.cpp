@@ -125,6 +125,20 @@ void create_shape_gui::build_shapes_group(QRibbonWidget* ribbonWidget)
 	QRibbonGroup* edit = new QRibbonGroup(this);
 	edit->setTitle("Edit");
 
+	QRibbonButton* copy = new QRibbonButton(this, "Copy", getIconDir() + QStringLiteral("copy.svg"));
+	connect(copy, SIGNAL(start()), this, SIGNAL(copyShape()));
+	connect(copy, SIGNAL(end()), this, SIGNAL(abord()));
+	connect(copy, SIGNAL(start()), this, SLOT(discard()));
+	connect(copy, SIGNAL(end()), this, SLOT(restore()));
+	edit->addRibbonButton(copy);
+
+	QRibbonButton* move  = new QRibbonButton(this, "Move", getIconDir() + QStringLiteral("move.svg"));
+	connect(move, SIGNAL(start()), this, SIGNAL(moveShape()));
+	connect(move, SIGNAL(end()), this, SIGNAL(abord()));
+	connect(move, SIGNAL(start()), this, SLOT(discard()));
+	connect(move, SIGNAL(end()), this, SLOT(restore()));
+	edit->addRibbonButton(move);
+
 	QRibbonButton* delete_b = new QRibbonButton(this, "Delete", getIconDir() + QStringLiteral("delete.svg"));
 	connect(delete_b, SIGNAL(start()), this, SIGNAL(deleteShape()));
 	connect(delete_b, SIGNAL(end()), this, SIGNAL(abord()));
