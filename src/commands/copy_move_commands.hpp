@@ -49,26 +49,29 @@ public:
 	}
 
         virtual void abort() {
-                std::cout << "abort!" << std::endl;
+                //std::cout << "abort!" << std::endl;
+                abort_internal();
         }
 
 //helpers
 private:      
         void commit() {
                 for ( auto it: m_sb->getPool()->getObjects() ) {
-                    m_ws->addObject(it->clone());
-                    if ( T == MOVE ) m_ws->removeObject(it);
+                    m_ws->addObject(it);
+                    if ( T == MOVE ) m_ws->removeObject(it); //m_ws->removeObject(dynamic_cast<WorkingSet*>(m_ws.get())->get_clonee(it));
                 }
-                    
+                
+                
+                m_se->clear();
                 abort_internal();
         }
 
         void abort_internal() {
                 StatusBarManager::getInstance().updateStatusBar("",1,0);
                 m_sb->clear();
-                m_se->clear();
+                //m_se->clear();
                 //m_cm->return_to_idle();
-                m_cm->disactivate_active_command();
+                //m_cm->disactivate_active_command();
                 std::cout << "abort2" << std::endl;
         }
     
@@ -83,8 +86,8 @@ private:
         //waiting for selection
         void idle(const EvType& ev) {
 		if ( m_se->getObjects().empty() ) {
-                    abort(); 
-                    //m_cm->activate_command(m_cm->find_command("incmdSelectShapesByRegion"));
+                    //abort(); 
+                    m_cm->activate_command(m_cm->find_command("incmdSelectShapesByRegion"));
                     //idle(OTHER);
                 } else {
                     StatusBarManager::getInstance().updateStatusBar("Click on shape and move mouse to perform action",1,0);

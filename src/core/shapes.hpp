@@ -47,7 +47,7 @@ public:
 	QPoint getP2() const { return m_object.p2(); }
 	
         virtual void moveCenterToPoint(QPoint& p ) {
-                //m_object.moveCenter(p);
+                //m_object.moveTo(p);
         }
 
 	virtual ObjectType getType() const override { return LINE; }
@@ -90,7 +90,7 @@ public:
 	virtual ObjectType getType() const override { return RECTANGLE; }
 
 	virtual void moveCenterToPoint(QPoint& p ) {
-                m_object.moveCenter(p);
+                m_object.moveTo(p);
         }
 	
     //FIXME need proper fix and member handling
@@ -131,7 +131,7 @@ public:
 	virtual ObjectType getType() const override { return ELLIPSE; }
         
         virtual void moveCenterToPoint(QPoint& p ) {
-                m_object.moveCenter(p);
+                m_object.moveTo(p);
         }
 
 	    //FIXME need proper fix and member handling
@@ -173,7 +173,7 @@ public:
 	}
 
         virtual void moveCenterToPoint(QPoint& p ) {
-               // m_object.moveCenter(p);
+               // m_object.moveTo(p);
         }
 
     //FIXME need proper fix and member handling

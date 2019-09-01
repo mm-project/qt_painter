@@ -111,12 +111,11 @@ void canvas::keyPressEvent(QKeyEvent* ev) {
             m_renderer->pan(PANLEFT);
         else if ( ev->key() == Qt::Key_Right )
             m_renderer->pan(PANRIGHT);
+        else if ( ev->key() == Qt::Key_Escape )
+           cm->disactivate_active_command();
         else {
-            
             if( cm->is_idle() ) 
                 return;
-            
-            cm->disactivate_active_command();
         }
        
         update();        

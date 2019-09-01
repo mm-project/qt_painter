@@ -38,6 +38,7 @@ public:
 	}
 
 	virtual void handle_update() {
+                std::cout << "please update" << std::endl;
 		set_properties(m_controller->get_shape_properties());
 	}
 

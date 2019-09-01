@@ -5,6 +5,7 @@
 #include "runtime_environment.hpp"
 #include "working_set.hpp"
 #include "service.h"
+#include "callback.hpp"
 
 #include <QPoint>
 
@@ -30,7 +31,9 @@ public:
         void highlightselect_shape_under_pos(const QPoint& p );
         void highlight_shape_under_pos(const QPoint& p );
         void select_shape_under_pos(const QPoint& p );
-          
+
+private:
+        void on_controller_update(LeCallbackData&);
 };
 
 
