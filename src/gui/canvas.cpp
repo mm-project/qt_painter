@@ -125,6 +125,7 @@ void canvas::mousePressEvent(QMouseEvent* e)
     dicmdCanvasMouseClick(p).log();
     
     cm->mouse_clicked(p.x(),p.y());
+	m_renderer->clicked = true;
 }
 
 //FIXME not needed anymore
@@ -148,6 +149,7 @@ void canvas::mouseMoveEvent(QMouseEvent* e)
 	//e->pos().setX(_x);
 	//e->pos().setY(_y);
         cm->mouse_moved(_x, _y);
+		m_renderer->set_cursor_pos_for_drawing(_x, _y);
     
         //if Preference::isSet("guiLogMouseMove")
         if ( m_need_motionlog )

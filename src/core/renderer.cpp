@@ -29,6 +29,13 @@ void renderer::stop() {
     m_qt_painter->end();
 }
 
+
+void renderer::set_cursor_pos_for_drawing(int x,int y) 
+{
+	c_cursor_x = x/m_scale_factor - m_origin_point.x();
+	c_cursor_y = y/m_scale_factor - m_origin_point.y();
+}
+
 void renderer::pan(const panDirection& d) {
     
     switch (d) {
@@ -209,11 +216,29 @@ void renderer::draw_runtime_pools() {
     }
 }
 
+void renderer::draw_cursor() {
+
+	QPen p;
+	if ( clicked )
+		p.setColor(Qt::red);
+	else
+		p.setColor(Qt::blue);
+
+	p.setWidth(15);
+	p.setJoinStyle(Qt::RoundJoin);
+	p.setCapStyle(Qt::RoundCap);
+
+	m_qt_painter->setPen(p);
+	m_qt_painter->drawPoint(c_cursor_x, c_cursor_y);
+	clicked = false;
+}
+
 void renderer::draw_all() {
         draw_background();
         draw_grid();            
         draw_objects();
         draw_runtime_pools();
+		draw_cursor();
 }
 
 void renderer::render() {
