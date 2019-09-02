@@ -99,13 +99,13 @@ class renderer
 
 	IObjectPoolPtr m_working_set;
 	ObjectPoolSandboxPtr m_sandbox;
-	int m_scale = 15;
-        int m_pan_step = 15;
-        QPoint m_origin_point = {0,0};
-        bool m_need_adjustment = false;
-        QRect* m_users_pov_rect;
- 	
-        QWidget* m_plane;
+	int m_scale = 30;
+    int m_pan_step = 10;
+    QPoint m_origin_point = {0,0};
+    QPoint m_old_origin_point = {0,0};
+    bool m_need_adjustment = false;
+    QRect* m_users_pov_rect;
+ 	QWidget* m_plane;
 };
 
 #endif
