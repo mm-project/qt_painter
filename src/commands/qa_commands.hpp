@@ -21,7 +21,7 @@
 namespace fs = std::filesystem;
 */
 
-enum qaCompType { DESIGN, SELECTION, CANVAS, RUNTIME };
+enum qaCompType { DESIGN, SELECTION, CANVAS, RUNTIME, SELECTIONCANVAS };
 
 namespace {
        
@@ -151,11 +151,22 @@ class dicmdQaDump: public NonTransactionalDirectCommandBase
                     case CANVAS:
                             return dump_canvas();
                             break;
-                    }
+                    case SELECTIONCANVAS:
+                            return dump_canvas_wrapper();
+                            break;
+                    }            
         }
         
     private:
+        void dump_canvas_wrapper() {
+            //std::cout << "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" << std::endl;
+            Selection::get_instance()->highlight_last_selected_region(true);           
+            dump_canvas();
+            Selection::get_instance()->highlight_last_selected_region(false);
+        }
+
         void dump_canvas() {
+            //std::cout << "dumppppppppppppppikkkkkkkkkkkkhopaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaar" << std::endl;
             QWidget* w = command_manager::get_instance()->get_main_widget()->findChild<QWidget*>("CANVAS");
             //FIXME exception on error or what?
             if ( !w )
@@ -164,8 +175,11 @@ class dicmdQaDump: public NonTransactionalDirectCommandBase
             QPixmap pixmap(w->size());
             w->render(&pixmap);
             pixmap.save(m_fname.c_str());
+
+            std::cout << m_fname.c_str() << "\n\n\n\n";
+
         }
-        
+ 
         void dump_selection() {
             Selection::get_instance()->dumpToFile(m_fname);
         }
@@ -197,7 +211,7 @@ class dicmdQaCompareInternal: public NonTransactionalDirectCommandBase
             
             dicmdQaDump<T>().set_arg("-filename",f)->execute();
             
-            std::cout << QString::fromLocal8Bit( qgetenv("ELEN_PAINTER_REGOLDEN").constData() ).toStdString() << std::endl;
+            //std::cout << "regoooooldneeeen" << QString::fromLocal8Bit( qgetenv("ELEN_PAINTER_REGOLDEN").constData() ).toStdString() << std::endl;
             bool regoldenmode = false;
             if ( ! QString::fromLocal8Bit( qgetenv("ELEN_PAINTER_REGOLDEN").constData() ).isEmpty() )
                 regoldenmode = true;
@@ -255,6 +269,11 @@ class dicmdQaCompare: public NonTransactionalDirectCommandBase
             //if not a canvas compare, do extra canvas compare in any case
             if ( T != CANVAS ) {
                 dicmdQaDump<CANVAS>().set_arg("-filename","CanvasFor_"+get_index_str()+".png")->execute();
+                //std::cout << "r1egoooooldneeeen" << QString::fromLocal8Bit( qgetenv("ELEN_PAINTER_REGOLDEN").constData() ).toStdString() << std::endl;
+    
+                if ( ! QString::fromLocal8Bit( qgetenv("ELEN_PAINTER_REGOLDEN").constData() ).isEmpty() )
+                    //std::cout << "r?????" << std::endl;
+                    dicmdQaDump<SELECTIONCANVAS>().set_arg("-filename","CanvasFor_"+get_index_str()+".golden.png")->execute();
             }
             
             dicmdQaCompareInternal<T>()

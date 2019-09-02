@@ -109,6 +109,7 @@ void canvas::keyPressEvent(QKeyEvent* ev) {
                 return;
         
             cm->disactivate_active_command();
+            
         }
         update();    
         if (ev->key() == Qt::Key_Escape)
@@ -125,7 +126,7 @@ void canvas::mousePressEvent(QMouseEvent* e)
     dicmdCanvasMouseClick(p).log();
     
     cm->mouse_clicked(p.x(),p.y());
-	m_renderer->clicked = true;
+    m_renderer->click_hint();
 }
 
 //FIXME not needed anymore

@@ -216,21 +216,27 @@ void renderer::draw_runtime_pools() {
     }
 }
 
+void renderer::click_hint() {
+    m_need_draw_clicked = true;
+}
+
 void renderer::draw_cursor() {
 
 	QPen p;
-	if ( clicked )
+	if ( m_need_draw_clicked ){
 		p.setColor(Qt::red);
-	else
+                p.setWidth(12);
+        } else {
 		p.setColor(Qt::blue);
-
-	p.setWidth(15);
-	p.setJoinStyle(Qt::RoundJoin);
-	p.setCapStyle(Qt::RoundCap);
+                p.setWidth(6);
+        }
+        
+        //p.setJoinStyle(Qt::RoundJoinStyle);
+	//p.setCapStyle(Qt::RoundCapStyle);
 
 	m_qt_painter->setPen(p);
 	m_qt_painter->drawPoint(c_cursor_x, c_cursor_y);
-	clicked = false;
+	m_need_draw_clicked = false;
 }
 
 void renderer::draw_all() {
@@ -238,7 +244,14 @@ void renderer::draw_all() {
         draw_grid();            
         draw_objects();
         draw_runtime_pools();
-		draw_cursor();
+        draw_cursor();
+}
+
+void renderer::draw_all_wno_cursor() {
+        draw_background();
+        draw_grid();            
+        draw_objects();
+        draw_runtime_pools();
 }
 
 void renderer::render() {
