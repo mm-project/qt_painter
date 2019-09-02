@@ -1,3 +1,4 @@
+dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(34,30);(82,67)} 
 dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(122,76);(193,131)} 
 dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(248,124);(367,197)} 
 dicmdCreateObjPolygon -brush 1 -color #000000 -fill 9 -points {(550,101);(659,52);(778,143);(778,144)} 
