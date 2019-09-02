@@ -227,7 +227,7 @@ class dicmdQaCompareInternal: public NonTransactionalDirectCommandBase
                     system(z.str().c_str());
                     Messenger::expose_msg(test,"comparision->"+qaCompType2string(T)+":PASS "+f+" "+g);
                 #else
-                    Messenger::expose_msg(err."Autoregoldening is availble only in linux ( currently )");
+                    Messenger::expose_msg(err, "Autoregoldening is availble only in linux ( currently )");
                 #endif
             } else {
             

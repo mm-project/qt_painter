@@ -5,6 +5,7 @@
 #include "runtime_environment.hpp"
 #include "working_set.hpp"
 #include "service.h"
+#include "callback.hpp"
 
 #include <QPoint>
 #include <QRect>
@@ -35,6 +36,10 @@ public:
         void select_shape_under_pos(const QPoint& p );
         void highlight_last_selected_region(bool);
           
+
+private:
+        void on_controller_update(LeCallbackData&);
+
 };
 
 
