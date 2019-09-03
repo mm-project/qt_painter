@@ -5,6 +5,7 @@
 
 #include <QFrame>
 #include <QTextEdit>
+#include <QTextBrowser>
 #include <QLineEdit>
 #include <QTabWidget>
 #include <QDockWidget>
@@ -31,7 +32,7 @@ private:
 	virtual bool eventFilter(QObject*, QEvent*) override;
 
 private:
-	QTextEdit* m_view = nullptr;
+	QTextBrowser* m_view = nullptr;
 	QLineEdit* m_console = nullptr;
 };
 

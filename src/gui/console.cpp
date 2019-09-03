@@ -12,10 +12,12 @@ ConsoleWidget::ConsoleWidget(QWidget* parent)
 	: QFrame(parent)
 {
 	// viewer part
-	m_view = new QTextEdit(this);
-	m_view->setTextInteractionFlags(Qt::TextSelectableByMouse);
+	m_view = new QTextBrowser(this);
+	m_view->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::LinksAccessibleByMouse );
 	//m_view->setMinimumHeight(100);
 	m_view->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
+    m_view->setOpenExternalLinks(true);
+    //m_view->setHtml( "<a href=\"https://www.w3schools.com\">Visit W3Schools</a>" );
 	// writable part
 	m_console = new QLineEdit(this);
 	m_console->setFixedHeight(25);
@@ -58,8 +60,8 @@ void ConsoleWidget::appendText(const QString& text, LogMsgSeverity severity, QSt
 		m_view->setTextColor(Qt::black);
 		break;
 	case info:
-                m_view->append("<font color=\"#39a5b8\">Information: "+text+ "</font> <u><font color=\"blue\">("+code+")</u></font> ");
-                return;
+        m_view->append("<font color=\"#39a5b8\">Information: "+text+ "</font> <u><font color=\"blue\">("+code+")</u></font> ");
+        return;
 	}
 	
         m_view->append(text);

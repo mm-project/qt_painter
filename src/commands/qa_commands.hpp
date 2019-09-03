@@ -277,7 +277,8 @@ class dicmdQaCompareInternal: public NonTransactionalDirectCommandBase
             } else {
             
                 if ( are_two_files_different(T,f.c_str(),g.c_str()) ) {
-                    Messenger::expose_msg(err,"comparision->"+qaCompType2string(T)+":MISMATCH "+f+" "+g);
+                    system("touch touch.html");
+                    Messenger::expose_msg(err,"comparision->"+qaCompType2string(T)+":MISMATCH "+f+" "+g+". Click <a href=\"./touch.html\">here</a> to see the diff.");
                     //if ( Application::is_debug_mode() ) 
                         dicmdQaReplyingBreak().execute_and_log();
                        
