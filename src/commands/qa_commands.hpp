@@ -7,6 +7,7 @@
 
 #include "../io/messenger.hpp"
 #include "../core/selection.hpp"
+#include "../core/postman.hpp"
 
 #include <QApplication>
 #include <QPixmap>
@@ -87,6 +88,50 @@ namespace {
     
     
 }
+
+
+
+class dicmdQaReplyStep: public NonTransactionalDirectCommandBase
+{
+    public:        
+        virtual std::string get_name() {
+            return "dicmdQaReplyStep";
+        }
+
+        virtual void execute() {
+            LeCallbackData d;
+            NOTIFY(STEP_REPLY,d);
+        }
+};
+
+
+class dicmdQaReplyingBreak: public NonTransactionalDirectCommandBase
+{
+    public:        
+        virtual std::string get_name() {
+            return "dicmdQaReplyingBreak";
+        }
+
+        virtual void execute() {
+            LeCallbackData d;
+            NOTIFY(STOP_REPLY,d);
+        }
+};
+
+
+
+class dicmdQaReplyingResume: public NonTransactionalDirectCommandBase
+{
+    public:        
+        virtual std::string get_name() {
+            return "dicmdQaReplyingResume";
+        }
+
+        virtual void execute() {
+            LeCallbackData d;
+            NOTIFY(RESUME_REPLY,d);
+        }
+};
 
 class dicmdQaToolExit: public NonTransactionalDirectCommandBase
 {
@@ -231,8 +276,12 @@ class dicmdQaCompareInternal: public NonTransactionalDirectCommandBase
                 #endif
             } else {
             
-                if ( are_two_files_different(T,f.c_str(),g.c_str()) )
-                    Messenger::expose_msg(test,"comparision->"+qaCompType2string(T)+":MISMATCH "+f+" "+g);
+                if ( are_two_files_different(T,f.c_str(),g.c_str()) ) {
+                    Messenger::expose_msg(err,"comparision->"+qaCompType2string(T)+":MISMATCH "+f+" "+g);
+                    //if ( Application::is_debug_mode() ) 
+                        dicmdQaReplyingBreak().execute_and_log();
+                       
+                }
                 else 
                     Messenger::expose_msg(test,"comparision->"+qaCompType2string(T)+":PASS "+f+" "+g);
             }
@@ -307,7 +356,6 @@ class dicmdTestCmdListOptions: public NonTransactionalDirectCommandBase
             //std::string g(GET_CMD_ARG(StringListCommandOptionValue,"-list2"));
         }
 };
-
 
 
 #endif
