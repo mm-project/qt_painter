@@ -37,8 +37,10 @@ void ObjectSandbox::movePoint(QPoint p)
 
 void ObjectSandbox::addObject(IShape* p)
 {
-	if (p != nullptr)
-		m_pool->addObject(p);
+	if (p != nullptr) {
+		p->m_rt_mode = true;
+        m_pool->addObject(p);
+    }
 }
 
 void ObjectSandbox::changeBasicProperties(const ShapeProperties& b)

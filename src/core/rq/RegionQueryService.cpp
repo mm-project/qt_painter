@@ -1,12 +1,16 @@
 #include "RegionQueryService.hpp"
-
 #include "rq_object.hpp"
+#include "../postman.hpp"
+#include "../../io/messenger.hpp"
 
 std::unique_ptr<RegionQuery> RegionQuery::m_instance = nullptr;
 
 RegionQuery::RegionQuery()
 {
 	m_tree = std::shared_ptr<rq::RQtree<IShape>> (new rq::RQtree<IShape>());
+    REGISTER_CALLBACK(DB_SHAPE_ADDED,&RegionQuery::insertObject);
+    //nagaina to-do :* :D
+    //REGISTER_CALLBACK(DB_SHAPE_WILLBE_DELETED,&RegionQuery::removeObject);
 }
 
 RegionQuery& RegionQuery::getInstance()
@@ -17,9 +21,17 @@ RegionQuery& RegionQuery::getInstance()
 	return *m_instance;
 }
 
-void RegionQuery::insertObject(IShape* object)
+void RegionQuery::insertObject(LeCallbackData& d)
 {
-	rq::RQobjectPtr obj;
+	IShape* object(dynamic_cast<WSCallbackData&>(d).get_data());
+    if (!object) {
+        Messenger::expose_msg(err,"internal error with RQ when inserting data.");
+        return;
+    }
+    
+    std::cout << "!~" << object << std::endl;
+    
+    rq::RQobjectPtr obj;
 	switch (object->getType())
 	{
 	case LINE:

@@ -33,7 +33,7 @@ void Selection::on_controller_update(LeCallbackData&) {
             
         for ( auto obj : m_sb->getPool()->getObjects() ) {
             obj->updateProperties(controller::get_instance()->get_shape_properties());
-            get_clonee(obj)->updateProperties(controller::get_instance()->get_shape_properties());        
+            getClonee(obj)->updateProperties(controller::get_instance()->get_shape_properties());        
         }
 }
 

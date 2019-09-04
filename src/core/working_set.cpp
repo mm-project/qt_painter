@@ -1,24 +1,40 @@
 #include "working_set.hpp"
+#include "postman.hpp"
+#include "rq/RegionQueryService.hpp"
 
 #include <QFile>
 #include <QDir>
 #include <QTextStream>
 
+//WorkingSet::WorkingSet() {
+//
+//}
+
 void WorkingSet::addObject(IShape* s)
 {
-        IShape* c = s->clone();    
-        m_shapes.push_back(c);
-        m_clone2original[c] = s;
+    cb = new WSCallbackData;
+    IShape* c = s->clone();    
+    m_shapes.push_back(c);
+    m_clone2original[c] = s;
+    
+    if ( s->m_rt_mode == false ) {
+        cb->set_data(c);
+        NOTIFY(DB_SHAPE_ADDED,*cb);
+    }
 }
 
-IShape* WorkingSet::get_clonee(IShape* s) 
+//bool WorkingSet::isModified() {
+//    return m_modified;
+//}
+
+IShape* WorkingSet::getClonee(IShape* s) 
 {
     return m_clone2original[s];
 }
  
 std::vector<IShape*> WorkingSet::getObjects() const
 {
-        return m_shapes;
+    return m_shapes;
 }
 
 void WorkingSet::clear()
@@ -28,10 +44,9 @@ void WorkingSet::clear()
 	m_shapes.clear();
 }
 
-
 std::string WorkingSet::getName()
 {
-        return "Design";
+    return "Design";
 }
 
 void WorkingSet::dumpToFile(const std::string& fname)
@@ -60,5 +75,8 @@ void WorkingSet::removeObject(IShape* obj)
 	if (it == m_shapes.end())
 		return;
 	m_shapes.erase(it);
-	delete obj;
+    //WSCallbackData d(obj);
+    //NOTIFY(DB_SHAPE_WILLBE_DELETED,d);
+    delete obj;
+    obj=0;
 }

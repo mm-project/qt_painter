@@ -56,7 +56,7 @@ public:
         }
         
 	virtual void execute() {
-                RegionQuery& rq = RegionQuery::getInstance();
+                //RegionQuery& rq = RegionQuery::getInstance();
                 //* //std::vector<QPoint> v(GET_CMD_ARG(PointListCommandOptionValue,"-points"));
                 m_shape = ShapeCreator::getInstance()->create(T);
                  for( auto it: PL_ARG("-points") )
@@ -66,8 +66,9 @@ public:
                 pr.fromString(S_ARG("-color"),I_ARG("-brush"),I_ARG("-fill"));
                 m_shape->updateProperties(pr);
                 
+                std::cout << "!!!!" << m_shape << std::endl;
                 m_ws->addObject(m_shape);
-                rq.insertObject(m_shape);
+                //rq.insertObject(m_shape);
                 
                 
                 /**/

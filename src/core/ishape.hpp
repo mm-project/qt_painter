@@ -107,7 +107,7 @@ public:
 
 public:
         
-        virtual void moveCenterToPoint(QPoint&) = 0; 
+    virtual void moveCenterToPoint(QPoint&) = 0; 
 	virtual void reset() = 0;
 
 	virtual void addPoint(const QPoint&) = 0;
@@ -134,13 +134,15 @@ public:
         
         virtual std::vector<QPoint> getPoints() = 0;
     
-
+    //void virtual bool is_db() { return true; }
+bool m_rt_mode = false;
 protected:
 	//
 	// Members
 	//
 	ObjectType m_type;
 	ShapeProperties m_properties;
+
 };
 
 #endif
