@@ -154,7 +154,7 @@ void renderer::draw_grid() {
     int startx = 1/get_zoom_factor()*(m_old_origin_point.x() - m_origin_point.x()) - m_old_origin_point.x();
     int starty = 1/get_zoom_factor()*(m_old_origin_point.y() - m_origin_point.y()) - m_old_origin_point.y();
     
-    std::cout << startx << " " << _width << "      " << starty << " " << _height << std::endl;
+    //std::cout << startx << " " << _width << "      " << starty << " " << _height << std::endl;
     for (int i = startx, _i = startx; i < _width; i += m_scale, ++_i)
             for (int j = starty, _j = starty; j < _height; j += m_scale, ++_j)
             {
