@@ -66,6 +66,7 @@ class incmdObjRelocateBy : public InteractiveCommandBase
 	IObjectPoolPtr m_ws;
         Selection* m_se;
         command_manager* m_cm;
+        LeCallback* m_sel_cb;
 public:
 	
 	incmdObjRelocateBy<T>(ObjectPoolSandboxPtr r, IObjectPoolPtr s ):m_ws(s),m_re(r)
@@ -75,8 +76,6 @@ public:
                 m_sb = std::shared_ptr<ObjectSandbox>(new ObjectSandbox);
 		m_re->addChildren(m_sb);
                 //LeCallback cb = 
-                REGISTER_CALLBACK(OBJECT_SELECTED,&incmdObjRelocateBy<T>::on_object_selected);
-  
 	}
 	
 	
@@ -124,28 +123,25 @@ private:
  private:    
         void on_object_selected(LeCallbackData&) {
             m_cm->activate_command(this);
+            m_sel_cb->purge();
             idle(OTHER);
         }
         
         //waiting for selection
         void idle(const EvType& ev) {
                 if ( m_se->getObjects().empty() ) {
-                    //abort(); 
-                    //incmdSelectShapesByRegion(m_re,m_ws).execute();
+                    LeCallback cb = REGISTER_CALLBACK(OBJECT_SELECTED,&incmdObjRelocateBy<T>::on_object_selected);
+                    m_sel_cb = new LeCallback(cb);
                     CommandBase* cmd = m_cm->find_command("incmdSelectShapesByRegion");
                     dynamic_cast<InteractiveCommandBase*>(cmd)->set_auto_repeat(false);
                     m_cm->activate_command(cmd);
-                    //QApplication::processEvents();
-                    //idle(OTHER);
                     return;
                 }
-                //} else {
-                    //cb.purge();
-                    StatusBarManager::getInstance().updateStatusBar("Click on shape and move mouse to perform action",1,0);
-                    for ( auto it : m_se->getObjects() )
-                        m_sb->addObject(it);
-                    set_next_handler(HANDLE_FUNCTION(incmdObjRelocateBy<T>,wait_for_first_click));
-                //}
+                StatusBarManager::getInstance().updateStatusBar("Click on shape and move mouse to perform action",1,0);
+                for ( auto it : m_se->getObjects() )
+                    m_sb->addObject(it);
+
+                set_next_handler(HANDLE_FUNCTION(incmdObjRelocateBy<T>,wait_for_first_click));
         }
         
         void wait_for_first_click(const EvType& ev) {
