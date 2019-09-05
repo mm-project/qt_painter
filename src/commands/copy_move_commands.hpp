@@ -3,12 +3,17 @@
 
 #include "command_manager.hpp"
 #include "interactive_command_base.hpp"
+#include "direct_command_base.hpp"
+#include "selection_commands.hpp"
 
 #include "../core/selection.hpp"
 #include "../core/runtime_environment.hpp"
 #include "../core/working_set.hpp"
+#include "../core/postman.hpp"
 
 #include "../gui/statusbar_manager.hpp"
+
+#include <QApplication>
 
 #include <iostream>
                 
@@ -19,6 +24,38 @@ namespace {
             if ( x==COPY ) return "Copy";
     }
 }
+
+/*
+template<relocAction T>
+class decmdObjRelocateBy : public DirectCommandBase
+{
+public:
+	decmdObjRelocateBy(IObjectPoolPtr ptr, QPoint pos)
+		: m_workingSet(std::dynamic_pointer_cast<WorkingSet>(ptr))
+	{
+		add_option("-point",new PointCommandOptionValue(pos));
+	}
+
+	decmdObjRelocateBy(IObjectPoolPtr ptr)
+		: m_workingSet(std::dynamic_pointer_cast<WorkingSet>(ptr))
+	{
+		add_option("-point",new PointCommandOptionValue());
+	}
+
+	virtual std::string get_name() {
+		return "decmdObjRelocateBy"+relocAction2string(T);
+	}
+
+	virtual void execute() override
+	{
+		RegionQuery& rq = RegionQuery::getInstance();
+
+	}
+
+private:
+	WorkingSetPtr m_workingSet = nullptr;
+};
+*/
 
 template<relocAction T>
 class incmdObjRelocateBy : public InteractiveCommandBase  
@@ -37,10 +74,15 @@ public:
                 m_se = Selection::get_instance();
                 m_sb = std::shared_ptr<ObjectSandbox>(new ObjectSandbox);
 		m_re->addChildren(m_sb);
+                //LeCallback cb = 
+                REGISTER_CALLBACK(OBJECT_SELECTED,&incmdObjRelocateBy<T>::on_object_selected);
+  
 	}
+	
 	
 	virtual void execute() {
                  //set_next_handler(HANDLE_FUNCTION(incmdObjRelocateBy<T>,idle));
+            
                  idle(OTHER);
 	}
 	
@@ -60,8 +102,6 @@ private:
                     m_ws->addObject(it);
                     if ( T == MOVE ) m_ws->removeObject(it); //m_ws->removeObject(dynamic_cast<WorkingSet*>(m_ws.get())->get_clonee(it));
                 }
-                
-                
                 m_se->clear();
                 abort_internal();
         }
@@ -82,19 +122,30 @@ private:
  
  //command cycles
  private:    
+        void on_object_selected(LeCallbackData&) {
+            m_cm->activate_command(this);
+            idle(OTHER);
+        }
         
         //waiting for selection
         void idle(const EvType& ev) {
-		if ( m_se->getObjects().empty() ) {
+                if ( m_se->getObjects().empty() ) {
                     //abort(); 
-                    m_cm->activate_command(m_cm->find_command("incmdSelectShapesByRegion"));
+                    //incmdSelectShapesByRegion(m_re,m_ws).execute();
+                    CommandBase* cmd = m_cm->find_command("incmdSelectShapesByRegion");
+                    dynamic_cast<InteractiveCommandBase*>(cmd)->set_auto_repeat(false);
+                    m_cm->activate_command(cmd);
+                    //QApplication::processEvents();
                     //idle(OTHER);
-                } else {
+                    return;
+                }
+                //} else {
+                    //cb.purge();
                     StatusBarManager::getInstance().updateStatusBar("Click on shape and move mouse to perform action",1,0);
                     for ( auto it : m_se->getObjects() )
                         m_sb->addObject(it);
                     set_next_handler(HANDLE_FUNCTION(incmdObjRelocateBy<T>,wait_for_first_click));
-                }
+                //}
         }
         
         void wait_for_first_click(const EvType& ev) {

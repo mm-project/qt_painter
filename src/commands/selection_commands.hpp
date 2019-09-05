@@ -4,6 +4,8 @@
 #include "shape_creation_interactive_commands.hpp"
 
 #include "../core/selection.hpp"
+#include "../core/postman.hpp"
+#include "../gui/statusbar_manager.hpp"
 
 #include <QPoint>
 
@@ -73,6 +75,8 @@ public:
                 m_reg = std::make_pair<QPoint,QPoint>( GET_CMD_ARG(PointCommandOptionValue,"-start"), GET_CMD_ARG(PointCommandOptionValue,"-end"));
                 Selection::get_instance()->clear();
                 Selection::get_instance()->find_and_highlightselect_shapes_from_region(m_reg);
+                LeCallbackData d;
+                NOTIFY(OBJECT_SELECTED,d);
         }
 	
         virtual std::string get_name() {
@@ -97,7 +101,8 @@ public:
         }
         
         virtual void execute() {
-                
+                StatusBarManager::getInstance().updateStatusBar("Click to select by region",1,0);
+
                 ObjCreatorCommandBase<RECTANGLE>::set_next_handler(HANDLE_FUNCTION(incmdSelectShapesByRegion,on_idle));
                 
                 //FIXME how?
@@ -120,7 +125,8 @@ public:
             //m_se->find_by_range_and_add_to_selected(m_reg);
             dicmdSelectShapesByRegion(m_reg.first,m_reg.second).silent_execute();
             incmdCreateObj<RECTANGLE>::finish();
-            ObjCreatorCommandBase<RECTANGLE>::set_next_handler(HANDLE_FUNCTION(incmdSelectShapesByRegion,on_idle));
+            if ( InteractiveCommandBase::is_auto_repeating() )
+                ObjCreatorCommandBase<RECTANGLE>::set_next_handler(HANDLE_FUNCTION(incmdSelectShapesByRegion,on_idle));
         }
         
         virtual void handle_mouse_click(int x , int y) {

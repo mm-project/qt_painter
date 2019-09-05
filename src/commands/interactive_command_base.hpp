@@ -44,6 +44,15 @@ class InteractiveCommandBase : public CommandBase
         }
        
     public:
+        void set_auto_repeat(bool m) {
+            m_autorepeat = m;
+            
+        }
+        
+        bool is_auto_repeating() {
+            return m_autorepeat;
+        }
+        
         void set_next_handler( CmdMemFun fun ) {
             m_current_event_handler = fun;
         }
@@ -62,6 +71,7 @@ class InteractiveCommandBase : public CommandBase
         CmdMemFun m_current_event_handler;
         QPoint m_last_cursor_point;
         QPoint m_last_click_point;
+        bool m_autorepeat = true;
 
 };
 
