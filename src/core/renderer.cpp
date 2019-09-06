@@ -159,7 +159,7 @@ void renderer::draw_grid() {
             for (int j = starty, _j = starty; j < _height; j += m_scale, ++_j)
             {
                     if ((_i % 4 == 0) && (_j % 4 == 0))
-                            white.setWidth(3);
+                            white.setWidth(5);
                     
                     white.setJoinStyle(Qt::RoundJoin);
                     white.setCapStyle(Qt::RoundCap);

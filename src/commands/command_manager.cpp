@@ -55,9 +55,15 @@ void command_manager::init() {
     register_command(new dicmdCanvasViewport<ZOOMIN>);
     register_command(new dicmdCanvasViewport<ZOOMOUT>);
 
-    m_current_command = m_idle_command;
 }
 
+void command_manager::set_idle_command(CommandBase* cmd) 
+{
+    m_idle_command = cmd;
+    m_current_command = m_idle_command;  
+    activate_command(m_current_command);
+    //std::cout << "idle is: " <<  m_idle_command << std::endl;
+}
 
 CommandBase* command_manager::find_command(const std::string& cmd_name) {
     //FIXME if non , put error and return idle_command
@@ -94,6 +100,7 @@ CommandBase* command_manager::get_active_command() {
 }
 
 bool command_manager::is_idle() {
+    return false;
     return ( m_current_command == m_idle_command );
 }
 
@@ -170,7 +177,14 @@ void command_manager::mouse_clicked(int x, int y) {
 }
 
 void command_manager::mouse_moved(int x, int y) {
+    //std::cout << "current commdn is: " <<  m_current_command << std::endl;
     m_current_command->handle_mouse_move(x/m_kx-m_dx,y/m_ky-m_dy);
+}
+
+
+void command_manager::mouse_released(int x, int y) {
+    std::cout << "current commdn is: " <<  m_current_command << std::endl;
+    m_current_command->handle_mouse_release(x/m_kx-m_dx,y/m_ky-m_dy);
 }
 
 //FIXME interface?

@@ -66,37 +66,36 @@ template<relocAction T>
 class incmdObjRelocateBy : public InteractiveCommandBase  
 {
    
-	ObjectSandboxPtr m_sb;
+        ObjectSandboxPtr m_sb;
         ObjectPoolSandboxPtr m_re;
-	IObjectPoolPtr m_ws;
+        IObjectPoolPtr m_ws;
         Selection* m_se;
         command_manager* m_cm;
         LeCallback* m_sel_cb;
 public:
 	
-	incmdObjRelocateBy<T>(ObjectPoolSandboxPtr r, IObjectPoolPtr s ):m_ws(s),m_re(r)
-	{
+        incmdObjRelocateBy<T>(ObjectPoolSandboxPtr r, IObjectPoolPtr s ):m_ws(s),m_re(r)
+        {
                 m_cm = command_manager::get_instance();
                 m_se = Selection::get_instance();
                 m_sb = std::shared_ptr<ObjectSandbox>(new ObjectSandbox);
-		m_re->addChildren(m_sb);
+                m_re->addChildren(m_sb);
                 //LeCallback cb = 
-	}
-	
-	
-	virtual void execute() {
-                 //set_next_handler(HANDLE_FUNCTION(incmdObjRelocateBy<T>,idle));
-            
-                 idle(OTHER);
-	}
-	
-	virtual std::string get_name() {
-		return "incmdObjRelocateBy"+relocAction2string(T);
-	}
+        }
+
+
+        virtual void execute() {
+                //set_next_handler(HANDLE_FUNCTION(incmdObjRelocateBy<T>,idle));
+                idle(OTHER);
+        }
+
+        virtual std::string get_name() {
+                return "incmdObjRelocateBy"+relocAction2string(T);
+        }
 
         virtual void abort() {
                 //std::cout << "abort!" << std::endl;
-                abort_internal();
+                //abort_internal();
         }
 
 //helpers
@@ -129,9 +128,9 @@ private:
  //command cycles
  private:    
         void on_object_selected(LeCallbackData&) {
-            m_cm->activate_command(this);
-            m_sel_cb->purge();
-            idle(OTHER);
+                m_cm->activate_command(this);
+                m_sel_cb->purge();
+                idle(OTHER);
         }
         
         //waiting for selection
@@ -144,6 +143,7 @@ private:
                     m_cm->activate_command(cmd);
                     return;
                 }
+                
                 StatusBarManager::getInstance().updateStatusBar("Click on shape and move mouse to perform action",1,0);
                 for ( auto it : m_se->getObjects() )
                     m_sb->addObject(it);
@@ -156,22 +156,24 @@ private:
                     set_next_handler(HANDLE_FUNCTION(incmdObjRelocateBy<T>,act_on_mousemove));
                     StatusBarManager::getInstance().updateStatusBar("Click on desired place to commit action",1,0);
                 }
-	}
+        }
 	
-	void act_on_mousemove(const EvType& ev) {
+        void act_on_mousemove(const EvType& ev) {
                 if ( ev == MM )
                     move_runtimes_to_point(InteractiveCommandBase::get_last_point());
                     
-                if ( ev == MC )
-                    on_commit();
-	}
+                if ( ev == MC ) {
+                    if ( m_se->getObjects().empty() )
+                        on_commit();
+                    else
+                        m_cm->return_to_idle();
+                }
+        }
 
-	void on_commit() {
+        void on_commit() {
                 std::cout << "commit!" << std::endl;
-
-		commit();
-	}
-	
+                commit();
+        }
 };
 
 #endif

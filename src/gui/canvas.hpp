@@ -27,6 +27,7 @@ public:
         virtual void mouseMoveEvent(QMouseEvent*) override;
         virtual void mouseDoubleClickEvent(QMouseEvent*) override;
         virtual void wheelEvent(QWheelEvent* event) override;
+        virtual void mouseReleaseEvent(QMouseEvent* e) override;
 
 public:
         renderer* get_renderer();

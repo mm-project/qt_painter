@@ -5,23 +5,37 @@
 
 #include "../core/selection.hpp"
 #include "../core/postman.hpp"
+#include "../core/runtime_environment.hpp"
 #include "../gui/statusbar_manager.hpp"
 
 #include <QPoint>
 
 #include <cassert>
 #include <map>
+#include <iostream>
 
 class incmdSelectUnderCursoer: public InteractiveCommandBase
 {
         Selection* m_se;
-       
-	public:
+        bool m_move_mode = false;
+        ObjectSandboxPtr m_sb;
+        ObjectPoolSandboxPtr m_re;
+        IObjectPoolPtr m_ws;
+        command_manager* m_cm;
+        LeCallback* m_sel_cb;
+
+public:
 	
-		incmdSelectUnderCursoer(ObjectPoolSandboxPtr r, IObjectPoolPtr s ) { //:InteractiveCommandBase(r,s) {
+        incmdSelectUnderCursoer(ObjectPoolSandboxPtr r, IObjectPoolPtr s ):m_ws(s),m_re(r) {
 			m_se = Selection::get_instance();
-            
+            m_sb = std::shared_ptr<ObjectSandbox>(new ObjectSandbox);
+            m_re->addChildren(m_sb);
+
 		}
+
+		virtual void abort() {
+        //FIXME now what?
+        }
 
         virtual std::string get_name() {
 			return "incmdSelectUnderCursoer";
@@ -33,25 +47,31 @@ class incmdSelectUnderCursoer: public InteractiveCommandBase
 		
 		void on_idle(const EvType& ev) {
 			if ( ev == MM )
-                                m_se->highlight_shape_under_pos(InteractiveCommandBase::get_last_point());
-                        else if ( ev == MC ) {
-				m_se->highlightselect_shape_under_pos(InteractiveCommandBase::get_last_point());
-                                //m_se->highlight_shape_under_pos(InteractiveCommandBase::get_last_point());
-                                //on_idle(MM);
-                        }
-				
+                    if ( ! m_move_mode ) 
+                        m_se->highlight_shape_under_pos(InteractiveCommandBase::get_last_point());
+                    else 
+                         move_selected_to_point(InteractiveCommandBase::get_last_point());
+            else if ( ev == MC ) 
+                   on_click();
+            else if ( ev == MR )
+                    m_move_mode=false;
 		}
 		
-		virtual void abort() {
-        //FIXME now what?
+    private:
+        void on_click() {
+             m_move_mode=true;
+             m_se->highlightselect_shape_under_pos(InteractiveCommandBase::get_last_point());
+             for ( auto it : m_se->getObjects() )
+                m_sb->addObject(it);
+
         }
-		
-		
-		virtual void commit() {
-        //FIXME now what?
+        
+        void move_selected_to_point(QPoint p) {
+            for ( auto it: m_sb->getPool()->getObjects() ) {
+                    std::cout << "rotate..." << std::endl; 
+                    it->moveCenterToPoint(p);
+            }
         }
-		
-				
 };
 
 

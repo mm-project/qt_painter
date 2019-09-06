@@ -44,6 +44,7 @@ class command_manager
         void init2(ObjectPoolSandboxPtr r, IObjectPoolPtr s);
         void init();
         
+        void set_idle_command(CommandBase* cmd);
         void disactivate_active_command();
         void activate_command(CommandBase* cmd);
         void register_command(CommandBase* cmd);
@@ -56,6 +57,7 @@ class command_manager
         
         void mouse_dbl_clicked(int x, int y);
         void mouse_clicked(int x, int y);
+        void mouse_released(int, int);
         void mouse_moved(int x, int y);
         void key_pressed();
         void update_tookplace();

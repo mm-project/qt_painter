@@ -65,22 +65,26 @@ canvas::canvas(QWidget* p)
 	cm->register_command(new INCMD_CREATE_OBJ(ELLIPSE));
 	cm->register_command(new INCMD_CREATE_OBJ(POLYGON));
 	cm->register_command(new INCMD_HIGHLIGHT_BY_REGION);
-	cm->register_command(new INCMD_HIGHLIGHT_BY_POINT);
-        cm->register_command(new dicmdCreateObj<RECTANGLE>(m_working_set));
-        cm->register_command(new dicmdCreateObj<LINE>(m_working_set));
-        cm->register_command(new dicmdCreateObj<ELLIPSE>(m_working_set));
-        cm->register_command(new dicmdCreateObj<POLYGON>(m_working_set));
-        cm->register_command(new InteractiveDesAction<LOAD>(m_working_set));
-        cm->register_command(new InteractiveDesAction<SAVE>(m_working_set));
-        cm->register_command(new InteractiveDesAction<NEW>(m_working_set));   
-        cm->register_command(new dicmdDesignSave(m_working_set));
-        cm->register_command(new dicmdDesignLoad(m_working_set));
-	cm->register_command(new InteractiveDeleteAction(m_working_set));
-	cm->register_command(new dicmdDeleteObj(m_working_set));
-        cm->register_command(new dicmdObjRelocateBy<MOVE>(m_working_set));
-        cm->register_command(new dicmdObjRelocateBy<COPY>(m_working_set));
-        cm->register_command(new incmdObjRelocateBy<MOVE>(m_sandbox,m_working_set));
-        cm->register_command(new incmdObjRelocateBy<COPY>(m_sandbox,m_working_set));
+    cm->register_command(new INCMD_HIGHLIGHT_BY_POINT);
+    cm->register_command(new dicmdCreateObj<RECTANGLE>(m_working_set));
+    cm->register_command(new dicmdCreateObj<LINE>(m_working_set));
+    cm->register_command(new dicmdCreateObj<ELLIPSE>(m_working_set));
+    cm->register_command(new dicmdCreateObj<POLYGON>(m_working_set));
+    cm->register_command(new InteractiveDesAction<LOAD>(m_working_set));
+    cm->register_command(new InteractiveDesAction<SAVE>(m_working_set));
+    cm->register_command(new InteractiveDesAction<NEW>(m_working_set));   
+    cm->register_command(new dicmdDesignSave(m_working_set));
+    cm->register_command(new dicmdDesignLoad(m_working_set));
+    cm->register_command(new InteractiveDeleteAction(m_working_set));
+    cm->register_command(new dicmdDeleteObj(m_working_set));
+    cm->register_command(new dicmdObjRelocateBy<MOVE>(m_working_set));
+    cm->register_command(new dicmdObjRelocateBy<COPY>(m_working_set));
+    cm->register_command(new incmdObjRelocateBy<MOVE>(m_sandbox,m_working_set));
+    cm->register_command(new incmdObjRelocateBy<COPY>(m_sandbox,m_working_set));
+    
+    //cm->set_idle_command(cm->find_command("incmdSelectUnderCursoer"));
+    cm->set_idle_command(new INCMD_HIGHLIGHT_BY_POINT);
+
 }
 
 
@@ -181,6 +185,16 @@ void canvas::mouseDoubleClickEvent(QMouseEvent* e)
     
     update();
 }
+
+void canvas::mouseReleaseEvent(QMouseEvent* e)
+{
+    cm->mouse_released(e->pos().x(),e->pos().y());
+    //dicmdCanvasMouseDblClick(e->pos()).log();
+
+    update();
+}
+
+
 
 void canvas::on_update()
 {

@@ -20,6 +20,13 @@ class InteractiveCommandBase : public CommandBase
             return Interactive;
         }
 
+        virtual void handle_mouse_release (int x , int y) {
+            //log("click "+x+" "+y);
+            m_last_click_point.setX(x);
+            m_last_click_point.setY(y);
+            m_current_event_handler(MR);
+        }
+        
         virtual void handle_mouse_click(int x , int y) {
             //log("click "+x+" "+y);
             m_last_click_point.setX(x);
