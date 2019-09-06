@@ -25,37 +25,42 @@ namespace {
     }
 }
 
-/*
+
 template<relocAction T>
-class decmdObjRelocateBy : public DirectCommandBase
+class dicmdObjRelocateBy : public DirectCommandBase
 {
 public:
-	decmdObjRelocateBy(IObjectPoolPtr ptr, QPoint pos)
+	dicmdObjRelocateBy(IObjectPoolPtr ptr, QPoint pos)
 		: m_workingSet(std::dynamic_pointer_cast<WorkingSet>(ptr))
 	{
-		add_option("-point",new PointCommandOptionValue(pos));
+                //add_option("-from_region",new PointListCommandOptionValue(pl));
+                add_option("-to_point",new PointCommandOptionValue(pos));
 	}
 
-	decmdObjRelocateBy(IObjectPoolPtr ptr)
+	dicmdObjRelocateBy(IObjectPoolPtr ptr)
 		: m_workingSet(std::dynamic_pointer_cast<WorkingSet>(ptr))
 	{
-		add_option("-point",new PointCommandOptionValue());
+                //add_option("-from_region",new PointListCommandOptionValue(pl));
+                add_option("-to_point",new PointCommandOptionValue());
 	}
 
 	virtual std::string get_name() {
-		return "decmdObjRelocateBy"+relocAction2string(T);
+		return "dicmdObjRelocateBy"+relocAction2string(T);
 	}
 
 	virtual void execute() override
-	{
-		RegionQuery& rq = RegionQuery::getInstance();
-
+	{      
+                //RegionQuery& rq = RegionQuery::getInstance();
+                QPoint p(GET_CMD_ARG(PointCommandOptionValue,"-to_point"));
+                for ( auto it : Selection::get_instance()->getObjects() ) 
+                    it->moveCenterToPoint(p);
+                    //m_workingSet->get_clonee(it)->moveCenterToPoint(p);
 	}
 
 private:
 	WorkingSetPtr m_workingSet = nullptr;
 };
-*/
+
 
 template<relocAction T>
 class incmdObjRelocateBy : public InteractiveCommandBase  
@@ -101,6 +106,8 @@ private:
                     m_ws->addObject(it);
                     if ( T == MOVE ) m_ws->removeObject(it); //m_ws->removeObject(dynamic_cast<WorkingSet*>(m_ws.get())->get_clonee(it));
                 }
+                
+                dicmdObjRelocateBy<T>(m_ws,InteractiveCommandBase::get_lastclk_point()).silent_execute();
                 m_se->clear();
                 abort_internal();
         }

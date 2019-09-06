@@ -77,6 +77,8 @@ canvas::canvas(QWidget* p)
         cm->register_command(new dicmdDesignLoad(m_working_set));
 	cm->register_command(new InteractiveDeleteAction(m_working_set));
 	cm->register_command(new dicmdDeleteObj(m_working_set));
+        cm->register_command(new dicmdObjRelocateBy<MOVE>(m_working_set));
+        cm->register_command(new dicmdObjRelocateBy<COPY>(m_working_set));
         cm->register_command(new incmdObjRelocateBy<MOVE>(m_sandbox,m_working_set));
         cm->register_command(new incmdObjRelocateBy<COPY>(m_sandbox,m_working_set));
 }

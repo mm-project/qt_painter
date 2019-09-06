@@ -7,6 +7,7 @@
 #include "selection_commands.hpp"
 #include "qa_commands.hpp"
 #include "canvas_commands.hpp"
+#include "copy_move_commands.hpp"
 
 #include "../core/postman.hpp"
 #include "../core/callback.hpp"
@@ -53,8 +54,7 @@ void command_manager::init() {
     register_command(new dicmdCanvasOrigin<PANUP>);
     register_command(new dicmdCanvasViewport<ZOOMIN>);
     register_command(new dicmdCanvasViewport<ZOOMOUT>);
-    
-    
+
     m_current_command = m_idle_command;
 }
 
