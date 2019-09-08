@@ -71,7 +71,7 @@ class incmdObjRelocateBy : public InteractiveCommandBase
         IObjectPoolPtr m_ws;
         Selection* m_se;
         command_manager* m_cm;
-        LeCallback* m_sel_cb;
+        LeCallback* m_sel_cb = nullptr;
 public:
 	
         incmdObjRelocateBy<T>(ObjectPoolSandboxPtr r, IObjectPoolPtr s ):m_ws(s),m_re(r)
@@ -129,7 +129,8 @@ private:
  private:    
         void on_object_selected(LeCallbackData&) {
                 m_cm->activate_command(this);
-                m_sel_cb->purge();
+                if (m_sel_cb)
+                    m_sel_cb->purge();
                 idle(OTHER);
         }
         
@@ -137,7 +138,8 @@ private:
         void idle(const EvType& ev) {
                 if ( m_se->getObjects().empty() ) {
                     LeCallback cb = REGISTER_CALLBACK(OBJECT_SELECTED,&incmdObjRelocateBy<T>::on_object_selected);
-                    m_sel_cb = new LeCallback(cb);
+                    if (! m_sel_cb )
+                        m_sel_cb = new LeCallback(cb);
                     CommandBase* cmd = m_cm->find_command("incmdSelectShapesByRegion");
                     dynamic_cast<InteractiveCommandBase*>(cmd)->set_auto_repeat(false);
                     m_cm->activate_command(cmd);

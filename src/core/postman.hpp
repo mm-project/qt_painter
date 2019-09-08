@@ -33,8 +33,8 @@ private:
         
         LeCallback register_callback(const std::string& n, const LeCallbackType& t, callBackFun1 f);
         LeCallback register_callback(const std::string& n, const LeCallbackType& t, callBackFun2 f);
-        void deregister_callback(LeCallbackType& t, int id);
-
+        void deregister_callback(const std::string& n, LeCallbackType& t, int id);
+        
         void notify(const std::string&, const LeCallbackType&);
         void notify(const std::string&, const LeCallbackType&, LeCallbackData&);
         //void notify(const std::string&, const LeCallbackType&, LeCallbackData);
