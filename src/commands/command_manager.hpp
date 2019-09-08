@@ -58,7 +58,7 @@ class command_manager
         void mouse_clicked(int x, int y);
         void mouse_moved(int x, int y);
         void key_pressed();
-        void update_tookplace();
+        void update();
         
         void on_viewport_changed(LeCallbackData& d);
 

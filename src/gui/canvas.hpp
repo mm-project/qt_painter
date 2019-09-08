@@ -42,12 +42,13 @@ public slots:
         void invoke_save();
         void invoke_load();
         void invoke_delete();
-        void invoke_copy();
-        void invoke_move();
         
         void reset();
         void on_update();
         void abordCommand();
+
+signals:
+	void discardAction();
 
 private:
         bool is_runtime_mode;

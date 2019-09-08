@@ -148,17 +148,15 @@ void main_window::make_connections()
 	connect(m_shapes, SIGNAL(save()), m_canvas, SLOT(invoke_save()));
 	connect(m_shapes, SIGNAL(load()), m_canvas, SLOT(invoke_load()));
 	connect(m_shapes, SIGNAL(deleteShape()), m_canvas, SLOT(invoke_delete()));
-	connect(m_shapes, SIGNAL(copyShape()), m_canvas, SLOT(invoke_copy()));
-	connect(m_shapes, SIGNAL(moveShape()), m_canvas, SLOT(invoke_move()));
 	connect(m_shapes, SIGNAL(abord()), m_canvas, SLOT(abordCommand()));
-	connect(this, SIGNAL(actionDiscarded()), m_shapes, SLOT(discardAction()));
+	connect(m_canvas, SIGNAL(discardAction()), m_shapes, SLOT(discardAction()));
 	connect(m_shapes, SIGNAL(showConsole()), m_console, SLOT(show()));
 	connect(m_shapes, SIGNAL(hideConsole()), m_console, SLOT(hide()));
 }
 
 
 void main_window::closeEvent(QCloseEvent *event) {
-        dicmdQaToolExit().log();
+    dicmdQaToolExit().log();
 }
 
 main_window::~main_window()
@@ -167,8 +165,4 @@ main_window::~main_window()
 	sBar.removeStatusBar();
 }
 
-
-void main_window::onCommandDiscard() {
-       emit actionDiscarded();
-}
 

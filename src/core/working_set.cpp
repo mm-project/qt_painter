@@ -6,16 +6,9 @@
 
 void WorkingSet::addObject(IShape* s)
 {
-        IShape* c = s->clone();    
-        m_shapes.push_back(c);
-        m_clone2original[c] = s;
+        m_shapes.push_back(s->clone());
 }
 
-IShape* WorkingSet::get_clonee(IShape* s) 
-{
-    return m_clone2original[s];
-}
- 
 std::vector<IShape*> WorkingSet::getObjects() const
 {
         return m_shapes;

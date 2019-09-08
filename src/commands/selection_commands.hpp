@@ -112,7 +112,6 @@ public:
         }
        
         virtual void handle_update() {
-                std::cout << "hu" << std::endl;
                 //assert(0&&"applying properties to selection box?:)");
         }
         

@@ -1,11 +1,7 @@
 #include "selection.hpp"
+//#include "postman.hpp"
 #include "shapes.hpp"
-#include "postman.hpp"
 #include "rq/RegionQueryService.hpp"
-#include "../gui/controller.hpp"
-
-
-#include <iostream>
 
 std::string Selection::getName() 
 {
@@ -22,19 +18,6 @@ void Selection::clear() {
 void Selection::set_working_set(IObjectPool* ws) {
 	m_ws = ws;        
 	//m_h_on = false;
-        REGISTER_CALLBACK(CONTROLLER_CHANGED,&Selection::on_controller_update);
-}
-
-void Selection::on_controller_update(LeCallbackData&) {
-        std::cout << "changed.." << std::endl;
-        
-        if ( m_ws->getObjects().empty() ||  getObjects().empty() )
-            return;
-            
-        for ( auto obj : m_sb->getPool()->getObjects() ) {
-            obj->updateProperties(controller::get_instance()->get_shape_properties());
-            get_clonee(obj)->updateProperties(controller::get_instance()->get_shape_properties());        
-        }
 }
 
 void Selection::set_sandbox(ObjectPoolSandbox* sanboxes) {

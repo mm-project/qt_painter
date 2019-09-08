@@ -10,8 +10,6 @@
 #include "qribbonwidget.hpp"
 #include "qribbonbutton.hpp"
 
-#include "../core/postman.hpp"
-
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QRadioButton>
@@ -124,20 +122,6 @@ void create_shape_gui::build_shapes_group(QRibbonWidget* ribbonWidget)
 
 	QRibbonGroup* edit = new QRibbonGroup(this);
 	edit->setTitle("Edit");
-
-	QRibbonButton* copy = new QRibbonButton(this, "Copy", getIconDir() + QStringLiteral("copy.svg"));
-	connect(copy, SIGNAL(start()), this, SIGNAL(copyShape()));
-	connect(copy, SIGNAL(end()), this, SIGNAL(abord()));
-	connect(copy, SIGNAL(start()), this, SLOT(discard()));
-	connect(copy, SIGNAL(end()), this, SLOT(restore()));
-	edit->addRibbonButton(copy);
-
-	QRibbonButton* move  = new QRibbonButton(this, "Move", getIconDir() + QStringLiteral("move.svg"));
-	connect(move, SIGNAL(start()), this, SIGNAL(moveShape()));
-	connect(move, SIGNAL(end()), this, SIGNAL(abord()));
-	connect(move, SIGNAL(start()), this, SLOT(discard()));
-	connect(move, SIGNAL(end()), this, SLOT(restore()));
-	edit->addRibbonButton(move);
 
 	QRibbonButton* delete_b = new QRibbonButton(this, "Delete", getIconDir() + QStringLiteral("delete.svg"));
 	connect(delete_b, SIGNAL(start()), this, SIGNAL(deleteShape()));
@@ -349,7 +333,7 @@ void create_shape_gui::pen_color_changed(const QString& s)
         //(m_pen_button->isChecked())
 	c->change_pen_color(get_color_from_string(s));
 	c->change_brush_color(get_color_from_string(s));
-	notify_controller_change();
+	emit something_changed();
 }
 
 void create_shape_gui::createShape(int i)
@@ -375,14 +359,14 @@ void create_shape_gui::cap_style_changed(const QString& s)
 {
 	controller* c = controller::get_instance();
 	c->change_pen_cap_style(get_cap_style_from_string(s));
-	notify_controller_change();
+	emit something_changed();
 }
 
 void create_shape_gui::join_style_changed(const QString& s)
 {
 	controller* c = controller::get_instance();
 	c->change_pen_join_style(get_join_style_from_string(s));
-	notify_controller_change();
+	emit something_changed();
 }
 
 void create_shape_gui::change_brush(const QString& s)
@@ -393,7 +377,7 @@ void create_shape_gui::change_brush(const QString& s)
 	mm["Cross"] = Qt::CrossPattern;
 	controller* c = controller::get_instance();
 	c->change_brush_style(mm[s.toStdString()]);
-	notify_controller_change();
+	emit something_changed();
 }
 
 void create_shape_gui::change_fill(const QString& s)
@@ -404,15 +388,7 @@ void create_shape_gui::change_fill(const QString& s)
 	mm["Cross"] = Qt::DotLine;
 	controller* c = controller::get_instance();
 	c->change_pen_style(mm[s.toStdString()]);
-	notify_controller_change();
-}
-
-void create_shape_gui::notify_controller_change()
-{
-        //NOTIFY2(CONTROLLER_CHANGED);
-        LeCallbackData d;
-        NOTIFY(CONTROLLER_CHANGED,d);
-        emit something_changed();
+	emit something_changed();
 }
 
 void create_shape_gui::discard()

@@ -12,10 +12,8 @@
 
 #define STR_EXPAND(tok) #tok
 #define STR(tok) STR_EXPAND(tok)
-#define REGISTER_CALLBACK(A,B)  LePostman::get_instance()->register_callback(std::string(STR(A))+std::string("-->" )+std::string(STR(B)),A,callBackFun1(std::bind(B,this,std::placeholders::_1)));
-#define REGISTER_CALLBACK2(A,B) LePostman::get_instance()->register_callback(std::string(STR(A))+std::string("-->" )+std::string(STR(B)),A,callBackFun2(std::bind(B,this,std::placeholders::_1))))
+#define REGISTER_CALLBACK(A,B) LePostman::get_instance()->register_callback(std::string(STR(A))+std::string("-->" )+std::string(STR(B)),A,callBackFun1(std::bind(B,this,std::placeholders::_1)));
 #define NOTIFY(A,B) LePostman::get_instance()->notify(std::string(typeid(this).name())+std::string(__FUNCTION__),A,B);
-#define NOTIFY2(A)  LePostman::get_instance()->notify(std::string(typeid(this).name())+std::string(__FUNCTION__),A);
 
 class LePostman : public Service<LePostman>
 {

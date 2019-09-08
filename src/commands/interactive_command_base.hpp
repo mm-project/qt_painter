@@ -20,10 +20,8 @@ class InteractiveCommandBase : public CommandBase
             return Interactive;
         }
 
-        virtual void handle_mouse_click(int x , int y) {
+        virtual void handle_mouse_click(int , int ) {
             //log("click "+x+" "+y);
-            m_last_click_point.setX(x);
-            m_last_click_point.setY(y);
             m_current_event_handler(MC);
         }
         
@@ -53,15 +51,10 @@ class InteractiveCommandBase : public CommandBase
         }
 
                 
-        QPoint get_lastclk_point() {
-            return m_last_click_point;
-        }
-
         
     private:
         CmdMemFun m_current_event_handler;
         QPoint m_last_cursor_point;
-        QPoint m_last_click_point;
 
 };
 
