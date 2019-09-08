@@ -16,11 +16,11 @@ ConsoleWidget::ConsoleWidget(QWidget* parent)
 	m_view->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::LinksAccessibleByMouse );
 	//m_view->setMinimumHeight(100);
 	m_view->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
-    m_view->setOpenExternalLinks(true);
-    //m_view->setHtml( "<a href=\"https://www.w3schools.com\">Visit W3Schools</a>" );
+        m_view->setOpenExternalLinks(true);       
+        //m_view->setHtml( "<a href=\"https://www.w3schools.com\">Visit W3Schools</a>" );
 	// writable part
 	m_console = new QLineEdit(this);
-	m_console->setFixedHeight(25);
+	m_console->setFixedHeight(15);
 	m_console->installEventFilter(this);
 	QVBoxLayout* layout = new QVBoxLayout;
 	layout->addWidget(m_view);

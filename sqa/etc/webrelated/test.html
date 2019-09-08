@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0045)http://cemerick.github.io/jsdifflib/demo.html -->
+
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
@@ -70,8 +70,8 @@ function diffUsingJS(viewType) {
 	"use strict";
 
 	var byId = function (id) { return document.getElementById(id); },
-		base = difflib.stringAsLines(readTextFile("aaa.txt")),
-		newtxt = difflib.stringAsLines(readTextFile("bbb.txt")),
+		base = difflib.stringAsLines(readTextFile('Properties/version.txt')),
+		newtxt = difflib.stringAsLines("44 asd asd"),
 		sm = new difflib.SequenceMatcher(base, newtxt),
 		opcodes = sm.get_opcodes(),
 		diffoutputdiv = byId("diffoutput"),
@@ -84,8 +84,8 @@ function diffUsingJS(viewType) {
 		baseTextLines: base,
 		newTextLines: newtxt,
 		opcodes: opcodes,
-		baseTextName: "Base Text",
-		newTextName: "New Text",
+		baseTextName: "Selection_Compare_0.txt.golden",
+		newTextName: "Selection_Compare_0.txt",
 		contextSize: contextSize,
 		viewType: viewType
 	}));
@@ -94,5 +94,23 @@ function diffUsingJS(viewType) {
 </script>
 </head>
 <body onload="diffUsingJS(0);">
+
 <div id="diffoutput"></div>
-</body></html>
+<br>
+<table>
+    <tbody>
+        <tr>
+            <td><a href="">Golden:  Canvas image when...</a></td>
+            <td><a href="">Current: Canvas image when ..</a></td>
+        </tr>
+
+        <tr>
+            <td><img width=640 src="./CanvasFor_Selection_Compare_0.txt.png"></img></td>
+            <td><img width=640 src="./CanvasFor_Selection_Compare_0.txt.png"></img></td>
+        </tr>
+    </tbody>
+</table>
+
+
+</body>
+</html>

@@ -55,8 +55,7 @@ table.diff thead th.texttitle {
 	text-align:left
 }
 table.diff tbody td {
-	padding:0px .4em;
-	padding-top:.4em;
+        padding:0 530px 0 0px;
 	vertical-align:top;
 }
 table.diff .empty {
