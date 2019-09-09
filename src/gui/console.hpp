@@ -9,6 +9,7 @@
 #include <QLineEdit>
 #include <QTabWidget>
 #include <QDockWidget>
+#include <QUrl>
 
 #include <string>
 
@@ -27,6 +28,7 @@ public:
 	
 private slots:
 	void onCommandEntered();
+        void onConsoleLinkClicked(QUrl);
 
 private:
 	virtual bool eventFilter(QObject*, QEvent*) override;

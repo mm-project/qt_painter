@@ -7,6 +7,7 @@
 #include <QEvent>
 #include <QKeyEvent>
 #include <QTabWidget>
+#include <QDesktopServices>
 
 ConsoleWidget::ConsoleWidget(QWidget* parent)
 	: QFrame(parent)
@@ -16,7 +17,8 @@ ConsoleWidget::ConsoleWidget(QWidget* parent)
 	m_view->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::LinksAccessibleByMouse );
 	//m_view->setMinimumHeight(100);
 	m_view->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
-        m_view->setOpenExternalLinks(true);       
+        //m_view->setOpenExternalLinks(true);
+        connect(m_view, SIGNAL(anchorClicked(QUrl)), this, SLOT(onConsoleLinkClicked(QUrl)));
         //m_view->setHtml( "<a href=\"https://www.w3schools.com\">Visit W3Schools</a>" );
 	// writable part
 	m_console = new QLineEdit(this);
@@ -28,6 +30,11 @@ ConsoleWidget::ConsoleWidget(QWidget* parent)
 	layout->setSpacing(0);
 	layout->setMargin(0);
 	setLayout(layout);
+}
+
+void ConsoleWidget::onConsoleLinkClicked(QUrl url)
+{
+        //QDesktopServices::openUrl(url);
 }
 
 void ConsoleWidget::appendText(const QString& text, LogMsgSeverity severity, QString code)

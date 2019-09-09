@@ -70,7 +70,7 @@ function diffUsingJS(viewType) {
 	"use strict";
 
 	var byId = function (id) { return document.getElementById(id); },
-		base = difflib.stringAsLines(readTextFile('Properties/version.txt')),
+		base = difflib.stringAsLines("aaaa"),
 		newtxt = difflib.stringAsLines("44 asd asd"),
 		sm = new difflib.SequenceMatcher(base, newtxt),
 		opcodes = sm.get_opcodes(),
