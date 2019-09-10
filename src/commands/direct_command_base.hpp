@@ -3,7 +3,6 @@
 
 #include "icommand_base.hpp"
 #include "command_option.hpp"
-#include "undo_manager.hpp"
 
 class DirectCommandBase: public CommandBase
 {
@@ -120,37 +119,4 @@ class NonTransactionalDirectCommandBase : public DirectCommandBase
          }
     
 };
-
-class TransactionalDirectCommandBase : public DirectCommandBase , public virtual UndoCommandBase 
-{
-    public:
-         virtual bool is_transaction_cmd() {
-            return true;
-         }
-        
-        virtual void execute_and_log() {
-            log();
-            try {
-                //pre_execute(); 
-                execute();
-                
-                //post_execute() 
-            } catch(...) {
-                Messenger::expose_msg(err,"something went wrong with this command");
-                std::cout << " Error: Fixme Exception or Error?? " << std::endl;
-                return;
-            }
-            
-            UndoManager::getInstance().pushCommand(std::shared_ptr<TransactionalDirectCommandBase>(this));
-        }
-
-         virtual bool is_undoable() {
-             return true;
-         }
-    
-         virtual bool is_redoable() {
-             return true;
-         }
-};
-
 #endif

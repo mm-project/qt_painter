@@ -1,5 +1,4 @@
 #include "undo_manager.hpp"
-#include "command_manager.hpp"
 
 std::unique_ptr<UndoManager> UndoManager::m_instance = nullptr;
 

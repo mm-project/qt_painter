@@ -1,6 +1,8 @@
 #ifndef UNDO_MANAGER_HPP
 #define UNDO_MANAGER_HPP
 
+#include "direct_command_base.hpp"
+
 #include <memory>
 #include <vector>
 
