@@ -29,14 +29,14 @@ class dicmdCreateObj : public DirectCommandBase, public virtual UndoCommandBase
 		IShape* m_executed_object;
         IObjectPoolPtr ws;
 public:
-        dicmdCreateObj<T>(IObjectPoolPtr s): m_ws(s) { //rq(RegionQuery::getInstance()) {
+        dicmdCreateObj<T>(IObjectPoolPtr s): ws(s) { //rq(RegionQuery::getInstance()) {
                 add_option("-points",new PointListCommandOptionValue());
                 add_option("-color",new StringCommandOptionValue());
                 add_option("-brush",new IntCommandOptionValue());
                 add_option("-fill",new IntCommandOptionValue());
         }
 
-       	dicmdCreateObj<T>(const std::vector<PointCommandOptionValue>& pl, const ShapeProperties& pr, IObjectPoolPtr s): m_ws(s) {
+       	dicmdCreateObj<T>(const std::vector<PointCommandOptionValue>& pl, const ShapeProperties& pr, IObjectPoolPtr s): ws(s) {
                 //m_pr = pr;
                 //std::to_string(pr.toStringsMap()["color"])
                 add_option("-points",new PointListCommandOptionValue(pl));
