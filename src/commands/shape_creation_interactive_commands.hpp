@@ -42,13 +42,15 @@ public:
 		auto ob = re->getPool()->getObjects();
 		for (auto i : ob)
 		{
-			auto cmd = new dicmdCreateObj<T>(m_internal_vec, m_controller->get_shape_properties(),ws);
-            cmd->execute_and_log();
-            //
-            //auto cmd = std::shared_ptr<dicmdCreateObj<T>>(new dicmdCreateObj<T>(m_internal_vec, m_controller->get_shape_properties(), ws));
-			//UndoManager& man = UndoManager::getInstance();
-			//man.pushCommand(cmd);
-			//cmd->silent_execute();
+			//levon's 
+            //auto cmd = new dicmdCreateObj<T>(m_internal_vec, m_controller->get_shape_properties(),ws);
+            //cmd->execute_and_log();
+            
+            //elen's
+            auto cmd = std::shared_ptr<dicmdCreateObj<T>>(new dicmdCreateObj<T>(m_internal_vec, m_controller->get_shape_properties(), ws));
+			UndoManager& man = UndoManager::getInstance();
+			man.pushCommand(cmd);
+			cmd->silent_execute();
 		}
 		finish();
 		//m_postman->notify(INTERACTIVE_COMMAND_POST_COMMIT,a);
