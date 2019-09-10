@@ -25,53 +25,39 @@ std::string getTransactionName(TransactionAction T)
 }
 
 template <TransactionAction T>
-class dicmdTransaction : public DirectCommandBase
+class dicmdUndoRedo : public DirectCommandBase
 {
 public:
-	dicmdTransaction(int count)
+	dicmdUndoRedo(int count)
 	{
-		add_option("-steps", new IntCommandOptionValue(count));
+		add_option("-steps", new StringCommandOptionValue(count));
 	}
 
-	dicmdTransaction()
+	dicmdUndoRedo()
 	{
-		add_option("-steps", new IntCommandOptionValue());
+		add_option("-steps", new StringCommandOptionValue());
 	}
 
 	std::string get_name() override
 	{
-		return "dicmdTransaction" + getTransactionName(T);
+		return "dicmd" + getTransactionName(T);
 	}
 
-	void undo_n_steps(int c) {
-        UndoManager& man = UndoManager::getInstance();
-        while ( c-- )    
-            man.undo();
-    }
-
-    void redo_n_steps(int c) {
-        UndoManager& man = UndoManager::getInstance();
-        while ( c-- )    
-            man.redo();
-    }
-
-    void execute() override
+	void execute() override
 	{
-		int s(I_ARG("-steps"));
+		UndoManager& man = UndoManager::getInstance();
 		switch (T)
 		{
 		case Undo:
-            undo_n_steps(s);
+			man.undo();
 			break;
 		case Redo:
-            redo_n_steps(s);
+			man.redo();
 			break;
 		}
 	}
 };
 
-//I don't think needed this :)
-/*
 template <TransactionAction T>
 class InteractiveUndoRedo : public InteractiveCommandBase
 {
@@ -96,10 +82,9 @@ public:
 private:
 	void on_commit(const EvType&)
 	{
-		dicmdTransaction<T>(1).silent_execute();
+		dicmdUndoRedo<T>(1).silent_execute();
 		abord();
 	}
 };
-*/
 
 #endif

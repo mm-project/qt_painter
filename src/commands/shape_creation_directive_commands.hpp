@@ -16,6 +16,9 @@
 
 #include <string>
 
+#define PL_ARG(s) GET_CMD_ARG(PointListCommandOptionValue,s)
+#define S_ARG(s) GET_CMD_ARG(StringCommandOptionValue,s)
+#define I_ARG(s) GET_CMD_ARG(IntCommandOptionValue,s)
 
 
 template <ObjectType T>
@@ -24,7 +27,7 @@ class dicmdCreateObj : public DirectCommandBase, public virtual UndoCommandBase
 
         IShape* m_shape;    
 		IShape* m_executed_object;
-        IObjectPoolPtr m_ws;
+        IObjectPoolPtr ws;
 public:
         dicmdCreateObj<T>(IObjectPoolPtr s): m_ws(s) { //rq(RegionQuery::getInstance()) {
                 add_option("-points",new PointListCommandOptionValue());
@@ -62,7 +65,7 @@ public:
                 ShapeProperties pr;
                 pr.fromString(S_ARG("-color"),I_ARG("-brush"),I_ARG("-fill"));
                 m_shape->updateProperties(pr);
-		m_executed_object = m_ws->addObject(m_shape);
+		m_executed_object = ws->addObject(m_shape);
 		rq.insertObject(m_executed_object);
                 /**/
         }
@@ -74,7 +77,7 @@ public:
 	void undo() override
 	{
 		// temp
-		m_ws->removeObject(m_executed_object);
+		ws->removeObject(m_executed_object);
 	}
 
 	void redo() override
@@ -86,7 +89,7 @@ public:
 		for( auto it: GET_CMD_ARG(PointListCommandOptionValue,"-points") )
 			m_shape->addPoint(it.get());
 
-		m_executed_object = m_ws->addObject(m_shape);
+		m_executed_object = ws->addObject(m_shape);
 		rq.insertObject(m_executed_object);
 	}
 };

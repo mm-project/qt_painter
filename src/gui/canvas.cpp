@@ -77,8 +77,8 @@ canvas::canvas(QWidget* p)
 	cm->register_command(new dicmdDesignLoad(m_working_set));
 	cm->register_command(new InteractiveDeleteAction(m_working_set));
 	cm->register_command(new dicmdDeleteObj(m_working_set));
-	cm->register_command(new dicmdTransaction<Undo>);
-	cm->register_command(new dicmdTransaction<Redo>);
+	cm->register_command(new dicmdUndoRedo<Undo>);
+	cm->register_command(new dicmdUndoRedo<Redo>);
 }
 
 
@@ -237,7 +237,6 @@ void canvas::invoke_delete()
 {
 	cm->activate_command(cm->find_command("incmdDeleteShape"));
 }
-
 void canvas::abordCommand()
 {
 	cm->activate_command(cm->find_command("dicmdAbortActiveCommand"));
@@ -245,12 +244,10 @@ void canvas::abordCommand()
 
 void canvas::invoke_redo()
 {
-	dicmdTransaction<Redo>(1).execute_and_log();
-    //cm->activate_command(cm->find_command("incmdTransactionRedo"));
+	cm->activate_command(cm->find_command("dicmdRedo"));
 }
 
 void canvas::invoke_undo()
 {
-	dicmdTransaction<Undo>(1).execute_and_log();
-     //cm->activate_command(cm->find_command("incmdTransactionUndo"));
+	cm->activate_command(cm->find_command("dicmdUndo"));
 }
