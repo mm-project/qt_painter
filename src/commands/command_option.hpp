@@ -55,6 +55,18 @@ class CommandOptionValueGetter {
 #define PointListCommandOptionValue ListCommandOptionValue<PointCommandOptionValue>
 
 
+class IntCommandOptionValue : public ICommandOptionValue 
+{
+    int m_data;
+    public:
+        IntCommandOptionValue() {}
+        IntCommandOptionValue(const int& i):m_data(i) {}
+        int get() { return m_data; }
+        std::string to_string() { return std::to_string(m_data); }
+        void from_string(const std::string& s) { m_data = atoi(s.c_str()); }
+    
+};
+
 
 class StringCommandOptionValue : public ICommandOptionValue 
 {

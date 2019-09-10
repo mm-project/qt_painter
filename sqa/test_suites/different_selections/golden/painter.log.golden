@@ -87,7 +87,7 @@ dicmdCanvasMouseMove -point (179,127)
 dicmdCanvasMouseMove -point (180,127) 
 dicmdCanvasMouseClick -point (180,127) 
 dicmdCanvasMouseClick -point (180,127) 
-#o --> Out: dicmdCreateObjRectangle -points {(83,50);(180,127)} 
+#o --> Out: dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(83,50);(180,127)} 
 dicmdCanvasMouseMove -point (177,124) 
 dicmdCanvasMouseMove -point (171,119) 
 dicmdCanvasMouseMove -point (163,114) 
@@ -160,7 +160,7 @@ dicmdCanvasMouseMove -point (69,55)
 dicmdCanvasMouseMove -point (70,55) 
 dicmdCanvasMouseClick -point (70,55) 
 dicmdCanvasMouseClick -point (70,55) 
-#o --> Out: dicmdCreateObjRectangle -points {(28,26);(70,55)} 
+#o --> Out: dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(28,26);(70,55)} 
 dicmdCanvasMouseMove -point (72,54) 
 dicmdCanvasMouseMove -point (76,53) 
 dicmdCanvasMouseMove -point (81,52) 
@@ -224,7 +224,7 @@ dicmdCanvasMouseMove -point (118,63)
 dicmdCanvasMouseMove -point (119,63) 
 dicmdCanvasMouseClick -point (119,63) 
 dicmdCanvasMouseClick -point (119,63) 
-#o --> Out: dicmdCreateObjRectangle -points {(86,30);(119,63)} 
+#o --> Out: dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(86,30);(119,63)} 
 dicmdCanvasMouseMove -point (119,62) 
 dicmdCanvasMouseMove -point (121,62) 
 dicmdCanvasMouseMove -point (129,62) 
@@ -281,7 +281,7 @@ dicmdCanvasMouseMove -point (326,186)
 dicmdCanvasMouseMove -point (327,186) 
 dicmdCanvasMouseClick -point (327,186) 
 dicmdCanvasMouseClick -point (327,186) 
-#o --> Out: dicmdCreateObjRectangle -points {(221,91);(327,186)} 
+#o --> Out: dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(221,91);(327,186)} 
 dicmdCanvasMouseMove -point (327,182) 
 dicmdCanvasMouseMove -point (319,170) 
 dicmdCanvasMouseMove -point (308,146) 
@@ -337,7 +337,7 @@ dicmdCanvasMouseMove -point (335,83)
 dicmdCanvasMouseMove -point (336,83) 
 dicmdCanvasMouseClick -point (336,83) 
 dicmdCanvasMouseClick -point (336,83) 
-#o --> Out: dicmdCreateObjRectangle -points {(279,40);(336,83)} 
+#o --> Out: dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(279,40);(336,83)} 
 dicmdCanvasMouseMove -point (336,82) 
 dicmdCanvasMouseMove -point (336,79) 
 dicmdCanvasMouseMove -point (338,74) 
@@ -417,7 +417,7 @@ dicmdCanvasMouseMove -point (421,202)
 dicmdCanvasMouseMove -point (422,202) 
 dicmdCanvasMouseClick -point (422,202) 
 dicmdCanvasMouseClick -point (422,202) 
-#o --> Out: dicmdCreateObjEllipse -points {(338,135);(422,202)} 
+#o --> Out: dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(338,135);(422,202)} 
 dicmdCanvasMouseMove -point (422,200) 
 dicmdCanvasMouseMove -point (422,197) 
 dicmdCanvasMouseMove -point (422,190) 
@@ -595,7 +595,7 @@ dicmdCanvasMouseClick -point (558,141)
 dicmdCanvasMouseClick -point (558,141) 
 dicmdCanvasMouseMove -point (557,141) 
 dicmdCanvasMouseDblClick -point (557,141) 
-#o --> Out: dicmdCreateObjPolygon -points {(516,71);(674,50);(683,135);(641,82);(558,141);(557,141)} 
+#o --> Out: dicmdCreateObjPolygon -brush 1 -color #000000 -fill 9 -points {(516,71);(674,50);(683,135);(641,82);(558,141);(557,141)} 
 dicmdCanvasMouseDblClick -point (557,141) 
 dicmdCanvasMouseMove -point (557,142) 
 dicmdCanvasMouseMove -point (557,144) 
@@ -999,7 +999,7 @@ dicmdCanvasMouseClick -point (883,105)
 dicmdCanvasMouseClick -point (883,105) 
 dicmdCanvasMouseMove -point (883,106) 
 dicmdCanvasMouseDblClick -point (883,106) 
-#o --> Out: dicmdCreateObjPolygon -points {(766,206);(879,64);(945,189);(865,149);(950,123);(808,128);(808,81);(883,105);(883,106)} 
+#o --> Out: dicmdCreateObjPolygon -brush 1 -color #000000 -fill 9 -points {(766,206);(879,64);(945,189);(865,149);(950,123);(808,128);(808,81);(883,105);(883,106)} 
 dicmdCanvasMouseDblClick -point (883,106) 
 dicmdCanvasMouseMove -point (883,107) 
 dicmdCanvasMouseMove -point (883,108) 
@@ -1104,7 +1104,7 @@ dicmdCanvasMouseMove -point (708,238)
 dicmdCanvasMouseClick -point (708,238) 
 dicmdCanvasMouseClick -point (708,238) 
 dicmdCanvasMouseDblClick -point (708,238) 
-#o --> Out: dicmdCreateObjPolygon -points {(558,207);(660,159);(708,238);(708,238)} 
+#o --> Out: dicmdCreateObjPolygon -brush 1 -color #000000 -fill 9 -points {(558,207);(660,159);(708,238);(708,238)} 
 dicmdCanvasMouseDblClick -point (708,238) 
 dicmdCanvasMouseMove -point (704,238) 
 dicmdCanvasMouseMove -point (694,228) 
@@ -2758,7 +2758,7 @@ dicmdCanvasMouseMove -point (489,125)
 dicmdCanvasMouseMove -point (489,126) 
 dicmdCanvasMouseClick -point (489,126) 
 dicmdCanvasMouseClick -point (489,126) 
-#o --> Out: dicmdCreateObjLine -points {(387,20);(489,126)} 
+#o --> Out: dicmdCreateObjLine -brush 1 -color #000000 -fill 9 -points {(387,20);(489,126)} 
 dicmdCanvasMouseMove -point (488,126) 
 dicmdCanvasMouseMove -point (484,126) 
 dicmdCanvasMouseMove -point (480,126) 
@@ -2812,7 +2812,7 @@ dicmdCanvasMouseMove -point (486,35)
 dicmdCanvasMouseMove -point (487,35) 
 dicmdCanvasMouseClick -point (487,35) 
 dicmdCanvasMouseClick -point (487,35) 
-#o --> Out: dicmdCreateObjLine -points {(463,158);(487,35)} 
+#o --> Out: dicmdCreateObjLine -brush 1 -color #000000 -fill 9 -points {(463,158);(487,35)} 
 dicmdCanvasMouseMove -point (484,34) 
 dicmdCanvasMouseMove -point (479,32) 
 dicmdCanvasMouseMove -point (472,28) 
@@ -3504,7 +3504,7 @@ dicmdCanvasMouseMove -point (286,171)
 dicmdCanvasMouseMove -point (287,172) 
 dicmdCanvasMouseClick -point (287,172) 
 dicmdCanvasMouseClick -point (287,172) 
-#o --> Out: dicmdCreateObjRectangle -points {(193,84);(287,172)} 
+#o --> Out: dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(193,84);(287,172)} 
 dicmdCanvasMouseMove -point (285,172) 
 dicmdCanvasMouseMove -point (276,168) 
 dicmdCanvasMouseMove -point (259,157) 
@@ -3550,7 +3550,7 @@ dicmdCanvasMouseMove -point (227,138)
 dicmdCanvasMouseMove -point (228,138) 
 dicmdCanvasMouseClick -point (228,138) 
 dicmdCanvasMouseClick -point (228,138) 
-#o --> Out: dicmdCreateObjRectangle -points {(145,83);(228,138)} 
+#o --> Out: dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(145,83);(228,138)} 
 dicmdCanvasMouseMove -point (225,138) 
 dicmdCanvasMouseMove -point (217,135) 
 dicmdCanvasMouseMove -point (205,128) 
@@ -3617,7 +3617,7 @@ dicmdCanvasMouseMove -point (194,114)
 dicmdCanvasMouseMove -point (195,114) 
 dicmdCanvasMouseClick -point (195,114) 
 dicmdCanvasMouseClick -point (195,114) 
-#o --> Out: dicmdCreateObjRectangle -points {(171,99);(195,114)} 
+#o --> Out: dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(171,99);(195,114)} 
 dicmdCanvasMouseMove -point (195,111) 
 dicmdCanvasMouseMove -point (192,106) 
 dicmdCanvasMouseMove -point (190,96) 
@@ -4198,7 +4198,7 @@ dicmdCanvasMouseMove -point (630,215)
 dicmdCanvasMouseMove -point (630,216) 
 dicmdCanvasMouseClick -point (630,216) 
 dicmdCanvasMouseClick -point (630,216) 
-#o --> Out: dicmdCreateObjEllipse -points {(393,83);(630,216)} 
+#o --> Out: dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(393,83);(630,216)} 
 dicmdCanvasMouseMove -point (610,211) 
 dicmdCanvasMouseMove -point (554,195) 
 dicmdCanvasMouseMove -point (505,178) 
@@ -4250,7 +4250,7 @@ dicmdCanvasMouseMove -point (452,158)
 dicmdCanvasMouseMove -point (452,159) 
 dicmdCanvasMouseClick -point (452,159) 
 dicmdCanvasMouseClick -point (452,159) 
-#o --> Out: dicmdCreateObjEllipse -points {(257,90);(452,159)} 
+#o --> Out: dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(257,90);(452,159)} 
 dicmdCanvasMouseMove -point (450,153) 
 dicmdCanvasMouseMove -point (429,112) 
 dicmdCanvasMouseMove -point (408,51) 
