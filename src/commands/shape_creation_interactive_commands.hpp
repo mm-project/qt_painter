@@ -42,38 +42,36 @@ public:
 		auto ob = re->getPool()->getObjects();
 		for (auto i : ob)
 		{
-			//dicmdCreateObj<T>(m_internal_vec,ws).silent_execute();
-			auto cmd = std::shared_ptr<dicmdCreateObj<T>>(new dicmdCreateObj<T>(m_internal_vec, m_controller->get_shape_properties(), ws));
-			UndoManager& man = UndoManager::getInstance();
-			man.pushCommand(cmd);
+			auto cmd = new dicmdCreateObj<T>(m_internal_vec, m_controller->get_shape_properties(),ws);
+            cmd->execute_and_log();
+            //
+            //auto cmd = std::shared_ptr<dicmdCreateObj<T>>(new dicmdCreateObj<T>(m_internal_vec, m_controller->get_shape_properties(), ws));
 			//UndoManager& man = UndoManager::getInstance();
 			//man.pushCommand(cmd);
-			cmd->silent_execute();
+			//cmd->silent_execute();
 		}
-                    //ws->addObject(i);
-                //end transaction
 		finish();
 		//m_postman->notify(INTERACTIVE_COMMAND_POST_COMMIT,a);
 	}
 	
 	virtual void finish() {
-		m_internal_vec.clear();
-		re->clear();
+        m_internal_vec.clear();
+        re->clear();
 	}
 	
 	void set_properties(const ShapeProperties& p) {
-		re->changeBasicProperties(p);
+        re->changeBasicProperties(p);
 	}
         
 	IShape* get_runtime_object() {
-                return m_rt_shape;
-        }
+        return m_rt_shape;
+    }
         
 	void create_runtime_object() {
-                ShapeCreatorPtr shapeCreator = ShapeCreator::getInstance();
-		m_rt_shape = shapeCreator->create(T);
-                re->addObject(m_rt_shape);
-        }
+            ShapeCreatorPtr shapeCreator = ShapeCreator::getInstance();
+            m_rt_shape = shapeCreator->create(T);
+            re->addObject(m_rt_shape);
+    }
 	
 	void runtime_set_pos1() {
 		re->addPoint(InteractiveCommandBase::get_last_point());
