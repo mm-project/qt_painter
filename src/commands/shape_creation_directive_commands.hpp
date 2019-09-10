@@ -2,6 +2,7 @@
 #define shapecreationdirective_commands_hpp
 
 #include "direct_command_base.hpp"
+#include "undo_manager.hpp"
 
 #include "../core/shape_creator.hpp"
 #include "../core/runtime_environment.hpp"
@@ -16,10 +17,11 @@
 #include <string>
 
 template <ObjectType T>
-class dicmdCreateObj : public DirectCommandBase  
+class dicmdCreateObj : public DirectCommandBase, public virtual UndoCommandBase
 {
 
         IShape* m_shape;    
+		IShape* m_executed_object;
         IObjectPoolPtr ws;
         //RegionQuery& rq;
 public:
@@ -42,22 +44,39 @@ public:
         }
         
 	virtual void execute() {
-               RegionQuery& rq = RegionQuery::getInstance();
-                //* //std::vector<QPoint> v(GET_CMD_ARG(PointListCommandOptionValue,"-points"));
-                m_shape = ShapeCreator::getInstance()->create(T);
-                for( auto it: GET_CMD_ARG(PointListCommandOptionValue,"-points") )
-                    m_shape->addPoint(it.get());
+	   RegionQuery& rq = RegionQuery::getInstance();
+		//* //std::vector<QPoint> v(GET_CMD_ARG(PointListCommandOptionValue,"-points"));
+		m_shape = ShapeCreator::getInstance()->create(T);
+		for( auto it: GET_CMD_ARG(PointListCommandOptionValue,"-points") )
+			m_shape->addPoint(it.get());
 
-                ws->addObject(m_shape);
-                rq.insertObject(m_shape);
+		m_executed_object = ws->addObject(m_shape);
+		rq.insertObject(m_executed_object);
                 /**/
         }
         
 	virtual std::string get_name() {
 		return "dicmdCreateObj"+ObjType2String(T);
         }
-         
-         
+       
+	void undo() override
+	{
+		// temp
+		ws->removeObject(m_executed_object);
+	}
+
+	void redo() override
+	{
+		// tmep
+	   RegionQuery& rq = RegionQuery::getInstance();
+		//* //std::vector<QPoint> v(GET_CMD_ARG(PointListCommandOptionValue,"-points"));
+		m_shape = ShapeCreator::getInstance()->create(T);
+		for( auto it: GET_CMD_ARG(PointListCommandOptionValue,"-points") )
+			m_shape->addPoint(it.get());
+
+		m_executed_object = ws->addObject(m_shape);
+		rq.insertObject(m_executed_object);
+	}
 };
 
 

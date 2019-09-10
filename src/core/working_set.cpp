@@ -4,9 +4,11 @@
 #include <QDir>
 #include <QTextStream>
 
-void WorkingSet::addObject(IShape* s)
+IShape* WorkingSet::addObject(IShape* s)
 {
-        m_shapes.push_back(s->clone());
+	auto obj = s->clone();
+	m_shapes.push_back(obj);
+	return obj;
 }
 
 std::vector<IShape*> WorkingSet::getObjects() const

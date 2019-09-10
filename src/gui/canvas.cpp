@@ -17,6 +17,7 @@
 #include "../commands/interactive_load_save.hpp"
 #include "../commands/delete_command.hpp"
 #include "../commands/command_manager.hpp"
+#include "../commands/undo_redo_command.hpp"
 
 #include <QRect>
 #include <QPainter>
@@ -65,17 +66,19 @@ canvas::canvas(QWidget* p)
 	cm->register_command(new INCMD_CREATE_OBJ(POLYGON));
 	cm->register_command(new INCMD_HIGHLIGHT_BY_REGION);
 	cm->register_command(new INCMD_HIGHLIGHT_BY_POINT);
-        cm->register_command(new dicmdCreateObj<RECTANGLE>(m_working_set));
-        cm->register_command(new dicmdCreateObj<LINE>(m_working_set));
-        cm->register_command(new dicmdCreateObj<ELLIPSE>(m_working_set));
-        cm->register_command(new dicmdCreateObj<POLYGON>(m_working_set));
-        cm->register_command(new InteractiveDesAction<LOAD>(m_working_set));
-        cm->register_command(new InteractiveDesAction<SAVE>(m_working_set));
-        cm->register_command(new InteractiveDesAction<NEW>(m_working_set));   
-        cm->register_command(new dicmdDesignSave(m_working_set));
-        cm->register_command(new dicmdDesignLoad(m_working_set));
+	cm->register_command(new dicmdCreateObj<RECTANGLE>(m_working_set));
+	cm->register_command(new dicmdCreateObj<LINE>(m_working_set));
+	cm->register_command(new dicmdCreateObj<ELLIPSE>(m_working_set));
+	cm->register_command(new dicmdCreateObj<POLYGON>(m_working_set));
+	cm->register_command(new InteractiveDesAction<LOAD>(m_working_set));
+	cm->register_command(new InteractiveDesAction<SAVE>(m_working_set));
+	cm->register_command(new InteractiveDesAction<NEW>(m_working_set));   
+	cm->register_command(new dicmdDesignSave(m_working_set));
+	cm->register_command(new dicmdDesignLoad(m_working_set));
 	cm->register_command(new InteractiveDeleteAction(m_working_set));
 	cm->register_command(new dicmdDeleteObj(m_working_set));
+	cm->register_command(new dicmdUndoRedo<Undo>);
+	cm->register_command(new dicmdUndoRedo<Redo>);
 }
 
 
@@ -237,4 +240,14 @@ void canvas::invoke_delete()
 void canvas::abordCommand()
 {
 	cm->activate_command(cm->find_command("dicmdAbortActiveCommand"));
+}
+
+void canvas::invoke_redo()
+{
+	cm->activate_command(cm->find_command("dicmdRedo"));
+}
+
+void canvas::invoke_undo()
+{
+	cm->activate_command(cm->find_command("dicmdUndo"));
 }

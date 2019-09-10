@@ -13,13 +13,13 @@ public:
 	//
 	//	Interface
 	//
-	virtual void clear() override;
-	virtual std::vector<IShape*> getObjects() const override;
-	virtual void addObject(IShape*) override;
+	void clear() override;
+	std::vector<IShape*> getObjects() const override;
+	IShape* addObject(IShape*) override;
 	virtual ~WorkingSet() {}
-	virtual std::string getName() override;
-	virtual void dumpToFile(const std::string&);
-	void removeObject(IShape*);
+	std::string getName() override;
+	void dumpToFile(const std::string&);
+	void removeObject(IShape*) override;
 
 private:
 	//
