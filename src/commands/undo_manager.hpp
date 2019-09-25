@@ -3,6 +3,8 @@
 
 #include "direct_command_base.hpp"
 
+#include "../core/service.h"
+
 #include <memory>
 #include <vector>
 
@@ -15,11 +17,9 @@ public:
 
 };
 
-class UndoManager
+class UndoManager : public Service<UndoManager>
 {
 public:
-	static UndoManager& getInstance();
-
 	void pushCommand(UndoCommandBase*);
 	void pushCommand(std::shared_ptr<UndoCommandBase>);
 	void undo();
@@ -27,14 +27,6 @@ public:
 	void clear();
 
 private:
-	UndoManager() = default;
-	UndoManager(const UndoManager&) = delete;
-	UndoManager& operator=(const UndoManager&) = delete;
-	UndoManager(const UndoManager&&) = delete;
-	UndoManager& operator=(const UndoManager&&) = delete;
-
-private:
-	static std::unique_ptr<UndoManager> m_instance;
 	std::vector<std::shared_ptr<UndoCommandBase>>	m_stack;
 	int m_position = -1;
 };

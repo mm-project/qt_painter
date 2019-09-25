@@ -43,8 +43,7 @@ public:
         static void log_command(const std::string& msg, bool iscmd);
         static std::string decorate_for_logging(const LogMsgSeverity&);
 	//FIXME
-	Messenger();
-        ~Messenger();
+	~Messenger();
 		
         
 private:

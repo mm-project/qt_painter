@@ -105,7 +105,7 @@ main_window::main_window(QWidget* p)
 	static QIcon main_window_icon(getIconDir() + "shapes_simple.png");
 	setWindowIcon(main_window_icon);
 	QCoreApplication::instance()->installEventFilter(this);
-	command_manager::get_instance()->set_main_widget(this);
+	command_manager::getInstance().set_main_widget(this);
 	StatusBarManager& sBar = StatusBarManager::getInstance();
 	sBar.setStatusBar(statusBar());
     

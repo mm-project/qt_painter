@@ -16,9 +16,8 @@
 template <ObjectType T>
 class ObjCreatorCommandBase : public InteractiveCommandBase 
 {
+	LePostman& m_postman = LePostman::getInstance();
 
-	LePostman* m_postman;
-	
 public:
 	ObjCreatorCommandBase<T>(ObjectPoolSandboxPtr r, IObjectPoolPtr s): ws(s) 
 	{
@@ -26,7 +25,6 @@ public:
 		r->addChildren(re);
 		m_controller =  controller::get_instance();
 		m_rt_shape = 0;
-		m_postman = LePostman::get_instance();
 	}
 
 	virtual void handle_update() {
@@ -46,8 +44,6 @@ public:
 			auto cmd = std::shared_ptr<dicmdCreateObj<T>>(new dicmdCreateObj<T>(m_internal_vec, m_controller->get_shape_properties(), ws));
 			UndoManager& man = UndoManager::getInstance();
 			man.pushCommand(cmd);
-			//UndoManager& man = UndoManager::getInstance();
-			//man.pushCommand(cmd);
 			cmd->silent_execute();
 		}
                     //ws->addObject(i);
@@ -101,7 +97,7 @@ public:
 		//dicmdAbortActiveCommand().log();
 		//d.execute_and_log();
 		//fini();
-		command_manager::get_instance()->return_to_idle();
+		command_manager::getInstance().return_to_idle();
 	}
 
 protected:    
