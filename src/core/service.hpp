@@ -13,7 +13,6 @@ public:
 
 public:
 	// some servies may be don't need this
-	virtual void startUp() {}
 	virtual void shutDown() {}
 
 protected:
@@ -43,7 +42,6 @@ public:
 			// first need to register deps
 			registerDependecies();
 			m_instance = std::unique_ptr<T>(new T);
-			//ServiceManager::getInstance().addService(*m_instance);
 			if (m_callback != nullptr)
 				m_callback(*m_instance);
 		}
@@ -86,7 +84,7 @@ class ServiceManager : public Service<ServiceManager>
 {
 public:
 	//	Things needed for main application
-	void startUp() override;
+	ServiceManager();
 	//	Delete content in order of registering
 	void shutDown() override;
 

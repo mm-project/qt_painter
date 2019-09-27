@@ -12,7 +12,7 @@ class Application: public Service<Application> //, public QApplication
 {
     appMode m_mode = APPNORM;
 public:
-	
+
 	void set_replay_mode(bool m) { 
 		Messenger::expose_msg(info,"Set to mode"+QString::number(int(m)).toStdString());
 		m_mode = m?APPREPLAY:APPNORM; 

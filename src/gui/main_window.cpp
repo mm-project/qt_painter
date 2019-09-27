@@ -83,6 +83,9 @@ return QMainWindow::eventFilter(obj, event);
 main_window::main_window(QWidget* p)
         : QMainWindow(p)
 {
+	// initalize services
+	ServiceManager::getInstance();
+
 	m_canvas = new canvas(this);
 	m_shapes = new create_shape_gui(this);
 	QDockWidget* console_widget = new QDockWidget(this);
@@ -113,7 +116,7 @@ main_window::main_window(QWidget* p)
 	setObjectName("mw");
 	setRecursiveChildWidgetsObjectName(this);
 	m_canvas->setObjectName("CANVAS");
-        Messenger::expose_msg(info,"Welcome to this project. Feel free to expirment. ");
+	Messenger::expose_msg(info,"Welcome to this project. Feel free to expirment. ");
 
 }
 

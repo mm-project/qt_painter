@@ -13,9 +13,9 @@
 #include <cassert>
 
 
-//Messenger::Messenger() {
-//	init();
-//}
+Messenger::Messenger() {
+	init();
+}
 
 Messenger::~Messenger() {
 	fini();

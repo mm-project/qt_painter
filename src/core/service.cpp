@@ -1,6 +1,6 @@
 #include "service.hpp"
 
-void ServiceManager::startUp()
+ServiceManager::ServiceManager()
 {
 	m_callback = std::bind(&ServiceManager::addService<ServiceManager>, this, std::placeholders::_1);
 }
