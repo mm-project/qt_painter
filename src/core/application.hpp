@@ -1,7 +1,7 @@
 #ifndef application_hpp
 #define application_hpp
 
-#include "service.h"
+#include "service.hpp"
 #include "../io/messenger.hpp"
 
 #include <QString>

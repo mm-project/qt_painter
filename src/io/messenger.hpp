@@ -1,7 +1,7 @@
 #ifndef messenger_hpp
 #define messenger_hpp
 
-#include "../core/service.h"
+#include "../core/service.hpp"
 #include "../core/callback.hpp"
 
 #include <QFile>

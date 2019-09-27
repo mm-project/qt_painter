@@ -3,7 +3,7 @@
 
 #include "messenger.hpp"
 
-#include "../core/service.h"
+#include "../core/service.hpp"
 #include "../commands/command_manager.hpp"
 #include "../commands/icommand_base.hpp"
 #include "../commands/direct_command_base.hpp"

@@ -10,7 +10,7 @@
 #include "../core/runtime_environment.hpp"
 #include "../core/working_set.hpp"
 #include "../core/callback.hpp"
-#include "../core/service.h"
+#include "../core/service.hpp"
 
 // Stl
 #include <string>

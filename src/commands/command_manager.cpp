@@ -30,8 +30,6 @@ void command_manager::init2(ObjectPoolSandboxPtr r, IObjectPoolPtr s) {
 
 //FIMXE should be called from outside
 void command_manager::init() {
-	registerDependecies<UndoManager>();
-	registerDependecies<int>();
 	//Dependency<command_manager>();
     register_command(new dicmdCanvasMouseMove);
     register_command(new dicmdCanvasMouseClick);
@@ -53,7 +51,6 @@ void command_manager::init() {
     register_command(new dicmdCanvasOrigin<PANUP>);
     register_command(new dicmdCanvasViewport<ZOOMIN>);
     register_command(new dicmdCanvasViewport<ZOOMOUT>);
-    
     
     m_current_command = m_idle_command;
 }

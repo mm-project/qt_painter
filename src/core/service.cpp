@@ -1,3 +1,12 @@
-#include "service.h"
+#include "service.hpp"
 
-//FIXME can't use this cpp
+void ServiceManager::startUp()
+{
+
+}
+
+void ServiceManager::shutDown()
+{
+	for (auto it : m_services)
+		it->shutDown();
+}

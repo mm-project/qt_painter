@@ -3,7 +3,7 @@
 
 #include "direct_command_base.hpp"
 
-#include "../core/service.h"
+#include "../core/service.hpp"
 
 #include <memory>
 #include <vector>
