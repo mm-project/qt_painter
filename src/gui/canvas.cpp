@@ -58,25 +58,23 @@ canvas::canvas(QWidget* p)
     cm.set_main_renderer(m_renderer);
 	
 	//fixme move to other place
-	cm->register_command(new INCMD_CREATE_OBJ(LINE));
-	cm->register_command(new INCMD_CREATE_OBJ(RECTANGLE));
-	cm->register_command(new INCMD_CREATE_OBJ(ELLIPSE));
-	cm->register_command(new INCMD_CREATE_OBJ(POLYGON));
-	cm->register_command(new INCMD_HIGHLIGHT_BY_REGION);
-	cm->register_command(new INCMD_HIGHLIGHT_BY_POINT);
-	cm->register_command(new dicmdCreateObj<RECTANGLE>(m_working_set));
-	cm->register_command(new dicmdCreateObj<LINE>(m_working_set));
-	cm->register_command(new dicmdCreateObj<ELLIPSE>(m_working_set));
-	cm->register_command(new dicmdCreateObj<POLYGON>(m_working_set));
-	cm->register_command(new InteractiveDesAction<LOAD>(m_working_set));
-	cm->register_command(new InteractiveDesAction<SAVE>(m_working_set));
-	cm->register_command(new InteractiveDesAction<NEW>(m_working_set));   
-	cm->register_command(new dicmdDesignSave(m_working_set));
-	cm->register_command(new dicmdDesignLoad(m_working_set));
-	cm->register_command(new InteractiveDeleteAction(m_working_set));
-	cm->register_command(new dicmdDeleteObj(m_working_set));
-	cm->register_command(new dicmdUndoRedo<Undo>);
-	cm->register_command(new dicmdUndoRedo<Redo>);
+	cm.register_command(new INCMD_CREATE_OBJ(LINE));
+	cm.register_command(new INCMD_CREATE_OBJ(RECTANGLE));
+	cm.register_command(new INCMD_CREATE_OBJ(ELLIPSE));
+	cm.register_command(new INCMD_CREATE_OBJ(POLYGON));
+	cm.register_command(new INCMD_HIGHLIGHT_BY_REGION);
+	cm.register_command(new INCMD_HIGHLIGHT_BY_POINT);
+	cm.register_command(new dicmdCreateObj<RECTANGLE>(m_working_set));
+	cm.register_command(new dicmdCreateObj<LINE>(m_working_set));
+	cm.register_command(new dicmdCreateObj<ELLIPSE>(m_working_set));
+	cm.register_command(new dicmdCreateObj<POLYGON>(m_working_set));
+	cm.register_command(new InteractiveDesAction<LOAD>(m_working_set));
+	cm.register_command(new InteractiveDesAction<SAVE>(m_working_set));
+	cm.register_command(new InteractiveDesAction<NEW>(m_working_set));   
+	cm.register_command(new dicmdDesignSave(m_working_set));
+	cm.register_command(new dicmdDesignLoad(m_working_set));
+	cm.register_command(new InteractiveDeleteAction(m_working_set));
+	cm.register_command(new dicmdDeleteObj(m_working_set));
 }
 
 

@@ -24,6 +24,7 @@ template <ObjectType T>
 class dicmdCreateObj : public DirectCommandBase  
 {
 
+        IShape* m_executed_object;    
         IShape* m_shape;    
         IObjectPoolPtr ws;
 public:
@@ -57,19 +58,21 @@ public:
 	   RegionQuery& rq = RegionQuery::getInstance();
 		//* //std::vector<QPoint> v(GET_CMD_ARG(PointListCommandOptionValue,"-points"));
 		m_shape = ShapeCreator::getInstance()->create(T);
-		for( auto it: GET_CMD_ARG(PointListCommandOptionValue,"-points") )
+		for( auto it: PL_ARG("-points") )
 			m_shape->addPoint(it.get());
 
+                ShapeProperties pr;
+                pr.fromString(S_ARG("-color"),I_ARG("-brush"),I_ARG("-fill"));
+                m_shape->updateProperties(pr);
 		m_executed_object = ws->addObject(m_shape);
 		rq.insertObject(m_executed_object);
                 /**/
         }
-        
-	virtual std::string get_name() {
+       
+    virtual std::string get_name() {
 		return "dicmdCreateObj"+ObjType2String(T);
         }
-         
-         
+       
 };
 
 
