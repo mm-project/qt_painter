@@ -31,24 +31,10 @@ public:
 	}
 	/**/
 	
-	static bool is_replay_mode() 
-	{
-		Application& app = Application::getInstance();
-		return app.get_mode() == APPREPLAY; 
-	}
 
-	static bool is_testing_mode()
-	{
-		Application& app = Application::getInstance();
-		return app.get_mode() == APPREPLAY;
-	}
-
-	static bool is_load_mode()
-	{
-		Application& app = Application::getInstance();
-		return app.get_mode() == APPREPLAY;
-	}
-	
+	static bool is_replay_mode() { return (Application::getInstance().get_mode() == APPREPLAY); }
+	static bool is_testing_mode() { return (Application::getInstance().get_mode() == APPTESTING); }
+	static bool is_load_mode() { return (Application::getInstance().get_mode() == APPLOAD); }
 };
 
 
