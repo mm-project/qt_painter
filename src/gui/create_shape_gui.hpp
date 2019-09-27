@@ -61,8 +61,6 @@ signals:
 	void createPolygon();
 	void deleteShape();
 	void abord();
-	void undo();
-	void redo();
 
 	void something_changed();
 	void selectByRegion();
