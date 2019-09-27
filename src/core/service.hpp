@@ -25,7 +25,7 @@ protected:
 	Singleton& operator=(const Singleton&&) = delete;
 };
 
-//class ServiceManager;
+class ServiceManager;
 
 //	getInstacne returns reference with from c++11 (it's safe)
 //	Default constructor is private
