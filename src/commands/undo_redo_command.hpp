@@ -30,12 +30,12 @@ class dicmdUndoRedo : public DirectCommandBase
 public:
 	dicmdUndoRedo(int count)
 	{
-		add_option("-steps", new StringCommandOptionValue(count));
+		add_option("-steps", new IntCommandOptionValue(count));
 	}
 
 	dicmdUndoRedo()
 	{
-		add_option("-steps", new StringCommandOptionValue());
+		add_option("-steps", new IntCommandOptionValue());
 	}
 
 	std::string get_name() override
