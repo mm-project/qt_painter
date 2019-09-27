@@ -135,7 +135,7 @@ public:
             if ( ev == MC ) { 
                 if ( m_first_click ) {
                     m_first_click = false;
-                    m_se->clear();
+                    Selection::getInstance().clear();
                 }
                 
                 incmdCreateObj<RECTANGLE>::idle(ev);
