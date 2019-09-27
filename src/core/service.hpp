@@ -25,8 +25,6 @@ protected:
 	Singleton& operator=(const Singleton&&) = delete;
 };
 
-class ServiceManager;
-
 //	getInstacne returns reference with from c++11 (it's safe)
 //	Default constructor is private
 //	Copy/Move constructor/assignment operator is not supported
@@ -45,7 +43,9 @@ public:
 			// first need to register deps
 			registerDependecies();
 			m_instance = std::unique_ptr<T>(new T);
-			ServiceManager::getInstance().addService(*m_instance);
+			//ServiceManager::getInstance().addService(*m_instance);
+			if (m_callback != nullptr)
+				m_callback(*m_instance);
 		}
 		return *m_instance;
 	}
@@ -69,12 +69,18 @@ protected:
 	Service& operator=(const Service&) = delete;
 	Service& operator=(const Service&&) = delete;
 
+protected:
+	static std::function<void(T&)> m_callback;
+
 private:
 	static ServicePtr m_instance;
 };
 
 template <typename T>
 typename Service<T>::ServicePtr Service<T>::m_instance = nullptr;
+
+template <typename T>
+typename std::function<void(T&)> Service<T>::m_callback = nullptr;
 
 class ServiceManager : public Service<ServiceManager>
 {
