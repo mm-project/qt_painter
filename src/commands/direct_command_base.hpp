@@ -128,7 +128,7 @@ class TransactionalDirectCommandBase : public DirectCommandBase , public virtual
             return true;
          }
         
-        virtual void execute_and_log() {
+        virtual void silent_execute() {
             log();
             try {
                 //pre_execute(); 

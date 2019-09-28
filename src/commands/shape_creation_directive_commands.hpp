@@ -80,15 +80,7 @@ public:
 
         void redo() override
         {
-            // tmep
-            RegionQuery& rq = RegionQuery::getInstance();
-            //* //std::vector<QPoint> v(GET_CMD_ARG(PointListCommandOptionValue,"-points"));
-            m_shape = ShapeCreator::getInstance().create(T);
-            for( auto it: GET_CMD_ARG(PointListCommandOptionValue,"-points") )
-                m_shape->addPoint(it.get());
-
-            m_executed_object = m_ws->addObject(m_shape);
-            rq.insertObject(m_executed_object);
+                execute();
         }
 };
 
