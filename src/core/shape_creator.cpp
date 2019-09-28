@@ -1,8 +1,6 @@
 #include "shape_creator.hpp"
 #include "shapes.hpp"
 
-ShapeCreatorPtr ShapeCreator::m_instance = 0;
-
 ShapeCreator::ShapeCreator()
 {
 	m_line = new line;
@@ -17,13 +15,6 @@ ShapeCreator::~ShapeCreator()
 	delete m_rect;
 	delete m_ellipse;
 	delete m_polygon;
-}
-
-ShapeCreatorPtr ShapeCreator::getInstance()
-{
-	if (m_instance == nullptr)
-		m_instance = std::shared_ptr<ShapeCreator>(new ShapeCreator);
-	return m_instance;
 }
 
 IShape* ShapeCreator::create(ObjectType t)

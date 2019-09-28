@@ -35,7 +35,9 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/.tmp/lib)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_PREFIX_PATH ${QTDIR})
-#set(CMAKE_CXX_STANDARD 17)
+if (MSVC)
+	set(CMAKE_CXX_STANDARD 17)
+endif (MSVC)
 
 find_package (Qt5Widgets)
 find_package (Qt5Core)

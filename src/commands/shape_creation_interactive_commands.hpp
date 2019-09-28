@@ -16,21 +16,18 @@
 template <ObjectType T>
 class ObjCreatorCommandBase : public InteractiveCommandBase 
 {
+	LePostman& m_postman = LePostman::getInstance();
 
-	LePostman* m_postman;
-	
 public:
 	ObjCreatorCommandBase<T>(ObjectPoolSandboxPtr r, IObjectPoolPtr s): ws(s) 
 	{
 		re = std::shared_ptr<ObjectSandbox>(new ObjectSandbox);
 		r->addChildren(re);
-		m_controller =  controller::get_instance();
 		m_rt_shape = 0;
-		m_postman = LePostman::get_instance();
 	}
 
 	virtual void handle_update() {
-		set_properties(m_controller->get_shape_properties());
+		set_properties(m_controller.get_shape_properties());
 	}
 
 	//command commits by invoking corresonding non-interactive command
@@ -42,13 +39,12 @@ public:
 		auto ob = re->getPool()->getObjects();
 		for (auto i : ob)
 		{
-			auto cmd = new dicmdCreateObj<T>(m_internal_vec, m_controller->get_shape_properties(),ws);
-            cmd->execute_and_log();
-            //
-            //auto cmd = std::shared_ptr<dicmdCreateObj<T>>(new dicmdCreateObj<T>(m_internal_vec, m_controller->get_shape_properties(), ws));
-			//UndoManager& man = UndoManager::getInstance();
+			//dicmdCreateObj<T>(m_internal_vec,ws).silent_execute();
+			auto cmd = std::shared_ptr<dicmdCreateObj<T>>(new dicmdCreateObj<T>(m_internal_vec, m_controller.get_shape_properties(), ws));
+
+            //UndoManager& man = UndoManager::getInstance();
 			//man.pushCommand(cmd);
-			//cmd->silent_execute();
+			cmd->silent_execute();
 		}
 		finish();
 		//m_postman->notify(INTERACTIVE_COMMAND_POST_COMMIT,a);
@@ -68,10 +64,10 @@ public:
     }
         
 	void create_runtime_object() {
-            ShapeCreatorPtr shapeCreator = ShapeCreator::getInstance();
-            m_rt_shape = shapeCreator->create(T);
-            re->addObject(m_rt_shape);
-    }
+		ShapeCreator& shapeCreator = ShapeCreator::getInstance();
+		m_rt_shape = shapeCreator.create(T);
+                re->addObject(m_rt_shape);
+        }
 	
 	void runtime_set_pos1() {
 		re->addPoint(InteractiveCommandBase::get_last_point());
@@ -99,15 +95,15 @@ public:
 		//dicmdAbortActiveCommand().log();
 		//d.execute_and_log();
 		//fini();
-		command_manager::get_instance()->return_to_idle();
+		command_manager::getInstance().return_to_idle();
 	}
 
 protected:    
-	ObjectSandboxPtr re;
+	ObjectSandboxPtr re = nullptr;
 private:
-	IObjectPoolPtr ws;
-	controller* m_controller; 
-	IShape* m_rt_shape;
+	IObjectPoolPtr ws = nullptr;
+	controller& m_controller = controller::getInstance(); 
+	IShape* m_rt_shape = nullptr;;
 	std::vector<PointCommandOptionValue> m_internal_vec;
 
 };

@@ -24,21 +24,21 @@ class LogReader : public QObject
     
     QTimer* m_timer ;
     std::queue<QString> m_command_queue;
-    CommandInterp* m_interp;
+    CommandInterp& m_interp = CommandInterp::getInstance();
     
-    private:
-        QStringList read_file(const std::string& fname);
-            
-    public:
-        LogReader();
-        bool replay_logfile(const std::string& fname);
-        bool replay_logfile_imi(const std::string& fname);
-        void replay_cmd(const std::string& str);
-        
+private:
+	QStringList read_file(const std::string& fname);
+		
+public:
+	LogReader();
+	bool replay_logfile(const std::string& fname);
+	bool replay_logfile_imi(const std::string& fname);
+	void replay_cmd(const std::string& str);
+	
 
-    private slots:
-        void execute_next_command();
-        
+private slots:
+	void execute_next_command();
+	
 };
 
 #endif

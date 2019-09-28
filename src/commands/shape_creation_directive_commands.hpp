@@ -29,8 +29,8 @@ public:
         dicmdCreateObj<T>(IObjectPoolPtr s): m_ws(s) { //rq(RegionQuery::getInstance()) {
                 add_option("-points",new PointListCommandOptionValue());
                 add_option("-color",new StringCommandOptionValue());
-                add_option("-brush",new IntCommandOptionValue());
-                add_option("-fill",new IntCommandOptionValue());
+                add_option("-brush",new IntCommandOptionValue(0));
+                add_option("-fill",new IntCommandOptionValue(0));
         }
 
        	dicmdCreateObj<T>(const std::vector<PointCommandOptionValue>& pl, const ShapeProperties& pr, IObjectPoolPtr s): m_ws(s) {
@@ -55,7 +55,7 @@ public:
 	   virtual void execute() {
                 RegionQuery& rq = RegionQuery::getInstance();
                 //* //std::vector<QPoint> v(GET_CMD_ARG(PointListCommandOptionValue,"-points"));
-                m_shape = ShapeCreator::getInstance()->create(T);
+                m_shape = ShapeCreator::getInstance().create(T);
                 for( auto it: PL_ARG("-points") )
                     m_shape->addPoint(it.get());
 
@@ -83,7 +83,7 @@ public:
             // tmep
             RegionQuery& rq = RegionQuery::getInstance();
             //* //std::vector<QPoint> v(GET_CMD_ARG(PointListCommandOptionValue,"-points"));
-            m_shape = ShapeCreator::getInstance()->create(T);
+            m_shape = ShapeCreator::getInstance().create(T);
             for( auto it: GET_CMD_ARG(PointListCommandOptionValue,"-points") )
                 m_shape->addPoint(it.get());
 

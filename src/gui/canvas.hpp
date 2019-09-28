@@ -57,7 +57,7 @@ private:
         bool m_need_motionlog = false;
         IObjectPoolPtr m_working_set;
         ObjectPoolSandboxPtr m_sandbox;
-        command_manager* cm;
+        command_manager& cm = command_manager::getInstance();
         renderer* m_renderer;
         int m_scale = 15;
         QPoint m_last_cursor = {0,0};
