@@ -41,11 +41,10 @@ public:
 		{
 			//dicmdCreateObj<T>(m_internal_vec,ws).silent_execute();
 			auto cmd = std::shared_ptr<dicmdCreateObj<T>>(new dicmdCreateObj<T>(m_internal_vec, m_controller.get_shape_properties(), ws));
-			UndoManager& man = UndoManager::getInstance();
-			man.pushCommand(cmd);
-			//UndoManager& man = UndoManager::getInstance();
+
+            //UndoManager& man = UndoManager::getInstance();
 			//man.pushCommand(cmd);
-			//cmd->silent_execute();
+			cmd->silent_execute();
 		}
 		finish();
 		//m_postman->notify(INTERACTIVE_COMMAND_POST_COMMIT,a);
