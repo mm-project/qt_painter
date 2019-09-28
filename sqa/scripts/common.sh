@@ -80,7 +80,8 @@ function postprocess
         if [ -d "../golden" ]; then
             a=`diff ./logs/painter.log painter.log.golden`
             b=`diff ./logs/painter.lvi painter.lvi.golden`
-            c=`diff painter.out painter.out.golden`
+            #c=`diff painter.out painter.out.golden`
+            c=""
 
             res_d=""
             problems=""
@@ -159,7 +160,7 @@ function run
     tool=$toolpath/$toolexe
     verbose "invocation: $tool "$options" &> painter.out "
 
-    $tool $options &> painter.out 
+    $tool $options &> /dev/null
     exit_code=$?
 }
 
