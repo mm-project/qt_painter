@@ -66,7 +66,7 @@ function postprocess
             done
             cp ./logs/painter.log ../golden/painter.log.golden
             cp ./logs/painter.lvi ../golden/painter.lvi.golden
-            cp painter.out ../golden/painter.out.golden
+            #cp painter.out ../golden/painter.out.golden
             cp `find -name "*.golden*"` ../golden
             #cnvscprs=`find -name "*compare*"`
             #for i in $cnvscprs; do
