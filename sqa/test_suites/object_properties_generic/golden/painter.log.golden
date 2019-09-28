@@ -935,7 +935,9 @@ dicmdCanvasMouseMove -point (836,47)
 dicmdCanvasMouseMove -point (824,34) 
 dicmdCanvasMouseMove -point (786,13) 
 dicmdguiSelectRadioButton -object 0x109:qradiobutton_173 
+#e --> Error: something went wrong with this command
 dicmdguiClickButton -object 0x109:qradiobutton_173 
+#e --> Error: something went wrong with this command
 dicmdCanvasMouseMove -point (752,4) 
 dicmdCanvasMouseMove -point (804,14) 
 dicmdCanvasMouseMove -point (859,28) 
@@ -1099,7 +1101,9 @@ dicmdCanvasMouseMove -point (706,69)
 dicmdCanvasMouseMove -point (658,40) 
 dicmdCanvasMouseMove -point (621,18) 
 dicmdguiSelectRadioButton -object 0x110:qradiobutton_188 
+#e --> Error: something went wrong with this command
 dicmdguiClickButton -object 0x110:qradiobutton_188 
+#e --> Error: something went wrong with this command
 dicmdCanvasMouseMove -point (991,10) 
 dicmdCanvasMouseMove -point (1021,19) 
 dicmdCanvasMouseMove -point (1039,28) 
@@ -2181,9 +2185,13 @@ dicmdCanvasMouseMove -point (613,45)
 dicmdCanvasMouseMove -point (582,13) 
 dicmdguiClickButton -object 0x108:blue 
 dicmdguiSelectRadioButton -object 0x110:qradiobutton_188 
+#e --> Error: something went wrong with this command
 dicmdguiClickButton -object 0x110:qradiobutton_188 
+#e --> Error: something went wrong with this command
 dicmdguiSelectRadioButton -object 0x109:qradiobutton_173 
+#e --> Error: something went wrong with this command
 dicmdguiClickButton -object 0x109:qradiobutton_173 
+#e --> Error: something went wrong with this command
 dicmdCanvasMouseMove -point (550,2) 
 dicmdCanvasMouseMove -point (577,23) 
 dicmdCanvasMouseMove -point (610,52) 
