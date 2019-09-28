@@ -146,7 +146,7 @@ void Messenger::write_entry_to_cmdfile(const std::string& msg) {
 //static			
 void Messenger::expose_msg(const LogMsgSeverity& s, const std::string& msg, bool iscmd )
 {
-	Messenger::get_instance()->expose_internal(s,msg,iscmd);
+	Messenger::getInstance().expose_internal(s,msg,iscmd);
 }
     	
 //static used by CommandBase internally , fixme add friend		

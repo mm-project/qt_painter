@@ -1,6 +1,8 @@
 #ifndef UNDO_MANAGER_HPP
 #define UNDO_MANAGER_HPP
 
+#include "../core/service.hpp"
+
 #include <memory>
 #include <vector>
 
@@ -13,26 +15,19 @@ public:
 
 };
 
-class UndoManager
+class UndoManager : public Service<UndoManager>
 {
 public:
-	static UndoManager& getInstance();
-
+	UndoManager() {}
 	void pushCommand(UndoCommandBase*);
 	void pushCommand(std::shared_ptr<UndoCommandBase>);
 	void undo();
 	void redo();
-	void clear();
+	void shutDown() override;
+
+	static void registerDependencies();
 
 private:
-	UndoManager() = default;
-	UndoManager(const UndoManager&) = delete;
-	UndoManager& operator=(const UndoManager&) = delete;
-	UndoManager(const UndoManager&&) = delete;
-	UndoManager& operator=(const UndoManager&&) = delete;
-
-private:
-	static std::unique_ptr<UndoManager> m_instance;
 	std::vector<std::shared_ptr<UndoCommandBase>>	m_stack;
 	int m_position = -1;
 };

@@ -61,7 +61,7 @@ class CommandOptionValueGetter {
 
 class IntCommandOptionValue : public ICommandOptionValue 
 {
-    int m_data;
+    int m_data = 0;
     public:
         IntCommandOptionValue() {}
         IntCommandOptionValue(const int& i):m_data(i) {}
@@ -74,7 +74,7 @@ class IntCommandOptionValue : public ICommandOptionValue
 
 class StringCommandOptionValue : public ICommandOptionValue 
 {
-    std::string m_str;
+    std::string m_str = "";
     public:
         StringCommandOptionValue() {}
         StringCommandOptionValue(const std::string& s):m_str(s) {}
