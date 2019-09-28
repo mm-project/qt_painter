@@ -24,7 +24,7 @@ for i in `cat $PAINTER_SQA_ROOT/tests.lst`; do
             echo -e "\e[4;5;41mC R A S H\e[0;25m"
             res=1
         else
-            echo -e "\e[31mError\e[0m"
+            echo -e "\e[31mError (code:$r) \e[0m"
             echo "************"
             awk '{ print " ----> ", $0 }' test.info
             echo "==========="
