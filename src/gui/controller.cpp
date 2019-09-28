@@ -1,21 +1,5 @@
 #include "controller.hpp"
 
-controller* controller::m_instance = 0;
-
-controller::controller()
-{
-    type = LINE;
-    //basic properties?
-}
-
-controller* controller::get_instance()
-{
-    if (m_instance == 0) {
-            m_instance = new controller;
-    }
-    return m_instance;
-}
-
 void controller::change_object_type(ObjectType t)
 {
     type = t;

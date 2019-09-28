@@ -36,7 +36,12 @@ void UndoManager::redo()
 	command_manager::getInstance().get_main_widget()->update();
 }
 
-void UndoManager::clear()
+void UndoManager::shutDown()
 {
 	m_stack.clear();
+}
+
+void UndoManager::registerDependencies()
+{
+	addDependency<command_manager>();
 }
