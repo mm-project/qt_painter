@@ -167,10 +167,8 @@ void main_window::closeEvent(QCloseEvent *event) {
 
 main_window::~main_window()
 {
-	StatusBarManager& sBar = StatusBarManager::getInstance();
-	sBar.removeStatusBar();
-	UndoManager& man = UndoManager::getInstance();
-	man.clear();
+	//clear all services
+	ServiceManager::getInstance().shutDown();
 }
 
 

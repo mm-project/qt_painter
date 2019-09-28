@@ -23,12 +23,11 @@ public:
 	{
 		re = std::shared_ptr<ObjectSandbox>(new ObjectSandbox);
 		r->addChildren(re);
-		m_controller =  controller::get_instance();
 		m_rt_shape = 0;
 	}
 
 	virtual void handle_update() {
-		set_properties(m_controller->get_shape_properties());
+		set_properties(m_controller.get_shape_properties());
 	}
 
 	//command commits by invoking corresonding non-interactive command
@@ -41,7 +40,7 @@ public:
 		for (auto i : ob)
 		{
 			//dicmdCreateObj<T>(m_internal_vec,ws).silent_execute();
-			auto cmd = std::shared_ptr<dicmdCreateObj<T>>(new dicmdCreateObj<T>(m_internal_vec, m_controller->get_shape_properties(), ws));
+			auto cmd = std::shared_ptr<dicmdCreateObj<T>>(new dicmdCreateObj<T>(m_internal_vec, m_controller.get_shape_properties(), ws));
 			UndoManager& man = UndoManager::getInstance();
 			man.pushCommand(cmd);
 			cmd->silent_execute();
@@ -66,8 +65,8 @@ public:
         }
         
 	void create_runtime_object() {
-                ShapeCreatorPtr shapeCreator = ShapeCreator::getInstance();
-		m_rt_shape = shapeCreator->create(T);
+		ShapeCreator& shapeCreator = ShapeCreator::getInstance();
+		m_rt_shape = shapeCreator.create(T);
                 re->addObject(m_rt_shape);
         }
 	
@@ -101,11 +100,11 @@ public:
 	}
 
 protected:    
-	ObjectSandboxPtr re;
+	ObjectSandboxPtr re = nullptr;
 private:
-	IObjectPoolPtr ws;
-	controller* m_controller; 
-	IShape* m_rt_shape;
+	IObjectPoolPtr ws = nullptr;
+	controller& m_controller = controller::getInstance(); 
+	IShape* m_rt_shape = nullptr;;
 	std::vector<PointCommandOptionValue> m_internal_vec;
 
 };

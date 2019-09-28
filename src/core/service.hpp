@@ -40,7 +40,7 @@ public:
 		if (m_instance == nullptr)
 		{
 			// first need to register deps
-			registerDependecies();
+			T::registerDependencies();
 			m_instance = std::unique_ptr<T>(new T);
 			if (m_callback != nullptr)
 				m_callback(*m_instance);
@@ -48,10 +48,11 @@ public:
 		return *m_instance;
 	}
 
-	static void registerDependecies() {}
+	// need to define in child if you have a dependency
+	static void registerDependencies() {}
 
 	template <typename U>
-	static void addDependecy()
+	static void addDependency()
 	{
 		if (std::is_base_of<Service<U>, U>())
 			Service<U>::getInstance();
@@ -67,7 +68,7 @@ protected:
 	Service& operator=(const Service&) = delete;
 	Service& operator=(const Service&&) = delete;
 
-protected:
+public:
 	static std::function<void(T&)> m_callback;
 
 private:
@@ -77,14 +78,10 @@ private:
 template <typename T>
 typename Service<T>::ServicePtr Service<T>::m_instance = nullptr;
 
-template <typename T>
-typename std::function<void(T&)> Service<T>::m_callback = nullptr;
-
 class ServiceManager : public Service<ServiceManager>
 {
 public:
 	//	Things needed for main application
-	ServiceManager();
 	//	Delete content in order of registering
 	void shutDown() override;
 
@@ -97,5 +94,8 @@ public:
 private:
 	std::vector<Singleton*> m_services;
 };
+
+template <typename T>
+typename std::function<void(T&)> Service<T>::m_callback = std::bind(&ServiceManager::addService<T>, &ServiceManager::getInstance(), std::placeholders::_1);
 
 #endif

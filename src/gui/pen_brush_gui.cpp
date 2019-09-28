@@ -303,78 +303,78 @@ Qt::BrushStyle get_brush_style_from_string(const QString& s)
 
 void pen_brush_gui::pen_color_changed(const QString& s)
 {
-        controller* c = controller::get_instance();
+        controller& c = controller::getInstance();
         //c->change_pen_coyylor(get_color_from_string(s));
         emit something_changed();
 }
 
 void pen_brush_gui::brush_color_changed(const QString& s)
 {
-        controller* c = controller::get_instance();
-        c->change_brush_color(get_color_from_string(s));
+        controller& c = controller::getInstance();
+        c.change_brush_color(get_color_from_string(s));
         emit something_changed();
 
 }
 
 void pen_brush_gui::pen_width_changed(int i)
 {
-        controller* c = controller::get_instance();
-        c->change_pen_width(i);
+        controller& c = controller::getInstance();
+        c.change_pen_width(i);
         emit something_changed();
 }
 
 void pen_brush_gui::pen_cap_style_changed(const QString& s)
 {
-        controller* c = controller::get_instance();
-        c->change_pen_cap_style(get_cap_style_from_string(s));
+        controller& c = controller::getInstance();
+        c.change_pen_cap_style(get_cap_style_from_string(s));
         emit something_changed();
 }
 
 void pen_brush_gui::pen_join_style_changed(const QString& s)
 {
-        controller* c = controller::get_instance();
-        c->change_pen_join_style(get_join_style_from_string(s));
+        controller& c = controller::getInstance();
+        c.change_pen_join_style(get_join_style_from_string(s));
         emit something_changed();
 }
 
 void pen_brush_gui::change_style_to_solid_line()
 {
-        controller* c = controller::get_instance();
-        c->change_pen_style(Qt::SolidLine);
+        controller& c = controller::getInstance();
+        c.change_pen_style(Qt::SolidLine);
         emit something_changed();
 }
 
 void pen_brush_gui::change_style_to_dash_line()
 {
-        controller* c = controller::get_instance();
-        c->change_pen_style(Qt::DashLine);
+        controller& c = controller::getInstance();
+        c.change_pen_style(Qt::DashLine);
         emit something_changed();
 }
 
 void pen_brush_gui::change_style_to_dot_line()
 {
-        controller* c = controller::get_instance();
-        c->change_pen_style(Qt::DotLine);
+        controller& c = controller::getInstance();
+        c.change_pen_style(Qt::DotLine);
         emit something_changed();
 }
 
 void pen_brush_gui::change_style_to_dash_dot_line()
 {
-        controller* c = controller::get_instance();
-        c->change_pen_style(Qt::DashDotLine);
+        controller& c = controller::getInstance();
+        c.change_pen_style(Qt::DashDotLine);
         emit something_changed();
 }
 
 void pen_brush_gui::change_style_to_dash_dot_dot_line()
 {
-        controller* c = controller::get_instance();
-        c->change_pen_style(Qt::DashDotDotLine);
+        controller& c = controller::getInstance();
+        c.change_pen_style(Qt::DashDotDotLine);
         emit something_changed();
 }
 
 void pen_brush_gui::brush_style_changed(const QString& s)
 {
-        controller* c = controller::get_instance();
-        c->change_brush_style(get_brush_style_from_string(s));
+        controller& c = controller::getInstance();
+        c.change_brush_style(get_brush_style_from_string(s));
         emit something_changed();
 }

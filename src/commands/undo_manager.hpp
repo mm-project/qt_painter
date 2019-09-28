@@ -20,11 +20,14 @@ public:
 class UndoManager : public Service<UndoManager>
 {
 public:
+	UndoManager() {}
 	void pushCommand(UndoCommandBase*);
 	void pushCommand(std::shared_ptr<UndoCommandBase>);
 	void undo();
 	void redo();
-	void clear();
+	void shutDown() override;
+
+	static void registerDependencies();
 
 private:
 	std::vector<std::shared_ptr<UndoCommandBase>>	m_stack;
