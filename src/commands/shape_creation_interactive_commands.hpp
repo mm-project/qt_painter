@@ -38,13 +38,7 @@ public:
 		//m_postman->notify(INTERACTIVE_COMMAND_PRE_COMMIT,a);
 		auto ob = re->getPool()->getObjects();
 		for (auto i : ob)
-		{
-			//dicmdCreateObj<T>(m_internal_vec,ws).silent_execute();
-			auto cmd = std::shared_ptr<dicmdCreateObj<T>>(new dicmdCreateObj<T>(m_internal_vec, m_controller.get_shape_properties(), ws));
-			UndoManager& man = UndoManager::getInstance();
-			man.pushCommand(cmd);
-			cmd->silent_execute();
-		}
+                dicmdCreateObj<T>(m_internal_vec,m_controller.get_shape_properties(),ws).silent_execute();
                     //ws->addObject(i);
                 //end transaction
 		finish();

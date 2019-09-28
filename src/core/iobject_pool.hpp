@@ -23,13 +23,14 @@ public:
 	//
 	//	Interface
 	//
-	virtual ~IObjectPool() = default;
+	virtual ~IObjectPool() {}
 	virtual void clear() = 0;
 	virtual std::vector<IShape*> getObjects() const = 0;
 	virtual IShape* addObject(IShape*) = 0;
 	virtual std::string getName() = 0;
-	virtual void removeObject(IShape*) {}
 };
+
+//IObjectPool::~IObjectPool() {}
 
 using IObjectPoolPtr = std::shared_ptr<IObjectPool>;
 

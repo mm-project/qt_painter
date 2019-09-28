@@ -7,7 +7,6 @@
 #include "selection_commands.hpp"
 #include "qa_commands.hpp"
 #include "canvas_commands.hpp"
-#include "undo_manager.hpp"
 
 #include "../core/postman.hpp"
 #include "../core/callback.hpp"

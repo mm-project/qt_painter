@@ -4,6 +4,7 @@
 #include <QDir>
 #include <QTextStream>
 
+
 IShape* WorkingSet::addObject(IShape* s)
 {
 	auto obj = s->clone();
@@ -22,7 +23,6 @@ void WorkingSet::clear()
 		delete i;
 	m_shapes.clear();
 }
-
 
 std::string WorkingSet::getName()
 {

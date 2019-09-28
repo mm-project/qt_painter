@@ -42,8 +42,6 @@ public slots:
         void invoke_save();
         void invoke_load();
         void invoke_delete();
-		void invoke_undo();
-		void invoke_redo();
         
         void reset();
         void on_update();
