@@ -93,6 +93,7 @@ function postprocess
                 d=`diff $ex $ex.golden`
                 if [ "$d" != "" ]; then
                     problems="$ex <--> $ex.golden $problems"
+                    #files[${ex}]="$ex.golden"
                 fi
                 res_d="$res_d$d"
             done
@@ -104,41 +105,49 @@ function postprocess
         #if [ "$a" == "" ] && [ "$b" == "" ]; then
         #    succ=3
         #else
+            declare -A files
             if [ "$a" != "" ]; then
-                echo "MISMTACH ./logs/painter.log <--> painter.log.golden "
+                echo "MISMTACH: logs/painter.log <--> painter.log.golden "
+                files["logs/painter.log"]="painter.log.golden"
                 succ=`expr $succ - 1`
             fi
         
             if [ "$b" != "" ]; then
                 succ=`expr $succ - 1`
-                echo "MISMTACH ./logs/painter.lvi <--> painter.lvi.golden "
+                echo "MISMTACH: logs/painter.lvi <--> painter.lvi.golden "
+                files["logs/painter.lvi"]="painter.lvi.golden"
             fi
 
             if [ "$c" != "" ]; then
                 #succ=`expr $succ - 1`
-                echo "MISMTACH painter.out <--> painter.out.golden "
+                echo "MISMTACH: painter.out <--> painter.out.golden "
             fi
 
             if [ "$res_d" != "" ]; then
                 succ=`expr $succ - 1`
-                echo "MISMTACH $problems "
+                echo "MISMTACH: $problems "
             fi
 
         #fi
         
         #FIXME super inefficent
-        cat painter.out | grep "#\/t" 
-        info=`cat painter.out | grep "#\/t" | awk '{print $3}'`
-        errs=`echo $info | grep ERROR`
-        fails=`echo $info | grep FAIL`
-        mismatchs=`echo $info | grep MISMATCH`
-        if [ "$errs" != "" ] || [ "$fails" != "" ] || [ "$mismatchs" != "" ]; then 
-            #echo "TesPass !"
-            #exit 0
-        #else
-            echo "OTHER MISMATCH :/"
+        #cat painter.out | grep "#\/t" 
+        #info=`cat painter.out | grep "#\/t" | awk '{print $3}'`
+        #errs=`echo $info | grep ERROR`
+        #fails=`echo $info | grep FAIL`
+        mismatchs=`cat logs/painter.log | grep "\#e --> Error: " | grep MISMATCH | cut -d' ' -f5-6  | sed "s/ / <--> /"`
+        if [ "$mismatchs" != "" ]; then 
+            cat logs/painter.log | grep "\#e --> Error: " | grep MISMATCH | cut -d' ' -f5-6  | sed "s/ / <--> /" | sed "s/^/MISMATCH: /" 
+            #echo "OTHER MISMATCH(s) "
+            #echo $mismatchs
             #succ=`expr $succ - 1`
             #exit 0
+        fi
+        
+        if [ "$mode" = "compare" ]; then
+            for k in ${!files[@]}; do
+                kompare ${files[$k]} $k
+            done
         fi
         
         if [ "$succ" != 4 ]; then
@@ -148,6 +157,8 @@ function postprocess
             echo "Test Pass !"
             exit 0
         fi
+        
+        
         
         
     fi

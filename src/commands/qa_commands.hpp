@@ -284,7 +284,7 @@ class dicmdQaCompareInternal: public NonTransactionalDirectCommandBase
                         Messenger::expose_msg(err,"comparision->"+qaCompType2string(T)+":MISMATCH "+f+" "+g+". Click <a href=\"file:///home/levibyte/git/N/qt_painter/sqa/etc/webrelated/test.html\">here</a> to see the diff.");
                         dicmdQaReplyingBreak().execute_and_log();
                     } else {
-                    Messenger::expose_msg(err,"comparision->"+qaCompType2string(T)+":MISMATCH "+f+" "+g);    
+                        Messenger::expose_msg(err,"comparision->"+qaCompType2string(T)+":MISMATCH "+f+" "+g);    
                     }
                 }
                 else 
