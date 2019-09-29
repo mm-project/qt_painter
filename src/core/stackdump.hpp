@@ -89,7 +89,7 @@ void handler(int sig) {
     std::string s(Backtrace());
     Messenger::expose_msg(err,s);
     //if ( ! Application::is_testing_mode() )
-        mmModalDialog::critical("Crashed","Nice one. Program unexpectedly terminated.");
+    //    mmModalDialog::critical("Crashed","Nice one. Program unexpectedly terminated.");
     //std::cout << s << std::endl;
     exit(11);
 }

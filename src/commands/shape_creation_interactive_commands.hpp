@@ -46,7 +46,7 @@ public:
 
             UndoManager& man = UndoManager::getInstance();
 			man.pushCommand(cmd);
-            cmd->execute_and_log();
+            cmd->silent_execute();
 		}
 		finish();
 		//m_postman->notify(INTERACTIVE_COMMAND_POST_COMMIT,a);

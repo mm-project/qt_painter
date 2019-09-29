@@ -128,6 +128,7 @@ class TransactionalDirectCommandBase : public DirectCommandBase , public virtual
             return true;
          }
         
+        /*
         virtual void silent_execute() {
             log();
             try {
@@ -143,7 +144,7 @@ class TransactionalDirectCommandBase : public DirectCommandBase , public virtual
             
             UndoManager::getInstance().pushCommand(std::shared_ptr<TransactionalDirectCommandBase>(this));
         }
-
+        */
          virtual bool is_undoable() {
              return true;
          }
