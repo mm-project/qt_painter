@@ -12,8 +12,13 @@ class Application: public Service<Application> //, public QApplication
 {
     appMode m_mode;
     public:
+        bool m_is_debug = false;
+ 
         //using QApplication::QApplication;
-        Application() { m_mode = APPNORM; }
+        Application() { 
+            m_mode = APPNORM; 
+            m_is_debug = QString::fromLocal8Bit(qgetenv("ELEN_PAINTER_TESTDBG").constData()).isEmpty()?false:true;
+        }
         
         void set_replay_mode(bool m) { 
             Messenger::expose_msg(info,"Set to mode"+QString::number(int(m)).toStdString());
@@ -36,6 +41,8 @@ class Application: public Service<Application> //, public QApplication
         static bool is_replay_mode() { return ( Application::get_instance()->get_mode() == APPREPLAY); }
         static bool is_testing_mode() { return (Application::get_instance()->get_mode() == APPTESTING); }
         static bool is_load_mode() { return (Application::get_instance()->get_mode() == APPLOAD); }
+        static bool is_debug_mode() { return Application::get_instance()->m_is_debug; }
+        
         
 };
 

@@ -8,6 +8,7 @@
 #include "../io/messenger.hpp"
 #include "../core/selection.hpp"
 #include "../core/postman.hpp"
+#include "../core/application.hpp"
 
 #include <QApplication>
 #include <QPixmap>
@@ -277,11 +278,14 @@ class dicmdQaCompareInternal: public NonTransactionalDirectCommandBase
             } else {
             
                 if ( are_two_files_different(T,f.c_str(),g.c_str()) ) {
-                    system("touch touch.html");
-                    Messenger::expose_msg(err,"comparision->"+qaCompType2string(T)+":MISMATCH "+f+" "+g+". Click <a href=\"file:///home/levibyte/git/N/qt_painter/sqa/etc/webrelated/test.html\">here</a> to see the diff.");
-                    //if ( Application::is_debug_mode() ) 
+                    if ( Application::is_debug_mode() ) 
+                    {
+                        system("touch touch.html");
+                        Messenger::expose_msg(err,"comparision->"+qaCompType2string(T)+":MISMATCH "+f+" "+g+". Click <a href=\"file:///home/levibyte/git/N/qt_painter/sqa/etc/webrelated/test.html\">here</a> to see the diff.");
                         dicmdQaReplyingBreak().execute_and_log();
-                       
+                    } else {
+                    Messenger::expose_msg(err,"comparision->"+qaCompType2string(T)+":MISMATCH "+f+" "+g);    
+                    }
                 }
                 else 
                     Messenger::expose_msg(test,"comparision->"+qaCompType2string(T)+":PASS "+f+" "+g);

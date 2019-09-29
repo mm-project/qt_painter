@@ -17,9 +17,10 @@ function process_options
 {
     verbose "process_options"
     unset ELEN_PAINTER_REGOLDEN
-    if [ "$1" == "regolden" ]; then
-        mode="regolden"
-    fi
+    mode=$1
+    #if [ "$1" == "regolden" ]; then
+    #    mode="regolden"
+    #fi
 }
 
 function verbose
@@ -34,6 +35,10 @@ function prepocess
 {
     if [ "$mode" = "regolden" ]; then
         export ELEN_PAINTER_REGOLDEN="1"
+    fi
+    
+    if [ "$mode" = "debug" ]; then
+        export ELEN_PAINTER_TESTDBG="1"
     fi
     
     verbose "prepocess..."

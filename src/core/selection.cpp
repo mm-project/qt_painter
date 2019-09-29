@@ -3,9 +3,15 @@
 #include "shapes.hpp"
 #include "rq/RegionQueryService.hpp"
 
+//#include <csignal>
+
 std::string Selection::getName() 
 {
-        return "Selection";
+    //int* a;
+    //*a = 1;    
+    //std::raise(SIGSEGV);
+    return "Selection";
+        
 }
 
 void Selection::clear() {

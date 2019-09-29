@@ -13,14 +13,11 @@ LogReader::LogReader() {
     REGISTER_CALLBACK(STOP_REPLY,&LogReader::reply_stop)
     REGISTER_CALLBACK(RESUME_REPLY,&LogReader::reply_resume)
     REGISTER_CALLBACK(STEP_REPLY,&LogReader::step_reply)
-    
 }
-
 
 LogReader::~LogReader() {
     //std::cout << "germania text << std::endl;
 }
-
 
 void LogReader::step_reply(LeCallbackData&) 
 {
@@ -38,7 +35,6 @@ void LogReader::reply_resume(LeCallbackData&)
     m_timer->start(1);    
 }
 
-
 void LogReader::reply_stop(LeCallbackData&) 
 {
     m_paused = true;   
@@ -52,7 +48,6 @@ bool LogReader::is_paused()
     return m_paused;   
 }
 
-
 QStringList LogReader::read_file(const std::string& fname) {
     QStringList stringList;
 
@@ -60,7 +55,7 @@ QStringList LogReader::read_file(const std::string& fname) {
     if(!file.exists() || !file.open(QIODevice::ReadOnly)) {
         //fixme call mmModalDialog , that will also put error message to console and log
         Application::get_instance()->set_replay_mode(false);
-        mmModalDialog::critical("Log replay error", "Can't open file "+fname+" to replay");
+        //mmModalDialog::critical("Log replay error", "Can't open file "+fname+" to replay");
         return stringList;
     }
     
