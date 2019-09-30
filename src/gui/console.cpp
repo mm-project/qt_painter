@@ -18,6 +18,7 @@ ConsoleWidget::ConsoleWidget(QWidget* parent)
 	//m_view->setMinimumHeight(100);
 	m_view->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
         //m_view->setOpenExternalLinks(true);
+    m_view->setOpenLinks(false);
         connect(m_view, SIGNAL(anchorClicked(QUrl)), this, SLOT(onConsoleLinkClicked(QUrl)));
         //m_view->setHtml( "<a href=\"https://www.w3schools.com\">Visit W3Schools</a>" );
 	// writable part

@@ -2,11 +2,11 @@
 
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	
-	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
-	<title>jsdifflib demo</title>
-	<link rel="stylesheet" type="text/css" href="./diffengjs/diffview.css">
-	<script type="text/javascript" src="./diffengjs/diffview.js"></script>
-	<script type="text/javascript" src="./diffengjs/difflib.js"></script>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+<title>jsdifflib demo</title>
+<link rel="stylesheet" type="text/css" href="./diffengjs/diffview.css">
+<script type="text/javascript" src="./diffengjs/diffview.js"></script>
+<script type="text/javascript" src="./diffengjs/difflib.js"></script>
 <style type="text/css">
 body {
 	font-size: 12px;
@@ -52,8 +52,8 @@ function diffUsingJS(viewType) {
 	"use strict";
 
 	var byId = function (id) { return document.getElementById(id); },
-		base = difflib.stringAsLines("%f1%"),
-		newtxt = difflib.stringAsLines("%f2%"),
+		base = difflib.stringAsLines(base1),
+		newtxt = difflib.stringAsLines(newtxt1),
 		sm = new difflib.SequenceMatcher(base, newtxt),
 		opcodes = sm.get_opcodes(),
 		diffoutputdiv = byId("diffoutput"),
@@ -66,8 +66,8 @@ function diffUsingJS(viewType) {
 		baseTextLines: base,
 		newTextLines: newtxt,
 		opcodes: opcodes,
-		baseTextName: "%fname1%",
-		newTextName: "%fname2%",
+		baseTextName: "Selection_Compare_0.txt",
+		newTextName: "Selection_Compare_0.txt.golden",
 		contextSize: contextSize,
 		viewType: viewType
 	}));
@@ -94,5 +94,14 @@ function diffUsingJS(viewType) {
 </table>
 
 
-</body>
-</html>
+<script type="text/javascript">
+var base1 =`
+%f1%
+`;
+</script>
+
+<script type="text/javascript">
+var newtxt1  = `
+%f2%
+`;
+</script>
