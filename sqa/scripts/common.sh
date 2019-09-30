@@ -46,6 +46,9 @@ function prepocess
     mkdir -p golden
     mkdir output
     cd output
+    
+    cp $PAINTER_SQA_ROOT/etc/webrelated/* . -r
+    
     if [ "$mode" != "regolden" ]; then
         cp ../golden/* ./ -rf
         if [ "$?" != 0 ]; then

@@ -280,8 +280,8 @@ class dicmdQaCompareInternal: public NonTransactionalDirectCommandBase
                 if ( are_two_files_different(T,f.c_str(),g.c_str()) ) {
                     if ( Application::is_debug_mode() ) 
                     {
-                        system("touch touch.html");
-                        Messenger::expose_msg(err,"comparision->"+qaCompType2string(T)+":MISMATCH "+f+" "+g+". Click <a href=\"file:///home/levibyte/git/N/qt_painter/sqa/etc/webrelated/test.html\">here</a> to see the diff.");
+                        
+                        Messenger::expose_msg(err,"comparision->"+qaCompType2string(T)+":MISMATCH "+f+" "+g+". Click <a href=\"file://"+generate_html_view(f,g).toStdString()+"\">here</a> to see the diff.");
                         dicmdQaReplyingBreak().execute_and_log();
                     } else {
                         Messenger::expose_msg(err,"comparision->"+qaCompType2string(T)+":MISMATCH "+f+" "+g);    
@@ -294,6 +294,15 @@ class dicmdQaCompareInternal: public NonTransactionalDirectCommandBase
         }
         
     private:
+            QString generate_html_view(const std::string& f, const std::string& g) 
+            {
+                QString res(QDir::currentPath()+QString("/"+QString(f.c_str())+".html"));
+                //system();
+                //std::string s("touch "+f+".html");
+                std::string s("cat html_diff.template | sed 's/%fname1%/"+f+"/' | sed 's/%fname2%/"+g.c_str()+"/' > "+f+".html");
+                system(s.c_str());
+                return res;
+            }
         
     
 };

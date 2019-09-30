@@ -34,7 +34,7 @@ ConsoleWidget::ConsoleWidget(QWidget* parent)
 
 void ConsoleWidget::onConsoleLinkClicked(QUrl url)
 {
-        //QDesktopServices::openUrl(url);
+        QDesktopServices::openUrl(url);
 }
 
 void ConsoleWidget::appendText(const QString& text, LogMsgSeverity severity, QString code)
