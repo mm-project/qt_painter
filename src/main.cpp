@@ -27,7 +27,6 @@ void hande_commandline_options(int argc, char** argv)
 
 int main(int argc, char** argv)
 {
-
 #ifdef OS_LINUX
         signal(SIGSEGV, handler);   
         signal(SIGILL, handler);   

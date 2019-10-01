@@ -65,15 +65,15 @@ std::string Backtrace(int skip = 1)
             int status = -1;
             if (info.dli_sname[0] == '_')
                 demangled = abi::__cxa_demangle(info.dli_sname, NULL, 0, &status);
-                snprintf(buf, sizeof(buf), "%s %-3d %*p %s + %zd\n",
-                     "Layer:", i, int(2 + sizeof(void*) * 2), callstack[i],
+                snprintf(buf, sizeof(buf), "%-3d %*p %s + %zd\n",
+                     i, int(2 + sizeof(void*) * 2), callstack[i],
                      status == 0 ? demangled :
                      info.dli_sname == 0 ? symbols[i] : info.dli_sname,
                      (char *)callstack[i] - (char *)info.dli_saddr);
                 free(demangled);
         } else {
-                snprintf(buf, sizeof(buf), "%s %-3d %*p %s\n",
-                     "Layer:",i, int(2 + sizeof(void*) * 2), callstack[i], symbols[i]);
+                snprintf(buf, sizeof(buf), "%-3d %*p %s\n",
+                     i, int(2 + sizeof(void*) * 2), callstack[i], symbols[i]);
         }
         trace_buf << buf;
     }
@@ -89,7 +89,7 @@ void handler(int sig) {
     std::string s(Backtrace());
     Messenger::expose_msg(err,s);
     //if ( ! Application::is_testing_mode() )
-    //    mmModalDialog::critical("Crashed","Nice one. Program unexpectedly terminated.");
+        mmModalDialog::critical("Crashed","Nice one. Program unexpectedly terminated.");
     //std::cout << s << std::endl;
     exit(11);
 }

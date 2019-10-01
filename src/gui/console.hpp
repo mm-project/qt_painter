@@ -5,11 +5,9 @@
 
 #include <QFrame>
 #include <QTextEdit>
-#include <QTextBrowser>
 #include <QLineEdit>
 #include <QTabWidget>
 #include <QDockWidget>
-#include <QUrl>
 
 #include <string>
 
@@ -28,13 +26,12 @@ public:
 	
 private slots:
 	void onCommandEntered();
-        void onConsoleLinkClicked(QUrl);
 
 private:
 	virtual bool eventFilter(QObject*, QEvent*) override;
 
 private:
-	QTextBrowser* m_view = nullptr;
+	QTextEdit* m_view = nullptr;
 	QLineEdit* m_console = nullptr;
 };
 

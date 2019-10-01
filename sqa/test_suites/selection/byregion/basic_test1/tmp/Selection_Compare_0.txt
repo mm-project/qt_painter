@@ -1,4 +1,5 @@
 Name: Selection
-ObjCount: 0
+ObjCount: 1
 ======
+Rectangle:
 --------

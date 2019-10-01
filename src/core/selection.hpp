@@ -7,7 +7,6 @@
 #include "service.hpp"
 
 #include <QPoint>
-#include <QRect>
 
 class HighlightSet;
 
@@ -15,8 +14,6 @@ class Selection : public Service<Selection> , public WorkingSet
 {
         HighlightSet* m_sel_highlight_set;
         HighlightSet* m_oa_highlight_set;
-        HighlightSet* m_qa_highlight_set;
-        QRect m_last_region = { 0, 0, 0, 0 };
         
         IObjectPool* m_ws;
         ObjectPoolSandbox* m_rt_pools;
@@ -33,7 +30,6 @@ public:
         void highlightselect_shape_under_pos(const QPoint& p );
         void highlight_shape_under_pos(const QPoint& p );
         void select_shape_under_pos(const QPoint& p );
-        void highlight_last_selected_region(bool);
           
 };
 

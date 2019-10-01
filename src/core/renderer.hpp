@@ -71,9 +71,7 @@ class renderer
         void zoom(int factor, QPoint p ); 
         void zoomin_p(QPoint p); 
         void zoomout_p(QPoint p); 
-        void set_cursor_pos_for_drawing(int,int);
-        void click_hint();
-            
+        
     private:
         QPainter*  get_painter();
         void start(); 
@@ -91,11 +89,8 @@ class renderer
         void draw_grid(); 
         void draw_objects(); 
         void draw_runtime_pools(); 
-        void draw_cursor();
         void draw_all();
-        void draw_all_wno_cursor();
 		
-        
 		
     private:
         float m_scale_factor = 1;
@@ -103,13 +98,10 @@ class renderer
             
     private:
         QPainter* m_qt_painter;
-	bool m_need_draw_clicked = false;
-        //bool clicked = false;
-        int c_cursor_x = 0;
-        int c_cursor_y = 0;
-        IObjectPoolPtr m_working_set;
-        ObjectPoolSandboxPtr m_sandbox;
-        int m_scale = 15;
+
+	IObjectPoolPtr m_working_set;
+	ObjectPoolSandboxPtr m_sandbox;
+	int m_scale = 15;
         int m_pan_step = 15;
         QPoint m_origin_point = {0,0};
         bool m_need_adjustment = false;
