@@ -11,6 +11,7 @@
 #include "../commands/command_manager.hpp"
 #include "../commands/gui_commands.hpp"
 #include "../commands/qa_commands.hpp"
+#include "../commands/undo_manager.hpp"
 
 #include "../io/messenger.hpp"
 
@@ -82,6 +83,9 @@ return QMainWindow::eventFilter(obj, event);
 main_window::main_window(QWidget* p)
         : QMainWindow(p)
 {
+	// initalize services
+	ServiceManager::getInstance();
+
 	m_canvas = new canvas(this);
 	m_shapes = new create_shape_gui(this);
 	QDockWidget* console_widget = new QDockWidget(this);
@@ -104,7 +108,7 @@ main_window::main_window(QWidget* p)
 	static QIcon main_window_icon(getIconDir() + "shapes_simple.png");
 	setWindowIcon(main_window_icon);
 	QCoreApplication::instance()->installEventFilter(this);
-	command_manager::get_instance()->set_main_widget(this);
+	command_manager::getInstance().set_main_widget(this);
 	StatusBarManager& sBar = StatusBarManager::getInstance();
 	sBar.setStatusBar(statusBar());
     
@@ -112,7 +116,7 @@ main_window::main_window(QWidget* p)
 	setObjectName("mw");
 	setRecursiveChildWidgetsObjectName(this);
 	m_canvas->setObjectName("CANVAS");
-        Messenger::expose_msg(info,"Welcome to this project. Feel free to expirment. ");
+	Messenger::expose_msg(info,"Welcome to this project. Feel free to expirment. ");
 
 }
 
@@ -152,6 +156,8 @@ void main_window::make_connections()
 	connect(m_canvas, SIGNAL(discardAction()), m_shapes, SLOT(discardAction()));
 	connect(m_shapes, SIGNAL(showConsole()), m_console, SLOT(show()));
 	connect(m_shapes, SIGNAL(hideConsole()), m_console, SLOT(hide()));
+	connect(m_shapes, SIGNAL(undo()), m_canvas, SLOT(invoke_undo()));
+	connect(m_shapes, SIGNAL(redo()), m_canvas, SLOT(invoke_redo()));
 }
 
 
@@ -161,8 +167,8 @@ void main_window::closeEvent(QCloseEvent *event) {
 
 main_window::~main_window()
 {
-	StatusBarManager& sBar = StatusBarManager::getInstance();
-	sBar.removeStatusBar();
+	//clear all services
+	ServiceManager::getInstance().shutDown();
 }
 
 

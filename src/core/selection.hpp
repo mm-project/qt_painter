@@ -4,7 +4,7 @@
 #include "iobject_pool.hpp"
 #include "runtime_environment.hpp"
 #include "working_set.hpp"
-#include "service.h"
+#include "service.hpp"
 
 #include <QPoint>
 #include <QRect>

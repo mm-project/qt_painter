@@ -74,6 +74,12 @@ void create_shape_gui::build_design(QRibbonWidget* ribbonWidget)
 	group->addRibbonButton(save_b2);
 	group->addRibbonButton(load_b);
 	group->addRibbonButton(close_b1);
+	QRibbonButton* undo_b = new QRibbonButton(this, "Undo", getIconDir() + "undo.svg", false);
+	connect(undo_b, SIGNAL(clicked()), this, SIGNAL(undo()));
+	QRibbonButton* redo_b = new QRibbonButton(this, "Redo", getIconDir() + "redo.svg", false);
+	connect(redo_b, SIGNAL(clicked()), this, SIGNAL(redo()));
+	group->addRibbonButton(undo_b);
+	group->addRibbonButton(redo_b);
 	ribbonWidget->addGroup(group);
 }
 
@@ -328,11 +334,11 @@ Qt::PenJoinStyle get_join_style_from_string(const QString& s)
 
 void create_shape_gui::pen_color_changed(const QString& s)
 {
-	controller* c = controller::get_instance();
+	controller& c = controller::getInstance();
 	//fixme nagaina
         //(m_pen_button->isChecked())
-	c->change_pen_color(get_color_from_string(s));
-	c->change_brush_color(get_color_from_string(s));
+	c.change_pen_color(get_color_from_string(s));
+	c.change_brush_color(get_color_from_string(s));
 	emit something_changed();
 }
 
@@ -357,15 +363,15 @@ void create_shape_gui::createShape(int i)
 
 void create_shape_gui::cap_style_changed(const QString& s)
 {
-	controller* c = controller::get_instance();
-	c->change_pen_cap_style(get_cap_style_from_string(s));
+	controller& c = controller::getInstance();
+	c.change_pen_cap_style(get_cap_style_from_string(s));
 	emit something_changed();
 }
 
 void create_shape_gui::join_style_changed(const QString& s)
 {
-	controller* c = controller::get_instance();
-	c->change_pen_join_style(get_join_style_from_string(s));
+	controller& c = controller::getInstance();
+	c.change_pen_join_style(get_join_style_from_string(s));
 	emit something_changed();
 }
 
@@ -375,8 +381,8 @@ void create_shape_gui::change_brush(const QString& s)
 	mm["Horizontal"] = Qt::HorPattern;
 	mm["Vertical"] = Qt::VerPattern;
 	mm["Cross"] = Qt::CrossPattern;
-	controller* c = controller::get_instance();
-	c->change_brush_style(mm[s.toStdString()]);
+	controller& c = controller::getInstance();
+	c.change_brush_style(mm[s.toStdString()]);
 	emit something_changed();
 }
 
@@ -386,8 +392,8 @@ void create_shape_gui::change_fill(const QString& s)
 	mm["Horizontal"] = Qt::SolidLine;
 	mm["Vertical"] = Qt::DashLine;
 	mm["Cross"] = Qt::DotLine;
-	controller* c = controller::get_instance();
-	c->change_pen_style(mm[s.toStdString()]);
+	controller& c = controller::getInstance();
+	c.change_pen_style(mm[s.toStdString()]);
 	emit something_changed();
 }
 

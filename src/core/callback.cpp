@@ -26,7 +26,7 @@ LeCallback::LeCallback(const std::string& n, callBackFun2 f2, int id, const LeCa
 
 void LeCallback::purge() {
     if (!m_is_purged)
-        LePostman::get_instance()->deregister_callback(m_type,m_internal_id);
+        LePostman::getInstance().deregister_callback(m_type,m_internal_id);
         m_is_purged = true;
 }
 

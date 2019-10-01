@@ -50,7 +50,6 @@ class LogReader : public QObject
         
     private slots:
         void execute_next_command();
-        
 };
 
 #endif

@@ -77,8 +77,8 @@ void ConsoleWidget::appendText(const QString& text, LogMsgSeverity severity, QSt
 
 void ConsoleWidget::onCommandEntered()
 {
-	CommandInterp* pCommand = CommandInterp::get_instance();
-	pCommand->interpret_from_string(m_console->text().toStdString());
+	CommandInterp& pCommand = CommandInterp::getInstance();
+	pCommand.interpret_from_string(m_console->text().toStdString());
 	m_console->clear();
 }
 
