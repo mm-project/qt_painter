@@ -38,10 +38,10 @@ class Application: public Service<Application> //, public QApplication
         }
         /**/
         
-        static bool is_replay_mode() { return ( Application::get_instance()->get_mode() == APPREPLAY); }
-        static bool is_testing_mode() { return (Application::get_instance()->get_mode() == APPTESTING); }
-        static bool is_load_mode() { return (Application::get_instance()->get_mode() == APPLOAD); }
-        static bool is_debug_mode() { return Application::get_instance()->m_is_debug; }
+        static bool is_replay_mode() { return ( Application::getInstance().get_mode() == APPREPLAY); }
+        static bool is_testing_mode() { return (Application::getInstance().get_mode() == APPTESTING); }
+        static bool is_load_mode() { return (Application::getInstance().get_mode() == APPLOAD); }
+        static bool is_debug_mode() { return Application::getInstance().m_is_debug; }
         
   
 };

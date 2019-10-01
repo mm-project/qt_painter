@@ -107,11 +107,11 @@ void canvas::keyPressEvent(QKeyEvent* ev) {
         else if ( ev->key() == Qt::Key_Right )
             m_renderer->pan(PANRIGHT);
         else if ( ev->key() == Qt::Key_Q )
-           cm->find_command("dicmdQaReplyingBreak")->execute_and_log();
+           cm.find_command("dicmdQaReplyingBreak")->execute_and_log();
         else if ( ev->key() == Qt::Key_W )
-           cm->find_command("dicmdQaReplyingResume")->execute_and_log();
+           cm.find_command("dicmdQaReplyingResume")->execute_and_log();
         else if ( ev->key() == Qt::Key_S )
-           cm->find_command("dicmdQaReplyStep")->execute_and_log();
+           cm.find_command("dicmdQaReplyStep")->execute_and_log();
         else {
             if( cm.is_idle() ) 
                 return;
@@ -129,7 +129,7 @@ void canvas::mousePressEvent(QMouseEvent* e)
     //if(!Application::is_log_mode())
     dicmdCanvasMouseClick(p).log();
     
-    cm->mouse_clicked(p.x(),p.y());
+    cm.mouse_clicked(p.x(),p.y());
     m_renderer->click_hint();
 }
 
@@ -153,7 +153,7 @@ void canvas::mouseMoveEvent(QMouseEvent* e)
 	//_y = (_y / m_scale) * m_scale;
 	//e->pos().setX(_x);
 	//e->pos().setY(_y);
-        cm->mouse_moved(_x, _y);
+        cm.mouse_moved(_x, _y);
 		m_renderer->set_cursor_pos_for_drawing(_x, _y);
     
         //if Preference::isSet("guiLogMouseMove")
@@ -249,11 +249,11 @@ void canvas::abordCommand()
 void canvas::invoke_redo()
 {
 	dicmdTransaction<Redo>(1).execute_and_log();
-    //cm->activate_command(cm->find_command("incmdTransactionRedo"));
+    //cm.activate_command(cm.find_command("incmdTransactionRedo"));
 }
 
 void canvas::invoke_undo()
 {
 	dicmdTransaction<Undo>(1).execute_and_log();
-     //cm->activate_command(cm->find_command("incmdTransactionUndo"));
+     //cm.activate_command(cm.find_command("incmdTransactionUndo"));
 }
