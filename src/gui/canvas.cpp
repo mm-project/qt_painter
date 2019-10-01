@@ -103,11 +103,15 @@ void canvas::keyPressEvent(QKeyEvent* ev) {
             m_renderer->pan(PANLEFT);
         else if ( ev->key() == Qt::Key_Right )
             m_renderer->pan(PANRIGHT);
+        else if ( ev->key() == Qt::Key_Q )
+           cm.find_command("dicmdQaReplyingBreak")->execute_and_log();
+        else if ( ev->key() == Qt::Key_W )
+           cm.find_command("dicmdQaReplyingResume")->execute_and_log();
+        else if ( ev->key() == Qt::Key_S )
+           cm.find_command("dicmdQaReplyStep")->execute_and_log();
         else {
             if( cm.is_idle() ) 
                 return;
-        
-            cm.disactivate_active_command();
         }
         update();    
         if (ev->key() == Qt::Key_Escape)
@@ -122,8 +126,8 @@ void canvas::mousePressEvent(QMouseEvent* e)
     QPoint p(e->pos());
     //if(!Application::is_log_mode())
     dicmdCanvasMouseClick(p).log();
-    
     cm.mouse_clicked(p.x(),p.y());
+    m_renderer->click_hint();
 }
 
 //FIXME not needed anymore
@@ -151,7 +155,6 @@ void canvas::mouseMoveEvent(QMouseEvent* e)
 	//if Preference::isSet("guiLogMouseMove")
 	if ( m_need_motionlog )
 		dicmdCanvasMouseMove(e->pos()).log();
-
 	/**/
 	
     update();

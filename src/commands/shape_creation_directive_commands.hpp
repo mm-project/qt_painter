@@ -30,7 +30,7 @@ class dicmdCreateObj : public DirectCommandBase
 public:
         dicmdCreateObj<T>(IObjectPoolPtr s): ws(s) { //rq(RegionQuery::getInstance()) {
                 add_option("-points",new PointListCommandOptionValue());
-                add_option("-color",new StringCommandOptionValue());
+                add_option("-color",new StringCommandOptionValue("#000000"));
                 add_option("-brush",new IntCommandOptionValue(0));
                 add_option("-fill",new IntCommandOptionValue(0));
         }
