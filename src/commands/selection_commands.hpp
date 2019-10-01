@@ -12,37 +12,43 @@
 
 class incmdSelectUnderCursoer: public InteractiveCommandBase
 {
-	Selection& m_se = Selection::getInstance();
+        Selection* m_se;
        
-public:
+	public:
+	
+		incmdSelectUnderCursoer(ObjectPoolSandboxPtr r, IObjectPoolPtr s ) { //:InteractiveCommandBase(r,s) {
+			m_se = Selection::get_instance();
+            
+		}
 
-	virtual std::string get_name() {
-		return "incmdSelectUnderCursoer";
-	}
-	
-	virtual void execute() {
-		InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer,on_idle));
-	}
-	
-	void on_idle(const EvType& ev) {
-		if ( ev == MM )
-			m_se.highlight_shape_under_pos(InteractiveCommandBase::get_last_point());
-		else if ( ev == MC ) {
-			m_se.highlightselect_shape_under_pos(InteractiveCommandBase::get_last_point());
-						//m_se->highlight_shape_under_pos(InteractiveCommandBase::get_last_point());
-						//on_idle(MM);
-				}
-	}
-	
-	virtual void abort() {
-	//FIXME now what?
-	}
-	
-	
-	virtual void commit() {
-	//FIXME now what?
-	}
-	
+        virtual std::string get_name() {
+			return "incmdSelectUnderCursoer";
+        }
+        
+        virtual void execute() {
+			InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer,on_idle));
+		}
+		
+		void on_idle(const EvType& ev) {
+			if ( ev == MM )
+                                m_se->highlight_shape_under_pos(InteractiveCommandBase::get_last_point());
+                        else if ( ev == MC ) {
+				m_se->highlightselect_shape_under_pos(InteractiveCommandBase::get_last_point());
+                                //m_se->highlight_shape_under_pos(InteractiveCommandBase::get_last_point());
+                                //on_idle(MM);
+                        }
+				
+		}
+		
+		virtual void abort() {
+        //FIXME now what?
+        }
+		
+		
+		virtual void commit() {
+        //FIXME now what?
+        }
+		
 				
 };
 
@@ -65,8 +71,8 @@ public:
 
         virtual void execute() {
                 m_reg = std::make_pair<QPoint,QPoint>( GET_CMD_ARG(PointCommandOptionValue,"-start"), GET_CMD_ARG(PointCommandOptionValue,"-end"));
-                Selection::getInstance().clear();
-                Selection::getInstance().find_and_highlightselect_shapes_from_region(m_reg);
+                Selection::get_instance()->clear();
+                Selection::get_instance()->find_and_highlightselect_shapes_from_region(m_reg);
         }
 	
         virtual std::string get_name() {
@@ -77,9 +83,12 @@ public:
 
 class incmdSelectShapesByRegion : public incmdCreateObj<RECTANGLE>
 {
+	
 public:
         incmdSelectShapesByRegion(ObjectPoolSandboxPtr r, IObjectPoolPtr s ):incmdCreateObj<RECTANGLE>(r,s) {
                 m_first_click = true;
+                m_se = Selection::get_instance();
+            
         }
 
         virtual std::string get_name() {
@@ -135,7 +144,7 @@ public:
             if ( ev == MC ) { 
                 if ( m_first_click ) {
                     m_first_click = false;
-                    Selection::getInstance().clear();
+                    m_se->clear();
                 }
                 
                 incmdCreateObj<RECTANGLE>::idle(ev);

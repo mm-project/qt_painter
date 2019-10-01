@@ -54,14 +54,10 @@ class CommandOptionValueGetter {
 #define StringListCommandOptionValue ListCommandOptionValue<StringCommandOptionValue>
 #define PointListCommandOptionValue ListCommandOptionValue<PointCommandOptionValue>
 
-#define PL_ARG(s) GET_CMD_ARG(PointListCommandOptionValue,s)
-#define S_ARG(s) GET_CMD_ARG(StringCommandOptionValue,s)
-#define I_ARG(s) GET_CMD_ARG(IntCommandOptionValue,s)
-
 
 class IntCommandOptionValue : public ICommandOptionValue 
 {
-    int m_data = 0;
+    int m_data;
     public:
         IntCommandOptionValue() {}
         IntCommandOptionValue(const int& i):m_data(i) {}
@@ -74,7 +70,7 @@ class IntCommandOptionValue : public ICommandOptionValue
 
 class StringCommandOptionValue : public ICommandOptionValue 
 {
-    std::string m_str = "";
+    std::string m_str;
     public:
         StringCommandOptionValue() {}
         StringCommandOptionValue(const std::string& s):m_str(s) {}

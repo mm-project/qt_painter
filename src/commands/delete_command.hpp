@@ -62,7 +62,7 @@ public:
 
 	virtual void abort() override
 	{
-		command_manager::getInstance().return_to_idle();
+		command_manager::get_instance()->return_to_idle();
 	}
 
 	virtual void execute() override

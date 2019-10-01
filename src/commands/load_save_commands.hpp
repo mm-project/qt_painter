@@ -27,7 +27,6 @@ public:
         
         virtual void execute() {
                 ws->clear();
-				RegionQuery::getInstance().clear();
                 std::string fname(GET_CMD_ARG(StringCommandOptionValue,"-filename"));
                 if ( ! LogReader().replay_logfile_imi(fname) )
                     throw 1;

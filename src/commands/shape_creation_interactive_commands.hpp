@@ -16,18 +16,21 @@
 template <ObjectType T>
 class ObjCreatorCommandBase : public InteractiveCommandBase 
 {
-	LePostman& m_postman = LePostman::getInstance();
 
+	LePostman* m_postman;
+	
 public:
 	ObjCreatorCommandBase<T>(ObjectPoolSandboxPtr r, IObjectPoolPtr s): ws(s) 
 	{
 		re = std::shared_ptr<ObjectSandbox>(new ObjectSandbox);
 		r->addChildren(re);
+		m_controller =  controller::get_instance();
 		m_rt_shape = 0;
+		m_postman = LePostman::get_instance();
 	}
 
 	virtual void handle_update() {
-		set_properties(m_controller.get_shape_properties());
+		set_properties(m_controller->get_shape_properties());
 	}
 
 	//command commits by invoking corresonding non-interactive command
@@ -38,36 +41,29 @@ public:
 		//m_postman->notify(INTERACTIVE_COMMAND_PRE_COMMIT,a);
 		auto ob = re->getPool()->getObjects();
 		for (auto i : ob)
-		{
-			//dicmdCreateObj<T>(m_internal_vec,ws).silent_execute();
-
-            auto cmd = std::shared_ptr<dicmdCreateObj<T>>(new dicmdCreateObj<T>(m_internal_vec, m_controller.get_shape_properties(), ws));
-			//cmd->silent_execute();
-
-            UndoManager& man = UndoManager::getInstance();
-			man.pushCommand(cmd);
-            cmd->silent_execute();
-		}
+                    dicmdCreateObj<T>(m_internal_vec,m_controller->get_shape_properties(),ws).silent_execute();
+                    //ws->addObject(i);
+                //end transaction
 		finish();
 		//m_postman->notify(INTERACTIVE_COMMAND_POST_COMMIT,a);
 	}
 	
 	virtual void finish() {
-        m_internal_vec.clear();
-        re->clear();
+		m_internal_vec.clear();
+		re->clear();
 	}
 	
 	void set_properties(const ShapeProperties& p) {
-        re->changeBasicProperties(p);
+		re->changeBasicProperties(p);
 	}
         
 	IShape* get_runtime_object() {
-        return m_rt_shape;
-    }
+                return m_rt_shape;
+        }
         
 	void create_runtime_object() {
-		ShapeCreator& shapeCreator = ShapeCreator::getInstance();
-		m_rt_shape = shapeCreator.create(T);
+                ShapeCreatorPtr shapeCreator = ShapeCreator::getInstance();
+		m_rt_shape = shapeCreator->create(T);
                 re->addObject(m_rt_shape);
         }
 	
@@ -97,16 +93,16 @@ public:
 		//dicmdAbortActiveCommand().log();
 		//d.execute_and_log();
 		//fini();
-		command_manager::getInstance().return_to_idle();
+		command_manager::get_instance()->return_to_idle();
 	}
 
 protected:    
-	ObjectSandboxPtr re = nullptr;
+	ObjectSandboxPtr re;
 private:
-	IObjectPoolPtr ws = nullptr;
-	controller& m_controller = controller::getInstance(); 
-	IShape* m_rt_shape = nullptr;;
-	std::vector<PointCommandOptionValue> m_internal_vec;
+	IObjectPoolPtr ws;
+	controller* m_controller; 
+        IShape* m_rt_shape;
+        std::vector<PointCommandOptionValue> m_internal_vec;
 
 };
 

@@ -1,7 +1,7 @@
 #ifndef messenger_hpp
 #define messenger_hpp
 
-#include "../core/service.hpp"
+#include "../core/service.h"
 #include "../core/callback.hpp"
 
 #include <QFile>
@@ -44,7 +44,7 @@ public:
         static std::string decorate_for_logging(const LogMsgSeverity&);
 	//FIXME
 	Messenger();
-	~Messenger();
+        ~Messenger();
 		
         
 private:

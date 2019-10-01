@@ -20,7 +20,7 @@ class dicmdAbortActiveCommand: public NonTransactionalDirectCommandBase
         }
 
         virtual void execute() {
-            command_manager::getInstance().get_active_command()->abort();
+            command_manager::get_instance()->get_active_command()->abort();
         }
 
 };

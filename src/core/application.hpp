@@ -1,7 +1,7 @@
 #ifndef application_hpp
 #define application_hpp
 
-#include "service.hpp"
+#include "service.h"
 #include "../io/messenger.hpp"
 
 #include <QString>
@@ -43,7 +43,7 @@ class Application: public Service<Application> //, public QApplication
         static bool is_load_mode() { return (Application::get_instance()->get_mode() == APPLOAD); }
         static bool is_debug_mode() { return Application::get_instance()->m_is_debug; }
         
-  
+        
 };
 
 

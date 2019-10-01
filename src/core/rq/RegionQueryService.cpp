@@ -2,9 +2,19 @@
 
 #include "rq_object.hpp"
 
+std::unique_ptr<RegionQuery> RegionQuery::m_instance = nullptr;
+
 RegionQuery::RegionQuery()
 {
 	m_tree = std::shared_ptr<rq::RQtree<IShape>> (new rq::RQtree<IShape>());
+}
+
+RegionQuery& RegionQuery::getInstance()
+{
+	if (m_instance == nullptr)
+		m_instance = std::unique_ptr<RegionQuery>(new RegionQuery);
+
+	return *m_instance;
 }
 
 void RegionQuery::insertObject(IShape* object)
@@ -55,9 +65,4 @@ std::vector<IShape*> RegionQuery::getShapesUnderRect(const QRect& oRect) const
 void RegionQuery::clear()
 {
 	m_tree->clear();
-}
-
-void RegionQuery::shutDown()
-{
-	clear();
 }

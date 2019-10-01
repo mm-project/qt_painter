@@ -42,8 +42,6 @@ public slots:
         void invoke_save();
         void invoke_load();
         void invoke_delete();
-		void invoke_undo();
-		void invoke_redo();
         
         void reset();
         void on_update();
@@ -57,7 +55,7 @@ private:
         bool m_need_motionlog = false;
         IObjectPoolPtr m_working_set;
         ObjectPoolSandboxPtr m_sandbox;
-        command_manager& cm = command_manager::getInstance();
+        command_manager* cm;
         renderer* m_renderer;
         int m_scale = 15;
         QPoint m_last_cursor = {0,0};

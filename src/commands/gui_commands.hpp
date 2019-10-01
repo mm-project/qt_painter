@@ -14,7 +14,7 @@
 #include <QPushButton>
 #include <QAbstractButton>
 
-#define CM command_manager::getInstance().get_main_widget()
+#define CM command_manager::get_instance()->get_main_widget()
 //fixme SHOULD be templated classes
 class dicmdguiSelectComboValue: public NonTransactionalDirectCommandBase 
 {
@@ -48,7 +48,7 @@ class dicmdguiSelectComboValue: public NonTransactionalDirectCommandBase
             m_ov = GET_CMD_ARG(StringCommandOptionValue,"-value");
             QString s(m_ov.c_str());
             s.replace("/"," ");   
-            QComboBox* cmb = CM.findChild<QComboBox*>(m_on.c_str());
+            QComboBox* cmb = CM->findChild<QComboBox*>(m_on.c_str());
             
             std::cout << cmb->currentText().toStdString() << " " << m_on << " " << cmb->findData("White") << std::endl;
             cmb->setCurrentIndex(cmb->findData("White"));
@@ -78,7 +78,7 @@ class dicmdguiClickModalButton: public NonTransactionalDirectCommandBase
         }
         
         virtual void execute() {
-            QWidget* w = command_manager::getInstance().get_main_widget();
+            QWidget* w = command_manager::get_instance()->get_main_widget();
             m_op1 = GET_CMD_ARG(StringCommandOptionValue,"-btn");
             //m_op2 = GET_CMD_ARG(StringCommandOptionValue,"-in_window");
             QMessageBox* box = w->findChild<QMessageBox*>();

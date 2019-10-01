@@ -2,6 +2,15 @@
 
 #include "icons.hpp"
 
+std::unique_ptr<StatusBarManager> StatusBarManager::m_pInstance = nullptr;
+
+StatusBarManager& StatusBarManager::getInstance()
+{
+	if (m_pInstance == nullptr)
+		m_pInstance = std::unique_ptr<StatusBarManager>(new StatusBarManager);
+	return *m_pInstance;
+}
+
 void StatusBarManager::setStatusBar(QStatusBar* pBar)
 {
 	m_pStatusBar = pBar;
@@ -14,7 +23,7 @@ void StatusBarManager::clear()
 	m_pStatusBarLabel->setText("");
 }
 
-void StatusBarManager::shutDown()
+void StatusBarManager::removeStatusBar()
 {
 	m_pStatusBar = nullptr;
 	m_pGif->stop();

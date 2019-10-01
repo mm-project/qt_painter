@@ -11,7 +11,7 @@
 
 bool mmModalDialog::ask_yn_question(const std::string& tl, const std::string& bd) 
 {
-    QWidget* m_parent_w = command_manager::getInstance().get_main_widget();
+    QWidget* m_parent_w = command_manager::get_instance()->get_main_widget();
     if ( Application::is_replay_mode() ) {
         QMessageBox* m_box = new QMessageBox(m_parent_w);   
         m_box->setIcon(QMessageBox::Question);
@@ -39,7 +39,7 @@ bool mmModalDialog::ask_yn_question(const std::string& tl, const std::string& bd
 
 bool mmModalDialog::critical(const std::string& tl, const std::string& bd) 
 {
-    QWidget* m_parent_w = command_manager::getInstance().get_main_widget();
+    QWidget* m_parent_w = command_manager::get_instance()->get_main_widget();
     if ( Application::is_replay_mode() ) {
         QMessageBox* m_box = new QMessageBox(m_parent_w);   
         m_box->setText(tl.c_str());
