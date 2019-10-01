@@ -20,9 +20,9 @@ LogReader::~LogReader() {
 
 void LogReader::step_reply(LeCallbackData&) 
 {
-    //Application::get_instance()->set_replay_mode(true);
+    //Application::getInstance().set_replay_mode(true);
     execute_next_command();
-    //Application::get_instance()->set_replay_mode(false);    
+    //Application::getInstance().set_replay_mode(false);    
 }
 
 void LogReader::reply_resume(LeCallbackData&) 
@@ -30,7 +30,7 @@ void LogReader::reply_resume(LeCallbackData&)
     std::cout << "recv" << std::endl;
     m_paused = false;
     connect(m_timer, SIGNAL(timeout()), this, SLOT(execute_next_command()));
-    Application::get_instance()->set_replay_mode(true);
+    Application::getInstance().set_replay_mode(true);
     m_timer->start(1);    
 }
 
@@ -38,7 +38,7 @@ void LogReader::reply_stop(LeCallbackData&)
 {
     m_paused = true;   
     disconnect(m_timer, 0, 0, 0);
-    Application::get_instance()->set_replay_mode(false);
+    Application::getInstance().set_replay_mode(false);
     Messenger::expose_msg(info,"Replying Stopped for debug. Press \"W\" to continue to run till next breakpoint, or \"S\" to execute next command.");
 }
 
@@ -53,7 +53,7 @@ QStringList LogReader::read_file(const std::string& fname) {
     QFile file(fname.c_str());
     if(!file.exists() || !file.open(QIODevice::ReadOnly)) {
         //fixme call mmModalDialog , that will also put error message to console and log
-        Application::get_instance()->set_replay_mode(false);
+        Application::getInstance().set_replay_mode(false);
         //mmModalDialog::critical("Log replay error", "Can't open file "+fname+" to replay");
         return stringList;
     }
@@ -110,10 +110,10 @@ bool LogReader::replay_logfile_imi(const std::string& fname) {
 }
 
 void LogReader::replay_cmd(const std::string& cmd_str ) {
-    //Application::get_instance()->set_replay_mode(true);
+    //Application::getInstance().set_replay_mode(true);
     m_command_queue.push(QString::fromStdString(cmd_str));
     execute_next_command();
-    //Application::get_instance()->set_replay_mode(false);
+    //Application::getInstance().set_replay_mode(false);
 
 }
 
