@@ -66,8 +66,8 @@ function diffUsingJS(viewType) {
 		baseTextLines: base,
 		newTextLines: newtxt,
 		opcodes: opcodes,
-		baseTextName: "Selection_Compare_0.txt",
-		newTextName: "Selection_Compare_0.txt.golden",
+		baseTextName: "%fname1%",
+		newTextName: "%fname2%",
 		contextSize: contextSize,
 		viewType: viewType
 	}));

@@ -294,13 +294,24 @@ class dicmdQaCompareInternal: public NonTransactionalDirectCommandBase
         }
         
     private:
-            QString generate_html_view(const std::string& f, const std::string& g) 
-            {
+            
+        //fixme need total refactoring !
+        QString generate_html_view(const std::string& f, const std::string& g) 
+        {
                 QString res(QDir::currentPath()+QString("/"+QString(f.c_str())+".html"));
-                //system();
-                //std::string s("touch "+f+".html");
-                std::string s("cat html_diff.template | sed 's/%fname1%/"+f+"/' | sed 's/%fname2%/"+g.c_str()+"/' > "+f+".html");
-                system(s.c_str());
+                #ifdef OS_LINUX
+                    //system();
+                    //std::string s("touch "+f+".html");
+                    std::string s1("cat html_diff.template | sed 's/%fname1%/"+g+"/' | sed 's/%fname2%/"+f+"/' > "+f+".html");
+                    //std::string s2("cat "+f+".html | sed 's/%f1%/cat "+g+"/e' > 1"+f+".html");
+                    //std::string s3("cat "+f+".html | sed 's/%f2%/cat "+f+"/e' > 2"+f+".html");
+                    std::string s2("sed -i 's/%f1%/cat "+g+"/e' "+f+".html");
+                    std::string s3("sed -i 's/%f2%/cat "+f+"/e' "+f+".html");
+                    
+                    system(s1.c_str());
+                    system(s2.c_str());
+                    system(s3.c_str());
+                #endif
                 return res;
             }
         
