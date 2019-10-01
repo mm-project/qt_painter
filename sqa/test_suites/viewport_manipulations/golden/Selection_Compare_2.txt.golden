@@ -1,4 +1,10 @@
 Name: Selection
-ObjCount: 1
+ObjCount: 6
 ======
 Rectangle:
+Rectangle:
+Rectangle:
+Ellipse:
+Line:
+Ellipse:
+--------

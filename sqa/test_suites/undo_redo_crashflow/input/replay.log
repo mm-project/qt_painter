@@ -1267,5 +1267,5 @@ dicmdTransactionRedo -steps 1
 #e --> Error: 53      0x55b7853b266a _start + 42
 #e --> Error: 
 #e --> Error: Nice one. Program unexpectedly terminated.
-dicmdguiClickModalButton -btn &Ok 
+#dicmdguiClickModalButton -btn &Ok 
 dicmdQaToolExit
