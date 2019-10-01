@@ -29,6 +29,7 @@ namespace
                 case PANRIGHT:
                      return "PanRight";                     
             }
+			return "";
         }
         
         std::string zoomDirection2str(const zoomDirection& p ) {
@@ -39,6 +40,7 @@ namespace
                      return "ZoomOut";
               
             }
+			return "";
         }
 }
 

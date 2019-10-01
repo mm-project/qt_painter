@@ -8,7 +8,6 @@
 #include <iostream>
 
 LogReader::LogReader() {
-    m_interp = CommandInterp::get_instance();
     m_timer = new QTimer;
     REGISTER_CALLBACK(STOP_REPLY,&LogReader::reply_stop)
     REGISTER_CALLBACK(RESUME_REPLY,&LogReader::reply_resume)
@@ -81,8 +80,6 @@ bool LogReader::replay_logfile(const std::string& fname) {
         return false;
 
     //std::cout << "noway" << std::endl;
-    
-    
     for (  auto line : lines  ) {
         //m_interp->interpret_from_string(line.toStdString());
         m_command_queue.push(line);
@@ -101,14 +98,13 @@ bool LogReader::replay_logfile_imi(const std::string& fname) {
         return false;
 
     //std::cout << "noway" << std::endl;
-    Application::get_instance()->set_mode(APPLOAD);
+    Application::getInstance().set_mode(APPLOAD);
     
     for (  auto line : lines  ) {
         replay_cmd(line.toStdString());
     }
 
-    //fixme
-    Application::get_instance()->set_replay_mode(false);
+    Application::getInstance().set_replay_mode(false);
 
     return true;    
 }
@@ -129,7 +125,7 @@ void LogReader::execute_next_command() {
     }
     
     std::cout << "dolya varavsyaka" << std::endl;
-    CommandBase* cmd = m_interp->get_cmd_obj(m_command_queue.front().toStdString());
+    CommandBase* cmd = m_interp.get_cmd_obj(m_command_queue.front().toStdString());
     m_command_queue.pop();
     
     //if (m_command_queue.empty()) {
@@ -138,7 +134,7 @@ void LogReader::execute_next_command() {
     //}
         //disconnect(m_timer, 0, 0, 0);
     
-    m_interp->execute_cmd(cmd);
+    m_interp.execute_cmd(cmd);
     
     //t->deleteLater();
     //QApplication::processEvents();

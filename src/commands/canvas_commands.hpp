@@ -23,8 +23,8 @@ class dicmdCanvasOrigin: public NonTransactionalDirectCommandBase
         }
 
         virtual void execute() {
-             command_manager::get_instance()->get_main_renderer()->pan(T);
-             command_manager::get_instance()->get_main_widget()->update();
+             command_manager::getInstance().get_main_renderer()->pan(T);
+             command_manager::getInstance().get_main_widget()->update();
         }
 
 };
@@ -54,8 +54,8 @@ class dicmdCanvasViewport: public NonTransactionalDirectCommandBase
 
         virtual void execute() {
             m_p = GET_CMD_ARG(PointCommandOptionValue,"-point");
-            command_manager::get_instance()->get_main_renderer()->zoom_internal(T,m_p);
-            command_manager::get_instance()->get_main_widget()->update();
+            command_manager::getInstance().get_main_renderer()->zoom_internal(T,m_p);
+            command_manager::getInstance().get_main_widget()->update();
         }
 
 };

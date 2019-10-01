@@ -212,8 +212,7 @@ class dicmdQaDump: public NonTransactionalDirectCommandBase
         }
 
         void dump_canvas() {
-            //std::cout << "dumppppppppppppppikkkkkkkkkkkkhopaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaar" << std::endl;
-            QWidget* w = command_manager::get_instance()->get_main_widget()->findChild<QWidget*>("CANVAS");
+            QWidget* w = command_manager::getInstance().get_main_widget()->findChild<QWidget*>("CANVAS");
             //FIXME exception on error or what?
             if ( !w )
                 return;
@@ -227,7 +226,7 @@ class dicmdQaDump: public NonTransactionalDirectCommandBase
         }
  
         void dump_selection() {
-            Selection::get_instance()->dumpToFile(m_fname);
+            Selection::getInstance().dumpToFile(m_fname);
         }
         
         void dump_design() {
@@ -273,7 +272,7 @@ class dicmdQaCompareInternal: public NonTransactionalDirectCommandBase
                     system(z.str().c_str());
                     Messenger::expose_msg(test,"comparision->"+qaCompType2string(T)+":PASS "+f+" "+g);
                 #else
-                    Messenger::expose_msg(err."Autoregoldening is availble only in linux ( currently )");
+                    Messenger::expose_msg(err, "Autoregoldening is availble only in linux ( currently )");
                 #endif
             } else {
             

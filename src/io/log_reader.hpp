@@ -26,7 +26,8 @@ class LogReader : public QObject
     
     QTimer* m_timer ;
     std::queue<QString> m_command_queue;
-    CommandInterp* m_interp;
+    CommandInterp& m_interp = CommandInterp::getInstance();
+    
     bool m_paused = false;
     LeCallbackData fixme;
 
@@ -49,8 +50,7 @@ class LogReader : public QObject
         bool is_paused();
         
     private slots:
-        void execute_next_command();
-        
+        void execute_next_command();        
 };
 
 #endif

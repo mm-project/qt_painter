@@ -15,7 +15,6 @@
 
 #include <cassert>
 
-command_manager* command_manager::m_instance = 0;
 ///FIXME ????
 //int dicmdQaCanvasCompare::n_index = 0;
 
@@ -53,7 +52,6 @@ void command_manager::init() {
     register_command(new dicmdQaReplyingBreak);
     register_command(new dicmdQaReplyingResume);
     register_command(new dicmdQaReplyStep);
-    
     
     
     m_current_command = m_idle_command;
