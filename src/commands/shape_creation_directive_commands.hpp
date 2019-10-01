@@ -31,9 +31,9 @@ class dicmdCreateObj : public DirectCommandBase
 public:
         dicmdCreateObj<T>(IObjectPoolPtr s): m_ws(s) { //rq(RegionQuery::getInstance()) {
                 add_option("-points",new PointListCommandOptionValue());
-                add_option("-color",new StringCommandOptionValue());
-                add_option("-brush",new IntCommandOptionValue());
-                add_option("-fill",new IntCommandOptionValue());
+                add_option("-color",new StringCommandOptionValue("#000000"));
+                add_option("-brush",new IntCommandOptionValue(0));
+                add_option("-fill",new IntCommandOptionValue(0));
         }
 
        	dicmdCreateObj<T>(const std::vector<PointCommandOptionValue>& pl, const ShapeProperties& pr, IObjectPoolPtr s): m_ws(s) {
