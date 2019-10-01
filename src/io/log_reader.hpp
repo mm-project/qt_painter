@@ -26,7 +26,7 @@ class LogReader : public QObject
     
     QTimer* m_timer ;
     std::queue<QString> m_command_queue;
-    CommandInterp* m_interp;
+    CommandInterp& m_interp = CommandInterp::getInstance();;
     bool m_paused = false;
     LeCallbackData fixme;
 
