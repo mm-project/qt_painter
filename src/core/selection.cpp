@@ -1,10 +1,17 @@
 #include "selection.hpp"
 //#include "postman.hpp"
+#include "shapes.hpp"
 #include "rq/RegionQueryService.hpp"
+
+//#include <csignal>
 
 std::string Selection::getName() 
 {
-        return "Selection";
+    //int* a;
+    //*a = 1;    
+    //std::raise(SIGSEGV);
+    return "Selection";
+        
 }
 
 void Selection::clear() {
@@ -19,8 +26,8 @@ void Selection::set_working_set(IObjectPool* ws) {
 	//m_h_on = false;
 }
 
-void Selection::set_sandbox(ObjectPoolSandbox* ops) {
-	m_rt_pools = ops;
+void Selection::set_sandbox(ObjectPoolSandbox* sanboxes) {
+	m_rt_pools = sanboxes;
 	m_sb = new ObjectSandbox();
 	m_rt_pools->addChildren(std::shared_ptr<ObjectSandbox>(m_sb));
         
@@ -35,11 +42,20 @@ void Selection::set_sandbox(ObjectPoolSandbox* ops) {
 		p2.pen_color = Qt::red;
                 p2.pen_style = Qt::DashLine;
                 p2.pen_width = 2;
-        
+
+        ShapeProperties p3;
+		p3.pen_color = Qt::white;
+                p3.brush_style = Qt::NoBrush;
+                p3.pen_style = Qt::DashDotLine;
+                p3.pen_width = 1;
+
         m_oa_highlight_set = new HighlightSet("ActiveObjects",p1);
         m_sel_highlight_set = new HighlightSet("Selection",p2);
-        m_sel_highlight_set->create_sandbox(ops);
-        m_oa_highlight_set->create_sandbox(ops);
+        m_qa_highlight_set = new HighlightSet("QASelectionsTintirid",p3);
+        
+        m_sel_highlight_set->create_sandbox(m_rt_pools);
+        m_oa_highlight_set->create_sandbox(m_rt_pools);
+        m_qa_highlight_set->create_sandbox(m_rt_pools);
 }
 
 //asenq te
@@ -79,8 +95,24 @@ void Selection::find_and_highlightselect_shapes_from_region(const std::pair<QPoi
                 m_sel_highlight_set->addObject(it);
         }
         
+        m_last_region = QRect(point.first, point.second);
 	m_sel_highlight_set->highlight_on();
 
+}
+
+
+void Selection::highlight_last_selected_region(bool on_off) 
+{
+    //std::cout << "hiiiiiiiiiiiiiiiiiiiiii" << std::endl;
+    if ( ! on_off ) {
+        m_qa_highlight_set->clear();
+        m_last_region = QRect(0,0,0,0);
+        return;
+    }
+    
+    std::cout << m_last_region.bottomRight().x() << " " << m_last_region.bottomRight().y() << std::endl;
+    m_qa_highlight_set->addObject(rectangle(m_last_region, ShapeProperties()).clone());
+    m_qa_highlight_set->highlight_on();
 }
 
 
@@ -125,3 +157,4 @@ void HighlightSet::highlight_on_off(bool m_h_on) {
 		m_sb->addObject(it);
 	}
 }
+
