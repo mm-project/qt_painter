@@ -33,7 +33,7 @@ for i in `cat $PAINTER_SQA_ROOT/tests.lst`; do
             res=1
             crashed=`expr $crashed + 1`
         else
-            echo -e "\e[31mError\e[0m"
+            echo -e "\e[31mError (code:$r) \e[0m"
             echo "************"
             awk '{ print " ----> ", $0 }' test.info
             echo "==========="

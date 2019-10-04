@@ -14,3 +14,5 @@ jobs:
       - run:
           name: regressions
           command: export TERM=xterm;  xvfb-run ./sqa/bin/runRegTests.sh
+      - store_artifacts:
+          path: /root/project/sqa/

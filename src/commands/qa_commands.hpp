@@ -230,7 +230,7 @@ class dicmdQaDump: public NonTransactionalDirectCommandBase
         }
         
         void dump_design() {
-            //WorkingSet::get_instance()->dump_to_file(fname);
+            //WorkingSet::getInstance().dump_to_file(fname);
         }
     
 };

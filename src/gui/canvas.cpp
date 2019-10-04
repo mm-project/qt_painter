@@ -128,7 +128,6 @@ void canvas::mousePressEvent(QMouseEvent* e)
     QPoint p(e->pos());
     //if(!Application::is_log_mode())
     dicmdCanvasMouseClick(p).log();
-    
     cm.mouse_clicked(p.x(),p.y());
     m_renderer->click_hint();
 }

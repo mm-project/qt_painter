@@ -46,5 +46,4 @@ class Application: public Service<Application> //, public QApplication
   
 };
 
-
 #endif
