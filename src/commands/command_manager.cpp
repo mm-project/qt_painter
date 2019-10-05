@@ -7,6 +7,7 @@
 #include "selection_commands.hpp"
 #include "qa_commands.hpp"
 #include "canvas_commands.hpp"
+#include "undo_manager.hpp"
 #include "copy_move_commands.hpp"
 
 #include "../core/postman.hpp"
@@ -37,6 +38,7 @@ void command_manager::init2(RuntimePoolManagerPtr r, ObjectPoolPtr s) {
 
 //FIMXE should be called from outside
 void command_manager::init() {
+	//Dependency<command_manager>();
     register_command(new dicmdCanvasMouseMove);
     register_command(new dicmdCanvasMouseClick);
     register_command(new dicmdCanvasMouseRelease);

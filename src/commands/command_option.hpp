@@ -54,6 +54,10 @@ class CommandOptionValueGetter {
 #define StringListCommandOptionValue ListCommandOptionValue<StringCommandOptionValue>
 #define PointListCommandOptionValue ListCommandOptionValue<PointCommandOptionValue>
 
+#define PL_ARG(s) GET_CMD_ARG(PointListCommandOptionValue,s)
+#define S_ARG(s) GET_CMD_ARG(StringCommandOptionValue,s)
+#define I_ARG(s) GET_CMD_ARG(IntCommandOptionValue,s)
+
 
 class IntCommandOptionValue : public ICommandOptionValue 
 {

@@ -1,0 +1,67 @@
+dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(105,77);(191,154)} 
+dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(105,77);(191,154)} 
+dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(228,188);(313,268)} 
+dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(228,188);(313,268)} 
+dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(351,263);(471,329)} 
+dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(351,263);(471,329)} 
+dicmdSelectShapesByRegion -end (551,352) -start (71,41) 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdSelectShapesByRegion -end (738,364) -start (51,23) 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdSelectShapesByRegion -end (571,285) -start (457,109) 
+dicmdSelectShapesByRegion -end (222,167) -start (83,48) 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdSelectShapesByRegion -end (562,347) -start (305,251) 
+dicmdSelectShapesByRegion -end (550,359) -start (29,22) 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdSelectShapesByRegion -end (611,347) -start (607,298) 
+dicmdSelectShapesByRegion -end (635,348) -start (34,31) 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdSelectShapesByRegion -end (692,352) -start (636,272) 
+dicmdSelectShapesByRegion -end (715,353) -start (28,11) 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 

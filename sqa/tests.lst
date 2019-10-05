@@ -30,3 +30,8 @@ tests/runtime_and_highlights
 tests/copymove_runtime_highlights
 tests/runtime_flowik4
 tests/broken_copymove
+test_suites/undo_redo_very_basic
+test_suites/undo_redo_crashflow
+test_suites/undo_redo_crashflow2
+test_suites/undo_redo_basic_rects
+test_suites/undo_redo_basic_rects_and_properties

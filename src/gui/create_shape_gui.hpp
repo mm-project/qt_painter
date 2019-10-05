@@ -65,6 +65,8 @@ signals:
 	void copyShape();
 	void moveShape();
 	void abord();
+	void undo();
+	void redo();
 
 	void something_changed();
 	void selectByRegion();
