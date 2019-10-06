@@ -2,6 +2,7 @@
 #define shapecreationdirective_commands_hpp
 
 #include "direct_command_base.hpp"
+#include "undo_manager.hpp"
 
 #include "../core/shape_creator.hpp"
 #include "../core/runtime_environment.hpp"
@@ -15,18 +16,15 @@
 
 #include <string>
 
-#define PL_ARG(s) GET_CMD_ARG(PointListCommandOptionValue,s)
-#define S_ARG(s) GET_CMD_ARG(StringCommandOptionValue,s)
-#define I_ARG(s) GET_CMD_ARG(IntCommandOptionValue,s)
 
 
 template <ObjectType T>
-class dicmdCreateObj : public DirectCommandBase  
+class dicmdCreateObj : public TransactionalDirectCommandBase
 {
 
         IShape* m_executed_object;    
         IShape* m_shape;    
-        IObjectPoolPtr ws;
+		IShape* m_executed_object;
 public:
         dicmdCreateObj<T>(IObjectPoolPtr s): ws(s) { //rq(RegionQuery::getInstance()) {
                 add_option("-points",new PointListCommandOptionValue());
@@ -44,7 +42,7 @@ public:
                 add_option("-fill",new IntCommandOptionValue(pr.toStringsMap()["fill"]));
         }
         
-	void dump(const std::string& f) {
+	    void dump(const std::string& f) {
                 QFile* m_cmdfile = new QFile(f.c_str());
                 m_cmdfile->open( QIODevice::WriteOnly | QIODevice::Append ); 
                 QTextStream* cmd_stream = new QTextStream(m_cmdfile);
@@ -54,25 +52,35 @@ public:
                 m_cmdfile->close();
         }
         
-	virtual void execute() {
+	   virtual void execute() {
 	   RegionQuery& rq = RegionQuery::getInstance();
 		//* //std::vector<QPoint> v(GET_CMD_ARG(PointListCommandOptionValue,"-points"));
-		m_shape = ShapeCreator::getInstance().create(T);
-		for( auto it: PL_ARG("-points") )
+                m_shape = ShapeCreator::getInstance().create(T);
+                for( auto it: PL_ARG("-points") )
 			m_shape->addPoint(it.get());
 
                 ShapeProperties pr;
                 pr.fromString(S_ARG("-color"),I_ARG("-brush"),I_ARG("-fill"));
                 m_shape->updateProperties(pr);
-		m_executed_object = ws->addObject(m_shape);
-		rq.insertObject(m_executed_object);
+                m_executed_object = m_ws->addObject(m_shape);
+                m_executed_object->updateProperties(pr);
+                rq.insertObject(m_executed_object);
                 /**/
         }
-       
-    virtual std::string get_name() {
-		return "dicmdCreateObj"+ObjType2String(T);
+        virtual std::string get_name() {
+                return "dicmdCreateObj"+ObjType2String(T);
         }
        
+        void undo() override
+        {
+                // temp
+                m_ws->removeObject(m_executed_object);
+        }
+
+        void redo() override
+        {
+                execute();
+        }
 };
 
 

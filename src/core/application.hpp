@@ -43,6 +43,7 @@ class Application: public Service<Application> //, public QApplication
         static bool is_load_mode() { return (Application::getInstance().get_mode() == APPLOAD); }
         static bool is_debug_mode() { return Application::getInstance().m_is_debug; }
         
+  
 };
 
 #endif

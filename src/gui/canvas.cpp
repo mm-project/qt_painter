@@ -17,6 +17,7 @@
 #include "../commands/interactive_load_save.hpp"
 #include "../commands/delete_command.hpp"
 #include "../commands/command_manager.hpp"
+#include "../commands/undo_redo_command.hpp"
 
 #include <QRect>
 #include <QPainter>
@@ -75,6 +76,8 @@ canvas::canvas(QWidget* p)
 	cm.register_command(new dicmdDesignLoad(m_working_set));
 	cm.register_command(new InteractiveDeleteAction(m_working_set));
 	cm.register_command(new dicmdDeleteObj(m_working_set));
+	cm.register_command(new dicmdTransaction<Undo>);
+	cm.register_command(new dicmdTransaction<Redo>);
 }
 
 
@@ -112,11 +115,9 @@ void canvas::keyPressEvent(QKeyEvent* ev) {
         else {
             if( cm.is_idle() ) 
                 return;
+            cm.disactivate_active_command();
         }
-        update();    
-        if (ev->key() == Qt::Key_Escape)
-                emit discardAction();
-}
+ }
 
 void canvas::mousePressEvent(QMouseEvent* e)
 {
@@ -150,7 +151,8 @@ void canvas::mouseMoveEvent(QMouseEvent* e)
 	//_y = (_y / m_scale) * m_scale;
 	//e->pos().setX(_x);
 	//e->pos().setY(_y);
-	cm.mouse_moved(_x, _y);
+        cm.mouse_moved(_x, _y);
+		m_renderer->set_cursor_pos_for_drawing(_x, _y);
 
 	//if Preference::isSet("guiLogMouseMove")
 	if ( m_need_motionlog )
@@ -236,7 +238,20 @@ void canvas::invoke_delete()
 {
 	cm.activate_command(cm.find_command("incmdDeleteShape"));
 }
+
 void canvas::abordCommand()
 {
 	cm.activate_command(cm.find_command("dicmdAbortActiveCommand"));
+}
+
+void canvas::invoke_redo()
+{
+	dicmdTransaction<Redo>(1).execute_and_log();
+    //cm.activate_command(cm.find_command("incmdTransactionRedo"));
+}
+
+void canvas::invoke_undo()
+{
+	dicmdTransaction<Undo>(1).execute_and_log();
+     //cm.activate_command(cm.find_command("incmdTransactionUndo"));
 }

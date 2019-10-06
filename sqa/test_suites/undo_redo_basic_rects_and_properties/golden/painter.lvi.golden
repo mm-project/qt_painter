@@ -1,0 +1,104 @@
+dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(115,73);(276,197)} 
+dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(115,73);(276,197)} 
+dicmdCreateObjRectangle -brush 1 -color #0000ff -fill 9 -points {(400,72);(502,212)} 
+dicmdCreateObjRectangle -brush 1 -color #0000ff -fill 9 -points {(400,72);(502,212)} 
+dicmdCreateObjRectangle -brush 1 -color #ff0000 -fill 9 -points {(571,122);(733,250)} 
+dicmdCreateObjRectangle -brush 1 -color #ff0000 -fill 9 -points {(571,122);(733,250)} 
+dicmdCreateObjRectangle -brush 3 -color #ff0000 -fill 9 -points {(854,91);(955,240)} 
+dicmdCreateObjRectangle -brush 3 -color #ff0000 -fill 9 -points {(854,91);(955,240)} 
+dicmdCreateObjRectangle -brush 3 -color #ff0000 -fill 11 -points {(626,44);(753,104)} 
+dicmdCreateObjRectangle -brush 3 -color #ff0000 -fill 11 -points {(626,44);(753,104)} 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdDesignSave -filename after_undo.lvi 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdCreateObjEllipse -brush 3 -color #0000ff -fill 11 -points {(124,155);(308,235)} 
+dicmdCreateObjEllipse -brush 3 -color #0000ff -fill 11 -points {(124,155);(308,235)} 
+dicmdCreateObjEllipse -brush 3 -color #ff00ff -fill 11 -points {(456,13);(335,125)} 
+dicmdCreateObjEllipse -brush 3 -color #ff00ff -fill 11 -points {(456,13);(335,125)} 
+dicmdCreateObjEllipse -brush 2 -color #ff0000 -fill 10 -points {(414,161);(577,275)} 
+dicmdCreateObjEllipse -brush 2 -color #ff0000 -fill 10 -points {(414,161);(577,275)} 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdCreateObjEllipse -brush 2 -color #ff0000 -fill 10 -points {(746,212);(614,108)} 
+dicmdCreateObjEllipse -brush 2 -color #ff0000 -fill 10 -points {(746,212);(614,108)} 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionUndo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdTransactionRedo -steps 1 
+dicmdDesignSave -filename after_undo2.lvi 
