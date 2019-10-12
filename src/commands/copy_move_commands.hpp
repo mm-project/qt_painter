@@ -136,13 +136,16 @@ private:
         
         //waiting for selection
         void idle(const EvType& ev) {
+                std::cout << "COPYMOVE IDLE" << std::endl;
+                // no selection, invoke selectbyregion to select object firsts
                 if ( m_se->getObjects().empty() ) {
                     LeCallback cb = REGISTER_CALLBACK(OBJECT_SELECTED,&incmdObjRelocateBy<T>::on_object_selected);
                     if (! m_sel_cb )
                         m_sel_cb = new LeCallback(cb);
                     CommandBase* cmd = m_cm->find_command("incmdSelectShapesByRegion");
                     dynamic_cast<InteractiveCommandBase*>(cmd)->set_auto_repeat(false);
-                    m_cm->activate_command(cmd);
+                    m_cm->activate_command(cmd,false);
+                    dynamic_cast<InteractiveCommandBase*>(cmd)->set_auto_repeat(true);
                     return;
                 }
                 

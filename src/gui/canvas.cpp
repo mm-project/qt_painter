@@ -133,8 +133,8 @@ void canvas::mousePressEvent(QMouseEvent* e)
         return;
 
     QPoint p(e->pos());
-    //if(!Application::is_log_mode())
-    dicmdCanvasMouseClick(p).log();
+    if(!Application::is_replay_mode())
+       dicmdCanvasMouseClick(p).log();
     
     cm->mouse_clicked(p.x(),p.y());
 }
@@ -180,8 +180,8 @@ void canvas::wheelEvent(QWheelEvent* e)
 void canvas::mouseDoubleClickEvent(QMouseEvent* e)
 {
     cm->mouse_dbl_clicked(e->pos().x(),e->pos().y());
-    //if(!Application::is_log_mode())
-    dicmdCanvasMouseDblClick(e->pos()).log();
+    if(!Application::is_replay_mode())
+       dicmdCanvasMouseDblClick(e->pos()).log();
     
     update();
 }
@@ -265,10 +265,10 @@ void canvas::abordCommand()
 
 void canvas::invoke_copy()
 {
-	cm->activate_command(cm->find_command("incmdObjRelocateByCopy"));
+    cm->activate_command(cm->find_command("incmdObjRelocateByCopy"));
 }
 
 void canvas::invoke_move()
 {
-	cm->activate_command(cm->find_command("incmdObjRelocateByMove"));
+    cm->activate_command(cm->find_command("incmdObjRelocateByMove"));
 }

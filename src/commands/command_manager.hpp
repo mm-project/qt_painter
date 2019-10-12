@@ -46,7 +46,7 @@ class command_manager
         
         void set_idle_command(CommandBase* cmd);
         void disactivate_active_command();
-        void activate_command(CommandBase* cmd);
+        void activate_command(CommandBase* cmd, bool needlog = true);
         void register_command(CommandBase* cmd);
         CommandBase* find_command(const std::string&);
         //CommandBase* get_command();

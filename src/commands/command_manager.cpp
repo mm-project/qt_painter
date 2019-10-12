@@ -77,7 +77,7 @@ void command_manager::register_command(CommandBase* cmd) {
     //std::cout << "RegCmd: " << cmd->get_name() << "---" << m_name2command[cmd->get_name()]  << std::endl;
 }
 
-void command_manager::activate_command(CommandBase* cmd) {
+void command_manager::activate_command(CommandBase* cmd, bool needlog) {
     //FIXME crashes obviously
     //delete m_current_command;
     
@@ -91,8 +91,10 @@ void command_manager::activate_command(CommandBase* cmd) {
     //        not dummy
     //else
     //        dummy
-            
-    m_current_command->execute_and_log();
+    if ( needlog )        
+        m_current_command->execute_and_log();
+    else
+        m_current_command->execute();
 }
 
 CommandBase* command_manager::get_active_command() {

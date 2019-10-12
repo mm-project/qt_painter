@@ -95,8 +95,10 @@ public:
                 m_reg = std::make_pair<QPoint,QPoint>( GET_CMD_ARG(PointCommandOptionValue,"-start"), GET_CMD_ARG(PointCommandOptionValue,"-end"));
                 Selection::get_instance()->clear();
                 Selection::get_instance()->find_and_highlightselect_shapes_from_region(m_reg);
-                LeCallbackData d;
-                NOTIFY(OBJECT_SELECTED,d);
+                if ( ! Selection::get_instance()->getObjects().empty() ) {
+                    LeCallbackData d;
+                    NOTIFY(OBJECT_SELECTED,d);
+                }
         }
 	
         virtual std::string get_name() {
