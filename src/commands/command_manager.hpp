@@ -10,7 +10,7 @@
 #include "../core/runtime_environment.hpp"
 #include "../core/working_set.hpp"
 #include "../core/callback.hpp"
-
+#include "../core/service.hpp"
 
 // Stl
 #include <string>
@@ -24,7 +24,7 @@
 // @class command manager
 //
 class renderer;
-class command_manager  
+class command_manager : public Service<command_manager> 
 {
 
     public:

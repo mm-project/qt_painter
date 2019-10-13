@@ -2,13 +2,11 @@
 #define CONTROLLER_HPP
 
 #include "../core/ishape.hpp"
+#include "../core/service.hpp"
 
-//fixme should be inherited from service
-class controller
+class controller : public Service<controller>
 {
 public:
-        static controller* get_instance();
-
         void change_object_type(ObjectType);
         void change_pen_width(int);
         void change_pen_color(QColor);
@@ -29,12 +27,6 @@ public:
         Qt::BrushStyle get_brush_style() const;
 
 private:
-        controller();
-        controller(const controller&) {}
-
-private:
-        static controller* m_instance;
-
         ObjectType type	= LINE;
         ShapeProperties properties;
 };

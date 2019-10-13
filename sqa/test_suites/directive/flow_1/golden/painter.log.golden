@@ -1,32 +1,32 @@
 #i --> Info: Welcome to this project. Feel free to expirment. 
 #i --> Info: Set to mode1
-dicmdCreateObjRectangle -brush 0 -color  -fill 0 -points {(98,84);(263,179)} 
+dicmdCreateObjRectangle -brush 0 -color #000000 -fill 0 -points {(98,84);(263,179)} 
 dicmdDeleteShape -point (205,157) 
 dicmdDeleteShape -point (206,129) 
-dicmdCreateObjRectangle -brush 0 -color  -fill 0 -points {(142,37);(310,155)} 
+dicmdCreateObjRectangle -brush 0 -color #000000 -fill 0 -points {(142,37);(310,155)} 
 dicmdDeleteShape -point (452,105) 
 dicmdDeleteShape -point (251,94) 
-dicmdCreateObjRectangle -brush 0 -color  -fill 0 -points {(124,93);(336,197)} 
-dicmdCreateObjRectangle -brush 0 -color  -fill 0 -points {(322,63);(464,139)} 
+dicmdCreateObjRectangle -brush 0 -color #000000 -fill 0 -points {(124,93);(336,197)} 
+dicmdCreateObjRectangle -brush 0 -color #000000 -fill 0 -points {(322,63);(464,139)} 
 dicmdDeleteShape -point (153,134) 
 dicmdDeleteShape -point (259,128) 
 dicmdDeleteShape -point (368,114) 
 dicmdDeleteShape -point (227,17) 
-dicmdCreateObjPolygon -brush 0 -color  -fill 0 -points {(241,63);(516,86);(494,179);(260,199);(326,156);(230,143);(311,107);(180,107);(180,106)} 
+dicmdCreateObjPolygon -brush 0 -color #000000 -fill 0 -points {(241,63);(516,86);(494,179);(260,199);(326,156);(230,143);(311,107);(180,107);(180,106)} 
 dicmdDeleteShape -point (381,153) 
 dicmdDeleteShape -point (444,158) 
 dicmdDeleteShape -point (444,158) 
 dicmdDeleteShape -point (264,63) 
-dicmdCreateObjEllipse -brush 0 -color  -fill 0 -points {(210,99);(418,189)} 
-dicmdCreateObjEllipse -brush 0 -color  -fill 0 -points {(450,59);(616,130)} 
+dicmdCreateObjEllipse -brush 0 -color #000000 -fill 0 -points {(210,99);(418,189)} 
+dicmdCreateObjEllipse -brush 0 -color #000000 -fill 0 -points {(450,59);(616,130)} 
 dicmdDeleteShape -point (307,134) 
 dicmdDeleteShape -point (549,95) 
 dicmdDeleteShape -point (343,131) 
 dicmdDeleteShape -point (343,131) 
 dicmdDeleteShape -point (311,131) 
 dicmdDeleteShape -point (100,76) 
-dicmdCreateObjEllipse -brush 0 -color  -fill 0 -points {(127,85);(174,108)} 
-dicmdCreateObjEllipse -brush 0 -color  -fill 0 -points {(106,153);(156,181)} 
+dicmdCreateObjEllipse -brush 0 -color #000000 -fill 0 -points {(127,85);(174,108)} 
+dicmdCreateObjEllipse -brush 0 -color #000000 -fill 0 -points {(106,153);(156,181)} 
 dicmdSelectShapesByRegion -end (981,356) -start (14,12) 
 dicmdQaCompareSelection 
 #t --> Test: comparision->Selection:PASS Selection_Compare_0.txt Selection_Compare_0.txt.golden

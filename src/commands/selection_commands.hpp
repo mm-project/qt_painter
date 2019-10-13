@@ -72,6 +72,7 @@ public:
                     it->moveCenterToPoint(p);
             }
         }
+
 };
 
 
@@ -93,9 +94,9 @@ public:
 
         virtual void execute() {
                 m_reg = std::make_pair<QPoint,QPoint>( GET_CMD_ARG(PointCommandOptionValue,"-start"), GET_CMD_ARG(PointCommandOptionValue,"-end"));
-                Selection::get_instance()->clear();
-                Selection::get_instance()->find_and_highlightselect_shapes_from_region(m_reg);
-                if ( ! Selection::get_instance()->getObjects().empty() ) {
+                Selection::get_instance().clear();
+                Selection::get_instance().find_and_highlightselect_shapes_from_region(m_reg);
+                if ( ! Selection::get_instance().getObjects().empty() ) {
                     LeCallbackData d;
                     NOTIFY(OBJECT_SELECTED,d);
                 }
@@ -109,12 +110,9 @@ public:
 
 class incmdSelectShapesByRegion : public incmdCreateObj<RECTANGLE>
 {
-	
 public:
         incmdSelectShapesByRegion(ObjectPoolSandboxPtr r, IObjectPoolPtr s ):incmdCreateObj<RECTANGLE>(r,s) {
                 m_first_click = true;
-                m_se = Selection::get_instance();
-            
         }
 
         virtual std::string get_name() {
@@ -173,7 +171,7 @@ public:
             if ( ev == MC ) { 
                 if ( m_first_click ) {
                     m_first_click = false;
-                    m_se->clear();
+                    Selection::getInstance().clear();
                 }
                 
                 incmdCreateObj<RECTANGLE>::idle(ev);

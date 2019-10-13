@@ -19,7 +19,6 @@
 
 #include <cassert>
 
-command_manager* command_manager::m_instance = 0;
 ///FIXME ????
 //int dicmdQaCanvasCompare::n_index = 0;
 
@@ -54,7 +53,11 @@ void command_manager::init() {
     register_command(new dicmdCanvasOrigin<PANUP>);
     register_command(new dicmdCanvasViewport<ZOOMIN>);
     register_command(new dicmdCanvasViewport<ZOOMOUT>);
-
+    register_command(new dicmdQaReplyingBreak);
+    register_command(new dicmdQaReplyingResume);
+    register_command(new dicmdQaReplyStep);
+   
+    m_current_command = m_idle_command;
 }
 
 void command_manager::set_idle_command(CommandBase* cmd) 
