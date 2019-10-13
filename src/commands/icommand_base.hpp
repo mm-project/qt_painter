@@ -69,9 +69,11 @@ class CommandBase : public ICommand
         //FIXME should not be here !!!
         virtual void handle_mouse_click(int,int) {}
         virtual void handle_mouse_dblclick(int,int) {}
+        virtual void handle_mouse_release(int,int) {}
         virtual void handle_mouse_move(int,int) {}
         virtual void handle_key_press() {}
         virtual void handle_update() {}
+        
 
         //CommandManager* cm() {
         //    return m_cm;

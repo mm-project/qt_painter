@@ -1,0 +1,84 @@
+#i --> Info: Welcome to this project. Feel free to expirment. 
+dicmdguiClickButton -object mw/65/70/Home/qt_tabwidget_tabbar 
+dicmdguiClickButton -object 0x104:Ellipse 
+incmdCreateObjEllipse
+dicmdCanvasMouseClick -point (241,92) 
+dicmdCanvasMouseClick -point (395,175) 
+#o --> Out: dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(241,92);(395,175)} 
+dicmdCanvasMouseClick -point (340,140) 
+dicmdCanvasMouseClick -point (464,203) 
+#o --> Out: dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(340,140);(464,203)} 
+dicmdCanvasMouseClick -point (433,177) 
+dicmdCanvasMouseClick -point (548,208) 
+#o --> Out: dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(433,177);(548,208)} 
+dicmdCanvasMouseClick -point (418,88) 
+dicmdCanvasMouseClick -point (546,138) 
+#o --> Out: dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(418,88);(546,138)} 
+dicmdCanvasMouseClick -point (499,123) 
+dicmdCanvasMouseClick -point (586,172) 
+#o --> Out: dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(499,123);(586,172)} 
+dicmdCanvasMouseClick -point (581,170) 
+dicmdCanvasMouseClick -point (506,211) 
+#o --> Out: dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(581,170);(506,211)} 
+dicmdguiClickButton -object mw/65/70/Home/qt_tabwidget_tabbar 
+dicmdguiClickButton -object 0x107:Region 
+dicmdAbortActiveCommand 
+incmdSelectShapesByRegion
+dicmdCanvasMouseClick -point (223,46) 
+dicmdCanvasMouseClick -point (422,211) 
+#o --> Out: dicmdSelectShapesByRegion -end (422,211) -start (223,46) 
+dicmdAbortActiveCommand 
+incmdObjRelocateByMove
+dicmdCanvasMouseClick -point (384,177) 
+dicmdguiSelectRadioButton -object 0x109:qradiobutton_175 
+dicmdguiClickButton -object 0x109:qradiobutton_175 
+dicmdguiSelectRadioButton -object 0x109:qradiobutton_177 
+dicmdguiClickButton -object 0x109:qradiobutton_177 
+dicmdguiSelectRadioButton -object 0x110:qradiobutton_190 
+dicmdguiClickButton -object 0x110:qradiobutton_190 
+dicmdguiSelectRadioButton -object 0x110:qradiobutton_192 
+dicmdguiClickButton -object 0x110:qradiobutton_192 
+dicmdCanvasMouseClick -point (719,112) 
+#o --> Out: dicmdObjRelocateByMove -to_point (719,112) 
+dicmdguiClickButton -object mw/65/70/Home/qt_tabwidget_tabbar 
+dicmdCanvasMouseClick -point (340,131) 
+#o --> Out: dicmdObjRelocateByMove -to_point (340,131) 
+incmdObjRelocateByMove
+incmdSelectShapesByRegion
+dicmdCanvasMouseClick -point (329,119) 
+dicmdCanvasMouseClick -point (386,160) 
+incmdObjRelocateByMove
+#o --> Out: dicmdSelectShapesByRegion -end (386,160) -start (329,119) 
+dicmdCanvasMouseClick -point (350,141) 
+dicmdCanvasMouseClick -point (630,106) 
+#o --> Out: dicmdObjRelocateByMove -to_point (630,106) 
+dicmdCanvasMouseClick -point (391,39) 
+#o --> Out: dicmdObjRelocateByMove -to_point (391,39) 
+dicmdguiClickButton -object mw/65/70/Home/qt_tabwidget_tabbar 
+dicmdguiClickButton -object 0x107:Point 
+incmdSelectUnderCursoer
+dicmdCanvasMouseClick -point (291,82) 
+dicmdCanvasMouseClick -point (305,141) 
+incmdObjRelocateByMove
+dicmdCanvasMouseClick -point (306,141) 
+dicmdCanvasMouseClick -point (634,129) 
+#o --> Out: dicmdObjRelocateByMove -to_point (634,129) 
+dicmdCanvasMouseClick -point (397,106) 
+#o --> Out: dicmdObjRelocateByMove -to_point (397,106) 
+dicmdguiClickButton -object 0x107:Region 
+incmdSelectShapesByRegion
+dicmdCanvasMouseClick -point (376,97) 
+dicmdCanvasMouseClick -point (487,217) 
+#o --> Out: dicmdSelectShapesByRegion -end (487,217) -start (376,97) 
+dicmdAbortActiveCommand 
+incmdObjRelocateByMove
+dicmdCanvasMouseClick -point (465,182) 
+dicmdCanvasMouseClick -point (910,119) 
+#o --> Out: dicmdObjRelocateByMove -to_point (910,119) 
+dicmdguiClickButton -object mw/5/10/Console/qt_tabwidget_tabbar 
+dicmdCanvasMouseClick -point (991,202) 
+#o --> Out: dicmdObjRelocateByMove -to_point (991,202) 
+dicmdCanvasMouseClick -point (363,91) 
+#o --> Out: dicmdObjRelocateByMove -to_point (363,91) 
+dicmdCanvasMouseClick -point (502,137) 
+#o --> Out: dicmdObjRelocateByMove -to_point (502,137) 

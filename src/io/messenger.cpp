@@ -61,6 +61,9 @@ std::string Messenger::decorate_for_logging(const LogMsgSeverity& r) {
                 case ok:
                         return("");
                         break;
+                case log:
+                        return("#r ");
+                        break;
                 case usr:
                         return("#u --> User: ");
                         break;
@@ -152,7 +155,11 @@ void Messenger::expose_msg(const LogMsgSeverity& s, const std::string& msg, bool
 //static used by CommandBase internally , fixme add friend		
 void Messenger::log_command(const std::string& msg, bool iscmd) 
 {
-	Messenger::expose_msg(ok,msg,iscmd);	
+    //if(! Application::is_replay_mode())	
+        Messenger::expose_msg(ok,msg,iscmd);
+    //else
+    //    Messenger::expose_msg(log,msg,iscmd);
+        
 }
 
 //Messenger::expose(err,"Error: ... ")

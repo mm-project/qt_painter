@@ -18,6 +18,16 @@ class ObjCreatorCommandBase : public InteractiveCommandBase
 {
 	LePostman& m_postman = LePostman::getInstance();
 
+private:
+	IObjectPoolPtr ws;
+	controller* m_controller; 
+        IShape* m_rt_shape;
+        std::vector<PointCommandOptionValue> m_internal_vec;
+	LePostman* m_postman;
+
+protected:    
+	ObjectSandboxPtr re;
+	
 public:
 	ObjCreatorCommandBase<T>(ObjectPoolSandboxPtr r, IObjectPoolPtr s): ws(s) 
 	{
@@ -100,7 +110,6 @@ private:
 	controller& m_controller = controller::getInstance(); 
 	IShape* m_rt_shape = nullptr;;
 	std::vector<PointCommandOptionValue> m_internal_vec;
-
 };
 
 // produces commands for creating shape by given obj change_object_type

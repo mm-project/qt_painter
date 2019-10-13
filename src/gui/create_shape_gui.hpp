@@ -35,6 +35,8 @@ private:
 	void build_brush_and_fill(QRibbonWidget*);
 	void build_selection(QRibbonWidget*);
 	void buildToolButtons(QRibbonWidget*);
+        
+        void notify_controller_change();
 
 private slots:
 	void createShape(int);
@@ -60,6 +62,8 @@ signals:
 	void createEllipse();
 	void createPolygon();
 	void deleteShape();
+	void copyShape();
+	void moveShape();
 	void abord();
 
 	void something_changed();

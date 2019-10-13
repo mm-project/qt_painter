@@ -103,19 +103,16 @@ class renderer
             
     private:
         QPainter* m_qt_painter;
-	bool m_need_draw_clicked = false;
-        //bool clicked = false;
-        int c_cursor_x = 0;
-        int c_cursor_y = 0;
         IObjectPoolPtr m_working_set;
         ObjectPoolSandboxPtr m_sandbox;
-        int m_scale = 15;
-        int m_pan_step = 15;
+        int m_scale = 30;
+        int m_pan_step = 10;
         QPoint m_origin_point = {0,0};
+        QPoint m_old_origin_point = {0,0};
         bool m_need_adjustment = false;
         QRect* m_users_pov_rect;
- 	
         QWidget* m_plane;
+
 };
 
 #endif

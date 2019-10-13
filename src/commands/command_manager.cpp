@@ -7,10 +7,14 @@
 #include "selection_commands.hpp"
 #include "qa_commands.hpp"
 #include "canvas_commands.hpp"
+#include "copy_move_commands.hpp"
 
 #include "../core/postman.hpp"
 #include "../core/callback.hpp"
 #include "../core/renderer.hpp"
+
+#include "../gui/statusbar_manager.hpp"
+#include "../gui/main_window.hpp"
 
 
 #include <cassert>
@@ -52,11 +56,17 @@ void command_manager::init() {
     register_command(new dicmdQaReplyingBreak);
     register_command(new dicmdQaReplyingResume);
     register_command(new dicmdQaReplyStep);
-    
-    
+   
     m_current_command = m_idle_command;
 }
 
+void command_manager::set_idle_command(CommandBase* cmd) 
+{
+    m_idle_command = cmd;
+    m_current_command = m_idle_command;  
+    activate_command(m_current_command);
+    //std::cout << "idle is: " <<  m_idle_command << std::endl;
+}
 
 CommandBase* command_manager::find_command(const std::string& cmd_name) {
     //FIXME if non , put error and return idle_command
@@ -70,7 +80,7 @@ void command_manager::register_command(CommandBase* cmd) {
     //std::cout << "RegCmd: " << cmd->get_name() << "---" << m_name2command[cmd->get_name()]  << std::endl;
 }
 
-void command_manager::activate_command(CommandBase* cmd) {
+void command_manager::activate_command(CommandBase* cmd, bool needlog) {
     //FIXME crashes obviously
     //delete m_current_command;
     
@@ -84,8 +94,10 @@ void command_manager::activate_command(CommandBase* cmd) {
     //        not dummy
     //else
     //        dummy
-            
-    m_current_command->execute_and_log();
+    if ( needlog )        
+        m_current_command->execute_and_log();
+    else
+        m_current_command->execute();
 }
 
 CommandBase* command_manager::get_active_command() {
@@ -93,6 +105,7 @@ CommandBase* command_manager::get_active_command() {
 }
 
 bool command_manager::is_idle() {
+    return false;
     return ( m_current_command == m_idle_command );
 }
 
@@ -110,7 +123,10 @@ void command_manager::disactivate_active_command() {
 void command_manager::return_to_idle() {
     //std::cout << "(cm) back to idle" << std::endl;
     //delete m_last_command;
+    StatusBarManager::getInstance().updateStatusBar("Idle.",1,0);
     m_current_command = m_idle_command;
+    dynamic_cast<main_window*>(m_main_widget)->onCommandDiscard();
+    m_main_widget->update();
 }
 
 //FIXME by keeping wrapper to function 
@@ -166,7 +182,14 @@ void command_manager::mouse_clicked(int x, int y) {
 }
 
 void command_manager::mouse_moved(int x, int y) {
+    //std::cout << "current commdn is: " <<  m_current_command << std::endl;
     m_current_command->handle_mouse_move(x/m_kx-m_dx,y/m_ky-m_dy);
+}
+
+
+void command_manager::mouse_released(int x, int y) {
+    std::cout << "current commdn is: " <<  m_current_command << std::endl;
+    m_current_command->handle_mouse_release(x/m_kx-m_dx,y/m_ky-m_dy);
 }
 
 //FIXME interface?
@@ -175,7 +198,7 @@ void command_manager::key_pressed() {
 }
 
 //FIXME interface?
-void command_manager::update() {
+void command_manager::update_tookplace() {
      m_current_command->handle_update();
 }
 

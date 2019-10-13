@@ -4,6 +4,7 @@
 #include "iobject_pool.hpp"
 #include "runtime_environment.hpp"
 #include "working_set.hpp"
+#include "callback.hpp"
 #include "service.hpp"
 
 #include <QPoint>
@@ -33,8 +34,9 @@ public:
         void highlightselect_shape_under_pos(const QPoint& p );
         void highlight_shape_under_pos(const QPoint& p );
         void select_shape_under_pos(const QPoint& p );
-        void highlight_last_selected_region(bool);
-          
+private:
+        void on_controller_update(LeCallbackData&);
+        void highlight_last_selected_region(bool);          
 };
 
 

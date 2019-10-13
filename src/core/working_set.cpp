@@ -9,9 +9,15 @@ IShape* WorkingSet::addObject(IShape* s)
 {
 	auto obj = s->clone();
 	m_shapes.push_back(obj);
+  m_clone2original[obj] = s;
 	return obj;
 }
 
+IShape* WorkingSet::get_clonee(IShape* s) 
+{
+    return m_clone2original[s];
+}
+ 
 std::vector<IShape*> WorkingSet::getObjects() const
 {
         return m_shapes;
