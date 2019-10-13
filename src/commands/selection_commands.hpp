@@ -16,7 +16,7 @@
 
 class incmdSelectUnderCursoer: public InteractiveCommandBase
 {
-        Selection* m_se;
+        Selection& m_se = Selection::getInstance();;
         bool m_move_mode = false;
         ObjectSandboxPtr m_sb;
         ObjectPoolSandboxPtr m_re;
@@ -27,13 +27,11 @@ class incmdSelectUnderCursoer: public InteractiveCommandBase
 public:
 	
         incmdSelectUnderCursoer(ObjectPoolSandboxPtr r, IObjectPoolPtr s ):m_ws(s),m_re(r) {
-			m_se = Selection::get_instance();
-            m_sb = std::shared_ptr<ObjectSandbox>(new ObjectSandbox);
-            m_re->addChildren(m_sb);
+                m_sb = std::shared_ptr<ObjectSandbox>(new ObjectSandbox);
+                m_re->addChildren(m_sb);
+        }
 
-		}
-
-		virtual void abort() {
+        virtual void abort() {
         //FIXME now what?
         }
 
@@ -48,7 +46,7 @@ public:
 		void on_idle(const EvType& ev) {
 			if ( ev == MM )
                     if ( ! m_move_mode ) 
-                        m_se->highlight_shape_under_pos(InteractiveCommandBase::get_last_point());
+                        m_se.highlight_shape_under_pos(InteractiveCommandBase::get_last_point());
                     else 
                          move_selected_to_point(InteractiveCommandBase::get_last_point());
             else if ( ev == MC ) 
@@ -60,8 +58,8 @@ public:
     private:
         void on_click() {
              m_move_mode=true;
-             m_se->highlightselect_shape_under_pos(InteractiveCommandBase::get_last_point());
-             for ( auto it : m_se->getObjects() )
+             m_se.highlightselect_shape_under_pos(InteractiveCommandBase::get_last_point());
+             for ( auto it : m_se.getObjects() )
                 m_sb->addObject(it);
 
         }
@@ -94,9 +92,9 @@ public:
 
         virtual void execute() {
                 m_reg = std::make_pair<QPoint,QPoint>( GET_CMD_ARG(PointCommandOptionValue,"-start"), GET_CMD_ARG(PointCommandOptionValue,"-end"));
-                Selection::get_instance().clear();
-                Selection::get_instance().find_and_highlightselect_shapes_from_region(m_reg);
-                if ( ! Selection::get_instance().getObjects().empty() ) {
+                Selection::getInstance().clear();
+                Selection::getInstance().find_and_highlightselect_shapes_from_region(m_reg);
+                if ( ! Selection::getInstance().getObjects().empty() ) {
                     LeCallbackData d;
                     NOTIFY(OBJECT_SELECTED,d);
                 }
@@ -142,7 +140,7 @@ public:
         }
         
         virtual void on_commit_internal() {
-            //m_se->find_by_range_and_add_to_selected(m_reg);
+            //m_se.find_by_range_and_add_to_selected(m_reg);
             dicmdSelectShapesByRegion(m_reg.first,m_reg.second).silent_execute();
             incmdCreateObj<RECTANGLE>::finish();
             if ( InteractiveCommandBase::is_auto_repeating() )
@@ -215,8 +213,8 @@ public:
         }
         
         virtual void execute() {
-                m_se = Selection::get_instance();
-                m_se->clear();
+                m_se = Selection::getInstance();
+                m_se.clear();
                 ObjCreatorCommandBase<RECTANGLE>::set_next_handler(HANDLE_FUNCTION(incmdSelectShapesByRegion,on_idle));
         }
         
@@ -236,7 +234,7 @@ public:
                 if ( ev != MC )
                         return;
                 
-                m_se->clear();
+                m_se.clear();
                 m_reg.first = InteractiveCommandBase::get_last_point();
                 set_next_handler(HANDLE_FUNCTION(incmdSelectShapesByRegion,on_first_click));
         }
@@ -251,7 +249,7 @@ public:
         
         void on_finish(const EvType&) {
                 //std::cout << "interactive command COMMIT..." << std::endl;
-                m_se->find_by_range_and_add_to_selected(m_reg);
+                m_se.find_by_range_and_add_to_selected(m_reg);
                 set_next_handler(HANDLE_FUNCTION(incmdSelectShapesByRegion,on_idle));
         }
 };

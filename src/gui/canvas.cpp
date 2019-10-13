@@ -31,7 +31,7 @@
 #define INCMD_CREATE_OBJ(S) incmdCreateObj<S>(m_sandbox, m_working_set)
 #define INCMD_CREATE_OBJ_POLYGON(N) incmdCreateNthgon<N>(m_sandbox, m_working_set)
 #define INCMD_HIGHLIGHT_BY_REGION incmdSelectShapesByRegion(m_sandbox, m_working_set)
-#define INCMD_HIGHLIGHT_BY_POINT incmdSelectUnderCursoer()
+#define INCMD_HIGHLIGHT_BY_POINT incmdSelectUnderCursoer(m_sandbox, m_working_set)
 
 canvas::canvas(QWidget* p)
         : QWidget(p), is_runtime_mode(false)
@@ -80,8 +80,8 @@ canvas::canvas(QWidget* p)
     cm.register_command(new dicmdObjRelocateBy<COPY>(m_working_set));
     cm.register_command(new incmdObjRelocateBy<MOVE>(m_sandbox,m_working_set));
     cm.register_command(new incmdObjRelocateBy<COPY>(m_sandbox,m_working_set));
-    //cm->set_idle_command(cm->find_command("incmdSelectUnderCursoer"));
-    cm.set_idle_command(new INCMD_HIGHLIGHT_BY_POINT);
+    cm.set_idle_command(cm.find_command("incmdSelectUnderCursoer"));
+    //cm.set_idle_command(new INCMD_HIGHLIGHT_BY_POINT);
   }
 
 
@@ -97,11 +97,11 @@ void canvas::keyPressEvent(QKeyEvent* ev) {
         //if ( ev->key() == Qt::Key_1 )  cm.find_command("dicmdQaCompareCanvas")->execute();
         //better handling
         if ( ev->key() == Qt::Key_M )  
-             cm->activate_command(cm->find_command("incmdObjRelocateByMove"));
+             cm.activate_command(cm.find_command("incmdObjRelocateByMove"));
         else if ( ev->key() == Qt::Key_C )  
-             cm->activate_command(cm->find_command("incmdObjRelocateByCopy"));        
+             cm.activate_command(cm.find_command("incmdObjRelocateByCopy"));        
         else if ( ev->key() == Qt::Key_2 ) 
-            cm->find_command("dicmdQaCompareSelection")->execute_and_log();
+            cm.find_command("dicmdQaCompareSelection")->execute_and_log();
         else if ( ev->key() == Qt::Key_Z ) 
             m_renderer->zoomout_p(m_last_cursor);
         else if ( ev->key() == Qt::Key_X ) 
@@ -115,7 +115,7 @@ void canvas::keyPressEvent(QKeyEvent* ev) {
         else if ( ev->key() == Qt::Key_Right )
             m_renderer->pan(PANRIGHT);
         else if ( ev->key() == Qt::Key_Escape )
-           cm->disactivate_active_command();
+           cm.disactivate_active_command();
         else if ( ev->key() == Qt::Key_Q )
            cm.find_command("dicmdQaReplyingBreak")->execute_and_log();
         else if ( ev->key() == Qt::Key_W )
@@ -190,7 +190,7 @@ void canvas::mouseDoubleClickEvent(QMouseEvent* e)
 
 void canvas::mouseReleaseEvent(QMouseEvent* e)
 {
-    cm->mouse_released(e->pos().x(),e->pos().y());
+    cm.mouse_released(e->pos().x(),e->pos().y());
     //dicmdCanvasMouseDblClick(e->pos()).log();
     update();
 }
@@ -259,12 +259,12 @@ void canvas::invoke_delete()
 
 void canvas::abordCommand()
 {
-  cm.activate_command(cm->find_command("dicmdAbortActiveCommand"));
+  cm.activate_command(cm.find_command("dicmdAbortActiveCommand"));
 }
 
 void canvas::invoke_copy()
 {
-  cm.activate_command(cm->find_command("incmdObjRelocateByCopy"));
+  cm.activate_command(cm.find_command("incmdObjRelocateByCopy"));
 }
 
 void canvas::invoke_move()

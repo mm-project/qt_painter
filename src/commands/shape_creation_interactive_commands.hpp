@@ -17,16 +17,6 @@ template <ObjectType T>
 class ObjCreatorCommandBase : public InteractiveCommandBase 
 {
 	LePostman& m_postman = LePostman::getInstance();
-
-private:
-	IObjectPoolPtr ws;
-	controller* m_controller; 
-        IShape* m_rt_shape;
-        std::vector<PointCommandOptionValue> m_internal_vec;
-	LePostman* m_postman;
-
-protected:    
-	ObjectSandboxPtr re;
 	
 public:
 	ObjCreatorCommandBase<T>(ObjectPoolSandboxPtr r, IObjectPoolPtr s): ws(s) 

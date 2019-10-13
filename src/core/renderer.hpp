@@ -110,8 +110,12 @@ class renderer
         QPoint m_origin_point = {0,0};
         QPoint m_old_origin_point = {0,0};
         bool m_need_adjustment = false;
-        QRect* m_users_pov_rect;
         QWidget* m_plane;
+        int c_cursor_x = 0;
+        int c_cursor_y = 0;
+	bool m_need_draw_clicked = false;
+        QRect* m_users_pov_rect;
+       
 
 };
 

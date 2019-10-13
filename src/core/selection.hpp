@@ -34,7 +34,7 @@ public:
         void highlightselect_shape_under_pos(const QPoint& p );
         void highlight_shape_under_pos(const QPoint& p );
         void select_shape_under_pos(const QPoint& p );
-private:
+//private:
         void on_controller_update(LeCallbackData&);
         void highlight_last_selected_region(bool);          
 };

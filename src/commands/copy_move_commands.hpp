@@ -52,7 +52,7 @@ public:
 	{      
                 //RegionQuery& rq = RegionQuery::getInstance();
                 QPoint p(GET_CMD_ARG(PointCommandOptionValue,"-to_point"));
-                for ( auto it : Selection::get_instance()->getObjects() ) 
+                for ( auto it : Selection::getInstance().getObjects() ) 
                     it->moveCenterToPoint(p);
                     //m_workingSet->get_clonee(it)->moveCenterToPoint(p);
 	}
@@ -69,15 +69,13 @@ class incmdObjRelocateBy : public InteractiveCommandBase
         ObjectSandboxPtr m_sb;
         ObjectPoolSandboxPtr m_re;
         IObjectPoolPtr m_ws;
-        Selection* m_se;
-        command_manager* m_cm;
+        Selection& m_se = Selection::getInstance();
+        command_manager& m_cm = command_manager::getInstance();
         LeCallback* m_sel_cb = nullptr;
 public:
 	
         incmdObjRelocateBy<T>(ObjectPoolSandboxPtr r, IObjectPoolPtr s ):m_ws(s),m_re(r)
         {
-                m_cm = command_manager::get_instance();
-                m_se = Selection::get_instance();
                 m_sb = std::shared_ptr<ObjectSandbox>(new ObjectSandbox);
                 m_re->addChildren(m_sb);
                 //LeCallback cb = 
@@ -107,16 +105,16 @@ private:
                 }
                 
                 dicmdObjRelocateBy<T>(m_ws,InteractiveCommandBase::get_lastclk_point()).silent_execute();
-                m_se->clear();
+                m_se.clear();
                 abort_internal();
         }
 
         void abort_internal() {
                 StatusBarManager::getInstance().updateStatusBar("",1,0);
                 m_sb->clear();
-                //m_se->clear();
-                //m_cm->return_to_idle();
-                //m_cm->disactivate_active_command();
+                //m_se.clear();
+                //m_cm.return_to_idle();
+                //m_cm.disactivate_active_command();
                 std::cout << "abort2" << std::endl;
         }
     
@@ -128,7 +126,7 @@ private:
  //command cycles
  private:    
         void on_object_selected(LeCallbackData&) {
-                m_cm->activate_command(this);
+                m_cm.activate_command(this);
                 if (m_sel_cb)
                     m_sel_cb->purge();
                 idle(OTHER);
@@ -138,19 +136,19 @@ private:
         void idle(const EvType& ev) {
                 std::cout << "COPYMOVE IDLE" << std::endl;
                 // no selection, invoke selectbyregion to select object firsts
-                if ( m_se->getObjects().empty() ) {
+                if ( m_se.getObjects().empty() ) {
                     LeCallback cb = REGISTER_CALLBACK(OBJECT_SELECTED,&incmdObjRelocateBy<T>::on_object_selected);
                     if (! m_sel_cb )
                         m_sel_cb = new LeCallback(cb);
-                    CommandBase* cmd = m_cm->find_command("incmdSelectShapesByRegion");
+                    CommandBase* cmd = m_cm.find_command("incmdSelectShapesByRegion");
                     dynamic_cast<InteractiveCommandBase*>(cmd)->set_auto_repeat(false);
-                    m_cm->activate_command(cmd,false);
+                    m_cm.activate_command(cmd,false);
                     dynamic_cast<InteractiveCommandBase*>(cmd)->set_auto_repeat(true);
                     return;
                 }
                 
                 StatusBarManager::getInstance().updateStatusBar("Click on shape and move mouse to perform action",1,0);
-                for ( auto it : m_se->getObjects() )
+                for ( auto it : m_se.getObjects() )
                     m_sb->addObject(it);
 
                 set_next_handler(HANDLE_FUNCTION(incmdObjRelocateBy<T>,wait_for_first_click));
@@ -168,10 +166,10 @@ private:
                     move_runtimes_to_point(InteractiveCommandBase::get_last_point());
                     
                 if ( ev == MC ) {
-                    if ( m_se->getObjects().empty() )
+                    if ( m_se.getObjects().empty() )
                         on_commit();
                     else
-                        m_cm->return_to_idle();
+                        m_cm.return_to_idle();
                 }
         }
 
