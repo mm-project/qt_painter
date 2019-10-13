@@ -101,7 +101,9 @@ private:
         void commit() {
                 for ( auto it: m_sb->getPool()->getObjects() ) {
                     m_ws->addObject(it);
-                    if ( T == MOVE ) m_ws->removeObject(it); //m_ws->removeObject(dynamic_cast<WorkingSet*>(m_ws.get())->get_clonee(it));
+                    //if ( T == MOVE ) m_ws->removeObject(it); //m_ws->removeObject(dynamic_cast<WorkingSet*>(m_ws.get())->get_clonee(it));
+                    RegionQuery& rq = RegionQuery::getInstance();
+                    rq.insertObject(it);
                 }
                 
                 dicmdObjRelocateBy<T>(m_ws,InteractiveCommandBase::get_lastclk_point()).silent_execute();
@@ -166,7 +168,7 @@ private:
                     move_runtimes_to_point(InteractiveCommandBase::get_last_point());
                     
                 if ( ev == MC ) {
-                    if ( m_se.getObjects().empty() )
+                    if ( ! m_se.getObjects().empty() )
                         on_commit();
                     else
                         m_cm.return_to_idle();

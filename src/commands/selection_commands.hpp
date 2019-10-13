@@ -16,22 +16,22 @@
 
 class incmdSelectUnderCursoer: public InteractiveCommandBase
 {
-        Selection& m_se = Selection::getInstance();;
         bool m_move_mode = false;
+        bool m_shape_added = false;
         ObjectSandboxPtr m_sb;
         ObjectPoolSandboxPtr m_re;
         IObjectPoolPtr m_ws;
-        command_manager* m_cm;
+        command_manager& m_cm = command_manager::getInstance();
+        Selection& m_se = Selection::getInstance();
+
         LeCallback* m_sel_cb;
 
 public:
 	
         incmdSelectUnderCursoer(ObjectPoolSandboxPtr r, IObjectPoolPtr s ):m_ws(s),m_re(r) {
-                m_sb = std::shared_ptr<ObjectSandbox>(new ObjectSandbox);
-                m_re->addChildren(m_sb);
         }
 
-        virtual void abort() {
+		virtual void abort() {
         //FIXME now what?
         }
 
@@ -40,27 +40,48 @@ public:
         }
         
         virtual void execute() {
-			InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer,on_idle));
-		}
+                    m_sb = std::shared_ptr<ObjectSandbox>(new ObjectSandbox);
+                    m_re->addChildren(m_sb);
+                    InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer,on_idle));
+        }
 		
-		void on_idle(const EvType& ev) {
-			if ( ev == MM )
-                    if ( ! m_move_mode ) 
-                        m_se.highlight_shape_under_pos(InteractiveCommandBase::get_last_point());
-                    else 
-                         move_selected_to_point(InteractiveCommandBase::get_last_point());
+        void on_idle(const EvType& ev) {
+            if ( ev == MM )
+                if ( ! m_move_mode ) 
+                    m_se.highlight_shape_under_pos(InteractiveCommandBase::get_last_point());
+                else 
+                    move_selected_to_point(InteractiveCommandBase::get_last_point());
             else if ( ev == MC ) 
                    on_click();
             else if ( ev == MR )
-                    m_move_mode=false;
-		}
+                    if ( m_move_mode ) {
+                        if (! m_se.getObjects().empty() )
+                            m_ws->removeObject(dynamic_cast<WorkingSet*>((m_ws).get())->get_clonee(m_se.getObjects()[0]));
+                        m_se.clear();
+                        m_move_mode=false;
+                        for ( auto it: m_sb->getPool()->getObjects() ) {
+                                std::cout << "Adding..." << std::endl; 
+                                m_ws->addObject(it);
+                                RegionQuery& rq = RegionQuery::getInstance();
+                                rq.insertObject(it);
+                        }
+                       
+                    }
+            }
 		
     private:
         void on_click() {
-             m_move_mode=true;
-             m_se.highlightselect_shape_under_pos(InteractiveCommandBase::get_last_point());
-             for ( auto it : m_se.getObjects() )
-                m_sb->addObject(it);
+            //if (!m_shape_added) {
+                m_move_mode=true;
+                //if (m_sb)
+                //    m_sb->clear();
+                m_se.highlightselect_shape_under_pos(InteractiveCommandBase::get_last_point());
+                if ( ! m_se.getObjects().empty() )
+                    m_sb->clear();
+                for ( auto it : m_se.getObjects() )
+                    m_sb->addObject(it);
+                //m_shape_added = true;
+            //}
 
         }
         
@@ -70,7 +91,6 @@ public:
                     it->moveCenterToPoint(p);
             }
         }
-
 };
 
 
@@ -108,6 +128,7 @@ public:
 
 class incmdSelectShapesByRegion : public incmdCreateObj<RECTANGLE>
 {
+	
 public:
         incmdSelectShapesByRegion(ObjectPoolSandboxPtr r, IObjectPoolPtr s ):incmdCreateObj<RECTANGLE>(r,s) {
                 m_first_click = true;
@@ -160,7 +181,7 @@ public:
 //helpers
 private:
         std::pair<QPoint,QPoint> m_reg;
-        Selection* m_se;
+        Selection& m_se = Selection::getInstance();
         bool m_first_click;
     
 //command cycle
@@ -169,7 +190,7 @@ public:
             if ( ev == MC ) { 
                 if ( m_first_click ) {
                     m_first_click = false;
-                    Selection::getInstance().clear();
+                    m_se.clear();
                 }
                 
                 incmdCreateObj<RECTANGLE>::idle(ev);
