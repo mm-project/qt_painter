@@ -9,10 +9,10 @@
 IShape* WorkingSet::addObject(IShape* s)
 {
 	assert(s);
-        auto obj = s->clone();
+    auto obj = s->clone();
 	assert(obj);
-            m_shapes.push_back(obj);
-            //m_clone2original[obj] = s;
+    m_shapes.push_back(obj);
+    m_clone2original[obj] = s;
         
 	return obj;
 }

@@ -40,12 +40,11 @@ public:
         }
         
         virtual void execute() {
-                    m_sb = std::shared_ptr<ObjectSandbox>(new ObjectSandbox);
-                    m_re->addChildren(m_sb);
-                    InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer,on_idle));
+            InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer,on_idle));
         }
 		
-        void on_idle(const EvType& ev) {
+        void on_idle(const EvType& ev) 
+        {
             if ( ev == MM )
                 if ( ! m_move_mode ) 
                     m_se.highlight_shape_under_pos(InteractiveCommandBase::get_last_point());
@@ -53,24 +52,28 @@ public:
                     move_selected_to_point(InteractiveCommandBase::get_last_point());
             else if ( ev == MC ) 
                    on_click();
-            else if ( ev == MR )
-                    if ( m_move_mode ) {
-                        if (! m_se.getObjects().empty() )
-                            m_ws->removeObject(dynamic_cast<WorkingSet*>((m_ws).get())->get_clonee(m_se.getObjects()[0]));
-                        m_se.clear();
-                        m_move_mode=false;
-                        for ( auto it: m_sb->getPool()->getObjects() ) {
-                                std::cout << "Adding..." << std::endl; 
-                                m_ws->addObject(it);
-                                RegionQuery& rq = RegionQuery::getInstance();
-                                rq.insertObject(it);
-                        }
-                       
-                    }
-            }
+            else if ( ev == MR &&  m_move_mode )
+                    movement_commit();
+        }
 		
     private:
+        void movement_commit() {
+            if (! m_se.getObjects().empty() )
+                //m_ws->removeObject(dynamic_cast<WorkingSet*>((m_ws).get())->get_clonee(m_se.getObjects()[0]));
+                m_ws->removeObject(m_se.getObjects()[0]);           
+            m_se.clear();
+            m_move_mode=false;
+            for ( auto it: m_sb->getPool()->getObjects() ) {
+                    std::cout << "Adding..." << std::endl; 
+                    m_ws->addObject(it);
+                    RegionQuery& rq = RegionQuery::getInstance();
+                    rq.insertObject(it);
+            }           
+        }
+        
         void on_click() {
+                m_sb = std::shared_ptr<ObjectSandbox>(new ObjectSandbox);
+                m_re->addChildren(m_sb);
             //if (!m_shape_added) {
                 m_move_mode=true;
                 //if (m_sb)
@@ -78,6 +81,7 @@ public:
                 m_se.highlightselect_shape_under_pos(InteractiveCommandBase::get_last_point());
                 if ( ! m_se.getObjects().empty() )
                     m_sb->clear();
+                
                 for ( auto it : m_se.getObjects() )
                     m_sb->addObject(it);
                 //m_shape_added = true;
