@@ -189,10 +189,16 @@ void renderer::draw_objects() {
         int _width = 1/get_zoom_factor()*(m_plane->width());
         int startx = -1*m_origin_point.x(); //m_old_origin_point.x()-m_origin_point.x();
         int starty = -1*m_origin_point.y();
-    
-        RegionQuery& rq = RegionQuery::getInstance();
-        for (auto shape : rq.getShapesUnderRect(QRect(startx,starty,_width,_height)))
-            shape->draw(m_qt_painter);
+
+        if (m_rq_renderer) {
+            RegionQuery& rq = RegionQuery::getInstance();
+            for (auto shape : rq.getShapesUnderRect(QRect(startx,starty,_width,_height)))
+                shape->draw(m_qt_painter);
+        } else {   
+        for (auto i : m_working_set->getObjects())
+                i->draw(m_qt_painter);
+        }
+
 }
 
 void renderer::make_viewport_adjustments() {
@@ -271,5 +277,9 @@ void renderer::render() {
         draw_all();
         stop();
 }
-		
+            
+void renderer::rendering_mode_change() {
+    m_rq_renderer = !m_rq_renderer;
+    std::cout << " RENDERING: " << m_rq_renderer << std::endl;
+}
 		

@@ -58,7 +58,7 @@ void LePostman::notify(const std::string& n, const LeCallbackType& t) {
 void LePostman::notify(const std::string& n, const LeCallbackType& t, LeCallbackData& data) {
     //std::cout << "notify2" << std::endl;
     for( auto it : m_type2vecfun[t] ) {
-        std::cout << n << " function is calling " << it.get_name() << " via  ENUM:" << t << std::endl;
+        //std::cout << n << " function is calling " << it.get_name() << " via  ENUM:" << t << std::endl;
         //std::cout << n << " called to " << " via " << std::endl;
         it.call(data);
     }

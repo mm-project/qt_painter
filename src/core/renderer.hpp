@@ -73,6 +73,8 @@ class renderer
         void zoomout_p(QPoint p); 
         void set_cursor_pos_for_drawing(int,int);
         void click_hint();
+        void rendering_mode_change();
+
             
     private:
         QPainter*  get_painter();
@@ -94,14 +96,13 @@ class renderer
         void draw_cursor();
         void draw_all();
         void draw_all_wno_cursor();
-		
-        
-		
+            
     private:
         float m_scale_factor = 1;
         float m_zoom_factor = 1.1;
             
     private:
+        bool m_rq_renderer = false;
         QPainter* m_qt_painter;
         IObjectPoolPtr m_working_set;
         ObjectPoolSandboxPtr m_sandbox;

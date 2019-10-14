@@ -4,12 +4,16 @@
 #include <QDir>
 #include <QTextStream>
 
+#include <cassert>
 
 IShape* WorkingSet::addObject(IShape* s)
 {
-	auto obj = s->clone();
-	m_shapes.push_back(obj);
-  m_clone2original[obj] = s;
+	assert(s);
+        auto obj = s->clone();
+	assert(obj);
+            m_shapes.push_back(obj);
+            //m_clone2original[obj] = s;
+        
 	return obj;
 }
 

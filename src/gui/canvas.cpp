@@ -102,6 +102,8 @@ void canvas::keyPressEvent(QKeyEvent* ev) {
              cm.activate_command(cm.find_command("incmdObjRelocateByCopy"));        
         else if ( ev->key() == Qt::Key_2 ) 
             cm.find_command("dicmdQaCompareSelection")->execute_and_log();
+        else if ( ev->key() == Qt::Key_1 )
+            m_renderer->rendering_mode_change();
         else if ( ev->key() == Qt::Key_Z ) 
             m_renderer->zoomout_p(m_last_cursor);
         else if ( ev->key() == Qt::Key_X ) 
