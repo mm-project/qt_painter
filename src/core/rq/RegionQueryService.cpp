@@ -29,6 +29,26 @@ void RegionQuery::insertObject(IShape* object)
 	m_tree->insert(obj);
 }
  
+void RegionQuery::removeObject(IShape* object)
+{
+	rq::RQobjectPtr obj;
+	switch (object->getType())
+	{
+	case LINE:
+		obj = std::shared_ptr<rq::IRQobject>(new rq::RQline(object));
+		break;
+	case RECTANGLE:
+		obj = std::shared_ptr<rq::IRQobject>(new rq::RQrect(object));
+		break;
+	case ELLIPSE:
+		obj = std::shared_ptr<rq::IRQobject>(new rq::RQellipse(object));
+		break;
+	case POLYGON:
+		obj = std::shared_ptr<rq::IRQobject>(new rq::RQpolygon(object));
+		break;
+	}
+	m_tree->remove(obj);
+}
 IShape* RegionQuery::getShapeUnderPos(const QPoint& p) const
 {
 	rq::RQobjectPtr obj = m_tree->getObject(rq::CPoint(p));

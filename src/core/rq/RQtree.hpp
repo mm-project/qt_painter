@@ -9,8 +9,7 @@
 #include <iostream>
 #include <iomanip>
 
-namespace rq
-{
+namespace rq {
 //
 //	class RQtree
 //	Implemets kd-tree
@@ -29,7 +28,9 @@ public:
 	explicit RQtree(const std::vector<RQobjectPtr>&);
 
 	//	Destructor
-	virtual ~RQtree() {}
+	virtual ~RQtree()
+	{
+	}
 
 public:
 	//	Insert point into the kd-tree
@@ -37,7 +38,7 @@ public:
 
 	//	Removes point from the kd-tree
 	void remove(const RQobjectPtr&);
-	
+
 	//	Checks if the point already exists in the kd-tree
 	bool search(const RQobjectPtr&) const;
 
@@ -53,7 +54,7 @@ public:
 
 	//	Returns 2 left and right childs
 	std::vector<RQobjectPtr> nearest_points(const RQobjectPtr&) const;
-	
+
 	void clear();
 
 private:
@@ -69,6 +70,10 @@ private:
 	std::vector<RQobjectPtr> _nearest_points(CNodePtr<T>, const RQobjectPtr&, int) const;
 	RQobjectPtr _getObject(CNodePtr<T>, const CPoint& p, int) const;
 	void _getObjects(CNodePtr<T>, const QRect&, int, std::vector<RQobjectPtr>&) const;
+	CNodePtr<T> _remove(CNodePtr<T>&, const RQobjectPtr&, int);
+	void removeChild(CNodePtr<T>&, CNodePtr<T>&, int);
+	CNodePtr<T> findMin(CNodePtr<T>&, int, int) const;
+	CNodePtr<T> findMax(CNodePtr<T>&, int, int) const;
 private:
 	//
 	//	Contents
@@ -99,9 +104,9 @@ void RQtree<T>::insert(const RQobjectPtr& point)
 }
 
 template <typename T>
-void RQtree<T>::remove(const RQobjectPtr&)
+void RQtree<T>::remove(const RQobjectPtr& object)
 {
-
+	_remove(m_root, object, 0);
 }
 
 template <typename T>
@@ -268,6 +273,141 @@ template <typename T>
 void RQtree<T>::clear()
 {
 	m_root = nullptr;
+}
+
+template <typename T>
+CNodePtr<T> RQtree<T>::_remove(CNodePtr<T>& node, const RQobjectPtr& object, int depth)
+{
+	if (node == nullptr)
+		return nullptr;
+
+	int cd = depth % 2;
+
+	//temporary solution, you can improve it
+	if (node->m_right_ptr != nullptr)
+	{
+		if (node->m_right_ptr->m_object->getObject() == object->getObject())
+		{
+			auto ptr = node->m_right_ptr;
+			node->m_right_ptr = nullptr;
+			std::queue<CNodePtr<T>> nodes;
+			if (ptr->m_left_ptr != nullptr)
+				nodes.push(ptr->m_left_ptr);
+			if (ptr->m_right_ptr != nullptr)
+				nodes.push(ptr->m_right_ptr);
+			while (!nodes.empty())
+			{
+				auto p = nodes.front();
+				nodes.pop();
+				insert(p->m_object);
+				if (p->m_left_ptr != nullptr)
+					nodes.push(p->m_left_ptr);
+				if (p->m_right_ptr != nullptr)
+					nodes.push(p->m_right_ptr);
+			}
+			return nullptr;
+		}
+	}
+	else if (node->m_left_ptr != nullptr)
+	{
+		if (node->m_left_ptr->m_object->getObject() == object->getObject())
+		{
+			auto ptr = node->m_left_ptr;
+			node->m_left_ptr = nullptr;
+			std::queue<CNodePtr<T>> nodes;
+			if (ptr->m_left_ptr != nullptr)
+				nodes.push(ptr->m_left_ptr);
+			if (ptr->m_right_ptr != nullptr)
+				nodes.push(ptr->m_right_ptr);
+			while (!nodes.empty())
+			{
+				auto p = nodes.front();
+				nodes.pop();
+				if (p->m_left_ptr != nullptr)
+					nodes.push(p->m_left_ptr);
+				if (p->m_right_ptr != nullptr)
+					nodes.push(p->m_right_ptr);
+			}
+			return nullptr;
+		}
+	}
+
+
+	//if (node->m_object->getObject() == object->getObject() || node->m_object == object)
+	//{
+	//	// delete node
+	//	if (node->m_right_ptr != nullptr)
+	//	{
+	//		auto min = findMin(node->m_right_ptr, cd);
+	//		removeChild(m_root, min, cd);
+	//		return node->m_right_ptr = _remove(node->m_right_ptr, min->m_object, depth + 1);
+	//	}
+	//	else if (node->m_left_ptr != nullptr)
+	//	{
+	//		auto min = findMax(node->m_left_ptr, cd);
+	//		removeChild(m_root, min, cd);
+	//		return node->m_left_ptr = _remove(node->m_left_ptr, min->m_object, depth + 1);
+	//	}
+	//	else
+	//	{
+	//		//delete node;
+	//		return nullptr;
+	//	}
+
+	//}
+
+	if (object->at(cd) < node->m_object->at(cd))
+		return _remove(node->m_left_ptr, object, depth + 1);
+
+	return _remove(node->m_right_ptr, object, depth + 1);
+}
+
+template <typename T>
+CNodePtr<T> RQtree<T>::findMin(CNodePtr<T>& node, int depth, int d) const
+{
+	if (node == nullptr)
+		return nullptr;
+
+	int cd = depth % 2;
+	
+	if (cd == d) {
+		if (node->m_left_ptr == nullptr)
+			return node;
+		return findMin(node->m_left_ptr, depth + 1, d);
+	}
+
+	return findMin(node->m_left_ptr, depth + 1);
+}
+
+template <typename T>
+CNodePtr<T> RQtree<T>::findMax(CNodePtr<T>& node, int depth, int d) const
+{
+	if (node == nullptr)
+		return nullptr;
+
+	if (node->m_right_ptr == nullptr)
+		return node;
+
+	return findMin(node->m_right_ptr, depth + 1);
+}
+
+template <typename T>
+void RQtree<T>::removeChild(CNodePtr<T>& root, CNodePtr<T>& object, int depth)
+{
+	if (object == nullptr || root == nullptr)
+		return;
+
+	if (root->m_right_ptr != nullptr && root->m_right_ptr == object)
+		root->m_right_ptr = nullptr;
+
+	if (root->m_left_ptr != nullptr && root->m_left_ptr == object)
+		root->m_left_ptr = nullptr;
+
+	int cd = depth % 2;
+	if (object->m_object->at(cd) < root->m_object->at(cd))
+		return removeChild(root->m_left_ptr, object, depth + 1);
+
+	return removeChild(root->m_right_ptr, object, depth + 1);
 }
 }
 #endif

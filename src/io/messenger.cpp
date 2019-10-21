@@ -58,37 +58,28 @@ void Messenger::init() {
 std::string Messenger::decorate_for_logging(const LogMsgSeverity& r) {
 	
 	switch (r) {
-                case ok:
-                        return("");
-                        break;
-                case log:
-                        return("#r ");
-                        break;
-                case usr:
-                        return("#u --> User: ");
-                        break;
-                case err:
+		case ok:
+			return("");
+		case log_:
+			return("#r ");
+		case usr:
+			return("#u --> User: ");
+		case err:
 			return("#e --> Error: ");
 			break;
 		case info:
 			return("#i --> Info: ");
-			break;
 		case warn:
 			return("#w --> Warning: ");
-			break;
 		case out:
 			return("#o --> Out: ");
-			break;
-                case cont:
-                        return("#c ");
-                        break;
-                case test:
-                        return("#t --> Test: ");
-                        break;
-                case modal:
-                        return("#m ");
-                        break;                           
-                default:
+		case cont:
+			return("#c ");
+		case test:
+			return("#t --> Test: ");
+		case modal:
+			return("#m ");
+		default:
 			return("#? ");
                         break;
 		}

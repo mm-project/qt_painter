@@ -10,6 +10,7 @@ class RegionQuery : public Service<RegionQuery>
 {
 public:
 	void insertObject(IShape*);
+	void removeObject(IShape*);
 	IShape* getShapeUnderPos(const QPoint&) const;
 	std::vector<IShape*> getShapesUnderRect(const QRect&) const;
 	void clear();
@@ -19,7 +20,6 @@ public:
 
 private:
 	rq::RQtreePtr<IShape> m_tree = nullptr;
-	//rq::RQtreePtr<line> m_tree = nullptr;
 };
 
 #endif
