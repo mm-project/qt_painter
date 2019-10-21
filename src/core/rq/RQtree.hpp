@@ -332,6 +332,30 @@ CNodePtr<T> RQtree<T>::_remove(CNodePtr<T>& node, const RQobjectPtr& object, int
 		}
 	}
 
+	// case wirh root
+	if (m_root->m_object->getObject() == object->getObject())
+	{
+			auto ptr = m_root;
+			m_root = nullptr;
+			std::queue<CNodePtr<T>> nodes;
+			if (ptr->m_left_ptr != nullptr)
+				nodes.push(ptr->m_left_ptr);
+			if (ptr->m_right_ptr != nullptr)
+				nodes.push(ptr->m_right_ptr);
+			while (!nodes.empty())
+			{
+				auto p = nodes.front();
+				nodes.pop();
+				insert(p->m_object);
+				if (p->m_left_ptr != nullptr)
+					nodes.push(p->m_left_ptr);
+				if (p->m_right_ptr != nullptr)
+					nodes.push(p->m_right_ptr);
+			}
+			return nullptr;
+		
+	}
+
 
 	//if (node->m_object->getObject() == object->getObject() || node->m_object == object)
 	//{
