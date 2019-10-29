@@ -1,7 +1,7 @@
 #ifndef event_hpp
 #define event_hpp
 
-enum EvType { MR, MC, MDC, MM, KP, OTHER };
+enum EvType { MR, MP, MC, MDC, MM, KP, OTHER };
 
 
 #endif

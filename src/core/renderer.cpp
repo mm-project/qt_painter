@@ -260,7 +260,8 @@ void renderer::draw_all() {
         draw_background();
         draw_grid();            
         draw_objects();
-        draw_runtime_pools();
+        if ( m_rt_renderer )
+            draw_runtime_pools();
         draw_cursor();
 }
 
@@ -280,6 +281,14 @@ void renderer::render() {
             
 void renderer::rendering_mode_change() {
     m_rq_renderer = !m_rq_renderer;
-    std::cout << " RENDERING: " << m_rq_renderer << std::endl;
+    if ( m_rq_renderer )
+        std::cout << " RENDERING: RQ " << m_rq_renderer << std::endl;
+    else
+        std::cout << " RENDERING: WS " << m_rq_renderer << std::endl;
+        
 }
 		
+void renderer::rendering_rt_mode_change() {
+    m_rt_renderer = !m_rt_renderer;
+    std::cout << " RT RENDERING: " << m_rt_renderer << std::endl;
+}

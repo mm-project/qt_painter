@@ -74,7 +74,7 @@ class renderer
         void set_cursor_pos_for_drawing(int,int);
         void click_hint();
         void rendering_mode_change();
-
+        void rendering_rt_mode_change();
             
     private:
         QPainter*  get_painter();
@@ -103,6 +103,8 @@ class renderer
             
     private:
         bool m_rq_renderer = false;
+        bool m_rt_renderer = true;
+        
         QPainter* m_qt_painter;
         IObjectPoolPtr m_working_set;
         ObjectPoolSandboxPtr m_sandbox;

@@ -23,7 +23,7 @@ class incmdSelectUnderCursoer: public InteractiveCommandBase
         IObjectPoolPtr m_ws;
         command_manager& m_cm = command_manager::getInstance();
         Selection& m_se = Selection::getInstance();
-
+        IShape* m_rt_shape = nullptr;
         LeCallback* m_sel_cb;
 
 public:
@@ -40,6 +40,7 @@ public:
         }
         
         virtual void execute() {
+
             InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer,on_idle));
         }
 		
@@ -58,32 +59,47 @@ public:
 		
     private:
         void movement_commit() {
-            if (! m_se.getObjects().empty() )
+            if ( m_rt_shape == nullptr || m_se.getObjects().empty()  )
+                return;
+            
+            RegionQuery& rq = RegionQuery::getInstance();
+
+            //if (! m_se.getObjects().empty() )
                 //m_ws->removeObject(dynamic_cast<WorkingSet*>((m_ws).get())->get_clonee(m_se.getObjects()[0]));
-                m_ws->removeObject(m_se.getObjects()[0]);           
-            m_se.clear();
+                         
             m_move_mode=false;
             for ( auto it: m_sb->getPool()->getObjects() ) {
                     std::cout << "Adding..." << std::endl; 
                     m_ws->addObject(it);
-                    RegionQuery& rq = RegionQuery::getInstance();
                     rq.insertObject(it);
-            }           
+            }        
+            
+            rq.removeObject(m_rt_shape);            
+            m_ws->removeObject(m_rt_shape);
+            m_rt_shape = nullptr;
+            //m_sb->clear();
+            m_se.clear();
+            m_cm.return_to_idle();
         }
         
         void on_click() {
+                //if (m_move_mode)
+                //    return;
+                
                 m_sb = std::shared_ptr<ObjectSandbox>(new ObjectSandbox);
                 m_re->addChildren(m_sb);
+
             //if (!m_shape_added) {
                 m_move_mode=true;
                 //if (m_sb)
                 //    m_sb->clear();
                 m_se.highlightselect_shape_under_pos(InteractiveCommandBase::get_last_point());
-                if ( ! m_se.getObjects().empty() )
+                if ( ! m_se.getObjects().empty() ) {
                     m_sb->clear();
-                
-                for ( auto it : m_se.getObjects() )
-                    m_sb->addObject(it);
+                    m_rt_shape = m_se.get_clonee(m_se.getObjects()[0]);
+                    for ( auto it : m_se.getObjects() )
+                        m_sb->addObject(it);
+                }
                 //m_shape_added = true;
             //}
 
