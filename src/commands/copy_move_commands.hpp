@@ -16,7 +16,8 @@
 #include <QApplication>
 
 #include <iostream>
-                
+#include <map>
+
 enum relocAction { MOVE, COPY };
 namespace {
     std::string relocAction2string(relocAction x) {
@@ -101,10 +102,12 @@ private:
         void commit() {
                 for ( auto it: m_sb->getPool()->getObjects() ) {
                     m_ws->addObject(it);
-                    //if ( T == MOVE ) m_ws->removeObject(it); //m_ws->removeObject(dynamic_cast<WorkingSet*>(m_ws.get())->get_clonee(it));
                     RegionQuery& rq = RegionQuery::getInstance();
                     rq.insertObject(it);
+                    if ( T == MOVE ) m_ws->removeObject(m_se.get_clonee(m_sb2se[it]));
                 }
+
+                 //m_ws->removeObject(dynamic_cast<WorkingSet*>(m_ws.get())->get_clonee(it));
                 
                 dicmdObjRelocateBy<T>(m_ws,InteractiveCommandBase::get_lastclk_point()).silent_execute();
                 m_se.clear();
@@ -117,12 +120,16 @@ private:
                 //m_se.clear();
                 //m_cm.return_to_idle();
                 //m_cm.disactivate_active_command();
+                m_distances.clear();
+                m_sb2se.clear();
                 std::cout << "abort2" << std::endl;
         }
     
         void move_runtimes_to_point(QPoint p) {
-                for ( auto it: m_sb->getPool()->getObjects() )
-                    it->moveCenterToPoint(p);
+                for ( auto it: m_sb->getPool()->getObjects() ) {
+                    QPoint point(p-m_distances[m_sb2se[it]]);
+                    it->moveCenterToPoint(point);
+                }
         }
  
  //command cycles
@@ -150,14 +157,22 @@ private:
                 }
                 
                 StatusBarManager::getInstance().updateStatusBar("Click on shape and move mouse to perform action",1,0);
-                for ( auto it : m_se.getObjects() )
-                    m_sb->addObject(it);
+                for ( auto it : m_se.getObjects() ) {
+                    IShape* i = m_sb->addObject(it);
+                    m_sb2se[i] = it;
+                }
 
                 set_next_handler(HANDLE_FUNCTION(incmdObjRelocateBy<T>,wait_for_first_click));
         }
         
         void wait_for_first_click(const EvType& ev) {
                if ( ev == MC ) {
+                    m_clicked_point = InteractiveCommandBase::get_lastclk_point();
+                    for ( auto shape: m_se.getObjects() ) {
+                        QPoint diff(m_clicked_point - shape->getPoints()[0]);
+                        std::cout << m_clicked_point.x() << " " << m_clicked_point.y() << "  shape " << shape << " " << shape->getPoints()[0].x() << " " << shape->getPoints()[0].y()  << " diff "<< diff.x() << " " << diff.y() << std::endl;
+                        m_distances[shape] = diff;
+                    }
                     set_next_handler(HANDLE_FUNCTION(incmdObjRelocateBy<T>,act_on_mousemove));
                     StatusBarManager::getInstance().updateStatusBar("Click on desired place to commit action",1,0);
                 }
@@ -168,6 +183,7 @@ private:
                     move_runtimes_to_point(InteractiveCommandBase::get_last_point());
                     
                 if ( ev == MC ) {
+                   
                     if ( ! m_se.getObjects().empty() )
                         on_commit();
                     else
@@ -179,6 +195,10 @@ private:
                 std::cout << "commit!" << std::endl;
                 commit();
         }
+        
+        QPoint m_clicked_point;
+        std::map<IShape*,QPoint> m_distances;
+        std::map<IShape*,IShape*> m_sb2se;
 };
 
 #endif
