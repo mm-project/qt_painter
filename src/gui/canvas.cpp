@@ -1,6 +1,10 @@
 #include "canvas.hpp"
 #include "controller.hpp"
 
+#ifdef NO_RQ
+    #include "../core/rq/RegionQueryService.hpp"
+#endif
+
 #include "../core/shapes.hpp"
 #include "../core/working_set.hpp"
 #include "../core/runtime_environment.hpp"
@@ -48,6 +52,9 @@ canvas::canvas(QWidget* p)
 	m_working_set = std::shared_ptr<WorkingSet>(new WorkingSet);
 	m_sandbox = std::shared_ptr<ObjectPoolSandbox>(new ObjectPoolSandbox);
 	
+#ifdef NO_RQ
+    RegionQuery::getInstance().setWS(m_working_set);
+#endif
 	
 	Selection::getInstance().set_working_set(m_working_set.get());
 	Selection::getInstance().set_sandbox(m_sandbox.get());

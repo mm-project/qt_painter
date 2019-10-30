@@ -2,6 +2,36 @@
 
 #include "rq_object.hpp"
 
+//Fake RQ by just working directly to working set.
+#ifdef NO_RQ
+    RegionQuery::RegionQuery() {}
+    void RegionQuery::insertObject(IShape*) {}
+    void RegionQuery::removeObject(IShape*) {}
+    void RegionQuery::clear() {}
+    void RegionQuery::shutDown() {}
+    
+    void RegionQuery::setWS(IObjectPoolPtr ws) { m_ws = ws; }
+
+    IShape* RegionQuery::getShapeUnderPos(const QPoint& point) const
+    {
+        if (m_ws->getObjects().empty())
+            return nullptr;
+        
+        for(auto shape: m_ws->getObjects()) 
+            if ( shape->contains(point) )
+                return shape;
+        
+        return nullptr;
+    }
+    
+    std::vector<IShape*> RegionQuery::getShapesUnderRect(const QRect&) const
+    {
+        std::vector<IShape*> shapes;
+        return shapes;
+    }
+#endif
+    
+#ifndef NO_RQ
 RegionQuery::RegionQuery()
 {
 	m_tree = std::shared_ptr<rq::RQtree<IShape>> (new rq::RQtree<IShape>());
@@ -81,3 +111,4 @@ void RegionQuery::shutDown()
 {
 	clear();
 }
+#endif

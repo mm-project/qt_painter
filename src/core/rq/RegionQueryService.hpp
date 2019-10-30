@@ -5,6 +5,7 @@
 
 #include "../ishape.hpp"
 #include "../service.hpp"
+#include "../iobject_pool.hpp"
 
 class RegionQuery : public Service<RegionQuery>
 {
@@ -16,8 +17,12 @@ public:
 	void clear();
 	void shutDown() override;
 
-	RegionQuery();
+#ifdef NO_RQ
+    IObjectPoolPtr m_ws;
+    void setWS(IObjectPoolPtr ws);
+#endif
 
+    RegionQuery();
 private:
 	rq::RQtreePtr<IShape> m_tree = nullptr;
 };

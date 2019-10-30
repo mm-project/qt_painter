@@ -133,6 +133,7 @@ public:
 	virtual void draw(QPainter*) = 0;
         
         virtual std::vector<QPoint> getPoints() = 0;
+    virtual bool contains(const QPoint& point) const = 0;   
     
 
 protected:

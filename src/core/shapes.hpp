@@ -51,7 +51,8 @@ public:
         }
 
 	virtual ObjectType getType() const override { return LINE; }
-	
+    virtual bool contains(const QPoint& point) const {}    
+
 	//FIXME need proper fix and member handling
 	virtual std::vector<QPoint> getPoints() { return std::vector<QPoint>(2) =  {m_object.p1(),m_object.p2()}; }
 

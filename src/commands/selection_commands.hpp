@@ -29,6 +29,8 @@ class incmdSelectUnderCursoer: public InteractiveCommandBase
 public:
 	
         incmdSelectUnderCursoer(ObjectPoolSandboxPtr r, IObjectPoolPtr s ):m_ws(s),m_re(r) {
+                m_sb = std::shared_ptr<ObjectSandbox>(new ObjectSandbox);
+                m_re->addChildren(m_sb);
         }
 
 		virtual void abort() {
@@ -68,8 +70,9 @@ public:
                 //m_ws->removeObject(dynamic_cast<WorkingSet*>((m_ws).get())->get_clonee(m_se.getObjects()[0]));
                          
             m_move_mode=false;
+            std::cout << "Adding..." << std::endl; 
+
             for ( auto it: m_sb->getPool()->getObjects() ) {
-                    std::cout << "Adding..." << std::endl; 
                     m_ws->addObject(it);
                     rq.insertObject(it);
             }        
@@ -77,7 +80,7 @@ public:
             rq.removeObject(m_rt_shape);            
             m_ws->removeObject(m_rt_shape);
             m_rt_shape = nullptr;
-            //m_sb->clear();
+            m_sb->clear();
             m_se.clear();
             m_cm.return_to_idle();
         }
@@ -86,9 +89,6 @@ public:
                 //if (m_move_mode)
                 //    return;
                 
-                m_sb = std::shared_ptr<ObjectSandbox>(new ObjectSandbox);
-                m_re->addChildren(m_sb);
-
             //if (!m_shape_added) {
                 m_move_mode=true;
                 //if (m_sb)
