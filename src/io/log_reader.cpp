@@ -120,7 +120,9 @@ void LogReader::replay_cmd(const std::string& cmd_str ) {
 void LogReader::execute_next_command() {
     //return;
     if (m_command_queue.empty()) {
-        reply_stop(fixme);
+        Application::getInstance().set_replay_mode(false);
+        disconnect(m_timer, 0, 0, 0);
+        //reply_stop(fixme);
         return;
     }
     

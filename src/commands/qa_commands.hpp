@@ -115,7 +115,7 @@ class dicmdQaReplyingBreak: public NonTransactionalDirectCommandBase
 
         virtual void execute() {
             LeCallbackData d;
-            NOTIFY(STOP_REPLY,d);
+            //NOTIFY(STOP_REPLY,d);
         }
 };
 

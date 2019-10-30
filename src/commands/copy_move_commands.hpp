@@ -30,19 +30,23 @@ namespace {
 template<relocAction T>
 class dicmdObjRelocateBy : public DirectCommandBase
 {
+        Selection& m_se = Selection::getInstance();
 public:
-	dicmdObjRelocateBy(IObjectPoolPtr ptr, QPoint pos)
-		: m_workingSet(std::dynamic_pointer_cast<WorkingSet>(ptr))
+
+        dicmdObjRelocateBy(IObjectPoolPtr ptr, QPoint fpos, QPoint tpos)
+		: m_ws(std::dynamic_pointer_cast<WorkingSet>(ptr))
 	{
                 //add_option("-from_region",new PointListCommandOptionValue(pl));
-                add_option("-to_point",new PointCommandOptionValue(pos));
+                add_option("-to",new PointCommandOptionValue(tpos));
+                add_option("-from",new PointCommandOptionValue(fpos));                
 	}
 
 	dicmdObjRelocateBy(IObjectPoolPtr ptr)
-		: m_workingSet(std::dynamic_pointer_cast<WorkingSet>(ptr))
+		: m_ws(std::dynamic_pointer_cast<WorkingSet>(ptr))
 	{
                 //add_option("-from_region",new PointListCommandOptionValue(pl));
-                add_option("-to_point",new PointCommandOptionValue());
+                add_option("-to",new PointCommandOptionValue());
+                add_option("-from",new PointCommandOptionValue());                
 	}
 
 	virtual std::string get_name() {
@@ -51,15 +55,25 @@ public:
 
 	virtual void execute() override
 	{      
-                //RegionQuery& rq = RegionQuery::getInstance();
-                QPoint p(GET_CMD_ARG(PointCommandOptionValue,"-to_point"));
-                for ( auto it : Selection::getInstance().getObjects() ) 
-                    it->moveCenterToPoint(p);
-                    //m_workingSet->get_clonee(it)->moveCenterToPoint(p);
+                if ( m_se.getObjects().empty() )
+                    throw 1;
+            //RegionQuery& rq = RegionQuery::getInstance();
+                QPoint dst_p(GET_CMD_ARG(PointCommandOptionValue,"-to"));
+                QPoint src_p(GET_CMD_ARG(PointCommandOptionValue,"-from"));
+                
+                for ( auto it : m_se.getObjects() ) {
+                    if ( T == COPY )
+                        m_ws->addObject(m_se.get_clonee(it));
+                    QPoint p((src_p-it->getPoints()[0])+dst_p);
+                    m_se.get_clonee(it)->moveCenterToPoint(p);
+                    //m_ws->get_clonee(it)->moveCenterToPoint(p);
+                }
+                
+                m_se.clear();
 	}
 
 private:
-	WorkingSetPtr m_workingSet = nullptr;
+	WorkingSetPtr m_ws = nullptr;
 };
 
 
@@ -109,7 +123,7 @@ private:
 
                  //m_ws->removeObject(dynamic_cast<WorkingSet*>(m_ws.get())->get_clonee(it));
                 
-                dicmdObjRelocateBy<T>(m_ws,InteractiveCommandBase::get_lastclk_point()).silent_execute();
+                dicmdObjRelocateBy<T>(m_ws,m_clicked_point,InteractiveCommandBase::get_last_point()).log();
                 m_se.clear();
                 abort_internal();
         }
