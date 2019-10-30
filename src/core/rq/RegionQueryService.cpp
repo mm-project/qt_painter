@@ -14,9 +14,6 @@
 
     IShape* RegionQuery::getShapeUnderPos(const QPoint& point) const
     {
-        if (m_ws->getObjects().empty())
-            return nullptr;
-        
         for(auto shape: m_ws->getObjects()) 
             if ( shape->contains(point) )
                 return shape;
@@ -24,9 +21,19 @@
         return nullptr;
     }
     
-    std::vector<IShape*> RegionQuery::getShapesUnderRect(const QRect&) const
+    std::vector<IShape*> RegionQuery::getShapesUnderRect(const QRect& box) const
     {
         std::vector<IShape*> shapes;
+            for(auto shape: m_ws->getObjects()) {
+                bool contains = true;
+                
+                for(auto point: shape->getPoints())
+                    if (!box.contains(point))
+                        contains = false;
+                
+                if (contains)    
+                    shapes.push_back(shape);
+            }
         return shapes;
     }
 #endif
