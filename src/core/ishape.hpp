@@ -132,9 +132,11 @@ public:
 	virtual IShape* clone() = 0;
 	virtual void draw(QPainter*) = 0;
         
-        virtual std::vector<QPoint> getPoints() = 0;
+    virtual std::vector<QPoint> getPoints() = 0;
+
+    #ifdef NO_RQ
     virtual bool contains(const QPoint& point) const = 0;   
-    
+    #endif
 
 protected:
 	//

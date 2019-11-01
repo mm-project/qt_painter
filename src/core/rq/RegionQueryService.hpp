@@ -5,7 +5,10 @@
 
 #include "../ishape.hpp"
 #include "../service.hpp"
-#include "../iobject_pool.hpp"
+
+#ifdef NO_RQ
+    #include "../iobject_pool.hpp"
+#endif
 
 class RegionQuery : public Service<RegionQuery>
 {
