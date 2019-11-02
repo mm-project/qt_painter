@@ -1,5 +1,6 @@
 cmake_minimum_required (VERSION 3.0)
 project (painter)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(LD_AUX "") 
 set(QTDIR "/usr/lib/x86_64-linux-gnu")
@@ -20,7 +21,7 @@ if (WIN32)
 #linux
 else()
 	set(LD_AUX "dl") 
-	set(CMAKE_CXX_FLAGS "-DNO_RQ -DOS_LINUX -g -fPIC -Wunused-parameter -pipe -std=gnu++17 -frtti -Wall -Wextra -fexceptions -pthread -Wno-unused-function -Wno-unused-variable")
+	set(CMAKE_CXX_FLAGS "-DOS_LINUX -g -fPIC -Wunused-parameter -pipe -std=gnu++17 -frtti -Wall -Wextra -fexceptions -pthread -Wno-unused-function -Wno-unused-variable")
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/linux/)
     #linux64
     if (EXISTS "/usr/include/x86_64-linux-gnu/qt5/")

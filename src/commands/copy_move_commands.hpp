@@ -115,9 +115,8 @@ public:
 private:      
         void commit() {
                 for ( auto it: m_sb->getPool()->getObjects() ) {
-                    m_ws->addObject(it);
                     RegionQuery& rq = RegionQuery::getInstance();
-                    rq.insertObject(it);
+                    rq.insertObject(m_ws->addObject(it));
                     if ( T == MOVE ) m_ws->removeObject(m_se.get_clonee(m_sb2se[it]));
                 }
 
