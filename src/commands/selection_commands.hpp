@@ -23,7 +23,7 @@ class incmdSelectUnderCursoer: public InteractiveCommandBase
         IObjectPoolPtr m_ws;
         command_manager& m_cm = command_manager::getInstance();
         Selection& m_se = Selection::getInstance();
-        IShape* m_rt_shape = nullptr;
+        IShape* m_original_shape = nullptr;
         LeCallback* m_sel_cb;
 
 public:
@@ -61,7 +61,7 @@ public:
 		
     private:
         void movement_commit() {
-            if ( m_rt_shape == nullptr || m_se.getObjects().empty()  )
+            if ( m_original_shape == nullptr || m_se.getObjects().empty()  )
                 return;
             
             RegionQuery& rq = RegionQuery::getInstance();
@@ -73,17 +73,17 @@ public:
             std::cout << "Adding..." << std::endl; 
 
             for ( auto it: m_sb->getPool()->getObjects() ) {
-                    m_ws->addObject(it);
-                    rq.insertObject(it);
+                    rq.insertObject(m_ws->addObject(it));
             }        
             
-            rq.removeObject(m_rt_shape);            
-            m_ws->removeObject(m_rt_shape);
-            m_rt_shape = nullptr;
+            rq.removeObject(m_original_shape);            
+            m_ws->removeObject(m_original_shape);
+            m_original_shape = nullptr;
             m_sb->clear();
             m_se.clear();
             m_cm.return_to_idle();
         }
+        
         
         void on_click() {
                 //if (m_move_mode)
@@ -96,7 +96,7 @@ public:
                 m_se.highlightselect_shape_under_pos(InteractiveCommandBase::get_last_point());
                 if ( ! m_se.getObjects().empty() ) {
                     m_sb->clear();
-                    m_rt_shape = m_se.get_clonee(m_se.getObjects()[0]);
+                    m_original_shape = m_se.get_clonee(m_se.getObjects()[0]);
                     for ( auto it : m_se.getObjects() )
                         m_sb->addObject(it);
                 }
