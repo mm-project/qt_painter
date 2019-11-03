@@ -50,7 +50,7 @@ public:
         {
             if ( ev == MM )
                 if ( ! m_move_mode ) 
-                    m_se.highlight_shape_under_pos(InteractiveCommandBase::get_last_point());
+                    return; //m_se.highlight_shape_under_pos(InteractiveCommandBase::get_last_point());
                 else 
                     move_selected_to_point(InteractiveCommandBase::get_last_point());
             else if ( ev == MC ) 
@@ -93,7 +93,8 @@ public:
                 m_move_mode=true;
                 //if (m_sb)
                 //    m_sb->clear();
-                m_se.highlightselect_shape_under_pos(InteractiveCommandBase::get_last_point());
+                //m_se.highlightselect_shape_under_pos(InteractiveCommandBase::get_last_point());
+                m_se.select_shape_under_pos(InteractiveCommandBase::get_last_point());
                 if ( ! m_se.getObjects().empty() ) {
                     m_sb->clear();
                     m_original_shape = m_se.getObjects()[0];
@@ -131,9 +132,14 @@ public:
         }
 
         virtual void execute() {
+
                 m_reg = std::make_pair<QPoint,QPoint>( GET_CMD_ARG(PointCommandOptionValue,"-start"), GET_CMD_ARG(PointCommandOptionValue,"-end"));
                 Selection::getInstance().clear();
                 Selection::getInstance().find_and_highlightselect_shapes_from_region(m_reg);
+                int count = Selection::getInstance().getObjects().size();
+                std::string msg("Selected "+QString::number(count).toStdString()+" shapes.");
+                StatusBarManager::getInstance().updateStatusBar(msg.c_str(),1,0);
+
                 if ( ! Selection::getInstance().getObjects().empty() ) {
                     LeCallbackData d;
                     NOTIFY(OBJECT_SELECTED,d);
@@ -182,6 +188,7 @@ public:
         
         virtual void on_commit_internal() {
             //m_se.find_by_range_and_add_to_selected(m_reg);
+
             dicmdSelectShapesByRegion(m_reg.first,m_reg.second).silent_execute();
             incmdCreateObj<RECTANGLE>::finish();
             if ( InteractiveCommandBase::is_auto_repeating() )

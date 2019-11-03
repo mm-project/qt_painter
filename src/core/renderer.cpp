@@ -255,7 +255,17 @@ void renderer::draw_cursor() {
 	m_qt_painter->drawPoint(c_cursor_x, c_cursor_y);
 	m_need_draw_clicked = false;
 }
-
+/*
+void renderer::draw_selection_rubberband()
+{
+    QPen p;
+    p.setColor(Qt::red);
+	m_qt_painter->setPen(p);
+	    
+    for ( auto obj: m_se.getObjects() )
+            obj->draw(m_qt_painter);
+}
+*/
 void renderer::draw_all() {
         draw_background();
         draw_grid();            
@@ -270,6 +280,7 @@ void renderer::draw_all_wno_cursor() {
         draw_grid();            
         draw_objects();
         draw_runtime_pools();
+        //draw_selection_rubberband();
 }
 
 void renderer::render() {

@@ -57,7 +57,7 @@ canvas::canvas(QWidget* p)
 #endif
 	
 	Selection::getInstance().set_working_set(m_working_set.get());
-	Selection::getInstance().set_sandbox(m_sandbox.get());
+	//Selection::getInstance().set_sandbox(m_sandbox.get());
 	
 	m_renderer = new renderer(this,m_sandbox,m_working_set);
 	

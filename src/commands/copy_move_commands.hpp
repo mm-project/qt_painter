@@ -102,6 +102,7 @@ public:
 
         virtual void execute() {
                 //set_next_handler(HANDLE_FUNCTION(incmdObjRelocateBy<T>,idle));
+                m_sb->clear();
                 idle(OTHER);
         }
 
@@ -110,34 +111,42 @@ public:
         }
 
         virtual void abort() {
-                //std::cout << "abort!" << std::endl;
-                //abort_internal();
+                std::cout << "abort!" << std::endl;
+                abort_internal();
         }
 
 //helpers
 private:      
         void commit() {
+                RegionQuery& rq = RegionQuery::getInstance();
+    
+                std::cout << "SELECTION" << m_se.getObjects().size() << "   RTSHAPES: " << m_sb->getPool()->getObjects().size() << "\n";
                 for ( auto it: m_sb->getPool()->getObjects() ) {
-                    RegionQuery& rq = RegionQuery::getInstance();
                     rq.insertObject(m_ws->addObject(it));
-                    if ( T == MOVE ) m_ws->removeObject(m_sb2se[it]);
+                    if ( T == MOVE ) {
+                        //remove working set's object that has been selected
+                        //be fetching from the mapping : runtime_obj -> select_obj 
+                        rq.removeObject(m_sb2se[it]);
+                        m_ws->removeObject(m_sb2se[it]);
+                    }
                 }
 
                  //m_ws->removeObject(dynamic_cast<WorkingSet*>(m_ws.get())->get_clonee(it));
                 
-                dicmdObjRelocateBy<T>(m_ws,m_clicked_point,InteractiveCommandBase::get_last_point()).log();
-                m_se.clear();
+                //dicmdObjRelocateBy<T>(m_ws,m_clicked_point,InteractiveCommandBase::get_last_point()).log();
                 abort_internal();
         }
 
         void abort_internal() {
                 StatusBarManager::getInstance().updateStatusBar("",1,0);
+                m_se.clear();
                 m_sb->clear();
                 //m_se.clear();
                 //m_cm.return_to_idle();
                 //m_cm.disactivate_active_command();
                 m_distances.clear();
                 m_sb2se.clear();
+                //m_cm.return_to_idle();
                 std::cout << "abort2" << std::endl;
         }
     
@@ -154,16 +163,17 @@ private:
                 m_cm.activate_command(this);
                 if (m_sel_cb)
                     m_sel_cb->purge();
+                m_sel_cb = nullptr;
                 idle(OTHER);
         }
         
         //waiting for selection
         void idle(const EvType& ev) {
-                std::cout << "COPYMOVE IDLE" << std::endl;
-                // no selection, invoke selectbyregion to select object firsts
+                std::cout << "COPYMOVE IDLE" <<  m_se.getObjects().size() << std::endl;
+                // no selection, invoke selectbyregion to select object firsts and return
                 if ( m_se.getObjects().empty() ) {
                     LeCallback cb = REGISTER_CALLBACK(OBJECT_SELECTED,&incmdObjRelocateBy<T>::on_object_selected);
-                    if (! m_sel_cb )
+                    if ( m_sel_cb == nullptr )
                         m_sel_cb = new LeCallback(cb);
                     CommandBase* cmd = m_cm.find_command("incmdSelectShapesByRegion");
                     dynamic_cast<InteractiveCommandBase*>(cmd)->set_auto_repeat(false);
@@ -172,12 +182,21 @@ private:
                     return;
                 }
                 
-                StatusBarManager::getInstance().updateStatusBar("Click on shape and move mouse to perform action",1,0);
+                // shapes finally selected, can copy/move now, moving forward
+                int count = m_se.getObjects().size();
+                std::string msg("Selected "+QString::number(count).toStdString()+" shapes. Click on shape and move mouse to perform action");
+                StatusBarManager::getInstance().updateStatusBar(msg.c_str(),1,0);
+                // create runtime objects from selected objects so we can move them with cursor
+                // keep mapping runtimeobj<->realobj
+                std::cout << "XXX SELECTION" << m_se.getObjects().size() << "   RTSHAPES: " << m_sb->getPool()->getObjects().size() << "\n";
                 for ( auto it : m_se.getObjects() ) {
                     IShape* i = m_sb->addObject(it);
                     m_sb2se[i] = it;
-                }
+                }                                
+                std::cout << "YYY SELECTION" << m_se.getObjects().size() << "   RTSHAPES: " << m_sb->getPool()->getObjects().size() << "\n";
 
+
+                //wait for user to start the movecopy by clicking.
                 set_next_handler(HANDLE_FUNCTION(incmdObjRelocateBy<T>,wait_for_first_click));
         }
         

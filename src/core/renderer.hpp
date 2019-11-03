@@ -5,6 +5,7 @@
 #include "runtime_environment.hpp"
 #include "postman.hpp"
 #include "callback.hpp"
+#include "selection.hpp"
 
 
 #include <QPainter>
@@ -95,14 +96,18 @@ class renderer
         void draw_runtime_pools(); 
         void draw_cursor();
         void draw_all();
+        //void draw_selection_rubberband();
         void draw_all_wno_cursor();
             
+    private:
+        Selection& m_se = Selection::getInstance();
+        
     private:
         float m_scale_factor = 1;
         float m_zoom_factor = 1.1;
             
     private:
-        bool m_rq_renderer = false;
+        bool m_rq_renderer = true;
         bool m_rt_renderer = true;
         
         QPainter* m_qt_painter;
@@ -116,7 +121,7 @@ class renderer
         QWidget* m_plane;
         int c_cursor_x = 0;
         int c_cursor_y = 0;
-	bool m_need_draw_clicked = false;
+        bool m_need_draw_clicked = false;
         QRect* m_users_pov_rect;
        
 

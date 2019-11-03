@@ -17,7 +17,7 @@ IShape* WorkingSet::addObject(IShape* s)
  
 std::vector<IShape*> WorkingSet::getObjects() const
 {
-        return m_shapes;
+    return m_shapes;
 }
 
 void WorkingSet::clear()
@@ -29,7 +29,7 @@ void WorkingSet::clear()
 
 std::string WorkingSet::getName()
 {
-        return "Design";
+    return "Design";
 }
 
 void WorkingSet::dumpToFile(const std::string& fname)
