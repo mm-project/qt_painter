@@ -28,6 +28,8 @@ public:
 	
 	
 	CommandBase* get_cmd_obj(const std::string& n) {
+		if (n.empty())
+			return nullptr;
 		QStringList tokens = QString(n.c_str()).split(" ");  
 		std::string cmd_name = tokens[0].toStdString();
 		//std::cout << "<"<<n.toStdString()<<">" << tokens[0].toStdString() << std::endl;

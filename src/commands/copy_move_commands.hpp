@@ -62,10 +62,13 @@ public:
                 QPoint src_p(GET_CMD_ARG(PointCommandOptionValue,"-from"));
                 
                 for ( auto it : m_se.getObjects() ) {
+					IShape* pShape = nullptr;
                     if ( T == COPY )
-                        m_ws->addObject(m_se.get_clonee(it));
-                    QPoint p((src_p-it->getPoints()[0])+dst_p);
-                    m_se.get_clonee(it)->moveCenterToPoint(p);
+                        pShape = m_ws->addObject(it);
+					else 
+						pShape = it;
+                    QPoint p((src_p-pShape->getPoints()[0])+dst_p);
+                    pShape->moveCenterToPoint(p);
                     //m_ws->get_clonee(it)->moveCenterToPoint(p);
                 }
                 
@@ -117,7 +120,7 @@ private:
                 for ( auto it: m_sb->getPool()->getObjects() ) {
                     RegionQuery& rq = RegionQuery::getInstance();
                     rq.insertObject(m_ws->addObject(it));
-                    if ( T == MOVE ) m_ws->removeObject(m_se.get_clonee(m_sb2se[it]));
+                    if ( T == MOVE ) m_ws->removeObject(m_sb2se[it]);
                 }
 
                  //m_ws->removeObject(dynamic_cast<WorkingSet*>(m_ws.get())->get_clonee(it));

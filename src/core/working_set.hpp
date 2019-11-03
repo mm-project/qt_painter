@@ -16,11 +16,10 @@ public:
 	//
 	virtual void clear() override;
 	virtual std::vector<IShape*> getObjects() const override;
-        IShape* addObject(IShape*) override;
+	IShape* addObject(IShape*) override;
 	virtual ~WorkingSet() {}
 	virtual std::string getName() override;
 	virtual void dumpToFile(const std::string&);
-        IShape* get_clonee(IShape*);
 	void removeObject(IShape*);
 
 private:
@@ -28,7 +27,6 @@ private:
 	//	Methods
 	// 
 	std::vector<IShape*> m_shapes;
-        std::map<IShape*,IShape*> m_clone2original;
 };
 
 using WorkingSetPtr = std::shared_ptr<WorkingSet>;

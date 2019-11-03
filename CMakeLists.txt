@@ -9,7 +9,7 @@ if (WIN32)
 	# on visual
 	if (MSVC)
             set ( CMAKE_CXX_FLAGS "-DOS_WINDOWS")
-            set(QTDIR "C:\\Programs\\Qt\\5.11.1")
+            set(QTDIR "C:\\Qt\\5.14.1\\5.12.5\\msvc2017_64")
 	# on min mingw
 	else()
             set ( CMAKE_CXX_FLAGS "-DOS_LINUX -g -fPIC -Wunused-parameter -pipe -std=gnu++17 -frtti -Wall -Wextra -fexceptions -pthread -Wno-unused-function -Wno-unused-variable")

@@ -96,7 +96,7 @@ public:
                 m_se.highlightselect_shape_under_pos(InteractiveCommandBase::get_last_point());
                 if ( ! m_se.getObjects().empty() ) {
                     m_sb->clear();
-                    m_original_shape = m_se.get_clonee(m_se.getObjects()[0]);
+                    m_original_shape = m_se.getObjects()[0];
                     for ( auto it : m_se.getObjects() )
                         m_sb->addObject(it);
                 }
