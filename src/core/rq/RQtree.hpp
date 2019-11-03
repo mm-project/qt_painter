@@ -263,7 +263,7 @@ void  RQtree<T>::_getObjects(CNodePtr<T> node, const QRect& oRect, int depth, st
 	if (cd == 0)
 		point = CPoint(oRect.topLeft());
 
-	if (point < node->m_object->at(cd))
+	//if (point < node->m_object->at(cd))
 		_getObjects(node->m_left_ptr, oRect, depth + 1, shapes);
 
 	return _getObjects(node->m_right_ptr, oRect, depth + 1, shapes);
