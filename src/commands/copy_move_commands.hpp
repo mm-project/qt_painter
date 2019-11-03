@@ -113,6 +113,8 @@ public:
         virtual void abort() {
                 std::cout << "abort!" << std::endl;
                 abort_internal();
+                m_cm.return_to_idle();
+                std::cout << "abort3" << std::endl;
         }
 
 //helpers
@@ -135,10 +137,11 @@ private:
                 
                 //dicmdObjRelocateBy<T>(m_ws,m_clicked_point,InteractiveCommandBase::get_last_point()).log();
                 abort_internal();
+                //set_next_handler(HANDLE_FUNCTION(incmdObjRelocateBy<T>,idle));
         }
 
         void abort_internal() {
-                StatusBarManager::getInstance().updateStatusBar("",1,0);
+                StatusBarManager::getInstance().updateStatusBar("Aborting...",1,0);
                 m_se.clear();
                 m_sb->clear();
                 //m_se.clear();
@@ -146,7 +149,6 @@ private:
                 //m_cm.disactivate_active_command();
                 m_distances.clear();
                 m_sb2se.clear();
-                //m_cm.return_to_idle();
                 std::cout << "abort2" << std::endl;
         }
     
@@ -160,11 +162,11 @@ private:
  //command cycles
  private:    
         void on_object_selected(LeCallbackData&) {
-                m_cm.activate_command(this);
-                if (m_sel_cb)
-                    m_sel_cb->purge();
-                m_sel_cb = nullptr;
-                idle(OTHER);
+                //m_cm.activate_command(this);
+                //if (m_sel_cb)
+                //    m_sel_cb->purge();
+                //m_sel_cb = nullptr;
+                //idle(OTHER);
         }
         
         //waiting for selection
@@ -172,6 +174,9 @@ private:
                 std::cout << "COPYMOVE IDLE" <<  m_se.getObjects().size() << std::endl;
                 // no selection, invoke selectbyregion to select object firsts and return
                 if ( m_se.getObjects().empty() ) {
+                    //abort();
+                    m_cm.return_to_idle();
+                    return;
                     LeCallback cb = REGISTER_CALLBACK(OBJECT_SELECTED,&incmdObjRelocateBy<T>::on_object_selected);
                     if ( m_sel_cb == nullptr )
                         m_sel_cb = new LeCallback(cb);
