@@ -160,11 +160,11 @@ private:
  //command cycles
  private:    
         void on_object_selected(LeCallbackData&) {
-                m_cm.activate_command(this);
-                if (m_sel_cb)
-                    m_sel_cb->purge();
-                m_sel_cb = nullptr;
-                idle(OTHER);
+                //m_cm.activate_command(this);
+                //if (m_sel_cb)
+                //    m_sel_cb->purge();
+                //m_sel_cb = nullptr;
+                //idle(OTHER);
         }
         
         //waiting for selection
@@ -172,6 +172,9 @@ private:
                 std::cout << "COPYMOVE IDLE" <<  m_se.getObjects().size() << std::endl;
                 // no selection, invoke selectbyregion to select object firsts and return
                 if ( m_se.getObjects().empty() ) {
+                    //abort();
+                    m_cm.return_to_idle();
+                    return;
                     LeCallback cb = REGISTER_CALLBACK(OBJECT_SELECTED,&incmdObjRelocateBy<T>::on_object_selected);
                     if ( m_sel_cb == nullptr )
                         m_sel_cb = new LeCallback(cb);
