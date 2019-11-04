@@ -12,6 +12,7 @@
 #include "../core/postman.hpp"
 
 #include "../gui/statusbar_manager.hpp"
+#include "../gui/controller.hpp"
 
 #include <QApplication>
 
@@ -75,6 +76,7 @@ public:
                 m_se.clear();
 	}
 
+    
 private:
 	WorkingSetPtr m_ws = nullptr;
 };
@@ -90,6 +92,7 @@ class incmdObjRelocateBy : public InteractiveCommandBase
         Selection& m_se = Selection::getInstance();
         command_manager& m_cm = command_manager::getInstance();
         LeCallback* m_sel_cb = nullptr;
+        bool m_move_move = false;
 public:
 	
         incmdObjRelocateBy<T>(ObjectPoolSandboxPtr r, IObjectPoolPtr s ):m_ws(s),m_re(r)
@@ -116,7 +119,14 @@ public:
                 m_cm.return_to_idle();
                 std::cout << "abort3" << std::endl;
         }
-
+        
+        virtual void handle_update() {
+                if ( m_move_move )
+                    for ( auto it: m_sb->getPool()->getObjects() ) {
+                        it->updateProperties(controller::getInstance().get_shape_properties());
+                        //obj->updateProperties(controller::getInstance().get_shape_properties());        
+                    }
+        }
 //helpers
 private:      
         void commit() {
@@ -149,6 +159,7 @@ private:
                 //m_cm.disactivate_active_command();
                 m_distances.clear();
                 m_sb2se.clear();
+                m_move_move = false;
                 std::cout << "abort2" << std::endl;
         }
     
@@ -213,6 +224,7 @@ private:
                         std::cout << m_clicked_point.x() << " " << m_clicked_point.y() << "  shape " << shape << " " << shape->getPoints()[0].x() << " " << shape->getPoints()[0].y()  << " diff "<< diff.x() << " " << diff.y() << std::endl;
                         m_distances[shape] = diff;
                     }
+                    m_move_move = true;
                     set_next_handler(HANDLE_FUNCTION(incmdObjRelocateBy<T>,act_on_mousemove));
                     StatusBarManager::getInstance().updateStatusBar("Click on desired place to commit action",1,0);
                 }

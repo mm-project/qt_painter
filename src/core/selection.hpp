@@ -37,18 +37,17 @@ public:
 
 public:   
         void set_working_set(IObjectPool* ws);
-        //void set_sandbox(ObjectPoolSandbox* ops);
+        void set_sandbox(ObjectPoolSandbox* ops);
         void find_and_highlightselect_shapes_from_region(const std::pair<QPoint,QPoint>& point);
         void select_shape_under_pos(const QPoint& p );
-        //void highlightselect_shape_under_pos(const QPoint& p );
-        //void highlight_shape_under_pos(const QPoint& p );
-        //void select_shape_under_pos(const QPoint& p );
+        void highlightselect_shape_under_pos(const QPoint& p );
+        void highlight_shape_under_pos(const QPoint& p );
 //private:
         void on_controller_update(LeCallbackData&);
         void highlight_last_selected_region(bool);          
 };
 
-/*
+//*
 class HighlightSet : public WorkingSet
 {
         //WorkingSet* m_select_set;
@@ -71,6 +70,6 @@ public:
 private:
         void highlight_on_off(bool m_h_on);      
 };
-*/
+/**/
 
 #endif

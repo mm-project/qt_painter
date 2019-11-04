@@ -50,7 +50,7 @@ public:
         {
             if ( ev == MM )
                 if ( ! m_move_mode ) 
-                    return; //m_se.highlight_shape_under_pos(InteractiveCommandBase::get_last_point());
+                    m_se.highlight_shape_under_pos(InteractiveCommandBase::get_last_point());
                 else 
                     move_selected_to_point(InteractiveCommandBase::get_last_point());
             else if ( ev == MC ) 

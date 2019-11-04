@@ -24,13 +24,10 @@ std::vector<IShape*> Selection::getObjects()
 }
 
 void Selection::clear() {
-	//WorkingSet::clear();
-    //m_sel_highlight_set->clear();
-	//m_oa_highlight_set->clear();
+	WorkingSet::clear();
+    m_sel_highlight_set->clear();
+	m_oa_highlight_set->clear();
     //m_sb->clear();
-    //m_object.clear();
-    //for (auto i : m_objs)
-	//	delete i;
     m_objs.clear();
 }
 
@@ -51,7 +48,7 @@ void Selection::on_controller_update(LeCallbackData&) {
         //obj->updateProperties(controller::getInstance().get_shape_properties());        
     }
 }
-/*
+
 void Selection::set_sandbox(ObjectPoolSandbox* sanboxes) {
 	m_rt_pools = sanboxes;
 	m_sb = new ObjectSandbox();
@@ -106,7 +103,6 @@ void Selection::highlight_shape_under_pos(const QPoint& p) {
         m_oa_highlight_set->highlight_on();
 	}
 }
-*/
 
 /* ! get shapes from rq that under following coord
  *   and add them to local set ( vector ).
@@ -117,8 +113,8 @@ void Selection::select_shape_under_pos(const QPoint& p) {
 	if (shape != nullptr)
 	{
 		addObject(shape);
-		//m_sel_highlight_set->addObject(shape);
-        //m_sel_highlight_set->highlight_on();
+		m_sel_highlight_set->addObject(shape);
+        m_sel_highlight_set->highlight_on();
 	}
 }
 
@@ -133,15 +129,14 @@ void Selection::find_and_highlightselect_shapes_from_region(const std::pair<QPoi
 
     for (auto it : rq.getShapesUnderRect(QRect(point.first, point.second))) {
         addObject(it);
-        //m_sel_highlight_set->addObject(it);
+        m_sel_highlight_set->addObject(it);
     }
     
-    //m_last_region = QRect(point.first, point.second);
-	//m_sel_highlight_set->highlight_on();
+    m_last_region = QRect(point.first, point.second);
+	m_sel_highlight_set->highlight_on();
 
 }
 
-/*
 void Selection::highlight_last_selected_region(bool on_off) 
 {
     //std::cout << "hiiiiiiiiiiiiiiiiiiiiii" << std::endl;
@@ -198,4 +193,4 @@ void HighlightSet::highlight_on_off(bool m_h_on) {
 		m_sb->addObject(it);
 	}
 }
-*/
+/**/
