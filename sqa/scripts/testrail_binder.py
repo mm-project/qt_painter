@@ -6,8 +6,10 @@ client.user = 'baghi.blbul@gmail.com'
 client.password = 'asdasd'
 
 def get_summary_section(fn):
-    
+    pass
+
 def get_expected_out(fn):
+    pass
 
 def init_connection():
     client = APIClient('https://mmproject.testrail.io/')
