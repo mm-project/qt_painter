@@ -7,7 +7,7 @@ jobs:
       - checkout
       - run:
           name: deps
-          command: apt-get update && apt-get install -y git less wget cmake xvfb build-essential qt5-default python3 python3-pip curl; pip3 install requests; pip3 install json;  pip3 install base64
+          command: apt-get update && apt-get install -y git less wget cmake xvfb build-essential qt5-default python3 python3-pip curl; pip3 install requests
       - run:
           name: compile
           command: export TERM=xterm; cmake CMakeLists.txt; make
