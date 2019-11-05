@@ -61,7 +61,7 @@ args = parser.parse_args()
 # fixme
 #init_connection()
 if args.action == "create_new_run":
-    create_new_run(args.projectid)
+    create_new_run(args.projectid,args.runname)
     
 elif args.action == "update_test_result":
     update_test_result(args.runid,args.testname,args.resultid,"")
