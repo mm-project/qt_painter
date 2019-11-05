@@ -53,8 +53,8 @@ for i in `cat $PAINTER_SQA_ROOT/tests.lst`; do
         echo "------------------------------------------------------------------------------------"
     cd - &> /dev/null
     if [ "$CI_CHECK" == "1" ];  then
-        res=`python3 $PAINTER_SCRIPTS_DIR/testrail_binder.py -action update_test_result --runid $run_id --resultid $t_res --testname "$i" `
-        echo "RESULT:<$res>"
+        r=`python3 $PAINTER_SCRIPTS_DIR/testrail_binder.py -action update_test_result --runid $run_id --resultid $t_res --testname "$i" `
+        echo "RESULT:<$r>"
     fi
     t_id=`expr $ti + 1`
 done

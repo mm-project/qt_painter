@@ -5,18 +5,22 @@ client = APIClient('https://mmproject.testrail.io/')
 client.user = 'baghi.blbul@gmail.com'
 client.password = 'asdasd'
 
+def get_summary_section(fn):
+    
+def get_expected_out(fn):
+
 def init_connection():
     client = APIClient('https://mmproject.testrail.io/')
     client.user = 'baghi.blbul@gmail.com'
     client.password = 'asdasd'
 	
-def sync_testinfo():
+def sync_testinfo(suite_id):
     filepath = '../tests.lst'
     with open(filepath) as fp:
         for cnt, line in enumerate(fp):
             print(line.rstrip())
             result = client.send_post(
-                'add_case/3/',
+                'add_case/'+suite_id,
                 { 'title': line.rstrip(),
                   'custom_steps': 'fixme1',
                   'custom_expected': 'fixme2',
@@ -54,6 +58,8 @@ parser.add_argument('--projectid', type=str, help='project id')
 parser.add_argument('--resultid', type=str, help='test result id')
 parser.add_argument('--testname', type=str, help='test name')
 parser.add_argument('--runname', type=str, help='run name')
+parser.add_argument('--suiteid', type=str, help='suite id')
+
 
 
 args = parser.parse_args()
@@ -67,7 +73,7 @@ elif args.action == "update_test_result":
     update_test_result(args.runid,args.testname,args.resultid,"")
 
 elif args.action == "sync_testinfo":
-    sync_testinfo()
+    sync_testinfo(args.suiteid)
 
 else:
     print("Error: unsupported action")
