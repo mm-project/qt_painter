@@ -12,11 +12,20 @@ options="$@"
 
 #echo $DIR
 export PAINTER_SQA_ROOT=$DIR/..
+export PAINTER_SCRIPTS_DIR=$PAINTER_SQA_ROOT/scripts
+export PYTHON_PATH=$PAINTER_SCRIPTS_DIR:$PYTHON_PATH
+if [ "$CI_CHECK" == "1" ];  then
+    run_id=`python3 $PAINTER_SCRIPTS_DIR/testrail_binder.py -action create_new_run --projectid 1 -runname $CIRCLE_BUILD_NUM`
+    echo "TESTRAIL RUN:<$run_id>"
+fi
+
 res=0
 total=0
 failed=0
 passed=0
 crashed=0
+t_id=1
+t_res=5
 for i in `cat $PAINTER_SQA_ROOT/tests.lst`; do
     total=`expr $total + 1`
     cd $PAINTER_SQA_ROOT/$i
@@ -25,6 +34,7 @@ for i in `cat $PAINTER_SQA_ROOT/tests.lst`; do
         r=$?
         if [ "$r" == 0 ]; then
             echo -e "\e[32mPass\e[0m"
+            t_res=1
         elif [ "$r" == 3 ]; then
             echo -e "\e[4;5;41mC R A S H\e[0;25m"
             echo "******stack******"
@@ -42,6 +52,11 @@ for i in `cat $PAINTER_SQA_ROOT/tests.lst`; do
         fi
         echo "------------------------------------------------------------------------------------"
     cd - &> /dev/null
+    if [ "$CI_CHECK" == "1" ];  then
+        res=`python3 $PAINTER_SCRIPTS_DIR/testrail_binder.py -action update_test_result --runid $run_id --resultid $t_res --testname "$i" `
+        echo "RESULT:<$res>"
+    fi
+    t_id=`expr $ti + 1`
 done
 
 
