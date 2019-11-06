@@ -1,10 +1,13 @@
 #!/bin/bash
 
 SOURCE="${BASH_SOURCE[0]}"
-while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a 
+symlink
   DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
   SOURCE="$(readlink "$SOURCE")"
-  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative 
+symlink, we need to resolve it relative to the path where the symlink file was 
+located
 done
 DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 
@@ -15,8 +18,9 @@ export PAINTER_SQA_ROOT=$DIR/..
 export PAINTER_SCRIPTS_DIR=$PAINTER_SQA_ROOT/scripts
 export PYTHON_PATH=$PAINTER_SCRIPTS_DIR:$PYTHON_PATH
 if [ "$CI_CHECK" == "1" ];  then
-    run_id=`python3 $PAINTER_SCRIPTS_DIR/testrail_binder.py -action create_new_run --projectid 1 --runname $CIRCLE_BUILD_NUM`
-    echo "TESTRAIL RUN:<$run_id>"
+    run_id=`python3 $PAINTER_SCRIPTS_DIR/testrail_binder.py -action 
+create_new_run --projectid 1 --runname CCI_INTEG_${CIRCLE_BRANCH}_$CIRCLE_BUILD_NUM`
+    echo "TESTRAIL TestRUN:<$run_id>"
 fi
 
 res=0
@@ -38,7 +42,8 @@ for i in `cat $PAINTER_SQA_ROOT/tests.lst`; do
         elif [ "$r" == 3 ]; then
             echo -e "\e[4;5;41mC R A S H\e[0;25m"
             echo "******stack******"
-            cat output/logs/painter.log | grep Layer: | sed "s/ \+/ /g" | cut -d ' ' -f7-99 | grep -v "/" | sed "s/^/      /g"
+            cat output/logs/painter.log | grep Layer: | sed "s/ \+/ /g" | cut -d 
+' ' -f7-99 | grep -v "/" | sed "s/^/      /g"
             echo "==========="
             res=1
             crashed=`expr $crashed + 1`
@@ -50,11 +55,14 @@ for i in `cat $PAINTER_SQA_ROOT/tests.lst`; do
             failed=`expr $failed + 1`
             res=1
         fi
-        echo "------------------------------------------------------------------------------------"
+        echo 
+"-------------------------------------------------------------------------------
+-----"
     cd - &> /dev/null
     if [ "$CI_CHECK" == "1" ];  then
-        r=`python3 $PAINTER_SCRIPTS_DIR/testrail_binder.py -action update_test_result --runid $run_id --resultid $t_res --testname "$i" `
-        echo "RESULT:<$r>"
+        r=`python3 $PAINTER_SCRIPTS_DIR/testrail_binder.py -action 
+update_test_result --runid $run_id --resultid $t_res --testname "$i" `
+        echo "RESULT:<$r>" &> testrail.io
     fi
     t_id=`expr $ti + 1`
 done
