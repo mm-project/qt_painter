@@ -16,6 +16,7 @@ std::string Selection::getName()
 IShape* Selection::addObject(IShape* shape) 
 {
     m_objs.push_back(shape);
+	return shape;
 }
 
 std::vector<IShape*> Selection::getObjects()

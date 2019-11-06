@@ -72,12 +72,13 @@ public:
             m_move_mode=false;
             std::cout << "Adding..." << std::endl; 
 
+            rq.removeObject(m_original_shape);            
+            m_ws->removeObject(m_original_shape);
+
             for ( auto it: m_sb->getPool()->getObjects() ) {
                     rq.insertObject(m_ws->addObject(it));
             }        
             
-            rq.removeObject(m_original_shape);            
-            m_ws->removeObject(m_original_shape);
             m_original_shape = nullptr;
             m_sb->clear();
             m_se.clear();
@@ -98,8 +99,9 @@ public:
                 if ( ! m_se.getObjects().empty() ) {
                     m_sb->clear();
                     m_original_shape = m_se.getObjects()[0];
-                    for ( auto it : m_se.getObjects() )
-                        m_sb->addObject(it);
+                    //for ( auto it : m_se.getObjects() )
+                     //   m_sb->addObject(it);
+					m_sb->addObject(m_original_shape);
                 }
                 //m_shape_added = true;
             //}
