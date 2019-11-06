@@ -18,8 +18,7 @@ export PAINTER_SQA_ROOT=$DIR/..
 export PAINTER_SCRIPTS_DIR=$PAINTER_SQA_ROOT/scripts
 export PYTHON_PATH=$PAINTER_SCRIPTS_DIR:$PYTHON_PATH
 if [ "$CI_CHECK" == "1" ];  then
-    run_id=`python3 $PAINTER_SCRIPTS_DIR/testrail_binder.py -action 
-    create_new_run --projectid 1 --runname CI_INTEG$CIRCLE_BUILD_NUM`
+    run_id=`python3 $PAINTER_SCRIPTS_DIR/testrail_binder.py -action create_new_run --projectid 1 --runname CI_INTEG$CIRCLE_BUILD_NUM`
     echo "TESTRAIL TestRUN:<$run_id>"
 fi
 
