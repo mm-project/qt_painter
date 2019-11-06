@@ -19,7 +19,7 @@ export PAINTER_SCRIPTS_DIR=$PAINTER_SQA_ROOT/scripts
 export PYTHON_PATH=$PAINTER_SCRIPTS_DIR:$PYTHON_PATH
 if [ "$CI_CHECK" == "1" ];  then
     run_id=`python3 $PAINTER_SCRIPTS_DIR/testrail_binder.py -action 
-create_new_run --projectid 1 --runname CCI_INTEG_${CIRCLE_BRANCH}_$CIRCLE_BUILD_NUM`
+    create_new_run --projectid 1 --runname CI_INTEG$CIRCLE_BUILD_NUM`
     echo "TESTRAIL TestRUN:<$run_id>"
 fi
 
@@ -55,13 +55,10 @@ for i in `cat $PAINTER_SQA_ROOT/tests.lst`; do
             failed=`expr $failed + 1`
             res=1
         fi
-        echo 
-"-------------------------------------------------------------------------------
------"
+        echo  "------------------------------------------------------------------------------------"
     cd - &> /dev/null
     if [ "$CI_CHECK" == "1" ];  then
-        r=`python3 $PAINTER_SCRIPTS_DIR/testrail_binder.py -action 
-update_test_result --runid $run_id --resultid $t_res --testname "$i" `
+        r=`python3 $PAINTER_SCRIPTS_DIR/testrail_binder.py -action update_test_result --runid $run_id --resultid $t_res --testname "$i" `
         echo "RESULT:<$r>" &> testrail.io
     fi
     t_id=`expr $ti + 1`
