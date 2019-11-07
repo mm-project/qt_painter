@@ -8,3 +8,4 @@ default:
 	mkdir -p $(UT_BIN_DIR)
 	g++ ${FLAGS} test_shape_creation_directive_commands.cpp ${INC_INFO} ${LD_INF} -o $(UT_BIN_DIR)/test_shape_creation_directive_commands
 	g++ ${FLAGS} test_load_save_commands.cpp ${INC_INFO} ${LD_INF} -o $(UT_BIN_DIR)/test_load_save_commands
+	g++ ${FLAGS} test_delete_command.cpp ${INC_INFO} ${LD_INF} -o $(UT_BIN_DIR)/test_delete_command
