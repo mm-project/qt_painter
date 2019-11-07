@@ -38,7 +38,7 @@ ShapeCreator::ShapeCreator() {}
 ShapeCreator::~ShapeCreator() {}
 IShape* ShapeCreator::create(ObjectType) {return new MockShape;}
     
-void Messenger::expose_msg(const LogMsgSever    ity& s, const std::string&, bool) {}
+void Messenger::expose_msg(const LogMsgSeverity& s, const std::string&, bool) {}
 void Messenger::log_command(const std::string&, bool) {}
 
 RegionQuery::RegionQuery() {}
