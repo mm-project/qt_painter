@@ -5,7 +5,7 @@
 //
 // Includes
 //
-#include "icommand_base.hpp"
+//#include "icommand_base.hpp"
 
 #include "../core/runtime_environment.hpp"
 #include "../core/working_set.hpp"
@@ -24,6 +24,8 @@
 // @class command manager
 //
 class renderer;
+class CommandBase;
+
 class command_manager : public Service<command_manager> 
 {
 public:

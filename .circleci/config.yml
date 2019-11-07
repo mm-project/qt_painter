@@ -12,7 +12,13 @@ jobs:
           name: compile
           command: export TERM=xterm; cmake CMakeLists.txt; make
       - run:
-          name: regressions
-          command: export CI_BUILD="CCI_INTEG$CIRCLE_BUILD_NUM"; export CI_CHECK=1; export TERM=xterm;  xvfb-run ./sqa/bin/runRegTests.sh
+          name: compile_ut
+          command: export TERM=xterm; cd src/commands/test; make
+      - run:
+          name: testing_unit
+          command: export CI_BUILD="CCI_UNIT_TEST$CIRCLE_BUILD_NUM"; export CI_CHECK=1; export TERM=xterm;  xvfb-run ./sqa/bin/runRegTests.sh
+      - run:
+          name: testing_integrations
+          command: export CI_BUILD="CCI_INTG_TEST$CIRCLE_BUILD_NUM"; export CI_CHECK=1; export TERM=xterm;  xvfb-run ./sqa/bin/runUnitTests.sh
       - store_artifacts:
           path: /root/project/sqa/
