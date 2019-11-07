@@ -1,3 +1,4 @@
+incmdSelectUnderCursoer
 #i --> Info: Welcome to this project. Feel free to expirment. 
 #i --> Info: Set to mode1
 dicmdTestCmdListOptions -points {(123,23);(555,444);(12,2)} -strings {aaa;bb;ccc} 
@@ -8,6 +9,8 @@ dicmdCreateObjRectangle -brush 0 -color #000000 -fill 0 -points {(70,147);(153,2
 dicmdCreateObjRectangle -brush 0 -color #000000 -fill 0 -points {(225,73);(301,149)} 
 dicmdCreateObjLine -brush 0 -color #000000 -fill 0 -points {(149,337);(264,249)} 
 dicmdCreateObjLine -brush 0 -color #000000 -fill 0 -points {(267,406);(206,244)} 
+dicmdCreateObjEllipse -brush 0 -color #000000 -fill 0 -points {(398,11);(465,90)} 
+dicmdCreateObjEllipse -brush 0 -color #000000 -fill 0 -points {(479,178);(657,401)} 
 dicmdCreateObjEllipse -brush 0 -color #000000 -fill 0 -points {(398,11);(465,90)} 
 dicmdCreateObjEllipse -brush 0 -color #000000 -fill 0 -points {(479,178);(657,401)} 
 dicmdCreateObjEllipse -brush 0 -color #000000 -fill 0 -points {(920,466);(1077,486)} 
