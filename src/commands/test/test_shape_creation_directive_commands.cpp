@@ -4,6 +4,7 @@
 
 #include <cassert>
 #include <string>
+/*! \file */ 
 //IMocking!: Workingset
 class MockWorkingSet : public IObjectPool
 {
@@ -48,8 +49,17 @@ void RegionQuery::insertObject(IShape*) {}
 void ServiceManager::shutDown(){}
 //!Mocking
 
+/*!
+    \brief UT_load_save_commands is entry point for unit testing load_save_commands .
 
-int main()
+    This unit test covers following steps:
+
+    \list 
+        \li step1
+        \li step2
+    \endlist
+*/
+bool UT_shape_creation_directive_commands()
 {
     
     //Expecting!: dicmdCreateObj to be created
@@ -67,4 +77,10 @@ int main()
     //Expecting!: executing command and working set should have addional shapes
     rect_cmd.execute();
     assert("SHAPES COUNT IN WS AFTER EXECUTING SECOND TIME"&&dynamic_cast<MockWorkingSet*>(ws.get())->m_shapes_count == 2);    
+}
+
+
+int main() 
+{
+    UT_shape_creation_directive_commands();
 }

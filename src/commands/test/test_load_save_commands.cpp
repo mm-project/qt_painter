@@ -1,7 +1,7 @@
 #include "../load_save_commands.hpp"
 #include "../core/iobject_pool.hpp"
 #include "../core/ishape.hpp"
-
+/*! \file */ 
 //IMocking!: MockWorkingSet=>IObjectPool
 class MockWorkingSet : public IObjectPool
 {
@@ -46,7 +46,17 @@ void RegionQuery::insertObject(IShape*) {}
 void ServiceManager::shutDown(){}
 //!Mocking
 
-int main()
+/*!
+    \brief UT_load_save_commands is entry point for unit testing load_save_commands .
+
+    This unit test covers following steps:
+
+    \list 
+        \li step1
+        \li step2
+    \endlist
+*/
+bool UT_load_save_commands()
 {
     //Expecting!: dicmdDesignSave command to be properly created
     IObjectPoolPtr ws = std::shared_ptr<MockWorkingSet>(new MockWorkingSet);
@@ -55,4 +65,10 @@ int main()
     //Expecting!: should be called properly with called arguments
     cmd.set_arg("-filename","morqur");
     cmd.execute();
+}
+
+
+int main()
+{
+    UT_load_save_commands();
 }

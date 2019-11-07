@@ -36,8 +36,8 @@ for i in `ls $PAINTER_SQA_ROOT/../unit_test_bin`; do
     total=`expr $total + 1`
     #cd $PAINTER_SQA_ROOT/../unit_test_bin
         echo -ne  "Running $PAINTER_SQA_ROOT/../unit_test_bin/$i --- "
-        #a=`$PAINTER_SQA_ROOT/../unit_test_bin/$i &> uttest.info `
-        #r=$?
+        a=`$PAINTER_SQA_ROOT/../unit_test_bin/$i &> uttest.info `
+        r=$?
         r=3
         if [ "$r" == 0 ]; then
             echo -e "\e[32mPass\e[0m"   
