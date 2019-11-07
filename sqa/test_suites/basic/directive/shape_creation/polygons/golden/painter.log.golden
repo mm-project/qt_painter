@@ -1,4 +1,3 @@
-incmdSelectUnderCursoer
 #i --> Info: Welcome to this project. Feel free to expirment. 
 #i --> Info: Set to mode1
 dicmdCreateObjPolygon -brush 0 -color #000000 -fill 0 -points {(188,76);(272,144);(184,207);(184,207)} 

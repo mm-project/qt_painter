@@ -1,4 +1,3 @@
-incmdSelectUnderCursoer
 #i --> Info: Welcome to this project. Feel free to expirment. 
 #i --> Info: Set to mode1
 dicmdCreateObjRectangle -brush 0 -color #000000 -fill 0 -points {(120,115);(250,228)} 
@@ -18,6 +17,5 @@ dicmdCreateObjLine -brush 0 -color #000000 -fill 0 -points {(486,87);(580,221)}
 dicmdCreateObjLine -brush 0 -color #000000 -fill 0 -points {(566,327);(617,179)} 
 dicmdDesignSave -filename mydes.des 
 dicmdDesignLoad -filename mydes.des 
-#i --> Info: Set to mode3
 dicmdSelectShapesByRegion -end (1027,469) -start (37,7) 
 dicmdQaToolExit 

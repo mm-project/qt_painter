@@ -1,4 +1,3 @@
-incmdSelectUnderCursoer
 #i --> Info: Welcome to this project. Feel free to expirment. 
 #i --> Info: Set to mode1
 incmdCreateObjRectangle
@@ -10,6 +9,7 @@ dicmdCanvasMouseMove -point (337,93)
 dicmdCanvasMouseMove -point (337,98) 
 dicmdCanvasMouseMove -point (337,100) 
 dicmdCanvasMouseMove -point (337,101) 
+dicmdCanvasMouseClick -point (337,101) 
 dicmdCanvasMouseClick -point (337,101) 
 dicmdCanvasMouseMove -point (339,101) 
 dicmdCanvasMouseMove -point (346,106) 
@@ -46,6 +46,8 @@ dicmdCanvasMouseMove -point (646,285)
 dicmdCanvasMouseMove -point (647,285) 
 dicmdCanvasMouseMove -point (648,285) 
 dicmdCanvasMouseClick -point (648,285) 
+dicmdCanvasMouseClick -point (648,285) 
+#o --> Out: dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(337,101);(648,285)} 
 dicmdCanvasMouseMove -point (648,284) 
 dicmdCanvasMouseMove -point (648,281) 
 dicmdCanvasMouseMove -point (659,269) 

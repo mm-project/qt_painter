@@ -1,4 +1,3 @@
-incmdSelectUnderCursoer
 #i --> Info: Welcome to this project. Feel free to expirment. 
 #i --> Info: Set to mode1
 dicmdCreateObjRectangle -brush 0 -color #000000 -fill 0 -points {(58,36);(165,154)} 
