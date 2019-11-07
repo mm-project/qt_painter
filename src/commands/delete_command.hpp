@@ -3,8 +3,12 @@
 
 #include "interactive_command_base.hpp"
 #include "command_manager.hpp"
-#include "../core/rq/RegionQueryService.hpp"
 #include "direct_command_base.hpp"
+
+#include "../core/rq/RegionQueryService.hpp"
+#include "../gui/statusbar_manager.hpp"
+
+
 
 class dicmdDeleteObj : public DirectCommandBase
 {
