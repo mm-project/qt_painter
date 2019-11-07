@@ -85,5 +85,5 @@ int main()
     rect_cmd.execute();
     assert("SHAPES COUNT IN WS AFTER EXECUTING FIRST TIME"&&dynamic_cast<MockWorkingSet*>(ws.get())->m_shapes_count == 1);    
     rect_cmd.execute();
-    assert("SHAPES COUNT IN WS AFTER EXECUTING SECOND TIME"&&dynamic_cast<MockWorkingSet*>(ws.get())->m_shapes_count == 1);    
+    assert("SHAPES COUNT IN WS AFTER EXECUTING SECOND TIME"&&dynamic_cast<MockWorkingSet*>(ws.get())->m_shapes_count == 2);    
 }
