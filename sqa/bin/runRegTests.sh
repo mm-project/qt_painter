@@ -17,10 +17,14 @@ options="$@"
 export PAINTER_SQA_ROOT=$DIR/..
 export PAINTER_SCRIPTS_DIR=$PAINTER_SQA_ROOT/scripts
 export PYTHON_PATH=$PAINTER_SCRIPTS_DIR:$PYTHON_PATH
+if [ "$CI_BUILD" == "" ]; then
+    CI_BUILD="TCI_UNIT"
+fi
 if [ "$CI_CHECK" == "1" ];  then
-    run_id=`python3 $PAINTER_SCRIPTS_DIR/testrail_binder.py -action create_new_run --projectid 1 --runname $CI_BUILD`
+    run_id=`python3 $PAINTER_SCRIPTS_DIR/testrail_binder.py -action create_new_run --projectid 1 --runname $CI_BUILD --suiteid 1 `
     echo "TESTRAIL TestRUN:<$run_id>"
 fi
+
 
 res=0
 total=0
@@ -41,8 +45,7 @@ for i in `cat $PAINTER_SQA_ROOT/tests.lst`; do
         elif [ "$r" == 3 ]; then
             echo -e "\e[4;5;41mC R A S H\e[0;25m"
             echo "******stack******"
-            cat output/logs/painter.log | grep Layer: | sed "s/ \+/ /g" | cut -d 
-' ' -f7-99 | grep -v "/" | sed "s/^/      /g"
+            cat output/logs/painter.log | grep Layer: | sed "s/ \+/ /g" | cut -d ' ' -f7-99 | grep -v "/" | sed "s/^/      /g"
             echo "==========="
             res=1
             crashed=`expr $crashed + 1`

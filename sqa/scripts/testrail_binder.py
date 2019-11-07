@@ -31,8 +31,10 @@ def sync_testinfo(suite_id):
             print(result)
 
  
-def create_new_run(project_id,name):
-    result = client.send_post('add_run/'+project_id,{'include_all': '1','name':name })
+def create_new_run(project_id,name,suiteid ):
+    result = client.send_post('add_run/'+project_id,{'include_all': 1, 'name':name, 'suite_id': suiteid })
+    #result = client.send_post('add_run/'+project_id,{'include_all': 0, 'name':name, 'case_ids': [ 45, 46 ] })
+    #print(result)
     print(result['id'])
 
 def update_test_result(run_id,testname,status,comment):
@@ -61,6 +63,8 @@ parser.add_argument('--resultid', type=str, help='test result id')
 parser.add_argument('--testname', type=str, help='test name')
 parser.add_argument('--runname', type=str, help='run name')
 parser.add_argument('--suiteid', type=str, help='suite id')
+#parser.add_argument('--tstlst', type=str, help='test suites to run')
+
 
 
 
@@ -69,7 +73,7 @@ args = parser.parse_args()
 # fixme
 #init_connection()
 if args.action == "create_new_run":
-    create_new_run(args.projectid,args.runname)
+    create_new_run(args.projectid,args.runname,args.suiteid)
     
 elif args.action == "update_test_result":
     update_test_result(args.runid,args.testname,args.resultid,"")

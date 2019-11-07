@@ -4,8 +4,7 @@
 
 #include <cassert>
 #include <string>
-
-//!Mocking: Workingset
+//IMocking!: Workingset
 class MockWorkingSet : public IObjectPool
 {
 
@@ -19,9 +18,8 @@ public:
 	virtual ~MockWorkingSet() {}    
 	int m_shapes_count = 0;
 };
-//Mocking!
 
-//!Mocking: Shape
+//IMocking!: Shape
 class MockShape : public IShape
 {
 	virtual void reset() { }
@@ -34,56 +32,39 @@ class MockShape : public IShape
     virtual std::vector<QPoint> getPoints() { }
     virtual ObjectType getType() const { } ;
 };
-//Mocking!
 
-//!Mocking: ShapeCreator
+//Mocking!: Implementations
 ShapeCreator::ShapeCreator() {}
 ShapeCreator::~ShapeCreator() {}
 IShape* ShapeCreator::create(ObjectType) {return new MockShape;}
-//Mocking!
     
-//!Mocking: Messenger
-void Messenger::expose_msg(const LogMsgSeverity& s, const std::string&, bool) {}
+void Messenger::expose_msg(const LogMsgSever    ity& s, const std::string&, bool) {}
 void Messenger::log_command(const std::string&, bool) {}
-//Mocking!
 
-//!Mocking: RegionQuery
 RegionQuery::RegionQuery() {}
 void RegionQuery::shutDown() {}
 void RegionQuery::insertObject(IShape*) {}
-//Mocking!
 
-//!Mocking: ServiceManager
 void ServiceManager::shutDown(){}
-//Mocking!
+//!Mocking
 
-/*
-bool
-{
-    IObjectPoolPtr ws;
-    dicmdCreateObj<RECTANGLE> rect_cmd(ws);
-    rect_cmd.set_arg("-points","{(0,0;100,100)}");
-    
-}
-
-bool tst_all() 
-{
-    tst_obj_replying_creation<RECTANGLE>();
-    tst_obj_replying_creation<ELIPSE>();
-    tst_obj_replying_creation<LINE();
-    tst_obj_replying_creation<>();
-    tst_obj_replying_creation<RECTANGLE>();
-}
-*/
 
 int main()
 {
+    
+    //Expecting!: dicmdCreateObj to be created
     IObjectPoolPtr ws = std::shared_ptr<MockWorkingSet>(new MockWorkingSet);
     dicmdCreateObj<RECTANGLE> rect_cmd(ws);
+    
+    //Expecting!: adding arguments and no impact on working set
     rect_cmd.set_arg("-points","{(0,0;100,100)}");
     assert("SHAPES COUNT IN WS BEFORE EXECUTING"&&dynamic_cast<MockWorkingSet*>(ws.get())->m_shapes_count == 0);
+
+    //Expecting!: executing command and working set should be added with 1 shape
     rect_cmd.execute();
     assert("SHAPES COUNT IN WS AFTER EXECUTING FIRST TIME"&&dynamic_cast<MockWorkingSet*>(ws.get())->m_shapes_count == 1);    
+
+    //Expecting!: executing command and working set should have addional shapes
     rect_cmd.execute();
     assert("SHAPES COUNT IN WS AFTER EXECUTING SECOND TIME"&&dynamic_cast<MockWorkingSet*>(ws.get())->m_shapes_count == 2);    
 }

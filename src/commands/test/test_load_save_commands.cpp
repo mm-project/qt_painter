@@ -1,7 +1,8 @@
 #include "../load_save_commands.hpp"
 #include "../core/iobject_pool.hpp"
 #include "../core/ishape.hpp"
-//!Mocking: Workingset
+
+//IMocking!: MockWorkingSet=>IObjectPool
 class MockWorkingSet : public IObjectPool
 {
 
@@ -15,9 +16,8 @@ public:
 	virtual ~MockWorkingSet() {}    
 	int m_shapes_count = 0;
 };
-//Mocking!
 
-//!Mocking: Shape
+//IMocking!: MockShape=>IShape
 class MockShape : public IShape
 {
 	virtual void reset() { }
@@ -30,34 +30,29 @@ class MockShape : public IShape
     virtual std::vector<QPoint> getPoints() { }
     virtual ObjectType getType() const { } ;
 };
-//Mocking!
 
-//!Mocking: ShapeCreator
+//Mocking!: 
 ShapeCreator::ShapeCreator() {}
 ShapeCreator::~ShapeCreator() {}
 IShape* ShapeCreator::create(ObjectType) {return new MockShape;}
-//Mocking!
     
-//!Mocking: Messenger
-void Messenger::expose_msg(const LogMsgSeverity& s, const std::string&, bool) {}
+void Messenger::expose_msg(const LogMsgSever    ity& s, const std::string&, bool) {}
 void Messenger::log_command(const std::string&, bool) {}
-//Mocking!
 
-//!Mocking: RegionQuery
 RegionQuery::RegionQuery() {}
 void RegionQuery::shutDown() {}
 void RegionQuery::insertObject(IShape*) {}
-//Mocking!
 
-//!Mocking: ServiceManager
 void ServiceManager::shutDown(){}
-//Mocking!
-
+//!Mocking
 
 int main()
 {
+    //Expecting!: dicmdDesignSave command to be properly created
     IObjectPoolPtr ws = std::shared_ptr<MockWorkingSet>(new MockWorkingSet);
     dicmdDesignSave cmd(ws);
+
+    //Expecting!: should be called properly with called arguments
     cmd.set_arg("-filename","morqur");
     cmd.execute();
 }
