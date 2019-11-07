@@ -1,5 +1,5 @@
 #!/bin/bash
-
+exit 0
 for f in `cat tests.lst`; do
     echo "***" > $f/Readme.md
     echo "Test: $f" >> $f/Readme.md

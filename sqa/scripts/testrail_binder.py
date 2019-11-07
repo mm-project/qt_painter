@@ -20,14 +20,17 @@ def sync_testinfo(suite_id):
     filepath = '../tests.lst'
     with open(filepath) as fp:
         for cnt, line in enumerate(fp):
-            print(line.rstrip())
-            result = client.send_post(
-                'add_case/'+suite_id,
-                { 'title': line.rstrip(),
-                  'custom_steps': 'fixme1',
-                  'custom_expected': 'fixme2',
-                }
-            )
+            tst = line.rstrip()
+            
+            print(tst)
+            
+            #result = client.send_post(
+            #    'add_case/'+suite_id,
+            #    { 'title': line.rstrip(),
+            #      'custom_steps': 'fixme1',
+            #      'custom_expected': 'fixme2',
+            #    }
+            #)
             print(result)
 
  
@@ -54,6 +57,10 @@ def update_test_result(run_id,testname,status,comment):
     else:
         print("Error: <"+testname+"> test not found")
         
+
+
+#main fixme
+
 parser = argparse.ArgumentParser(description='Optional app description')
 parser.add_argument('-action', type=str, help='Action to do')
 parser.add_argument('--runid', type=str, help='run id')
@@ -64,10 +71,6 @@ parser.add_argument('--testname', type=str, help='test name')
 parser.add_argument('--runname', type=str, help='run name')
 parser.add_argument('--suiteid', type=str, help='suite id')
 #parser.add_argument('--tstlst', type=str, help='test suites to run')
-
-
-
-
 args = parser.parse_args()
 
 # fixme
