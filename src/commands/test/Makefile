@@ -1,7 +1,7 @@
 QT_INC_DIR="/usr/include/x86_64-linux-gnu/qt5/"
 INC_INFO=-I ../ -I $(QT_INC_DIR) -I $(QT_INC_DIR)/QtGui -I $(QT_INC_DIR)/QtCore -I $(QT_INC_DIR)/QtWidgets 
 LD_INF=-lQt5Core -lQt5Gui
-FLAGS=-DNO_RQ -fPIC
+FLAGS=-DNO_RQ -fPIC -DOS_LINUX -g -fPIC -Wunused-parameter -pipe -std=gnu++17 -frtti -Wall -Wextra -fexceptions -pthread -Wno-unused-function -Wno-unused-variable
 UT_BIN_DIR=../../../unit_test_bin
 
 default:
