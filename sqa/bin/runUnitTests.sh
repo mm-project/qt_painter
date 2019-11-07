@@ -38,7 +38,7 @@ for i in `ls $PAINTER_SQA_ROOT/../unit_test_bin`; do
         echo -ne  "Running $PAINTER_SQA_ROOT/../unit_test_bin/$i --- "
         a=`$PAINTER_SQA_ROOT/../unit_test_bin/$i &> uttest.info `
         r=$?
-        r=3
+        #r=3
         if [ "$r" == 0 ]; then
             echo -e "\e[32mPass\e[0m"   
             t_res=1
