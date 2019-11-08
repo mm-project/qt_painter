@@ -1,5 +1,5 @@
 # qt_painter
-Wishlist for rel 1.0.0 ( Tegel )
+Highlevel items backlog remained for rel 1.0.0 ( Tegel )
  
 ### Usability Features
 * Shape Copy/Move
