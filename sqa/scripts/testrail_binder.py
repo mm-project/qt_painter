@@ -1,36 +1,39 @@
 from testrail import *
+import os
 import argparse
 
-client = APIClient('https://mmproject.testrail.io/')
-client.user = 'baghi.blbul@gmail.com'
-client.password = 'asdasd'
+print(os.environ['HOME'])
 
+client = APIClient(os.environ.get('TESTRAILS_BASEURL'))
+client.user = os.environ.get('TESTRAILS_USR')
+client.password = os.environ.get('TESTRAILS_PSW')
+
+#todo
 def get_summary_section(fn):
     pass
 
+#todos
 def get_expected_out(fn):
     pass
 
+#fix
 def init_connection():
-    client = APIClient('https://mmproject.testrail.io/')
-    client.user = 'baghi.blbul@gmail.com'
-    client.password = 'asdasd'
+    pass
 	
+#todo
 def sync_testinfo(suite_id):
     filepath = '../tests.lst'
     with open(filepath) as fp:
         for cnt, line in enumerate(fp):
             tst = line.rstrip()
-            
-            print(tst)
-            
-            #result = client.send_post(
-            #    'add_case/'+suite_id,
-            #    { 'title': line.rstrip(),
-            #      'custom_steps': 'fixme1',
-            #      'custom_expected': 'fixme2',
-            #    }
-            #)
+            #print(tst)
+            result = client.send_post(
+                'add_case/'+suite_id,
+                { 'title': line.rstrip(),
+                  'custom_steps': 'fixme1',
+                  'custom_expected': 'fixme2',
+                }
+            )
             print(result)
 
  

@@ -17,12 +17,15 @@ options="$@"
 export PAINTER_SQA_ROOT=$DIR/..
 export PAINTER_SCRIPTS_DIR=$PAINTER_SQA_ROOT/scripts
 export PYTHON_PATH=$PAINTER_SCRIPTS_DIR:$PYTHON_PATH
+export IS_CI=0
+
 if [ "$CI_BUILD" == "" ]; then
     CI_BUILD="TCI_UNIT"
 fi
-if [ "$CI_CHECK" == "1" ];  then
+if [ "$CI_CHECK" == "2" ];  then
     run_id=`python3 $PAINTER_SCRIPTS_DIR/testrail_binder.py -action create_new_run --projectid 1 --runname $CI_BUILD --suiteid 1 `
     echo "TESTRAIL TestRUN:<$run_id>"
+    export IS_CI=2
 fi
 
 
@@ -59,7 +62,7 @@ for i in `cat $PAINTER_SQA_ROOT/tests.lst`; do
         fi
         echo  "------------------------------------------------------------------------------------"
     cd - &> /dev/null
-    if [ "$CI_CHECK" == "1" ];  then
+    if [ "$IS_CI" == "1" ];  then
         r=`python3 $PAINTER_SCRIPTS_DIR/testrail_binder.py -action update_test_result --runid $run_id --resultid $t_res --testname "$i" `
         echo "RESULT:<$r>" &> testrail.io
     fi

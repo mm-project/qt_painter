@@ -59,27 +59,15 @@ class dicmdCreateObj : public DirectCommandBase
         
         virtual void execute() {
             //* //std::vector<QPoint> v(GET_CMD_ARG(PointListCommandOptionValue,"-points"));
-            std::cout << "1" << std::endl;
             m_shape = ShapeCreator::getInstance().create(T);
-            std::cout << "2" << std::endl;
-
             for( auto it: PL_ARG("-points") )
                 m_shape->addPoint(it.get());
 
-            std::cout << "3" << std::endl;
-
             ShapeProperties pr;
             pr.fromString(S_ARG("-color"),I_ARG("-brush"),I_ARG("-fill"));
-            std::cout << "4" << std::endl;
-
             m_shape->updateProperties(pr);
-            std::cout << "5" << std::endl;
-
             m_executed_object = ws->addObject(m_shape);
             rq.insertObject(m_executed_object);
-            std::cout << "6" << std::endl;
-
-            /**/
         }
        
         virtual std::string get_name() {
