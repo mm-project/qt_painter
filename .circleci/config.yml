@@ -13,7 +13,7 @@ jobs:
           command: export TERM=xterm; cmake CMakeLists.txt; make
       - run:
           name: compile_ut
-          command: export TERM=xterm; cd src/commands/test; make
+          command: export TERM=xterm; ./etc/bsys/bin/makeUnitTests.sh
       - run:
           name: testing_unit
           command: export CI_BUILD="CCI_UNIT_TEST$CIRCLE_BUILD_NUM"; export CI_CHECK=1; export TERM=xterm;  xvfb-run ./sqa/bin/runUnitTests.sh
