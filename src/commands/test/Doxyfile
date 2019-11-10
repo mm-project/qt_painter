@@ -1,0 +1,1 @@
+INPUT=test_load_save_commands.cpp test_shape_creation_directive_commands.cpp

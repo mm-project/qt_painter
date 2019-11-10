@@ -1,0 +1,5 @@
+src/commands
+src/core
+src/core/rq
+src/gui
+src/io
