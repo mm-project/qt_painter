@@ -70,5 +70,6 @@ bool UT_load_save_commands()
 
 int main()
 {
-    UT_load_save_commands();
+    //UT_load_save_commands();
+    return 0;
 }

@@ -70,6 +70,6 @@ bool UT_delete_command()
 
 int main() 
 {
-    return 0;
-    //UT_delete_command();
+    //return 0;
+    UT_delete_command();
 }
