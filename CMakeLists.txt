@@ -1,5 +1,6 @@
 cmake_minimum_required (VERSION 3.0)
 project (painter)
+include (etc/bsys/cmake_glavni.cm)
 
 add_subdirectory (${PROJECT_SOURCE_DIR}/src/io)
 add_subdirectory (${PROJECT_SOURCE_DIR}/src/core/rq)
