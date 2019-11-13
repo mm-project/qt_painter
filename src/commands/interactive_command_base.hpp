@@ -5,7 +5,7 @@
 
 #include "../core/event.hpp"
 
-
+#include <iostream>
 #include <string>
 #include <functional>
 
@@ -23,10 +23,14 @@ class InteractiveCommandBase : public CommandBase
 
         virtual void handle_mouse_release (int x , int y) {
             //log("click "+x+" "+y);
+            if (!m_is_released)
+                return;
+            
             m_last_click_point.setX(x);
             m_last_click_point.setY(y);
-            m_current_event_handler(MR);
-            m_is_released = true;
+            m_current_event_handler(MU);
+            m_is_released = false;
+               std::cout << "------------------------------------------------------------RELEASE\n";
         }
         
         virtual void handle_mouse_click(int x , int y) {
@@ -37,8 +41,11 @@ class InteractiveCommandBase : public CommandBase
             if ( m_is_released ) {
                 m_is_released = false;
                 m_current_event_handler(MC);
+                std::cout << "------------------------------------------------------------CLICKED\n";
             } else {
-                m_current_event_handler(MP);
+                std::cout << "------------------------------------------------------------HOLD\n";
+                m_current_event_handler(MD);
+                m_is_released = true;
             }
         }
         

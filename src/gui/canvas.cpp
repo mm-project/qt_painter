@@ -277,10 +277,10 @@ void canvas::abordCommand()
 
 void canvas::invoke_copy()
 {
-  //cm.activate_command(cm.find_command("incmdObjRelocateByCopy"));
+  cm.activate_command(cm.find_command("incmdObjRelocateByCopy"));
 }
 
 void canvas::invoke_move()
 {
-  //cm.activate_command(cm.find_command("incmdObjRelocateByMove"));
+  cm.activate_command(cm.find_command("incmdObjRelocateByMove"));
 }

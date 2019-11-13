@@ -63,10 +63,11 @@ public:
 
         void on_idle(const EvType& ev) 
         {
-            if ( ev == MC )
-                    on_click();
-            else if ( ev == MP ) 
-                   on_press();
+            //if ( ev == MC )
+            //        on_click();
+            //else 
+                if ( ev == MD ) 
+                    on_press(OTHER);//set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer,on_press));
             else
                 return;
         }
@@ -80,6 +81,7 @@ public:
         }
         
         void movement_commit() {
+            //set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer,on_idle));
             if ( m_original_shape == nullptr || m_se.getObjects().empty()  )
                 return;
             
@@ -101,31 +103,43 @@ public:
             m_original_shape = nullptr;
             m_sb->clear();
             m_se.clear();
-            m_cm.return_to_idle();
+            //m_cm.return_to_idle();
+            set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer,on_idle));
         }
         
         
-        void on_press() {
+        void on_press(const EvType& ev) {
             //assert(0);    
             //if (m_move_mode)
                 //    return;
-                
+              //assert(0);
+              if ( m_se.getObjects().empty() )
+                  on_click();
             //if (!m_shape_added) {
-                m_move_mode=true;
                 //if (m_sb)
                 //    m_sb->clear();
                 //m_se.highlightselect_shape_under_pos(InteractiveCommandBase::get_last_point());
-                m_se.select_shape_under_pos(InteractiveCommandBase::get_last_point());
+                //m_se.select_shape_under_pos(InteractiveCommandBase::get_last_point());
                 if ( ! m_se.getObjects().empty() ) {
                     m_sb->clear();
                     m_original_shape = m_se.getObjects()[0];
                     //for ( auto it : m_se.getObjects() )
                      //   m_sb->addObject(it);
 					m_sb->addObject(m_original_shape);
+                    m_move_mode=true;
+                    set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer,on_mousemove));
                 }
                 //m_shape_added = true;
             //}
 
+        }
+        
+        void on_mousemove(const EvType& ev) 
+        {
+            if ( ev == MM )
+                move_selected_to_point(InteractiveCommandBase::get_last_point());
+            else if ( ev == MU )
+                movement_commit();
         }
         
         void move_selected_to_point(QPoint p) {
@@ -236,7 +250,7 @@ private:
 //command cycle
 public:
         void on_idle(const EvType& ev) {
-            if ( ev == MC || ev == MP ) { 
+            if ( ev == MC || ev == MD ) { 
                 if ( m_first_click ) {
                     m_first_click = false;
                     m_se.clear();

@@ -139,7 +139,7 @@ public:
 		//if ( ev == KP ) //key pressed, abort
 		//	InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,abort1));
 		
-		if ( ev != MP && ev!= MC ) //not mouse click, return
+		if ( ev != MD && ev != MC ) //not mouse click, return
 			return false;
 		
 		//mouse clicked , set first point and go to next state 
@@ -157,7 +157,7 @@ public:
 		//assert(0);
 		if ( ev == MM )
 			ObjCreatorCommandBase<T>::runtime_set_pos2();
-		else if ( ev == MP || ev == MC )
+		else if ( ev == MD || ev == MC )
                         on_commit(OTHER);
                         //InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,on_commit));
 
@@ -204,7 +204,7 @@ public:
 
 	bool idle(const EvType& ev) {
 
-		if ( ev != MP && ev!= MC ) //not mouse click, return
+		if ( ev != MD && ev != MC ) //not mouse click, return
 			return false;
 
 		ObjCreatorCommandBase<POLYGON>::create_runtime_object();
@@ -216,7 +216,7 @@ public:
 	void on_first_click(const EvType& ev)
 	{
 		//assert(0);
-		if ( ev == MC || ev == MP )
+		if (  ev == MU || ev == MC )
 			ObjCreatorCommandBase<POLYGON>::runtime_set_pos2();
 		else if ( ev == MM)
 			ObjCreatorCommandBase<POLYGON>::runtime_movePoint();
@@ -247,6 +247,7 @@ public:
 // incmdCreateNthgon<2> => line
 // incmdCreateNthgon<3> => triangle
 // incmdCreateNthgon<6> => hexagon
+/*
 template<int T>
 class incmdCreateNthgon : public ObjCreatorCommandBase<POLYGON>
 {
@@ -310,6 +311,6 @@ public:
 		reset_count();
 	}
 };
-
+*/
 
 #endif

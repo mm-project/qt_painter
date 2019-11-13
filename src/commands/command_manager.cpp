@@ -12,6 +12,7 @@
 #include "../core/postman.hpp"
 #include "../core/callback.hpp"
 #include "../core/renderer.hpp"
+#include "../core/application.hpp"
 
 #include "../gui/statusbar_manager.hpp"
 #include "../gui/main_window.hpp"
@@ -65,7 +66,7 @@ void command_manager::set_idle_command(CommandBase* cmd)
 {
     m_idle_command = cmd;
     m_current_command = m_idle_command;  
-    activate_command(m_current_command);
+    activate_command(m_current_command,false);
     //std::cout << "idle is: " <<  m_idle_command << std::endl;
 }
 
@@ -182,7 +183,8 @@ void command_manager::mouse_clicked(int x, int y) {
     std::cout << "current commdn is: " <<  m_current_command << std::endl;
     //std::cout << x << "(" << x/m_kx-m_dx << ")  --- " << y << "(" << y/m_ky-m_dy << ")" << std::endl;  
     //find_command("dicmdCanvasMouseClick").log();
-    dicmdCanvasMouseClick(QPoint(x,y)).log();
+    //if(!Application::is_replay_mode())
+        dicmdCanvasMouseClick(QPoint(x,y)).log();
     m_current_command->handle_mouse_click(x/m_kx-m_dx,y/m_ky-m_dy);
 }
 
@@ -192,9 +194,9 @@ void command_manager::mouse_moved(int x, int y) {
     m_current_command->handle_mouse_move(x/m_kx-m_dx,y/m_ky-m_dy);
 }
 
-
 void command_manager::mouse_released(int x, int y) {
-    dicmdCanvasMouseRelease(QPoint(x,y)).log();
+    if(!Application::is_replay_mode())
+        dicmdCanvasMouseRelease(QPoint(x,y)).log();
     std::cout << "current commdn is: " <<  m_current_command << std::endl;
     m_current_command->handle_mouse_release(x/m_kx-m_dx,y/m_ky-m_dy);
 }
