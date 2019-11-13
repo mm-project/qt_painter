@@ -126,7 +126,7 @@ void LogReader::execute_next_command() {
         return;
     }
     
-    std::cout << "dolya varavsyaka" << std::endl;
+    //std::cout << "dolya varavsyaka" << std::endl;
     CommandBase* cmd = m_interp.get_cmd_obj(m_command_queue.front().toStdString());
     m_command_queue.pop();
     

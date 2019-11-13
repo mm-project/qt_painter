@@ -136,6 +136,7 @@ void canvas::keyPressEvent(QKeyEvent* ev) {
         else {
             if( cm.is_idle() ) 
                 return;
+            cm.key_pressed();
         }       
         update();        
 }
@@ -146,9 +147,9 @@ void canvas::mousePressEvent(QMouseEvent* e)
         return;
 
     QPoint p(e->pos());
-    if(!Application::is_replay_mode())
+    //if(!Application::is_replay_mode())
     //if(!Application::is_log_mode())
-    dicmdCanvasMouseClick(p).log();
+    //dicmdCanvasMouseClick(p).log();
     cm.mouse_clicked(p.x(),p.y());
     m_renderer->click_hint();
 }
@@ -176,8 +177,8 @@ void canvas::mouseMoveEvent(QMouseEvent* e)
 	cm.mouse_moved(_x, _y);
 
 	//if Preference::isSet("guiLogMouseMove")
-	if ( m_need_motionlog )
-		dicmdCanvasMouseMove(e->pos()).log();
+	//if ( m_need_motionlog )
+		//dicmdCanvasMouseMove(e->pos()).log();
 	/**/
 	
     update();
@@ -192,8 +193,9 @@ void canvas::wheelEvent(QWheelEvent* e)
 
 void canvas::mouseDoubleClickEvent(QMouseEvent* e)
 {
-    if(!Application::is_replay_mode())
-       dicmdCanvasMouseDblClick(e->pos()).log();
+    //if(!Application::is_replay_mode())
+       //dicmdCanvasMouseDblClick(e->pos()).log();
+   
     cm.mouse_dbl_clicked(e->pos().x(),e->pos().y());
     //if(!Application::is_log_mode())
     update();

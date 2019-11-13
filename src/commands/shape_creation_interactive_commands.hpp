@@ -10,7 +10,7 @@
 #include "../core/shape_creator.hpp"
 #include "../core/postman.hpp"
 
-
+#include <cassert>
 #include <sstream>
 
 template <ObjectType T>
@@ -34,12 +34,13 @@ public:
 	//and passes gathered points 
 	virtual void commit() {
 		//begin transaction
+        //assert(0);
 		m_internal_vec.push_back(InteractiveCommandBase::get_last_point());
 		//m_postman->notify(INTERACTIVE_COMMAND_PRE_COMMIT,a);
 		auto ob = re->getPool()->getObjects();
 		for (auto i : ob)
                 dicmdCreateObj<T>(m_internal_vec,m_controller.get_shape_properties(),ws).silent_execute();
-                    //ws->addObject(i);
+                //ws->addObject(i);
                 //end transaction
 		finish();
 		//m_postman->notify(INTERACTIVE_COMMAND_POST_COMMIT,a);
@@ -48,6 +49,9 @@ public:
 	virtual void finish() {
 		m_internal_vec.clear();
 		re->clear();
+		//command_manager::getInstance().return_to_idle();
+        //assert(0);
+        //return;
 	}
 	
 	void set_properties(const ShapeProperties& p) {
@@ -90,7 +94,6 @@ public:
 		//dicmdAbortActiveCommand().log();
 		//d.execute_and_log();
 		//fini();
-		command_manager::getInstance().return_to_idle();
 	}
 
 protected:    
@@ -128,6 +131,7 @@ public:
 public:      
         
 	bool idle(const EvType& ev) {
+        StatusBarManager::getInstance().updateStatusBar("(idle) Click and drag on canvas to create shape",1,0);
 
                 //std::cout << "idle " << std::endl;
                 //waiting for first mouse click
@@ -135,7 +139,7 @@ public:
 		//if ( ev == KP ) //key pressed, abort
 		//	InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,abort1));
 		
-		if ( ev != MC ) //not mouse click, return
+		if ( ev != MP && ev!= MC ) //not mouse click, return
 			return false;
 		
 		//mouse clicked , set first point and go to next state 
@@ -153,7 +157,7 @@ public:
 		//assert(0);
 		if ( ev == MM )
 			ObjCreatorCommandBase<T>::runtime_set_pos2();
-		else if ( ev == MC || ev == KP )
+		else if ( ev == MP || ev == MC )
                         on_commit(OTHER);
                         //InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,on_commit));
 
@@ -162,7 +166,7 @@ public:
 	}
 
 	void on_commit(const EvType&) {
-		//assert(0);
+		    //assert(0);
 			StatusBarManager::getInstance().clear();
 			on_commit_internal();
 	}
@@ -170,7 +174,7 @@ public:
 	//FIXME doesn't work
 	void abort1(const EvType&) {
 			StatusBarManager::getInstance().clear();
-                        ObjCreatorCommandBase<T>::abort();
+            ObjCreatorCommandBase<T>::abort();
 	}
 
 	virtual void on_commit_internal() {
@@ -200,7 +204,7 @@ public:
 
 	bool idle(const EvType& ev) {
 
-		if (ev != MC) //not mouse click, return
+		if ( ev != MP && ev!= MC ) //not mouse click, return
 			return false;
 
 		ObjCreatorCommandBase<POLYGON>::create_runtime_object();
@@ -212,7 +216,7 @@ public:
 	void on_first_click(const EvType& ev)
 	{
 		//assert(0);
-		if ( ev == MC )
+		if ( ev == MC || ev == MP )
 			ObjCreatorCommandBase<POLYGON>::runtime_set_pos2();
 		else if ( ev == MM)
 			ObjCreatorCommandBase<POLYGON>::runtime_movePoint();

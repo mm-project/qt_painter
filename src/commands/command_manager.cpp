@@ -35,6 +35,7 @@ void command_manager::init2(ObjectPoolSandboxPtr r, IObjectPoolPtr s) {
 void command_manager::init() {
     register_command(new dicmdCanvasMouseMove);
     register_command(new dicmdCanvasMouseClick);
+    register_command(new dicmdCanvasMouseRelease);
     register_command(new dicmdCanvasMouseDblClick);
     register_command(new dicmdguiSelectRadioButton);
     register_command(new dicmdAbortActiveCommand);
@@ -83,7 +84,8 @@ void command_manager::register_command(CommandBase* cmd) {
 void command_manager::activate_command(CommandBase* cmd, bool needlog) {
     //FIXME crashes obviously
     //delete m_current_command;
-    
+        std::cout << "activating: " <<  cmd << std::endl;
+
     if ( !is_idle() && cmd->get_type() == Interactive )
 		m_current_command->abort(); 
     
@@ -177,17 +179,22 @@ void command_manager::mouse_dbl_clicked(int x, int y) {
 }
 
 void command_manager::mouse_clicked(int x, int y) {
+    std::cout << "current commdn is: " <<  m_current_command << std::endl;
     //std::cout << x << "(" << x/m_kx-m_dx << ")  --- " << y << "(" << y/m_ky-m_dy << ")" << std::endl;  
+    //find_command("dicmdCanvasMouseClick").log();
+    dicmdCanvasMouseClick(QPoint(x,y)).log();
     m_current_command->handle_mouse_click(x/m_kx-m_dx,y/m_ky-m_dy);
 }
 
 void command_manager::mouse_moved(int x, int y) {
+    //dicmdCanvasMouseMove(QPoint(x,y)).log();
     //std::cout << "current commdn is: " <<  m_current_command << std::endl;
     m_current_command->handle_mouse_move(x/m_kx-m_dx,y/m_ky-m_dy);
 }
 
 
 void command_manager::mouse_released(int x, int y) {
+    dicmdCanvasMouseRelease(QPoint(x,y)).log();
     std::cout << "current commdn is: " <<  m_current_command << std::endl;
     m_current_command->handle_mouse_release(x/m_kx-m_dx,y/m_ky-m_dy);
 }

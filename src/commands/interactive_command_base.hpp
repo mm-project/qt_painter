@@ -15,7 +15,7 @@ typedef std::function<void( const EvType& )> CmdMemFun;
 class InteractiveCommandBase : public CommandBase
 {
 
-    bool m_is_released = true;
+    bool m_is_released = false;
     public:
         virtual CommandType get_type() {
             return Interactive;

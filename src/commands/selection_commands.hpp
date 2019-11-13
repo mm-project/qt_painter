@@ -46,20 +46,39 @@ public:
             InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer,on_idle));
         }
 		
-        void on_idle(const EvType& ev) 
+        /*void on_idle(const EvType& ev) 
         {
             if ( ev == MM )
                 if ( ! m_move_mode ) 
                     return; //m_se.highlight_shape_under_pos(InteractiveCommandBase::get_last_point());
                 else 
                     move_selected_to_point(InteractiveCommandBase::get_last_point());
-            else if ( ev == MC ) 
-                   on_click();
+            else if ( ev == MC )
+                    on_click();
+            else if ( ev == MP ) 
+                   on_press();
             else if ( ev == MR &&  m_move_mode )
                     movement_commit();
+        }*/
+
+        void on_idle(const EvType& ev) 
+        {
+            if ( ev == MC )
+                    on_click();
+            else if ( ev == MP ) 
+                   on_press();
+            else
+                return;
         }
-		
+
     private:
+        void on_click() {
+            m_se.clear();
+            m_se.select_shape_under_pos(InteractiveCommandBase::get_last_point());
+            std::string msg("Selected "+QString::number(m_se.getObjects().size()).toStdString()+" shapes.");
+            StatusBarManager::getInstance().updateStatusBar(msg.c_str(),1,0);
+        }
+        
         void movement_commit() {
             if ( m_original_shape == nullptr || m_se.getObjects().empty()  )
                 return;
@@ -86,8 +105,9 @@ public:
         }
         
         
-        void on_click() {
-                //if (m_move_mode)
+        void on_press() {
+            //assert(0);    
+            //if (m_move_mode)
                 //    return;
                 
             //if (!m_shape_added) {
@@ -216,7 +236,7 @@ private:
 //command cycle
 public:
         void on_idle(const EvType& ev) {
-            if ( ev == MC ) { 
+            if ( ev == MC || ev == MP ) { 
                 if ( m_first_click ) {
                     m_first_click = false;
                     m_se.clear();

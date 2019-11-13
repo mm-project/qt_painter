@@ -1,6 +1,6 @@
 #include "RegionQueryService.hpp"
-
 #include "rq_object.hpp"
+#include "debug_helper.hpp"
 
 //Fake RQ by just working directly to working set.
 #ifdef NO_RQ
@@ -62,7 +62,7 @@ void RegionQuery::insertObject(IShape* object)
 		obj = std::shared_ptr<rq::IRQobject>(new rq::RQpolygon(object));
 		break;
 	}
-
+    DBG_RQ("insert",object);
 	m_tree->insert(obj);
 }
  
@@ -84,8 +84,10 @@ void RegionQuery::removeObject(IShape* object)
 		obj = std::shared_ptr<rq::IRQobject>(new rq::RQpolygon(object));
 		break;
 	}
+    DBG_RQ("remove",object);
 	m_tree->remove(obj);
 }
+
 IShape* RegionQuery::getShapeUnderPos(const QPoint& p) const
 {
 	rq::RQobjectPtr obj = m_tree->getObject(rq::CPoint(p));

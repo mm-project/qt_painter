@@ -4,6 +4,11 @@
 #include "../gui/controller.hpp"
 #include "rq/RegionQueryService.hpp"
 
+#include <QFile>
+#include <QDir>
+#include <QTextStream>
+
+
 std::string Selection::getName() 
 {
     //int* a;
@@ -11,6 +16,26 @@ std::string Selection::getName()
     //std::raise(SIGSEGV);
     return "Selection";
         
+}
+
+void Selection::dumpToFile(const std::string& fname)
+{
+    QFile file(fname.c_str());
+    file.open( QIODevice::WriteOnly | QIODevice::Append ); 
+    QTextStream z(&file);
+ 
+    z << "Name: "   << getName().c_str() ;
+    z << "\nObjCount: " << QString::number(getObjects().size());
+    z << "\n======\n";
+    for (auto i : m_objs) {
+        z << ObjType2String(i->getType()).c_str();
+        z << ":"; //i->getPoints();
+        z << "\n";
+    }
+    z << "--------";
+
+    file.flush();
+    file.close();
 }
 
 IShape* Selection::addObject(IShape* shape) 

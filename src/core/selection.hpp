@@ -12,6 +12,8 @@
 #include <QPoint>
 #include <QRect>
 
+#include <string>
+
 class HighlightSet;
 
 class Selection : public Service<Selection> , public WorkingSet
@@ -34,6 +36,7 @@ public:
         virtual IShape* addObject(IShape*);
         virtual void removeObject(IShape*) {}
         virtual std::string getName();
+        virtual void dumpToFile(const std::string& fname);
 
 public:   
         void set_working_set(IObjectPool* ws);
