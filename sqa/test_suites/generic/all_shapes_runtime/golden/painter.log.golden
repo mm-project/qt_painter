@@ -813,8 +813,8 @@ dicmdCanvasMouseMove -point (605,101)
 dicmdCanvasMouseClick -point (605,101) 
 dicmdCanvasMouseClick -point (605,101) 
 dicmdCanvasMouseDblClick -point (605,101) 
-#o --> Out: dicmdCreateObjPolygon -brush 1 -color #000000 -fill 9 -points {(501,38);(603,38);(605,101);(605,101)} 
 dicmdCanvasMouseDblClick -point (605,101) 
+#o --> Out: dicmdCreateObjPolygon -brush 1 -color #000000 -fill 9 -points {(501,38);(603,38);(605,101);(605,101)} 
 dicmdCanvasMouseMove -point (604,101) 
 dicmdCanvasMouseMove -point (603,101) 
 dicmdCanvasMouseMove -point (600,101) 
@@ -929,8 +929,8 @@ dicmdCanvasMouseMove -point (618,228)
 dicmdCanvasMouseClick -point (618,228) 
 dicmdCanvasMouseClick -point (618,228) 
 dicmdCanvasMouseDblClick -point (618,228) 
-#o --> Out: dicmdCreateObjPolygon -brush 1 -color #000000 -fill 9 -points {(556,125);(611,201);(488,233);(618,228);(618,228)} 
 dicmdCanvasMouseDblClick -point (618,228) 
+#o --> Out: dicmdCreateObjPolygon -brush 1 -color #000000 -fill 9 -points {(556,125);(611,201);(488,233);(618,228);(618,228)} 
 dicmdCanvasMouseMove -point (617,228) 
 dicmdCanvasMouseMove -point (616,228) 
 dicmdCanvasMouseMove -point (616,229) 
@@ -1270,8 +1270,8 @@ dicmdCanvasMouseClick -point (531,191)
 dicmdCanvasMouseClick -point (531,191) 
 dicmdCanvasMouseMove -point (531,192) 
 dicmdCanvasMouseDblClick -point (531,192) 
-#o --> Out: dicmdCreateObjPolygon -brush 1 -color #000000 -fill 9 -points {(523,264);(479,95);(431,202);(515,178);(516,102);(493,127);(493,127);(534,153);(512,152);(537,158);(522,165);(543,170);(530,178);(551,181);(529,183);(548,187);(531,191);(531,192)} 
 dicmdCanvasMouseDblClick -point (531,192) 
+#o --> Out: dicmdCreateObjPolygon -brush 1 -color #000000 -fill 9 -points {(523,264);(479,95);(431,202);(515,178);(516,102);(493,127);(493,127);(534,153);(512,152);(537,158);(522,165);(543,170);(530,178);(551,181);(529,183);(548,187);(531,191);(531,192)} 
 dicmdCanvasMouseClick -point (531,192) 
 dicmdCanvasMouseClick -point (531,192) 
 dicmdCanvasMouseMove -point (531,191) 
@@ -1336,8 +1336,8 @@ dicmdCanvasMouseMove -point (828,212)
 dicmdCanvasMouseClick -point (828,212) 
 dicmdCanvasMouseClick -point (828,212) 
 dicmdCanvasMouseDblClick -point (828,212) 
-#o --> Out: dicmdCreateObjPolygon -brush 1 -color #000000 -fill 9 -points {(531,192);(885,77);(917,183);(828,212);(828,212)} 
 dicmdCanvasMouseDblClick -point (828,212) 
+#o --> Out: dicmdCreateObjPolygon -brush 1 -color #000000 -fill 9 -points {(531,192);(885,77);(917,183);(828,212);(828,212)} 
 dicmdCanvasMouseMove -point (828,207) 
 dicmdCanvasMouseMove -point (828,185) 
 dicmdCanvasMouseMove -point (830,149) 

@@ -94,9 +94,19 @@ canvas::canvas(QWidget* p)
 
 
 renderer* canvas::get_renderer() {
-        return m_renderer;
+    return m_renderer;
 }
  
+bool canvas::event(QEvent* event) 
+{
+    if (event->type() == QEvent::User ) {
+            QPoint p = (dynamic_cast<QMouseEvent*>(event))->pos();
+            cm.mouse_pressed(p.x(),p.y());
+            update();
+    }
+   QWidget::event(event);
+}
+
 void canvas::keyPressEvent(QKeyEvent* ev) {
     
     //binding goes here

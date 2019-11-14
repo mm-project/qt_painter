@@ -71,6 +71,7 @@ class CommandBase : public ICommand
         virtual void handle_mouse_dblclick(int,int) {}
         virtual void handle_mouse_release(int,int) {}
         virtual void handle_mouse_move(int,int) {}
+        virtual void handle_mouse_press(int,int) {}
         virtual void handle_key_press() {}
         virtual void handle_update() {}
         

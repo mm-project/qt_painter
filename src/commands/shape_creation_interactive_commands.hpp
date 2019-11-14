@@ -87,13 +87,14 @@ public:
 	
 	virtual void abort() {
 		//log("dicmdAbortActiveCommand");
-                finish();
+        finish();
                 //m_internal_vec.clear();
 		//re->clear();
 		//FIXME crashing in recursion
 		//dicmdAbortActiveCommand().log();
 		//d.execute_and_log();
 		//fini();
+        command_manager::getInstance().return_to_idle();
 	}
 
 protected:    

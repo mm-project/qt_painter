@@ -212,6 +212,33 @@ class dicmdCanvasMouseClick: public NonTransactionalDirectCommandBase
 };
 
 
+class dicmdCanvasMousePress: public NonTransactionalDirectCommandBase
+{
+    
+    QPoint m_p;
+    public:
+
+        dicmdCanvasMousePress() {
+            add_option("-point",new PointCommandOptionValue(QPoint(0,0)));
+        }
+        
+        dicmdCanvasMousePress(const QPoint& p):NonTransactionalDirectCommandBase("-point",new PointCommandOptionValue(p)) 
+        { m_p = p; }
+        
+        virtual std::string get_name() {
+            return "dicmdCanvasMousePress";
+        }
+        
+        virtual void execute() {
+            //m_p = (dynamic_cast<PointCommandOptionValue*>(get_option_val("-point")))->get();
+            m_p = GET_CMD_ARG(PointCommandOptionValue,"-point");
+            dicmdCanvasMouseMove(m_p).execute();
+            QMouseEvent event(QEvent::User, m_p, Qt::LeftButton, 0, 0);
+            QApplication::sendEvent(CM->findChild<QWidget*>("CANVAS"), &event);
+        } 
+};
+
+
 class dicmdCanvasMouseRelease: public NonTransactionalDirectCommandBase
 {
     

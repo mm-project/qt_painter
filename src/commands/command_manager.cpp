@@ -38,6 +38,7 @@ void command_manager::init() {
     register_command(new dicmdCanvasMouseClick);
     register_command(new dicmdCanvasMouseRelease);
     register_command(new dicmdCanvasMouseDblClick);
+    register_command(new dicmdCanvasMousePress);
     register_command(new dicmdguiSelectRadioButton);
     register_command(new dicmdAbortActiveCommand);
     register_command(new dicmdguiSelectComboValue); 
@@ -169,13 +170,11 @@ void command_manager::on_viewport_changed(LeCallbackData& d)
     std::cout << m_dx << " " << m_dy << std::endl;
     std::cout << "***\n";
     /**/
-   
-    
 }
 
 void command_manager::mouse_dbl_clicked(int x, int y) {
     //std::cout << x << "(" << x/m_kx-m_dx << ")  --- " << y << "(" << y/m_ky-m_dy << ")" << std::endl;  
-
+    dicmdCanvasMouseDblClick(QPoint(x,y)).log();
     m_current_command->handle_mouse_dblclick(x/m_kx-m_dx,y/m_ky-m_dy);
 }
 
@@ -184,7 +183,7 @@ void command_manager::mouse_clicked(int x, int y) {
     //std::cout << x << "(" << x/m_kx-m_dx << ")  --- " << y << "(" << y/m_ky-m_dy << ")" << std::endl;  
     //find_command("dicmdCanvasMouseClick").log();
     //if(!Application::is_replay_mode())
-        dicmdCanvasMouseClick(QPoint(x,y)).log();
+    dicmdCanvasMouseClick(QPoint(x,y)).log();
     m_current_command->handle_mouse_click(x/m_kx-m_dx,y/m_ky-m_dy);
 }
 
@@ -195,10 +194,17 @@ void command_manager::mouse_moved(int x, int y) {
 }
 
 void command_manager::mouse_released(int x, int y) {
-    if(!Application::is_replay_mode())
+    if(!Application::is_replay_mode() && (dynamic_cast<InteractiveCommandBase*>(m_current_command))->need_log_mouserelease())
         dicmdCanvasMouseRelease(QPoint(x,y)).log();
     std::cout << "current commdn is: " <<  m_current_command << std::endl;
     m_current_command->handle_mouse_release(x/m_kx-m_dx,y/m_ky-m_dy);
+}
+
+void command_manager::mouse_pressed(int x, int y) {
+    if(!Application::is_replay_mode())
+        dicmdCanvasMousePress(QPoint(x,y)).log();
+    
+    m_current_command->handle_mouse_press(x/m_kx-m_dx,y/m_ky-m_dy);
 }
 
 //FIXME interface?

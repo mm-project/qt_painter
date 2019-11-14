@@ -60,6 +60,7 @@ class command_manager : public Service<command_manager>
         void mouse_dbl_clicked(int x, int y);
         void mouse_clicked(int x, int y);
         void mouse_released(int, int);
+        void mouse_pressed(int, int);
         void mouse_moved(int x, int y);
         void key_pressed();
         void update_tookplace();

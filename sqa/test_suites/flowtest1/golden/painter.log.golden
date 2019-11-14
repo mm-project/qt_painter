@@ -1048,8 +1048,8 @@ dicmdCanvasMouseClick -point (198,188)
 dicmdCanvasMouseClick -point (198,188) 
 dicmdCanvasMouseClick -point (198,188) 
 dicmdCanvasMouseDblClick -point (198,188) 
-#o --> Out: dicmdCreateObjPolygon -brush 1 -color #000000 -fill 9 -points {(261,160);(261,160);(500,88);(500,88);(513,211);(513,211);(433,288);(433,288);(433,288);(433,288);(305,280);(305,280);(243,254);(243,254);(237,204);(237,204);(198,188);(198,188);(198,188);(198,188);(198,188)} 
 dicmdCanvasMouseDblClick -point (198,188) 
+#o --> Out: dicmdCreateObjPolygon -brush 1 -color #000000 -fill 9 -points {(261,160);(261,160);(500,88);(500,88);(513,211);(513,211);(433,288);(433,288);(433,288);(433,288);(305,280);(305,280);(243,254);(243,254);(237,204);(237,204);(198,188);(198,188);(198,188);(198,188);(198,188)} 
 dicmdCanvasMouseDblClick -point (198,188) 
 dicmdCanvasMouseDblClick -point (198,188) 
 incmdCreateObjEllipse

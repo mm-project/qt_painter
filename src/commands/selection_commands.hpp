@@ -25,6 +25,7 @@ class incmdSelectUnderCursoer: public InteractiveCommandBase
         Selection& m_se = Selection::getInstance();
         IShape* m_original_shape = nullptr;
         LeCallback* m_sel_cb;
+        bool m_need_mouserelase_log = false;
 
 public:
 	
@@ -44,6 +45,10 @@ public:
         virtual void execute() {
 
             InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer,on_idle));
+        }
+        
+        virtual bool need_log_mouserelease() {
+            return m_need_mouserelase_log;
         }
 		
         /*void on_idle(const EvType& ev) 
@@ -104,6 +109,7 @@ public:
             m_sb->clear();
             m_se.clear();
             //m_cm.return_to_idle();
+            m_need_mouserelase_log = false;
             set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer,on_idle));
         }
         
@@ -127,6 +133,7 @@ public:
                      //   m_sb->addObject(it);
 					m_sb->addObject(m_original_shape);
                     m_move_mode=true;
+                    //m_need_mouserelase_log = true;
                     set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer,on_mousemove));
                 }
                 //m_shape_added = true;
@@ -143,6 +150,7 @@ public:
         }
         
         void move_selected_to_point(QPoint p) {
+            m_need_mouserelase_log = true;
             for ( auto it: m_sb->getPool()->getObjects() ) {
                     std::cout << "rotate..." << std::endl; 
                     it->moveCenterToPoint(p);

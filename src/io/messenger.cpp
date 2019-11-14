@@ -149,7 +149,7 @@ void Messenger::log_command(const std::string& msg, bool iscmd)
     //if(! Application::is_replay_mode())	
         Messenger::expose_msg(ok,msg,iscmd);
     //else
-    //    Messenger::expose_msg(log,msg,iscmd);
+    //    Messenger::expose_msg(log_,msg,iscmd);
         
 }
 

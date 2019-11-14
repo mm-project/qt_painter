@@ -4,6 +4,7 @@
 #include "icommand_base.hpp"
 
 #include "../core/event.hpp"
+#include "../core/application.hpp"
 
 #include <iostream>
 #include <string>
@@ -33,11 +34,26 @@ class InteractiveCommandBase : public CommandBase
                std::cout << "------------------------------------------------------------RELEASE\n";
         }
         
+        virtual void handle_mouse_press(int x , int y) {
+            m_last_click_point.setX(x);
+            m_last_click_point.setY(y);
+            m_current_event_handler(MD);
+            m_is_released = true;
+            std::cout << "------------------------------------------------------------HOLD2\n";
+        }
+        
         virtual void handle_mouse_click(int x , int y) {
             //log("click "+x+" "+y);
             m_last_click_point.setX(x);
             m_last_click_point.setY(y);
 
+            if(Application::is_replay_mode()) {
+                m_current_event_handler(MC);
+                //m_is_released = false;
+                std::cout << "------------------------------------------------------------CLICKED2\n";
+                return;
+            }
+            
             if ( m_is_released ) {
                 m_is_released = false;
                 m_current_event_handler(MC);
@@ -65,7 +81,11 @@ class InteractiveCommandBase : public CommandBase
             m_current_event_handler(KP);
         }
        
+        virtual bool need_log_mouserelease() {
+            return false;
+        }
     public:
+        
         void set_auto_repeat(bool m) {
             m_autorepeat = m;
             
@@ -93,6 +113,8 @@ class InteractiveCommandBase : public CommandBase
         CmdMemFun m_current_event_handler;
         QPoint m_last_cursor_point;
         QPoint m_last_click_point;
+        QPoint m_last_pressed_point;
+        
         bool m_autorepeat = true;
 
 };
