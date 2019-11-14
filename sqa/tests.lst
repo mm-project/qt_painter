@@ -15,3 +15,6 @@ test_suites/interactive_point_selection1
 test_suites/directive/flow_1
 test_suites/object_properties_generic
 test_suites/interactive_postselect_copymove_basic
+test_suites/idle_move_shape
+test_suites/idle_move_rect_ellipse
+test_suites/interactive_complicated_copymove

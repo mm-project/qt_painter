@@ -135,8 +135,9 @@ void LogReader::execute_next_command() {
     //    return;
     //}
         //disconnect(m_timer, 0, 0, 0);
-    
+    QApplication::processEvents();
     m_interp.execute_cmd(cmd);
+    QApplication::processEvents();
     
     //t->deleteLater();
     //QApplication::processEvents();

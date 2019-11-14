@@ -46,14 +46,14 @@ class InteractiveCommandBase : public CommandBase
             //log("click "+x+" "+y);
             m_last_click_point.setX(x);
             m_last_click_point.setY(y);
-
-            if(Application::is_replay_mode()) {
+            /*
+            if(!Application::is_replay_mode()) {
                 m_current_event_handler(MC);
-                //m_is_released = false;
+                m_is_released = true;
                 std::cout << "------------------------------------------------------------CLICKED2\n";
                 return;
             }
-            
+            */
             if ( m_is_released ) {
                 m_is_released = false;
                 m_current_event_handler(MC);

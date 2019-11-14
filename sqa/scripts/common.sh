@@ -70,7 +70,7 @@ function postprocess
             rm -rf ../golden 
             mkdir -p ../golden
             for e in $extras; do
-                cp $e ../golden/$e.golden
+                cp -rf $e ../golden/$e.golden
             done
             cp ./logs/painter.log ../golden/painter.log.golden
             cp ./logs/painter.lvi ../golden/painter.lvi.golden
@@ -179,7 +179,7 @@ function run
     tool=$toolpath/$toolexe
     verbose "invocation: $tool "$options" &> painter.out "
 
-    $tool $options &> /dev/null
+    $tool $options &> painter.output
     exit_code=$?
 }
 

@@ -217,7 +217,7 @@ public:
 	void on_first_click(const EvType& ev)
 	{
 		//assert(0);
-		if (  ev == MU || ev == MC )
+		if (  ev == MD || ev == MC )
 			ObjCreatorCommandBase<POLYGON>::runtime_set_pos2();
 		else if ( ev == MM)
 			ObjCreatorCommandBase<POLYGON>::runtime_movePoint();

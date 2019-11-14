@@ -122,6 +122,52 @@ bool test2()
     painter->end();    
 }
 
+
+
+void test4() 
+{
+    
+    RegionQuery& rq = RegionQuery::getInstance();
+    rq.clean();
+      
+    //dzumaaaaa...!!!
+    rq.insertObject(create<rectangle>(QPoint(179,137),QPoint(83,62)));  //1, RQ!
+    rq.insertObject(create<rectangle>(QPoint(349,307),QPoint(143,202)));  //2, RQ!
+    rq.insertObject(create<rectangle>(QPoint(563,274),QPoint(454,198)));  //3, RQ!
+    rq.insertObject(create<rectangle>(QPoint(789,250),QPoint(736,168)));  //4, RQ!
+    rq.insertObject(create<rectangle>(QPoint(742,346),QPoint(620,259)));  //5, RQ!
+    rq.insertObject(create<rectangle>(QPoint(1028,255),QPoint(946,188)));  //6, RQ!
+    rq.removeObject(index2shape[6]);         //RQ!
+    rq.insertObject(create<rectangle>(QPoint(828,98),QPoint(746,31)));  //7, RQ!
+    rq.removeObject(index2shape[7]);         //RQ!
+    rq.insertObject(create<rectangle>(QPoint(980,262),QPoint(858,175)));  //8, RQ!
+    rq.removeObject(index2shape[8]);         //RQ!
+    rq.insertObject(create<rectangle>(QPoint(503,400),QPoint(450,318)));  //9, RQ!
+    rq.removeObject(index2shape[9]);         //RQ!
+    rq.insertObject(create<rectangle>(QPoint(886,272),QPoint(777,196)));  //10, RQ!
+    rq.removeObject(index2shape[10]);         //RQ!
+    rq.insertObject(create<rectangle>(QPoint(764,252),QPoint(558,147)));  //11, RQ!
+    rq.removeObject(index2shape[11]);         //RQ!
+    rq.insertObject(create<rectangle>(QPoint(582,201),QPoint(486,126)));  //12, RQ!
+    rq.removeObject(index2shape[12]);         //RQ!
+    rq.insertObject(create<rectangle>(QPoint(179,232),QPoint(126,150)));  //13, RQ!
+    
+    
+    QPicture pic;
+    pic.load("test4.pnt");
+    QPainter* painter = new QPainter();
+
+    painter->begin(&pic);
+    std::vector<IShape*> shapes = rq.getShapesUnderRect(QRect(0,0,10000,10000));
+    assert(shapes.size() != 0);
+    for ( auto shape : shapes )
+        shape->draw(painter);
+    painter->end();    
+    
+}
+
+
+
 void test3()
 {
     QPainter* painter = new QPainter();
@@ -195,5 +241,6 @@ int main(int argc, char** argv)
     //main_window window;
     //test1();
     //test2();
-    test3();
+    //test3();
+    test4();
 }

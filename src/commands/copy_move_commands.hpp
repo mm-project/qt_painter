@@ -206,7 +206,7 @@ private:
         }
         
         void wait_for_first_click(const EvType& ev) {
-               if ( ev == MC || ev == MP ) {
+               if ( ev == MC || ev == MP || ev == MU || ev == MD  ) {
                     m_clicked_point = InteractiveCommandBase::get_lastclk_point();
                     for ( auto shape: m_se.getObjects() ) {
                         QPoint diff(m_clicked_point - shape->getPoints()[0]);
@@ -222,7 +222,7 @@ private:
                 if ( ev == MM )
                     move_runtimes_to_point(InteractiveCommandBase::get_last_point());
                     
-                if ( ev == MC || ev == MP ) {
+                if ( ev == MU || ev == MP || ev == MD || ev == MC ) {
                    
                     if ( ! m_se.getObjects().empty() )
                         on_commit();
