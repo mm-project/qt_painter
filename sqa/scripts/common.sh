@@ -70,7 +70,7 @@ function postprocess
             rm -rf ../golden 
             mkdir -p ../golden
             for e in $extras; do
-                cp -rf $e ../golden/$e.golden
+                cp -rf $e ../golden/$e.golden &> /dev/null
             done
             cp ./logs/painter.log ../golden/painter.log.golden
             cp ./logs/painter.lvi ../golden/painter.lvi.golden

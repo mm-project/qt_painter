@@ -16,6 +16,7 @@
 #w --> Warning: No locator for QToolButton in mw/65/70/74/qt_tabwidget_tabbar/
 #w --> Warning: No locator for QToolButton in mw/65/70/74/qt_tabwidget_tabbar/
 #i --> Info: Welcome to this project. Feel free to expirment. 
+#dicmdQaReplyingBreak
 dicmdguiClickButton -object 0x104:Rectangle 
 incmdCreateObjRectangle
 dicmdCanvasMouseMove -point (75,5) 
@@ -997,7 +998,7 @@ dicmdCanvasMouseMove -point (69,50)
 dicmdCanvasMouseMove -point (68,51) 
 dicmdCanvasMouseMove -point (67,51) 
 dicmdCanvasMouseMove -point (67,52) 
-dicmdCanvasMouseClick -point (67,52) 
+#dicmdCanvasMouseClick -point (67,52) 
 dicmdCanvasMouseMove -point (67,54) 
 dicmdCanvasMouseMove -point (67,58) 
 dicmdCanvasMouseMove -point (67,62) 

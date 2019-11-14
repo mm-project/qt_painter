@@ -5,6 +5,8 @@
 #include "load_save_commands.hpp"
 #include "command_manager.hpp"
 
+#include "../core/rq/RegionQueryService.hpp"
+
 #include "../gui/modal_dialog.hpp"
 
 #include<QFileDialog>
@@ -32,7 +34,8 @@ class InteractiveDesAction: public InteractiveCommandBase
     std::string m_fn;
     std::string m_helpstr;
     bool m_is_saved = false;
-    
+    RegionQuery& rq = RegionQuery::getInstance();
+      
     public:
 	
         InteractiveDesAction<T>(IObjectPoolPtr s ):m_ws(s) { 
@@ -69,6 +72,7 @@ class InteractiveDesAction: public InteractiveCommandBase
             } else if ( T == NEW ) {
                 if ( is_agreed_with_user() ) {    
                     m_ws->clear();
+                    rq.clear();
                     command_manager::getInstance().get_main_widget()->update();
                 }
             }

@@ -142,6 +142,8 @@ void canvas::keyPressEvent(QKeyEvent* ev) {
         else if ( ev->key() == Qt::Key_W )
            cm.find_command("dicmdQaReplyingResume")->execute_and_log();
         else if ( ev->key() == Qt::Key_S )
+            cm.activate_command(cm.find_command("incmdSelectShapesByRegion"));
+        else if ( ev->key() == Qt::Key_N )
            cm.find_command("dicmdQaReplyStep")->execute_and_log();
         else {
             if( cm.is_idle() ) 

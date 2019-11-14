@@ -120,6 +120,7 @@ public:
 //helpers
 private:      
         void commit() {
+                StatusBarManager::getInstance().updateStatusBar("Commiting...",1,0);
                 RegionQuery& rq = RegionQuery::getInstance();
     
                 std::cout << "SELECTION" << m_se.getObjects().size() << "   RTSHAPES: " << m_sb->getPool()->getObjects().size() << "\n";
@@ -141,7 +142,7 @@ private:
         }
 
         void abort_internal() {
-                StatusBarManager::getInstance().updateStatusBar("Aborting...",1,0);
+                
                 m_se.clear();
                 m_sb->clear();
                 //m_se.clear();
@@ -149,6 +150,7 @@ private:
                 //m_cm.disactivate_active_command();
                 m_distances.clear();
                 m_sb2se.clear();
+                m_cm.return_to_idle();
                 std::cout << "abort2" << std::endl;
         }
     
@@ -206,7 +208,7 @@ private:
         }
         
         void wait_for_first_click(const EvType& ev) {
-               if ( ev == MC || ev == MP || ev == MU || ev == MD  ) {
+               if ( ev == MC || ev == MU || ev == MD  ) {
                     m_clicked_point = InteractiveCommandBase::get_lastclk_point();
                     for ( auto shape: m_se.getObjects() ) {
                         QPoint diff(m_clicked_point - shape->getPoints()[0]);
@@ -222,7 +224,7 @@ private:
                 if ( ev == MM )
                     move_runtimes_to_point(InteractiveCommandBase::get_last_point());
                     
-                if ( ev == MU || ev == MP || ev == MD || ev == MC ) {
+                if (  ev == MC || ev == MU || ev == MD  ) {
                    
                     if ( ! m_se.getObjects().empty() )
                         on_commit();

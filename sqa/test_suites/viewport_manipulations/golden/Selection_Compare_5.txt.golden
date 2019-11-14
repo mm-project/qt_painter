@@ -1,8 +1,9 @@
 Name: Selection
-ObjCount: 4
+ObjCount: 5
 ======
 Rectangle:
-Rectangle:
+Ellipse:
+Line:
 Ellipse:
 Ellipse:
 --------
