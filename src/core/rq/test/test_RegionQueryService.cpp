@@ -16,20 +16,23 @@
 #include <map>
 #include <vector>
 #include <type_traits>
+#include <iostream>
 
 std::map<int,IShape*> index2shape;
-int shapes_num;
+int shapes_num = 0;
 
 template<typename T>
 IShape* create(QPoint p1,  QPoint p2, QPoint p3 = QPoint())
 {
     IShape* shape = new T;
-    index2shape[++shapes_num] = shape;
+    //std::cout << shapes_num << " " << shape << std::endl;
+    index2shape[shapes_num] = shape;
+    shapes_num++;
     shape->addPoint(p2);
     shape->addPoint(p1);
     //if ( std::is_same<T, polygon>)
     //   shape->addPoint(p3);
-        
+    
     return shape;    
 }
 
@@ -128,7 +131,7 @@ void test4()
 {
     
     RegionQuery& rq = RegionQuery::getInstance();
-    rq.clean();
+    rq.clear();
       
     //dzumaaaaa...!!!
     rq.insertObject(create<rectangle>(QPoint(179,137),QPoint(83,62)));  //1, RQ!
@@ -227,12 +230,55 @@ void test3()
     std::cout << "shapes " << shapes.size() << std::endl;
     for ( auto shape : shapes ) {
         shape->draw(painter);
-        std::cout << get_points_str(shape) << std::endl;    
+        std::cout << get_points_str(&shape) << std::endl;    
     }
     painter->end();
  
     device->save("testing.pic");
     
+}
+
+
+void test5()
+{
+    QPainter* painter = new QPainter();
+    QPicture* device = new QPicture();
+    
+    RegionQuery& rq = RegionQuery::getInstance();
+    rq.clear();
+    index2shape.clear();
+    shapes_num = 0;
+  
+    //create 3 ellipses
+    rq.insertObject(create<ellipse>(QPoint(238,218),QPoint(82,74)));    //0, RQ!
+    //rq.insertObject(create<ellipse>(QPoint(290,247),QPoint(252,194)));  //1, RQ!
+    //rq.insertObject(create<ellipse>(QPoint(434,328),QPoint(298,287)));  //2, RQ!
+
+    //do 3 replacements ( a.k.a "move" in gui )
+    //move shape1 now become shape3
+    rq.removeObject(create<ellipse>(QPoint(290,247),QPoint(252,194)));         //RQ!
+    rq.insertObject(create<ellipse>(QPoint(440,203),QPoint(402,150)));  //3, RQ!
+
+    //move shape0 now become shape4    
+    rq.removeObject(create<ellipse>(QPoint(238,218),QPoint(82,74)));         //RQ!
+    rq.insertObject(create<ellipse>(QPoint(396,299),QPoint(240,155)));  //4, RQ!
+
+    //move shape4 now become shape5        
+    //rq.removeObject(index2shape[4]);         //RQ!
+    //rq.insertObject(create<ellipse>(QPoint(293,257),QPoint(137,113)));  //5, RQ!
+
+    
+    painter->begin(device);
+    std::vector<IShape*> shapes = rq.getShapesUnderRect(QRect(0,0,1000,1000));
+    std::cout << "shapes " << shapes.size() << std::endl;
+    for ( auto shape : shapes ) {
+        shape->draw(painter);
+        std::cout << get_points_str(&shape) << std::endl;    
+    }
+    painter->end();
+ 
+    device->save("testing.pic");
+
 }
 
 int main(int argc, char** argv)
@@ -242,5 +288,5 @@ int main(int argc, char** argv)
     //test1();
     //test2();
     //test3();
-    test4();
+    test5();
 }

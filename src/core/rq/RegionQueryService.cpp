@@ -46,6 +46,7 @@ RegionQuery::RegionQuery()
 
 void RegionQuery::insertObject(IShape* object)
 {
+    DBG_RQ("insert",&object);
 	rq::RQobjectPtr obj;
 	switch (object->getType())
 	{
@@ -62,12 +63,12 @@ void RegionQuery::insertObject(IShape* object)
 		obj = std::shared_ptr<rq::IRQobject>(new rq::RQpolygon(object));
 		break;
 	}
-    DBG_RQ("insert",object);
 	m_tree->insert(obj);
 }
  
 void RegionQuery::removeObject(IShape* object)
 {
+    DBG_RQ("remove",&object);
 	rq::RQobjectPtr obj;
 	switch (object->getType())
 	{
@@ -84,7 +85,6 @@ void RegionQuery::removeObject(IShape* object)
 		obj = std::shared_ptr<rq::IRQobject>(new rq::RQpolygon(object));
 		break;
 	}
-    DBG_RQ("remove",object);
 	m_tree->remove(obj);
 }
 

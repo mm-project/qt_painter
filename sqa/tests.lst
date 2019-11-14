@@ -21,3 +21,6 @@ test_suites/interactive_complicated_copymove
 test_suites/interactive_copymove_and_idle
 test_suites/copy_move_interactive_verybasic
 test_suites/interactive_nice_copymove
+test_suites/crash_case 
+test_suites/copymove_crash1
+
