@@ -19,6 +19,7 @@ class MockShape : public IShape
 	virtual void draw(QPainter*) { }
     virtual std::vector<QPoint> getPoints() { }
     virtual ObjectType getType() const { } ;
+    virtual void moveCenterToPoint(QPoint&) {}
 };
 
 //Mocking!: Implementations
@@ -28,6 +29,7 @@ void Messenger::log_command(const std::string&, bool) {}
 RegionQuery::RegionQuery() {}
 void RegionQuery::shutDown() {}
 void RegionQuery::insertObject(IShape*) {}
+void RegionQuery::removeObject(IShape*) {}
 void RegionQuery::clear() {}
 IShape* RegionQuery::getShapeUnderPos(QPoint const&) const { return nullptr; }
 
