@@ -97,6 +97,7 @@ renderer* canvas::get_renderer() {
     return m_renderer;
 }
  
+//this is temporary 
 bool canvas::event(QEvent* event) 
 {
     if (event->type() == QEvent::User ) {
@@ -284,15 +285,15 @@ void canvas::invoke_delete()
 
 void canvas::abordCommand()
 {
-  cm.activate_command(cm.find_command("dicmdAbortActiveCommand"));
+    cm.activate_command(cm.find_command("dicmdAbortActiveCommand"));
 }
 
 void canvas::invoke_copy()
 {
-  cm.activate_command(cm.find_command("incmdObjRelocateByCopy"));
+    cm.activate_command(cm.find_command("incmdObjRelocateByCopy"));
 }
 
 void canvas::invoke_move()
 {
-  cm.activate_command(cm.find_command("incmdObjRelocateByMove"));
+    cm.activate_command(cm.find_command("incmdObjRelocateByMove"));
 }

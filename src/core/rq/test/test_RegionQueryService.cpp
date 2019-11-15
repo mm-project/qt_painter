@@ -26,8 +26,7 @@ IShape* create(QPoint p1,  QPoint p2, QPoint p3 = QPoint())
 {
     IShape* shape = new T;
     //std::cout << shapes_num << " " << shape << std::endl;
-    index2shape[shapes_num] = shape;
-    shapes_num++;
+    index2shape[++shapes_num] = shape;
     shape->addPoint(p2);
     shape->addPoint(p1);
     //if ( std::is_same<T, polygon>)
@@ -230,7 +229,7 @@ void test3()
     std::cout << "shapes " << shapes.size() << std::endl;
     for ( auto shape : shapes ) {
         shape->draw(painter);
-        std::cout << get_points_str(&shape) << std::endl;    
+        std::cout << get_points_str(shape) << std::endl;    
     }
     painter->end();
  
@@ -249,31 +248,77 @@ void test5()
     index2shape.clear();
     shapes_num = 0;
   
-    //create 3 ellipses
-    rq.insertObject(create<ellipse>(QPoint(238,218),QPoint(82,74)));    //0, RQ!
-    //rq.insertObject(create<ellipse>(QPoint(290,247),QPoint(252,194)));  //1, RQ!
-    //rq.insertObject(create<ellipse>(QPoint(434,328),QPoint(298,287)));  //2, RQ!
-
-    //do 3 replacements ( a.k.a "move" in gui )
-    //move shape1 now become shape3
-    rq.removeObject(create<ellipse>(QPoint(290,247),QPoint(252,194)));         //RQ!
-    rq.insertObject(create<ellipse>(QPoint(440,203),QPoint(402,150)));  //3, RQ!
-
-    //move shape0 now become shape4    
-    rq.removeObject(create<ellipse>(QPoint(238,218),QPoint(82,74)));         //RQ!
-    rq.insertObject(create<ellipse>(QPoint(396,299),QPoint(240,155)));  //4, RQ!
-
-    //move shape4 now become shape5        
-    //rq.removeObject(index2shape[4]);         //RQ!
-    //rq.insertObject(create<ellipse>(QPoint(293,257),QPoint(137,113)));  //5, RQ!
-
-    
+    rq.insertObject(create<ellipse>(QPoint(192,140),QPoint(96,58)));  //1, RQ!
+    rq.insertObject(create<ellipse>(QPoint(298,263),QPoint(183,173)));  //2, RQ!
+    rq.removeObject(index2shape[2]);         //RQ!
+    rq.insertObject(create<ellipse>(QPoint(795,249),QPoint(680,159)));  //3, RQ!
+    rq.removeObject(index2shape[3]);         //RQ!
+    rq.insertObject(create<ellipse>(QPoint(335,321),QPoint(220,231)));  //4, RQ!
+    rq.removeObject(index2shape[1]);         //RQ!
+    rq.insertObject(create<ellipse>(QPoint(732,247),QPoint(636,165)));  //5, RQ!
+    rq.removeObject(index2shape[4]);         //RQ!
+    rq.insertObject(create<ellipse>(QPoint(711,159),QPoint(596,69)));  //6, RQ!
+    rq.removeObject(index2shape[5]);         //RQ!
+    rq.insertObject(create<ellipse>(QPoint(340,269),QPoint(244,187)));  //7, RQ!
+    rq.removeObject(index2shape[6]);         //RQ!
+    rq.insertObject(create<ellipse>(QPoint(946,310),QPoint(831,220)));  //8, RQ!
+    rq.insertObject(create<ellipse>(QPoint(521,144),QPoint(405,73)));  //9, RQ!
+    rq.removeObject(index2shape[9]);         //RQ!
+    rq.insertObject(create<ellipse>(QPoint(729,178),QPoint(613,107)));  //10, RQ!
+    rq.removeObject(index2shape[7]);         //RQ!
+    rq.insertObject(create<ellipse>(QPoint(228,219),QPoint(132,137)));  //11, RQ!
+    rq.removeObject(index2shape[10]);         //RQ!
+    rq.insertObject(create<ellipse>(QPoint(447,353),QPoint(331,282)));  //12, RQ!
+    rq.removeObject(index2shape[8]);         //RQ!
+    rq.insertObject(create<ellipse>(QPoint(488,164),QPoint(373,74)));  //13, RQ!
+    rq.removeObject(index2shape[12]);         //RQ!
+    rq.insertObject(create<ellipse>(QPoint(763,169),QPoint(647,98)));  //14, RQ!
+    rq.removeObject(index2shape[13]);         //RQ!
+    rq.insertObject(create<ellipse>(QPoint(202,248),QPoint(87,158)));  //15, RQ!
+    rq.removeObject(index2shape[14]);         //RQ!
+    rq.insertObject(create<ellipse>(QPoint(1011,267),QPoint(895,196)));  //16, RQ!
+    rq.removeObject(index2shape[15]);         //RQ!
+    rq.insertObject(create<ellipse>(QPoint(750,128),QPoint(635,38)));  //17, RQ!
+    rq.removeObject(index2shape[16]);         //RQ!
+    rq.insertObject(create<ellipse>(QPoint(345,270),QPoint(229,199)));  //18, RQ!
+    rq.removeObject(index2shape[17]);         //RQ!
+    rq.insertObject(create<ellipse>(QPoint(830,354),QPoint(715,264)));  //19, RQ!
+    rq.removeObject(index2shape[18]);         //RQ!
+    rq.insertObject(create<ellipse>(QPoint(212,165),QPoint(96,94)));  //20, RQ!
+    rq.removeObject(index2shape[19]);         //RQ!
+    rq.insertObject(create<ellipse>(QPoint(456,167),QPoint(341,77)));  //21, RQ!
+    rq.removeObject(index2shape[21]);         //RQ!
+    rq.insertObject(create<ellipse>(QPoint(683,167),QPoint(568,77)));  //22, RQ!
+    rq.removeObject(index2shape[22]);         //RQ!
+    rq.insertObject(create<ellipse>(QPoint(430,123),QPoint(315,33)));  //23, RQ!
+    rq.insertObject(create<ellipse>(QPoint(387,218),QPoint(279,131)));  //24, RQ!
+    rq.insertObject(create<ellipse>(QPoint(536,291),QPoint(388,241)));  //25, RQ!
+    rq.insertObject(create<ellipse>(QPoint(737,287),QPoint(574,209)));  //26, RQ!
+    rq.removeObject(index2shape[26]);         //RQ!
+    rq.insertObject(create<ellipse>(QPoint(870,174),QPoint(707,96)));  //27, RQ!
+    rq.removeObject(index2shape[23]);         //RQ!
+    rq.insertObject(create<ellipse>(QPoint(809,274),QPoint(694,184)));  //28, RQ!
+    rq.removeObject(index2shape[24]);         //RQ!
+    rq.insertObject(create<ellipse>(QPoint(632,204),QPoint(524,117)));  //29, RQ!
+    rq.removeObject(index2shape[29]);         //RQ!
+    rq.insertObject(create<ellipse>(QPoint(325,169),QPoint(217,82)));  //30, RQ!
+    rq.removeObject(index2shape[20]);         //RQ!
+    rq.insertObject(create<ellipse>(QPoint(787,278),QPoint(671,207)));  //31, RQ!
+    rq.removeObject(index2shape[28]);         //RQ!
+    rq.insertObject(create<ellipse>(QPoint(165,169),QPoint(50,79)));  //32, RQ!
+    rq.removeObject(index2shape[27]);         //RQ!
+    rq.insertObject(create<ellipse>(QPoint(1061,215),QPoint(898,137)));  //33, RQ!
+    rq.removeObject(index2shape[30]);         //RQ!
+    rq.insertObject(create<ellipse>(QPoint(624,156),QPoint(516,69)));  //34, RQ!
+    rq.removeObject(index2shape[34]);         //RQ!
+    rq.insertObject(create<ellipse>(QPoint(429,201),QPoint(321,114)));  //35, RQ!
+   
     painter->begin(device);
-    std::vector<IShape*> shapes = rq.getShapesUnderRect(QRect(0,0,1000,1000));
+    std::vector<IShape*> shapes = rq.getShapesUnderRect(QRect(0,0,1200,381));
     std::cout << "shapes " << shapes.size() << std::endl;
     for ( auto shape : shapes ) {
         shape->draw(painter);
-        std::cout << get_points_str(&shape) << std::endl;    
+        std::cout << get_lvi_format(shape) << std::endl;    
     }
     painter->end();
  

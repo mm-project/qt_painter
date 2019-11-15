@@ -189,6 +189,8 @@ void renderer::draw_objects() {
         int _width = 1/get_zoom_factor()*(m_plane->width());
         int startx = -1*m_origin_point.x(); //m_old_origin_point.x()-m_origin_point.x();
         int starty = -1*m_origin_point.y();
+        //std::cout << "renderer" << startx << " " << starty << "      " << _width << " " << _height << std::endl;
+        
 
         if (m_rq_renderer) {
             RegionQuery& rq = RegionQuery::getInstance();

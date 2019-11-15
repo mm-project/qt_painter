@@ -2,42 +2,6 @@
 #include "rq_object.hpp"
 #include "debug_helper.hpp"
 
-//Fake RQ by just working directly to working set.
-#ifdef NO_RQ
-    RegionQuery::RegionQuery() {}
-    void RegionQuery::insertObject(IShape*) {}
-    void RegionQuery::removeObject(IShape*) {}
-    void RegionQuery::clear() {}
-    void RegionQuery::shutDown() {}
-    
-    void RegionQuery::setWS(IObjectPoolPtr ws) { m_ws = ws; }
-
-    IShape* RegionQuery::getShapeUnderPos(const QPoint& point) const
-    {
-        for(auto shape: m_ws->getObjects()) 
-            if ( shape->contains(point) )
-                return shape;
-        
-        return nullptr;
-    }
-    
-    std::vector<IShape*> RegionQuery::getShapesUnderRect(const QRect& box) const
-    {
-        std::vector<IShape*> shapes;
-            for(auto shape: m_ws->getObjects()) {
-                bool contains = true;
-                
-                for(auto point: shape->getPoints())
-                    if (!box.contains(point))
-                        contains = false;
-                
-                if (contains)    
-                    shapes.push_back(shape);
-            }
-        return shapes;
-    }
-#endif
-    
 #ifndef NO_RQ
 RegionQuery::RegionQuery()
 {
@@ -46,7 +10,7 @@ RegionQuery::RegionQuery()
 
 void RegionQuery::insertObject(IShape* object)
 {
-    DBG_RQ("insert",&object);
+    DBG_RQ("insert",object);
 	rq::RQobjectPtr obj;
 	switch (object->getType())
 	{
@@ -68,7 +32,7 @@ void RegionQuery::insertObject(IShape* object)
  
 void RegionQuery::removeObject(IShape* object)
 {
-    DBG_RQ("remove",&object);
+    DBG_RQ("remove",object);
 	rq::RQobjectPtr obj;
 	switch (object->getType())
 	{
@@ -120,4 +84,7 @@ void RegionQuery::shutDown()
 {
 	clear();
 }
-#endif
+
+#endif //ifndef NO_RQ
+
+
