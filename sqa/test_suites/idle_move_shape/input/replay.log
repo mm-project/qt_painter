@@ -13,7 +13,7 @@ dicmdCanvasMouseClick -point (163,251)
 #o --> Out: dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(106,216);(163,251)} 
 dicmdAbortActiveCommand 
 dicmdAbortActiveCommand 
-dicmdQaReplyingBreak
+#dicmdQaReplyingBreak
 dicmdCanvasMouseClick -point (125,151) 
 dicmdCanvasMouseClick -point (272,108) 
 dicmdCanvasMouseClick -point (136,240) 

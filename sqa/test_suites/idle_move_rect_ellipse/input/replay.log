@@ -34,4 +34,4 @@ dicmdCanvasMouseClick -point (773,260)
 dicmdQaCompareSelection 
 #e --> Error: comparision->Selection:MISMATCH Selection_Compare_1.txt Selection_Compare_1.txt.golden
 #dicmdQaToolExit 
-#dicmdQaToolExit
+dicmdQaToolExit

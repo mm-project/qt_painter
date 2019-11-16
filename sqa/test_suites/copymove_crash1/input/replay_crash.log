@@ -90,6 +90,6 @@ dicmdCanvasMouseClick -point (269,121)
 dicmdCanvasMouseRelease -point (516,69)
 dicmdCanvasMouseClick -point (560,119) 
 dicmdCanvasMouseRelease -point (321,114)
-dicmdQaToolExit
+#dicmdQaToolExit
 #dicmdQaReplyingBreak
 #dicmdDesignLoad -filename ../input/after.lvi 

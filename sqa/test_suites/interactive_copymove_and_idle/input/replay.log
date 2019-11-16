@@ -180,6 +180,7 @@ incmdSelectShapesByRegion
 dicmdCanvasMouseClick -point (512,87) 
 dicmdCanvasMouseClick -point (178,253) 
 #o --> Out: dicmdSelectShapesByRegion -end (507,721) -start (1460,248) 
+dicmdQaCompareSelection
 dicmdAbortActiveCommand 
 incmdObjRelocateByCopy
 dicmdCanvasMouseClick -point (281,203) 
@@ -209,7 +210,8 @@ dicmdguiSelectRadioButton -object 0x110:qradiobutton_192
 dicmdguiClickButton -object 0x110:qradiobutton_192 
 dicmdCanvasMouseClick -point (749,258) 
 dicmdCanvasMouseClick -point (12,8) 
-#o --> Out: dicmdSelectShapesByRegion -end (34,22) -start (2136,736) 
+#o --> Out: dicmdSelectShapesByRegion -end (34,22) -start (2136,736)
+dicmdQaCompareSelection
 dicmdAbortActiveCommand 
 incmdObjRelocateByCopy
 dicmdCanvasMouseClick -point (180,146) 
@@ -226,4 +228,4 @@ dicmdCanvasMouseRelease -point (365,306)
 dicmdCanvasMouseClick -point (673,47) 
 dicmdCanvasMouseClick -point (694,76) 
 dicmdCanvasMouseRelease -point (644,319) 
-#dicmdQaToolExit
+dicmdQaToolExit
