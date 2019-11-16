@@ -194,7 +194,10 @@ void command_manager::mouse_moved(int x, int y) {
 }
 
 void command_manager::mouse_released(int x, int y) {
-    if(!Application::is_replay_mode() && (dynamic_cast<InteractiveCommandBase*>(m_current_command))->need_log_mouserelease())
+	auto command = dynamic_cast<InteractiveCommandBase*>(m_current_command);
+	if (command == nullptr)
+		return;
+    if(!Application::is_replay_mode() && command->need_log_mouserelease())
         dicmdCanvasMouseRelease(QPoint(x,y)).log();
     std::cout << "current commdn is: " <<  m_current_command << std::endl;
     m_current_command->handle_mouse_release(x/m_kx-m_dx,y/m_ky-m_dy);

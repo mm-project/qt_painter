@@ -23,6 +23,7 @@ namespace {
     std::string relocAction2string(relocAction x) {
             if ( x==MOVE ) return "Move";
             if ( x==COPY ) return "Copy";
+			return "";
     }
 }
 

@@ -98,7 +98,8 @@ public:
             m_move_mode=false;
             std::cout << "Adding..." << std::endl; 
 
-            rq.removeObject(m_original_shape);            
+            rq.removeObject(m_original_shape);  
+			int count = rq.getSize();
             m_ws->removeObject(m_original_shape);
 
             for ( auto it: m_sb->getPool()->getObjects() ) {

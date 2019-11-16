@@ -105,7 +105,7 @@ bool canvas::event(QEvent* event)
             cm.mouse_pressed(p.x(),p.y());
             update();
     }
-   QWidget::event(event);
+   return QWidget::event(event);
 }
 
 void canvas::keyPressEvent(QKeyEvent* ev) {

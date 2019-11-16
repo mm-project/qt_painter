@@ -85,6 +85,11 @@ void RegionQuery::shutDown()
 	clear();
 }
 
+int RegionQuery::getSize() const
+{
+	return m_tree->getSize();
+}
+
 #endif //ifndef NO_RQ
 
 

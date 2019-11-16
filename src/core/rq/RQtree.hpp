@@ -56,6 +56,7 @@ public:
 	std::vector<RQobjectPtr> nearest_points(const RQobjectPtr&) const;
 
 	void clear();
+	int getSize() const;
 
 private:
 	//
@@ -380,8 +381,8 @@ CNodePtr<T> RQtree<T>::_remove(CNodePtr<T>& node, const RQobjectPtr& object, int
 
 	//}
 
-	if (object->at(cd) < node->m_object->at(cd))
-		return _remove(node->m_left_ptr, object, depth + 1);
+	//if (object->at(cd) < node->m_object->at(cd))
+		_remove(node->m_left_ptr, object, depth + 1);
 
 	return _remove(node->m_right_ptr, object, depth + 1);
 }
@@ -432,6 +433,28 @@ void RQtree<T>::removeChild(CNodePtr<T>& root, CNodePtr<T>& object, int depth)
 		return removeChild(root->m_left_ptr, object, depth + 1);
 
 	return removeChild(root->m_right_ptr, object, depth + 1);
+}
+
+template <typename T>
+int RQtree<T>::getSize() const
+{
+	if (m_root == nullptr)
+		return 0;
+
+	std::queue<CNodePtr<T>> nodes;
+	nodes.push(m_root);
+	int count = 0;
+	while (!nodes.empty())
+	{
+		++count;
+		auto p = nodes.front();
+		nodes.pop();
+		if (p->m_left_ptr != nullptr)
+			nodes.push(p->m_left_ptr);
+		if (p->m_right_ptr != nullptr)
+			nodes.push(p->m_right_ptr);
+	}
+	return count;
 }
 }
 #endif
