@@ -301,6 +301,8 @@ dicmdCanvasMouseClick -point (512,87)
 dicmdCanvasMouseClick -point (178,253) 
 dicmdCanvasMouseClick -point (178,253) 
 #o --> Out: dicmdSelectShapesByRegion -end (507,721) -start (1460,248) 
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_0.txt Selection_Compare_0.txt.golden
 dicmdAbortActiveCommand 
 incmdObjRelocateByCopy
 dicmdCanvasMouseClick -point (281,203) 
@@ -343,6 +345,8 @@ dicmdCanvasMouseClick -point (749,258)
 dicmdCanvasMouseClick -point (12,8) 
 dicmdCanvasMouseClick -point (12,8) 
 #o --> Out: dicmdSelectShapesByRegion -end (34,22) -start (2136,736) 
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_1.txt Selection_Compare_1.txt.golden
 dicmdAbortActiveCommand 
 incmdObjRelocateByCopy
 dicmdCanvasMouseClick -point (180,146) 
