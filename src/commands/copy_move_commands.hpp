@@ -190,7 +190,7 @@ private:
                     dynamic_cast<InteractiveCommandBase*>(cmd)->set_auto_repeat(true);
                     return;
                 }
-                
+
                 // shapes finally selected, can copy/move now, moving forward
                 int count = m_se.getObjects().size();
                 std::string msg("Selected "+QString::number(count).toStdString()+" shapes. Click on shape and move mouse to perform action");

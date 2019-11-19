@@ -142,6 +142,7 @@ public:
                     m_original_shape = m_se.getObjects()[0];
                     //for ( auto it : m_se.getObjects() )
                      //   m_sb->addObject(it);
+					std::cout << "OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO" << m_original_shape << std::endl;
 					m_sb->addObject(m_original_shape);
                     m_move_mode=true;
                     //m_need_mouserelase_log = true;
