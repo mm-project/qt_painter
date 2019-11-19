@@ -1,9 +1,10 @@
 #i --> Info: Welcome to this project. Feel free to expirment. 
 #i --> Info: Set to mode1
 dicmdguiClickButton -object mw/65/70/Home/qt_tabwidget_tabbar 
-#e --> Error: something went wrong with this command
+#e --> Error: something went wrong with this command -> dicmdguiClickButton
 dicmdguiClickButton -object 0x104:Line 
 incmdCreateObjLine
+dicmdAbortActiveCommand 
 incmdCreateObjLine
 dicmdCanvasMouseMove -point (55,7) 
 dicmdCanvasMouseMove -point (64,25) 
@@ -156,6 +157,7 @@ dicmdCanvasMouseMove -point (240,39)
 dicmdCanvasMouseMove -point (207,8) 
 dicmdguiClickButton -object 0x104:Rectangle 
 incmdCreateObjRectangle
+dicmdAbortActiveCommand 
 incmdCreateObjRectangle
 dicmdCanvasMouseMove -point (106,2) 
 dicmdCanvasMouseMove -point (111,23) 
@@ -290,6 +292,7 @@ dicmdCanvasMouseMove -point (295,34)
 dicmdCanvasMouseMove -point (263,16) 
 dicmdguiClickButton -object 0x104:Ellipse 
 incmdCreateObjEllipse
+dicmdAbortActiveCommand 
 incmdCreateObjEllipse
 dicmdCanvasMouseMove -point (263,4) 
 dicmdCanvasMouseMove -point (298,23) 
@@ -488,7 +491,7 @@ dicmdCanvasMouseMove -point (240,71)
 dicmdCanvasMouseMove -point (214,46) 
 dicmdCanvasMouseMove -point (190,17) 
 dicmdguiClickButton -object mw/65/70/Home/qt_tabwidget_tabbar 
-#e --> Error: something went wrong with this command
+#e --> Error: something went wrong with this command -> dicmdguiClickButton
 dicmdCanvasMouseMove -point (161,1) 
 dicmdCanvasMouseMove -point (177,12) 
 dicmdCanvasMouseMove -point (189,21) 
@@ -866,8 +869,8 @@ dicmdCanvasMouseMove -point (649,107)
 dicmdCanvasMouseMove -point (617,65) 
 dicmdCanvasMouseMove -point (586,31) 
 dicmdCanvasMouseMove -point (560,3) 
-dicmdguiSelectRadioButton -object 0x109:qradiobutton_171 
-dicmdguiClickButton -object 0x109:qradiobutton_171 
+dicmdguiSelectRadioButton -object 0x109:Horizontal 
+dicmdguiClickButton -object 0x109:Horizontal 
 dicmdCanvasMouseMove -point (650,0) 
 dicmdCanvasMouseMove -point (662,4) 
 dicmdCanvasMouseMove -point (668,7) 
@@ -917,7 +920,7 @@ dicmdCanvasMouseMove -point (824,92)
 dicmdCanvasMouseMove -point (824,91) 
 dicmdCanvasMouseClick -point (824,91) 
 dicmdCanvasMouseClick -point (824,91) 
-#o --> Out: dicmdCreateObjEllipse -brush 1 -color #00ffff -fill 10 -points {(678,43);(824,91)} 
+#o --> Out: dicmdCreateObjEllipse -brush 1 -color #00ffff -fill 9 -points {(678,43);(824,91)} 
 dicmdCanvasMouseMove -point (824,90) 
 dicmdCanvasMouseMove -point (824,88) 
 dicmdCanvasMouseMove -point (824,85) 
@@ -932,8 +935,8 @@ dicmdCanvasMouseMove -point (836,54)
 dicmdCanvasMouseMove -point (836,47) 
 dicmdCanvasMouseMove -point (824,34) 
 dicmdCanvasMouseMove -point (786,13) 
-dicmdguiSelectRadioButton -object 0x109:qradiobutton_173 
-dicmdguiClickButton -object 0x109:qradiobutton_173 
+dicmdguiSelectRadioButton -object 0x109:Cross 
+dicmdguiClickButton -object 0x109:Cross 
 dicmdCanvasMouseMove -point (752,4) 
 dicmdCanvasMouseMove -point (804,14) 
 dicmdCanvasMouseMove -point (859,28) 
@@ -1014,8 +1017,8 @@ dicmdCanvasMouseMove -point (701,56)
 dicmdCanvasMouseMove -point (649,36) 
 dicmdCanvasMouseMove -point (610,18) 
 dicmdCanvasMouseMove -point (579,2) 
-dicmdguiSelectRadioButton -object 0x110:qradiobutton_186 
-dicmdguiClickButton -object 0x110:qradiobutton_186 
+dicmdguiSelectRadioButton -object 0x110:Dot 
+dicmdguiClickButton -object 0x110:Dot 
 dicmdCanvasMouseMove -point (728,24) 
 dicmdCanvasMouseMove -point (796,75) 
 dicmdCanvasMouseMove -point (847,112) 
@@ -1082,7 +1085,7 @@ dicmdCanvasMouseMove -point (1065,256)
 dicmdCanvasMouseMove -point (1066,257) 
 dicmdCanvasMouseClick -point (1066,257) 
 dicmdCanvasMouseClick -point (1066,257) 
-#o --> Out: dicmdCreateObjEllipse -brush 2 -color #00ffff -fill 11 -points {(943,187);(1066,257)} 
+#o --> Out: dicmdCreateObjEllipse -brush 3 -color #00ffff -fill 11 -points {(943,187);(1066,257)} 
 dicmdCanvasMouseMove -point (1066,256) 
 dicmdCanvasMouseMove -point (1066,253) 
 dicmdCanvasMouseMove -point (1058,245) 
@@ -1094,8 +1097,8 @@ dicmdCanvasMouseMove -point (763,98)
 dicmdCanvasMouseMove -point (706,69) 
 dicmdCanvasMouseMove -point (658,40) 
 dicmdCanvasMouseMove -point (621,18) 
-dicmdguiSelectRadioButton -object 0x110:qradiobutton_188 
-dicmdguiClickButton -object 0x110:qradiobutton_188 
+dicmdguiSelectRadioButton -object 0x110:Dash 
+dicmdguiClickButton -object 0x110:Dash 
 dicmdCanvasMouseMove -point (991,10) 
 dicmdCanvasMouseMove -point (1021,19) 
 dicmdCanvasMouseMove -point (1039,28) 
@@ -1181,7 +1184,7 @@ dicmdCanvasMouseMove -point (1237,241)
 dicmdCanvasMouseMove -point (1237,242) 
 dicmdCanvasMouseClick -point (1237,242) 
 dicmdCanvasMouseClick -point (1237,242) 
-#o --> Out: dicmdCreateObjEllipse -brush 3 -color #00ffff -fill 11 -points {(1149,32);(1237,242)} 
+#o --> Out: dicmdCreateObjEllipse -brush 2 -color #00ffff -fill 11 -points {(1149,32);(1237,242)} 
 dicmdCanvasMouseMove -point (1236,241) 
 dicmdCanvasMouseMove -point (1233,238) 
 dicmdCanvasMouseMove -point (1219,223) 
@@ -1266,13 +1269,14 @@ dicmdCanvasMouseMove -point (444,37)
 dicmdCanvasMouseMove -point (443,37) 
 dicmdCanvasMouseClick -point (443,37) 
 dicmdCanvasMouseClick -point (443,37) 
-#o --> Out: dicmdCreateObjEllipse -brush 3 -color #ff00ff -fill 11 -points {(552,25);(443,37)} 
+#o --> Out: dicmdCreateObjEllipse -brush 2 -color #ff00ff -fill 11 -points {(552,25);(443,37)} 
 dicmdCanvasMouseMove -point (436,35) 
 dicmdCanvasMouseMove -point (396,20) 
 dicmdguiClickButton -object mw/65/70/Home/qt_tabwidget_tabbar 
-#e --> Error: something went wrong with this command
+#e --> Error: something went wrong with this command -> dicmdguiClickButton
 dicmdguiClickButton -object 0x104:Rectangle 
 incmdCreateObjRectangle
+dicmdAbortActiveCommand 
 incmdCreateObjRectangle
 dicmdCanvasMouseMove -point (289,19) 
 dicmdCanvasMouseMove -point (343,45) 
@@ -1322,7 +1326,7 @@ dicmdCanvasMouseMove -point (342,83)
 dicmdCanvasMouseMove -point (293,50) 
 dicmdCanvasMouseMove -point (259,18) 
 dicmdguiClickButton -object mw/65/70/Home/qt_tabwidget_tabbar 
-#e --> Error: something went wrong with this command
+#e --> Error: something went wrong with this command -> dicmdguiClickButton
 dicmdCanvasMouseMove -point (225,7) 
 dicmdCanvasMouseMove -point (263,37) 
 dicmdCanvasMouseMove -point (300,63) 
@@ -1386,7 +1390,7 @@ dicmdCanvasMouseMove -point (245,179)
 dicmdCanvasMouseMove -point (244,179) 
 dicmdCanvasMouseClick -point (244,179) 
 dicmdCanvasMouseClick -point (244,179) 
-#o --> Out: dicmdCreateObjRectangle -brush 3 -color #ff00ff -fill 11 -points {(492,190);(357,262)} 
+#o --> Out: dicmdCreateObjRectangle -brush 2 -color #ff00ff -fill 11 -points {(492,190);(357,262)} 
 dicmdCanvasMouseMove -point (244,178) 
 dicmdCanvasMouseMove -point (246,172) 
 dicmdCanvasMouseMove -point (256,156) 
@@ -1444,7 +1448,7 @@ dicmdCanvasMouseMove -point (387,82)
 dicmdCanvasMouseMove -point (388,82) 
 dicmdCanvasMouseClick -point (388,82) 
 dicmdCanvasMouseClick -point (388,82) 
-#o --> Out: dicmdCreateObjRectangle -brush 3 -color #0000ff -fill 11 -points {(522,183);(568,120)} 
+#o --> Out: dicmdCreateObjRectangle -brush 2 -color #0000ff -fill 11 -points {(522,183);(568,120)} 
 dicmdCanvasMouseMove -point (388,81) 
 dicmdCanvasMouseMove -point (389,77) 
 dicmdCanvasMouseMove -point (390,69) 
@@ -1465,8 +1469,8 @@ dicmdCanvasMouseMove -point (415,30)
 dicmdCanvasMouseMove -point (419,26) 
 dicmdCanvasMouseMove -point (426,20) 
 dicmdCanvasMouseMove -point (440,10) 
-dicmdguiSelectRadioButton -object 0x109:qradiobutton_171 
-dicmdguiClickButton -object 0x109:qradiobutton_171 
+dicmdguiSelectRadioButton -object 0x109:Horizontal 
+dicmdguiClickButton -object 0x109:Horizontal 
 dicmdCanvasMouseMove -point (435,2) 
 dicmdCanvasMouseMove -point (431,4) 
 dicmdCanvasMouseMove -point (429,4) 
@@ -1528,14 +1532,16 @@ dicmdCanvasMouseMove -point (448,75)
 dicmdCanvasMouseMove -point (449,75) 
 dicmdCanvasMouseClick -point (449,75) 
 dicmdCanvasMouseClick -point (449,75) 
-#o --> Out: dicmdCreateObjRectangle -brush 3 -color #0000ff -fill 10 -points {(601,46);(657,109)} 
+#o --> Out: dicmdCreateObjRectangle -brush 2 -color #0000ff -fill 9 -points {(601,46);(657,109)} 
 dicmdCanvasMouseMove -point (449,73) 
 dicmdCanvasMouseMove -point (449,68) 
 dicmdCanvasMouseMove -point (447,58) 
 dicmdCanvasMouseMove -point (446,40) 
 dicmdCanvasMouseMove -point (446,14) 
 dicmdguiSelectRadioButton -object 0x110:qradiobutton_184 
+#e --> Error: something went wrong with this command -> dicmdguiSelectRadioButton
 dicmdguiClickButton -object 0x110:qradiobutton_184 
+#e --> Error: something went wrong with this command -> dicmdguiClickButton
 dicmdCanvasMouseMove -point (620,0) 
 dicmdCanvasMouseMove -point (619,3) 
 dicmdCanvasMouseMove -point (618,5) 
@@ -1575,12 +1581,12 @@ dicmdCanvasMouseMove -point (639,43)
 dicmdCanvasMouseMove -point (640,43) 
 dicmdCanvasMouseClick -point (640,43) 
 dicmdCanvasMouseClick -point (640,43) 
-#o --> Out: dicmdCreateObjRectangle -brush 1 -color #0000ff -fill 10 -points {(896,11);(937,62)} 
+#o --> Out: dicmdCreateObjRectangle -brush 2 -color #0000ff -fill 9 -points {(896,11);(937,62)} 
 dicmdCanvasMouseMove -point (638,37) 
 dicmdCanvasMouseMove -point (632,26) 
 dicmdCanvasMouseMove -point (622,4) 
-dicmdguiSelectRadioButton -object 0x110:qradiobutton_186 
-dicmdguiClickButton -object 0x110:qradiobutton_186 
+dicmdguiSelectRadioButton -object 0x110:Dot 
+dicmdguiClickButton -object 0x110:Dot 
 dicmdCanvasMouseMove -point (843,16) 
 dicmdCanvasMouseMove -point (878,28) 
 dicmdCanvasMouseMove -point (903,37) 
@@ -1644,7 +1650,7 @@ dicmdCanvasMouseMove -point (947,125)
 dicmdCanvasMouseMove -point (947,126) 
 dicmdCanvasMouseClick -point (947,126) 
 dicmdCanvasMouseClick -point (947,126) 
-#o --> Out: dicmdCreateObjRectangle -brush 2 -color #0000ff -fill 10 -points {(1288,64);(1386,184)} 
+#o --> Out: dicmdCreateObjRectangle -brush 3 -color #0000ff -fill 9 -points {(1288,64);(1386,184)} 
 dicmdCanvasMouseMove -point (947,125) 
 dicmdCanvasMouseMove -point (942,119) 
 dicmdCanvasMouseMove -point (912,97) 
@@ -1653,12 +1659,14 @@ dicmdCanvasMouseMove -point (795,50)
 dicmdCanvasMouseMove -point (734,35) 
 dicmdCanvasMouseMove -point (658,11) 
 dicmdguiClickButton -object mw/65/70/Home/qt_tabwidget_tabbar 
-#e --> Error: something went wrong with this command
+#e --> Error: something went wrong with this command -> dicmdguiClickButton
 dicmdguiClickButton -object 0x104:Ellipse 
 incmdCreateObjEllipse
+dicmdAbortActiveCommand 
 incmdCreateObjEllipse
 dicmdguiClickButton -object 0x104:Polygon 
 incmdCreateObjPolygon
+dicmdAbortActiveCommand 
 incmdCreateObjPolygon
 dicmdCanvasMouseMove -point (227,11) 
 dicmdCanvasMouseMove -point (236,28) 
@@ -1718,7 +1726,7 @@ dicmdCanvasMouseMove -point (296,98)
 dicmdCanvasMouseMove -point (249,62) 
 dicmdCanvasMouseMove -point (206,29) 
 dicmdguiClickButton -object mw/65/70/Home/qt_tabwidget_tabbar 
-#e --> Error: something went wrong with this command
+#e --> Error: something went wrong with this command -> dicmdguiClickButton
 dicmdguiClickButton -object 0x108:red 
 dicmdCanvasMouseMove -point (432,8) 
 dicmdCanvasMouseMove -point (439,49) 
@@ -1921,8 +1929,8 @@ dicmdCanvasMouseMove -point (571,194)
 dicmdCanvasMouseClick -point (571,194) 
 dicmdCanvasMouseClick -point (571,194) 
 dicmdCanvasMouseDblClick -point (571,194) 
-#o --> Out: dicmdCreateObjPolygon -brush 2 -color #ff0000 -fill 10 -points {(585,256);(610,251);(799,341);(562,379);(836,284);(836,284)} 
 dicmdCanvasMouseDblClick -point (571,194) 
+#o --> Out: dicmdCreateObjPolygon -brush 3 -color #ff0000 -fill 9 -points {(585,256);(610,251);(799,341);(562,379);(836,284);(836,284)} 
 dicmdCanvasMouseMove -point (573,194) 
 dicmdCanvasMouseMove -point (582,194) 
 dicmdCanvasMouseMove -point (601,202) 
@@ -1984,8 +1992,8 @@ dicmdCanvasMouseMove -point (612,173)
 dicmdCanvasMouseClick -point (612,173) 
 dicmdCanvasMouseClick -point (612,173) 
 dicmdCanvasMouseDblClick -point (612,173) 
-#o --> Out: dicmdCreateObjPolygon -brush 2 -color #ff0000 -fill 10 -points {(967,336);(879,341);(896,253);(896,253)} 
 dicmdCanvasMouseDblClick -point (612,173) 
+#o --> Out: dicmdCreateObjPolygon -brush 3 -color #ff0000 -fill 9 -points {(967,336);(879,341);(896,253);(896,253)} 
 dicmdCanvasMouseMove -point (609,171) 
 dicmdCanvasMouseMove -point (607,167) 
 dicmdCanvasMouseMove -point (603,158) 
@@ -2170,10 +2178,10 @@ dicmdCanvasMouseMove -point (640,80)
 dicmdCanvasMouseMove -point (613,45) 
 dicmdCanvasMouseMove -point (582,13) 
 dicmdguiClickButton -object 0x108:blue 
-dicmdguiSelectRadioButton -object 0x110:qradiobutton_188 
-dicmdguiClickButton -object 0x110:qradiobutton_188 
-dicmdguiSelectRadioButton -object 0x109:qradiobutton_173 
-dicmdguiClickButton -object 0x109:qradiobutton_173 
+dicmdguiSelectRadioButton -object 0x110:Dash 
+dicmdguiClickButton -object 0x110:Dash 
+dicmdguiSelectRadioButton -object 0x109:Cross 
+dicmdguiClickButton -object 0x109:Cross 
 dicmdCanvasMouseMove -point (550,2) 
 dicmdCanvasMouseMove -point (577,23) 
 dicmdCanvasMouseMove -point (610,52) 
@@ -2270,8 +2278,8 @@ dicmdCanvasMouseMove -point (907,212)
 dicmdCanvasMouseClick -point (907,212) 
 dicmdCanvasMouseClick -point (907,212) 
 dicmdCanvasMouseDblClick -point (907,212) 
-#o --> Out: dicmdCreateObjPolygon -brush 3 -color #0000ff -fill 11 -points {(1038,317);(1095,257);(1275,374);(1327,310);(1327,310)} 
 dicmdCanvasMouseDblClick -point (907,212) 
+#o --> Out: dicmdCreateObjPolygon -brush 2 -color #0000ff -fill 11 -points {(1038,317);(1095,257);(1275,374);(1327,310);(1327,310)} 
 dicmdCanvasMouseMove -point (907,213) 
 dicmdCanvasMouseMove -point (907,214) 
 dicmdCanvasMouseMove -point (907,215) 
@@ -2289,11 +2297,12 @@ dicmdCanvasMouseMove -point (474,25)
 dicmdCanvasMouseMove -point (462,17) 
 dicmdCanvasMouseMove -point (440,5) 
 dicmdguiClickButton -object mw/65/70/Home/qt_tabwidget_tabbar 
-#e --> Error: something went wrong with this command
+#e --> Error: something went wrong with this command -> dicmdguiClickButton
 dicmdguiClickButton -object mw/65/70/Home/qt_tabwidget_tabbar 
-#e --> Error: something went wrong with this command
+#e --> Error: something went wrong with this command -> dicmdguiClickButton
 dicmdguiClickButton -object 0x107:Region 
 incmdSelectShapesByRegion
+dicmdAbortActiveCommand 
 incmdSelectShapesByRegion
 dicmdCanvasMouseMove -point (71,3) 
 dicmdCanvasMouseMove -point (50,13) 
@@ -2594,7 +2603,7 @@ dicmdCanvasMouseMove -point (748,243)
 dicmdCanvasMouseMove -point (749,243) 
 dicmdCanvasMouseClick -point (749,243) 
 dicmdCanvasMouseClick -point (749,243) 
-#o --> Out: dicmdSelectShapesByRegion -end (1642,510) -start (-53,-86) 
+#o --> Out: dicmdSelectShapesByRegion -end (1742,550) -start (46,-46) 
 dicmdCanvasMouseMove -point (717,219) 
 dicmdCanvasMouseMove -point (627,180) 
 dicmdCanvasMouseMove -point (544,148) 
@@ -2749,7 +2758,7 @@ dicmdCanvasMouseMove -point (69,9)
 dicmdCanvasMouseMove -point (69,10) 
 dicmdCanvasMouseClick -point (69,10) 
 dicmdCanvasMouseClick -point (69,10) 
-#o --> Out: dicmdSelectShapesByRegion -end (-61,-85) -start (-54,-61) 
+#o --> Out: dicmdSelectShapesByRegion -end (38,-45) -start (45,-21) 
 dicmdCanvasMouseMove -point (70,11) 
 dicmdCanvasMouseMove -point (75,13) 
 dicmdCanvasMouseMove -point (90,18) 
@@ -2863,7 +2872,7 @@ dicmdCanvasMouseMove -point (620,217)
 dicmdCanvasMouseMove -point (619,217) 
 dicmdCanvasMouseClick -point (619,217) 
 dicmdCanvasMouseClick -point (619,217) 
-#o --> Out: dicmdSelectShapesByRegion -end (1836,629) -start (48,-64) 
+#o --> Out: dicmdSelectShapesByRegion -end (1936,669) -start (148,-24) 
 dicmdCanvasMouseMove -point (619,216) 
 dicmdCanvasMouseMove -point (618,216) 
 dicmdCanvasMouseMove -point (617,216) 
@@ -2957,7 +2966,7 @@ dicmdCanvasMouseMove -point (654,184)
 dicmdCanvasMouseMove -point (654,183) 
 dicmdCanvasMouseClick -point (654,183) 
 dicmdCanvasMouseClick -point (654,183) 
-#o --> Out: dicmdSelectShapesByRegion -end (1752,454) -start (1608,513) 
+#o --> Out: dicmdSelectShapesByRegion -end (1852,494) -start (1708,553) 
 dicmdCanvasMouseMove -point (653,183) 
 dicmdCanvasMouseMove -point (652,183) 
 dicmdCanvasMouseMove -point (649,183) 
@@ -2997,11 +3006,13 @@ dicmdguiClickButton -object 0x106:New
 incmdDesignNew
 incmdDesignNew
 dicmdDesignLoad -filename des.lvi 
+#i --> Info: Set to mode3
 dicmdguiClickButton -object 0x107:Point 
 incmdSelectUnderCursoer
 incmdSelectUnderCursoer
 dicmdguiClickButton -object 0x107:Region 
 incmdSelectShapesByRegion
+dicmdAbortActiveCommand 
 incmdSelectShapesByRegion
 dicmdCanvasMouseMove -point (151,11) 
 dicmdCanvasMouseMove -point (131,21) 
@@ -3095,7 +3106,7 @@ dicmdCanvasMouseMove -point (646,198)
 dicmdCanvasMouseMove -point (646,199) 
 dicmdCanvasMouseClick -point (646,199) 
 dicmdCanvasMouseClick -point (646,199) 
-#o --> Out: dicmdSelectShapesByRegion -end (1727,504) -start (-124,-98) 
+#o --> Out: dicmdSelectShapesByRegion -end (1827,544) -start (-24,-58) 
 dicmdCanvasMouseMove -point (640,197) 
 dicmdCanvasMouseMove -point (623,185) 
 dicmdCanvasMouseMove -point (568,162) 
@@ -3204,6 +3215,7 @@ dicmdCanvasMouseMove -point (345,37)
 dicmdCanvasMouseMove -point (344,16) 
 dicmdguiClickButton -object 0x107:Region 
 incmdSelectShapesByRegion
+dicmdAbortActiveCommand 
 incmdSelectShapesByRegion
 dicmdCanvasMouseMove -point (356,21) 
 dicmdCanvasMouseMove -point (377,46) 
@@ -3300,7 +3312,7 @@ dicmdCanvasMouseMove -point (425,217)
 dicmdCanvasMouseMove -point (426,217) 
 dicmdCanvasMouseClick -point (426,217) 
 dicmdCanvasMouseClick -point (426,217) 
-#o --> Out: dicmdSelectShapesByRegion -end (1036,561) -start (1724,306) 
+#o --> Out: dicmdSelectShapesByRegion -end (1136,601) -start (1824,346) 
 dicmdCanvasMouseMove -point (424,216) 
 dicmdCanvasMouseMove -point (410,208) 
 dicmdCanvasMouseMove -point (369,189) 
@@ -3402,7 +3414,7 @@ dicmdCanvasMouseMove -point (672,201)
 dicmdCanvasMouseMove -point (673,201) 
 dicmdCanvasMouseClick -point (673,201) 
 dicmdCanvasMouseClick -point (673,201) 
-#o --> Out: dicmdSelectShapesByRegion -end (1812,510) -start (-96,-82) 
+#o --> Out: dicmdSelectShapesByRegion -end (1912,550) -start (3,-42) 
 dicmdCanvasMouseMove -point (674,201) 
 dicmdCanvasMouseMove -point (675,201) 
 dicmdCanvasMouseMove -point (676,201) 
@@ -3462,7 +3474,7 @@ dicmdCanvasMouseMove -point (872,172)
 dicmdCanvasMouseMove -point (807,211) 
 dicmdCanvasMouseMove -point (727,262) 
 dicmdguiClickButton -object mw/5/10/Console/qt_tabwidget_tabbar 
-#e --> Error: something went wrong with this command
+#e --> Error: something went wrong with this command -> dicmdguiClickButton
 dicmdCanvasMouseMove -point (909,277) 
 dicmdCanvasMouseMove -point (881,249) 
 dicmdCanvasMouseMove -point (864,232) 
@@ -3581,7 +3593,7 @@ dicmdCanvasMouseMove -point (15,3)
 dicmdCanvasMouseMove -point (14,3) 
 dicmdCanvasMouseClick -point (14,3) 
 dicmdCanvasMouseClick -point (14,3) 
-#o --> Out: dicmdSelectShapesByRegion -end (-256,-110) -start (2490,658) 
+#o --> Out: dicmdSelectShapesByRegion -end (-156,-70) -start (2590,698) 
 dicmdCanvasMouseMove -point (14,4) 
 dicmdCanvasMouseMove -point (14,5) 
 dicmdCanvasMouseMove -point (14,6) 

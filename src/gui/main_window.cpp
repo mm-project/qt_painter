@@ -122,9 +122,9 @@ main_window::main_window(QWidget* p)
 
 void main_window::setRecursiveChildWidgetsObjectName(QWidget* w) {
     if ( w->objectName().isEmpty() )
-        set_object_name_for_logging(w,true);
+        utilities::set_object_name_for_logging(w,true);
     else
-        set_object_name_for_logging(w);
+        utilities::set_object_name_for_logging(w);
     
     QObjectList children = w->children();
     QObjectList::const_iterator it = children.begin();

@@ -193,10 +193,10 @@ dicmdCanvasMouseClick -point (514,125)
 dicmdCanvasMouseClick -point (315,272) 
 #o --> Out: dicmdSelectShapesByRegion -end (898,776) -start (1466,356) 
 dicmdguiClickButton -object 0x108:red 
-dicmdguiSelectRadioButton -object 0x109:qradiobutton_175 
-dicmdguiClickButton -object 0x109:qradiobutton_175 
-dicmdguiSelectRadioButton -object 0x110:qradiobutton_190 
-dicmdguiClickButton -object 0x110:qradiobutton_190 
+dicmdguiSelectRadioButton -object 0x109:Vertical 
+dicmdguiClickButton -object 0x109:Vertical 
+dicmdguiSelectRadioButton -object 0x110:Dash 
+dicmdguiClickButton -object 0x110:Dash 
 dicmdCanvasMouseClick -point (582,127) 
 dicmdCanvasMouseClick -point (601,251) 
 #o --> Out: dicmdSelectShapesByRegion -end (1714,716) -start (1660,362) 
@@ -204,10 +204,10 @@ dicmdCanvasMouseClick -point (27,64)
 dicmdCanvasMouseClick -point (235,252) 
 #o --> Out: dicmdSelectShapesByRegion -end (670,718) -start (77,182) 
 dicmdguiClickButton -object 0x108:blue 
-dicmdguiSelectRadioButton -object 0x109:qradiobutton_173 
-dicmdguiClickButton -object 0x109:qradiobutton_173 
-dicmdguiSelectRadioButton -object 0x110:qradiobutton_192 
-dicmdguiClickButton -object 0x110:qradiobutton_192 
+dicmdguiSelectRadioButton -object 0x109:Cross 
+dicmdguiClickButton -object 0x109:Cross 
+dicmdguiSelectRadioButton -object 0x110:Dot 
+dicmdguiClickButton -object 0x110:Dot 
 dicmdCanvasMouseClick -point (749,258) 
 dicmdCanvasMouseClick -point (12,8) 
 #o --> Out: dicmdSelectShapesByRegion -end (34,22) -start (2136,736)

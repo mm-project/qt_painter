@@ -81,12 +81,12 @@ dicmdCanvasMouseClick -point (229,49)
 dicmdCanvasMouseClick -point (464,334) 
 dicmdCanvasMouseClick -point (464,334) 
 #o --> Out: dicmdSelectShapesByRegion -end (464,334) -start (229,49) 
-dicmdguiSelectRadioButton -object 0x109:qradiobutton_175 
-dicmdguiClickButton -object 0x109:qradiobutton_175 
-dicmdguiSelectRadioButton -object 0x109:qradiobutton_175 
-dicmdguiClickButton -object 0x109:qradiobutton_175 
-dicmdguiSelectRadioButton -object 0x110:qradiobutton_190 
-dicmdguiClickButton -object 0x110:qradiobutton_190 
+dicmdguiSelectRadioButton -object 0x109:Horizontal 
+dicmdguiClickButton -object 0x109:Horizontal 
+dicmdguiSelectRadioButton -object 0x109:Horizontal 
+dicmdguiClickButton -object 0x109:Horizontal 
+dicmdguiSelectRadioButton -object 0x110:Dot 
+dicmdguiClickButton -object 0x110:Dot 
 dicmdguiClickButton -object mw/65/70/Home/qt_tabwidget_tabbar 
 #e --> Error: something went wrong with this command -> dicmdguiClickButton
 dicmdguiClickButton -object mw/65/70/Home/qt_tabwidget_tabbar 
