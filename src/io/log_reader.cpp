@@ -76,6 +76,9 @@ bool LogReader::replay_logfile(const std::string& fname) {
     //connect(m_timer, SIGNAL(timeout()), this, SLOT(execute_next_command()));
     QStringList lines = read_file(fname);
     
+	if ( !QString::fromLocal8Bit(qgetenv("ELEN_PAINTER_STARTDBG").constData()).isEmpty() )
+		m_command_queue.push("dicmdQaReplyingBreak");
+	
     if ( lines.size() == 0 )
         return false;
 

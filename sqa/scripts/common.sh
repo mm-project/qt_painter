@@ -39,6 +39,7 @@ function prepocess
     
     if [ "$mode" = "debug" ]; then
         export ELEN_PAINTER_TESTDBG="1"
+        export ELEN_PAINTER_STARTDBG="1"
     fi
     
     verbose "prepocess..."

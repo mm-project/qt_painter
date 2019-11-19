@@ -47,7 +47,7 @@ class dicmdCreateObj : public DirectCommandBase
                 add_option("-fill",new IntCommandOptionValue(pr.toStringsMap()["fill"]));
         }
         
-        void dump(const std::string& f) {
+		void dump(const std::string& f) {
                 QFile* m_cmdfile = new QFile(f.c_str());
                 m_cmdfile->open( QIODevice::WriteOnly | QIODevice::Append ); 
                 QTextStream* cmd_stream = new QTextStream(m_cmdfile);

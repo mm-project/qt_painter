@@ -68,7 +68,10 @@ public:
 
         void on_idle(const EvType& ev) 
         {
-            //if ( ev == MC )
+            std::string msg("(onidle) Selected "+QString::number(m_se.getObjects().size()).toStdString()+" shapes.");
+            StatusBarManager::getInstance().updateStatusBar(msg.c_str(),1,0);
+
+			//if ( ev == MC )
             //        on_click();
             //else 
                 if ( ev == MD ) 
@@ -116,6 +119,7 @@ public:
             m_se.clear();
             //m_cm.return_to_idle();
             m_need_mouserelase_log = false;
+			set_can_complete(true);
             set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer,on_idle));
         }
         
@@ -140,6 +144,7 @@ public:
 					m_sb->addObject(m_original_shape);
                     m_move_mode=true;
                     //m_need_mouserelase_log = true;
+					set_can_complete(false);
                     set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer,on_mousemove));
                 }
                 //m_shape_added = true;

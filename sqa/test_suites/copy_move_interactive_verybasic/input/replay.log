@@ -23,6 +23,7 @@ dicmdCanvasMouseClick -point (47,58)
 dicmdCanvasMouseClick -point (277,336) 
 #o --> Out: dicmdSelectShapesByRegion -end (277,336) -start (47,58) 
 dicmdguiClickButton -object mw/65/70/Home/qt_tabwidget_tabbar 
+#dicmdQaReplyingBreak
 dicmdguiClickButton -object 0x105:Copy 
 dicmdAbortActiveCommand 
 incmdObjRelocateByCopy

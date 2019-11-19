@@ -28,6 +28,8 @@ namespace {
 }
 
 
+//dicmdRelocateObjsByMove -selectionbox () -to_point ()
+
 template<relocAction T>
 class dicmdObjRelocateBy : public DirectCommandBase
 {
@@ -58,7 +60,7 @@ public:
 	{      
                 if ( m_se.getObjects().empty() )
                     throw 1;
-            //RegionQuery& rq = RegionQuery::getInstance();
+				//RegionQuery& rq = RegionQuery::getInstance();
                 QPoint dst_p(GET_CMD_ARG(PointCommandOptionValue,"-to"));
                 QPoint src_p(GET_CMD_ARG(PointCommandOptionValue,"-from"));
                 
@@ -125,7 +127,8 @@ private:
                 RegionQuery& rq = RegionQuery::getInstance();
     
                 std::cout << "SELECTION" << m_se.getObjects().size() << "   RTSHAPES: " << m_sb->getPool()->getObjects().size() << "\n";
-                for ( auto it: m_sb->getPool()->getObjects() ) {
+                //*
+				for ( auto it: m_sb->getPool()->getObjects() ) {
                     rq.insertObject(m_ws->addObject(it));
                     if ( T == MOVE ) {
                         //remove working set's object that has been selected
@@ -134,17 +137,15 @@ private:
                         m_ws->removeObject(m_sb2se[it]);
                     }
                 }
-
-                 //m_ws->removeObject(dynamic_cast<WorkingSet*>(m_ws.get())->get_clonee(it));
-                
-                //dicmdObjRelocateBy<T>(m_ws,m_clicked_point,InteractiveCommandBase::get_last_point()).log();
+				/**/
+                //dicmdObjRelocateBy<T>(m_ws,m_clicked_point,InteractiveCommandBase::get_last_point()).silent_execute();
+                m_se.clear();
                 abort_internal();
                 //set_next_handler(HANDLE_FUNCTION(incmdObjRelocateBy<T>,idle));
         }
 
         void abort_internal() {
                 
-                m_se.clear();
                 m_sb->clear();
                 //m_se.clear();
                 //m_cm.return_to_idle();
