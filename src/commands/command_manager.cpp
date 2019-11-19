@@ -90,7 +90,7 @@ void command_manager::activate_command(CommandBase* cmd, bool needlog) {
     //delete m_current_command;
 	std::cout << "activating1: " <<  m_current_command->is_completed() << std::endl;
 
-	if ( cmd==nullptr || cmd!=nullptr && !m_current_command->is_completed() ) {
+	if ( cmd==nullptr || cmd!=nullptr && cmd !=find_command("dicmdAbortActiveCommand") && !m_current_command->is_completed() ) {
 		Messenger::expose_msg(warn,"please complete/abort current command before activating "+cmd->get_name());
 		return;
 	}
@@ -142,8 +142,9 @@ void command_manager::return_to_idle() {
     StatusBarManager::getInstance().updateStatusBar("cmIdle.",1,0);
     m_current_command = m_idle_command;
     dynamic_cast<main_window*>(m_main_widget)->onCommandDiscard();
+	m_current_command->execute();
     m_main_widget->update();
-}
+	}
 
 //FIXME by keeping wrapper to function 
 // when invoking check if m_current_command type is interactive
@@ -211,7 +212,7 @@ void command_manager::mouse_released(int x, int y) {
 		return;
     if(!Application::is_replay_mode() && command->need_log_mouserelease())
         dicmdCanvasMouseRelease(QPoint(x,y)).log();
-    std::cout << "current commdn is: " <<  m_current_command << std::endl;
+    std::cout << "ELRELRLERLELREL: current commdn is: " <<  m_current_command << std::endl;
     m_current_command->handle_mouse_release(x/m_kx-m_dx,y/m_ky-m_dy);
 }
 

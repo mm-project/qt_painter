@@ -1207,7 +1207,7 @@ dicmdQaCompareSelection
 dicmdQaCompareSelection 
 #t --> Test: comparision->Selection:PASS Selection_Compare_3.txt Selection_Compare_3.txt.golden
 dicmdguiClickButton -object 0x107:Point 
-incmdSelectUnderCursoer
+dicmdAbortActiveCommand 
 incmdSelectUnderCursoer
 dicmdguiClickButton -object 0x107:Region 
 incmdSelectShapesByRegion

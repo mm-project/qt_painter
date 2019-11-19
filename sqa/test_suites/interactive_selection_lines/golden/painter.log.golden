@@ -1681,7 +1681,6 @@ dicmdCanvasMouseMove -point (326,29)
 dicmdCanvasMouseMove -point (290,4) 
 dicmdguiClickButton -object 0x104:Point 
 #e --> Error: something went wrong with this command -> dicmdguiClickButton
-incmdSelectUnderCursoer
 dicmdCanvasMouseMove -point (238,0) 
 dicmdCanvasMouseMove -point (239,5) 
 dicmdCanvasMouseMove -point (239,7) 
@@ -1823,6 +1822,7 @@ dicmdCanvasMouseMove -point (460,160)
 dicmdCanvasMouseMove -point (460,159) 
 dicmdCanvasMouseClick -point (460,159) 
 dicmdCanvasMouseClick -point (460,159) 
+#o --> Out: dicmdSelectShapesByRegion -end (460,159) -start (277,109) 
 dicmdCanvasMouseMove -point (461,159) 
 dicmdCanvasMouseMove -point (467,159) 
 dicmdCanvasMouseMove -point (480,156) 
@@ -2240,7 +2240,6 @@ dicmdCanvasMouseMove -point (302,53)
 dicmdCanvasMouseMove -point (297,18) 
 dicmdguiClickButton -object 0x104:Point 
 #e --> Error: something went wrong with this command -> dicmdguiClickButton
-incmdSelectUnderCursoer
 dicmdCanvasMouseMove -point (227,0) 
 dicmdCanvasMouseMove -point (226,1) 
 dicmdCanvasMouseMove -point (226,2) 
@@ -2451,7 +2450,6 @@ dicmdCanvasMouseMove -point (432,21)
 dicmdCanvasMouseMove -point (404,4) 
 dicmdguiClickButton -object 0x104:Point 
 #e --> Error: something went wrong with this command -> dicmdguiClickButton
-incmdSelectUnderCursoer
 dicmdCanvasMouseMove -point (248,12) 
 dicmdCanvasMouseMove -point (248,39) 
 dicmdCanvasMouseMove -point (248,62) 
@@ -2943,7 +2941,6 @@ dicmdCanvasMouseMove -point (793,39)
 dicmdCanvasMouseMove -point (713,12) 
 dicmdguiClickButton -object 0x104:Point 
 #e --> Error: something went wrong with this command -> dicmdguiClickButton
-incmdSelectUnderCursoer
 dicmdCanvasMouseMove -point (308,8) 
 dicmdCanvasMouseMove -point (308,39) 
 dicmdCanvasMouseMove -point (308,70) 

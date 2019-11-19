@@ -260,7 +260,8 @@ void canvas::invoke_select_by_region()
 
 void canvas::invoke_select_by_point()
 {
-    cm.activate_command(cm.find_command("incmdSelectUnderCursoer"));
+    cm.disactivate_active_command();
+	//cm.activate_command(cm.find_command("incmdSelectUnderCursoer"));
 }
 
 void canvas::invoke_save()

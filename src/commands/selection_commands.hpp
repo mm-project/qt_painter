@@ -43,12 +43,12 @@ public:
         }
         
         virtual void execute() {
-
             InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer,on_idle));
         }
         
         virtual bool need_log_mouserelease() {
-            return m_need_mouserelase_log;
+            return true;
+			return m_need_mouserelase_log;
         }
 		
         /*void on_idle(const EvType& ev) 
@@ -68,14 +68,14 @@ public:
 
         void on_idle(const EvType& ev) 
         {
-            std::string msg("(onidle) Selected "+QString::number(m_se.getObjects().size()).toStdString()+" shapes.");
+            std::string msg("(idle) Selected "+QString::number(m_se.getObjects().size()).toStdString()+" shapes.");
             StatusBarManager::getInstance().updateStatusBar(msg.c_str(),1,0);
 
-			//if ( ev == MC )
+			//if ( ev == MU )
             //        on_click();
             //else 
-                if ( ev == MD ) 
-                    on_press(OTHER);//set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer,on_press));
+			if ( ev == MD ) 
+				on_press(OTHER);//set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer,on_press));
             else
                 return;
         }
@@ -116,7 +116,7 @@ public:
             
             m_original_shape = nullptr;
             m_sb->clear();
-            m_se.clear();
+            //m_se.clear();
             //m_cm.return_to_idle();
             m_need_mouserelase_log = false;
 			set_can_complete(true);
@@ -129,7 +129,8 @@ public:
             //if (m_move_mode)
                 //    return;
               //assert(0);
-              if ( m_se.getObjects().empty() )
+			///if selection empty pick the shape under mouse	
+			//if ( m_se.getObjects().empty() )
                   on_click();
             //if (!m_shape_added) {
                 //if (m_sb)

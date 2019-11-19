@@ -3008,7 +3008,7 @@ incmdDesignNew
 dicmdDesignLoad -filename des.lvi 
 #i --> Info: Set to mode3
 dicmdguiClickButton -object 0x107:Point 
-incmdSelectUnderCursoer
+dicmdAbortActiveCommand 
 incmdSelectUnderCursoer
 dicmdguiClickButton -object 0x107:Region 
 incmdSelectShapesByRegion
@@ -3141,7 +3141,7 @@ dicmdCanvasMouseMove -point (257,20)
 dicmdCanvasMouseMove -point (257,12) 
 dicmdCanvasMouseMove -point (257,4) 
 dicmdguiClickButton -object 0x107:Point 
-incmdSelectUnderCursoer
+dicmdAbortActiveCommand 
 incmdSelectUnderCursoer
 dicmdCanvasMouseMove -point (334,17) 
 dicmdCanvasMouseMove -point (352,32) 

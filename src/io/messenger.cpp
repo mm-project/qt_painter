@@ -89,6 +89,10 @@ std::string Messenger::decorate_for_logging(const LogMsgSeverity& r) {
 //FIXME
 void Messenger::expose_internal(const LogMsgSeverity& severity, const std::string& m , bool iscmd) 
 {
+	LeCallbackData fixme;
+	if ( ( severity==warn || severity==err ) && ( !QString::fromLocal8Bit(qgetenv("ELEN_PAINTER_STARTDBG").constData()).isEmpty() ) )
+		NOTIFY(STOP_REPLY,fixme);
+
 	if ( Application::is_load_mode() )
             return;
         
@@ -140,6 +144,7 @@ void Messenger::write_entry_to_cmdfile(const std::string& msg) {
 //static			
 void Messenger::expose_msg(const LogMsgSeverity& s, const std::string& msg, bool iscmd )
 {
+
 	Messenger::getInstance().expose_internal(s,msg,iscmd);
 }
     	
