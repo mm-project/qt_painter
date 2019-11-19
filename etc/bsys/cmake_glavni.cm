@@ -1,0 +1,69 @@
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+set(LD_AUX "") 
+set(QTDIR "/usr/lib/x86_64-linux-gnu")
+#windows
+if (WIN32) 
+	# on visual
+	if (MSVC)
+            set ( CMAKE_CXX_FLAGS "-DOS_WINDOWS")
+            set(QTDIR "C:\\Qt\\5.14.1\\5.12.5\\msvc2017_64")
+	# on min mingw
+	else()
+            set ( CMAKE_CXX_FLAGS "-DOS_LINUX -g -fPIC -Wunused-parameter -pipe -std=gnu++17 -frtti -Wall -Wextra -fexceptions -pthread -Wno-unused-function -Wno-unused-variable")
+            set(QTDIR "./ext/mingw73_32")
+	endif(MSVC)
+
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/windows/)
+	set(QT_INCLUDE_DIR ${QTDIR}/include)
+#linux
+else()
+	set(LD_AUX "dl") 
+	set(CMAKE_CXX_FLAGS "-DOS_LINUX -g -fPIC -Wunused-parameter -pipe -std=gnu++17 -frtti -Wall -Wextra -fexceptions -pthread -Wno-unused-function -Wno-unused-variable")
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/linux/)
+    #linux64
+    if (EXISTS "/usr/include/x86_64-linux-gnu/qt5/")
+            set(QT_INCLUDE_DIR "/usr/include/x86_64-linux-gnu/qt5/")
+    else()
+    #linux32
+            set(QT_INCLUDE_DIR "/usr/include/i386-linux-gnu/qt5/")
+    endif()
+endif (WIN32)
+
+
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/.tmp/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/.tmp/lib)
+
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_PREFIX_PATH ${QT_INCLUDE_DIR})
+if (MSVC)
+	set(CMAKE_CXX_STANDARD 17)
+endif (MSVC)
+
+find_package (Qt5Widgets)
+find_package (Qt5Core)
+find_package (Qt5Gui)
+#find_package (Qt5Svg)
+#find_package (Qt5Xml)
+
+#set(QT_INCLUDE_DIR ${QTDIR}/include)
+include_directories(${QT_INCLUDE_DIR}/)
+include_directories(${QT_INCLUDE_DIR}/QtCore)
+include_directories(${QT_INCLUDE_DIR}/QtGui)
+include_directories(${QT_INCLUDE_DIR}/QtCore)
+include_directories(${QT_INCLUDE_DIR}/QtWidgets)
+
+
+function (make_ut)
+    cmake_parse_arguments(
+        COMPLEX_PREFIX
+        ""
+        "TESTEE"
+        "DEPS;ALSO_ONE_VALUE"
+        ${ARGN}
+    )
+
+    #add_executable(test_${COMPLEX_PREFIX_TESTEE} test_${COMPLEX_PREFIX_TESTEE}.cpp ../${COMPLEX_PREFIX_TESTEE}.cpp ${COMPLEX_PREFIX_DEPS})
+    add_executable(test_${COMPLEX_PREFIX_TESTEE} test_${COMPLEX_PREFIX_TESTEE}.cpp ${COMPLEX_PREFIX_DEPS})
+    target_link_libraries (test_${COMPLEX_PREFIX_TESTEE} Qt5::Widgets Qt5::Core Qt5::Gui ${LD_AUX})
+endfunction(make_ut)

@@ -2,6 +2,7 @@
 #i --> Info: Set to mode1
 dicmdguiClickButton -object 0x104:Rectangle 
 incmdCreateObjRectangle
+dicmdAbortActiveCommand 
 incmdCreateObjRectangle
 dicmdCanvasMouseMove -point (75,5) 
 dicmdCanvasMouseMove -point (75,11) 
@@ -113,6 +114,7 @@ dicmdCanvasMouseMove -point (103,52)
 dicmdCanvasMouseMove -point (119,22) 
 dicmdguiClickButton -object 0x104:Ellipse 
 incmdCreateObjEllipse
+dicmdAbortActiveCommand 
 incmdCreateObjEllipse
 dicmdCanvasMouseMove -point (153,4) 
 dicmdCanvasMouseMove -point (150,10) 
@@ -239,6 +241,7 @@ dicmdCanvasMouseMove -point (284,37)
 dicmdCanvasMouseMove -point (277,5) 
 dicmdguiClickButton -object 0x104:Polygon 
 incmdCreateObjPolygon
+dicmdAbortActiveCommand 
 incmdCreateObjPolygon
 dicmdCanvasMouseMove -point (352,16) 
 dicmdCanvasMouseMove -point (395,38) 
@@ -296,8 +299,8 @@ dicmdCanvasMouseClick -point (778,143)
 dicmdCanvasMouseClick -point (778,143) 
 dicmdCanvasMouseMove -point (778,144) 
 dicmdCanvasMouseDblClick -point (778,144) 
-#o --> Out: dicmdCreateObjPolygon -brush 1 -color #000000 -fill 9 -points {(550,101);(659,52);(778,143);(778,144)} 
 dicmdCanvasMouseDblClick -point (778,144) 
+#o --> Out: dicmdCreateObjPolygon -brush 1 -color #000000 -fill 9 -points {(550,101);(659,52);(778,143);(778,144)} 
 dicmdCanvasMouseMove -point (777,144) 
 dicmdCanvasMouseMove -point (772,144) 
 dicmdCanvasMouseMove -point (761,144) 
@@ -459,8 +462,8 @@ dicmdCanvasMouseClick -point (491,72)
 dicmdCanvasMouseClick -point (491,72) 
 dicmdCanvasMouseMove -point (491,73) 
 dicmdCanvasMouseDblClick -point (491,73) 
-#o --> Out: dicmdCreateObjPolygon -brush 1 -color #000000 -fill 9 -points {(422,62);(477,124);(545,33);(491,72);(491,73)} 
 dicmdCanvasMouseDblClick -point (491,73) 
+#o --> Out: dicmdCreateObjPolygon -brush 1 -color #000000 -fill 9 -points {(422,62);(477,124);(545,33);(491,72);(491,73)} 
 dicmdCanvasMouseMove -point (491,74) 
 dicmdCanvasMouseMove -point (491,75) 
 dicmdCanvasMouseMove -point (491,77) 
@@ -631,8 +634,8 @@ dicmdCanvasMouseMove -point (1151,91)
 dicmdCanvasMouseClick -point (1151,91) 
 dicmdCanvasMouseClick -point (1151,91) 
 dicmdCanvasMouseDblClick -point (1151,91) 
-#o --> Out: dicmdCreateObjPolygon -brush 1 -color #000000 -fill 9 -points {(1020,45);(971,179);(1195,182);(855,91);(1151,91);(1151,91)} 
 dicmdCanvasMouseDblClick -point (1151,91) 
+#o --> Out: dicmdCreateObjPolygon -brush 1 -color #000000 -fill 9 -points {(1020,45);(971,179);(1195,182);(855,91);(1151,91);(1151,91)} 
 dicmdCanvasMouseClick -point (1151,91) 
 dicmdCanvasMouseClick -point (1151,91) 
 dicmdCanvasMouseMove -point (1147,91) 
@@ -874,8 +877,8 @@ dicmdCanvasMouseMove -point (1214,116)
 dicmdCanvasMouseClick -point (1214,116) 
 dicmdCanvasMouseClick -point (1214,116) 
 dicmdCanvasMouseDblClick -point (1214,116) 
-#o --> Out: dicmdCreateObjPolygon -brush 1 -color #000000 -fill 9 -points {(1151,91);(1178,61);(1214,116);(1214,116)} 
 dicmdCanvasMouseDblClick -point (1214,116) 
+#o --> Out: dicmdCreateObjPolygon -brush 1 -color #000000 -fill 9 -points {(1151,91);(1178,61);(1214,116);(1214,116)} 
 dicmdCanvasMouseMove -point (1212,116) 
 dicmdCanvasMouseMove -point (1210,116) 
 dicmdCanvasMouseMove -point (1207,116) 
@@ -917,6 +920,7 @@ dicmdCanvasMouseMove -point (434,8)
 dicmdCanvasMouseMove -point (414,1) 
 dicmdguiClickButton -object 0x104:Rectangle 
 incmdCreateObjRectangle
+dicmdAbortActiveCommand 
 incmdCreateObjRectangle
 dicmdCanvasMouseMove -point (207,6) 
 dicmdCanvasMouseMove -point (251,33) 
@@ -974,8 +978,7 @@ dicmdCanvasMouseMove -point (325,58)
 dicmdCanvasMouseMove -point (295,26) 
 dicmdCanvasMouseMove -point (272,1) 
 dicmdguiClickButton -object 0x107:Point 
-incmdSelectUnderCursoer
-incmdSelectUnderCursoer
+dicmdAbortActiveCommand 
 dicmdCanvasMouseMove -point (129,4) 
 dicmdCanvasMouseMove -point (125,7) 
 dicmdCanvasMouseMove -point (121,10) 
@@ -1013,8 +1016,6 @@ dicmdCanvasMouseMove -point (69,50)
 dicmdCanvasMouseMove -point (68,51) 
 dicmdCanvasMouseMove -point (67,51) 
 dicmdCanvasMouseMove -point (67,52) 
-dicmdCanvasMouseClick -point (67,52) 
-dicmdCanvasMouseClick -point (67,52) 
 dicmdCanvasMouseMove -point (67,54) 
 dicmdCanvasMouseMove -point (67,58) 
 dicmdCanvasMouseMove -point (67,62) 
@@ -1666,7 +1667,6 @@ dicmdCanvasMouseMove -point (808,33)
 dicmdCanvasMouseMove -point (724,15) 
 dicmdguiClickButton -object 0x107:Point 
 dicmdAbortActiveCommand 
-incmdSelectUnderCursoer
 dicmdCanvasMouseMove -point (810,9) 
 dicmdCanvasMouseMove -point (872,22) 
 dicmdCanvasMouseMove -point (926,33) 
@@ -2615,8 +2615,18 @@ dicmdCanvasMouseMove -point (350,120)
 dicmdCanvasMouseMove -point (350,92) 
 dicmdCanvasMouseMove -point (350,42) 
 dicmdCanvasMouseMove -point (347,8) 
+dicmdAbortActiveCommand 
+dicmdAbortActiveCommand 
+dicmdCanvasMouseClick -point (0,0) 
+dicmdCanvasMouseClick -point (0,0) 
+dicmdCanvasMouseClick -point (0,0) 
+dicmdCanvasMouseClick -point (0,0) 
+dicmdCanvasMouseRelease -point (0,0) 
+dicmdCanvasMouseRelease -point (0,0) 
+dicmdAbortActiveCommand 
 dicmdguiClickButton -object 0x104:Line 
 incmdCreateObjLine
+dicmdAbortActiveCommand 
 incmdCreateObjLine
 dicmdCanvasMouseMove -point (45,16) 
 dicmdCanvasMouseMove -point (58,34) 
@@ -3007,8 +3017,7 @@ dicmdCanvasMouseMove -point (104,73)
 dicmdCanvasMouseMove -point (104,45) 
 dicmdCanvasMouseMove -point (112,11) 
 dicmdguiClickButton -object 0x107:Point 
-incmdSelectUnderCursoer
-incmdSelectUnderCursoer
+dicmdAbortActiveCommand 
 dicmdCanvasMouseMove -point (205,22) 
 dicmdCanvasMouseMove -point (194,54) 
 dicmdCanvasMouseMove -point (188,71) 
@@ -3553,8 +3562,15 @@ dicmdCanvasMouseMove -point (400,111)
 dicmdCanvasMouseMove -point (352,89) 
 dicmdCanvasMouseMove -point (331,73) 
 dicmdCanvasMouseMove -point (289,34) 
+dicmdCanvasMouseClick -point (0,0) 
+dicmdCanvasMouseClick -point (0,0) 
+dicmdCanvasMouseRelease -point (0,0) 
+dicmdCanvasMouseClick -point (0,0) 
+dicmdCanvasMouseClick -point (0,0) 
+dicmdCanvasMouseRelease -point (0,0) 
 dicmdguiClickButton -object 0x107:Region 
 incmdSelectShapesByRegion
+dicmdAbortActiveCommand 
 incmdSelectShapesByRegion
 dicmdCanvasMouseMove -point (269,7) 
 dicmdCanvasMouseMove -point (265,16) 
@@ -4082,7 +4098,7 @@ dicmdCanvasMouseMove -point (296,133)
 dicmdCanvasMouseMove -point (296,132) 
 dicmdCanvasMouseClick -point (296,132) 
 dicmdCanvasMouseClick -point (296,132) 
-#o --> Out: dicmdSelectShapesByRegion -end (44,233) -start (373,338) 
+#o --> Out: dicmdSelectShapesByRegion -end (204,233) -start (533,338) 
 dicmdCanvasMouseMove -point (295,132) 
 dicmdCanvasMouseMove -point (294,132) 
 dicmdCanvasMouseMove -point (292,132) 
@@ -4149,7 +4165,7 @@ dicmdCanvasMouseMove -point (616,252)
 dicmdCanvasMouseMove -point (616,253) 
 dicmdCanvasMouseClick -point (616,253) 
 dicmdCanvasMouseClick -point (616,253) 
-#o --> Out: dicmdSelectShapesByRegion -end (611,448) -start (-21,210) 
+#o --> Out: dicmdSelectShapesByRegion -end (771,448) -start (138,210) 
 dicmdCanvasMouseMove -point (614,253) 
 dicmdCanvasMouseMove -point (610,252) 
 dicmdCanvasMouseMove -point (606,250) 
@@ -4198,8 +4214,7 @@ dicmdCanvasMouseMove -point (313,95)
 dicmdCanvasMouseMove -point (301,59) 
 dicmdCanvasMouseMove -point (291,28) 
 dicmdguiClickButton -object 0x107:Point 
-incmdSelectUnderCursoer
-incmdSelectUnderCursoer
+dicmdAbortActiveCommand 
 dicmdCanvasMouseMove -point (274,8) 
 dicmdCanvasMouseMove -point (286,32) 
 dicmdCanvasMouseMove -point (297,52) 

@@ -76,6 +76,9 @@ bool LogReader::replay_logfile(const std::string& fname) {
     //connect(m_timer, SIGNAL(timeout()), this, SLOT(execute_next_command()));
     QStringList lines = read_file(fname);
     
+	if ( !QString::fromLocal8Bit(qgetenv("ELEN_PAINTER_STARTDBG").constData()).isEmpty() )
+		m_command_queue.push("dicmdQaReplyingBreak");
+	
     if ( lines.size() == 0 )
         return false;
 
@@ -126,7 +129,7 @@ void LogReader::execute_next_command() {
         return;
     }
     
-    std::cout << "dolya varavsyaka" << std::endl;
+    //std::cout << "dolya varavsyaka" << std::endl;
     CommandBase* cmd = m_interp.get_cmd_obj(m_command_queue.front().toStdString());
     m_command_queue.pop();
     
@@ -135,8 +138,9 @@ void LogReader::execute_next_command() {
     //    return;
     //}
         //disconnect(m_timer, 0, 0, 0);
-    
+    QApplication::processEvents();
     m_interp.execute_cmd(cmd);
+    QApplication::processEvents();
     
     //t->deleteLater();
     //QApplication::processEvents();

@@ -94,9 +94,20 @@ canvas::canvas(QWidget* p)
 
 
 renderer* canvas::get_renderer() {
-        return m_renderer;
+    return m_renderer;
 }
  
+//this is temporary 
+bool canvas::event(QEvent* event) 
+{
+    if (event->type() == QEvent::User ) {
+            QPoint p = (dynamic_cast<QMouseEvent*>(event))->pos();
+            cm.mouse_pressed(p.x(),p.y());
+            update();
+    }
+   return QWidget::event(event);
+}
+
 void canvas::keyPressEvent(QKeyEvent* ev) {
     
     //binding goes here
@@ -132,10 +143,13 @@ void canvas::keyPressEvent(QKeyEvent* ev) {
         else if ( ev->key() == Qt::Key_W )
            cm.find_command("dicmdQaReplyingResume")->execute_and_log();
         else if ( ev->key() == Qt::Key_S )
+            cm.activate_command(cm.find_command("incmdSelectShapesByRegion"));
+        else if ( ev->key() == Qt::Key_N )
            cm.find_command("dicmdQaReplyStep")->execute_and_log();
         else {
             if( cm.is_idle() ) 
                 return;
+            cm.key_pressed();
         }       
         update();        
 }
@@ -146,9 +160,9 @@ void canvas::mousePressEvent(QMouseEvent* e)
         return;
 
     QPoint p(e->pos());
-    if(!Application::is_replay_mode())
+    //if(!Application::is_replay_mode())
     //if(!Application::is_log_mode())
-    dicmdCanvasMouseClick(p).log();
+    //dicmdCanvasMouseClick(p).log();
     cm.mouse_clicked(p.x(),p.y());
     m_renderer->click_hint();
 }
@@ -176,8 +190,8 @@ void canvas::mouseMoveEvent(QMouseEvent* e)
 	cm.mouse_moved(_x, _y);
 
 	//if Preference::isSet("guiLogMouseMove")
-	if ( m_need_motionlog )
-		dicmdCanvasMouseMove(e->pos()).log();
+	//if ( m_need_motionlog )
+		//dicmdCanvasMouseMove(e->pos()).log();
 	/**/
 	
     update();
@@ -192,8 +206,9 @@ void canvas::wheelEvent(QWheelEvent* e)
 
 void canvas::mouseDoubleClickEvent(QMouseEvent* e)
 {
-    if(!Application::is_replay_mode())
-       dicmdCanvasMouseDblClick(e->pos()).log();
+    //if(!Application::is_replay_mode())
+       //dicmdCanvasMouseDblClick(e->pos()).log();
+   
     cm.mouse_dbl_clicked(e->pos().x(),e->pos().y());
     //if(!Application::is_log_mode())
     update();
@@ -245,7 +260,8 @@ void canvas::invoke_select_by_region()
 
 void canvas::invoke_select_by_point()
 {
-    cm.activate_command(cm.find_command("incmdSelectUnderCursoer"));
+    cm.disactivate_active_command();
+	//cm.activate_command(cm.find_command("incmdSelectUnderCursoer"));
 }
 
 void canvas::invoke_save()
@@ -270,15 +286,15 @@ void canvas::invoke_delete()
 
 void canvas::abordCommand()
 {
-  cm.activate_command(cm.find_command("dicmdAbortActiveCommand"));
+    cm.activate_command(cm.find_command("dicmdAbortActiveCommand"));
 }
 
 void canvas::invoke_copy()
 {
-  //cm.activate_command(cm.find_command("incmdObjRelocateByCopy"));
+    cm.activate_command(cm.find_command("incmdObjRelocateByCopy"));
 }
 
 void canvas::invoke_move()
 {
-  //cm.activate_command(cm.find_command("incmdObjRelocateByMove"));
+    cm.activate_command(cm.find_command("incmdObjRelocateByMove"));
 }

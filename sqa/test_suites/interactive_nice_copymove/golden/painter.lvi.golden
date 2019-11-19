@@ -1,0 +1,14 @@
+dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(119,114);(189,172)} 
+dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(175,195);(219,234)} 
+dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(218,265);(264,301)} 
+dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(242,118);(302,191)} 
+dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(294,252);(379,315)} 
+dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(59,246);(152,298)} 
+dicmdSelectShapesByRegion -end (449,383) -start (0,67) 
+dicmdSelectShapesByRegion -end (1396,343) -start (1086,75) 
+dicmdSelectShapesByRegion -end (438,386) -start (23,79) 
+dicmdSelectShapesByRegion -end (966,354) -start (657,96) 
+dicmdSelectShapesByRegion -end (1630,415) -start (1319,117) 
+dicmdSelectShapesByRegion -end (1659,446) -start (1206,71) 
+dicmdSelectShapesByRegion -end (1019,388) -start (577,56) 
+dicmdSelectShapesByRegion -end (992,356) -start (617,59) 

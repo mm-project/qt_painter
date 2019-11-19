@@ -24,9 +24,9 @@ public:
 	main_window(QWidget* = 0 );
 	~main_window();
 	bool eventFilter(QObject *object, QEvent *event);
-        void closeEvent(QCloseEvent *event);
-        void onCommandDiscard();
-    
+	void closeEvent(QCloseEvent *event);
+	void onCommandDiscard();
+
 private:
 	void make_connections();
         void setRecursiveChildWidgetsObjectName(QWidget*);

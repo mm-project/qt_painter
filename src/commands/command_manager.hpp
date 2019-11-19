@@ -5,7 +5,7 @@
 //
 // Includes
 //
-#include "icommand_base.hpp"
+//#include "icommand_base.hpp"
 
 #include "../core/runtime_environment.hpp"
 #include "../core/working_set.hpp"
@@ -24,6 +24,8 @@
 // @class command manager
 //
 class renderer;
+class CommandBase;
+
 class command_manager : public Service<command_manager> 
 {
 
@@ -58,6 +60,7 @@ class command_manager : public Service<command_manager>
         void mouse_dbl_clicked(int x, int y);
         void mouse_clicked(int x, int y);
         void mouse_released(int, int);
+        void mouse_pressed(int, int);
         void mouse_moved(int x, int y);
         void key_pressed();
         void update_tookplace();

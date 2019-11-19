@@ -234,6 +234,7 @@ void create_shape_gui::build_brush_and_fill(QRibbonWidget* ribbonWidget)
 	for (int i = 0; i < styles.size(); ++i)
 	{
 		QRadioButton* button = new QRadioButton(this);
+		button->setObjectName(styles[i]);
 		connect(button, SIGNAL(clicked()), mapper, SLOT(map()));
 		mapper->setMapping(button, styles[i]);
 		ribbonGroup->addButton(button, styles[i], QRibbonButtonSize::size16);
@@ -255,6 +256,8 @@ void create_shape_gui::build_brush_and_fill(QRibbonWidget* ribbonWidget)
 	for (int i = 0; i < styles.size(); ++i)
 	{
 		QRadioButton* button = new QRadioButton(this);
+		button->setObjectName(styles1[i]);
+		button->setText(styles1[i]);
 		connect(button, SIGNAL(clicked()), mapper1, SLOT(map()));
 		mapper1->setMapping(button, styles[i]);
 		ribbonGroup1->addButton(button, styles1[i], QRibbonButtonSize::size16);

@@ -1,0 +1,185 @@
+#i --> Info: Welcome to this project. Feel free to expirment. 
+#i --> Info: Set to mode1
+dicmdguiClickButton -object mw/65/70/Home/qt_tabwidget_tabbar 
+#e --> Error: something went wrong with this command -> dicmdguiClickButton
+dicmdguiClickButton -object 0x104:Rectangle 
+incmdCreateObjRectangle
+dicmdAbortActiveCommand 
+incmdCreateObjRectangle
+dicmdCanvasMouseClick -point (47,73) 
+dicmdCanvasMouseClick -point (47,73) 
+dicmdCanvasMouseClick -point (189,157) 
+dicmdCanvasMouseClick -point (189,157) 
+#o --> Out: dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(47,73);(189,157)} 
+dicmdguiClickButton -object 0x104:Ellipse 
+incmdCreateObjEllipse
+dicmdAbortActiveCommand 
+dicmdAbortActiveCommand 
+incmdCreateObjEllipse
+dicmdCanvasMouseClick -point (178,203) 
+dicmdCanvasMouseClick -point (178,203) 
+dicmdCanvasMouseClick -point (293,302) 
+dicmdCanvasMouseClick -point (293,302) 
+#o --> Out: dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(178,203);(293,302)} 
+dicmdguiClickButton -object 0x104:Rectangle 
+incmdCreateObjRectangle
+dicmdAbortActiveCommand 
+dicmdAbortActiveCommand 
+incmdCreateObjRectangle
+dicmdCanvasMouseClick -point (327,113) 
+dicmdCanvasMouseClick -point (327,113) 
+dicmdCanvasMouseClick -point (435,207) 
+dicmdCanvasMouseClick -point (435,207) 
+#o --> Out: dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(327,113);(435,207)} 
+dicmdCanvasMouseClick -point (354,263) 
+dicmdCanvasMouseClick -point (354,263) 
+dicmdCanvasMouseClick -point (431,319) 
+dicmdCanvasMouseClick -point (431,319) 
+#o --> Out: dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(354,263);(431,319)} 
+dicmdAbortActiveCommand 
+dicmdAbortActiveCommand 
+dicmdCanvasMouseClick -point (361,177) 
+dicmdCanvasMouseClick -point (361,177) 
+dicmdCanvasMouseRelease -point (704,95) 
+dicmdguiClickButton -object 0x104:Ellipse 
+incmdCreateObjEllipse
+dicmdAbortActiveCommand 
+incmdCreateObjEllipse
+dicmdCanvasMouseClick -point (283,101) 
+dicmdCanvasMouseClick -point (283,101) 
+dicmdCanvasMouseClick -point (409,177) 
+dicmdCanvasMouseClick -point (409,177) 
+#o --> Out: dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(283,101);(409,177)} 
+dicmdAbortActiveCommand 
+dicmdAbortActiveCommand 
+dicmdCanvasMouseClick -point (384,291) 
+dicmdCanvasMouseClick -point (384,291) 
+dicmdCanvasMouseRelease -point (610,269) 
+dicmdCanvasMouseClick -point (348,154) 
+dicmdCanvasMouseClick -point (348,154) 
+dicmdCanvasMouseRelease -point (644,76) 
+dicmdCanvasMouseClick -point (254,234) 
+dicmdCanvasMouseClick -point (254,234) 
+dicmdCanvasMouseRelease -point (733,189) 
+dicmdCanvasMouseClick -point (139,146) 
+dicmdCanvasMouseClick -point (139,146) 
+dicmdCanvasMouseRelease -point (634,76) 
+dicmdCanvasMouseClick -point (774,242) 
+dicmdCanvasMouseClick -point (774,242) 
+dicmdCanvasMouseRelease -point (201,129) 
+dicmdguiClickButton -object 0x104:Rectangle 
+incmdCreateObjRectangle
+dicmdAbortActiveCommand 
+incmdCreateObjRectangle
+dicmdCanvasMouseClick -point (237,72) 
+dicmdCanvasMouseClick -point (237,72) 
+dicmdCanvasMouseClick -point (401,132) 
+dicmdCanvasMouseClick -point (401,132) 
+#o --> Out: dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(237,72);(401,132)} 
+dicmdCanvasMouseClick -point (170,270) 
+dicmdCanvasMouseClick -point (170,270) 
+dicmdCanvasMouseClick -point (313,318) 
+dicmdCanvasMouseClick -point (313,318) 
+#o --> Out: dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(170,270);(313,318)} 
+dicmdAbortActiveCommand 
+dicmdAbortActiveCommand 
+dicmdCanvasMouseClick -point (683,122) 
+dicmdCanvasMouseClick -point (683,122) 
+dicmdCanvasMouseClick -point (274,155) 
+dicmdCanvasMouseClick -point (274,155) 
+dicmdCanvasMouseRelease -point (668,176) 
+dicmdCanvasMouseClick -point (666,126) 
+dicmdCanvasMouseClick -point (666,126) 
+dicmdCanvasMouseClick -point (761,151) 
+dicmdCanvasMouseClick -point (761,151) 
+dicmdCanvasMouseRelease -point (157,157) 
+dicmdCanvasMouseClick -point (728,222) 
+dicmdCanvasMouseClick -point (728,222) 
+dicmdCanvasMouseRelease -point (1107,209) 
+dicmdCanvasMouseClick -point (1119,272) 
+dicmdCanvasMouseClick -point (1119,272) 
+dicmdCanvasMouseRelease -point (183,167) 
+dicmdCanvasMouseClick -point (648,295) 
+dicmdCanvasMouseClick -point (648,295) 
+dicmdCanvasMouseRelease -point (926,193) 
+dicmdCanvasMouseClick -point (645,158) 
+dicmdCanvasMouseClick -point (645,158) 
+dicmdCanvasMouseRelease -point (438,261) 
+dicmdCanvasMouseClick -point (714,127) 
+dicmdCanvasMouseClick -point (714,127) 
+dicmdCanvasMouseRelease -point (991,43) 
+dicmdCanvasViewportZoomOut -point (929,79) 
+dicmdCanvasViewportZoomOut -point (929,79) 
+dicmdCanvasViewportZoomOut -point (926,81) 
+dicmdCanvasViewportZoomOut -point (926,81) 
+dicmdCanvasViewportZoomOut -point (924,82) 
+dicmdCanvasViewportZoomOut -point (924,82) 
+dicmdCanvasViewportZoomOut -point (923,82) 
+dicmdCanvasViewportZoomOut -point (923,82) 
+dicmdCanvasViewportZoomOut -point (916,86) 
+dicmdCanvasViewportZoomOut -point (916,86) 
+dicmdCanvasMouseClick -point (197,72) 
+dicmdCanvasMouseClick -point (197,72) 
+dicmdCanvasMouseRelease -point (232,274) 
+dicmdCanvasMouseClick -point (134,144) 
+dicmdCanvasMouseClick -point (134,144) 
+dicmdCanvasMouseRelease -point (401,266) 
+dicmdCanvasMouseClick -point (321,189) 
+dicmdCanvasMouseClick -point (321,189) 
+dicmdCanvasMouseRelease -point (645,273) 
+dicmdCanvasMouseClick -point (605,139) 
+dicmdCanvasMouseClick -point (605,139) 
+dicmdCanvasMouseRelease -point (101,259) 
+dicmdCanvasMouseClick -point (295,296) 
+dicmdCanvasMouseClick -point (295,296) 
+dicmdCanvasMouseRelease -point (358,85) 
+dicmdCanvasMouseClick -point (455,312) 
+dicmdCanvasMouseClick -point (455,312) 
+dicmdCanvasMouseRelease -point (290,186) 
+dicmdCanvasMouseClick -point (643,63) 
+dicmdCanvasMouseClick -point (643,63) 
+dicmdCanvasMouseRelease -point (462,262) 
+dicmdguiClickButton -object 0x104:Rectangle 
+incmdCreateObjRectangle
+dicmdAbortActiveCommand 
+incmdCreateObjRectangle
+dicmdCanvasMouseClick -point (419,164) 
+dicmdCanvasMouseClick -point (419,164) 
+dicmdCanvasMouseClick -point (484,206) 
+dicmdCanvasMouseClick -point (484,206) 
+#o --> Out: dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(674,264);(779,331)} 
+dicmdAbortActiveCommand 
+dicmdAbortActiveCommand 
+dicmdCanvasMouseClick -point (444,189) 
+dicmdCanvasMouseClick -point (444,189) 
+dicmdCanvasMouseRelease -point (621,101) 
+dicmdCanvasMouseClick -point (676,291) 
+dicmdCanvasMouseClick -point (676,291) 
+dicmdCanvasMouseRelease -point (504,188) 
+dicmdCanvasMouseClick -point (644,130) 
+dicmdCanvasMouseClick -point (644,130) 
+dicmdCanvasMouseRelease -point (750,228) 
+dicmdCanvasMouseClick -point (558,224) 
+dicmdCanvasMouseClick -point (558,224) 
+dicmdCanvasMouseRelease -point (715,124) 
+dicmdCanvasMouseClick -point (382,105) 
+dicmdCanvasMouseClick -point (382,105) 
+dicmdCanvasMouseRelease -point (562,78) 
+dicmdCanvasMouseClick -point (155,124) 
+dicmdCanvasMouseClick -point (155,124) 
+dicmdCanvasMouseRelease -point (440,65) 
+dicmdCanvasMouseClick -point (325,223) 
+dicmdCanvasMouseClick -point (325,223) 
+dicmdCanvasMouseRelease -point (115,93) 
+dicmdCanvasMouseClick -point (487,272) 
+dicmdCanvasMouseClick -point (487,272) 
+dicmdCanvasMouseRelease -point (266,68) 
+dicmdCanvasMouseClick -point (145,109) 
+dicmdCanvasMouseClick -point (145,109) 
+dicmdCanvasMouseClick -point (173,137) 
+dicmdCanvasMouseClick -point (173,137) 
+dicmdCanvasMouseRelease -point (97,113) 
+dicmdCanvasMouseClick -point (297,88) 
+dicmdCanvasMouseClick -point (297,88) 
+dicmdCanvasMouseRelease -point (380,205) 
+dicmdQaToolExit 

@@ -25,6 +25,7 @@ class incmdSelectUnderCursoer: public InteractiveCommandBase
         Selection& m_se = Selection::getInstance();
         IShape* m_original_shape = nullptr;
         LeCallback* m_sel_cb;
+        bool m_need_mouserelase_log = false;
 
 public:
 	
@@ -42,25 +43,53 @@ public:
         }
         
         virtual void execute() {
-
             InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer,on_idle));
         }
+        
+        virtual bool need_log_mouserelease() {
+            return true;
+			return m_need_mouserelase_log;
+        }
 		
-        void on_idle(const EvType& ev) 
+        /*void on_idle(const EvType& ev) 
         {
             if ( ev == MM )
                 if ( ! m_move_mode ) 
                     m_se.highlight_shape_under_pos(InteractiveCommandBase::get_last_point());
                 else 
                     move_selected_to_point(InteractiveCommandBase::get_last_point());
-            else if ( ev == MC ) 
-                   on_click();
+            else if ( ev == MC )
+                    on_click();
+            else if ( ev == MP ) 
+                   on_press();
             else if ( ev == MR &&  m_move_mode )
                     movement_commit();
+        }*/
+
+        void on_idle(const EvType& ev) 
+        {
+            std::string msg("(idle) Selected "+QString::number(m_se.getObjects().size()).toStdString()+" shapes.");
+            StatusBarManager::getInstance().updateStatusBar(msg.c_str(),1,0);
+
+			//if ( ev == MU )
+            //        on_click();
+            //else 
+			if ( ev == MD ) 
+				on_press(OTHER);//set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer,on_press));
+            else
+                return;
         }
-		
+
     private:
+        void on_click() {
+            m_se.clear();
+            m_se.select_shape_under_pos(InteractiveCommandBase::get_last_point());
+            std::string msg("Selected "+QString::number(m_se.getObjects().size()).toStdString()+" shapes.");
+            StatusBarManager::getInstance().updateStatusBar(msg.c_str(),1,0);
+        }
+        
         void movement_commit() {
+            //set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer,on_idle));
             if ( m_original_shape == nullptr || m_se.getObjects().empty()  )
                 return;
             
@@ -72,41 +101,69 @@ public:
             m_move_mode=false;
             std::cout << "Adding..." << std::endl; 
 
+            //rq.removeObject(m_original_shape);  
+			int count = rq.getSize();
+            m_ws->removeObject(m_original_shape);
+			//temporary
+			rq.clear();
+			for (auto it : m_ws->getObjects())
+				rq.insertObject(it);
+
+
             for ( auto it: m_sb->getPool()->getObjects() ) {
                     rq.insertObject(m_ws->addObject(it));
             }        
             
-            rq.removeObject(m_original_shape);            
-            m_ws->removeObject(m_original_shape);
             m_original_shape = nullptr;
             m_sb->clear();
-            m_se.clear();
-            m_cm.return_to_idle();
+            //m_se.clear();
+            //m_cm.return_to_idle();
+            m_need_mouserelase_log = false;
+			set_can_complete(true);
+            set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer,on_idle));
         }
         
         
-        void on_click() {
-                //if (m_move_mode)
+        void on_press(const EvType& ev) {
+            //assert(0);    
+            //if (m_move_mode)
                 //    return;
-                
+              //assert(0);
+			///if selection empty pick the shape under mouse	
+			//if ( m_se.getObjects().empty() )
+                  on_click();
             //if (!m_shape_added) {
-                m_move_mode=true;
                 //if (m_sb)
                 //    m_sb->clear();
                 //m_se.highlightselect_shape_under_pos(InteractiveCommandBase::get_last_point());
-                m_se.select_shape_under_pos(InteractiveCommandBase::get_last_point());
+                //m_se.select_shape_under_pos(InteractiveCommandBase::get_last_point());
                 if ( ! m_se.getObjects().empty() ) {
                     m_sb->clear();
                     m_original_shape = m_se.getObjects()[0];
-                    for ( auto it : m_se.getObjects() )
-                        m_sb->addObject(it);
+                    //for ( auto it : m_se.getObjects() )
+                     //   m_sb->addObject(it);
+					std::cout << "OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO" << m_original_shape << std::endl;
+					m_sb->addObject(m_original_shape);
+                    m_move_mode=true;
+                    //m_need_mouserelase_log = true;
+					set_can_complete(false);
+                    set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer,on_mousemove));
                 }
                 //m_shape_added = true;
             //}
 
         }
         
+        void on_mousemove(const EvType& ev) 
+        {
+            if ( ev == MM )
+                move_selected_to_point(InteractiveCommandBase::get_last_point());
+            else if ( ev == MU )
+                movement_commit();
+        }
+        
         void move_selected_to_point(QPoint p) {
+            m_need_mouserelase_log = true;
             for ( auto it: m_sb->getPool()->getObjects() ) {
                     std::cout << "rotate..." << std::endl; 
                     it->moveCenterToPoint(p);
@@ -214,7 +271,7 @@ private:
 //command cycle
 public:
         void on_idle(const EvType& ev) {
-            if ( ev == MC ) { 
+            if ( ev == MC || ev == MD ) { 
                 if ( m_first_click ) {
                     m_first_click = false;
                     m_se.clear();

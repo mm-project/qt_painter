@@ -24,9 +24,12 @@ namespace {
     std::string relocAction2string(relocAction x) {
             if ( x==MOVE ) return "Move";
             if ( x==COPY ) return "Copy";
+			return "";
     }
 }
 
+
+//dicmdRelocateObjsByMove -selectionbox () -to_point ()
 
 template<relocAction T>
 class dicmdObjRelocateBy : public DirectCommandBase
@@ -58,7 +61,7 @@ public:
 	{      
                 if ( m_se.getObjects().empty() )
                     throw 1;
-            //RegionQuery& rq = RegionQuery::getInstance();
+				//RegionQuery& rq = RegionQuery::getInstance();
                 QPoint dst_p(GET_CMD_ARG(PointCommandOptionValue,"-to"));
                 QPoint src_p(GET_CMD_ARG(PointCommandOptionValue,"-from"));
                 
@@ -130,10 +133,12 @@ public:
 //helpers
 private:      
         void commit() {
+                StatusBarManager::getInstance().updateStatusBar("Commiting...",1,0);
                 RegionQuery& rq = RegionQuery::getInstance();
     
                 std::cout << "SELECTION" << m_se.getObjects().size() << "   RTSHAPES: " << m_sb->getPool()->getObjects().size() << "\n";
-                for ( auto it: m_sb->getPool()->getObjects() ) {
+                //*
+				for ( auto it: m_sb->getPool()->getObjects() ) {
                     rq.insertObject(m_ws->addObject(it));
                     if ( T == MOVE ) {
                         //remove working set's object that has been selected
@@ -142,24 +147,22 @@ private:
                         m_ws->removeObject(m_sb2se[it]);
                     }
                 }
-
-                 //m_ws->removeObject(dynamic_cast<WorkingSet*>(m_ws.get())->get_clonee(it));
-                
-                //dicmdObjRelocateBy<T>(m_ws,m_clicked_point,InteractiveCommandBase::get_last_point()).log();
+				/**/
+                //dicmdObjRelocateBy<T>(m_ws,m_clicked_point,InteractiveCommandBase::get_last_point()).silent_execute();
+                m_se.clear();
                 abort_internal();
                 //set_next_handler(HANDLE_FUNCTION(incmdObjRelocateBy<T>,idle));
         }
 
         void abort_internal() {
-                StatusBarManager::getInstance().updateStatusBar("Aborting...",1,0);
-                m_se.clear();
+                
                 m_sb->clear();
                 //m_se.clear();
                 //m_cm.return_to_idle();
                 //m_cm.disactivate_active_command();
                 m_distances.clear();
                 m_sb2se.clear();
-                m_move_move = false;
+                m_cm.return_to_idle();
                 std::cout << "abort2" << std::endl;
         }
     
@@ -197,7 +200,7 @@ private:
                     dynamic_cast<InteractiveCommandBase*>(cmd)->set_auto_repeat(true);
                     return;
                 }
-                
+
                 // shapes finally selected, can copy/move now, moving forward
                 int count = m_se.getObjects().size();
                 std::string msg("Selected "+QString::number(count).toStdString()+" shapes. Click on shape and move mouse to perform action");
@@ -217,7 +220,7 @@ private:
         }
         
         void wait_for_first_click(const EvType& ev) {
-               if ( ev == MC ) {
+               if ( ev == MC || ev == MU || ev == MD  ) {
                     m_clicked_point = InteractiveCommandBase::get_lastclk_point();
                     for ( auto shape: m_se.getObjects() ) {
                         QPoint diff(m_clicked_point - shape->getPoints()[0]);
@@ -234,7 +237,7 @@ private:
                 if ( ev == MM )
                     move_runtimes_to_point(InteractiveCommandBase::get_last_point());
                     
-                if ( ev == MC ) {
+                if (  ev == MC || ev == MU || ev == MD  ) {
                    
                     if ( ! m_se.getObjects().empty() )
                         on_commit();

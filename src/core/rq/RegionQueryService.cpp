@@ -1,43 +1,7 @@
 #include "RegionQueryService.hpp"
-
 #include "rq_object.hpp"
+#include "debug_helper.hpp"
 
-//Fake RQ by just working directly to working set.
-#ifdef NO_RQ
-    RegionQuery::RegionQuery() {}
-    void RegionQuery::insertObject(IShape*) {}
-    void RegionQuery::removeObject(IShape*) {}
-    void RegionQuery::clear() {}
-    void RegionQuery::shutDown() {}
-    
-    void RegionQuery::setWS(IObjectPoolPtr ws) { m_ws = ws; }
-
-    IShape* RegionQuery::getShapeUnderPos(const QPoint& point) const
-    {
-        for(auto shape: m_ws->getObjects()) 
-            if ( shape->contains(point) )
-                return shape;
-        
-        return nullptr;
-    }
-    
-    std::vector<IShape*> RegionQuery::getShapesUnderRect(const QRect& box) const
-    {
-        std::vector<IShape*> shapes;
-            for(auto shape: m_ws->getObjects()) {
-                bool contains = true;
-                
-                for(auto point: shape->getPoints())
-                    if (!box.contains(point))
-                        contains = false;
-                
-                if (contains)    
-                    shapes.push_back(shape);
-            }
-        return shapes;
-    }
-#endif
-    
 #ifndef NO_RQ
 RegionQuery::RegionQuery()
 {
@@ -46,6 +10,7 @@ RegionQuery::RegionQuery()
 
 void RegionQuery::insertObject(IShape* object)
 {
+    DBG_RQ("insert",object);
 	rq::RQobjectPtr obj;
 	switch (object->getType())
 	{
@@ -62,12 +27,12 @@ void RegionQuery::insertObject(IShape* object)
 		obj = std::shared_ptr<rq::IRQobject>(new rq::RQpolygon(object));
 		break;
 	}
-
 	m_tree->insert(obj);
 }
  
 void RegionQuery::removeObject(IShape* object)
 {
+    DBG_RQ("remove",object);
 	rq::RQobjectPtr obj;
 	switch (object->getType())
 	{
@@ -86,6 +51,7 @@ void RegionQuery::removeObject(IShape* object)
 	}
 	m_tree->remove(obj);
 }
+
 IShape* RegionQuery::getShapeUnderPos(const QPoint& p) const
 {
 	rq::RQobjectPtr obj = m_tree->getObject(rq::CPoint(p));
@@ -118,4 +84,12 @@ void RegionQuery::shutDown()
 {
 	clear();
 }
-#endif
+
+int RegionQuery::getSize() const
+{
+	return m_tree->getSize();
+}
+
+#endif //ifndef NO_RQ
+
+

@@ -12,9 +12,12 @@
 #include "../core/postman.hpp"
 #include "../core/callback.hpp"
 #include "../core/renderer.hpp"
+#include "../core/application.hpp"
 
 #include "../gui/statusbar_manager.hpp"
 #include "../gui/main_window.hpp"
+
+#include "../io/messenger.hpp"
 
 
 #include <cassert>
@@ -25,7 +28,7 @@
 void command_manager::init2(ObjectPoolSandboxPtr r, IObjectPoolPtr s) {
 	r = re;
     ws = {s};
-    m_current_command = {0};
+    m_current_command = nullptr;
     m_idle_command = new incmdIdle();
     
     REGISTER_CALLBACK(CANVAS_VIEWPORT_CHANGED,&command_manager::on_viewport_changed);
@@ -35,7 +38,9 @@ void command_manager::init2(ObjectPoolSandboxPtr r, IObjectPoolPtr s) {
 void command_manager::init() {
     register_command(new dicmdCanvasMouseMove);
     register_command(new dicmdCanvasMouseClick);
+    register_command(new dicmdCanvasMouseRelease);
     register_command(new dicmdCanvasMouseDblClick);
+    register_command(new dicmdCanvasMousePress);
     register_command(new dicmdguiSelectRadioButton);
     register_command(new dicmdAbortActiveCommand);
     register_command(new dicmdguiSelectComboValue); 
@@ -64,7 +69,7 @@ void command_manager::set_idle_command(CommandBase* cmd)
 {
     m_idle_command = cmd;
     m_current_command = m_idle_command;  
-    activate_command(m_current_command);
+    activate_command(m_current_command,false);
     //std::cout << "idle is: " <<  m_idle_command << std::endl;
 }
 
@@ -83,11 +88,22 @@ void command_manager::register_command(CommandBase* cmd) {
 void command_manager::activate_command(CommandBase* cmd, bool needlog) {
     //FIXME crashes obviously
     //delete m_current_command;
-    
+	std::cout << "activating1: " <<  m_current_command->is_completed() << std::endl;
+
+	if ( cmd==nullptr || cmd!=nullptr && cmd !=find_command("dicmdAbortActiveCommand") && !m_current_command->is_completed() ) {
+		Messenger::expose_msg(warn,"please complete/abort current command before activating "+cmd->get_name());
+		return;
+	}
+	
+	std::cout << "activating2: " <<  cmd << std::endl;
+
+	
     if ( !is_idle() && cmd->get_type() == Interactive )
 		m_current_command->abort(); 
-    
-    m_current_command = cmd;
+
+	m_current_command = cmd;
+
+	
     //m_current_command->activate();
     
     //if ( m_current_command->get_type == Interactive )
@@ -123,11 +139,12 @@ void command_manager::disactivate_active_command() {
 void command_manager::return_to_idle() {
     //std::cout << "(cm) back to idle" << std::endl;
     //delete m_last_command;
-    StatusBarManager::getInstance().updateStatusBar("Idle.",1,0);
+    StatusBarManager::getInstance().updateStatusBar("cmIdle.",1,0);
     m_current_command = m_idle_command;
     dynamic_cast<main_window*>(m_main_widget)->onCommandDiscard();
+	m_current_command->execute();
     m_main_widget->update();
-}
+	}
 
 //FIXME by keeping wrapper to function 
 // when invoking check if m_current_command type is interactive
@@ -166,30 +183,44 @@ void command_manager::on_viewport_changed(LeCallbackData& d)
     std::cout << m_dx << " " << m_dy << std::endl;
     std::cout << "***\n";
     /**/
-   
-    
 }
 
 void command_manager::mouse_dbl_clicked(int x, int y) {
     //std::cout << x << "(" << x/m_kx-m_dx << ")  --- " << y << "(" << y/m_ky-m_dy << ")" << std::endl;  
-
+    dicmdCanvasMouseDblClick(QPoint(x,y)).log();
     m_current_command->handle_mouse_dblclick(x/m_kx-m_dx,y/m_ky-m_dy);
 }
 
 void command_manager::mouse_clicked(int x, int y) {
+    std::cout << "current commdn is: " <<  m_current_command << std::endl;
     //std::cout << x << "(" << x/m_kx-m_dx << ")  --- " << y << "(" << y/m_ky-m_dy << ")" << std::endl;  
+    //find_command("dicmdCanvasMouseClick").log();
+    //if(!Application::is_replay_mode())
+    dicmdCanvasMouseClick(QPoint(x,y)).log();
     m_current_command->handle_mouse_click(x/m_kx-m_dx,y/m_ky-m_dy);
 }
 
 void command_manager::mouse_moved(int x, int y) {
-    //std::cout << "current commdn is: " <<  m_current_command << std::endl;
+    //std::cout << "***current commdn is: " <<  m_current_command << std::endl;
+    //dicmdCanvasMouseMove(QPoint(x,y)).log();
     m_current_command->handle_mouse_move(x/m_kx-m_dx,y/m_ky-m_dy);
 }
 
-
 void command_manager::mouse_released(int x, int y) {
-    std::cout << "current commdn is: " <<  m_current_command << std::endl;
+	auto command = dynamic_cast<InteractiveCommandBase*>(m_current_command);
+	if (command == nullptr)
+		return;
+    if(!Application::is_replay_mode() && command->need_log_mouserelease())
+        dicmdCanvasMouseRelease(QPoint(x,y)).log();
+    std::cout << "ELRELRLERLELREL: current commdn is: " <<  m_current_command << std::endl;
     m_current_command->handle_mouse_release(x/m_kx-m_dx,y/m_ky-m_dy);
+}
+
+void command_manager::mouse_pressed(int x, int y) {
+    if(!Application::is_replay_mode())
+        dicmdCanvasMousePress(QPoint(x,y)).log();
+    
+    m_current_command->handle_mouse_press(x/m_kx-m_dx,y/m_ky-m_dy);
 }
 
 //FIXME interface?

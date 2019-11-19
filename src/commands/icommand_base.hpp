@@ -7,6 +7,7 @@
 
 #include <string>
 #include <iostream>
+#include <cassert>
 
 
 enum CommandType { Interactive = 0, Directive };
@@ -36,7 +37,8 @@ class CommandBase : public ICommand
 {
     //command_manager* m_cm;
     
-    public:
+    bool m_is_completed = true;
+	public:
         CommandBase() {
             //m_cm = command_manager::get_instance();
         }
@@ -48,11 +50,18 @@ class CommandBase : public ICommand
                 execute();
                 //post_execute() 
             } catch(...) {
-                Messenger::expose_msg(err,"something went wrong with this command");
+                Messenger::expose_msg(err,"something went wrong with this command -> "+get_name());
                 std::cout << " Error: Fixme Exception or Error?? " << std::endl;
             }
         }
-        
+	
+		virtual bool is_completed() {
+			return m_is_completed;
+		}
+		
+		void set_can_complete(bool b) { m_is_completed = b; }
+		
+		
         virtual bool is_transaction_cmd() {
             return false;
         }
@@ -71,6 +80,7 @@ class CommandBase : public ICommand
         virtual void handle_mouse_dblclick(int,int) {}
         virtual void handle_mouse_release(int,int) {}
         virtual void handle_mouse_move(int,int) {}
+        virtual void handle_mouse_press(int,int) {}
         virtual void handle_key_press() {}
         virtual void handle_update() {}
         

@@ -1,6 +1,8 @@
 Name: Selection
-ObjCount: 2
+ObjCount: 4
 ======
 Ellipse:
 Polygon:
+Line:
+Line:
 --------

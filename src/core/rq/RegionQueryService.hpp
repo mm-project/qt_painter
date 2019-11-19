@@ -19,6 +19,7 @@ public:
 	std::vector<IShape*> getShapesUnderRect(const QRect&) const;
 	void clear();
 	void shutDown() override;
+	int getSize() const;
 
 #ifdef NO_RQ
     IObjectPoolPtr m_ws;
