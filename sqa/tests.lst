@@ -26,3 +26,4 @@ test_suites/interactive_nice_copymove
 test_suites/crash_case 
 test_suites/copymove_crash1
 
+test_suites/idle_select_idle_copy_crash
