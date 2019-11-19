@@ -12,7 +12,8 @@
     void RegionQuery::removeObject(IShape*) {}
     void RegionQuery::clear() {}
     void RegionQuery::shutDown() {}
-    
+	int RegionQuery::getSize() const {m_ws->getObjects().size();}
+		
     void RegionQuery::setWS(IObjectPoolPtr ws) { m_ws = ws; }
 
     IShape* RegionQuery::getShapeUnderPos(const QPoint& point) const

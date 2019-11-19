@@ -74,7 +74,9 @@ public:
 			//if ( ev == MU )
             //        on_click();
             //else 
-			if ( ev == MD ) 
+			if ( ev == MM )
+				m_se.highlight_shape_under_pos(InteractiveCommandBase::get_last_point());
+			else if ( ev == MD ) 
 				on_press(OTHER);//set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer,on_press));
             else
                 return;
@@ -115,9 +117,11 @@ public:
             }        
             
             m_original_shape = nullptr;
+            m_se.clear();
+            m_se.addObject(m_sb->getPool()->getObjects()[0]);
             m_sb->clear();
-            //m_se.clear();
-            //m_cm.return_to_idle();
+			m_se.temporary_highlight();
+			//m_cm.return_to_idle();
             m_need_mouserelase_log = false;
 			set_can_complete(true);
             set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer,on_idle));

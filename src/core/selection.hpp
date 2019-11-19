@@ -47,7 +47,8 @@ public:
         void highlight_shape_under_pos(const QPoint& p );
 //private:
         void on_controller_update(LeCallbackData&);
-        void highlight_last_selected_region(bool);          
+        void highlight_last_selected_region(bool);
+		void temporary_highlight();
 };
 
 //*

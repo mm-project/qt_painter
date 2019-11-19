@@ -41,7 +41,12 @@ void Selection::dumpToFile(const std::string& fname)
 IShape* Selection::addObject(IShape* shape) 
 {
     m_objs.push_back(shape);
+	m_sel_highlight_set->addObject(shape);
 	return shape;
+}
+
+void Selection::temporary_highlight() {
+	 m_sel_highlight_set->highlight_on();
 }
 
 std::vector<IShape*> Selection::getObjects()
