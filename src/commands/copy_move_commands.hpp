@@ -105,6 +105,10 @@ public:
                 //LeCallback cb = 
         }
 
+        virtual bool need_log_mouserelease() {
+            return true;
+			//return m_need_mouserelase_log;
+        }
 
         virtual void execute() {
                 //set_next_handler(HANDLE_FUNCTION(incmdObjRelocateBy<T>,idle));
