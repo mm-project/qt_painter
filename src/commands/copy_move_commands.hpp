@@ -121,10 +121,10 @@ public:
         }
 
         virtual void abort() {
-                std::cout << "abort!" << std::endl;
+                //std::cout << "abort!" << std::endl;
                 abort_internal();
                 m_cm.return_to_idle();
-                std::cout << "abort3" << std::endl;
+                //std::cout << "abort3" << std::endl;
         }
         
         virtual void handle_update() {
@@ -140,7 +140,7 @@ private:
                 StatusBarManager::getInstance().updateStatusBar("Commiting...",1,0);
                 RegionQuery& rq = RegionQuery::getInstance();
     
-                std::cout << "SELECTION" << m_se.getObjects().size() << "   RTSHAPES: " << m_sb->getPool()->getObjects().size() << "\n";
+                //std::cout << "SELECTION" << m_se.getObjects().size() << "   RTSHAPES: " << m_sb->getPool()->getObjects().size() << "\n";
                 //*
 				for ( auto it: m_sb->getPool()->getObjects() ) {
                     rq.insertObject(m_ws->addObject(it));
@@ -167,7 +167,7 @@ private:
                 m_distances.clear();
                 m_sb2se.clear();
                 m_cm.return_to_idle();
-                std::cout << "abort2" << std::endl;
+                //std::cout << "abort2" << std::endl;
         }
     
         void move_runtimes_to_point(QPoint p) {
@@ -189,7 +189,7 @@ private:
         
         //waiting for selection
         void idle(const EvType& ev) {
-                std::cout << "COPYMOVE IDLE" <<  m_se.getObjects().size() << std::endl;
+                //std::cout << "COPYMOVE IDLE" <<  m_se.getObjects().size() << std::endl;
                 // no selection, invoke selectbyregion to select object firsts and return
                 if ( m_se.getObjects().empty() ) {
                     //abort();
@@ -211,12 +211,12 @@ private:
                 StatusBarManager::getInstance().updateStatusBar(msg.c_str(),1,0);
                 // create runtime objects from selected objects so we can move them with cursor
                 // keep mapping runtimeobj<->realobj
-                std::cout << "XXX SELECTION" << m_se.getObjects().size() << "   RTSHAPES: " << m_sb->getPool()->getObjects().size() << "\n";
+                //std::cout << "XXX SELECTION" << m_se.getObjects().size() << "   RTSHAPES: " << m_sb->getPool()->getObjects().size() << "\n";
                 for ( auto it : m_se.getObjects() ) {
                     IShape* i = m_sb->addObject(it);
                     m_sb2se[i] = it;
                 }                                
-                std::cout << "YYY SELECTION" << m_se.getObjects().size() << "   RTSHAPES: " << m_sb->getPool()->getObjects().size() << "\n";
+                //std::cout << "YYY SELECTION" << m_se.getObjects().size() << "   RTSHAPES: " << m_sb->getPool()->getObjects().size() << "\n";
 
 
                 //wait for user to start the movecopy by clicking.
@@ -228,7 +228,7 @@ private:
                     m_clicked_point = InteractiveCommandBase::get_lastclk_point();
                     for ( auto shape: m_se.getObjects() ) {
                         QPoint diff(m_clicked_point - shape->getPoints()[0]);
-                        std::cout << m_clicked_point.x() << " " << m_clicked_point.y() << "  shape " << shape << " " << shape->getPoints()[0].x() << " " << shape->getPoints()[0].y()  << " diff "<< diff.x() << " " << diff.y() << std::endl;
+                        //std::cout << m_clicked_point.x() << " " << m_clicked_point.y() << "  shape " << shape << " " << shape->getPoints()[0].x() << " " << shape->getPoints()[0].y()  << " diff "<< diff.x() << " " << diff.y() << std::endl;
                         m_distances[shape] = diff;
                     }
                     m_move_move = true;
@@ -251,7 +251,7 @@ private:
         }
 
         void on_commit() {
-                std::cout << "commit!" << std::endl;
+                //std::cout << "commit!" << std::endl;
                 commit();
         }
         

@@ -32,7 +32,7 @@ public:
 			return nullptr;
 		QStringList tokens = QString(n.c_str()).split(" ");  
 		std::string cmd_name = tokens[0].toStdString();
-		std::cout << "<"<<n<<">" << tokens[0].toStdString() << std::endl;
+		//std::cout << "<"<<n<<">" << tokens[0].toStdString() << std::endl;
 		if ( cmd_name.front() == '#' )
 			return 0;
 		
@@ -49,7 +49,7 @@ public:
 		
 		//fixme parsing
 		for (int i=1; i<tokens.size()-1; i=i+2 ) {
-			std::cout << "  ---<" << tokens[i].toStdString() << "> <=> <"<< tokens[i+1].toStdString() << ">" << std::endl;
+			//std::cout << "  ---<" << tokens[i].toStdString() << "> <=> <"<< tokens[i+1].toStdString() << ">" << std::endl;
 			if ( ! cmd->set_arg(tokens[i].toStdString(),tokens[i+1].toStdString()) ) {
 				Messenger::expose_msg(usr,cmd_name+" "+tokens[i].toStdString()+" "+tokens[i+1].toStdString());
 				Messenger::expose_msg(err,tokens[i].toStdString()+" argument is in invalid ");
@@ -67,12 +67,12 @@ public:
 		//std::cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!<"<<n.toStdString()<<">" << tokens[0].toStdString() << std::endl;
 		
 		if ( cmd->get_type() == Interactive )  {
-			std::cout  << "?????????" << cmd->get_name() << std::endl;
+			//std::cout  << "?????????" << cmd->get_name() << std::endl;
             m_cm.activate_command(dynamic_cast<CommandBase*>(cmd));
         }
 		else {
 			cmd->execute_and_log();
-			std::cout  << "!!!!!!!!!!!!" << dynamic_cast<DirectCommandBase*>(cmd)->get_cmdname_and_stringified_opts() << std::endl;
+			//std::cout  << "!!!!!!!!!!!!" << dynamic_cast<DirectCommandBase*>(cmd)->get_cmdname_and_stringified_opts() << std::endl;
         }	
 	}
 };

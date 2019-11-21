@@ -42,7 +42,7 @@
     }
 #endif
 
-#ifdef DEBUG_RQ
+#ifndef DEBUG_RQ
     #define DBG_RQ(what,obj)
 #else
     #define DBG_RQ(what,obj) debug_rq(what,obj);
