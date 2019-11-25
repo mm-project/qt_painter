@@ -63,6 +63,18 @@ void canvas::keyPressEvent(QKeyEvent*) {
     //cm->key_pressed();
 }
 
+void canvas::keyPressEvent(QKeyEvent*) {
+    //FIXME some interface for keys needed
+    //assert(0);
+
+    if( cm->is_idle() ) 
+        return;
+
+    //if key pressed esc
+    //command_manager::get_instance()->get_active_command()->abort();
+    //cm->key_pressed();
+}
+
 //todo
 //void canvas::mouseDoubleClickEven(QMouseEvent* e) {
 //	
