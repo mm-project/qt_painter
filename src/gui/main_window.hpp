@@ -21,6 +21,7 @@ class main_window : public QMainWindow
 
 public:
 	main_window(QWidget* = 0 );
+	~main_window();
 	bool eventFilter(QObject *object, QEvent *event);
 
 private:

@@ -41,25 +41,25 @@ private slots:
         void change_style_to_dash_dot_dot_line();
 
 private:
-        QVBoxLayout* m_pen_layout;
-        QVBoxLayout* m_brush_layout;
+        QVBoxLayout* m_pen_layout = nullptr;
+        QVBoxLayout* m_brush_layout = nullptr;
 
         // pen
-        QComboBox* m_pen_color;
-        QSpinBox* m_pen_width;
+        QComboBox* m_pen_color = nullptr;
+        QSpinBox* m_pen_width = nullptr;
         //pen styles
-        QRadioButton* m_solid_line;
-        QRadioButton* m_dash_line;
-        QRadioButton* m_dot_line;
-        QRadioButton* m_dash_dot_line;
-        QRadioButton* m_dash_dot_dot_line;
+        QRadioButton* m_solid_line = nullptr;
+        QRadioButton* m_dash_line = nullptr;
+        QRadioButton* m_dot_line = nullptr;
+        QRadioButton* m_dash_dot_line = nullptr;
+        QRadioButton* m_dash_dot_dot_line = nullptr;
 
-        QComboBox* m_pen_cap_style;
-        QComboBox* m_pen_join_style;
+        QComboBox* m_pen_cap_style = nullptr;
+        QComboBox* m_pen_join_style = nullptr;
 
         // color
-        QComboBox* m_brush_color;
-        QComboBox* m_brush_style;
+        QComboBox* m_brush_color = nullptr;
+        QComboBox* m_brush_style = nullptr;
 };
 
 #endif

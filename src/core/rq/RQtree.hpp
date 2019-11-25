@@ -110,7 +110,7 @@ CNodePtr<T> RQtree<T>::_insert(CNodePtr<T>& root, const RQobjectPtr& point, int 
 		return root;
 	}
 
-	size_t cd = depth % 2; //change it , 2 means point size(x, y) :D
+	int cd = depth % 2; //change it , 2 means point size(x, y) :D
 
 	if (point->at(cd) < root->m_object->at(cd))
 		root->m_left_ptr = _insert(root->m_left_ptr, point, depth + 1);
@@ -161,9 +161,9 @@ bool RQtree<T>::_search(CNodePtr<T> node, const RQobjectPtr& point, int depth) c
 	if (node->m_object == point)
 		return true;
 
-	size_t cd = depth % 2;
+	int cd = depth % 2;
 
-	if (point[cd] < node->m_object[cd])
+	if (point->at(cd) < node->m_object->at(cd))
 		return _search(node->m_left_ptr, point, depth + 1);
 
 	return _search(node->m_right_ptr, point, depth + 1);
@@ -185,24 +185,24 @@ template <typename T>
 std::vector<RQobjectPtr> RQtree<T>::_nearest_points(CNodePtr<T> node, const RQobjectPtr& point, int depth) const
 {
 	if (node == nullptr)
-		return std::vector<CPoint<T>>();
+		return std::vector<RQobjectPtr>();
 
 	if (node->m_point == point)
 	{
-		std::vector<CPoint<T>> nearests;
+		std::vector<RQobjectPtr> nearests;
 
-		if (node->m_left_ptr != nullptr)
+		/*if (node->m_left_ptr != nullptr)
 			nearests.push_back(node->m_left_ptr->m_point);
 
 		if (node->m_right_ptr != nullptr)
-			nearests.push_back(node->m_right_ptr->m_point);
+			nearests.push_back(node->m_right_ptr->m_point);*/
 
 		return nearests;
 	}
 
-	size_t cd = depth % 2;
+	int cd = depth % 2;
 
-	if (point[cd] < node->m_object[cd])
+	if (point->at(cd) < node->m_object->at(cd))
 		return _nearest_points(node->m_left_ptr, point, depth + 1);
 
 	return _nearest_points(node->m_right_ptr, point, depth + 1);
@@ -223,7 +223,7 @@ RQobjectPtr RQtree<T>::_getObject(CNodePtr<T> node, const CPoint& point, int dep
 	if (node->m_object->contains(point))
 		return node->m_object;
 
-	size_t cd = depth % 2;
+	int cd = depth % 2;
 
 	if (point < node->m_object->at(cd))
 		return _getObject(node->m_left_ptr, point, depth + 1);

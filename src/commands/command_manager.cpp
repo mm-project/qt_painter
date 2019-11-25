@@ -24,6 +24,7 @@ void command_manager::init2(ObjectPoolSandboxPtr r, IObjectPoolPtr s) {
 void command_manager::init() {
     register_command(new dicmdCanvasMouseMove);
     register_command(new dicmdCanvasMouseClick);
+    register_command(new dicmdCanvasMouseDblClick);
     register_command(new dicmdguiSelectRadioButton);
     register_command(new dicmdAbortActiveCommand);
     register_command(new dicmdguiSelectComboValue); 
