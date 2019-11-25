@@ -779,15 +779,15 @@ class Q_WIDGETS_EXPORT QGraphicsLineItem : public QGraphicsItem
 {
 public:
     explicit QGraphicsLineItem(QGraphicsItem *parent = Q_NULLPTR);
-    explicit QGraphicsLineItem(const QLineF &line, QGraphicsItem *parent = Q_NULLPTR);
+    explicit QGraphicsLineItem(const QLineF &Line, QGraphicsItem *parent = Q_NULLPTR);
     explicit QGraphicsLineItem(qreal x1, qreal y1, qreal x2, qreal y2, QGraphicsItem *parent = Q_NULLPTR);
     ~QGraphicsLineItem();
 
     QPen pen() const;
     void setPen(const QPen &pen);
 
-    QLineF line() const;
-    void setLine(const QLineF &line);
+    QLineF Line() const;
+    void setLine(const QLineF &Line);
     inline void setLine(qreal x1, qreal y1, qreal x2, qreal y2)
     { setLine(QLineF(x1, y1, x2, y2)); }
 

@@ -968,7 +968,7 @@ QPair<typename QHash<Key, T>::const_iterator, typename QHash<Key, T>::const_iter
     if (node != e) {
         // equal keys must hash to the same value and so they all
         // end up in the same bucket. So we can use node->next,
-        // which only works within a bucket, instead of (out-of-line)
+        // which only works within a bucket, instead of (out-of-Line)
         // QHashData::nextNode()
         while (node->next != e && node->next->key == akey)
             node = node->next;

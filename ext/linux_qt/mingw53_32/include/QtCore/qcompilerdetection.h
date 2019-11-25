@@ -307,7 +307,7 @@
 #  if __DECCXX_VER < 60060000
 #    define Q_BROKEN_TEMPLATE_SPECIALIZATION
 #  endif
-/* avoid undefined symbol problems with out-of-line template members */
+/* avoid undefined symbol problems with out-of-Line template members */
 #  define Q_OUTOFLINE_TEMPLATE inline
 
 /* The Portland Group C++ compiler is based on EDG and does define __EDG__
@@ -1214,7 +1214,7 @@
 #endif
 #ifndef Q_FUNC_INFO
 #  if defined(Q_OS_SOLARIS) || defined(Q_CC_XLC)
-#    define Q_FUNC_INFO __FILE__ "(line number unavailable)"
+#    define Q_FUNC_INFO __FILE__ "(Line number unavailable)"
 #  else
 #    define Q_FUNC_INFO __FILE__ ":" QT_STRINGIFY(__LINE__)
 #  endif

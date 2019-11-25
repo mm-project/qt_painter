@@ -235,8 +235,8 @@ class Q_CORE_EXPORT QVariant
     QVariant(const QSizeF &size);
     QVariant(const QPoint &pt);
     QVariant(const QPointF &pt);
-    QVariant(const QLine &line);
-    QVariant(const QLineF &line);
+    QVariant(const QLine &Line);
+    QVariant(const QLineF &Line);
     QVariant(const QRect &rect);
     QVariant(const QRectF &rect);
 #endif

@@ -425,7 +425,7 @@ int qt_repeatCount(const QString &s, int i);
 
 enum { AsciiSpaceMask = (1 << (' ' - 1)) |
                         (1 << ('\t' - 1)) |   // 9: HT - horizontal tab
-                        (1 << ('\n' - 1)) |   // 10: LF - line feed
+                        (1 << ('\n' - 1)) |   // 10: LF - Line feed
                         (1 << ('\v' - 1)) |   // 11: VT - vertical tab
                         (1 << ('\f' - 1)) |   // 12: FF - form feed
                         (1 << ('\r' - 1)) };  // 13: CR - carriage return

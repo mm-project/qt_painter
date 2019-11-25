@@ -297,9 +297,9 @@ void qt_transform_image_rasterize(DestT *destPixels, int dbpl,
     int x_r = int((topRight.x + (qreal(0.5) + fromY - topRight.y) * rightSlope + qreal(0.5)) * 0x10000);
 
     int fromX, toX, x1, x2, u, v, i, ii;
-    DestT *line;
+    DestT *Line;
     for (int y = fromY; y < toY; ++y) {
-        line = reinterpret_cast<DestT *>(reinterpret_cast<uchar *>(destPixels) + y * dbpl);
+        Line = reinterpret_cast<DestT *>(reinterpret_cast<uchar *>(destPixels) + y * dbpl);
 
         fromX = qMax(x_l >> 16, clip.left());
         toX = qMin(x_r >> 16, clip.left() + clip.width());
@@ -308,7 +308,7 @@ void qt_transform_image_rasterize(DestT *destPixels, int dbpl,
             // Clamp these coordinates to the source rect to avoid segmentation fault and
             // garbage on the screen.
 
-            // Find the first pixel on the current scan line where the source coordinates are within the source rect.
+            // Find the first pixel on the current scan Line where the source coordinates are within the source rect.
             x1 = fromX;
             u = x1 * dudx + y * dudy + u0;
             v = x1 * dvdx + y * dvdy + v0;
@@ -323,7 +323,7 @@ void qt_transform_image_rasterize(DestT *destPixels, int dbpl,
                 v += dvdx;
             }
 
-            // Find the last pixel on the current scan line where the source coordinates are within the source rect.
+            // Find the last pixel on the current scan Line where the source coordinates are within the source rect.
             x2 = toX;
             u = (x2 - 1) * dudx + y * dudy + u0;
             v = (x2 - 1) * dvdx + y * dvdy + v0;
@@ -338,64 +338,64 @@ void qt_transform_image_rasterize(DestT *destPixels, int dbpl,
                 v -= dvdx;
             }
 
-            // Set up values at the beginning of the scan line.
+            // Set up values at the beginning of the scan Line.
             u = fromX * dudx + y * dudy + u0;
             v = fromX * dvdx + y * dvdy + v0;
-            line += fromX;
+            Line += fromX;
 
-            // Beginning of the scan line, with per-pixel checks.
+            // Beginning of the scan Line, with per-pixel checks.
             i = x1 - fromX;
             while (i) {
                 int uu = qBound(sourceRect.left(), u >> 16, sourceRect.left() + sourceRect.width() - 1);
                 int vv = qBound(sourceRect.top(), v >> 16, sourceRect.top() + sourceRect.height() - 1);
-                blender.write(line, reinterpret_cast<const SrcT *>(reinterpret_cast<const uchar *>(srcPixels) + vv * sbpl)[uu]);
+                blender.write(Line, reinterpret_cast<const SrcT *>(reinterpret_cast<const uchar *>(srcPixels) + vv * sbpl)[uu]);
                 u += dudx;
                 v += dvdx;
-                ++line;
+                ++Line;
                 --i;
             }
 
-            // Middle of the scan line, without checks.
+            // Middle of the scan Line, without checks.
             // Manual loop unrolling.
             i = x2 - x1;
             ii = i >> 3;
             while (ii) {
-                blender.write(&line[0], reinterpret_cast<const SrcT *>(reinterpret_cast<const uchar *>(srcPixels) + (v >> 16) * sbpl)[u >> 16]); u += dudx; v += dvdx;
-                blender.write(&line[1], reinterpret_cast<const SrcT *>(reinterpret_cast<const uchar *>(srcPixels) + (v >> 16) * sbpl)[u >> 16]); u += dudx; v += dvdx;
-                blender.write(&line[2], reinterpret_cast<const SrcT *>(reinterpret_cast<const uchar *>(srcPixels) + (v >> 16) * sbpl)[u >> 16]); u += dudx; v += dvdx;
-                blender.write(&line[3], reinterpret_cast<const SrcT *>(reinterpret_cast<const uchar *>(srcPixels) + (v >> 16) * sbpl)[u >> 16]); u += dudx; v += dvdx;
-                blender.write(&line[4], reinterpret_cast<const SrcT *>(reinterpret_cast<const uchar *>(srcPixels) + (v >> 16) * sbpl)[u >> 16]); u += dudx; v += dvdx;
-                blender.write(&line[5], reinterpret_cast<const SrcT *>(reinterpret_cast<const uchar *>(srcPixels) + (v >> 16) * sbpl)[u >> 16]); u += dudx; v += dvdx;
-                blender.write(&line[6], reinterpret_cast<const SrcT *>(reinterpret_cast<const uchar *>(srcPixels) + (v >> 16) * sbpl)[u >> 16]); u += dudx; v += dvdx;
-                blender.write(&line[7], reinterpret_cast<const SrcT *>(reinterpret_cast<const uchar *>(srcPixels) + (v >> 16) * sbpl)[u >> 16]); u += dudx; v += dvdx;
+                blender.write(&Line[0], reinterpret_cast<const SrcT *>(reinterpret_cast<const uchar *>(srcPixels) + (v >> 16) * sbpl)[u >> 16]); u += dudx; v += dvdx;
+                blender.write(&Line[1], reinterpret_cast<const SrcT *>(reinterpret_cast<const uchar *>(srcPixels) + (v >> 16) * sbpl)[u >> 16]); u += dudx; v += dvdx;
+                blender.write(&Line[2], reinterpret_cast<const SrcT *>(reinterpret_cast<const uchar *>(srcPixels) + (v >> 16) * sbpl)[u >> 16]); u += dudx; v += dvdx;
+                blender.write(&Line[3], reinterpret_cast<const SrcT *>(reinterpret_cast<const uchar *>(srcPixels) + (v >> 16) * sbpl)[u >> 16]); u += dudx; v += dvdx;
+                blender.write(&Line[4], reinterpret_cast<const SrcT *>(reinterpret_cast<const uchar *>(srcPixels) + (v >> 16) * sbpl)[u >> 16]); u += dudx; v += dvdx;
+                blender.write(&Line[5], reinterpret_cast<const SrcT *>(reinterpret_cast<const uchar *>(srcPixels) + (v >> 16) * sbpl)[u >> 16]); u += dudx; v += dvdx;
+                blender.write(&Line[6], reinterpret_cast<const SrcT *>(reinterpret_cast<const uchar *>(srcPixels) + (v >> 16) * sbpl)[u >> 16]); u += dudx; v += dvdx;
+                blender.write(&Line[7], reinterpret_cast<const SrcT *>(reinterpret_cast<const uchar *>(srcPixels) + (v >> 16) * sbpl)[u >> 16]); u += dudx; v += dvdx;
 
-                line += 8;
+                Line += 8;
 
                 --ii;
             }
             switch (i & 7) {
-                case 7: blender.write(line, reinterpret_cast<const SrcT *>(reinterpret_cast<const uchar *>(srcPixels) + (v >> 16) * sbpl)[u >> 16]); u += dudx; v += dvdx; ++line;
-                case 6: blender.write(line, reinterpret_cast<const SrcT *>(reinterpret_cast<const uchar *>(srcPixels) + (v >> 16) * sbpl)[u >> 16]); u += dudx; v += dvdx; ++line;
-                case 5: blender.write(line, reinterpret_cast<const SrcT *>(reinterpret_cast<const uchar *>(srcPixels) + (v >> 16) * sbpl)[u >> 16]); u += dudx; v += dvdx; ++line;
-                case 4: blender.write(line, reinterpret_cast<const SrcT *>(reinterpret_cast<const uchar *>(srcPixels) + (v >> 16) * sbpl)[u >> 16]); u += dudx; v += dvdx; ++line;
-                case 3: blender.write(line, reinterpret_cast<const SrcT *>(reinterpret_cast<const uchar *>(srcPixels) + (v >> 16) * sbpl)[u >> 16]); u += dudx; v += dvdx; ++line;
-                case 2: blender.write(line, reinterpret_cast<const SrcT *>(reinterpret_cast<const uchar *>(srcPixels) + (v >> 16) * sbpl)[u >> 16]); u += dudx; v += dvdx; ++line;
-                case 1: blender.write(line, reinterpret_cast<const SrcT *>(reinterpret_cast<const uchar *>(srcPixels) + (v >> 16) * sbpl)[u >> 16]); u += dudx; v += dvdx; ++line;
+                case 7: blender.write(Line, reinterpret_cast<const SrcT *>(reinterpret_cast<const uchar *>(srcPixels) + (v >> 16) * sbpl)[u >> 16]); u += dudx; v += dvdx; ++Line;
+                case 6: blender.write(Line, reinterpret_cast<const SrcT *>(reinterpret_cast<const uchar *>(srcPixels) + (v >> 16) * sbpl)[u >> 16]); u += dudx; v += dvdx; ++Line;
+                case 5: blender.write(Line, reinterpret_cast<const SrcT *>(reinterpret_cast<const uchar *>(srcPixels) + (v >> 16) * sbpl)[u >> 16]); u += dudx; v += dvdx; ++Line;
+                case 4: blender.write(Line, reinterpret_cast<const SrcT *>(reinterpret_cast<const uchar *>(srcPixels) + (v >> 16) * sbpl)[u >> 16]); u += dudx; v += dvdx; ++Line;
+                case 3: blender.write(Line, reinterpret_cast<const SrcT *>(reinterpret_cast<const uchar *>(srcPixels) + (v >> 16) * sbpl)[u >> 16]); u += dudx; v += dvdx; ++Line;
+                case 2: blender.write(Line, reinterpret_cast<const SrcT *>(reinterpret_cast<const uchar *>(srcPixels) + (v >> 16) * sbpl)[u >> 16]); u += dudx; v += dvdx; ++Line;
+                case 1: blender.write(Line, reinterpret_cast<const SrcT *>(reinterpret_cast<const uchar *>(srcPixels) + (v >> 16) * sbpl)[u >> 16]); u += dudx; v += dvdx; ++Line;
             }
 
-            // End of the scan line, with per-pixel checks.
+            // End of the scan Line, with per-pixel checks.
             i = toX - x2;
             while (i) {
                 int uu = qBound(sourceRect.left(), u >> 16, sourceRect.left() + sourceRect.width() - 1);
                 int vv = qBound(sourceRect.top(), v >> 16, sourceRect.top() + sourceRect.height() - 1);
-                blender.write(line, reinterpret_cast<const SrcT *>(reinterpret_cast<const uchar *>(srcPixels) + vv * sbpl)[uu]);
+                blender.write(Line, reinterpret_cast<const SrcT *>(reinterpret_cast<const uchar *>(srcPixels) + vv * sbpl)[uu]);
                 u += dudx;
                 v += dvdx;
-                ++line;
+                ++Line;
                 --i;
             }
 
-            blender.flush(line);
+            blender.flush(Line);
         }
         x_l += dx_l;
         x_r += dx_r;

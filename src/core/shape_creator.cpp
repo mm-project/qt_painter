@@ -3,10 +3,10 @@
 
 ShapeCreator::ShapeCreator()
 {
-	m_line = new line;
-	m_rect = new rectangle;
-	m_ellipse = new ellipse;
-	m_polygon = new polygon;
+	m_line = new Line;
+	m_rect = new Rectangle;
+	m_ellipse = new Ellipse;
+	m_polygon = new Polygon;
 }
 
 ShapeCreator::~ShapeCreator()

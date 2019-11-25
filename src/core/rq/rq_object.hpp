@@ -119,7 +119,7 @@ public:
 
 	RQline() = default;
 
-	RQline(IShape* p) : m_object(static_cast<line*>(p)) {}
+	RQline(IShape* p) : m_object(static_cast<Line*>(p)) {}
 
 	virtual IShape* getObject() const override
 	{ 
@@ -189,8 +189,9 @@ private:
 			return false;
 
                 return true;
-        }	
-	line* m_object;
+    }
+
+	Line* m_object;
 };
 
 //
@@ -200,7 +201,7 @@ class RQrect : public IRQobject
 {
 public:
 	RQrect() = default;
-	RQrect(IShape* p) : m_object(static_cast<rectangle*>(p)) {}
+	RQrect(IShape* p) : m_object(static_cast<Rectangle*>(p)) {}
 
 public:
 	virtual CPoint at(int) const override;
@@ -209,7 +210,7 @@ public:
 	virtual bool intersects(const QRect& oRect) const override;
 
 private:
-	rectangle* m_object;
+	Rectangle* m_object;
 };
 
 //
@@ -219,7 +220,7 @@ class RQellipse : public IRQobject
 {
 public:
 	RQellipse() = default;
-	RQellipse(IShape* p) : m_object(static_cast<ellipse*>(p)) {}
+	RQellipse(IShape* p) : m_object(static_cast<Ellipse*>(p)) {}
 
 public:
 	virtual CPoint at(int) const override;
@@ -228,7 +229,7 @@ public:
 	virtual bool intersects(const QRect& oRect) const override;
 
 private:
-	ellipse* m_object;
+	Ellipse* m_object;
 };
 
 //
@@ -238,7 +239,7 @@ class RQpolygon : public IRQobject
 {
 public:
 	RQpolygon() = default;
-	RQpolygon(IShape* p) : m_object(static_cast<polygon*>(p)) {}
+	RQpolygon(IShape* p) : m_object(static_cast<Polygon*>(p)) {}
 
 public:
 	virtual CPoint at(int) const override;
@@ -247,7 +248,7 @@ public:
 	virtual bool intersects(const QRect& oRect) const override;
 
 private:
-	polygon* m_object;
+	Polygon* m_object;
 };
 
 }

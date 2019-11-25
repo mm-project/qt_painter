@@ -110,30 +110,31 @@ public:
 	virtual void reset() = 0;
 
 	virtual void addPoint(const QPoint&) = 0;
+	virtual std::vector<QPoint> getPoints() = 0;
+	//	make abstract 
+	virtual void movePoint(const QPoint&) {}
 
 	virtual void updateProperties(ShapeProperties b)
 	{
 		m_properties = b;
 	}
 
-	virtual bool is_draw_mode() {return false;}
-
-	virtual void movePoint(const QPoint&) {}
+	virtual ShapeProperties getProperties() const 
+	{
+			return m_properties;
+	}
 
 	//FIXME should return ObjectType instead
 	virtual ObjectType getType() const = 0;
-        
-        ShapeProperties getProperties() {
-                return m_properties;
-        }
-public:
 
 	virtual IShape* clone() = 0;
-	virtual void draw(QPainter*) = 0;
-        
-        virtual std::vector<QPoint> getPoints() = 0;
-    
 
+	virtual bool isDrawMode() {return false;}
+	virtual void draw(QPainter*) = 0;
+
+	// virtual bool contains() const = 0;
+	// virtual bool intersects() const = 0;
+        
 protected:
 	//
 	// Members

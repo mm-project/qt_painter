@@ -24,33 +24,38 @@
 //
 // @class line, wrapper for OA/Qt object 
 //
-class line : public IShape
+class Line : public IShape
 {
 public:
-	inline line(QLine = QLine(), ShapeProperties = ShapeProperties());
-	virtual ~line() = default;
+	inline Line(QLine = QLine(), ShapeProperties = ShapeProperties());
+	virtual ~Line() = default;
 
 public:
-	virtual line* clone() override;
-	virtual void draw(QPainter*) override;
+	Line* clone() override;
+	void draw(QPainter*) override;
 
 public:
-	virtual void reset() override;
-	virtual void addPoint(const QPoint&) override;
+	void reset() override;
+	void addPoint(const QPoint&) override;
 
 private:
 	void setP1(const QPoint&);
 	void setP2(const QPoint&);
 
 public: 
-	QPoint getP1() const { return m_object.p1(); }
-	QPoint getP2() const { return m_object.p2(); }
-	
+	QPoint getP1() const; 
+	QPoint getP2() const;
 
-	virtual ObjectType getType() const override { return LINE; }
+	virtual ObjectType getType() const override 
+	{
+		return LINE; 
+	}
 	
 	//FIXME need proper fix and member handling
-	virtual std::vector<QPoint> getPoints() { return std::vector<QPoint>(2) =  {m_object.p1(),m_object.p2()}; }
+	std::vector<QPoint> getPoints() override
+	{
+		return std::vector<QPoint>(2) =  {m_object.p1(),m_object.p2()}; 
+	}
 
 private:
 	QLine m_object;
@@ -61,19 +66,19 @@ private:
 //
 // @class rectangle, wrapper for OA/Qt object 
 //
-class rectangle : public IShape
+class Rectangle : public IShape
 {
 public:
-	inline rectangle(QRect = QRect(), ShapeProperties = ShapeProperties());
-	virtual ~rectangle() = default;
+	inline Rectangle(QRect = QRect(), ShapeProperties = ShapeProperties());
+	virtual ~Rectangle() = default;
 
 public:
-	virtual rectangle* clone() override;
-	virtual void draw(QPainter*) override;
+	Rectangle* clone() override;
+	void draw(QPainter*) override;
 
 public:
-	virtual void reset() override;
-	virtual void addPoint(const QPoint&) override;
+	void reset() override;
+	void addPoint(const QPoint&) override;
 
 public:
 	void setTopLeft(const QPoint&);
@@ -84,10 +89,17 @@ public:
 
 	bool contains(const QPoint& point) const { return m_object.contains(point); }
 	bool intersects(const QRect& oRect) const { return m_object.intersects(oRect); }
-	virtual ObjectType getType() const override { return RECTANGLE; }
+
+	ObjectType getType() const override 
+	{ 
+		return RECTANGLE; 
+	}
 	
     //FIXME need proper fix and member handling
-	virtual std::vector<QPoint> getPoints() { return std::vector<QPoint>(2) =  {getBottomRight(),getTopLeft()}; }
+	std::vector<QPoint> getPoints() override
+	{
+		return std::vector<QPoint>(2) =  {getBottomRight(),getTopLeft()}; 
+	}
 
 private:
 	QRect m_object;
@@ -98,19 +110,19 @@ private:
 //
 // @class ellipse, wrapper for OA/Qt object 
 //
-class ellipse : public IShape
+class Ellipse : public IShape
 {
 public:
-	inline ellipse(QRect = QRect(), ShapeProperties = ShapeProperties());
-	virtual ~ellipse() = default;
+	inline Ellipse(QRect = QRect(), ShapeProperties = ShapeProperties());
+	virtual ~Ellipse() = default;
   
 public:
-	virtual ellipse* clone() override;
-	virtual void draw(QPainter*) override;
+	Ellipse* clone() override;
+	void draw(QPainter*) override;
 
 public:
-	virtual void reset() override;
-	virtual void addPoint(const QPoint&) override;
+	void reset() override;
+	void addPoint(const QPoint&) override;
 
 public:
 	void setTopLeft(const QPoint&);
@@ -121,36 +133,47 @@ public:
 
 	bool contains(const QPoint& point) const { return m_object.contains(point); }
 	bool intersects(const QRect& oRect) const { return m_object.intersects(oRect); }
-	virtual ObjectType getType() const override { return ELLIPSE; }
+
+	virtual ObjectType getType() const override 
+	{ 
+		return ELLIPSE; 
+	}
 	
 	    //FIXME need proper fix and member handling
-	virtual std::vector<QPoint> getPoints() { return std::vector<QPoint>(2) =  {getBottomRight(),getTopLeft()}; }
+	std::vector<QPoint> getPoints() override 
+	{ 
+		return std::vector<QPoint>(2) =  {getBottomRight(),getTopLeft()}; 
+	}
 
 private:
 	QRect m_object;
 	bool m_waitForSecondClick;
 };
 
-class polygon : public IShape 
+class Polygon : public IShape 
 {
 public:
 
-	inline polygon(QPolygon = QPolygon(), ShapeProperties = ShapeProperties());
-	virtual ~polygon() = default;
+	inline Polygon(QPolygon = QPolygon(), ShapeProperties = ShapeProperties());
+	virtual ~Polygon() = default;
 
 public:
-	virtual polygon* clone() override;
-	virtual void draw(QPainter*) override;
+	Polygon* clone() override;
+	void draw(QPainter*) override;
 
 public:
-	virtual void reset() override;
-	virtual void addPoint(const QPoint&) override;
-	virtual void movePoint(const QPoint&) override;
+	void reset() override;
+	void addPoint(const QPoint&) override;
+	void movePoint(const QPoint&) override;
 
-	virtual ObjectType getType() const override { return POLYGON; }
+	ObjectType getType() const override 
+	{ 
+		return POLYGON; 
+	}
 
 	QPoint getTopLeft() const;
 	QPoint getBottomRight() const;
+
 	bool contains(const QPoint& point) const
 	{
 		return m_object.boundingRect().contains(point); 
@@ -162,7 +185,10 @@ public:
 	}
 
     //FIXME need proper fix and member handling
-	virtual std::vector<QPoint> getPoints() { return m_object.toStdVector(); }
+	std::vector<QPoint> getPoints() override 
+	{ 
+		return m_object.toStdVector(); 
+	}
 	
 private:
 	QPolygon m_object;

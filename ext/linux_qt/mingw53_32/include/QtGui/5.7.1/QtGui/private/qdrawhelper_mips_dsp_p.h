@@ -107,11 +107,11 @@ extern "C" uint * destfetchARGB32_asm_mips_dsp(uint *buffer, const uint *data, i
 
 extern "C" uint * qt_destStoreARGB32_asm_mips_dsp(uint *buffer, const uint *data, int length);
 
-extern "C" uint * fetchUntransformed_888_asm_mips_dsp(uint *buffer, const uchar *line, int length);
+extern "C" uint * fetchUntransformed_888_asm_mips_dsp(uint *buffer, const uchar *Line, int length);
 
-extern "C" uint * fetchUntransformed_444_asm_mips_dsp(uint *buffer, const uchar *line, int length);
+extern "C" uint * fetchUntransformed_444_asm_mips_dsp(uint *buffer, const uchar *Line, int length);
 
-extern "C" uint * fetchUntransformed_argb8565_premultiplied_asm_mips_dsp(uint *buffer, const uchar *line, int length);
+extern "C" uint * fetchUntransformed_argb8565_premultiplied_asm_mips_dsp(uint *buffer, const uchar *Line, int length);
 
 void qt_blend_argb32_on_argb32_mips_dsp(uchar *destPixels, int dbpl,
                                       const uchar *srcPixels, int sbpl,

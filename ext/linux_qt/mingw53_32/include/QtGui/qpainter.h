@@ -287,8 +287,8 @@ public:
     void drawPoints(const QPoint *points, int pointCount);
     inline void drawPoints(const QPolygon &points);
 
-    inline void drawLine(const QLineF &line);
-    inline void drawLine(const QLine &line);
+    inline void drawLine(const QLineF &Line);
+    inline void drawLine(const QLine &Line);
     inline void drawLine(int x1, int y1, int x2, int y2);
     inline void drawLine(const QPoint &p1, const QPoint &p2);
     inline void drawLine(const QPointF &p1, const QPointF &p2);
@@ -498,9 +498,9 @@ inline void QPainter::drawLine(const QLineF &l)
     drawLines(&l, 1);
 }
 
-inline void QPainter::drawLine(const QLine &line)
+inline void QPainter::drawLine(const QLine &Line)
 {
-    drawLines(&line, 1);
+    drawLines(&Line, 1);
 }
 
 inline void QPainter::drawLine(int x1, int y1, int x2, int y2)

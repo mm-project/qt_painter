@@ -111,7 +111,7 @@ void Selection::highlight_last_selected_region(bool on_off)
     }
     
     std::cout << m_last_region.bottomRight().x() << " " << m_last_region.bottomRight().y() << std::endl;
-    m_qa_highlight_set->addObject(rectangle(m_last_region, ShapeProperties()).clone());
+    m_qa_highlight_set->addObject(Rectangle(m_last_region, ShapeProperties()).clone());
     m_qa_highlight_set->highlight_on();
 }
 

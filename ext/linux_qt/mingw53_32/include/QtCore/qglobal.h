@@ -73,7 +73,7 @@
 #  define QT_NO_UNSHARABLE_CONTAINERS
 #endif
 
-/* These two macros makes it possible to turn the builtin line expander into a
+/* These two macros makes it possible to turn the builtin Line expander into a
  * string literal. */
 #define QT_STRINGIFY2(x) #x
 #define QT_STRINGIFY(x) QT_STRINGIFY2(x)
@@ -713,7 +713,7 @@ Q_CORE_EXPORT QString qt_error_string(int errorCode = -1);
 #ifndef Q_CC_MSVC
 Q_NORETURN
 #endif
-Q_CORE_EXPORT void qt_assert(const char *assertion, const char *file, int line) Q_DECL_NOTHROW;
+Q_CORE_EXPORT void qt_assert(const char *assertion, const char *file, int Line) Q_DECL_NOTHROW;
 
 #if !defined(Q_ASSERT)
 #  if defined(QT_NO_DEBUG) && !defined(QT_FORCE_ASSERTS)
@@ -730,7 +730,7 @@ Q_CORE_EXPORT void qt_assert(const char *assertion, const char *file, int line) 
 #ifndef Q_CC_MSVC
 Q_NORETURN
 #endif
-Q_CORE_EXPORT void qt_assert_x(const char *where, const char *what, const char *file, int line) Q_DECL_NOTHROW;
+Q_CORE_EXPORT void qt_assert_x(const char *where, const char *what, const char *file, int Line) Q_DECL_NOTHROW;
 
 #if !defined(Q_ASSERT_X)
 #  if defined(QT_NO_DEBUG) && !defined(QT_FORCE_ASSERTS)
@@ -901,7 +901,7 @@ Q_CORE_EXPORT void qFreeAligned(void *ptr);
 /*
    Avoid some particularly useless warnings from some stupid compilers.
    To get ALL C++ compiler warnings, define QT_CC_WARNINGS or comment out
-   the line "#define QT_NO_WARNINGS".
+   the Line "#define QT_NO_WARNINGS".
 */
 #if !defined(QT_CC_WARNINGS)
 #  define QT_NO_WARNINGS

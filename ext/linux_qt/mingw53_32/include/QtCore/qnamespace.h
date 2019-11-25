@@ -477,7 +477,7 @@ public:
 
         WA_AlwaysStackOnTop = 128,
 
-        // Add new attributes before this line
+        // Add new attributes before this Line
         WA_AttributeCount
     };
 
@@ -510,7 +510,7 @@ public:
         AA_SynthesizeMouseForUnhandledTabletEvents = 24,
         AA_CompressHighFrequencyEvents = 25,
 
-        // Add new attributes before this line
+        // Add new attributes before this Line
         AA_AttributeCount
     };
 
@@ -1066,14 +1066,14 @@ public:
 #endif
     };
 
-    enum PenCapStyle { // line endcap style
+    enum PenCapStyle { // Line endcap style
         FlatCap = 0x00,
         SquareCap = 0x10,
         RoundCap = 0x20,
         MPenCapStyle = 0x30
     };
 
-    enum PenJoinStyle { // line join style
+    enum PenJoinStyle { // Line join style
         MiterJoin = 0x00,
         BevelJoin = 0x40,
         RoundJoin = 0x80,

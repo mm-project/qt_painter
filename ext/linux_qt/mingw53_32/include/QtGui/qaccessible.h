@@ -197,7 +197,7 @@ public:
         // quint64 vertical : 1;
         // quint64 invalidEntry : 1;
         // quint64 managesDescendants : 1;
-        // quint64 singleLine : 1; // we have multi line, this is redundant.
+        // quint64 singleLine : 1; // we have multi Line, this is redundant.
         // quint64 stale : 1;
         // quint64 transient : 1;
         // quint64 pinned : 1;
