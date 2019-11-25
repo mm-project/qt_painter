@@ -55,7 +55,6 @@ canvas::canvas(QWidget* p)
 
 }
 
-
 void canvas::keyPressEvent(QKeyEvent*) {
     //FIXME some interface for keys needed
     //assert(0);

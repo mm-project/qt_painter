@@ -61,7 +61,7 @@ main_window::main_window(QWidget* p)
 	setCentralWidget(m_canvas);
 
 	make_connections();
-	static QIcon main_window_icon(IconDir + "shapes_simple.png");
+	static QIcon main_window_icon(getIconDir() + "shapes_simple.png");
 	setWindowIcon(main_window_icon);
 	QCoreApplication::instance()->installEventFilter(this);
 	command_manager::get_instance()->set_main_widget(this);
@@ -76,4 +76,5 @@ void main_window::make_connections()
 	connect(m_shapes, SIGNAL(createPolygon()), m_canvas, SLOT(invoke_create_polygon()));
 	connect(m_shapes, SIGNAL(reset()), m_canvas, SLOT(reset()));
 	connect(m_shapes, SIGNAL(close()), m_canvas, SLOT(close()));
+	connect(m_shapes, SIGNAL(selectByRegion()), m_canvas, SLOT(invoke_select_by_region()));
 }

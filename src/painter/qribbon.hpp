@@ -2,6 +2,7 @@
 #define Q_RIBBON_H
 
 #include <QTabWidget>
+#include <QEvent>
 
 //	class QRibbon
 //	represents the ribbon widgets in tab
@@ -15,6 +16,7 @@ public:
 
 	//	Destructor
 	virtual ~QRibbon() {}
+
 };
 
 #endif

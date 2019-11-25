@@ -8,8 +8,10 @@ QRibbonWidget::QRibbonWidget(QWidget* p)
 	: QWidget(p)
 {
 	m_groupLayout = new QHBoxLayout;
-	m_groupLayout->setSpacing(0);
+	//m_groupLayout->setSpacing(0);
 	m_groupLayout->setMargin(0);
+
+	m_groupLayout->setContentsMargins(0, 5, 0, 0);
 
 	setLayout(m_groupLayout);
 }

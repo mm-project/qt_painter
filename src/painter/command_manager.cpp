@@ -27,7 +27,6 @@ void command_manager::init() {
     register_command(new dicmdguiSelectRadioButton);
     register_command(new dicmdAbortActiveCommand);
     register_command(new dicmdguiSelectComboValue); 
-    
     //register_command(new incmdSelectShapesByRegion);
     
     m_current_command = m_idle_command;
@@ -50,8 +49,8 @@ void command_manager::activate_command(CommandBase* cmd) {
     //FIXME crashes obviously
     //delete m_current_command;
     
-    //if ( !is_idle() && cmd->get_type() == Interactive )
-        //m_current_command->abort(); 
+    if ( !is_idle() && cmd->get_type() == Interactive )
+		m_current_command->abort(); 
     
     m_current_command = cmd;
     //m_current_command->activate();

@@ -32,6 +32,7 @@ private:
 	void build_gap_style(QRibbonWidget*);
 	void build_join_style(QRibbonWidget*);
 	void build_brush_and_pen_pattern(QRibbonWidget*);
+	void build_selection(QRibbonWidget*);
 
 private slots:
 	void createShape(int);
@@ -49,6 +50,7 @@ signals:
 	void createPolygon();
 
 	void something_changed();
+	void selectByRegion();
 
 private:
 	QPushButton* m_line_button;

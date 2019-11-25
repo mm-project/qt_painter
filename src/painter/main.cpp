@@ -26,7 +26,6 @@ int main(int argc, char** argv)
 	QApplication app(argc, argv);
 	main_window window;
 	window.show();
-        
         //FIXME ehnance handling cmd args
         if ( argc == 3 ) { // && argv[1] == "-replay" ) {
             LogReader r;
