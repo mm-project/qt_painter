@@ -38,9 +38,9 @@ class DirectCommandBase: public CommandBase
         }
 
     public:
-        virtual void set_arg(const std::string& n, const std::string& v) {
+        virtual CommandBase* set_arg(const std::string& n, const std::string& v) {
             m_ops[n]->from_string(v);
-            
+            return this;
         }
 
         /*

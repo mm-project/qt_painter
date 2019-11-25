@@ -106,6 +106,7 @@ void canvas::wheelEvent(QWheelEvent*)
 
 void canvas::mouseDoubleClickEvent(QMouseEvent* e)
 {
+    dicmdCanvasMouseDblClick(e->pos()).log();
     cm->mouse_dbl_clicked(e->pos().x(),e->pos().y());
     update();
 }

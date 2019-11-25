@@ -1,0 +1,16 @@
+version: 2
+jobs:
+  build:
+    docker:
+        - image: ubuntu:xenial
+    steps:
+      - checkout
+      - run:
+          name: deps
+          command: apt-get update && apt-get install -y cmake xvfb build-essential qt5-default
+      - run:
+          name: compile
+          command: export TERM=xterm; cmake CMakeLists.txt; make
+      - run:
+          name: regressions
+          command: export TERM=xterm; export PAINTER_SQA_ROOT=/root/project/sqa; cd sqa/test_suites/flowtest1; xvfb-run ./run.sh
