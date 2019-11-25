@@ -6,14 +6,12 @@
 #include "gui_commands.hpp"
 #include "shape_creator_commands.hpp"
 #include "selection_commands.hpp"
-#include "qa_commands.hpp"
 
 
 #include <cassert>
 
 command_manager* command_manager::m_instance = 0;
-///FIXME ????
-int dicmdQaCanvasCompare::n_index = 0;
+
 
 void command_manager::init2(ObjectPoolSandboxPtr r, IObjectPoolPtr s) {
 	r = re;
@@ -26,14 +24,10 @@ void command_manager::init2(ObjectPoolSandboxPtr r, IObjectPoolPtr s) {
 void command_manager::init() {
     register_command(new dicmdCanvasMouseMove);
     register_command(new dicmdCanvasMouseClick);
-    register_command(new dicmdCanvasMouseDblClick);
     register_command(new dicmdguiSelectRadioButton);
     register_command(new dicmdAbortActiveCommand);
     register_command(new dicmdguiSelectComboValue); 
     //register_command(new incmdSelectShapesByRegion);
-    register_command(new dicmdQaCanvasCompare);
-    register_command(new dicmdQaToolExit);
-    
     
     m_current_command = m_idle_command;
 }

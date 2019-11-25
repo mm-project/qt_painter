@@ -102,6 +102,16 @@ void rectangle::setBottomRight(const QPoint& p)
 	m_object.setBottomRight(p);
 }
 
+QPoint rectangle::getTopLeft() const
+{
+	return m_object.topLeft();
+}
+
+QPoint rectangle::getBottomRight() const
+{
+	return m_object.bottomRight();
+}
+
 void rectangle::addPoint(const QPoint& point)
 {
 	if (m_waitForSecondClick)
@@ -156,6 +166,16 @@ void ellipse::setTopLeft(const QPoint& p)
 void ellipse::setBottomRight(const QPoint& p)
 {
 	m_object.setBottomRight(p);
+}
+
+QPoint ellipse::getTopLeft() const
+{
+	return m_object.topLeft();
+}
+
+QPoint ellipse::getBottomRight() const
+{
+	return m_object.bottomRight();
 }
 
 void ellipse::addPoint(const QPoint& point)

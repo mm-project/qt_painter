@@ -5,35 +5,10 @@
 #include "direct_command_base.hpp"
 
 
-#include <QApplication>
 #include <QPixmap>
 #include <QWidget>
 #include <QImage>
 
-
-#include <sstream>
-#include <fstream>
-/*
-#include <filesystem>
-namespace fs = std::filesystem;
-*/
-
-class dicmdQaToolExit: public DirectCommandBase
-{
-    public:
-        
-        virtual std::string get_name() {
-            return "dicmdQaToolExit";
-        }
-        
-        virtual void execute() {
-            //FIXME
-            QApplication::quit();
-            QApplication::exit();
-            exit(0);
-        }
-    
-};
 
 class dicmdQaDumpCanvas: public DirectCommandBase
 {
@@ -63,44 +38,32 @@ class dicmdQaDumpCanvas: public DirectCommandBase
 };
 
 
-class dicmdQaCanvasCompareInternal: public DirectCommandBase
+
+class dicmdQaCanvasCompare: public DirectCommandBase
 {
     public:        
-        dicmdQaCanvasCompareInternal() {
+        dicmdQaCanvasCompare() {
             add_option("-dumpfile",new StringCommandOptionValue("hopar.png"));
             add_option("-goldenfile",new StringCommandOptionValue("hopar.png.golden"));
         }
         
         virtual std::string get_name() {
-            return "dicmdQaCanvasCompareInternal";
+            return "dicmdQaCanvasCompare";
         }
 
         virtual void execute() {
-            std::stringstream z;
+            dicmdQaDumpCanvas().execute();
             std::string f(GET_CMD_ARG(StringCommandOptionValue,"-dumpfile"));
             std::string g(GET_CMD_ARG(StringCommandOptionValue,"-goldenfile"));
             
-            dicmdQaDumpCanvas().set_arg("-filename",f)->execute();
-            z << "cp " << f << " " << g;
-            
             //fixme
-            //bool regoldenmode = true;
-            //if ( qgetenv("ELEN_PAINTER_REGOLDEN").isEmpty() )
-                bool regoldenmode = false;
+            bool regoldenmode = true;
             
-            if ( regoldenmode ) {
-                std::cout << "#/t CanvasCompare REGOLDENED: " << f << " " << g << std::endl;
-                //FIXME not compatible with other OS
-                system(z.str().c_str());
-
-            } else {
-            
-                if ( are_images_different(f.c_str(),g.c_str()) )
-                    std::cout << "#/t CanvasCompare MISMATCH: " << f << " " << g << std::endl;
-                else 
-                    std::cout << "#/t CanvasCompare PASS: " << f << " " << g << std::endl;
-            }
-            
+            if ( !regoldenmode && are_images_different(f.c_str(),g.c_str()) )
+                std::cout << "# dicmdQaCanvasCompare-compare-mismatch: " << f << " " << g << std::endl;
+            else
+                std::cout << "# dicmdQaCanvasCompare-compare-ok: " << f << " " << g << std::endl;
+                
         }
         
     private:
@@ -133,37 +96,9 @@ class dicmdQaCanvasCompareInternal: public DirectCommandBase
 
             return false;
         }
-    
-};
-
-class dicmdQaCanvasCompare: public DirectCommandBase 
-{
-    static int n_index;
         
-        std::string get_index_str() {
-            std::stringstream z;
-            z << "canvas_compare_"<<n_index<<".png";
-            
-            return z.str();
-        }
-    
-    
-    public:        
-        virtual std::string get_name() {
-            return "dicmdQaCanvasCompare";
-        }
 
-        virtual void execute() {
-            dicmdQaCanvasCompareInternal()\ 
-            .set_arg("-dumpfile",get_index_str())\
-            ->set_arg("-goldenfile",get_index_str()+".golden")\
-            ->execute();
-            
-            n_index++;
-        }
-};    
-
-
+};
 
 
 

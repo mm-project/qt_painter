@@ -3,6 +3,7 @@
 
 #include "working_set.hpp"
 #include "service.h"
+#include "rq/RegionQueryService.hpp"
 
 #include <QPoint>
 
@@ -39,14 +40,26 @@ public:
         }
         
         //asenq te
-        void find_by_range_and_add_to_selected(const std::pair<QPoint,QPoint>&) {
+        void find_by_range_and_add_to_selected(const std::pair<QPoint,QPoint>& point) {
             if ( m_ws->getObjects().empty() )
                 return;
 
             highlight_on_off(false);
-
+			
             //asenq te select ( random objects )
-            addObject(m_ws->getObjects()[rand()%m_ws->getObjects().size()]);
+
+			RegionQuery& rq = RegionQuery::getInstance();
+			for (auto obj : m_ws->getObjects())
+				rq.insertObject(obj);
+
+			IShape* shape = rq.getShapeUnderPos(point.first);
+			if (shape != nullptr)
+			{
+				addObject(shape);
+				highlight_on_off(true);
+			}
+
+            //addObject(m_ws->getObjects()[rand()%m_ws->getObjects().size()]);
             
             //asenq te highlight
             highlight_on_off(true);

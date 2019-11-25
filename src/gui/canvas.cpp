@@ -31,28 +31,28 @@
 canvas::canvas(QWidget* p)
         : QWidget(p), is_runtime_mode(false)
 {
-        setFocusPolicy(Qt::StrongFocus);
-        setMouseTracking(true);
-        setObjectName("CANVAS");
-        
-        //FIXME move to services
-        m_working_set = std::shared_ptr<WorkingSet>(new WorkingSet);
-        m_sandbox = std::shared_ptr<ObjectPoolSandbox>(new ObjectPoolSandbox);
-        Selection::get_instance()->set_working_set(m_working_set.get());
-        Selection::get_instance()->set_sandbox(m_sandbox.get());
-        
-        
-        m_renderer = new renderer(this);
-        cm = command_manager::get_instance();
-        cm->init2(m_sandbox, m_working_set);
-        cm->init();
-        
-        //FIXME broken
-        cm->register_command(new INCMD_CREATE_OBJ(LINE));
-        cm->register_command(new INCMD_CREATE_OBJ(RECTANGLE));
-        cm->register_command(new INCMD_CREATE_OBJ(ELLIPSE));
-        cm->register_command(new INCMD_CREATE_OBJ(POLYGON));
-        cm->register_command(new INCMD_HIGHLIGHT_BY_REGION);
+	setFocusPolicy(Qt::StrongFocus);
+	setMouseTracking(true);
+	setObjectName("CANVAS");
+	
+	//FIXME move to services
+	m_working_set = std::shared_ptr<WorkingSet>(new WorkingSet);
+	m_sandbox = std::shared_ptr<ObjectPoolSandbox>(new ObjectPoolSandbox);
+	Selection::get_instance()->set_working_set(m_working_set.get());
+	Selection::get_instance()->set_sandbox(m_sandbox.get());
+	
+	
+	m_renderer = new renderer(this);
+	cm = command_manager::get_instance();
+	cm->init2(m_sandbox, m_working_set);
+	cm->init();
+	
+	//FIXME broken
+	cm->register_command(new INCMD_CREATE_OBJ(LINE));
+	cm->register_command(new INCMD_CREATE_OBJ(RECTANGLE));
+	cm->register_command(new INCMD_CREATE_OBJ(ELLIPSE));
+	cm->register_command(new INCMD_CREATE_OBJ(POLYGON));
+	cm->register_command(new INCMD_HIGHLIGHT_BY_REGION);
 
 }
 
@@ -106,7 +106,6 @@ void canvas::wheelEvent(QWheelEvent*)
 
 void canvas::mouseDoubleClickEvent(QMouseEvent* e)
 {
-    dicmdCanvasMouseDblClick(e->pos()).log();
     cm->mouse_dbl_clicked(e->pos().x(),e->pos().y());
     update();
 }

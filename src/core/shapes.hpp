@@ -36,6 +36,11 @@ public:
 	void setP1(const QPoint&);
 	void setP2(const QPoint&);
 
+	QPoint getP1() const { return m_object.p1(); }
+	QPoint getP2() const { return m_object.p2(); }
+
+	virtual Type getType() const override { return Type::LINE; }
+
 private:
 	QLine m_object;
 	bool m_waitForSecondClick;
@@ -62,6 +67,12 @@ public:
 public:
 	void setTopLeft(const QPoint&);
 	void setBottomRight(const QPoint&);
+
+	QPoint getTopLeft() const;
+	QPoint getBottomRight() const;
+
+	bool contains(const QPoint& point) const { return m_object.contains(point); }
+	virtual Type getType() const override { return Type::RECTANGLE; }
 
 private:
 	QRect m_object;
@@ -90,6 +101,12 @@ public:
 	void setTopLeft(const QPoint&);
 	void setBottomRight(const QPoint&);
 
+	QPoint getTopLeft() const;
+	QPoint getBottomRight() const;
+
+	bool contains(const QPoint& point) const { return m_object.contains(point); }
+	virtual Type getType() const override { return Type::ELLIPSE; }
+
 private:
 	QRect m_object;
 	bool m_waitForSecondClick;
@@ -109,6 +126,8 @@ public:
 	virtual void reset() override;
 	virtual void addPoint(const QPoint&) override;
 	virtual void movePoint(const QPoint&) override;
+
+	virtual Type getType() const override { return Type::POLYGON; }
 
 private:
 	QPolygon m_object;

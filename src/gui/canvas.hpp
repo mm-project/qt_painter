@@ -98,7 +98,4 @@ private:
         renderer* m_renderer;
 };
 
-
-
-
 #endif

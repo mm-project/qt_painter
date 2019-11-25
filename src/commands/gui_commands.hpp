@@ -138,32 +138,4 @@ class dicmdCanvasMouseClick: public DirectCommandBase
 
 
 
-//FIXME code duplication
-class dicmdCanvasMouseDblClick: public DirectCommandBase
-{
-    
-    QPoint m_p;
-    public:
-
-        dicmdCanvasMouseDblClick() {
-            add_option("-point",new PointCommandOptionValue(QPoint(0,0)));
-        }
-        
-        dicmdCanvasMouseDblClick(const QPoint& p):DirectCommandBase("-point",new PointCommandOptionValue(p)) 
-        { m_p = p; }
-        
-        virtual std::string get_name() {
-            return "dicmdCanvasMouseDblClick";
-        }
-        
-        virtual void execute() {
-            //m_p = (dynamic_cast<PointCommandOptionValue*>(get_option_val("-point")))->get();
-            m_p = GET_CMD_ARG(PointCommandOptionValue,"-point");
-            dicmdCanvasMouseMove(m_p).execute();
-            QMouseEvent event(QEvent::MouseButtonDblClick, m_p, Qt::LeftButton, 0, 0);
-            QApplication::sendEvent(command_manager::get_instance()->get_main_widget()->findChild<QWidget*>("CANVAS"), &event);
-        } 
-};
-
-
 #endif
