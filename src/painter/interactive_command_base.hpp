@@ -7,7 +7,7 @@
 #include <string>
 #include <functional>
 
-#define MEMBER_FUNCTION(C,M) std::bind(&C::M,this,std::placeholders::_1)
+#define HANDLE_FUNCTION(C,M) std::bind(&C::M,this,std::placeholders::_1)
 typedef std::function<void( const EvType& )> CmdMemFun;
 
 class InteractiveCommandBase : public CommandBase
@@ -34,9 +34,13 @@ class InteractiveCommandBase : public CommandBase
             m_current_event_handler(MDC);
         }
        
+        virtual void handle_key_press() {
+            //log("dblclick "+x+" "+y);
+            m_current_event_handler(KP);
+        }
        
     public:
-        void set_next_step( CmdMemFun fun ) {
+        void set_next_handler( CmdMemFun fun ) {
             m_current_event_handler = fun;
         }
         

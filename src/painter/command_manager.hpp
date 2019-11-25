@@ -12,6 +12,9 @@
 // Stl
 #include <string>
 #include <iostream>
+
+// Qt
+#include <QWidget>
  
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -28,12 +31,15 @@ class command_manager
         }
         
     public:
+        void set_main_widget(QWidget* w);
+        QWidget* get_main_widget();
         
-        void init2(runtime_environment* r, working_set* s);
+        void init2(ObjectPoolSandboxPtr r, IObjectPoolPtr s);
         void init();
         
         void activate_command(CommandBase* cmd);
-        CommandBase* invoke_command();
+        void register_command(CommandBase* cmd);
+        CommandBase* find_command(const std::string&);
         //CommandBase* get_command();
         //void register_command(const char* nm, CommandBase* cmd) 
         CommandBase* get_active_command();
@@ -60,9 +66,10 @@ class command_manager
         //CommandBase* m_polygon_command;
 
         
-        runtime_environment* re;
-        working_set* ws;
+        ObjectPoolSandboxPtr re;
+        IObjectPoolPtr ws;
         //bool m_is_idle;
+        QWidget* m_main_widget;
 
     public:
         static command_manager* m_instance;

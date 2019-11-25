@@ -21,7 +21,7 @@ class QPainter;
 //
 enum ObjectType {
 	LINE = 0,
-	RECT,
+	RECTANGLE,
 	ELLIPSE,
 	POLYGON
 };
@@ -32,7 +32,7 @@ namespace {
         switch (t) {
                 case LINE :
                         return "Line";
-                case RECT:
+                case RECTANGLE:
                         return "Rectangle";
                 case ELLIPSE:
                         return "Ellipse";
@@ -47,7 +47,8 @@ namespace {
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-// @struct ShapeProperties, collection of parameters and properties for drawing
+//	@struct ShapeProperties
+//	collection of parameters and properties for drawing
 //
 struct ShapeProperties
 {
@@ -74,21 +75,21 @@ struct ShapeProperties
 //
 // interface for the shapes
 // 
-class IBasicShape
+class IShape
 {
 public:
 	// @Constructor
-	IBasicShape() {}
-	IBasicShape(ObjectType t) :
+	IShape() {}
+	IShape(ObjectType t) :
 		m_type(t) 
 	{}
-	IBasicShape(ObjectType t, ShapeProperties p) :
+	IShape(ObjectType t, ShapeProperties p) :
 		m_type(t), 
 		m_properties(p) 
 	{}
 
 	// @Destructor
-	virtual ~IBasicShape() {}
+	virtual ~IShape() {}
 
 public:
 
@@ -105,7 +106,7 @@ public:
 
 public:
 
-	virtual IBasicShape* clone() = 0;
+	virtual IShape* clone() = 0;
 	virtual void draw(QPainter*) = 0;
 
 protected:

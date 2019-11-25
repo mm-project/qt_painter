@@ -22,19 +22,11 @@ QT_INCL_ROOT:=$(QT_ROOT)/include
 QT_LIB_ROOT:=$(QT_ROOT)/lib
 QT_BIN_ROOT:=$(QT_ROOT)/bin
 
-ifndef $(QT_ROOT)
-QT_LIB_ROOT:=/usr/lib/x86_64-linux-gnu
-QT_INC_ROOT:=/usr/include/x86_64-linux-gnu
-QT_BIN_ROOT:=/usr/bin
-endif
-
 ifeq ($(USER),levibyte)
 QT_INCL_ROOT:=/usr/include/i386-linux-gnu/qt5
 QT_LIB_ROOT:=/usr/lib/i386-linux-gnu
 QT_BIN_ROOT:=/usr/bin
 endif
-
-
 
 QTINCLUDES:=-I $(QT_INCL_ROOT) -I $(QT_INCL_ROOT)/QtWidgets -I $(QT_INCL_ROOT)/QtGui -I $(QT_INCL_ROOT)/QtCore
 QTLIBS:=$(QT_LIB_ROOT)/libQt5Widgets.a $(QT_LIB_ROOT)/libQt5Gui.a $(QT_LIB_ROOT)/libQt5Core.a 
