@@ -15,13 +15,13 @@ class working_set : public QObject
 public:
         void clear();
 
-        void add_object(basic_shape*);
+        void add_object(IBasicShape*);
 
         void add_object(runtime_environment*);
 
-        std::vector<basic_shape*> get_objects();
+        std::vector<IBasicShape*> get_objects();
 private:
-        std::vector<basic_shape*> shapes;
+        std::vector<IBasicShape*> shapes;
 };
 
 #endif

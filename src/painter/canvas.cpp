@@ -1,6 +1,9 @@
 #include "canvas.hpp"
 
-#include "command.hpp"
+#include "direct_command_base.hpp"
+#include "basic_commands.hpp"
+#include "shape_creator_commands.hpp"
+#include "command_manager.hpp"
 #include "controller.hpp"
 #include "shapes.hpp"
 #include "working_set.hpp"
@@ -18,14 +21,23 @@
 canvas::canvas(QWidget* p)
         : QWidget(p), is_runtime_mode(false)
 {
+        setFocusPolicy(Qt::StrongFocus);
         setMouseTracking(true);
+        setObjectName("CANVAS");
+        
         m_working_set = new working_set;
         m_runtime_environment = new runtime_environment();
-		//m_working_set = 0;
-		m_active_command = 0;
-		
-		cm = new command_manager(m_runtime_environment);
-		
+        m_renderer = new renderer(this);
+        cm = command_manager::get_instance();
+        cm->init2(m_runtime_environment,m_working_set);
+        cm->init();
+
+}
+
+void canvas::keyPressEvent(QKeyEvent*) {
+    //FIXME some interface needed
+    //assert(0);
+    cm->key_pressed();
 }
 
 //todo
@@ -35,93 +47,97 @@ canvas::canvas(QWidget* p)
 
 void canvas::mousePressEvent(QMouseEvent* e)
 {
-		QPoint p(e->pos());
-        if( ! m_active_command ) return;
-		m_active_command->mouse_clicked(p.x(),p.y());
-		update();
-		/*
-		if (is_runtime_mode) {
-                m_runtime_environment->set_pos2(p);
-                m_working_set->add_object(m_runtime_environment);
-                m_runtime_environment->reset();
-                is_runtime_mode = false;
-                update();
-        } else {
-                controller* c = controller::get_instance();
-                m_runtime_environment->change_basic_properties(c->get_basic_properties());
-                m_runtime_environment->set_pos1(p);
-                is_runtime_mode = true;
-        }*/
+    //cm->activate_command(INCMD_CREATE_OBJ(RECT));
+    DirectCommandBase* cmd = new dicmdCanvasAddPoint();
+    cmd->add_arg(new PointCommandOption(e->pos()));
+    cmd->execute_and_log();
+    
+    if( cm->is_idle() ) 
+        return;
+
+    QPoint p(e->pos());
+    cm->mouse_clicked(p.x(),p.y());
+
 }
 
+//FIXME not needed anymore
 void canvas::current_type_changed()
 {
-        controller* c = controller::get_instance();
-        m_runtime_environment->change_object_type(c->get_object_type());
+    //not needed
+    //controller* c = controller::get_instance();
+    //m_runtime_environment->change_object_type(c->get_object_type());
 }
 
 void canvas::mouseMoveEvent(QMouseEvent* e)
 {
-        //if (is_runtime_mode) {
-        //        m_runtime_environment->set_pos2(e->pos());
-        //       
-        //}
-		
-		if( ! m_active_command ) return;
-		m_active_command->mouse_move(e->pos().x(),e->pos().y());
-		update();
+    if( cm->is_idle() ) 
+        return;
+    
+    cm->mouse_moved(e->pos().x(),e->pos().y());
+    update();
+}
+
+void canvas::wheelEvent(QWheelEvent*)
+{
+    m_renderer->incr_zoom_factor();
+    update();
+}
+
+void canvas::mouseDoubleClickEvent(QMouseEvent* e)
+{
+    cm->mouse_dbl_clicked(e->pos().x(),e->pos().y());
+}
+
+void canvas::on_update()
+{
+    cm->update();
 }
 
 void canvas::paintEvent(QPaintEvent*)
 {
-        QPainter painter(this);
-        QRect rect(QPoint(0, 0), size());
-        QBrush b(Qt::black);
-        painter.setBrush(b);
-        painter.drawRect(rect);
-
-        std::vector<basic_shape*> shapes = m_working_set->get_objects();
-        for (auto i = shapes.begin(); i != shapes.end(); ++i) {
-                (*i)->draw(&painter);
-        }
-        m_runtime_environment->draw_runtime(&painter);
+    auto painter = m_renderer->get_painter();
+    m_renderer->start();
+    QRect rect(QPoint(0, 0), QSize(1000,1000));
+    QBrush b(Qt::black);
+    painter->setBrush(b);
+    painter->drawRect(rect);
+    std::vector<IBasicShape*> shapes = m_working_set->get_objects();
+    for (auto i = shapes.begin(); i != shapes.end(); ++i) {
+                    (*i)->draw(painter);
+    }
+    m_runtime_environment->draw_runtime(painter);
+    m_renderer->stop();
 }
 
+//FIXME ( may be other more nicer way?)
+#define INCMD_CREATE_OBJ(S) new incmdCreateObj<S>(m_runtime_environment,m_working_set)
 void canvas::create_line()
 {
-        m_runtime_environment->change_object_type(LINE);
+    //cm->activate_command("cmdCreateNthgon<2>");
+    cm->activate_command(INCMD_CREATE_OBJ(LINE));
+    //cm->activate_command(new incmdCreateNthgon<2>(m_runtime_environment,m_working_set));
 }
 
 void canvas::create_rect()
 {
-		
-		m_active_command = cm->get_create_rectangle_command();
+    //cm->activate_command(new incmdCreateNthgon<3>(m_runtime_environment,m_working_set));
+    cm->activate_command(INCMD_CREATE_OBJ(RECT));
 }
 
 void canvas::create_ellipse()
 {
-        m_runtime_environment->change_object_type(ELLIPSE);
+    cm->activate_command(INCMD_CREATE_OBJ(ELLIPSE));
 }
 
 void canvas::create_polygon()
 {
-        //1. fixme shared 
-		//m_active_command = cm.get_create_polygon_command();
-		//cmd->execute();
-	
+    cm->activate_command(INCMD_CREATE_OBJ(POLYGON));
 }
 
 void canvas::reset()
 {
-        m_working_set->clear();
-        update();
+    m_working_set->clear();
+    update();
 }
 
-void canvas::mouseDoubleClicked(QMouseEvent*)
-{
-		//if( ! m_active_command ) return;
-		//m_active_command.try_to_commit();
-		
-        //is_runtime_mode = false;
-}
 

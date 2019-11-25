@@ -6,6 +6,7 @@
 class line;
 class rectangle;
 class ellipse;
+class polygon;
 
 class runtime_environment
 {
@@ -14,22 +15,23 @@ public:
 
         void reset();
 
-        void change_object_type(object_type);
+        void change_object_type(ObjectType);
 
-        basic_shape* get_runtime_object() const;
+        IBasicShape* get_runtime_object() const;
 
         void set_pos1(const QPoint&);
         void set_pos2(const QPoint&);
 
         void draw_runtime(QPainter* p);
 
-        void change_basic_properties(basic_properties);
+        void change_basic_properties(ShapeProperties);
 private:
-        object_type runtime_object_type;
+        ObjectType runtime_object_type;
 
         line* runtime_line;
         rectangle* runtime_rectangle;
         ellipse* runtime_ellipse;
+        polygon* runtime_polygon;
 };
 
 #endif

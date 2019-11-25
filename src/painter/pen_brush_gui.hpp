@@ -23,6 +23,9 @@ private:
         void init_join_style();
         void init_brush_style();
 
+signals:
+        void something_changed();
+        
 private slots:
         void pen_color_changed(const QString&);
         void brush_color_changed(const QString&);
