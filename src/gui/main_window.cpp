@@ -1,11 +1,12 @@
 #include "main_window.hpp"
 
-#include "gui_commands.hpp"
 #include "canvas.hpp"
 #include "create_shape_gui.hpp"
 #include "pen_brush_gui.hpp"
 #include "icons.hpp"
-#include "command_manager.hpp"
+
+#include "../commands/command_manager.hpp"
+#include "../commands/gui_commands.hpp"
 
 #include <QDockWidget>
 #include <QMenu>

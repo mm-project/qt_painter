@@ -1,0 +1,8 @@
+QRibbonButton {
+	border: 1px;
+	border-color: lightgray;
+}
+
+QRibbonButton:hover {
+	background-color : lightblue;
+}

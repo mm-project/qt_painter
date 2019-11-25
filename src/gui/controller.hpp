@@ -1,7 +1,7 @@
 #ifndef CONTROLLER_HPP
 #define CONTROLLER_HPP
 
-#include "basic_shape.hpp"
+#include "../core/basic_shape.hpp"
 
 class controller
 {

@@ -1,9 +1,9 @@
 #ifndef CANVAS_HPP
 #define CANVAS_HPP
 
-#include "basic_shape.hpp"
-#include "command_manager.hpp"
-#include "iobject_pool.hpp"
+#include "../core/iobject_pool.hpp"
+#include "../core/basic_shape.hpp"
+#include "../commands/command_manager.hpp"
 
 #include <QWidget>
 #include <QPainter>

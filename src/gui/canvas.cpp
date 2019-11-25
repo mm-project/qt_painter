@@ -1,16 +1,17 @@
 #include "canvas.hpp"
-
-#include "direct_command_base.hpp"
-#include "basic_commands.hpp"
-#include "gui_commands.hpp"
-#include "shape_creator_commands.hpp"
-#include "selection_commands.hpp"
-#include "command_manager.hpp"
 #include "controller.hpp"
-#include "shapes.hpp"
-#include "working_set.hpp"
-#include "runtime_environment.hpp"
-#include "selection.hpp"
+
+#include "../commands/direct_command_base.hpp"
+#include "../commands/basic_commands.hpp"
+#include "../commands/gui_commands.hpp"
+#include "../commands/shape_creator_commands.hpp"
+#include "../commands/selection_commands.hpp"
+#include "../commands/command_manager.hpp"
+
+#include "../core/shapes.hpp"
+#include "../core/working_set.hpp"
+#include "../core/runtime_environment.hpp"
+#include "../core/selection.hpp"
 
 #include <QRect>
 #include <QPainter>
@@ -66,11 +67,6 @@ void canvas::keyPressEvent(QKeyEvent*) {
     //command_manager::get_instance()->get_active_command()->abort();
     //cm->key_pressed();
 }
-
-//todo
-//void canvas::mouseDoubleClickEven(QMouseEvent* e) {
-//	
-//}
 
 void canvas::mousePressEvent(QMouseEvent* e)
 {
