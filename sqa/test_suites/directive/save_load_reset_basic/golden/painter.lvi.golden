@@ -1,18 +1,18 @@
-dicmdCreateObjRectangle -points {(120,115);(250,228)} 
-dicmdCreateObjRectangle -points {(297,241);(431,351)} 
-dicmdCreateObjRectangle -points {(504,272);(645,394)} 
-dicmdCreateObjRectangle -points {(630,95);(816,237)} 
+dicmdCreateObjRectangle -brush 0 -color #000000 -fill 0 -points {(120,115);(250,228)} 
+dicmdCreateObjRectangle -brush 0 -color #000000 -fill 0 -points {(297,241);(431,351)} 
+dicmdCreateObjRectangle -brush 0 -color #000000 -fill 0 -points {(504,272);(645,394)} 
+dicmdCreateObjRectangle -brush 0 -color #000000 -fill 0 -points {(630,95);(816,237)} 
 dicmdSelectShapesByRegion -end (1211,459) -start (17,5) 
-dicmdCreateObjRectangle -points {(159,123);(281,257)} 
-dicmdCreateObjRectangle -points {(262,237);(384,381)} 
-dicmdCreateObjRectangle -points {(345,341);(492,450)} 
-dicmdCreateObjEllipse -points {(309,86);(403,160)} 
-dicmdCreateObjEllipse -points {(372,138);(479,235)} 
-dicmdCreateObjEllipse -points {(456,242);(533,309)} 
-dicmdCreateObjPolygon -points {(561,123);(711,128);(648,264);(787,191);(787,191)} 
-dicmdCreateObjPolygon -points {(617,316);(795,307);(777,393);(728,411);(728,411)} 
-dicmdCreateObjLine -points {(486,87);(580,221)} 
-dicmdCreateObjLine -points {(566,327);(617,179)} 
+dicmdCreateObjRectangle -brush 0 -color #000000 -fill 0 -points {(159,123);(281,257)} 
+dicmdCreateObjRectangle -brush 0 -color #000000 -fill 0 -points {(262,237);(384,381)} 
+dicmdCreateObjRectangle -brush 0 -color #000000 -fill 0 -points {(345,341);(492,450)} 
+dicmdCreateObjEllipse -brush 0 -color #000000 -fill 0 -points {(309,86);(403,160)} 
+dicmdCreateObjEllipse -brush 0 -color #000000 -fill 0 -points {(372,138);(479,235)} 
+dicmdCreateObjEllipse -brush 0 -color #000000 -fill 0 -points {(456,242);(533,309)} 
+dicmdCreateObjPolygon -brush 0 -color #000000 -fill 0 -points {(561,123);(711,128);(648,264);(787,191);(787,191)} 
+dicmdCreateObjPolygon -brush 0 -color #000000 -fill 0 -points {(617,316);(795,307);(777,393);(728,411);(728,411)} 
+dicmdCreateObjLine -brush 0 -color #000000 -fill 0 -points {(486,87);(580,221)} 
+dicmdCreateObjLine -brush 0 -color #000000 -fill 0 -points {(566,327);(617,179)} 
 dicmdDesignSave -filename mydes.des 
 dicmdDesignLoad -filename mydes.des 
 dicmdSelectShapesByRegion -end (1027,469) -start (37,7) 

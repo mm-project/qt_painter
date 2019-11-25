@@ -27,6 +27,7 @@ public:
         
         virtual void execute() {
                 ws->clear();
+				RegionQuery::getInstance().clear();
                 std::string fname(GET_CMD_ARG(StringCommandOptionValue,"-filename"));
                 if ( ! LogReader().replay_logfile_imi(fname) )
                     throw 1;
@@ -60,23 +61,23 @@ public:
                     	switch (it->getType())
                         {
                             case LINE:
-                                cmd = new dicmdCreateObj<LINE>(ws);
-                                cmd->set_arg("-points",PointListCommandOptionValue(transform(it->getPoints())).to_string());
+                                cmd = new dicmdCreateObj<LINE>(transform(it->getPoints()),it->getProperties(),ws);
+                                //cmd->set_arg("-points",PointListCommandOptionValue(transform(it->getPoints())).to_string());
                                 dynamic_cast<dicmdCreateObj<LINE>*>(cmd)->dump(fname);
                                 break;
                             case RECTANGLE:
-                                cmd = new dicmdCreateObj<RECTANGLE>(ws);
-                                cmd->set_arg("-points",PointListCommandOptionValue(transform(it->getPoints())).to_string());
+                                cmd = new dicmdCreateObj<RECTANGLE>(transform(it->getPoints()),it->getProperties(),ws);
+                                //cmd->set_arg("-points",PointListCommandOptionValue(transform(it->getPoints())).to_string());
                                 dynamic_cast<dicmdCreateObj<RECTANGLE>*>(cmd)->dump(fname);
                                 break;
                             case ELLIPSE:
-                                cmd = new dicmdCreateObj<ELLIPSE>(ws);
-                                cmd->set_arg("-points",PointListCommandOptionValue(transform(it->getPoints())).to_string());
+                                cmd = new dicmdCreateObj<ELLIPSE>(transform(it->getPoints()),it->getProperties(),ws);
+                                //cmd->set_arg("-points",PointListCommandOptionValue(transform(it->getPoints())).to_string());
                                 dynamic_cast<dicmdCreateObj<ELLIPSE>*>(cmd)->dump(fname);
                                 break;
                             case POLYGON:
-                                cmd = new dicmdCreateObj<POLYGON>(ws);
-                                cmd->set_arg("-points",PointListCommandOptionValue(transform(it->getPoints())).to_string());
+                                cmd = new dicmdCreateObj<POLYGON>(transform(it->getPoints()),it->getProperties(),ws);
+                                //cmd->set_arg("-points",PointListCommandOptionValue(transform(it->getPoints())).to_string());
                                 dynamic_cast<dicmdCreateObj<POLYGON>*>(cmd)->dump(fname);
                                 break;
                         }

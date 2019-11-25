@@ -3,8 +3,12 @@
 
 #include "interactive_command_base.hpp"
 #include "command_manager.hpp"
-#include "../core/rq/RegionQueryService.hpp"
 #include "direct_command_base.hpp"
+
+#include "../core/rq/RegionQueryService.hpp"
+#include "../gui/statusbar_manager.hpp"
+
+
 
 class dicmdDeleteObj : public DirectCommandBase
 {
@@ -62,7 +66,7 @@ public:
 
 	virtual void abort() override
 	{
-		command_manager::get_instance()->return_to_idle();
+		command_manager::getInstance().return_to_idle();
 	}
 
 	virtual void execute() override
