@@ -20,10 +20,10 @@ pen_brush_gui::pen_brush_gui(QWidget* p)
         : QWidget(p)
 {
         init_layout();
-        make_connections();
-        init_colors();
-        init_cap_style();
-        init_join_style();
+        //make_connections();
+        //init_colors();
+        //init_cap_style();
+        //init_join_style();
         init_brush_style();
 }
 
@@ -303,7 +303,7 @@ Qt::BrushStyle get_brush_style_from_string(const QString& s)
 void pen_brush_gui::pen_color_changed(const QString& s)
 {
         controller* c = controller::get_instance();
-        c->change_pen_color(get_color_from_string(s));
+        //c->change_pen_coyylor(get_color_from_string(s));
         emit something_changed();
 }
 

@@ -12,6 +12,8 @@ std::vector<IShape*> WorkingSet::getObjects() const
 
 void WorkingSet::clear()
 {
-        m_shapes.clear();
+	for (auto i : m_shapes)
+		delete i;
+	m_shapes.clear();
 }
 

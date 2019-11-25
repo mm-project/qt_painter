@@ -28,6 +28,13 @@ QT_LIB_ROOT:=/usr/lib/i386-linux-gnu
 QT_BIN_ROOT:=/usr/bin
 endif
 
+ifeq ($(CM),1)
+QT_INCL_ROOT:=/usr/include/x86_64-linux-gnu/qt5
+QT_LIB_ROOT:=/usr/lib/x86_64-linux-gnu
+QT_BIN_ROOT:=/usr/bin
+endif
+
+#/usr/include/x86_64-linux-gnu
 QTINCLUDES:=-I $(QT_INCL_ROOT) -I $(QT_INCL_ROOT)/QtWidgets -I $(QT_INCL_ROOT)/QtGui -I $(QT_INCL_ROOT)/QtCore
 QTLIBS:=$(QT_LIB_ROOT)/libQt5Widgets.a $(QT_LIB_ROOT)/libQt5Gui.a $(QT_LIB_ROOT)/libQt5Core.a 
 

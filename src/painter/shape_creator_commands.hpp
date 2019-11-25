@@ -9,30 +9,44 @@
 
 #include <sstream>
 
-class incmdObjCreationBase : public InteractiveCommandBase 
+template <ObjectType T>
+class ObjCreatorCommandBase : public InteractiveCommandBase 
 {
+IShape* m_rt_shape;
+
 public:
-	incmdObjCreationBase(ObjectPoolSandboxPtr r, IObjectPoolPtr s): ws(s) 
+	ObjCreatorCommandBase<T>(ObjectPoolSandboxPtr r, IObjectPoolPtr s): ws(s) 
 	{
 		re = std::shared_ptr<ObjectSandbox>(new ObjectSandbox);
 		r->addChildren(re);
 		m_controller =  controller::get_instance();
+                m_rt_shape = 0;
 	}
 
 	virtual void handle_update() {
 		//re->change_basic_properties(m_controller->get_shape_properties());
 	}
 
-	void commit() {
+	virtual void commit() {
 		auto ob = re->getPool()->getObjects();
 		for (auto i : ob)
 			ws->addObject(i);
 		finish();
 	}
 	
-	void finish() {
+	virtual void finish() {
 		re->clear();
 	}
+	
+	IShape* get_runtime_object() {
+                return m_rt_shape;
+        }
+        
+	void create_runtime_object() {
+                ShapeCreatorPtr shapeCreator = ShapeCreator::getInstance();
+		m_rt_shape = shapeCreator->create(T);
+                re->addObject(m_rt_shape);
+        }
 	
 	void runtime_set_pos1() {
 		re->addPoint(InteractiveCommandBase::get_last_point());
@@ -64,66 +78,70 @@ private:
 // incmdCreateObj<RECT> => rect
 // incmdCreateObj<ELLIPSE> => ellipse
 template <ObjectType T>
-class incmdCreateObj : public incmdObjCreationBase 
+class incmdCreateObj : public ObjCreatorCommandBase<T>
 {
 public:
 	
-	incmdCreateObj(ObjectPoolSandboxPtr r, IObjectPoolPtr s ):incmdObjCreationBase(r,s)
+	incmdCreateObj(ObjectPoolSandboxPtr r, IObjectPoolPtr s ):ObjCreatorCommandBase<T>(r,s)
 	{
 	}
 	
 	virtual void execute() {
-		set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,idle));
+		//ObjCreatorCommandBase<T>::create_runtime_object();
+                InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,idle));
 	}
 	
 	virtual std::string get_name() {
 		return "incmdCreateObj"+ObjType2String(T);
 	}
 
-	virtual void activate() override
-	{
-		ShapeCreatorPtr shapeCreator = ShapeCreator::getInstance();
-		re->addObject(shapeCreator->create(T));
-	}
-
 
 public:      
-	void idle(const EvType& ev) {
-		//waiting for first mouse click
+        
+	bool idle(const EvType& ev) {
+
+                //std::cout << "idle " << std::endl;
+                //waiting for first mouse click
 		//assert(0);
-		if ( ev == KP ) //key pressed, abort
-			set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,abort1));
+		//if ( ev == KP ) //key pressed, abort
+		//	InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,abort1));
 		
 		if ( ev != MC ) //not mouse click, return
-			return;
+			return false;
 		
 		//mouse clicked , set first point and go to next state 
-		runtime_set_pos1();
-		set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,on_first_click));
-	}
+
+		ObjCreatorCommandBase<T>::create_runtime_object();
+                ObjCreatorCommandBase<T>::runtime_set_pos1();
+		InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,on_first_click));
+                return true;
+        }
 	
 	void on_first_click(const EvType& ev) {
 		//assert(0);
 		if ( ev == KP ) //key pressed, abort
-			set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,abort1));
+			InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,abort1));
 		
 		if ( ev == MM )
-			runtime_set_pos2();
+			ObjCreatorCommandBase<T>::runtime_set_pos2();
 		else if ( ev == MC || ev == KP )
-			set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,on_commit));
+			InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,on_commit));
 	}
 
 	void on_commit(const EvType&) {
 		//assert(0);
-		commit();
-		set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,idle));
+                on_commit_internal();
 	}
 	
 	//FIXME doesn't work
 	void abort1(const EvType&) {
-	   incmdObjCreationBase::abort();
+                ObjCreatorCommandBase<T>::abort();
 	}
 
+	virtual void on_commit_internal() {
+        	ObjCreatorCommandBase<T>::commit();
+		InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,idle));
+        }
 };
 
 
@@ -133,13 +151,13 @@ public:
 // incmdCreateNthgon<3> => triangle
 // incmdCreateNthgon<6> => hexagon
 template<int T>
-class incmdCreateNthgon : public incmdObjCreationBase 
+class incmdCreateNthgon : public ObjCreatorCommandBase<POLYGON>
 {
 	int count;
 	std::string m_name;
 
 public:
-	incmdCreateNthgon(ObjectPoolSandboxPtr r, IObjectPoolPtr s ):incmdObjCreationBase(r,s)
+	incmdCreateNthgon(ObjectPoolSandboxPtr r, IObjectPoolPtr s ):ObjCreatorCommandBase<POLYGON>(r,s)
 	{
 		reset_count();
 
@@ -154,17 +172,13 @@ public:
 	}
 	
 	virtual void execute() {
-		set_next_handler(HANDLE_FUNCTION(incmdCreateNthgon<T>,idle));
+		InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateNthgon<T>,idle));
 	}
 
-	virtual void activate() override
-	{
-		ShapeCreatorPtr shapeCreator = ShapeCreator::getInstance();
-		re->addObject(shapeCreator->create(POLYGON));
-	}
 	
 public:
-	void reset_count() {
+        
+        void reset_count() {
 		count = T-1;
 	}
 	
@@ -174,15 +188,16 @@ public:
 		if ( ev != MC )
 			return;
 		
-		runtime_set_pos1();
-		set_next_handler(HANDLE_FUNCTION(incmdCreateNthgon<T>,on_first_click));
+                ObjCreatorCommandBase<POLYGON>::create_runtime_object();
+		ObjCreatorCommandBase<POLYGON>::runtime_set_pos1();
+		InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateNthgon<T>,on_first_click));
 	}
 	
 	void on_first_click(const EvType& ev) {
 		if ( ev == MC ) {
 			//std::cout << "interactive command clicked. Remains " << count << " click to commit " << std::endl;
-			runtime_set_pos1();
-			set_next_handler(HANDLE_FUNCTION(incmdCreateNthgon<T>,on_first_click));
+			ObjCreatorCommandBase<POLYGON>::runtime_set_pos1();
+			InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateNthgon<T>,on_first_click));
 			if (--count == 0) {
 				//std::cout << "triangle count 0 ..." << std::endl;
 				set_next_handler(HANDLE_FUNCTION(incmdCreateNthgon<T>,on_commit));
@@ -193,8 +208,8 @@ public:
 	
 	void on_commit(const EvType&) {
 		//std::cout << "interactive command COMMIT..." << std::endl;
-		commit();
-		set_next_handler(HANDLE_FUNCTION(incmdCreateNthgon<T>,idle));
+		ObjCreatorCommandBase<POLYGON>::commit();
+		InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateNthgon<T>,idle));
 		reset_count();
 	}
 };
