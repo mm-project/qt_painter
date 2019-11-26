@@ -23,7 +23,7 @@ dicmdCanvasMouseMove -point (223,59)
 dicmdCanvasMouseMove -point (223,60) 
 dicmdCanvasMouseClick -point (223,60) 
 dicmdCanvasMouseClick -point (223,60) 
-#t
+#u --> User: #t
 #e --> Error: #t command not found
 dicmdCanvasMouseMove -point (223,61) 
 dicmdCanvasMouseMove -point (223,62) 
@@ -97,7 +97,7 @@ dicmdCanvasMouseMove -point (271,101)
 dicmdCanvasMouseClick -point (271,101) 
 dicmdCanvasMouseClick -point (271,101) 
 #o --> Out: dicmdCreateObjLine -points {(223,60);(271,101)} 
-#o
+#u --> User: #o
 #e --> Error: #o command not found
 dicmdCanvasMouseMove -point (270,101) 
 dicmdCanvasMouseMove -point (269,101) 
@@ -204,7 +204,7 @@ dicmdCanvasMouseMove -point (356,50)
 dicmdCanvasMouseClick -point (356,50) 
 dicmdCanvasMouseClick -point (356,50) 
 #o --> Out: dicmdCreateObjLine -points {(174,122);(356,50)} 
-#o
+#u --> User: #o
 #e --> Error: #o command not found
 dicmdCanvasMouseMove -point (356,51) 
 dicmdCanvasMouseMove -point (356,52) 
@@ -309,7 +309,7 @@ dicmdCanvasMouseMove -point (407,213)
 dicmdCanvasMouseClick -point (407,213) 
 dicmdCanvasMouseClick -point (407,213) 
 #o --> Out: dicmdCreateObjLine -points {(286,20);(407,213)} 
-#o
+#u --> User: #o
 #e --> Error: #o command not found
 dicmdCanvasMouseMove -point (407,210) 
 dicmdCanvasMouseMove -point (407,204) 
@@ -375,7 +375,7 @@ dicmdCanvasMouseMove -point (298,147)
 dicmdCanvasMouseClick -point (298,147) 
 dicmdCanvasMouseClick -point (298,147) 
 #o --> Out: dicmdCreateObjRectangle -points {(249,99);(298,147)} 
-#o
+#u --> User: #o
 #e --> Error: #o command not found
 dicmdCanvasMouseMove -point (294,147) 
 dicmdCanvasMouseMove -point (290,146) 
@@ -434,7 +434,7 @@ dicmdCanvasMouseMove -point (277,163)
 dicmdCanvasMouseClick -point (277,163) 
 dicmdCanvasMouseClick -point (277,163) 
 #o --> Out: dicmdCreateObjRectangle -points {(211,137);(277,163)} 
-#o
+#u --> User: #o
 #e --> Error: #o command not found
 dicmdCanvasMouseMove -point (275,163) 
 dicmdCanvasMouseMove -point (272,163) 
@@ -516,7 +516,7 @@ dicmdCanvasMouseMove -point (224,199)
 dicmdCanvasMouseClick -point (224,199) 
 dicmdCanvasMouseClick -point (224,199) 
 #o --> Out: dicmdCreateObjRectangle -points {(163,111);(224,199)} 
-#o
+#u --> User: #o
 #e --> Error: #o command not found
 dicmdCanvasMouseMove -point (220,199) 
 dicmdCanvasMouseMove -point (217,199) 
@@ -578,7 +578,7 @@ dicmdCanvasMouseMove -point (254,294)
 dicmdCanvasMouseClick -point (254,294) 
 dicmdCanvasMouseClick -point (254,294) 
 #o --> Out: dicmdCreateObjRectangle -points {(126,239);(254,294)} 
-#o
+#u --> User: #o
 #e --> Error: #o command not found
 dicmdCanvasMouseMove -point (253,294) 
 dicmdCanvasMouseMove -point (253,292) 
@@ -675,7 +675,7 @@ dicmdCanvasMouseMove -point (456,111)
 dicmdCanvasMouseClick -point (456,111) 
 dicmdCanvasMouseClick -point (456,111) 
 #o --> Out: dicmdCreateObjEllipse -points {(360,62);(456,111)} 
-#o
+#u --> User: #o
 #e --> Error: #o command not found
 dicmdCanvasMouseMove -point (457,110) 
 dicmdCanvasMouseMove -point (465,110) 
@@ -731,7 +731,7 @@ dicmdCanvasMouseMove -point (1095,254)
 dicmdCanvasMouseClick -point (1095,254) 
 dicmdCanvasMouseClick -point (1095,254) 
 #o --> Out: dicmdCreateObjEllipse -points {(721,109);(1095,254)} 
-#o
+#u --> User: #o
 #e --> Error: #o command not found
 dicmdCanvasMouseMove -point (1094,254) 
 dicmdCanvasMouseMove -point (1089,254) 
@@ -834,7 +834,7 @@ dicmdCanvasMouseClick -point (605,101)
 dicmdCanvasMouseDblClick -point (605,101) 
 #o --> Out: dicmdCreateObjPolygon -points {(501,38);(603,38);(605,101);(605,101)} 
 dicmdCanvasMouseDblClick -point (605,101) 
-#o
+#u --> User: #o
 #e --> Error: #o command not found
 dicmdCanvasMouseMove -point (604,101) 
 dicmdCanvasMouseMove -point (603,101) 
@@ -952,7 +952,7 @@ dicmdCanvasMouseClick -point (618,228)
 dicmdCanvasMouseDblClick -point (618,228) 
 #o --> Out: dicmdCreateObjPolygon -points {(556,125);(611,201);(488,233);(618,228);(618,228)} 
 dicmdCanvasMouseDblClick -point (618,228) 
-#o
+#u --> User: #o
 #e --> Error: #o command not found
 dicmdCanvasMouseMove -point (617,228) 
 dicmdCanvasMouseMove -point (616,228) 
@@ -1297,7 +1297,7 @@ dicmdCanvasMouseDblClick -point (531,192)
 dicmdCanvasMouseDblClick -point (531,192) 
 dicmdCanvasMouseClick -point (531,192) 
 dicmdCanvasMouseClick -point (531,192) 
-#o
+#u --> User: #o
 #e --> Error: #o command not found
 dicmdCanvasMouseMove -point (531,191) 
 dicmdCanvasMouseMove -point (531,190) 
@@ -1363,7 +1363,7 @@ dicmdCanvasMouseClick -point (828,212)
 dicmdCanvasMouseDblClick -point (828,212) 
 #o --> Out: dicmdCreateObjPolygon -points {(531,192);(885,77);(917,183);(828,212);(828,212)} 
 dicmdCanvasMouseDblClick -point (828,212) 
-#o
+#u --> User: #o
 #e --> Error: #o command not found
 dicmdCanvasMouseMove -point (828,207) 
 dicmdCanvasMouseMove -point (828,185) 

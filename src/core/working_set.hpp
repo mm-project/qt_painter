@@ -18,7 +18,8 @@ public:
 	virtual void addObject(IShape*) override;
 	virtual ~WorkingSet() {}
 	virtual std::string getName() override;
-        virtual void dumpToFile(const std::string&);
+	virtual void dumpToFile(const std::string&);
+	void removeObject(IShape*);
 
 private:
 	//
@@ -26,5 +27,7 @@ private:
 	// 
 	std::vector<IShape*> m_shapes;
 };
+
+using WorkingSetPtr = std::shared_ptr<WorkingSet>;
 
 #endif

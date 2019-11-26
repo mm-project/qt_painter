@@ -15,6 +15,7 @@
 #include "../commands/selection_commands.hpp"
 #include "../commands/load_save_commands.hpp"
 #include "../commands/interactive_load_save.hpp"
+#include "../commands/delete_command.hpp"
 #include "../commands/command_manager.hpp"
 
 #include <QRect>
@@ -71,7 +72,8 @@ canvas::canvas(QWidget* p)
     cm->register_command(new InteractiveDesAction<NEW>(m_working_set));   
     cm->register_command(new dicmdDesignSave(m_working_set));
     cm->register_command(new dicmdDesignLoad(m_working_set));
-        
+	cm->register_command(new InteractiveDeleteAction(m_working_set));
+	cm->register_command(new dicmdDeleteObj(m_working_set));
 }
 
 
@@ -93,7 +95,8 @@ void canvas::keyPressEvent(QKeyEvent* ev) {
     //}
     //cm->key_pressed(_x, _y);
 
-
+		if (ev->key() == Qt::Key_Escape)
+			emit discardAction();
 }
 
 void canvas::mousePressEvent(QMouseEvent* e)
@@ -162,7 +165,7 @@ void canvas::on_update()
 void canvas::paintEvent(QPaintEvent*)
 {
     m_renderer->render();
-    update();
+    //update(); why?
 }
 
 void canvas::invoke_create_line()
@@ -208,4 +211,13 @@ void canvas::invoke_load()
 void canvas::reset()
 {
     cm->activate_command(cm->find_command("incmdDesignNew"));
+}
+
+void canvas::invoke_delete()
+{
+	cm->activate_command(cm->find_command("incmdDeleteShape"));
+}
+void canvas::abordCommand()
+{
+	cm->activate_command(cm->find_command("dicmdAbortActiveCommand"));
 }

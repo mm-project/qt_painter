@@ -33,6 +33,7 @@ bool mmModalDialog::ask_yn_question(const std::string& tl, const std::string& bd
         }
     
     }
+	return false; // warning
 }
 
 
@@ -52,6 +53,7 @@ bool mmModalDialog::critical(const std::string& tl, const std::string& bd)
         QMessageBox::StandardButton reply = QMessageBox::critical(m_parent_w, tl.c_str() , bd.c_str());
         dicmdguiClickModalButton("&Ok").log();
     }
+	return true;
 }
 
 //fixme need to have single actual invocation

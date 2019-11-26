@@ -1,0 +1,47 @@
+#!/bin/bash
+
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+  DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+done
+DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+
+options="$@"
+
+#echo $DIR
+export PAINTER_SQA_ROOT=$DIR/..
+res=0
+for i in `cat $PAINTER_SQA_ROOT/tests.lst`; do
+    cd $PAINTER_SQA_ROOT/$i
+        echo -ne  "Running $PAINTER_SQA_ROOT/$i --- "
+        a=`./run.sh "$options" &> test.info `
+        r=$?
+        if [ "$r" == 0 ]; then
+            echo -e "\e[32mPass\e[0m"
+        elif [ "$r" == 3 ]; then
+            echo -e "\e[4;5;41mC R A S H\e[0;25m"
+            res=1
+        else
+            echo -e "\e[31mError\e[0m"
+            echo "************"
+            awk '{ print " ----> ", $0 }' test.info
+            echo "==========="
+            res=1
+        fi
+        echo "------------------------------------------------------------------------------------"
+    cd - &> /dev/null
+done
+
+
+if [ "$res" == 0 ]; then
+    echo "ALL TESTS PASS"
+    exit 0
+else
+    exit 1
+fi
+
+
+
+

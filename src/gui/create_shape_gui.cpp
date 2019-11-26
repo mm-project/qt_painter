@@ -33,15 +33,22 @@ create_shape_gui::create_shape_gui(QWidget* p)
 	QRibbonWidget* ribbonWidget = new QRibbonWidget(this);
 	build_design(ribbonWidget);
 	build_selection(ribbonWidget);
-	build_shapes_group(ribbonWidget);
 	build_colors(ribbonWidget);
-	build_gap_style(ribbonWidget);
-	build_join_style(ribbonWidget);
-	build_brush_and_pen_pattern(ribbonWidget);
+	//build_gap_style(ribbonWidget);
+	//build_join_style(ribbonWidget);
+	build_brush_and_fill(ribbonWidget);
 
 	QRibbon* ribbon = new QRibbon(this);
 	ribbon->addTab(ribbonWidget, "Home");
 
+	QRibbonWidget* shapes = new QRibbonWidget(this);
+	build_shapes_group(shapes);
+	ribbon->addTab(shapes, "Shapes");
+
+	QRibbonWidget* tools = new QRibbonWidget(this);
+	buildToolButtons(tools);
+	ribbon->addTab(tools, "Tools");
+	
 	QVBoxLayout* layout = new QVBoxLayout;
 	layout->addWidget(ribbon);
 
@@ -55,13 +62,13 @@ void create_shape_gui::build_design(QRibbonWidget* ribbonWidget)
 {
 	QRibbonGroup* group = new QRibbonGroup(this);
 	group->setTitle("Design");
-	QRibbonButton* new_b1 = new QRibbonButton(this, "New", getIconDir() + "create.png");
+	QRibbonButton* new_b1 = new QRibbonButton(this, "New", getIconDir() + "create.png", false);
 	connect(new_b1, SIGNAL(clicked()), this, SIGNAL(reset()));
-	QRibbonButton* close_b1 = new QRibbonButton(this, "Close", getIconDir() + "close.png");
+	QRibbonButton* close_b1 = new QRibbonButton(this, "Close", getIconDir() + "close.png", false);
 	connect(close_b1, SIGNAL(clicked()), this, SIGNAL(close()));
-	QRibbonButton* save_b2 = new QRibbonButton(this, "Save", getIconDir() + "save.svg");
+	QRibbonButton* save_b2 = new QRibbonButton(this, "Save", getIconDir() + "save.svg", false);
 	connect(save_b2, SIGNAL(clicked()), this, SIGNAL(save()));
-	QRibbonButton* load_b = new QRibbonButton(this, "Load", getIconDir() + "upload.svg");
+	QRibbonButton* load_b = new QRibbonButton(this, "Load", getIconDir() + "upload.svg", false);
 	connect(load_b, SIGNAL(clicked()), this, SIGNAL(load()));
 	group->addRibbonButton(new_b1);
 	group->addRibbonButton(save_b2);
@@ -76,11 +83,17 @@ void create_shape_gui::build_selection(QRibbonWidget* ribbonWidget)
 	group->setTitle("Select");
 
 	QRibbonButton* new_b = new QRibbonButton(this, "Point", getIconDir() + "mouse.svg");
-	connect(new_b, SIGNAL(clicked()), this, SIGNAL(selectByPoint()));
+	connect(new_b, SIGNAL(start()), this, SIGNAL(selectByPoint()));
+	connect(new_b, SIGNAL(end()), this, SIGNAL(abord()));
+	connect(new_b, SIGNAL(start()), this, SLOT(discard()));
+	connect(new_b, SIGNAL(end()), this, SLOT(restore()));
 	//new_b->setFlat(true);
 	//connect(new_b, SIGNAL(clicked()), this, SIGNAL(reset()));
 	QRibbonButton* close_b = new QRibbonButton(this, "Region", getIconDir() + "selection.svg");
-	connect(close_b, SIGNAL(clicked()), this, SIGNAL(selectByRegion()));
+	connect(close_b, SIGNAL(start()), this, SIGNAL(selectByRegion()));
+	connect(close_b, SIGNAL(end()), this, SIGNAL(abord()));
+	connect(close_b, SIGNAL(start()), this, SLOT(discard()));
+	connect(close_b, SIGNAL(end()), this, SLOT(restore()));
 	group->addRibbonButton(new_b);
 	group->addRibbonButton(close_b);
 	ribbonWidget->addGroup(group);
@@ -97,12 +110,27 @@ void create_shape_gui::build_shapes_group(QRibbonWidget* ribbonWidget)
 	for (int i = 0; i < Shapes.size(); ++i)
 	{
 		QRibbonButton* button = new QRibbonButton(this, Shapes[i], getIconDir() + Shapes[i].toLower() + ".svg");
-		connect(button, SIGNAL(clicked()), mapper, SLOT(map()));
+		connect(button, SIGNAL(start()), mapper, SLOT(map()));
+		connect(button, SIGNAL(end()), this, SIGNAL(abord()));
+		connect(button, SIGNAL(start()), this, SLOT(discard()));
+		connect(button, SIGNAL(end()), this, SLOT(restore()));
 		mapper->setMapping(button, i);
 		ribbonGroup->addRibbonButton(button);
 	}
 
 	ribbonWidget->addGroup(ribbonGroup);
+
+	QRibbonGroup* edit = new QRibbonGroup(this);
+	edit->setTitle("Edit");
+
+	QRibbonButton* delete_b = new QRibbonButton(this, "Delete", getIconDir() + QStringLiteral("delete.svg"));
+	connect(delete_b, SIGNAL(start()), this, SIGNAL(deleteShape()));
+	connect(delete_b, SIGNAL(end()), this, SIGNAL(abord()));
+	connect(delete_b, SIGNAL(start()), this, SLOT(discard()));
+	connect(delete_b, SIGNAL(end()), this, SLOT(restore()));
+	edit->addRibbonButton(delete_b);
+	ribbonWidget->addGroup(edit);
+	ribbonWidget->addStretch(10);
 }
 
 void create_shape_gui::build_colors(QRibbonWidget* ribbonWidget)
@@ -177,27 +205,49 @@ void create_shape_gui::build_gap_style(QRibbonWidget* ribbonWidget)
 	ribbonWidget->addGroup(ribbonGroup);
 }
 
-void create_shape_gui::build_brush_and_pen_pattern(QRibbonWidget* ribbonWidget)
+void create_shape_gui::build_brush_and_fill(QRibbonWidget* ribbonWidget)
 {
 	QRibbonGroup* ribbonGroup = new QRibbonGroup(this);
-	ribbonGroup->setTitle("Brush And Pen");
+	ribbonGroup->setTitle("Brush");
+	QSignalMapper* mapper = new QSignalMapper(this);
+	connect(mapper, SIGNAL(mapped(const QString&)), this,
+		SLOT(change_brush(const QString&)));
 
-	QStringList styles = {"Solid Pattern", "Dense1 Pattern", "Dense2 Pattern", "Dense3 Pattern"
-	"Dense4 Pattern", "Dense5 Pattern", "Dense6 Pattern", "Dense7 Pattern", "No Brush", "Horizontal Pattern",
-	"Vertical Pattern", "Cross Pattern", "BDiag Pattern", "FDiag Pattern", "Diag Cross Pattern" };
+	QStringList styles = { "Horizontal", "Vertical", "Cross" };
 
-	QComboBox* box = new QComboBox(this);
-	box->addItems(styles);
+	for (int i = 0; i < styles.size(); ++i)
+	{
+		QRadioButton* button = new QRadioButton(this);
+		connect(button, SIGNAL(clicked()), mapper, SLOT(map()));
+		mapper->setMapping(button, styles[i]);
+		ribbonGroup->addButton(button, styles[i], QRibbonButtonSize::size16);
 
-	QStringList penStyles = {"Solid Line", "Dash Line", "Dot Line", "Dash Dot Line", "Dash Dot Dot Line",
-		"Custom Dash Line", "No Pen"};
+		if (i == 0)
+			button->click();
+	}
 
-	QComboBox* pen = new QComboBox(this);
-	pen->addItems(penStyles);
-
-	ribbonGroup->addButton(box);
-	ribbonGroup->addButton(pen);
 	ribbonWidget->addGroup(ribbonGroup);
+
+	QRibbonGroup* ribbonGroup1 = new QRibbonGroup(this);
+	ribbonGroup1->setTitle("Fill");
+	QSignalMapper* mapper1 = new QSignalMapper(this);
+	connect(mapper1, SIGNAL(mapped(const QString&)), this,
+		SLOT(change_fill(const QString&)));
+
+	QStringList styles1 = { "Solid", "Dash", "Dot" };
+
+	for (int i = 0; i < styles.size(); ++i)
+	{
+		QRadioButton* button = new QRadioButton(this);
+		connect(button, SIGNAL(clicked()), mapper1, SLOT(map()));
+		mapper1->setMapping(button, styles[i]);
+		ribbonGroup1->addButton(button, styles1[i], QRibbonButtonSize::size16);
+
+		if (i == 0)
+			button->click();
+	}
+
+	ribbonWidget->addGroup(ribbonGroup1);
 	ribbonWidget->addStretch(10000);
 }
 
@@ -316,4 +366,65 @@ void create_shape_gui::join_style_changed(const QString& s)
 	controller* c = controller::get_instance();
 	c->change_pen_join_style(get_join_style_from_string(s));
 	emit something_changed();
+}
+
+void create_shape_gui::change_brush(const QString& s)
+{
+	std::map<std::string, Qt::BrushStyle> mm; 
+	mm["Horizontal"] = Qt::HorPattern;
+	mm["Vertical"] = Qt::VerPattern;
+	mm["Cross"] = Qt::CrossPattern;
+	controller* c = controller::get_instance();
+	c->change_brush_style(mm[s.toStdString()]);
+	emit something_changed();
+}
+
+void create_shape_gui::change_fill(const QString& s)
+{
+	std::map<std::string, Qt::PenStyle> mm;
+	mm["Horizontal"] = Qt::SolidLine;
+	mm["Vertical"] = Qt::DashLine;
+	mm["Cross"] = Qt::DotLine;
+	controller* c = controller::get_instance();
+	c->change_pen_style(mm[s.toStdString()]);
+	emit something_changed();
+}
+
+void create_shape_gui::discard()
+{
+	if (m_active != nullptr)
+	{
+		// dicard previous command
+		m_active->mute(true);
+		m_active->click();
+		m_active->mute(false);
+	}
+	m_active = qobject_cast<QRibbonButton*>(sender());
+}
+
+void create_shape_gui::restore()
+{
+	m_active = nullptr;
+}
+
+void create_shape_gui::discardAction()
+{
+	if (m_active != nullptr)
+		// dicard previous command
+		m_active->click();
+	m_active = nullptr;
+}
+
+void create_shape_gui::buildToolButtons(QRibbonWidget* widget)
+{
+	QRibbonGroup* group = new QRibbonGroup(this);
+	//group->setTitle("");
+	QRibbonButton* btn = new QRibbonButton(this, "Console", getIconDir() + "console.svg");
+	//default is shown
+	btn->click();
+	connect(btn, SIGNAL(start()), this, SIGNAL(showConsole()));
+	connect(btn, SIGNAL(end()), this, SIGNAL(hideConsole()));
+	group->addRibbonButton(btn);
+	widget->addGroup(group);
+	widget->addStretch(1);
 }

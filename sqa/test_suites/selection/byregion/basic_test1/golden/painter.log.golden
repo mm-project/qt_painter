@@ -27,7 +27,7 @@ dicmdCanvasMouseMove -point (293,115)
 dicmdCanvasMouseClick -point (293,115) 
 dicmdCanvasMouseClick -point (293,115) 
 #o --> Out: dicmdCreateObjRectangle -points {(221,39);(293,115)} 
-#o
+#u --> User: #o
 #e --> Error: #o command not found
 dicmdCanvasMouseMove -point (292,115) 
 dicmdCanvasMouseMove -point (290,115) 
@@ -66,7 +66,7 @@ dicmdCanvasMouseMove -point (331,173)
 dicmdCanvasMouseClick -point (331,173) 
 dicmdCanvasMouseClick -point (331,173) 
 #o --> Out: dicmdCreateObjRectangle -points {(268,111);(331,173)} 
-#o
+#u --> User: #o
 #e --> Error: #o command not found
 dicmdCanvasMouseMove -point (323,173) 
 dicmdCanvasMouseMove -point (308,173) 
@@ -110,7 +110,7 @@ dicmdCanvasMouseMove -point (412,242)
 dicmdCanvasMouseClick -point (412,242) 
 dicmdCanvasMouseClick -point (412,242) 
 #o --> Out: dicmdCreateObjRectangle -points {(241,181);(412,242)} 
-#o
+#u --> User: #o
 #e --> Error: #o command not found
 dicmdCanvasMouseMove -point (410,242) 
 dicmdCanvasMouseMove -point (405,242) 
@@ -164,7 +164,7 @@ dicmdCanvasMouseMove -point (381,252)
 dicmdCanvasMouseClick -point (381,252) 
 dicmdCanvasMouseClick -point (381,252) 
 #o --> Out: dicmdCreateObjRectangle -points {(325,181);(381,252)} 
-#o
+#u --> User: #o
 #e --> Error: #o command not found
 dicmdCanvasMouseMove -point (378,252) 
 dicmdCanvasMouseMove -point (374,252) 
@@ -266,7 +266,7 @@ dicmdCanvasMouseMove -point (354,226)
 dicmdCanvasMouseClick -point (354,226) 
 dicmdCanvasMouseClick -point (354,226) 
 #o --> Out: dicmdCreateObjRectangle -points {(248,82);(354,226)} 
-#o
+#u --> User: #o
 #e --> Error: #o command not found
 dicmdCanvasMouseMove -point (354,225) 
 dicmdCanvasMouseMove -point (354,219) 
@@ -337,7 +337,7 @@ dicmdCanvasMouseMove -point (242,51)
 dicmdCanvasMouseClick -point (242,51) 
 dicmdCanvasMouseClick -point (242,51) 
 #o --> Out: dicmdSelectShapesByRegion -end (242,51) -start (212,23) 
-#o
+#u --> User: #o
 #e --> Error: #o command not found
 dicmdCanvasMouseMove -point (241,51) 
 dicmdCanvasMouseMove -point (238,51) 
@@ -390,7 +390,7 @@ dicmdCanvasMouseMove -point (215,163)
 dicmdCanvasMouseMove -point (215,164) 
 dicmdQaCompareSelection 
 #t --> Test: comparision->Selection:PASS Selection_Compare_0.txt Selection_Compare_0.txt.golden
-#t
+#u --> User: #t
 #e --> Error: #t command not found
 dicmdCanvasMouseMove -point (216,164) 
 dicmdCanvasMouseMove -point (217,164) 
@@ -626,7 +626,7 @@ dicmdCanvasMouseMove -point (377,137)
 dicmdCanvasMouseClick -point (377,137) 
 dicmdCanvasMouseClick -point (377,137) 
 #o --> Out: dicmdSelectShapesByRegion -end (377,137) -start (297,22) 
-#o
+#u --> User: #o
 #e --> Error: #o command not found
 dicmdCanvasMouseMove -point (377,138) 
 dicmdCanvasMouseMove -point (377,139) 
@@ -636,7 +636,7 @@ dicmdCanvasMouseMove -point (377,142)
 dicmdCanvasMouseMove -point (377,143) 
 dicmdQaCompareDesign 
 #t --> Test: comparision->Design:PASS Design_Compare_0.txt Design_Compare_0.txt.golden
-#t
+#u --> User: #t
 #e --> Error: #t command not found
 dicmdCanvasMouseMove -point (377,142) 
 dicmdCanvasMouseMove -point (377,141) 
@@ -651,6 +651,6 @@ dicmdCanvasMouseMove -point (607,11)
 dicmdCanvasMouseMove -point (645,4) 
 dicmdQaCompareSelection 
 #t --> Test: comparision->Selection:PASS Selection_Compare_1.txt Selection_Compare_1.txt.golden
-#t
+#u --> User: #t
 #e --> Error: #t command not found
 dicmdQaToolExit 
