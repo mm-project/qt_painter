@@ -31,7 +31,12 @@ class incmdSelectUnderCursoer: public InteractiveCommandBase
 		
 		void on_idle(const EvType& ev) {
 			if ( ev == MM )
-				m_se->select_and_highlight_shape_under_pos(InteractiveCommandBase::get_last_point());
+                                m_se->highlight_shape_under_pos(InteractiveCommandBase::get_last_point());
+                        else if ( ev == MC ) {
+				m_se->highlightselect_shape_under_pos(InteractiveCommandBase::get_last_point());
+                                //m_se->highlight_shape_under_pos(InteractiveCommandBase::get_last_point());
+                                //on_idle(MM);
+                        }
 				
 		}
 		
@@ -67,7 +72,7 @@ public:
         virtual void execute() {
                 m_reg = std::make_pair<QPoint,QPoint>( GET_CMD_ARG(PointCommandOptionValue,"-start"), GET_CMD_ARG(PointCommandOptionValue,"-end"));
                 Selection::get_instance()->clear();
-                Selection::get_instance()->find_by_range_and_add_to_selected(m_reg);
+                Selection::get_instance()->find_and_highlightselect_shapes_from_region(m_reg);
         }
 	
         virtual std::string get_name() {

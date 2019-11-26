@@ -49,7 +49,7 @@ bool LogReader::replay_logfile(const std::string& fname) {
         //execute_next_command();
     }
  
-    m_timer->start(5);
+    m_timer->start(1);
     return true;
 }
 

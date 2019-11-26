@@ -29,12 +29,12 @@ namespace {
     {
             QFile data1(file1);
             if (!data1.open(QIODevice::ReadOnly | QIODevice::Text)){
-                return false;
+                return true;
             }
 
             QFile data2(file2);
             if (!data2.open(QIODevice::ReadOnly | QIODevice::Text)){
-                return false;
+                return true;
             }
 
             QTextStream in1(&data1), in2(&data2);
@@ -196,24 +196,31 @@ class dicmdQaCompareInternal: public NonTransactionalDirectCommandBase
             std::string g(GET_CMD_ARG(StringCommandOptionValue,"-goldenfile"));
             
             dicmdQaDump<T>().set_arg("-filename",f)->execute();
-            z << "cp " << f << " " << g;
             
-            bool regoldenmode = true;
-            if ( QString::fromLocal8Bit( qgetenv("ELEN_PAINTER_REGOLDEN").constData() ).isEmpty() )
-                bool regoldenmode = false;
+            std::cout << QString::fromLocal8Bit( qgetenv("ELEN_PAINTER_REGOLDEN").constData() ).toStdString() << std::endl;
+            bool regoldenmode = false;
+            if ( ! QString::fromLocal8Bit( qgetenv("ELEN_PAINTER_REGOLDEN").constData() ).isEmpty() )
+                regoldenmode = true;
             
             if ( regoldenmode ) {
-                Messenger::expose_msg(test,"comparision->"+qaCompType2string(T)+":PASS "+f+" "+g);
+                 //std::cout << "aaaaaaaaar" << std::endl;
                 //Messenger::expose_msg(test,"dicmdQaCanvasCompare-compare-regolden: "+f+" "+g);
                 //std::cout << "#/t CanvasCompare REGOLDENED: " << f << " " << g << std::endl;
                 //FIXME not compatible with other OS
-                //system(z.str().c_str());
+                #ifdef OS_LINUX
+                    //std::cout << "hoparrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr" << std::endl;
+                    z << "cp " << f << " " << g;
+                    system(z.str().c_str());
+                    Messenger::expose_msg(test,"comparision->"+qaCompType2string(T)+":PASS "+f+" "+g);
+                #else
+                    Messenger::expose_msg(err."Autoregoldening is availble only in linux ( currently )");
+                #endif
             } else {
             
                 if ( are_two_files_different(T,f.c_str(),g.c_str()) )
-                    Messenger::expose_msg(test,"comparision->"+qaCompType2string(T)+":PASS "+f+" "+g);
-                else 
                     Messenger::expose_msg(test,"comparision->"+qaCompType2string(T)+":MISMATCH "+f+" "+g);
+                else 
+                    Messenger::expose_msg(test,"comparision->"+qaCompType2string(T)+":PASS "+f+" "+g);
             }
             
         }

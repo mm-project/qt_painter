@@ -8,19 +8,14 @@ std::string Selection::getName()
 }
 
 void Selection::clear() {
-	highlight_on_off(false);
 	WorkingSet::clear();
-	m_sb->clear();
-	//m_sb = 0;
-	//delete m_sb;
-
-	//highlight_on_off();
-	//m_rt_pools->clear();
-	
+        m_sel_highlight_set->clear();
+	m_oa_highlight_set->clear();
+        m_sb->clear();
 }
 
 void Selection::set_working_set(IObjectPool* ws) {
-	m_ws = ws;
+	m_ws = ws;        
 	//m_h_on = false;
 }
 
@@ -28,66 +23,105 @@ void Selection::set_sandbox(ObjectPoolSandbox* ops) {
 	m_rt_pools = ops;
 	m_sb = new ObjectSandbox();
 	m_rt_pools->addChildren(std::shared_ptr<ObjectSandbox>(m_sb));
+        
+        ShapeProperties p1;
+		p1.pen_color = Qt::yellow;
+                p1.brush_color = Qt::blue;
+                p1.pen_style = Qt::DotLine;
+                p1.brush_style = Qt::DiagCrossPattern;
+                p1.pen_width = 5;
+                
+        ShapeProperties p2;
+		p2.pen_color = Qt::red;
+                p2.pen_style = Qt::DashLine;
+                p2.pen_width = 2;
+        
+        m_oa_highlight_set = new HighlightSet("ActiveObjects",p1);
+        m_sel_highlight_set = new HighlightSet("Selection",p2);
+        m_sel_highlight_set->create_sandbox(ops);
+        m_oa_highlight_set->create_sandbox(ops);
 }
 
 //asenq te
-void Selection::select_and_highlight_shape_under_pos(const QPoint& p) {
+void Selection::highlightselect_shape_under_pos(const QPoint& p) {
 	clear();
-	highlight_on_off(false);
-
-
-	//FIXME need only one init during shape creation
-	RegionQuery& rq = RegionQuery::getInstance();
-	for (auto obj : m_ws->getObjects())
-		rq.insertObject(obj);
-
+        RegionQuery& rq = RegionQuery::getInstance();
 	IShape* shape = rq.getShapeUnderPos(p);
 	if (shape != nullptr)
 	{
 		addObject(shape);
-		highlight_on_off(true);
+		m_sel_highlight_set->addObject(shape);
+                m_sel_highlight_set->highlight_on();
 	}
-	
-	highlight_on_off(true);
 }
 
-void Selection::find_by_range_and_add_to_selected(const std::pair<QPoint,QPoint>& point) {
-	if ( m_ws->getObjects().empty() )
+
+void Selection::highlight_shape_under_pos(const QPoint& p) {
+	m_oa_highlight_set->clear();
+        RegionQuery& rq = RegionQuery::getInstance();
+	IShape* shape = rq.getShapeUnderPos(p);
+	if (shape != nullptr)
+	{
+		m_oa_highlight_set->addObject(shape);
+                m_oa_highlight_set->highlight_on();
+	}
+}
+
+
+void Selection::find_and_highlightselect_shapes_from_region(const std::pair<QPoint,QPoint>& point) {
+        clear();
+        if ( m_ws->getObjects().empty() )
 		return;
 
-	highlight_on_off(false);
-	
-	RegionQuery& rq = RegionQuery::getInstance();
-	for (auto obj : m_ws->getObjects())
-		rq.insertObject(obj);
-
-	std::vector<IShape*> shapes = rq.getShapesUnderRect(QRect(point.first, point.second));
-	
-	for (auto it : shapes)
+        RegionQuery& rq = RegionQuery::getInstance();
+        for (auto it : rq.getShapesUnderRect(QRect(point.first, point.second))) {
 		addObject(it);
-
-	highlight_on_off(true);
+                m_sel_highlight_set->addObject(it);
+        }
+        
+	m_sel_highlight_set->highlight_on();
 
 }
 
-void Selection::highlight_on_off(bool m_h_on) {
-	//m_h_on = !m_h_on;
+
+//*********************************** HIGHLIGHT ********************************************
+HighlightSet::HighlightSet(const std::string& n,const ShapeProperties& p ):m_name(n),m_packet(p) {
+    
+}
+
+
+void HighlightSet::create_sandbox(ObjectPoolSandbox* ops) {
+    m_rt_pools = ops;
+    m_sb = new ObjectSandbox();
+    m_rt_pools->addChildren(std::shared_ptr<ObjectSandbox>(m_sb));
+}
+
+std::string HighlightSet::getName() {
+    return m_name;
+}
+
+void HighlightSet::highlight_on()
+{
+    highlight_on_off(true);
+}
+
+void HighlightSet::clear() {
+    WorkingSet::clear();
+    highlight_off();
+}
+
+void HighlightSet::highlight_off()
+{
+    m_sb->clear();
+    //highlight_on_off(false);    
+}
+
+void HighlightSet::highlight_on_off(bool m_h_on) {
 	if (getObjects().empty())
 		return;
 	
-	//std::cout << "highlight: " << m_h_on << std::endl;
-	
-	//FIXME remember old propoerties by map
-	ShapeProperties sp;
-	if ( m_h_on )
-		sp.pen_color = Qt::red;
-	else
-		sp.pen_color = Qt::white;
-	
 	for ( auto it: getObjects() ) {
-		it->updateProperties(sp);
+		it->updateProperties(m_packet);
 		m_sb->addObject(it);
 	}
-	
-	//LePostman::get_instance()->notify(INTERACTIVE_COMMAND_PRE_COMMIT);
 }

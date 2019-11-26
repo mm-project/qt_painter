@@ -34,10 +34,10 @@ void ConsoleWidget::appendText(const QString& text, LogMsgSeverity severity, QSt
 	{
 	case err:
 		//m_view->setTextColor(Qt::red);
-                m_view->append("<font color=\"red\">Error: "+text+ "</font> <u><font color=\"blue\">("+code+")</u></font> ");
+                m_view->append("<font color=\"#ba2d2d\">Error: "+text+ "</font> <u><font color=\"blue\">("+code+")</u></font> ");
                 return;
 	case warn:
-                m_view->append("<font color=\"yellow\">Warning: "+text+ "</font> <u><font color=\"blue\">("+code+")</u></font> ");
+                m_view->append("<font color=\"#e3ac22\">Warning: "+text+ "</font> <u><font color=\"blue\">("+code+")</u></font> ");
                 return;
 	case usr:
 		m_view->setTextColor(Qt::black);
@@ -58,8 +58,8 @@ void ConsoleWidget::appendText(const QString& text, LogMsgSeverity severity, QSt
 		m_view->setTextColor(Qt::black);
 		break;
 	case info:
-                m_view->append("<font color=\"blue\">Information: "+text+ "</font> <u><font color=\"blue\">("+code+")</u></font> ");
-		break;
+                m_view->append("<font color=\"#39a5b8\">Information: "+text+ "</font> <u><font color=\"blue\">("+code+")</u></font> ");
+                return;
 	}
 	
         m_view->append(text);
@@ -146,7 +146,7 @@ void ConsoleAssistant::updateView(LeCallbackData& d)
         QString msg = QString::fromStdString(data.get_message());
         
         // write important things to console
-        if ( svr == usr || svr == err || svr == warn  ) {
+        if ( svr == usr || svr == err || svr == warn  || svr == info ) {
             m_console->appendText(msg, svr, msgcode);
         }
         //write only transaction out's to output

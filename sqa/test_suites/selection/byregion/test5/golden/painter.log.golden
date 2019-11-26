@@ -1,3 +1,4 @@
+#i --> Info: Welcome to this project. Feel free to expirment. 
 #i --> Info: Set to mode1
 incmdCreateObjRectangle
 dicmdCanvasMouseMove -point (205,23) 
@@ -34,8 +35,6 @@ dicmdCanvasMouseMove -point (242,173)
 dicmdCanvasMouseClick -point (242,173) 
 dicmdCanvasMouseClick -point (242,173) 
 #o --> Out: dicmdCreateObjRectangle -points {(131,77);(242,173)} 
-#u --> User: #o
-#e --> Error: #o command not found
 dicmdCanvasMouseMove -point (242,172) 
 dicmdCanvasMouseMove -point (242,169) 
 dicmdCanvasMouseMove -point (242,165) 
@@ -68,8 +67,6 @@ dicmdCanvasMouseMove -point (344,262)
 dicmdCanvasMouseClick -point (344,262) 
 dicmdCanvasMouseClick -point (344,262) 
 #o --> Out: dicmdCreateObjRectangle -points {(217,142);(344,262)} 
-#u --> User: #o
-#e --> Error: #o command not found
 dicmdCanvasMouseMove -point (342,262) 
 dicmdCanvasMouseMove -point (339,260) 
 dicmdCanvasMouseMove -point (335,256) 
@@ -102,8 +99,6 @@ dicmdCanvasMouseMove -point (454,325)
 dicmdCanvasMouseClick -point (454,325) 
 dicmdCanvasMouseClick -point (454,325) 
 #o --> Out: dicmdCreateObjRectangle -points {(316,245);(454,325)} 
-#u --> User: #o
-#e --> Error: #o command not found
 dicmdCanvasMouseMove -point (453,324) 
 dicmdCanvasMouseMove -point (452,323) 
 dicmdCanvasMouseMove -point (451,321) 
@@ -127,10 +122,8 @@ dicmdCanvasMouseMove -point (434,296)
 dicmdCanvasMouseMove -point (433,296) 
 dicmdCanvasMouseMove -point (432,296) 
 dicmdCanvasMouseMove -point (432,297) 
-dicmdQaCompareDesign 
-#t --> Test: comparision->Design:PASS Design_Compare_0.txt Design_Compare_0.txt.golden
-#u --> User: #t
-#e --> Error: #t command not found
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_0.txt Selection_Compare_0.txt.golden
 dicmdCanvasMouseMove -point (432,298) 
 dicmdCanvasMouseMove -point (432,297) 
 dicmdCanvasMouseMove -point (432,296) 
@@ -164,9 +157,7 @@ dicmdCanvasMouseMove -point (807,87)
 dicmdCanvasMouseMove -point (806,87) 
 dicmdCanvasMouseMove -point (805,87) 
 dicmdQaCompareSelection 
-#t --> Test: comparision->Selection:PASS Selection_Compare_0.txt Selection_Compare_0.txt.golden
-#u --> User: #t
-#e --> Error: #t command not found
+#t --> Test: comparision->Selection:PASS Selection_Compare_1.txt Selection_Compare_1.txt.golden
 dicmdCanvasMouseMove -point (804,87) 
 dicmdCanvasMouseMove -point (807,87) 
 dicmdCanvasMouseMove -point (819,86) 

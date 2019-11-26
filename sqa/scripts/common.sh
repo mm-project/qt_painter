@@ -6,11 +6,12 @@ succ=4
 
 export PAINTER_LOGFILE_PREFIX="painter"
 #mode="regolden"
+mode=""
 
 function process_options
 {
     verbose "process_options"
-    unset $ELEN_PAINTER_REGOLDEN
+    unset ELEN_PAINTER_REGOLDEN
     if [ "$1" == "regolden" ]; then
         mode="regolden"
     fi
@@ -27,11 +28,12 @@ function verbose
 function prepocess
 {
     if [ "$mode" = "regolden" ]; then
-        export ELEN_PAINTER_REGOLDEN=1
+        export ELEN_PAINTER_REGOLDEN="1"
     fi
     
     verbose "prepocess..."
     rm -rf output
+    mkdir -p golden
     mkdir output
     cd output
     if [ "$mode" != "regolden" ]; then
@@ -57,10 +59,11 @@ function postprocess
             cp ./logs/painter.log ../golden/painter.log.golden
             cp ./logs/painter.lvi ../golden/painter.lvi.golden
             cp painter.out ../golden/painter.out.golden
-            cnvscprs=`find -name "*canvas_compare*"`
-            for i in $cnvscprs; do
-                cp $i ../golden/$i.golden
-            done
+            cp `find -name "*.golden*"` ../golden
+            #cnvscprs=`find -name "*compare*"`
+            #for i in $cnvscprs; do
+            #    cp $i ../golden/$i.golden
+            #done
             echo "Succesfully Regoldened"
             
             return 0;

@@ -104,6 +104,7 @@ class DirectCommandBase: public CommandBase
     private:
         std::map<std::string,ICommandOptionValue*> m_ops;
         //ICommandOptionValue* m_op;
+        
 };
 
 

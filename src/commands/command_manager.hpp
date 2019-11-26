@@ -9,6 +9,8 @@
 
 #include "../core/runtime_environment.hpp"
 #include "../core/working_set.hpp"
+#include "../core/callback.hpp"
+
 
 // Stl
 #include <string>
@@ -21,6 +23,7 @@
 //
 // @class command manager
 //
+class renderer;
 class command_manager  
 {
 
@@ -34,6 +37,9 @@ class command_manager
     public:
         void set_main_widget(QWidget* w);
         QWidget* get_main_widget();
+        void set_main_renderer(renderer* r);
+        renderer* get_main_renderer();
+        
         
         void init2(ObjectPoolSandboxPtr r, IObjectPoolPtr s);
         void init();
@@ -54,8 +60,11 @@ class command_manager
         void key_pressed();
         void update();
         
+        void on_viewport_changed(LeCallbackData& d);
+
         
     private:
+        renderer* m_renderer;
         //FIXME !!! map with string
         std::map<std::string, CommandBase*> m_name2command;
         
@@ -72,10 +81,16 @@ class command_manager
         IObjectPoolPtr ws;
         //bool m_is_idle;
         QWidget* m_main_widget	= nullptr;
+        float m_kx = 1;
+        float m_ky = 1;
+        int m_dx = 0;
+        int m_dy = 0;
 
     public:
         static command_manager* m_instance;
 };
+
+
 
 
 
