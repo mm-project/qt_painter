@@ -10,17 +10,52 @@
 
 #include <cassert>
 
+class incmdSelectUnderCursoer: public InteractiveCommandBase
+{
+        Selection* m_se;
+       
+	public:
+	
+		incmdSelectUnderCursoer(ObjectPoolSandboxPtr r, IObjectPoolPtr s ) { //:InteractiveCommandBase(r,s) {
+			m_se = Selection::get_instance();
+            
+		}
+
+        virtual std::string get_name() {
+			return "incmdSelectUnderCursoer";
+        }
+        
+        virtual void execute() {
+			InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer,on_idle));
+		}
+		
+		void on_idle(const EvType& ev) {
+			if ( ev == MM )
+				m_se->select_and_highlight_shape_under_pos(InteractiveCommandBase::get_last_point());
+				
+		}
+		
+		virtual void abort() {
+        //FIXME now what?
+        }
+		
+		
+		virtual void commit() {
+        //FIXME now what?
+        }
+		
+				
+};
 
 class incmdSelectShapesByRegion : public incmdCreateObj<RECTANGLE>
 {
 	
 public:
-        incmdSelectShapesByRegion(ObjectPoolSandboxPtr r, IObjectPoolPtr s ):incmdCreateObj<RECTANGLE>(r,s)
-	{
+        incmdSelectShapesByRegion(ObjectPoolSandboxPtr r, IObjectPoolPtr s ):incmdCreateObj<RECTANGLE>(r,s) {
                 m_first_click = true;
                 m_se = Selection::get_instance();
             
-	}
+		}
 
         virtual std::string get_name() {
                 //FIXME keep stringstream for converting int to str
@@ -43,7 +78,7 @@ public:
         }
        
         virtual void handle_update() {
-                assert(0&&"applying properties to selection box?:)");
+                //assert(0&&"applying properties to selection box?:)");
         }
        
        /*

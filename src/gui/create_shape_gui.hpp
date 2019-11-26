@@ -51,6 +51,7 @@ signals:
 
 	void something_changed();
 	void selectByRegion();
+	void selectByPoint();
 
 private:
 	QPushButton* m_line_button = nullptr;

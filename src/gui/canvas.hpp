@@ -91,6 +91,7 @@ public slots:
         void invoke_create_ellipse();
         void invoke_create_polygon();
         void invoke_select_by_region();
+		void invoke_select_by_point();
         
         void reset();
         void on_update();
@@ -101,7 +102,7 @@ private:
         ObjectPoolSandboxPtr m_sandbox;
         command_manager* cm;
         renderer* m_renderer;
-  		int m_scale = 20;
+  		int m_scale = 15;
 };
 
 
