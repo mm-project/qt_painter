@@ -1,13 +1,15 @@
 #include "controller.hpp"
 
-controller* controller::m_instance = 0;
+//controller* controller::m_instance = 0;
 
-controller::controller()
+/*controller::controller()
 {
     type = LINE;
     //basic properties?
 }
+*/
 
+/*
 controller* controller::get_instance()
 {
     if (m_instance == 0) {
@@ -15,7 +17,7 @@ controller* controller::get_instance()
     }
     return m_instance;
 }
-
+*/
 void controller::change_object_type(ObjectType t)
 {
     type = t;

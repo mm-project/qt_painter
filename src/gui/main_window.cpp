@@ -25,6 +25,7 @@
 #include <QRadioButton>
 #include <QComboBox>
 #include <QLayout>
+#include <QTabBar>
 
 #include <cassert>
 #include <iostream>
@@ -33,42 +34,43 @@
 bool main_window::eventFilter(QObject *obj, QEvent *event)
 {
         //std::cout << "------("<<obj->objectName().toStdString() << ") " << event->type() << std::endl;
+        if (event->type() == QEvent::MouseButtonPress ) {
         
-        if (qobject_cast<QRadioButton*>(obj) ) {
-            if (event->type() == QEvent::MouseButtonPress ) {
-                dicmdguiSelectRadioButton(obj->objectName().toStdString()).log();
+            if (qobject_cast<QRadioButton*>(obj) ) {
+                    dicmdguiSelectRadioButton(obj->objectName().toStdString()).log();
             }
-        }
-
-        if ( QAbstractButton* btn = qobject_cast<QAbstractButton*>(obj) ) {
-            if (event->type() == QEvent::MouseButtonPress ) {
-                if ( btn->parent() && btn->parentWidget()->isModal() )
-                    dicmdguiClickModalButton(obj->objectName().toStdString()).log();
-                else if ( !btn->objectName().isEmpty() )
+            
+            if ( QTabBar* w = qobject_cast<QTabBar*>(obj) ) {
                     dicmdguiClickButton(obj->objectName().toStdString()).log();
             }
+        
+            if ( QAbstractButton* btn = qobject_cast<QAbstractButton*>(obj) ) {
+                    if ( btn->parent() && btn->parentWidget()->isModal() )
+                        dicmdguiClickModalButton(obj->objectName().toStdString()).log();
+                    else if ( !btn->objectName().isEmpty() )
+                        dicmdguiClickButton(obj->objectName().toStdString()).log();
+            }
+            
+            //qcomboboxlist
+            /*
+            if ( QComboBoxListView* cmb = qobject_cast<QComboBox*>(obj) ) {
+                //if (event->type() == QEvent::MouseButtonPress ) {
+                    QString s(cmb->currentText());
+                    s.replace(" ","/");
+                    //dicmdguiSelectComboValue(obj->objectName().toStdString(),s.toStdString()).log();
+                    std::cout << "("<<s.toStdString() << ") (" << obj->objectName().toStdString() <<")" << event->type() << std::endl;
+                //}
+            }*/
+            /*
+            if ( QComboBox* cmb = qobject_cast<QComboBox*>(obj) ) {
+                //if (event->type() == QEvent::MouseButtonPress ) {
+                    QString s(cmb->currentText());
+                    s.replace(" ","/");
+                    //dicmdguiSelectComboValue(obj->objectName().toStdString(),s.toStdString()).log();
+                    std::cout << "("<<s.toStdString() << ") (" << obj->objectName().toStdString() <<")" << event->type() << std::endl;
+                //}
+            }*/
         }
-        
-        //qcomboboxlist
-        /*
-        if ( QComboBoxListView* cmb = qobject_cast<QComboBox*>(obj) ) {
-            //if (event->type() == QEvent::MouseButtonPress ) {
-                QString s(cmb->currentText());
-                s.replace(" ","/");
-                //dicmdguiSelectComboValue(obj->objectName().toStdString(),s.toStdString()).log();
-                std::cout << "("<<s.toStdString() << ") (" << obj->objectName().toStdString() <<")" << event->type() << std::endl;
-            //}
-        }*/
-        /*
-        if ( QComboBox* cmb = qobject_cast<QComboBox*>(obj) ) {
-            //if (event->type() == QEvent::MouseButtonPress ) {
-                QString s(cmb->currentText());
-                s.replace(" ","/");
-                //dicmdguiSelectComboValue(obj->objectName().toStdString(),s.toStdString()).log();
-                std::cout << "("<<s.toStdString() << ") (" << obj->objectName().toStdString() <<")" << event->type() << std::endl;
-            //}
-        }*/
-        
         
 return QMainWindow::eventFilter(obj, event);
 }
@@ -80,6 +82,9 @@ return QMainWindow::eventFilter(obj, event);
 main_window::main_window(QWidget* p)
         : QMainWindow(p)
 {
+	// initalize services
+	ServiceManager::getInstance();
+
 	m_canvas = new canvas(this);
 	m_shapes = new create_shape_gui(this);
 	QDockWidget* console_widget = new QDockWidget(this);
@@ -102,7 +107,7 @@ main_window::main_window(QWidget* p)
 	static QIcon main_window_icon(getIconDir() + "shapes_simple.png");
 	setWindowIcon(main_window_icon);
 	QCoreApplication::instance()->installEventFilter(this);
-	command_manager::get_instance()->set_main_widget(this);
+	command_manager::getInstance().set_main_widget(this);
 	StatusBarManager& sBar = StatusBarManager::getInstance();
 	sBar.setStatusBar(statusBar());
     
@@ -110,7 +115,7 @@ main_window::main_window(QWidget* p)
 	setObjectName("mw");
 	setRecursiveChildWidgetsObjectName(this);
 	m_canvas->setObjectName("CANVAS");
-        Messenger::expose_msg(info,"Welcome to this project. Feel free to expirment. ");
+	Messenger::expose_msg(info,"Welcome to this project. Feel free to expirment. ");
 
 }
 
@@ -159,8 +164,8 @@ void main_window::closeEvent(QCloseEvent *event) {
 
 main_window::~main_window()
 {
-	StatusBarManager& sBar = StatusBarManager::getInstance();
-	sBar.removeStatusBar();
+	//clear all services
+	ServiceManager::getInstance().shutDown();
 }
 
 

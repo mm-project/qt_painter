@@ -26,7 +26,7 @@ public:
 	virtual ~IObjectPool() {}
 	virtual void clear() = 0;
 	virtual std::vector<IShape*> getObjects() const = 0;
-	virtual void addObject(IShape*) = 0;
+	virtual IShape* addObject(IShape*) = 0;
 	virtual std::string getName() = 0;
 };
 

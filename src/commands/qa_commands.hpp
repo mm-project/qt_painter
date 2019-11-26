@@ -7,6 +7,8 @@
 
 #include "../io/messenger.hpp"
 #include "../core/selection.hpp"
+#include "../core/postman.hpp"
+#include "../core/application.hpp"
 
 #include <QApplication>
 #include <QPixmap>
@@ -21,7 +23,7 @@
 namespace fs = std::filesystem;
 */
 
-enum qaCompType { DESIGN, SELECTION, CANVAS, RUNTIME };
+enum qaCompType { DESIGN, SELECTION, CANVAS, RUNTIME, SELECTIONCANVAS };
 
 namespace {
        
@@ -88,6 +90,50 @@ namespace {
     
 }
 
+
+
+class dicmdQaReplyStep: public NonTransactionalDirectCommandBase
+{
+    public:        
+        virtual std::string get_name() {
+            return "dicmdQaReplyStep";
+        }
+
+        virtual void execute() {
+            LeCallbackData d;
+            NOTIFY(STEP_REPLY,d);
+        }
+};
+
+
+class dicmdQaReplyingBreak: public NonTransactionalDirectCommandBase
+{
+    public:        
+        virtual std::string get_name() {
+            return "dicmdQaReplyingBreak";
+        }
+
+        virtual void execute() {
+            LeCallbackData d;
+            NOTIFY(STOP_REPLY,d);
+        }
+};
+
+
+
+class dicmdQaReplyingResume: public NonTransactionalDirectCommandBase
+{
+    public:        
+        virtual std::string get_name() {
+            return "dicmdQaReplyingResume";
+        }
+
+        virtual void execute() {
+            LeCallbackData d;
+            NOTIFY(RESUME_REPLY,d);
+        }
+};
+
 class dicmdQaToolExit: public NonTransactionalDirectCommandBase
 {
     public:
@@ -151,12 +197,22 @@ class dicmdQaDump: public NonTransactionalDirectCommandBase
                     case CANVAS:
                             return dump_canvas();
                             break;
-                    }
+                    case SELECTIONCANVAS:
+                            return dump_canvas_wrapper();
+                            break;
+                    }            
         }
         
     private:
+        void dump_canvas_wrapper() {
+            //std::cout << "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" << std::endl;
+            Selection::getInstance().highlight_last_selected_region(true);           
+            dump_canvas();
+            Selection::getInstance().highlight_last_selected_region(false);
+        }
+
         void dump_canvas() {
-            QWidget* w = command_manager::get_instance()->get_main_widget()->findChild<QWidget*>("CANVAS");
+            QWidget* w = command_manager::getInstance().get_main_widget()->findChild<QWidget*>("CANVAS");
             //FIXME exception on error or what?
             if ( !w )
                 return;
@@ -164,14 +220,17 @@ class dicmdQaDump: public NonTransactionalDirectCommandBase
             QPixmap pixmap(w->size());
             w->render(&pixmap);
             pixmap.save(m_fname.c_str());
+
+            std::cout << m_fname.c_str() << "\n\n\n\n";
+
         }
-        
+ 
         void dump_selection() {
-            Selection::get_instance()->dumpToFile(m_fname);
+            Selection::getInstance().dumpToFile(m_fname);
         }
         
         void dump_design() {
-            //WorkingSet::get_instance()->dump_to_file(fname);
+            //WorkingSet::getInstance().dump_to_file(fname);
         }
     
 };
@@ -197,7 +256,7 @@ class dicmdQaCompareInternal: public NonTransactionalDirectCommandBase
             
             dicmdQaDump<T>().set_arg("-filename",f)->execute();
             
-            std::cout << QString::fromLocal8Bit( qgetenv("ELEN_PAINTER_REGOLDEN").constData() ).toStdString() << std::endl;
+            //std::cout << "regoooooldneeeen" << QString::fromLocal8Bit( qgetenv("ELEN_PAINTER_REGOLDEN").constData() ).toStdString() << std::endl;
             bool regoldenmode = false;
             if ( ! QString::fromLocal8Bit( qgetenv("ELEN_PAINTER_REGOLDEN").constData() ).isEmpty() )
                 regoldenmode = true;
@@ -213,12 +272,20 @@ class dicmdQaCompareInternal: public NonTransactionalDirectCommandBase
                     system(z.str().c_str());
                     Messenger::expose_msg(test,"comparision->"+qaCompType2string(T)+":PASS "+f+" "+g);
                 #else
-                    Messenger::expose_msg(err."Autoregoldening is availble only in linux ( currently )");
+                    Messenger::expose_msg(err, "Autoregoldening is availble only in linux ( currently )");
                 #endif
             } else {
             
-                if ( are_two_files_different(T,f.c_str(),g.c_str()) )
-                    Messenger::expose_msg(test,"comparision->"+qaCompType2string(T)+":MISMATCH "+f+" "+g);
+                if ( are_two_files_different(T,f.c_str(),g.c_str()) ) {
+                    if ( Application::is_debug_mode() ) 
+                    {
+                        
+                        Messenger::expose_msg(err,"comparision->"+qaCompType2string(T)+":MISMATCH "+f+" "+g+". Click <a href=\"file://"+generate_html_view(f,g).toStdString()+"\">here</a> to see the diff.");
+                        dicmdQaReplyingBreak().execute_and_log();
+                    } else {
+                        Messenger::expose_msg(err,"comparision->"+qaCompType2string(T)+":MISMATCH "+f+" "+g);    
+                    }
+                }
                 else 
                     Messenger::expose_msg(test,"comparision->"+qaCompType2string(T)+":PASS "+f+" "+g);
             }
@@ -226,6 +293,26 @@ class dicmdQaCompareInternal: public NonTransactionalDirectCommandBase
         }
         
     private:
+            
+        //fixme need total refactoring !
+        QString generate_html_view(const std::string& f, const std::string& g) 
+        {
+                QString res(QDir::currentPath()+QString("/"+QString(f.c_str())+".html"));
+                #ifdef OS_LINUX
+                    //system();
+                    //std::string s("touch "+f+".html");
+                    std::string s1("cat html_diff.template | sed 's/%fname1%/"+g+"/' | sed 's/%fname2%/"+f+"/' > "+f+".html");
+                    //std::string s2("cat "+f+".html | sed 's/%f1%/cat "+g+"/e' > 1"+f+".html");
+                    //std::string s3("cat "+f+".html | sed 's/%f2%/cat "+f+"/e' > 2"+f+".html");
+                    std::string s2("sed -i 's/%f1%/cat "+g+"/e' "+f+".html");
+                    std::string s3("sed -i 's/%f2%/cat "+f+"/e' "+f+".html");
+                    
+                    system(s1.c_str());
+                    system(s2.c_str());
+                    system(s3.c_str());
+                #endif
+                return res;
+            }
         
     
 };
@@ -255,6 +342,11 @@ class dicmdQaCompare: public NonTransactionalDirectCommandBase
             //if not a canvas compare, do extra canvas compare in any case
             if ( T != CANVAS ) {
                 dicmdQaDump<CANVAS>().set_arg("-filename","CanvasFor_"+get_index_str()+".png")->execute();
+                //std::cout << "r1egoooooldneeeen" << QString::fromLocal8Bit( qgetenv("ELEN_PAINTER_REGOLDEN").constData() ).toStdString() << std::endl;
+    
+                if ( ! QString::fromLocal8Bit( qgetenv("ELEN_PAINTER_REGOLDEN").constData() ).isEmpty() )
+                    //std::cout << "r?????" << std::endl;
+                    dicmdQaDump<SELECTIONCANVAS>().set_arg("-filename","CanvasFor_"+get_index_str()+".golden.png")->execute();
             }
             
             dicmdQaCompareInternal<T>()
@@ -288,7 +380,6 @@ class dicmdTestCmdListOptions: public NonTransactionalDirectCommandBase
             //std::string g(GET_CMD_ARG(StringListCommandOptionValue,"-list2"));
         }
 };
-
 
 
 #endif

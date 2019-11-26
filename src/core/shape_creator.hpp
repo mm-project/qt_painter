@@ -4,30 +4,21 @@
 #include <memory>
 
 #include "ishape.hpp"
+#include "service.hpp"
 
 //
 //	class ShapeCreator
 //	based on AbstractFactoryIdea
 //
-class ShapeCreator;
-using ShapeCreatorPtr = std::shared_ptr<ShapeCreator>;
-
-class ShapeCreator
+class ShapeCreator : public Service<ShapeCreator>
 {
 public:
-	~ShapeCreator();
+	ShapeCreator();
+	virtual ~ShapeCreator();
 
-public:
-	static ShapeCreatorPtr getInstance();
 	IShape* create(ObjectType);
 
 private:
-	ShapeCreator();
-	ShapeCreator(const ShapeCreator&) = default;
-	ShapeCreator& operator=(const ShapeCreator&) = default;
-
-private:
-	static ShapeCreatorPtr m_instance;
 	IShape* m_line;
 	IShape* m_rect;
 	IShape* m_ellipse;

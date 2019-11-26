@@ -2,15 +2,20 @@ version: 2
 jobs:
   build:
     docker:
-        - image: ubuntu:xenial
+        - image: hopar/qtpainter:0.0.1
     steps:
       - checkout
-      - run:
-          name: deps
-          command: apt-get update && apt-get install -y git less wget cmake xvfb build-essential qt5-default
       - run:
           name: compile
           command: export TERM=xterm; cmake CMakeLists.txt; make
       - run:
-          name: regressions
-          command: export TERM=xterm;  xvfb-run ./sqa/bin/runRegTests.sh
+          name: compile_ut
+          command: export TERM=xterm; ./etc/bsys/bin/makeUnitTests.sh
+      - run:
+          name: testing_unit
+          command: export CI_BUILD="CCI_UNIT_TEST$CIRCLE_BUILD_NUM"; export CI_CHECK=1; export TERM=xterm;  xvfb-run ./sqa/bin/runUnitTests.sh
+      - run:
+          name: testing_integrations
+          command: export CI_BUILD="CCI_INTG_TEST$CIRCLE_BUILD_NUM"; export CI_CHECK=1; export TERM=xterm;  xvfb-run ./sqa/bin/runRegTests.sh
+      - store_artifacts:
+          path: /root/project/sqa/

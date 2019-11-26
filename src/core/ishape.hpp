@@ -13,6 +13,7 @@
 // STL
 #include <string>
 #include <vector>
+#include <map>
 
 class QPainter;
 
@@ -55,13 +56,30 @@ struct ShapeProperties
 {
 	inline ShapeProperties() = default;
 
-	QColor					pen_color = Qt::white;
-	QColor					brush_color = Qt::black;
-	int						pen_width = 1;
+	QColor				pen_color = Qt::white;
+	QColor			        brush_color = Qt::black;
+	int				pen_width = 1;
 	Qt::PenStyle			pen_style = Qt::SolidLine;
 	Qt::PenCapStyle			pen_cap_style = Qt::SquareCap;
 	Qt::PenJoinStyle		pen_join_style = Qt::BevelJoin;
 	Qt::BrushStyle			brush_style = Qt::SolidPattern;
+        
+        //fixme temporary fix
+        std::map<std::string,int> toStringsMap() const {
+            std::map<std::string,int> res;
+            //res["color"]=1;//brush_color.name().toStdString();
+            res["brush"]=pen_style;
+            res["fill"]=brush_style;
+            
+            return res;
+        }
+        
+        void fromString(const std::string& color, int pstyle, int bstyle) {
+            pen_style = (Qt::PenStyle)pstyle;
+            brush_style = (Qt::BrushStyle)bstyle;
+            brush_color = QColor(QString(color.c_str()));
+            //pen_color = QColor(QString(color.c_str()));
+        }
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -104,7 +122,10 @@ public:
 
 	//FIXME should return ObjectType instead
 	virtual ObjectType getType() const = 0;
-  
+        
+        ShapeProperties getProperties() {
+                return m_properties;
+        }
 public:
 
 	virtual IShape* clone() = 0;

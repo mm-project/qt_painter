@@ -7,18 +7,23 @@
 #include <QEvent>
 #include <QKeyEvent>
 #include <QTabWidget>
+#include <QDesktopServices>
 
 ConsoleWidget::ConsoleWidget(QWidget* parent)
 	: QFrame(parent)
 {
 	// viewer part
-	m_view = new QTextEdit(this);
-	m_view->setTextInteractionFlags(Qt::TextSelectableByMouse);
+	m_view = new QTextBrowser(this);
+	m_view->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::LinksAccessibleByMouse );
 	//m_view->setMinimumHeight(100);
 	m_view->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
+        //m_view->setOpenExternalLinks(true);
+    m_view->setOpenLinks(false);
+        connect(m_view, SIGNAL(anchorClicked(QUrl)), this, SLOT(onConsoleLinkClicked(QUrl)));
+        //m_view->setHtml( "<a href=\"https://www.w3schools.com\">Visit W3Schools</a>" );
 	// writable part
 	m_console = new QLineEdit(this);
-	m_console->setFixedHeight(25);
+	m_console->setFixedHeight(15);
 	m_console->installEventFilter(this);
 	QVBoxLayout* layout = new QVBoxLayout;
 	layout->addWidget(m_view);
@@ -26,6 +31,11 @@ ConsoleWidget::ConsoleWidget(QWidget* parent)
 	layout->setSpacing(0);
 	layout->setMargin(0);
 	setLayout(layout);
+}
+
+void ConsoleWidget::onConsoleLinkClicked(QUrl url)
+{
+        QDesktopServices::openUrl(url);
 }
 
 void ConsoleWidget::appendText(const QString& text, LogMsgSeverity severity, QString code)
@@ -58,8 +68,8 @@ void ConsoleWidget::appendText(const QString& text, LogMsgSeverity severity, QSt
 		m_view->setTextColor(Qt::black);
 		break;
 	case info:
-                m_view->append("<font color=\"#39a5b8\">Information: "+text+ "</font> <u><font color=\"blue\">("+code+")</u></font> ");
-                return;
+        m_view->append("<font color=\"#39a5b8\">Information: "+text+ "</font> <u><font color=\"blue\">("+code+")</u></font> ");
+        return;
 	}
 	
         m_view->append(text);
@@ -67,8 +77,8 @@ void ConsoleWidget::appendText(const QString& text, LogMsgSeverity severity, QSt
 
 void ConsoleWidget::onCommandEntered()
 {
-	CommandInterp* pCommand = CommandInterp::get_instance();
-	pCommand->interpret_from_string(m_console->text().toStdString());
+	CommandInterp& pCommand = CommandInterp::getInstance();
+	pCommand.interpret_from_string(m_console->text().toStdString());
 	m_console->clear();
 }
 
