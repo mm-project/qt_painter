@@ -8,7 +8,7 @@
 #include <QLabel>
 
 //
-//	class StatusBarManager : Singtone
+//	class StatusBarManager : Singletone
 //	Manages StatusBar in MainWindow, allows to change status everywhere
 //
 class StatusBarManager
@@ -21,6 +21,8 @@ public:
 	//	Initialize with StatusBar
 	void setStatusBar(QStatusBar*);
 	//	Clear the content, call from closing application
+	void removeStatusBar();
+
 	void clear();
 
 	void updateStatusBar(const QString&, bool error, bool processing);

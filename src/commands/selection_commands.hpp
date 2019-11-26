@@ -1,14 +1,14 @@
 #ifndef selection_commands_hpp
 #define selection_commands_hpp
 
-#include "shape_creator_commands.hpp"
+#include "shape_creation_interactive_commands.hpp"
 
 #include "../core/selection.hpp"
 
 #include <QPoint>
 
-
 #include <cassert>
+#include <map>
 
 class incmdSelectUnderCursoer: public InteractiveCommandBase
 {
@@ -47,6 +47,35 @@ class incmdSelectUnderCursoer: public InteractiveCommandBase
 				
 };
 
+
+class dicmdSelectShapesByRegion : public DirectCommandBase 
+{
+        std::pair<QPoint,QPoint> m_reg;
+
+public:
+	dicmdSelectShapesByRegion() {
+                add_option("-start",new PointCommandOptionValue());
+                add_option("-end",new PointCommandOptionValue());
+        }
+        
+	dicmdSelectShapesByRegion(QPoint p1, QPoint p2)  {
+                add_option("-start",new PointCommandOptionValue(p1));
+                add_option("-end",new PointCommandOptionValue(p2));
+                
+        }
+
+        virtual void execute() {
+                m_reg = std::make_pair<QPoint,QPoint>( GET_CMD_ARG(PointCommandOptionValue,"-start"), GET_CMD_ARG(PointCommandOptionValue,"-end"));
+                Selection::get_instance()->clear();
+                Selection::get_instance()->find_by_range_and_add_to_selected(m_reg);
+        }
+	
+        virtual std::string get_name() {
+                return "dicmdSelectShapesByRegion";
+        }
+};
+
+
 class incmdSelectShapesByRegion : public incmdCreateObj<RECTANGLE>
 {
 	
@@ -55,7 +84,7 @@ public:
                 m_first_click = true;
                 m_se = Selection::get_instance();
             
-		}
+        }
 
         virtual std::string get_name() {
                 //FIXME keep stringstream for converting int to str
@@ -80,25 +109,10 @@ public:
         virtual void handle_update() {
                 //assert(0&&"applying properties to selection box?:)");
         }
-       
-       /*
-        virtual void abort() {
-        //FIXME now what?
-        }
-        
-        //FIXME move to s...
-        virtual void commit() {
-            //assert(0);
-        }
-        
-        //FIXME move to so...
-        virtual void finish() {
-            //assert(0);
-        }
-        */
         
         virtual void on_commit_internal() {
-            m_se->find_by_range_and_add_to_selected(m_reg);
+            //m_se->find_by_range_and_add_to_selected(m_reg);
+            dicmdSelectShapesByRegion(m_reg.first,m_reg.second).silent_execute();
             incmdCreateObj<RECTANGLE>::finish();
             ObjCreatorCommandBase<RECTANGLE>::set_next_handler(HANDLE_FUNCTION(incmdSelectShapesByRegion,on_idle));
         }

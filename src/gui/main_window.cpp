@@ -5,6 +5,7 @@
 #include "pen_brush_gui.hpp"
 #include "icons.hpp"
 #include "statusbar_manager.hpp"
+#include "console.hpp"
 
 #include "../commands/command_manager.hpp"
 #include "../commands/gui_commands.hpp"
@@ -21,23 +22,46 @@
 #include <QLayout>
 
 #include <cassert>
+#include <iostream>
 
 //FIXME todo enhanced~! (from QApplication)
 bool main_window::eventFilter(QObject *obj, QEvent *event)
 {
+        //std::cout << "------("<<obj->objectName().toStdString() << ") " << event->type() << std::endl;
+        
         if (qobject_cast<QRadioButton*>(obj) ) {
             if (event->type() == QEvent::MouseButtonPress ) {
                 dicmdguiSelectRadioButton(obj->objectName().toStdString()).log();
             }
         }
-        
-        if ( QComboBox* cmb = qobject_cast<QComboBox*>(obj) ) {
-            if (event->type() == QEvent::MouseButtonRelease ) {
-                QString s(cmb->currentText());
-                s.replace(" ","/");
-                dicmdguiSelectComboValue(obj->objectName().toStdString(),s.toStdString()).log();
+
+        if ( QAbstractButton* btn = qobject_cast<QAbstractButton*>(obj) ) {
+            if (event->type() == QEvent::MouseButtonPress ) {
+                QString s(btn->text());
+                //s.replace(" ","/");
+                //dicmdguiSelectComboValue(obj->objectName().toStdString(),s.toStdString()).log();
+                //std::cout << "("<<s.toStdString() << ") (" << obj->objectName().toStdString() <<")" << std::endl;
             }
         }
+        //qcomboboxlist
+        /*
+        if ( QComboBoxListView* cmb = qobject_cast<QComboBox*>(obj) ) {
+            //if (event->type() == QEvent::MouseButtonPress ) {
+                QString s(cmb->currentText());
+                s.replace(" ","/");
+                //dicmdguiSelectComboValue(obj->objectName().toStdString(),s.toStdString()).log();
+                std::cout << "("<<s.toStdString() << ") (" << obj->objectName().toStdString() <<")" << event->type() << std::endl;
+            //}
+        }*/
+        /*
+        if ( QComboBox* cmb = qobject_cast<QComboBox*>(obj) ) {
+            //if (event->type() == QEvent::MouseButtonPress ) {
+                QString s(cmb->currentText());
+                s.replace(" ","/");
+                //dicmdguiSelectComboValue(obj->objectName().toStdString(),s.toStdString()).log();
+                std::cout << "("<<s.toStdString() << ") (" << obj->objectName().toStdString() <<")" << event->type() << std::endl;
+            //}
+        }*/
         
         
 return QMainWindow::eventFilter(obj, event);
@@ -52,14 +76,21 @@ main_window::main_window(QWidget* p)
 {
 	m_canvas = new canvas(this);
 	m_shapes = new create_shape_gui(this);
+	m_console = new Console(this);
+	m_console->setFixedHeight(145);
 
 	QDockWidget* w = new QDockWidget(this);
 	w->setWidget(m_shapes);
 	w->setFeatures(QDockWidget::NoDockWidgetFeatures);
 	w->setTitleBarWidget(new QWidget(this));
+	w->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 	addDockWidget(Qt::TopDockWidgetArea, w);
 
-	resize(1100, 700);
+	QDockWidget* console_widget = new QDockWidget("Console", this);
+	console_widget->setWidget(m_console);
+	addDockWidget(Qt::BottomDockWidgetArea, console_widget);
+
+	resize(1200, 800);
 	setCentralWidget(m_canvas);
 
 	make_connections();
@@ -80,7 +111,7 @@ void main_window::make_connections()
 	connect(m_shapes, SIGNAL(createEllipse()), m_canvas, SLOT(invoke_create_ellipse()));
 	connect(m_shapes, SIGNAL(createPolygon()), m_canvas, SLOT(invoke_create_polygon()));
 	connect(m_shapes, SIGNAL(reset()), m_canvas, SLOT(reset()));
-	connect(m_shapes, SIGNAL(close()), m_canvas, SLOT(close()));
+	connect(m_shapes, SIGNAL(close()), this, SLOT(close()));
 	connect(m_shapes, SIGNAL(selectByRegion()), m_canvas, SLOT(invoke_select_by_region()));
 	connect(m_shapes, SIGNAL(selectByPoint()), m_canvas, SLOT(invoke_select_by_point()));
 	
@@ -89,5 +120,5 @@ void main_window::make_connections()
 main_window::~main_window()
 {
 	StatusBarManager& sBar = StatusBarManager::getInstance();
-	sBar.clear();
+	sBar.removeStatusBar();
 }

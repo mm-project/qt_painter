@@ -1,7 +1,7 @@
 #ifndef WORKING_SET_HPP
 #define WORKING_SET_HPP
 
-#include "basic_shape.hpp"
+#include "ishape.hpp"
 #include "iobject_pool.hpp"
 
 #include <vector>
@@ -17,6 +17,8 @@ public:
 	virtual std::vector<IShape*> getObjects() const override;
 	virtual void addObject(IShape*) override;
 	virtual ~WorkingSet() {}
+	virtual std::string getName() override;
+        virtual void dumpToFile(const std::string&);
 
 private:
 	//

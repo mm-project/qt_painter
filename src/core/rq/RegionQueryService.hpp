@@ -2,7 +2,7 @@
 #define REQGION_QUERY_SERVICE_HPP
 
 #include "RQtree.hpp"
-#include "../basic_shape.hpp"
+#include "../ishape.hpp"
 
 class RegionQuery
 {
@@ -12,6 +12,7 @@ public:
 public:
 	void insertObject(IShape*);
 	IShape* getShapeUnderPos(const QPoint&) const;
+	std::vector<IShape*> getShapesUnderRect(const QRect&) const;
 
 private:
 	RegionQuery();

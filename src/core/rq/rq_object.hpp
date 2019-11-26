@@ -102,6 +102,8 @@ public:
 	virtual bool contains(const CPoint&) const = 0;
 
 	virtual IShape* getObject() const = 0;
+
+	virtual bool intersects(const QRect&) const = 0;
 };
 
 using RQobjectPtr = std::shared_ptr<IRQobject>;
@@ -143,7 +145,40 @@ public:
 		float x = (float) (point.x() - p1.x()) / (p2.x() - p1.x());
 		float y = (float) (point.y() - p1.y()) / (p2.y() - p1.y());
 		return x == y;
+}
+
+	virtual bool intersects(const QRect& oRect) const override
+	{
+		const QPoint p1 = m_object->getP1();
+		const QPoint p2 = m_object->getP2();
+
+		return intersectsLine(oRect.topLeft(), oRect.topRight())
+			|| intersectsLine(oRect.topLeft(), oRect.bottomLeft())
+			|| intersectsLine(oRect.bottomLeft(), oRect.bottomRight())
+			|| intersectsLine(oRect.bottomRight(), oRect.topRight())
+			|| oRect.contains(p1) || oRect.contains(p2);
 	}
+
+private:
+	bool intersectsLine(QPoint a1, QPoint b1) const
+	{
+		const QPoint a0 = m_object->getP1();
+		const QPoint b0 = m_object->getP2();
+
+		float d = (b0.x() - a0.x()) * (b1.y() - a1.y()) - (b0.y() - a0.y()) * (b1.x() - b0.x());
+
+		if (d == 0)
+			return false;
+
+		float q = (a0.y() - a1.y()) * (b1.x() - a1.x()) - (a0.x() - a1.x()) * (b1.y() - a1.y());
+		float r = q / d;
+		q = (a0.y() - a1.y()) * (b0.x() - a0.x()) - (a0.x() - a1.x()) * (b0.y() - a0.y());
+		float s = q / d;
+		if (r < 0 || r > 1 || s < 0 || s > 1)
+			return false;
+        
+                return true;
+        }	
 
 private:
 	line* m_object;
@@ -162,6 +197,7 @@ public:
 	virtual CPoint at(int) const override;
 	virtual bool contains(const CPoint&) const override;
 	virtual IShape* getObject() const override;
+	virtual bool intersects(const QRect& oRect) const override;
 
 private:
 	rectangle* m_object;
@@ -180,6 +216,7 @@ public:
 	virtual CPoint at(int) const override;
 	virtual bool contains(const CPoint&) const override;
 	virtual IShape* getObject() const override;
+	virtual bool intersects(const QRect& oRect) const override;
 
 private:
 	ellipse* m_object;
@@ -198,6 +235,7 @@ public:
 	virtual CPoint at(int) const override;
 	virtual bool contains(const CPoint&) const override;
 	virtual IShape* getObject() const override;
+	virtual bool intersects(const QRect& oRect) const override;
 
 private:
 	polygon* m_object;

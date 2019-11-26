@@ -1,12 +1,16 @@
 #include "messenger.hpp"
 
+#include "../core/postman.hpp"
+#include "../core/callback.hpp"
 
 #include <QString>
 #include <QDateTime>
 
 #include <iostream>
 #include <sstream>
+#include <functional>
 #include <cassert>
+
 
 Messenger::Messenger() {
 	init();
@@ -22,17 +26,24 @@ void Messenger::fini() {
 }
 
 void Messenger::init() {
-	QString m_path("./logs");
-	QString id = QDateTime::currentDateTime().toString("yyyy-MM-dd-HH-mm-ss");
-	std::cout << id.toStdString() << std::endl;
+    
+        QString pathenv = QString::fromLocal8Bit( qgetenv("PAINTER_LOGS_DIR").constData() );
+        QString idpostfix = QString::fromLocal8Bit( qgetenv("PAINTER_LOGFILE_PREFIX").constData());
+        
+	QString m_path = pathenv.isEmpty()?"./logs/":pathenv;
+        
+        
+	QString postfix = "painter"+QDateTime::currentDateTime().toString("yyyy-MM-dd-HH-mm-ss");
+	postfix = idpostfix.isEmpty()?postfix:idpostfix;
+        //std::cout << id.toStdString() << std::endl;
 	
 	m_dir = new QDir;//;("logs");
 	
 	if (!m_dir->exists(m_path))
 	m_dir->mkpath(m_path); // You can check the success if needed
 
-	m_cmdfile = new QFile(m_path + "/painter."+id+".out");
-	m_logfile = new QFile(m_path + "/painter."+id+".log");
+	m_cmdfile = new QFile(m_path + postfix +".lvi");
+	m_logfile = new QFile(m_path + postfix +".log");
 	
 	/*
 	m_cmdfile->open( QIODevice::WriteOnly | QIODevice::Append ); 
@@ -43,60 +54,94 @@ void Messenger::init() {
 	*/
 }
 	
-std::string Messenger::decorate(const LogMsgSeverity& r) {
+std::string Messenger::decorate_for_logging(const LogMsgSeverity& r) {
 	
 	switch (r) {
-		case err:
-			return("#e ");
-			//break;
-		case ok:
-			return("#i ");
+                case ok:
+                        return("");
+                        break;
+                case err:
+			return("#e --> Error: ");
+			break;
+		case info:
+			return("#i --> Info: ");
 			break;
 		case warn:
-			return("#w ");
+			return("#w --> Warning: ");
 			break;
 		case out:
-			return("#o ");
+			return("#o --> Out: ");
 			break;
-		default:
-			break;
+                case cont:
+                        return("#c ");
+                        break;
+                case test:
+                        return("#t --> Test: ");
+                        break;
+                case modal:
+                        return("#m ");
+                        break;                           
+                default:
+			return("#? ");
+                        break;
 		}
 }
 
+
 //FIXME
-void Messenger::expose_internal(const LogMsgSeverity& s, const std::string& msg , bool cmd) 
+void Messenger::expose_internal(const LogMsgSeverity& severity, const std::string& msg , bool iscmd) 
 {
-	std::stringstream z;
-	z << decorate(s) << msg << "\n";
+	write_entry_to_console_gui(severity,msg);
+        
+        std::stringstream z;
+	z << decorate_for_logging(severity) << msg << "\n";
+	write_entry_to_logfile(z.str());
 	
+	// if this is <real> command, write also to lvi file.
+	if ( iscmd ) 
+            write_entry_to_cmdfile(msg);
+        
+}
+
+void Messenger::write_entry_to_console_gui(const LogMsgSeverity& s, const std::string& msg) {
+        std::cout << msg << std::endl;
+
+        std::string errcode = "";
+        if ( s != ok )
+            errcode  = "PROJ-001";
+
+        MessengerCallbackData data(s,msg,errcode);    
+        NOTIFY(MESSENGER,data);
+}
+	
+	
+//fixme duplicates
+void Messenger::write_entry_to_logfile(const std::string& msg) {
 	m_logfile->open( QIODevice::WriteOnly | QIODevice::Append ); 
 	log_stream = new QTextStream(m_logfile);
-	(*log_stream) << z.str().c_str();
+	(*log_stream) << msg.c_str();
 	m_logfile->flush();
 	m_logfile->close();
-	
-	
-	if ( cmd ) {
-		m_cmdfile->open( QIODevice::WriteOnly | QIODevice::Append ); 
-		cmd_stream = new QTextStream(m_cmdfile);
-		(*cmd_stream) << (msg+"\n").c_str();
-		m_cmdfile->flush();
-		m_cmdfile->close();
-	}
-	
-	
-	std::cout << z.str();	
+}
+
+void Messenger::write_entry_to_cmdfile(const std::string& msg) {
+        m_cmdfile->open( QIODevice::WriteOnly | QIODevice::Append ); 
+        cmd_stream = new QTextStream(m_cmdfile);
+        (*cmd_stream) << (msg+"\n").c_str();
+        m_cmdfile->flush();
+        m_cmdfile->close();
 }
 			
-void Messenger::expose(const LogMsgSeverity& s, const std::string& msg, bool iscmd = false )
+//static			
+void Messenger::expose_msg(const LogMsgSeverity& s, const std::string& msg, bool iscmd )
 {
 	Messenger::get_instance()->expose_internal(s,msg,iscmd);
 }
     	
-//used by CommandBase internally , fixme add friend		
-void Messenger::log_command(const std::string& msg) 
+//static used by CommandBase internally , fixme add friend		
+void Messenger::log_command(const std::string& msg, bool iscmd) 
 {
-	Messenger::expose(ok,msg,true);	
+	Messenger::expose_msg(ok,msg,iscmd);	
 }
 
 //Messenger::expose(err,"Error: ... ")

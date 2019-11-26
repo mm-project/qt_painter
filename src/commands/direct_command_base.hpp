@@ -23,8 +23,24 @@ class DirectCommandBase: public CommandBase
             }  
         }
     
+    private: 
+        bool check_option_exists(const std::string& s ) {
+        //std::map::iterator<std::string,ICommandOptionValue*> i;
+            return m_ops.find(s) != m_ops.end();
+        }
+    
     public:
+        virtual bool can_undo() { return true; }
         
+        virtual bool is_transaction_cmd() {
+            return true;
+        }    
+        
+        virtual void silent_execute() {
+            execute();
+            Messenger::expose_msg(out,get_cmdname_and_stringified_opts(),is_transaction_cmd());
+        }
+ 
         virtual CommandType get_type() {
             return Directive;
         }
@@ -38,9 +54,14 @@ class DirectCommandBase: public CommandBase
         }
 
     public:
-        virtual void set_arg(const std::string& n, const std::string& v) {
-            m_ops[n]->from_string(v);
+        //ued by replay_log
+        virtual CommandBase* set_arg(const std::string& n, const std::string& v) {
+            //std::cout << n << " " << v << std::endl;
+            if ( ! check_option_exists(n) )
+                return 0;
             
+            m_ops[n]->from_string(v);
+            return this;
         }
 
         /*
@@ -51,6 +72,7 @@ class DirectCommandBase: public CommandBase
         }
         */
         
+        //used by us
         void add_option(const std::string& n, ICommandOptionValue* v ) {
             //FIXME check if exisitis
             m_ops[n] = v;
@@ -58,7 +80,7 @@ class DirectCommandBase: public CommandBase
 
         std::string get_cmdname_and_stringified_opts() {
             std::stringstream z;
-			z << get_name() << " ";
+            z << get_name() << " ";
             for (std::pair<const std::string,ICommandOptionValue*>& x: m_ops) {
                 z << x.first << " " << x.second->to_string() << " ";
             }   

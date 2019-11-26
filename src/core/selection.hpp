@@ -16,9 +16,11 @@ class Selection : public Service<Selection> , public WorkingSet
         ObjectSandbox* m_sb;
         //bool m_h_on;
 
+public:
+        virtual std::string getName() override;
 public:   
         void clear();
-		void select_and_highlight_shape_under_pos(const QPoint& p );
+        void select_and_highlight_shape_under_pos(const QPoint& p );
         void set_working_set(IObjectPool* ws);
         void set_sandbox(ObjectPoolSandbox* ops);
         void find_by_range_and_add_to_selected(const std::pair<QPoint,QPoint>& point);
