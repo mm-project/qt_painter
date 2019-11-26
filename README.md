@@ -1,9 +1,9 @@
 # The "Project"
 This is educational project that we hope will eventually become some sort of CAD tool.
-The aim is to learn "system design" of such tools, come-up with own building blocks.
-make some experiments and just explore.
+The aim is to learn "system design" of such tools and come-up with own building blocks,
+make some experiments and have fun.
 
-### Platform Support
+### Platform/OS Support
 * Linux32 ubuntu 18.04
 * Linux64 ubuntu 18.04
 * Windows10-64 - Mingw 
@@ -31,7 +31,7 @@ make some experiments and just explore.
 * Runtime
 * Logging/Replying
 
-### Buildsystem/TestHarness related 
+### Buildsystem/TestHarness capabilities 
 * GUI/QA harness commands
 * Diff web-view
 * Debugging modes, replay stop, resume, contine
