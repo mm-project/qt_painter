@@ -318,7 +318,7 @@ void test5()
     std::cout << "shapes " << shapes.size() << std::endl;
     for ( auto shape : shapes ) {
         shape->draw(painter);
-        std::cout << get_lvi_format(shape) << std::endl;    
+        //std::cout << get_lvi_format(shape) << std::endl;    
     }
     painter->end();
  
