@@ -229,7 +229,7 @@ void test3()
     std::cout << "shapes " << shapes.size() << std::endl;
     for ( auto shape : shapes ) {
         shape->draw(painter);
-        std::cout << get_points_str(shape) << std::endl;    
+        //std::cout << get_points_str(shape) << std::endl;    
     }
     painter->end();
  
