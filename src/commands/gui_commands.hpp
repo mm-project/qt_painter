@@ -14,6 +14,8 @@
 #include <QPushButton>
 #include <QAbstractButton>
 
+#include <cassert>
+
 #define CM command_manager::getInstance().get_main_widget()
 //fixme SHOULD be templated classes
 class dicmdguiSelectComboValue: public NonTransactionalDirectCommandBase 
@@ -100,27 +102,31 @@ class dicmdguiClickButton: public NonTransactionalDirectCommandBase
 
     std::string m_on;
     public:
-        dicmdguiClickButton() {
+        dicmdguiClickButton()
+		{
             add_option("-object",new StringCommandOptionValue(""));
         }
-        
+
         dicmdguiClickButton(const std::string& on):NonTransactionalDirectCommandBase("-object",new StringCommandOptionValue(on)) 
         { 
             //FIXME add_option()
             m_on = on; 
         }
-        
-        virtual std::string get_name() {
+
+        virtual std::string get_name()
+		{
             return "dicmdguiClickButton";
         }
-        
-        virtual void execute() {
-            //FIXME add checks
+
+        virtual void execute()
+        {
+			//FIXME add checks
             //FIXME some trick to be more easy?
             m_on = GET_CMD_ARG(StringCommandOptionValue,"-object");
             //m_on = (dynamic_cast<StringCommandOptionValue*>(get_option_val("-object")))->to_string();
             QAbstractButton* btn = CM->findChild<QAbstractButton*>(m_on.c_str());
-            if ( !btn ) throw 123;
+            if ( !btn || btn && !btn->isVisible() ) throw 123;
+			//std::cout << "alooooooo" << btn->isVisible() << std::endl;
             btn->click();
         }
 };
@@ -156,10 +162,66 @@ class dicmdguiSelectRadioButton: public NonTransactionalDirectCommandBase
         }
 };
 
+class dicmdguiClickTabBar: public NonTransactionalDirectCommandBase 
+{
+
+    std::string m_on;
+    std::string m_tn;
+
+    public:
+
+        dicmdguiClickTabBar() 
+        {
+            add_option("-object",new StringCommandOptionValue(""));
+            add_option("-tab",new StringCommandOptionValue(""));
+        }
+
+        dicmdguiClickTabBar(const std::string& on, std::string tn)//:NonTransactionalDirectCommandBase("-object",new StringCommandOptionValue(on)) 
+        { 
+            //FIXME add_option()
+            add_option("-object",new StringCommandOptionValue(on));
+            add_option("-tab", new StringCommandOptionValue(remove_whitespace(tn)));
+            m_on = on; 
+        }
+
+        virtual std::string get_name()
+        {
+            return "dicmdguiClickTabBar";
+        }
+
+        std::string remove_whitespace(std::string str)
+        {
+			str.erase(remove_if(str.begin(), str.end(), isspace), str.end());
+			return str;
+		}
+
+        virtual void execute()
+        {
+            //FIXME add checks
+            //FIXME some trick to be more easy?
+			m_on = GET_CMD_ARG(StringCommandOptionValue,"-object");
+            m_tn = GET_CMD_ARG(StringCommandOptionValue,"-tab");
+
+            //m_on = (dynamic_cast<StringCommandOptionValue*>(get_option_val("-object")))->to_string();
+            QTabBar* btn = CM->findChild<QTabBar*>(m_on.c_str());
+            if ( !btn )  throw 123;
+
+			int needed_index = -1;
+			for ( int i=0; i< btn->count(); ++i )
+				if ( m_tn == remove_whitespace(btn->tabText(i).toStdString()) )
+					needed_index = i;
+
+			if ( needed_index < 0)
+				throw 123;
+
+			btn->setCurrentIndex(needed_index);
+        }
+};
+//dicmdguiChangeTab -object 123123 -tab 123
 
 class dicmdCanvasMouseMove: public NonTransactionalDirectCommandBase
 {
-    
+
     QPoint m_p;
     public:
 

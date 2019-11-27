@@ -42,6 +42,7 @@ void command_manager::init() {
     register_command(new dicmdCanvasMouseDblClick);
     register_command(new dicmdCanvasMousePress);
     register_command(new dicmdguiSelectRadioButton);
+    register_command(new dicmdguiClickTabBar);
     register_command(new dicmdAbortActiveCommand);
     register_command(new dicmdguiSelectComboValue); 
     register_command(new dicmdQaToolExit);

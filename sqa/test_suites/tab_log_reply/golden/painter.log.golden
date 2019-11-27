@@ -1,0 +1,28 @@
+#i --> Info: Welcome to this project. Feel free to expirment. 
+#i --> Info: Set to mode1
+dicmdguiClickTabBar -object 0x101:tw/ -tab ActionsHistory 
+dicmdguiClickTabBar -object 0x101:tw/ -tab EventLog 
+dicmdguiClickTabBar -object 0x104:tw/ -tab Shapes 
+dicmdguiClickTabBar -object 0x104:tw/ -tab Home 
+dicmdguiClickButton -object 0x110:magenta 
+dicmdguiClickButton -object 0x111:Cross 
+dicmdguiClickButton -object 0x112:Dot 
+dicmdguiClickTabBar -object 0x104:tw/ -tab Shapes 
+dicmdguiClickButton -object 0x110:magenta 
+#e --> Error: something went wrong with this command -> dicmdguiClickButton
+dicmdguiClickButton -object 0x111:Cross 
+#e --> Error: something went wrong with this command -> dicmdguiClickButton
+dicmdguiClickButton -object 0x112:Dot 
+#e --> Error: something went wrong with this command -> dicmdguiClickButton
+dicmdguiClickTabBar -object 0x104:tw/ -tab Home 
+dicmdguiClickButton -object 0x110:magenta 
+dicmdguiClickButton -object 0x111:Cross 
+dicmdguiClickButton -object 0x112:Dot 
+incmdCreateObjRectangle
+dicmdCanvasMouseClick -point (66,64) 
+dicmdCanvasMouseClick -point (66,64) 
+dicmdCanvasMouseClick -point (168,153) 
+dicmdCanvasMouseClick -point (168,153) 
+#o --> Out: dicmdCreateObjRectangle -brush 3 -color #ff00ff -fill 11 -points {(66,64);(168,153)} 
+dicmdguiClickTabBar -object 0x101:tw/ -tab EventLog 
+dicmdQaToolExit 

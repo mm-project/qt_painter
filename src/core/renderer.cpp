@@ -274,7 +274,7 @@ void renderer::draw_all() {
         draw_objects();
         if ( m_rt_renderer )
             draw_runtime_pools();
-        draw_cursor();
+        //draw_cursor();
 }
 
 void renderer::draw_all_wno_cursor() {

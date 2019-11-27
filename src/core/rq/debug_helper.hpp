@@ -30,12 +30,12 @@
         std::vector<IShape*> shapes;
             for(auto shape: m_ws->getObjects()) {
                 bool contains = true;
-                
+
                 for(auto point: shape->getPoints())
                     if (!box.contains(point))
                         contains = false;
-                
-                if (contains)    
+
+                if (contains)
                     shapes.push_back(shape);
             }
         return shapes;

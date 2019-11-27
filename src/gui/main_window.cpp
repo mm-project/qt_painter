@@ -34,21 +34,23 @@
 bool main_window::eventFilter(QObject *obj, QEvent *event)
 {
         //std::cout << "------("<<obj->objectName().toStdString() << ") " << event->type() << std::endl;
-        if (event->type() == QEvent::MouseButtonPress ) {
+        if (event->type() == QEvent::MouseButtonRelease ) {
         
-            if (qobject_cast<QRadioButton*>(obj) ) {
-                    dicmdguiSelectRadioButton(obj->objectName().toStdString()).log();
-            }
+            //if (qobject_cast<QRadioButton*>(obj) ) {
+            //        dicmdguiSelectRadioButton(obj->objectName().toStdString()).log();
+            //}
             
             if ( QTabBar* w = qobject_cast<QTabBar*>(obj) ) {
-                    dicmdguiClickButton(obj->objectName().toStdString()).log();
+				dicmdguiClickTabBar(obj->objectName().toStdString(),w->tabText(w->currentIndex()).toStdString()).log();
+				//std::cout << w->tabText(w->currentIndex()).toStdString() << std::endl;
+				//dicmdguiClickButton(obj->objectName().toStdString()).log();
             }
         
             if ( QAbstractButton* btn = qobject_cast<QAbstractButton*>(obj) ) {
-                    if ( btn->parent() && btn->parentWidget()->isModal() )
-                        dicmdguiClickModalButton(obj->objectName().toStdString()).log();
-                    else if ( !btn->objectName().isEmpty() )
-                        dicmdguiClickButton(obj->objectName().toStdString()).log();
+				if ( btn->parent() && btn->parentWidget()->isModal() )
+					dicmdguiClickModalButton(obj->objectName().toStdString()).log();
+				else if ( !btn->objectName().isEmpty() )
+					dicmdguiClickButton(obj->objectName().toStdString()).log();
             }
             
             //qcomboboxlist

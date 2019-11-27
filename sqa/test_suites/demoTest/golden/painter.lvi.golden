@@ -1,0 +1,4 @@
+dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(127,75);(288,189)} 
+dicmdCreateObjRectangle -brush 1 -color #00ffff -fill 10 -points {(334,49);(449,165)} 
+dicmdCreateObjRectangle -brush 3 -color #ff0000 -fill 11 -points {(485,63);(606,184)} 
+dicmdCreateObjRectangle -brush 3 -color #ff0000 -fill 11 -points {(550,135);(705,223)} 

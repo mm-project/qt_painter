@@ -1,0 +1,21 @@
+#i --> Info: Welcome to this project. Feel free to expirment. 
+dicmdguiClickTabBar -object 0x101:tw/ -tab ActionsHistory 
+dicmdguiClickTabBar -object 0x101:tw/ -tab EventLog 
+dicmdguiClickTabBar -object 0x104:tw/ -tab Shapes 
+dicmdguiClickTabBar -object 0x104:tw/ -tab Home 
+dicmdguiClickButton -object 0x110:magenta 
+dicmdguiClickButton -object 0x111:Cross 
+dicmdguiClickButton -object 0x112:Dot 
+dicmdguiClickTabBar -object 0x104:tw/ -tab Shapes 
+dicmdguiClickButton -object 0x110:magenta 
+dicmdguiClickButton -object 0x111:Cross 
+dicmdguiClickButton -object 0x112:Dot 
+dicmdguiClickTabBar -object 0x104:tw/ -tab Home 
+dicmdguiClickButton -object 0x110:magenta 
+dicmdguiClickButton -object 0x111:Cross 
+dicmdguiClickButton -object 0x112:Dot 
+incmdCreateObjRectangle
+dicmdCanvasMouseClick -point (66,64) 
+dicmdCanvasMouseClick -point (168,153) 
+dicmdguiClickTabBar -object 0x101:tw/ -tab EventLog
+dicmdQaToolExit 

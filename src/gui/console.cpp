@@ -17,10 +17,10 @@ ConsoleWidget::ConsoleWidget(QWidget* parent)
 	m_view->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::LinksAccessibleByMouse );
 	//m_view->setMinimumHeight(100);
 	m_view->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
-        //m_view->setOpenExternalLinks(true);
+	//m_view->setOpenExternalLinks(true);
     m_view->setOpenLinks(false);
-        connect(m_view, SIGNAL(anchorClicked(QUrl)), this, SLOT(onConsoleLinkClicked(QUrl)));
-        //m_view->setHtml( "<a href=\"https://www.w3schools.com\">Visit W3Schools</a>" );
+	connect(m_view, SIGNAL(anchorClicked(QUrl)), this, SLOT(onConsoleLinkClicked(QUrl)));
+	//m_view->setHtml( "<a href=\"https://www.w3schools.com\">Visit W3Schools</a>" );
 	// writable part
 	m_console = new QLineEdit(this);
 	m_console->setFixedHeight(15);
@@ -35,7 +35,7 @@ ConsoleWidget::ConsoleWidget(QWidget* parent)
 
 void ConsoleWidget::onConsoleLinkClicked(QUrl url)
 {
-        QDesktopServices::openUrl(url);
+	QDesktopServices::openUrl(url);
 }
 
 void ConsoleWidget::appendText(const QString& text, LogMsgSeverity severity, QString code)
@@ -128,12 +128,12 @@ ConsoleAssistant::ConsoleAssistant(QDockWidget& b, QWidget* parent) : QFrame(par
 {
 	m_console = new ConsoleWidget(this);
 	m_output = new OutputWidget(this);
-
-        m_log = new OutputWidget(this);
+	m_log = new OutputWidget(this);
+	
 	m_tabs = new QTabWidget(this);
 	m_tabs->addTab(m_console, QStringLiteral("Console"));
 	m_tabs->addTab(m_output, QStringLiteral("Actions History"));
-        m_tabs->addTab(m_log, QStringLiteral("Event Log"));
+	m_tabs->addTab(m_log, QStringLiteral("Event Log"));
 	m_tabs->setTabPosition(QTabWidget::South);
 	QHBoxLayout* layout = new QHBoxLayout;
 	layout->addWidget(m_tabs);

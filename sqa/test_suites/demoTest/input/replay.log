@@ -1,0 +1,81 @@
+#i --> Info: Welcome to this project. Feel free to expirment. 
+dicmdguiClickTabBar -object 0x104:74/Tab -tab Shapes 
+dicmdguiClickButton -object 0x106:Rectangle 
+incmdCreateObjRectangle
+dicmdCanvasMouseClick -point (127,75) 
+dicmdCanvasMouseClick -point (288,189) 
+#o --> Out: dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(127,75);(288,189)} 
+dicmdCanvasMouseClick -point (334,49) 
+dicmdguiClickTabBar -object 0x104:74/Tab -tab Home 
+dicmdguiClickButton -object 0x110:cyan 
+dicmdguiSelectRadioButton -object 0x111:Vertical 
+dicmdguiClickButton -object 0x111:Vertical 
+dicmdCanvasMouseClick -point (449,165) 
+#o --> Out: dicmdCreateObjRectangle -brush 1 -color #00ffff -fill 10 -points {(334,49);(449,165)} 
+dicmdCanvasMouseClick -point (485,63) 
+dicmdguiSelectRadioButton -object 0x112:Dot 
+dicmdguiClickButton -object 0x112:Dot 
+dicmdguiClickButton -object 0x110:red 
+dicmdguiSelectRadioButton -object 0x111:Cross 
+dicmdguiClickButton -object 0x111:Cross 
+dicmdCanvasMouseClick -point (606,184) 
+#o --> Out: dicmdCreateObjRectangle -brush 3 -color #ff0000 -fill 11 -points {(485,63);(606,184)} 
+dicmdCanvasViewportZoomIn -point (658,154) 
+dicmdCanvasViewportZoomIn -point (658,154) 
+dicmdCanvasViewportZoomOut -point (658,154) 
+dicmdCanvasViewportZoomOut -point (658,154) 
+dicmdCanvasViewportZoomOut -point (658,154) 
+dicmdCanvasViewportZoomOut -point (658,154) 
+dicmdCanvasViewportZoomOut -point (658,154) 
+dicmdCanvasViewportZoomOut -point (658,154) 
+dicmdCanvasViewportZoomOut -point (658,154) 
+dicmdCanvasMouseClick -point (342,84) 
+dicmdCanvasMouseClick -point (438,139) 
+#o --> Out: dicmdCreateObjRectangle -brush 3 -color #ff0000 -fill 11 -points {(550,135);(705,223)} 
+dicmdAbortActiveCommand 
+dicmdAbortActiveCommand 
+dicmdAbortActiveCommand 
+dicmdCanvasMouseClick -point (406,115) 
+dicmdCanvasMouseRelease -point (542,115) 
+dicmdCanvasMouseClick -point (344,86) 
+dicmdCanvasMouseRelease -point (431,81) 
+dicmdCanvasMouseClick -point (251,75) 
+dicmdCanvasMouseRelease -point (267,188) 
+dicmdCanvasOriginPanRight 
+dicmdCanvasOriginPanRight 
+dicmdCanvasOriginPanRight 
+dicmdCanvasOriginPanRight 
+dicmdCanvasOriginPanRight 
+dicmdCanvasOriginPanRight 
+dicmdCanvasOriginPanRight 
+dicmdCanvasOriginPanRight 
+dicmdCanvasOriginPanRight 
+dicmdCanvasOriginPanRight 
+dicmdCanvasOriginPanRight 
+dicmdCanvasOriginPanRight 
+dicmdCanvasOriginPanRight 
+dicmdCanvasOriginPanRight 
+dicmdCanvasOriginPanRight 
+dicmdCanvasOriginPanRight 
+dicmdCanvasOriginPanRight 
+dicmdCanvasOriginPanRight 
+dicmdCanvasOriginPanRight 
+dicmdCanvasOriginPanRight 
+dicmdCanvasOriginPanRight 
+dicmdCanvasOriginPanRight 
+dicmdCanvasOriginPanRight 
+dicmdCanvasOriginPanRight 
+dicmdCanvasOriginPanRight 
+dicmdCanvasOriginPanRight 
+dicmdCanvasOriginPanRight 
+dicmdCanvasViewportZoomIn -point (158,102) 
+dicmdCanvasViewportZoomIn -point (158,102) 
+dicmdCanvasViewportZoomIn -point (158,102) 
+dicmdCanvasViewportZoomOut -point (158,102) 
+dicmdCanvasViewportZoomOut -point (158,102) 
+dicmdCanvasViewportZoomOut -point (158,102) 
+dicmdCanvasViewportZoomOut -point (158,102) 
+dicmdCanvasViewportZoomOut -point (158,102) 
+dicmdguiClickTabBar -object 0x101:11/Tab -tab EventLog 
+dicmdQaToolExit 
+dicmdQaToolExit
