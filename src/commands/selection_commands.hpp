@@ -111,14 +111,15 @@ public:
 			for (auto it : m_ws->getObjects())
 				rq.insertObject(it);
 
-
+			IShape* commited_obj = nullptr;
             for ( auto it: m_sb->getPool()->getObjects() ) {
-                    rq.insertObject(m_ws->addObject(it));
+                    commited_obj = m_ws->addObject(it);
+					rq.insertObject(commited_obj);
             }        
             
             m_original_shape = nullptr;
             m_se.clear();
-            m_se.addObject(m_sb->getPool()->getObjects()[0]);
+            m_se.addObject(commited_obj);
             m_sb->clear();
 			m_se.temporary_highlight();
 			//m_cm.return_to_idle();
@@ -169,7 +170,7 @@ public:
         void move_selected_to_point(QPoint p) {
             m_need_mouserelase_log = true;
             for ( auto it: m_sb->getPool()->getObjects() ) {
-                    std::cout << "rotate..." << std::endl; 
+                    //std::cout << "rotate..." << std::endl; 
                     it->moveCenterToPoint(p);
             }
         }
