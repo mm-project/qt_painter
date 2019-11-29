@@ -1,0 +1,170 @@
+#i --> Info: Welcome to this project. Feel free to expirment. 
+dicmdguiClickButton -object mw/65/70/Home/qt_tabwidget_tabbar 
+dicmdguiClickButton -object 0x104:Rectangle 
+incmdCreateObjRectangle
+dicmdCanvasMouseClick -point (113,97) 
+dicmdCanvasMouseClick -point (201,178) 
+#o --> Out: dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(113,97);(201,178)} 
+dicmdCanvasMouseClick -point (217,228) 
+dicmdCanvasMouseClick -point (297,297) 
+#o --> Out: dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(217,228);(297,297)} 
+dicmdguiClickButton -object 0x104:Ellipse 
+dicmdAbortActiveCommand 
+incmdCreateObjEllipse
+dicmdCanvasMouseClick -point (270,134) 
+dicmdCanvasMouseClick -point (395,191) 
+#o --> Out: dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(270,134);(395,191)} 
+dicmdAbortActiveCommand 
+dicmdAbortActiveCommand 
+dicmdCanvasMouseClick -point (168,141) 
+dicmdCanvasMouseRelease -point (168,141) 
+dicmdQaCompareSelection 
+#e --> Error: comparision->Selection:MISMATCH Selection_Compare_0.txt Selection_Compare_0.txt.golden
+dicmdCanvasMouseClick -point (250,255) 
+dicmdCanvasMouseRelease -point (250,255) 
+dicmdQaCompareSelection 
+#e --> Error: comparision->Selection:MISMATCH Selection_Compare_1.txt Selection_Compare_1.txt.golden
+dicmdCanvasMouseClick -point (339,164) 
+dicmdCanvasMouseRelease -point (339,164) 
+dicmdQaCompareSelection 
+#e --> Error: comparision->Selection:MISMATCH Selection_Compare_2.txt Selection_Compare_2.txt.golden
+dicmdCanvasMouseClick -point (387,227) 
+dicmdCanvasMouseRelease -point (387,227) 
+dicmdQaCompareSelection 
+#e --> Error: comparision->Selection:MISMATCH Selection_Compare_3.txt Selection_Compare_3.txt.golden
+dicmdCanvasMouseClick -point (346,56) 
+dicmdCanvasMouseRelease -point (346,56) 
+dicmdQaCompareSelection 
+#e --> Error: comparision->Selection:MISMATCH Selection_Compare_4.txt Selection_Compare_4.txt.golden
+dicmdCanvasMouseClick -point (140,149) 
+dicmdCanvasMouseRelease -point (663,113) 
+dicmdQaCompareSelection 
+#e --> Error: comparision->Selection:MISMATCH Selection_Compare_5.txt Selection_Compare_5.txt.golden
+dicmdCanvasMouseClick -point (602,261) 
+dicmdCanvasMouseRelease -point (602,261) 
+dicmdQaCompareSelection 
+#e --> Error: comparision->Selection:MISMATCH Selection_Compare_6.txt Selection_Compare_6.txt.golden
+dicmdCanvasMouseClick -point (602,261) 
+dicmdCanvasMouseRelease -point (602,261) 
+dicmdCanvasMouseClick -point (232,280) 
+dicmdCanvasMouseRelease -point (648,240) 
+dicmdQaCompareSelection 
+#e --> Error: comparision->Selection:MISMATCH Selection_Compare_7.txt Selection_Compare_7.txt.golden
+dicmdCanvasMouseClick -point (478,272) 
+dicmdCanvasMouseRelease -point (478,272) 
+dicmdCanvasMouseClick -point (667,287) 
+dicmdCanvasMouseRelease -point (667,287) 
+incmdObjRelocateByCopy
+dicmdCanvasMouseClick -point (655,282) 
+dicmdQaCompareSelection 
+#e --> Error: comparision->Selection:MISMATCH Selection_Compare_8.txt Selection_Compare_8.txt.golden
+dicmdCanvasMouseClick -point (152,155) 
+dicmdCanvasMouseRelease -point (152,155) 
+dicmdCanvasMouseClick -point (435,258) 
+dicmdCanvasMouseRelease -point (435,258) 
+dicmdCanvasMouseClick -point (453,301) 
+dicmdCanvasMouseRelease -point (453,301) 
+dicmdCanvasMouseClick -point (336,156) 
+dicmdCanvasMouseRelease -point (336,156) 
+dicmdQaCompareSelection 
+#e --> Error: comparision->Selection:MISMATCH Selection_Compare_9.txt Selection_Compare_9.txt.golden
+dicmdAbortActiveCommand 
+dicmdAbortActiveCommand 
+incmdSelectShapesByRegion
+dicmdCanvasMouseClick -point (550,66) 
+dicmdCanvasMouseClick -point (827,341) 
+#o --> Out: dicmdSelectShapesByRegion -end (827,341) -start (550,66) 
+dicmdCanvasMouseClick -point (800,294) 
+dicmdAbortActiveCommand 
+dicmdCanvasMouseClick -point (706,275) 
+dicmdCanvasMouseRelease -point (706,275) 
+dicmdCanvasMouseClick -point (716,182) 
+dicmdCanvasMouseRelease -point (716,182) 
+incmdObjRelocateByMove
+dicmdCanvasMouseClick -point (705,152) 
+dicmdCanvasMouseClick -point (523,279) 
+dicmdCanvasMouseRelease -point (523,279) 
+dicmdCanvasMouseClick -point (687,288) 
+dicmdCanvasMouseRelease -point (687,288) 
+incmdObjRelocateByMove
+dicmdCanvasMouseClick -point (681,281) 
+dicmdCanvasMouseClick -point (809,303) 
+dicmdCanvasMouseRelease -point (809,303) 
+dicmdCanvasMouseClick -point (657,281) 
+dicmdCanvasMouseRelease -point (657,281) 
+incmdObjRelocateByMove
+dicmdCanvasMouseClick -point (661,272) 
+dicmdCanvasMouseClick -point (891,152) 
+dicmdCanvasMouseRelease -point (891,152) 
+dicmdCanvasMouseClick -point (515,284) 
+dicmdCanvasMouseRelease -point (515,283) 
+dicmdCanvasMouseClick -point (514,182) 
+dicmdCanvasMouseRelease -point (514,182) 
+dicmdCanvasMouseClick -point (301,284) 
+dicmdCanvasMouseRelease -point (301,283) 
+dicmdQaCompareSelection 
+#e --> Error: comparision->Selection:MISMATCH Selection_Compare_10.txt Selection_Compare_10.txt.golden
+dicmdCanvasViewportZoomOut -point (187,91) 
+dicmdAbortActiveCommand 
+incmdSelectShapesByRegion
+dicmdCanvasMouseClick -point (171,69) 
+dicmdCanvasMouseClick -point (236,99) 
+#o --> Out: dicmdSelectShapesByRegion -end (259,108) -start (800,294) 
+dicmdCanvasMouseClick -point (179,73) 
+dicmdCanvasMouseClick -point (944,361) 
+#o --> Out: dicmdSelectShapesByRegion -end (1038,397) -start (196,80) 
+dicmdCanvasViewportZoomOut -point (879,296) 
+dicmdCanvasViewportZoomOut -point (879,296) 
+dicmdCanvasViewportZoomOut -point (879,296) 
+dicmdCanvasViewportZoomOut -point (879,296) 
+incmdObjRelocateByMove
+dicmdCanvasMouseClick -point (421,178) 
+dicmdCanvasViewportZoomOut -point (426,301) 
+dicmdCanvasViewportZoomOut -point (423,301) 
+dicmdCanvasMouseClick -point (502,191) 
+dicmdCanvasMouseRelease -point (502,191) 
+dicmdCanvasMouseClick -point (381,260) 
+dicmdCanvasMouseRelease -point (381,260) 
+dicmdCanvasMouseClick -point (369,263) 
+dicmdCanvasMouseRelease -point (369,263) 
+dicmdCanvasMouseClick -point (375,261) 
+dicmdCanvasMouseRelease -point (375,261) 
+dicmdCanvasMouseClick -point (365,265) 
+dicmdCanvasMouseRelease -point (365,265) 
+dicmdCanvasMouseClick -point (375,264) 
+dicmdCanvasMouseRelease -point (375,264) 
+dicmdCanvasMouseClick -point (477,293) 
+dicmdCanvasMouseRelease -point (477,293) 
+dicmdCanvasMouseClick -point (369,263) 
+dicmdCanvasMouseRelease -point (369,263) 
+dicmdCanvasMouseClick -point (479,303) 
+dicmdCanvasMouseRelease -point (475,304) 
+dicmdCanvasMouseClick -point (499,322) 
+dicmdCanvasMouseRelease -point (494,323) 
+dicmdCanvasMouseClick -point (509,335) 
+dicmdCanvasMouseRelease -point (389,212) 
+dicmdCanvasMouseClick -point (407,228) 
+dicmdCanvasMouseRelease -point (308,166) 
+dicmdCanvasViewportZoomOut -point (240,159) 
+dicmdguiClickButton -object 0x104:Ellipse 
+incmdCreateObjEllipse
+dicmdCanvasMouseClick -point (187,113) 
+dicmdCanvasMouseClick -point (264,200) 
+#o --> Out: dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(400,242);(565,428)} 
+dicmdAbortActiveCommand 
+dicmdAbortActiveCommand 
+dicmdCanvasMouseClick -point (221,158) 
+dicmdCanvasMouseRelease -point (96,109) 
+dicmdCanvasMouseClick -point (126,148) 
+dicmdCanvasMouseRelease -point (200,105) 
+dicmdCanvasMouseClick -point (717,222) 
+dicmdCanvasMouseRelease -point (717,222) 
+dicmdAbortActiveCommand 
+dicmdAbortActiveCommand 
+dicmdAbortActiveCommand 
+dicmdAbortActiveCommand 
+dicmdAbortActiveCommand 
+dicmdCanvasMouseClick -point (775,207) 
+dicmdCanvasMouseRelease -point (775,207) 
+dicmdQaToolExit 
+dicmdQaToolExit

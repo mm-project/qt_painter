@@ -4,17 +4,20 @@
 #include <QDir>
 #include <QTextStream>
 
+#include <cassert>
 
 IShape* WorkingSet::addObject(IShape* s)
 {
-	auto obj = s->clone();
-	m_shapes.push_back(obj);
+	assert(s);
+    auto obj = s->clone();
+	assert(obj);
+    m_shapes.push_back(obj);
 	return obj;
 }
-
+ 
 std::vector<IShape*> WorkingSet::getObjects() const
 {
-        return m_shapes;
+    return m_shapes;
 }
 
 void WorkingSet::clear()
@@ -26,7 +29,7 @@ void WorkingSet::clear()
 
 std::string WorkingSet::getName()
 {
-        return "Design";
+    return "Design";
 }
 
 void WorkingSet::dumpToFile(const std::string& fname)

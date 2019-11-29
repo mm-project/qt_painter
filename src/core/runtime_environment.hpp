@@ -22,7 +22,7 @@ public:
 
 	void movePoint(QPoint);
 
-	void addObject(IShape*);
+	IShape* addObject(IShape*);
 	void changeBasicProperties(const ShapeProperties&);
 
 private:

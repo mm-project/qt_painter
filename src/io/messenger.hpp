@@ -11,7 +11,7 @@
 #include <string>
 #include <functional>
 
-enum LogMsgSeverity { err=1, usr, warn, ok, out, test, cont, modal, info };
+enum LogMsgSeverity { err=1, usr, warn, ok, out, test, cont, modal, info, log_ };
 
 class MessengerCallbackData : public LeCallbackData 
 {

@@ -29,6 +29,7 @@ class MockShape : public IShape
 	virtual void draw(QPainter*) { }
     virtual std::vector<QPoint> getPoints() { }
     virtual ObjectType getType() const { } ;
+    virtual void moveCenterToPoint(QPoint&) {}
 };
 
 //Mocking!: 
@@ -42,6 +43,7 @@ void Messenger::log_command(const std::string&, bool) {}
 RegionQuery::RegionQuery() {}
 void RegionQuery::shutDown() {}
 void RegionQuery::insertObject(IShape*) {}
+void RegionQuery::removeObject(IShape*) {}
 
 void ServiceManager::shutDown(){}
 //!Mocking

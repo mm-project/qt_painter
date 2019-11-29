@@ -17,6 +17,7 @@
 
 // fixme move tho class 
 namespace {
+namespace utilities {
     bool is_w_from_desired_list(QWidget* w) {
         return ( dynamic_cast<QAbstractButton*>(w)   ||  dynamic_cast<QTabWidget*>(w) ||  dynamic_cast<QTabBar*>(w) ); // ||   qobject_cast<QAbsractButton*>(w)
     }
@@ -51,7 +52,9 @@ namespace {
         QString cn =  w->metaObject()->className();
         QString tn = isleaf?cn+QStringLiteral("_"):"";
         
-        QString pn = "";
+        //getting current widget's parent name
+		//by traversing up to the most top parent, and concetating all parents objectnames
+		QString pn = "";
         if ( needparentinfo ) { 
             QObject* p = w->parent();
             if ( p != nullptr ) {
@@ -62,9 +65,12 @@ namespace {
         }
 
         QString wn;
+		//if widget has a non empty object name, we consider that it's name. 
         if ( ! w->objectName().isEmpty() )
             wn = w->objectName();
-        else {
+        //try to get some other info as it's name
+		else {
+			//text property
             if ( dynamic_cast<QAbstractButton*>(w) ) {
                 QVariant v;
                 v = w->property("text");
@@ -72,7 +78,9 @@ namespace {
             } else if ( QTabWidget* tb = dynamic_cast<QTabWidget*>(w) ) {
                 std::cout << " tab bar " << std::endl;
                 wn = tb->tabText(0).isEmpty()?w->objectName():tb->tabText(0);
-            }            
+            }    
+            //if nothing worked,
+            //print warning, and assign name as type + i , like QPushButon1, QToolButton2...
             if ( wn.isEmpty() ) {
                 if ( isleaf && is_w_from_desired_list(w) ) {
                     //fixme : if only in test-mode !
@@ -87,10 +95,10 @@ namespace {
         }
                 
         if (isleaf && is_w_from_desired_list(w) )
-            w->setObjectName(get_hashed_name(pn)+wn);
+            w->setObjectName(get_hashed_name(pn)+wn); //want a parent name squized-hashed 
         else
-            w->setObjectName(pn+wn);
+            w->setObjectName(pn+wn); //
     }
 }
-
+}
 #endif

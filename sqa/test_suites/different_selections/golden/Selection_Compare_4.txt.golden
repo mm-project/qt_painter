@@ -1,5 +1,5 @@
 Name: Selection
-ObjCount: 9
+ObjCount: 11
 ======
 Rectangle:
 Rectangle:
@@ -8,6 +8,8 @@ Rectangle:
 Rectangle:
 Ellipse:
 Polygon:
+Line:
+Line:
 Polygon:
 Polygon:
 --------

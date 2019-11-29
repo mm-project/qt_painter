@@ -28,9 +28,11 @@ public:
 	
 	
 	CommandBase* get_cmd_obj(const std::string& n) {
+		if (n.empty())
+			return nullptr;
 		QStringList tokens = QString(n.c_str()).split(" ");  
 		std::string cmd_name = tokens[0].toStdString();
-		//std::cout << "<"<<n.toStdString()<<">" << tokens[0].toStdString() << std::endl;
+		//std::cout << "<"<<n<<">" << tokens[0].toStdString() << std::endl;
 		if ( cmd_name.front() == '#' )
 			return 0;
 		
@@ -62,14 +64,16 @@ public:
 	void execute_cmd(CommandBase* cmd) {
 		if(!cmd)
 			return;
-		//std::cout << "<"<<n.toStdString()<<">" << tokens[0].toStdString() << std::endl;
+		//std::cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!<"<<n.toStdString()<<">" << tokens[0].toStdString() << std::endl;
 		
-		if ( cmd->get_type() == Interactive )    
-			m_cm.activate_command(dynamic_cast<CommandBase*>(cmd));
-		else
+		if ( cmd->get_type() == Interactive )  {
+			//std::cout  << "?????????" << cmd->get_name() << std::endl;
+            m_cm.activate_command(dynamic_cast<CommandBase*>(cmd));
+        }
+		else {
 			cmd->execute_and_log();
-			//std::cout  << "!!!!" << dynamic_cast<DirectCommandBase*>(cmd)->get_cmdname_and_stringified_opts() << std::endl;
-			
+			//std::cout  << "!!!!!!!!!!!!" << dynamic_cast<DirectCommandBase*>(cmd)->get_cmdname_and_stringified_opts() << std::endl;
+        }	
 	}
 };
 

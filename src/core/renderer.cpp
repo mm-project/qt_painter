@@ -1,5 +1,6 @@
 #include "renderer.hpp"
 
+#include "rq/RegionQueryService.hpp"
 #include "../commands/canvas_commands.hpp"
 
 renderer::renderer ( QWidget* w, ObjectPoolSandboxPtr r, IObjectPoolPtr s ):m_sandbox(r),m_working_set(s) { 	
@@ -96,14 +97,15 @@ void renderer::zoomout_p(QPoint p) {
 }
 
 void renderer::zoomin() {
-    m_scale_factor*=m_zoom_factor;
+    if ( m_scale_factor < 10 )
+        m_scale_factor*=m_zoom_factor;
     //notify_viewport_changed();
 
 }
 
 void renderer::zoomout() {
     //std::cout << "zzomout" << m_scale_factor << std::endl;
-    if ( m_scale_factor > 0.05 ) {
+    if ( m_scale_factor > 0.005 ) {
             m_scale_factor/=m_zoom_factor;
             //notify_viewport_changed();
     }
@@ -154,18 +156,17 @@ void renderer::draw_grid() {
     white.setJoinStyle(Qt::RoundJoin);
     white.setCapStyle(Qt::RoundCap);
     
-    //std::cout <<   1/get_zoom_factor() << std::endl;
-    int _height =  1/get_zoom_factor()*(m_plane->height());//m_origin_point.y()>0?m_plane->height()+m_origin_point.y():m_plane->height()-m_origin_point.y();
-    int _width = 1/get_zoom_factor()*(m_plane->width());//*m_origin_point.x()+m_plane->size().width()-20; //m_plane->size().width();///m_pan_step0;//m_origin_point.x()>0?m_plane->width()+m_origin_point.x():m_plane->width()-m_origin_point.x();
-    int startx = m_origin_point.x();;
-    int starty = m_origin_point.y();
+    int _height =  1/get_zoom_factor()*(m_plane->height()) - m_origin_point.y();
+    int _width = 1/get_zoom_factor()*(m_plane->width()) - m_origin_point.x();
+    int startx = 1/get_zoom_factor()*(m_old_origin_point.x() - m_origin_point.x()) - m_old_origin_point.x();
+    int starty = 1/get_zoom_factor()*(m_old_origin_point.y() - m_origin_point.y()) - m_old_origin_point.y();
     
     //std::cout << startx << " " << _width << "      " << starty << " " << _height << std::endl;
     for (int i = startx, _i = startx; i < _width; i += m_scale, ++_i)
             for (int j = starty, _j = starty; j < _height; j += m_scale, ++_j)
             {
-                    if ((_i % 5 == 0) && (_j % 5 == 0))
-                            white.setWidth(3);
+                    if ((_i % 4 == 0) && (_j % 4 == 0))
+                            white.setWidth(5);
                     
                     white.setJoinStyle(Qt::RoundJoin);
                     white.setCapStyle(Qt::RoundCap);
@@ -178,11 +179,28 @@ void renderer::draw_grid() {
 
 void renderer::draw_objects() {
         // draw working set
-        std::vector<IShape*> shapes = m_working_set->getObjects();
+        // std::vector<IShape*> shapes = m_working_set->getObjects();
         // fixme draw all objects in the bbox, from rq.
         // std::vector<IShape*> shapes = rq.getShapesUnderRect(m_users_pov_rect);
-        for (auto i : shapes)
+        //for (auto i : shapes)
+        //       i->draw(m_qt_painter);
+
+        int _height =  1/get_zoom_factor()*(m_plane->height());
+        int _width = 1/get_zoom_factor()*(m_plane->width());
+        int startx = -1*m_origin_point.x(); //m_old_origin_point.x()-m_origin_point.x();
+        int starty = -1*m_origin_point.y();
+        //std::cout << "renderer" << startx << " " << starty << "      " << _width << " " << _height << std::endl;
+        
+
+        if (m_rq_renderer) {
+            RegionQuery& rq = RegionQuery::getInstance();
+            for (auto shape : rq.getShapesUnderRect(QRect(startx,starty,_width,_height)))
+                shape->draw(m_qt_painter);
+        } else {   
+        for (auto i : m_working_set->getObjects())
                 i->draw(m_qt_painter);
+        }
+
 }
 
 void renderer::make_viewport_adjustments() {
@@ -196,6 +214,7 @@ void renderer::make_viewport_adjustments() {
         m_qt_painter->translate(m_origin_point);
         //m_users_pov_rect->adjust(0,0,-1*m_origin_point.y(),-1*m_origin_point.x());
         m_need_adjustment = false;
+        m_old_origin_point = m_origin_point;  
 }
     
 void renderer::draw_runtime_pools() {
@@ -238,12 +257,23 @@ void renderer::draw_cursor() {
 	m_qt_painter->drawPoint(c_cursor_x, c_cursor_y);
 	m_need_draw_clicked = false;
 }
-
+/*
+void renderer::draw_selection_rubberband()
+{
+    QPen p;
+    p.setColor(Qt::red);
+	m_qt_painter->setPen(p);
+	    
+    for ( auto obj: m_se.getObjects() )
+            obj->draw(m_qt_painter);
+}
+*/
 void renderer::draw_all() {
         draw_background();
         draw_grid();            
         draw_objects();
-        draw_runtime_pools();
+        if ( m_rt_renderer )
+            draw_runtime_pools();
         draw_cursor();
 }
 
@@ -252,6 +282,7 @@ void renderer::draw_all_wno_cursor() {
         draw_grid();            
         draw_objects();
         draw_runtime_pools();
+        //draw_selection_rubberband();
 }
 
 void renderer::render() {
@@ -260,5 +291,17 @@ void renderer::render() {
         draw_all();
         stop();
 }
+            
+void renderer::rendering_mode_change() {
+    m_rq_renderer = !m_rq_renderer;
+    if ( m_rq_renderer )
+        std::cout << " RENDERING: RQ " << m_rq_renderer << std::endl;
+    else
+        std::cout << " RENDERING: WS " << m_rq_renderer << std::endl;
+        
+}
 		
-		
+void renderer::rendering_rt_mode_change() {
+    m_rt_renderer = !m_rt_renderer;
+    std::cout << " RT RENDERING: " << m_rt_renderer << std::endl;
+}

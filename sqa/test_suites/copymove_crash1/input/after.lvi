@@ -1,0 +1,7 @@
+dicmdCreateObjEllipse -brush 1 -color #444444 -fill 4 -points {(536,291);(388,241)}
+dicmdCreateObjEllipse -brush 1 -color #444444 -fill 4 -points {(325,169);(217,82)}
+dicmdCreateObjEllipse -brush 1 -color #444444 -fill 4 -points {(165,169);(50,79)}
+dicmdCreateObjEllipse -brush 1 -color #444444 -fill 4 -points {(429,201);(321,114)}
+dicmdCreateObjEllipse -brush 1 -color #444444 -fill 4 -points {(787,278);(671,207)}
+dicmdCreateObjEllipse -brush 1 -color #444444 -fill 4 -points {(624,156);(516,69)}
+dicmdCreateObjEllipse -brush 1 -color #444444 -fill 4 -points {(1061,215);(898,137)}

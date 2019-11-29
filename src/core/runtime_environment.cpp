@@ -35,10 +35,10 @@ void ObjectSandbox::movePoint(QPoint p)
 		it->movePoint(p);
 }
 
-void ObjectSandbox::addObject(IShape* p)
+IShape* ObjectSandbox::addObject(IShape* p)
 {
 	if (p != nullptr)
-		m_pool->addObject(p);
+		return m_pool->addObject(p);
 }
 
 void ObjectSandbox::changeBasicProperties(const ShapeProperties& b)

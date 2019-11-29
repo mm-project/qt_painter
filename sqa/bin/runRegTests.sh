@@ -45,6 +45,7 @@ for i in `cat $PAINTER_SQA_ROOT/tests.lst`; do
         if [ "$r" == 0 ]; then
             echo -e "\e[32mPass\e[0m"
             t_res=1
+            passed=`expr $passed + 1`
         elif [ "$r" == 3 ]; then
             echo -e "\e[4;5;41mC R A S H\e[0;25m"
             echo "******stack******"
@@ -73,13 +74,15 @@ done
 echo 
 echo "Summary:"
 echo "         Total:   $total "
+echo
 
 if [ "$res" == 0 ]; then
     echo "         ALL TESTS PASS"
     exit 0
 else
     echo "         Failed:  $failed"
-    echo "         Crashed: $crashed"
+    echo "         Passed:  $passed"
+    echo "         Crashd:  $crashed"
     exit 1
 fi
 

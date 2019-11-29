@@ -1,9 +1,13 @@
 #include "selection.hpp"
-//#include "postman.hpp"
+#include "postman.hpp"
 #include "shapes.hpp"
+#include "../gui/controller.hpp"
 #include "rq/RegionQueryService.hpp"
 
-//#include <csignal>
+#include <QFile>
+#include <QDir>
+#include <QTextStream>
+
 
 std::string Selection::getName() 
 {
@@ -14,16 +18,66 @@ std::string Selection::getName()
         
 }
 
+void Selection::dumpToFile(const std::string& fname)
+{
+    QFile file(fname.c_str());
+    file.open( QIODevice::WriteOnly | QIODevice::Append ); 
+    QTextStream z(&file);
+ 
+    z << "Name: "   << getName().c_str() ;
+    z << "\nObjCount: " << QString::number(getObjects().size());
+    z << "\n======\n";
+    for (auto i : m_objs) {
+        z << ObjType2String(i->getType()).c_str();
+        z << ":"; //i->getPoints();
+        z << "\n";
+    }
+    z << "--------";
+
+    file.flush();
+    file.close();
+}
+
+IShape* Selection::addObject(IShape* shape) 
+{
+    m_objs.push_back(shape);
+	m_sel_highlight_set->addObject(shape);
+	return shape;
+}
+
+void Selection::temporary_highlight() {
+	 m_sel_highlight_set->highlight_on();
+}
+
+std::vector<IShape*> Selection::getObjects()
+{
+    return m_objs;
+}
+
 void Selection::clear() {
 	WorkingSet::clear();
-        m_sel_highlight_set->clear();
+    m_sel_highlight_set->clear();
 	m_oa_highlight_set->clear();
-        m_sb->clear();
+    //m_sb->clear();
+    m_objs.clear();
 }
 
 void Selection::set_working_set(IObjectPool* ws) {
 	m_ws = ws;        
 	//m_h_on = false;
+    REGISTER_CALLBACK(CONTROLLER_CHANGED,&Selection::on_controller_update);
+}
+
+void Selection::on_controller_update(LeCallbackData&) {
+    std::cout << "changed.." << std::endl;
+    
+    if ( m_ws->getObjects().empty() ||  getObjects().empty() )
+        return;
+        
+    for ( auto obj : getObjects() ) {
+        obj->updateProperties(controller::getInstance().get_shape_properties());
+        //obj->updateProperties(controller::getInstance().get_shape_properties());        
+    }
 }
 
 void Selection::set_sandbox(ObjectPoolSandbox* sanboxes) {
@@ -61,45 +115,58 @@ void Selection::set_sandbox(ObjectPoolSandbox* sanboxes) {
 //asenq te
 void Selection::highlightselect_shape_under_pos(const QPoint& p) {
 	clear();
-        RegionQuery& rq = RegionQuery::getInstance();
 	IShape* shape = rq.getShapeUnderPos(p);
 	if (shape != nullptr)
 	{
 		addObject(shape);
 		m_sel_highlight_set->addObject(shape);
-                m_sel_highlight_set->highlight_on();
+        m_sel_highlight_set->highlight_on();
 	}
 }
 
 
 void Selection::highlight_shape_under_pos(const QPoint& p) {
 	m_oa_highlight_set->clear();
-        RegionQuery& rq = RegionQuery::getInstance();
 	IShape* shape = rq.getShapeUnderPos(p);
 	if (shape != nullptr)
 	{
 		m_oa_highlight_set->addObject(shape);
-                m_oa_highlight_set->highlight_on();
+        m_oa_highlight_set->highlight_on();
 	}
 }
 
+/* ! get shapes from rq that under following coord
+ *   and add them to local set ( vector ).
+ ! */
+void Selection::select_shape_under_pos(const QPoint& p) {
+	//clear();
+	IShape* shape = rq.getShapeUnderPos(p);
+	if (shape != nullptr)
+	{
+		addObject(shape);
+		m_sel_highlight_set->addObject(shape);
+        m_sel_highlight_set->highlight_on();
+	}
+}
 
-void Selection::find_and_highlightselect_shapes_from_region(const std::pair<QPoint,QPoint>& point) {
-        clear();
-        if ( m_ws->getObjects().empty() )
-		return;
+/* ! get shapes from rq under following bbox, that are part of working set
+ *   and add them to local set ( vector ).
+ ! */
+void Selection::find_and_highlightselect_shapes_from_region(const std::pair<QPoint,QPoint>& point) 
+{
+    clear();
+    if ( m_ws->getObjects().empty() )
+        return;
 
-        RegionQuery& rq = RegionQuery::getInstance();
-        for (auto it : rq.getShapesUnderRect(QRect(point.first, point.second))) {
-		addObject(it);
-                m_sel_highlight_set->addObject(it);
-        }
-        
-        m_last_region = QRect(point.first, point.second);
+    for (auto it : rq.getShapesUnderRect(QRect(point.first, point.second))) {
+        addObject(it);
+        m_sel_highlight_set->addObject(it);
+    }
+    
+    m_last_region = QRect(point.first, point.second);
 	m_sel_highlight_set->highlight_on();
 
 }
-
 
 void Selection::highlight_last_selected_region(bool on_off) 
 {
@@ -157,4 +224,4 @@ void HighlightSet::highlight_on_off(bool m_h_on) {
 		m_sb->addObject(it);
 	}
 }
-
+/**/

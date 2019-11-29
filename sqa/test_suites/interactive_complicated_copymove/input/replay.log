@@ -1,0 +1,61 @@
+#dicmdQaReplyingBreak
+#i --> Info: Welcome to this project. Feel free to expirment. 
+dicmdguiClickButton -object mw/65/70/Home/qt_tabwidget_tabbar 
+dicmdguiClickButton -object 0x104:Rectangle 
+incmdCreateObjRectangle
+dicmdCanvasMouseClick -point (93,26) 
+dicmdCanvasMouseClick -point (183,107) 
+#o --> Out: dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(93,26);(183,107)} 
+dicmdCanvasMouseClick -point (143,144) 
+dicmdCanvasMouseClick -point (222,175) 
+#o --> Out: dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(143,144);(222,175)} 
+dicmdCanvasMouseClick -point (204,227) 
+dicmdCanvasMouseClick -point (298,261) 
+#o --> Out: dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(204,227);(298,261)} 
+dicmdCanvasMouseClick -point (333,286) 
+dicmdCanvasMouseClick -point (471,342) 
+#o --> Out: dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(333,286);(471,342)} 
+dicmdguiClickButton -object 0x104:Ellipse 
+dicmdAbortActiveCommand 
+incmdCreateObjEllipse
+dicmdCanvasMouseClick -point (234,37) 
+dicmdCanvasMouseClick -point (308,84) 
+#o --> Out: dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(234,37);(308,84)} 
+dicmdCanvasMouseClick -point (303,131) 
+dicmdCanvasMouseClick -point (377,175) 
+#o --> Out: dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(303,131);(377,175)} 
+dicmdCanvasMouseClick -point (364,223) 
+dicmdCanvasMouseClick -point (441,248) 
+#o --> Out: dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(364,223);(441,248)} 
+dicmdAbortActiveCommand 
+dicmdAbortActiveCommand 
+dicmdCanvasMouseClick -point (397,235) 
+dicmdCanvasMouseRelease -point (741,168) 
+dicmdCanvasMouseClick -point (442,309) 
+dicmdCanvasMouseRelease -point (859,272) 
+dicmdguiClickButton -object 0x104:Rectangle 
+incmdCreateObjRectangle
+dicmdCanvasMouseClick -point (382,250) 
+dicmdCanvasMouseClick -point (480,308) 
+#o --> Out: dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(382,250);(480,308)} 
+dicmdCanvasMouseClick -point (283,323) 
+dicmdCanvasMouseClick -point (385,370) 
+#o --> Out: dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(283,323);(385,370)} 
+dicmdAbortActiveCommand 
+dicmdAbortActiveCommand 
+#dicmdQaReplyingBreak
+dicmdCanvasMouseClick -point (433,288) 
+dicmdCanvasMouseRelease -point (783,73) 
+dicmdSelectShapesByRegion -end (1043,346) -start (731,55) 
+#dicmdQaCompareSelection
+dicmdAbortActiveCommand
+#dicmdQaReplyingBreak
+dicmdCanvasMouseDblClick -point (0,0) 
+dicmdCanvasMouseClick -point (821,120) 
+dicmdCanvasMouseClick -point (821,120) 
+dicmdCanvasMouseRelease -point (630,101) 
+dicmdCanvasMouseRelease -point (630,101) 
+#e --> Error: Layer: 1       0x55e3b47e0080 /home/levon/test/qt_painter/sqa/bin/../../bin/linux/painter(+0xd4080) [0x55e3b47e0080]
+#e --> Error: Layer: 2       0x7f80804daf20 /lib/x86_64-linux-gnu/libc.so.6(+0x3ef20) [0x7f80804daf20]
+#e --> Error: 
+dicmdQaToolExit
