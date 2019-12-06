@@ -1,6 +1,7 @@
 #include "../delete_command.hpp"
 #include "../core/iobject_pool.hpp"
 #include "../core/ishape.hpp"
+#include "../core/design.hpp"
 
 
 #include <cassert>
