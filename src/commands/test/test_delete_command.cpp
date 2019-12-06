@@ -13,23 +13,23 @@ class MockWorkingSet : public IObjectPool
 {
 
 public:
-	virtual void clear() override
+	virtual void clear() noexcept override
 	{
 	}
-	virtual std::vector<IShapePtr> getObjects() const override
+	virtual std::vector<IShapePtr> getObjects() const noexcept override
 	{
 	}
 	IShapePtr addObject(IShapePtr s) override
 	{
 		m_shapes_count++; return s;
 	}
-	virtual std::string getName() override
+	virtual std::string getName() const noexcept override
 	{
 	}
-	virtual void dumpToFile(const std::string&)
+	virtual void dumpToFile(const std::string&) const
 	{
 	}
-	virtual void removeObject(IShapePtr)
+	virtual void removeObject(IShapePtr) noexcept
 	{
 	}
 	virtual ~MockWorkingSet()
