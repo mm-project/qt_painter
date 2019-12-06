@@ -32,11 +32,11 @@ void RegionQuery::clear() {}
 IShape* RegionQuery::getShapeUnderPos(QPoint const&) const { return nullptr; }
 
 void WorkingSet::clear()  {} 
-std::vector<IShape*> WorkingSet::getObjects() const { std::vector<IShape*> res; return res; }
-IShape* WorkingSet::addObject(IShape* s) { return s;}
+std::vector<IShapePtr> WorkingSet::getObjects() const { std::vector<IShapePtr> res; return res; }
+IShapePtr WorkingSet::addObject(IShapePtr s) { return s;}
 std::string WorkingSet::getName(){}
 void WorkingSet::dumpToFile(const std::string&) {}
-void WorkingSet::removeObject(IShape*) {}
+void WorkingSet::removeObject(IShapePtr) {}
 
 void ServiceManager::shutDown(){}
 //!Mocking

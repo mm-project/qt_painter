@@ -2,8 +2,8 @@
 #include "controller.hpp"
 
 #include "../core/shapes.hpp"
-#include "../core/working_set.hpp"
-#include "../core/runtime_environment.hpp"
+#include "../core/design.hpp"
+#include "../core/runtime_pool.hpp"
 #include "../core/selection.hpp"
 #include "../core/application.hpp"
 
@@ -27,9 +27,9 @@
 #include <cassert>
 #include <iostream>
 
-#define INCMD_CREATE_OBJ(S) incmdCreateObj<S>(m_sandbox, m_working_set)
-#define INCMD_CREATE_OBJ_POLYGON(N) incmdCreateNthgon<N>(m_sandbox, m_working_set)
-#define INCMD_HIGHLIGHT_BY_REGION incmdSelectShapesByRegion(m_sandbox, m_working_set)
+#define INCMD_CREATE_OBJ(S) incmdCreateObj<S>(m_runtime, m_design)
+#define INCMD_CREATE_OBJ_POLYGON(N) incmdCreateNthgon<N>(m_runtime, m_design)
+#define INCMD_HIGHLIGHT_BY_REGION incmdSelectShapesByRegion(m_runtime, m_design)
 #define INCMD_HIGHLIGHT_BY_POINT incmdSelectUnderCursoer()
 
 canvas::canvas(QWidget* p)
@@ -44,16 +44,19 @@ canvas::canvas(QWidget* p)
         m_need_motionlog = !QString::fromLocal8Bit( qgetenv("PAINTER_LOG_MOTION").constData() ).isEmpty();
         
 	//FIXME move to services
-	m_working_set = std::shared_ptr<WorkingSet>(new WorkingSet);
-	m_sandbox = std::shared_ptr<ObjectPoolSandbox>(new ObjectPoolSandbox);
+	m_design = std::shared_ptr<Design>(new Design);
+	m_runtime = std::shared_ptr<RuntimePoolManager>(new RuntimePoolManager);
+	//	Global runtime pool
+	auto runtimePool = std::shared_ptr<RuntimePool>(new RuntimePool);
+	m_runtime->addChild(runtimePool, "Canvas");
+		
 	
+	Selection::getInstance().set_working_set(m_design.get());
+	Selection::getInstance().set_sandbox(m_runtime.get());
 	
-	Selection::getInstance().set_working_set(m_working_set.get());
-	Selection::getInstance().set_sandbox(m_sandbox.get());
+	m_renderer = new renderer(this, m_runtime, m_design);
 	
-	m_renderer = new renderer(this,m_sandbox,m_working_set);
-	
-	cm.init2(m_sandbox, m_working_set);
+	cm.init2(m_runtime, m_design);
 	cm.init();
     cm.set_main_renderer(m_renderer);
 	
@@ -64,17 +67,17 @@ canvas::canvas(QWidget* p)
 	cm.register_command(new INCMD_CREATE_OBJ(POLYGON));
 	cm.register_command(new INCMD_HIGHLIGHT_BY_REGION);
 	cm.register_command(new INCMD_HIGHLIGHT_BY_POINT);
-	cm.register_command(new dicmdCreateObj<RECTANGLE>(m_working_set));
-	cm.register_command(new dicmdCreateObj<LINE>(m_working_set));
-	cm.register_command(new dicmdCreateObj<ELLIPSE>(m_working_set));
-	cm.register_command(new dicmdCreateObj<POLYGON>(m_working_set));
-	cm.register_command(new InteractiveDesAction<LOAD>(m_working_set));
-	cm.register_command(new InteractiveDesAction<SAVE>(m_working_set));
-	cm.register_command(new InteractiveDesAction<NEW>(m_working_set));   
-	cm.register_command(new dicmdDesignSave(m_working_set));
-	cm.register_command(new dicmdDesignLoad(m_working_set));
-	cm.register_command(new InteractiveDeleteAction(m_working_set));
-	cm.register_command(new dicmdDeleteObj(m_working_set));
+	cm.register_command(new dicmdCreateObj<RECTANGLE>(m_design));
+	cm.register_command(new dicmdCreateObj<LINE>(m_design));
+	cm.register_command(new dicmdCreateObj<ELLIPSE>(m_design));
+	cm.register_command(new dicmdCreateObj<POLYGON>(m_design));
+	cm.register_command(new InteractiveDesAction<LOAD>(m_design));
+	cm.register_command(new InteractiveDesAction<SAVE>(m_design));
+	cm.register_command(new InteractiveDesAction<NEW>(m_design));
+	cm.register_command(new dicmdDesignSave(m_design));
+	cm.register_command(new dicmdDesignLoad(m_design));
+	cm.register_command(new InteractiveDeleteAction(m_design));
+	cm.register_command(new dicmdDeleteObj(m_design));
 }
 
 

@@ -1,8 +1,9 @@
 #include "renderer.hpp"
+#include "core.hpp"
 
 #include "../commands/canvas_commands.hpp"
 
-renderer::renderer ( QWidget* w, ObjectPoolSandboxPtr r, IObjectPoolPtr s ):m_sandbox(r),m_working_set(s) { 	
+renderer::renderer ( QWidget* w, RuntimePoolManagerPtr r, ObjectPoolPtr s ):m_sandbox(r),m_working_set(s) { 	
     m_scale_factor = 1;
     m_qt_painter = new QPainter(w);
     m_plane = w;
@@ -178,11 +179,11 @@ void renderer::draw_grid() {
 
 void renderer::draw_objects() {
         // draw working set
-        std::vector<IShape*> shapes = m_working_set->getObjects();
+        std::vector<IShapePtr> shapes = m_working_set->getObjects();
         // fixme draw all objects in the bbox, from rq.
         // std::vector<IShape*> shapes = rq.getShapesUnderRect(m_users_pov_rect);
         for (auto i : shapes)
-                i->draw(m_qt_painter);
+			i->draw(m_qt_painter);
 }
 
 void renderer::make_viewport_adjustments() {
@@ -203,16 +204,10 @@ void renderer::draw_runtime_pools() {
     auto pools = m_sandbox->getChildren();
     for (auto it : pools)
     {
-        if (it == nullptr)
-                        continue;
-
-        auto p = it->getPool();
-        if (p == nullptr)
-                        continue;
-
-        auto objs = p->getObjects();
+		ASSERT_CONTINUE(it.second != nullptr);
+        auto objs = it.second->getObjects();
         for (auto i : objs)
-                i->draw(m_qt_painter);
+			i->draw(m_qt_painter);
     }
 }
 

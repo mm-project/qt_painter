@@ -143,4 +143,6 @@ protected:
 	ShapeProperties m_properties;
 };
 
+using IShapePtr = std::shared_ptr<IShape>;
+
 #endif

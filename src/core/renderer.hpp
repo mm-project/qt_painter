@@ -2,7 +2,7 @@
 #define renderer_hpp
 
 #include "iobject_pool.hpp"
-#include "runtime_environment.hpp"
+#include "runtime_pool.hpp"
 #include "postman.hpp"
 #include "callback.hpp"
 
@@ -61,7 +61,7 @@ class renderer
 {
     //Q_OBJECT
     public:
-        renderer ( QWidget* w, ObjectPoolSandboxPtr r, IObjectPoolPtr s );
+        renderer ( QWidget* w, RuntimePoolManagerPtr r, ObjectPoolPtr s );
         ~renderer(); 
         void render(); 
         void pan(const panDirection& d); 
@@ -107,8 +107,8 @@ class renderer
         //bool clicked = false;
         int c_cursor_x = 0;
         int c_cursor_y = 0;
-        IObjectPoolPtr m_working_set;
-        ObjectPoolSandboxPtr m_sandbox;
+        ObjectPoolPtr m_working_set;
+        RuntimePoolManagerPtr m_sandbox;
         int m_scale = 15;
         int m_pan_step = 15;
         QPoint m_origin_point = {0,0};

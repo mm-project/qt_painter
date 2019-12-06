@@ -13,14 +13,14 @@
 class dicmdDeleteObj : public DirectCommandBase
 {
 public:
-	dicmdDeleteObj(IObjectPoolPtr ptr, QPoint pos)
-		: m_workingSet(std::dynamic_pointer_cast<WorkingSet>(ptr))
+	dicmdDeleteObj(ObjectPoolPtr ptr, QPoint pos)
+		: m_workingSet(std::dynamic_pointer_cast<Design>(ptr))
 	{
 		add_option("-point",new PointCommandOptionValue(pos));
 	}
 
-	dicmdDeleteObj(IObjectPoolPtr ptr)
-		: m_workingSet(std::dynamic_pointer_cast<WorkingSet>(ptr))
+	dicmdDeleteObj(ObjectPoolPtr ptr)
+		: m_workingSet(std::dynamic_pointer_cast<Design>(ptr))
 	{
 		add_option("-point",new PointCommandOptionValue());
 	}
@@ -36,27 +36,27 @@ public:
 		//FIXME need only one init during shape creation
 		RegionQuery& rq = RegionQuery::getInstance();
 		for (auto obj : m_workingSet->getObjects())
-			rq.insertObject(obj);
+			rq.insertObject(obj.get());
 
 		QPoint pos = GET_CMD_ARG(PointCommandOptionValue,"-point");
 		IShape* shape = rq.getShapeUnderPos(pos);
 		rq.clear(); // temp solution for the crash
 		if (shape != nullptr)
 		{
-			m_workingSet->removeObject(shape);
+			//m_workingSet->removeObject(shape);
 		}
 
 	}
 
 private:
-	WorkingSetPtr m_workingSet = nullptr;
+	DesignPtr m_workingSet = nullptr;
 };
 
 class InteractiveDeleteAction : public InteractiveCommandBase
 {
 public:
-	InteractiveDeleteAction(IObjectPoolPtr ptr)
-		: m_workingSet(std::dynamic_pointer_cast<WorkingSet>(ptr))
+	InteractiveDeleteAction(ObjectPoolPtr ptr)
+		: m_workingSet(std::dynamic_pointer_cast<Design>(ptr))
 	{}
 
 	virtual std::string get_name() override
@@ -99,6 +99,6 @@ public:
 	}
 private:
 	QPoint m_position;
-	WorkingSetPtr m_workingSet = nullptr;
+	DesignPtr m_workingSet = nullptr;
 };
 #endif

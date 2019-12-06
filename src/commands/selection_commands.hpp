@@ -78,7 +78,7 @@ public:
 class incmdSelectShapesByRegion : public incmdCreateObj<RECTANGLE>
 {
 public:
-        incmdSelectShapesByRegion(ObjectPoolSandboxPtr r, IObjectPoolPtr s ):incmdCreateObj<RECTANGLE>(r,s) {
+        incmdSelectShapesByRegion(RuntimePoolManagerPtr r, ObjectPoolPtr s ):incmdCreateObj<RECTANGLE>(r,s) {
                 m_first_click = true;
         }
 

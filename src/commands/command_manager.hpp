@@ -7,8 +7,8 @@
 //
 //#include "icommand_base.hpp"
 
-#include "../core/runtime_environment.hpp"
-#include "../core/working_set.hpp"
+#include "../core/runtime_pool.hpp"
+#include "../core/design.hpp"
 #include "../core/callback.hpp"
 #include "../core/service.hpp"
 
@@ -35,7 +35,7 @@ public:
 	renderer* get_main_renderer();
 	
 	
-	void init2(ObjectPoolSandboxPtr r, IObjectPoolPtr s);
+	void init2(RuntimePoolManagerPtr r, ObjectPoolPtr s);
 	void init();
 	
 	void disactivate_active_command();
@@ -64,15 +64,9 @@ private:
 	
 	CommandBase* m_current_command = nullptr;
 	CommandBase* m_idle_command = nullptr;
-
-	//CommandBase* m_elipse_command;
-	//CommandBase* m_line_command;
-	//CommandBase* m_rect_command;
-	//CommandBase* m_polygon_command;
-
 	
-	ObjectPoolSandboxPtr re;
-	IObjectPoolPtr ws;
+	RuntimePoolManagerPtr re;
+	ObjectPoolPtr ws;
 	//bool m_is_idle;
 	QWidget* m_main_widget	= nullptr;
 	float m_kx = 1;

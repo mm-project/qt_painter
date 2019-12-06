@@ -5,7 +5,7 @@
 
 //#include <csignal>
 
-std::string Selection::getName() 
+std::string Selection::getName() const noexcept
 {
     //int* a;
     //*a = 1;    
@@ -14,8 +14,9 @@ std::string Selection::getName()
         
 }
 
-void Selection::clear() {
-	WorkingSet::clear();
+void Selection::clear() noexcept
+{
+	Design::clear();
         m_sel_highlight_set->clear();
 	m_oa_highlight_set->clear();
         m_sb->clear();
@@ -26,10 +27,11 @@ void Selection::set_working_set(IObjectPool* ws) {
 	//m_h_on = false;
 }
 
-void Selection::set_sandbox(ObjectPoolSandbox* sanboxes) {
+void Selection::set_sandbox(RuntimePoolManager* sanboxes) {
 	m_rt_pools = sanboxes;
-	m_sb = new ObjectSandbox();
-	m_rt_pools->addChildren(std::shared_ptr<ObjectSandbox>(m_sb));
+	//m_sb = new RuntimePool();
+	//m_rt_pools->addChildren(std::shared_ptr<RuntimePool>(m_sb));
+	m_sb = m_rt_pools->getChild("Canvas").get();
         
         ShapeProperties p1;
 		p1.pen_color = Qt::yellow;
@@ -61,8 +63,8 @@ void Selection::set_sandbox(ObjectPoolSandbox* sanboxes) {
 //asenq te
 void Selection::highlightselect_shape_under_pos(const QPoint& p) {
 	clear();
-        RegionQuery& rq = RegionQuery::getInstance();
-	IShape* shape = rq.getShapeUnderPos(p);
+    RegionQuery& rq = RegionQuery::getInstance();
+	IShapePtr shape = std::shared_ptr<IShape>(rq.getShapeUnderPos(p));
 	if (shape != nullptr)
 	{
 		addObject(shape);
@@ -74,8 +76,8 @@ void Selection::highlightselect_shape_under_pos(const QPoint& p) {
 
 void Selection::highlight_shape_under_pos(const QPoint& p) {
 	m_oa_highlight_set->clear();
-        RegionQuery& rq = RegionQuery::getInstance();
-	IShape* shape = rq.getShapeUnderPos(p);
+    RegionQuery& rq = RegionQuery::getInstance();
+	IShapePtr shape = std::shared_ptr<IShape>(rq.getShapeUnderPos(p));
 	if (shape != nullptr)
 	{
 		m_oa_highlight_set->addObject(shape);
@@ -91,8 +93,9 @@ void Selection::find_and_highlightselect_shapes_from_region(const std::pair<QPoi
 
         RegionQuery& rq = RegionQuery::getInstance();
         for (auto it : rq.getShapesUnderRect(QRect(point.first, point.second))) {
-		addObject(it);
-                m_sel_highlight_set->addObject(it);
+			auto obj = std::shared_ptr<IShape>(it);
+			addObject(obj);
+			m_sel_highlight_set->addObject(obj);
         }
         
         m_last_region = QRect(point.first, point.second);
@@ -111,7 +114,8 @@ void Selection::highlight_last_selected_region(bool on_off)
     }
     
     std::cout << m_last_region.bottomRight().x() << " " << m_last_region.bottomRight().y() << std::endl;
-    m_qa_highlight_set->addObject(Rectangle(m_last_region, ShapeProperties()).clone());
+	//use shape creator instead of clone
+    m_qa_highlight_set->addObject(std::shared_ptr<IShape>(Rectangle(m_last_region, ShapeProperties()).clone()));
     m_qa_highlight_set->highlight_on();
 }
 
@@ -122,13 +126,15 @@ HighlightSet::HighlightSet(const std::string& n,const ShapeProperties& p ):m_nam
 }
 
 
-void HighlightSet::create_sandbox(ObjectPoolSandbox* ops) {
+void HighlightSet::create_sandbox(RuntimePoolManager* ops) {
     m_rt_pools = ops;
-    m_sb = new ObjectSandbox();
-    m_rt_pools->addChildren(std::shared_ptr<ObjectSandbox>(m_sb));
+    //m_sb = new RuntimePool();
+    //m_rt_pools->addChildren(std::shared_ptr<RuntimePool>(m_sb));
+	m_sb = m_rt_pools->getChild("Canvas").get();
 }
 
-std::string HighlightSet::getName() {
+std::string HighlightSet::getName() const noexcept
+{
     return m_name;
 }
 
@@ -137,8 +143,9 @@ void HighlightSet::highlight_on()
     highlight_on_off(true);
 }
 
-void HighlightSet::clear() {
-    WorkingSet::clear();
+void HighlightSet::clear() noexcept
+{
+    Design::clear();
     highlight_off();
 }
 
