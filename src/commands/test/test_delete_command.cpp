@@ -31,7 +31,7 @@ void RegionQuery::insertObject(IShape*) {}
 void RegionQuery::clear() {}
 IShape* RegionQuery::getShapeUnderPos(QPoint const&) const { return nullptr; }
 
-void Design::clear()  {} 
+void Design::clear() noexcept {}
 std::vector<IShapePtr> Design::getObjects() const noexcept { std::vector<IShapePtr> res; return res; }
 IShapePtr Design::addObject(IShapePtr s) { return s;}
 std::string Design::getName() noexcept {}
@@ -55,7 +55,7 @@ bool UT_delete_command()
 {
     
     //Expecting!: dicmdDeleteObj command to be created
-    IObjectPoolPtr ws = std::shared_ptr<WorkingSet>(new WorkingSet);
+	IObjectPoolPtr ws = std::shared_ptr<Design>(new Design);
     dicmdDeleteObj cmd(ws);
 
     //Expecting!: dicmdCreateObj to be executed on point 0,0 without issues
