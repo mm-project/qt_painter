@@ -33,7 +33,7 @@ IShape* RegionQuery::getShapeUnderPos(QPoint const&) const { return nullptr; }
 
 void ObjectPoolBase::clear() noexcept {}
 std::vector<IShapePtr> ObjectPoolBase::getObjects() const noexcept { std::vector<IShapePtr> res; return res; }
-IShapePtr Design::addObject(IShapePtr s) { return s;}
+IShapePtr ObjectPoolBase::addObject(IShapePtr s) { return s;}
 std::string Design::getName() const noexcept {}
 void Design::dumpToFile(const std::string&) const {}
 void ObjectPoolBase::removeObject(IShapePtr) noexcept {}
