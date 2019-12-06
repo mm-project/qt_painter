@@ -7,6 +7,37 @@
 #include <cassert>
 #include <string>
 /*! \file */ 
+/*! \file */
+//IMocking!: Workingset
+class MockWorkingSet : public IObjectPool
+{
+
+public:
+	virtual void clear() override
+	{
+	}
+	virtual std::vector<IShapePtr> getObjects() const override
+	{
+	}
+	IShapePtr addObject(IShapePtr s) override
+	{
+		m_shapes_count++; return s;
+	}
+	virtual std::string getName() override
+	{
+	}
+	virtual void dumpToFile(const std::string&)
+	{
+	}
+	virtual void removeObject(IShapePtr)
+	{
+	}
+	virtual ~MockWorkingSet()
+	{
+	}
+	int m_shapes_count = 0;
+};
+
 
 //IMocking!: Shape
 class MockShape : public IShape
@@ -32,12 +63,12 @@ void RegionQuery::insertObject(IShape*) {}
 void RegionQuery::clear() {}
 IShape* RegionQuery::getShapeUnderPos(QPoint const&) const { return nullptr; }
 
-void ObjectPoolBase::clear() noexcept {}
-std::vector<IShapePtr> ObjectPoolBase::getObjects() const noexcept { std::vector<IShapePtr> res; return res; }
-IShapePtr ObjectPoolBase::addObject(IShapePtr s) { return s;}
-std::string Design::getName() const noexcept {}
-void Design::dumpToFile(const std::string&) const {}
-void ObjectPoolBase::removeObject(IShapePtr) noexcept {}
+//void ObjectPoolBase::clear() noexcept {}
+//std::vector<IShapePtr> ObjectPoolBase::getObjects() const noexcept { std::vector<IShapePtr> res; return res; }
+//IShapePtr ObjectPoolBase::addObject(IShapePtr s) { return s;}
+//std::string Design::getName() const noexcept {}
+//void Design::dumpToFile(const std::string&) const {}
+//void ObjectPoolBase::removeObject(IShapePtr) noexcept {}
 
 void ServiceManager::shutDown(){}
 //!Mocking
@@ -56,21 +87,21 @@ bool UT_delete_command()
 {
     
     //Expecting!: dicmdDeleteObj command to be created
-	//ObjectPoolPtr ws = std::shared_ptr<Design>(new Design);
- //   dicmdDeleteObj cmd(ws);
+	ObjectPoolPtr ws = std::shared_ptr<Design>(new Design);
+    dicmdDeleteObj cmd(ws);
 
- //   //Expecting!: dicmdCreateObj to be executed on point 0,0 without issues
- //   cmd.set_arg("-point","(0,0)");
- //   cmd.execute();
+    //Expecting!: dicmdCreateObj to be executed on point 0,0 without issues
+    cmd.set_arg("-point","(0,0)");
+    cmd.execute();
 
- //   //Expecting!: command should throw exception when argument is invalid
- //   cmd.set_arg("-p1int","(0,0)");
- //   cmd.execute();
+    //Expecting!: command should throw exception when argument is invalid
+    cmd.set_arg("-p1int","(0,0)");
+    cmd.execute();
 }
 
 
 int main() 
 {
     //return 0;
-    //UT_delete_command();
+    UT_delete_command();
 }
