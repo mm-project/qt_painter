@@ -56,16 +56,16 @@ bool UT_delete_command()
 {
     
     //Expecting!: dicmdDeleteObj command to be created
-	ObjectPoolPtr ws = std::shared_ptr<Design>(new Design);
-    dicmdDeleteObj cmd(ws);
+	//ObjectPoolPtr ws = std::shared_ptr<Design>(new Design);
+ //   dicmdDeleteObj cmd(ws);
 
-    //Expecting!: dicmdCreateObj to be executed on point 0,0 without issues
-    cmd.set_arg("-point","(0,0)");
-    cmd.execute();
+ //   //Expecting!: dicmdCreateObj to be executed on point 0,0 without issues
+ //   cmd.set_arg("-point","(0,0)");
+ //   cmd.execute();
 
-    //Expecting!: command should throw exception when argument is invalid
-    cmd.set_arg("-p1int","(0,0)");
-    cmd.execute();
+ //   //Expecting!: command should throw exception when argument is invalid
+ //   cmd.set_arg("-p1int","(0,0)");
+ //   cmd.execute();
 }
 
 
