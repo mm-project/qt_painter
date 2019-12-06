@@ -31,12 +31,12 @@ void RegionQuery::insertObject(IShape*) {}
 void RegionQuery::clear() {}
 IShape* RegionQuery::getShapeUnderPos(QPoint const&) const { return nullptr; }
 
-void WorkingSet::clear()  {} 
-std::vector<IShapePtr> WorkingSet::getObjects() const { std::vector<IShapePtr> res; return res; }
-IShapePtr WorkingSet::addObject(IShapePtr s) { return s;}
-std::string WorkingSet::getName(){}
-void WorkingSet::dumpToFile(const std::string&) {}
-void WorkingSet::removeObject(IShapePtr) {}
+void Design::clear()  {} 
+std::vector<IShapePtr> Design::getObjects() const noexcept { std::vector<IShapePtr> res; return res; }
+IShapePtr Design::addObject(IShapePtr s) { return s;}
+std::string Design::getName() noexcept {}
+void Design::dumpToFile(const std::string&) {}
+void Design::removeObject(IShapePtr) {}
 
 void ServiceManager::shutDown(){}
 //!Mocking
