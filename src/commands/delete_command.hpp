@@ -6,6 +6,7 @@
 #include "direct_command_base.hpp"
 
 #include "../core/rq/RegionQueryService.hpp"
+#include "../core/design.hpp"
 #include "../gui/statusbar_manager.hpp"
 
 
