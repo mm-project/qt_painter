@@ -16,7 +16,7 @@
 
 class HighlightSet;
 
-class Selection : public Service<Selection> , public Design
+class Selection : public Service<Selection> , public ObjectPoolBase
 {
         HighlightSet* m_sel_highlight_set;
         HighlightSet* m_oa_highlight_set;
@@ -32,11 +32,8 @@ class Selection : public Service<Selection> , public Design
 
 public:
         virtual std::string getName() const noexcept override;
-        virtual void clear() noexcept;
-        virtual std::vector<IShapePtr> getObjects() const noexcept;
-        virtual IShapePtr addObject(IShapePtr);
-        virtual void removeObject(IShapePtr) noexcept {}
         virtual void dumpToFile(const std::string& fname) const;
+        virtual void clear() noexcept override;
 
 public:   
         void set_working_set(ObjectPoolPtr ws);
@@ -51,7 +48,7 @@ public:
 		void temporary_highlight();
 };
 
-class HighlightSet : public Design
+class HighlightSet : public ObjectPoolBase
 {
         //WorkingSet* m_select_set;
         ObjectPoolPtr m_ws;
@@ -63,12 +60,14 @@ class HighlightSet : public Design
 
 public:
         virtual std::string getName() const noexcept override;
+        virtual void dumpToFile(const std::string& fname) const {}
+        virtual void clear() noexcept override;
+
 public:   
         HighlightSet(const std::string& n,const ShapeProperties& p );
         void create_sandbox(RuntimePoolManagerPtr ops);
         void highlight_on();
         void highlight_off();
-        void clear() noexcept;
 
 private:
         void highlight_on_off(bool m_h_on);      

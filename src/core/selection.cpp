@@ -38,24 +38,12 @@ void Selection::dumpToFile(const std::string& fname) const
     file.close();
 }
 
-IShapePtr Selection::addObject(IShapePtr shape) 
-{
-    m_objs.push_back(shape);
-	m_sel_highlight_set->addObject(shape);
-	return shape;
-}
-
 void Selection::temporary_highlight() {
 	 m_sel_highlight_set->highlight_on();
 }
 
-std::vector<IShapePtr> Selection::getObjects() const noexcept
-{
-    return m_objs;
-}
-
 void Selection::clear() noexcept {
-	Design::clear();
+	ObjectPoolBase::clear();
 	m_oa_highlight_set->clear();
     //m_sb->clear();
     m_objs.clear();
@@ -209,7 +197,7 @@ void HighlightSet::highlight_on()
 
 void HighlightSet::clear() noexcept
 {
-    Design::clear();
+    ObjectPoolBase::clear();
     highlight_off();
 }
 
