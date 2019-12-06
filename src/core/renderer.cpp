@@ -183,7 +183,8 @@ void renderer::draw_objects() {
         // fixme draw all objects in the bbox, from rq.
         // std::vector<IShape*> shapes = rq.getShapesUnderRect(m_users_pov_rect);
         for (auto i : shapes)
-			i->draw(m_qt_painter);
+			if (i != nullptr)
+				i->draw(m_qt_painter);
 }
 
 void renderer::make_viewport_adjustments() {
