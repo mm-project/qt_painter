@@ -35,8 +35,8 @@ void Design::clear()  {}
 std::vector<IShapePtr> Design::getObjects() const noexcept { std::vector<IShapePtr> res; return res; }
 IShapePtr Design::addObject(IShapePtr s) { return s;}
 std::string Design::getName() noexcept {}
-void Design::dumpToFile(const std::string&) {}
-void Design::removeObject(IShapePtr) {}
+void Design::dumpToFile(const std::string&) const {}
+void Design::removeObject(IShapePtr) noexcept {}
 
 void ServiceManager::shutDown(){}
 //!Mocking
