@@ -5,6 +5,7 @@
 #include "runtime_pool.hpp"
 #include "postman.hpp"
 #include "callback.hpp"
+#include "selection.hpp"
 
 
 #include <QPainter>
@@ -73,6 +74,8 @@ class renderer
         void zoomout_p(QPoint p); 
         void set_cursor_pos_for_drawing(int,int);
         void click_hint();
+        void rendering_mode_change();
+        void rendering_rt_mode_change();
             
     private:
         QPainter*  get_painter();
@@ -93,29 +96,33 @@ class renderer
         void draw_runtime_pools(); 
         void draw_cursor();
         void draw_all();
+        //void draw_selection_rubberband();
         void draw_all_wno_cursor();
-		
+            
+    private:
+        Selection& m_se = Selection::getInstance();
         
-		
     private:
         float m_scale_factor = 1;
         float m_zoom_factor = 1.1;
             
     private:
-        QPainter* m_qt_painter;
-	bool m_need_draw_clicked = false;
-        //bool clicked = false;
-        int c_cursor_x = 0;
-        int c_cursor_y = 0;
-        ObjectPoolPtr m_working_set;
-        RuntimePoolManagerPtr m_sandbox;
-        int m_scale = 15;
-        int m_pan_step = 15;
-        QPoint m_origin_point = {0,0};
-        bool m_need_adjustment = false;
-        QRect* m_users_pov_rect;
- 	
-        QWidget* m_plane;
+        bool m_rq_renderer = true;
+        bool m_rt_renderer = true;
+        
+		QPainter* m_qt_painter;
+		ObjectPoolPtr m_working_set;
+		RuntimePoolManagerPtr m_sandbox;
+		int m_scale = 30;
+		int m_pan_step = 10;
+		QPoint m_origin_point = {0,0};
+		QPoint m_old_origin_point = {0,0};
+		bool m_need_adjustment = false;
+		QWidget* m_plane;
+		int c_cursor_x = 0;
+		int c_cursor_y = 0;
+		bool m_need_draw_clicked = false;
+		QRect* m_users_pov_rect;
 };
 
 #endif

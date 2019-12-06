@@ -1,0 +1,10 @@
+dicmdSelectShapesByRegion -end (277,183) -start (158,79) 
+dicmdSelectShapesByRegion -end (335,199) -start (177,102) 
+dicmdSelectShapesByRegion -end (186,191) -start (83,87) 
+dicmdSelectShapesByRegion -end (326,218) -start (133,89) 
+dicmdSelectShapesByRegion -end (484,162) -start (368,65) 
+dicmdSelectShapesByRegion -end (501,199) -start (339,89) 
+dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(144,73);(275,161)} 
+dicmdSelectShapesByRegion -end (250,120) -start (293,50) 
+dicmdSelectShapesByRegion -end (266,128) -start (228,56) 
+dicmdSelectShapesByRegion -end (1037,263) -start (85,13) 

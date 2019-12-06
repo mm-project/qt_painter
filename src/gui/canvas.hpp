@@ -27,6 +27,8 @@ public:
         virtual void mouseMoveEvent(QMouseEvent*) override;
         virtual void mouseDoubleClickEvent(QMouseEvent*) override;
         virtual void wheelEvent(QWheelEvent* event) override;
+        virtual void mouseReleaseEvent(QMouseEvent* e) override;
+        virtual bool event(QEvent* e) override;
 
 public:
         renderer* get_renderer();
@@ -42,13 +44,12 @@ public slots:
         void invoke_save();
         void invoke_load();
         void invoke_delete();
+        void invoke_copy();
+        void invoke_move();
         
         void reset();
         void on_update();
         void abordCommand();
-
-signals:
-	void discardAction();
 
 private:
         bool is_runtime_mode;

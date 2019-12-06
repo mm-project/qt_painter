@@ -39,6 +39,7 @@ function prepocess
     
     if [ "$mode" = "debug" ]; then
         export ELEN_PAINTER_TESTDBG="1"
+        export ELEN_PAINTER_STARTDBG="1"
     fi
     
     verbose "prepocess..."
@@ -70,7 +71,7 @@ function postprocess
             rm -rf ../golden 
             mkdir -p ../golden
             for e in $extras; do
-                cp $e ../golden/$e.golden
+                cp -rf $e ../golden/$e.golden &> /dev/null
             done
             cp ./logs/painter.log ../golden/painter.log.golden
             cp ./logs/painter.lvi ../golden/painter.lvi.golden
@@ -93,13 +94,17 @@ function postprocess
 
             res_d=""
             problems=""
+            extranl=""
             for ex in $extras; do
                 d=`diff $ex $ex.golden`
                 if [ "$d" != "" ]; then
-                    problems="$ex <--> $ex.golden $problems"
+nl="
+"
+                    problems="$ex <--> $ex.golden $problems $extranl"
                     #files[${ex}]="$ex.golden"
                 fi
                 res_d="$res_d$d"
+                extranl=$nl
             done
 
         else
@@ -152,6 +157,20 @@ function postprocess
             for k in ${!files[@]}; do
                 kompare ${files[$k]} $k
             done
+            
+            echo "#!/bin/bash" >> other.cmpr.tmp
+			cat logs/painter.log | grep "\#e --> Error: " | grep MISMATCH | cut -d' ' -f5-6  | sed "s/^/kompare /" >> other.cmpr.tmp
+
+IFS="
+"
+			for problem in $problems; do
+				a=`echo $problem | sed "s/ <--> / /g"`
+				echo "kompare $a" >> other.cmpr.tmp
+			done
+			
+			chmod 777 other.cmpr.tmp
+			./other.cmpr.tmp
+
         fi
         
         if [ "$succ" != 4 ]; then
@@ -179,7 +198,7 @@ function run
     tool=$toolpath/$toolexe
     verbose "invocation: $tool "$options" &> painter.out "
 
-    $tool $options &> /dev/null
+    $tool $options &> pntr.output
     exit_code=$?
 }
 

@@ -58,34 +58,28 @@ void Messenger::init() {
 std::string Messenger::decorate_for_logging(const LogMsgSeverity& r) {
 	
 	switch (r) {
-                case ok:
-                        return("");
-                        break;
-                case usr:
-                        return("#u --> User: ");
-                        break;
-                case err:
+		case ok:
+			return("");
+		case log_:
+			return("#r ");
+		case usr:
+			return("#u --> User: ");
+		case err:
 			return("#e --> Error: ");
 			break;
 		case info:
 			return("#i --> Info: ");
-			break;
 		case warn:
 			return("#w --> Warning: ");
-			break;
 		case out:
 			return("#o --> Out: ");
-			break;
-                case cont:
-                        return("#c ");
-                        break;
-                case test:
-                        return("#t --> Test: ");
-                        break;
-                case modal:
-                        return("#m ");
-                        break;                           
-                default:
+		case cont:
+			return("#c ");
+		case test:
+			return("#t --> Test: ");
+		case modal:
+			return("#m ");
+		default:
 			return("#? ");
                         break;
 		}
@@ -95,6 +89,10 @@ std::string Messenger::decorate_for_logging(const LogMsgSeverity& r) {
 //FIXME
 void Messenger::expose_internal(const LogMsgSeverity& severity, const std::string& m , bool iscmd) 
 {
+	LeCallbackData fixme;
+	if ( ( severity==warn || severity==err ) && ( !QString::fromLocal8Bit(qgetenv("ELEN_PAINTER_STARTDBG").constData()).isEmpty() ) )
+		NOTIFY(STOP_REPLY,fixme);
+
 	if ( Application::is_load_mode() )
             return;
         
@@ -146,13 +144,18 @@ void Messenger::write_entry_to_cmdfile(const std::string& msg) {
 //static			
 void Messenger::expose_msg(const LogMsgSeverity& s, const std::string& msg, bool iscmd )
 {
+
 	Messenger::getInstance().expose_internal(s,msg,iscmd);
 }
     	
 //static used by CommandBase internally , fixme add friend		
 void Messenger::log_command(const std::string& msg, bool iscmd) 
 {
-	Messenger::expose_msg(ok,msg,iscmd);	
+    //if(! Application::is_replay_mode())	
+        Messenger::expose_msg(ok,msg,iscmd);
+    //else
+    //    Messenger::expose_msg(log_,msg,iscmd);
+        
 }
 
 //Messenger::expose(err,"Error: ... ")

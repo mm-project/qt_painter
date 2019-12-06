@@ -2,6 +2,7 @@
 #i --> Info: Set to mode1
 dicmdguiClickButton -object 0x104:Rectangle 
 incmdCreateObjRectangle
+dicmdAbortActiveCommand 
 incmdCreateObjRectangle
 dicmdCanvasMouseMove -point (125,3) 
 dicmdCanvasMouseMove -point (138,22) 
@@ -320,6 +321,7 @@ dicmdCanvasMouseMove -point (493,15)
 dicmdCanvasMouseMove -point (466,4) 
 dicmdguiClickButton -object 0x104:Ellipse 
 incmdCreateObjEllipse
+dicmdAbortActiveCommand 
 incmdCreateObjEllipse
 dicmdCanvasMouseMove -point (322,5) 
 dicmdCanvasMouseMove -point (350,20) 
@@ -532,6 +534,7 @@ dicmdCanvasMouseMove -point (79,13)
 dicmdCanvasMouseMove -point (79,6) 
 dicmdguiClickButton -object 0x104:Line 
 incmdCreateObjLine
+dicmdAbortActiveCommand 
 incmdCreateObjLine
 dicmdCanvasMouseMove -point (73,31) 
 dicmdCanvasMouseMove -point (86,64) 
@@ -1057,6 +1060,7 @@ dicmdCanvasMouseMove -point (234,38)
 dicmdCanvasMouseMove -point (221,10) 
 dicmdguiClickButton -object 0x107:Region 
 incmdSelectShapesByRegion
+dicmdAbortActiveCommand 
 incmdSelectShapesByRegion
 dicmdCanvasMouseMove -point (461,5) 
 dicmdCanvasMouseMove -point (476,9) 
@@ -1150,7 +1154,7 @@ dicmdCanvasMouseMove -point (835,166)
 dicmdCanvasMouseMove -point (834,166) 
 dicmdCanvasMouseClick -point (834,166) 
 dicmdCanvasMouseClick -point (834,166) 
-#o --> Out: dicmdSelectShapesByRegion -end (632,355) -start (-38,23) 
+#o --> Out: dicmdSelectShapesByRegion -end (1017,355) -start (346,23) 
 dicmdCanvasMouseMove -point (833,166) 
 dicmdCanvasMouseMove -point (832,166) 
 dicmdCanvasMouseMove -point (831,166) 
@@ -1203,10 +1207,11 @@ dicmdQaCompareSelection
 dicmdQaCompareSelection 
 #t --> Test: comparision->Selection:PASS Selection_Compare_3.txt Selection_Compare_3.txt.golden
 dicmdguiClickButton -object 0x107:Point 
-incmdSelectUnderCursoer
+dicmdAbortActiveCommand 
 incmdSelectUnderCursoer
 dicmdguiClickButton -object 0x107:Region 
 incmdSelectShapesByRegion
+dicmdAbortActiveCommand 
 incmdSelectShapesByRegion
 dicmdCanvasMouseMove -point (619,4) 
 dicmdCanvasMouseMove -point (663,12) 
@@ -1275,7 +1280,7 @@ dicmdCanvasMouseMove -point (1042,156)
 dicmdCanvasMouseMove -point (1043,156) 
 dicmdCanvasMouseClick -point (1043,156) 
 dicmdCanvasMouseClick -point (1043,156) 
-#o --> Out: dicmdSelectShapesByRegion -end (1080,334) -start (641,32) 
+#o --> Out: dicmdSelectShapesByRegion -end (1465,334) -start (1026,32) 
 dicmdCanvasMouseMove -point (1043,159) 
 dicmdCanvasMouseMove -point (1043,161) 
 dicmdCanvasMouseMove -point (1043,165) 
@@ -1435,7 +1440,7 @@ dicmdCanvasMouseMove -point (744,130)
 dicmdCanvasMouseMove -point (743,130) 
 dicmdCanvasMouseClick -point (743,130) 
 dicmdCanvasMouseClick -point (743,130) 
-#o --> Out: dicmdSelectShapesByRegion -end (437,278) -start (17,27) 
+#o --> Out: dicmdSelectShapesByRegion -end (822,278) -start (402,27) 
 dicmdCanvasMouseMove -point (742,130) 
 dicmdCanvasMouseMove -point (741,131) 
 dicmdCanvasMouseMove -point (741,132) 
@@ -1851,7 +1856,7 @@ dicmdCanvasMouseMove -point (1001,268)
 dicmdCanvasMouseMove -point (1000,268) 
 dicmdCanvasMouseClick -point (1000,268) 
 dicmdCanvasMouseClick -point (1000,268) 
-#o --> Out: dicmdSelectShapesByRegion -end (1103,183) -start (667,16) 
+#o --> Out: dicmdSelectShapesByRegion -end (963,183) -start (527,16) 
 dicmdCanvasMouseMove -point (999,268) 
 dicmdCanvasMouseMove -point (998,268) 
 dicmdCanvasMouseMove -point (997,268) 
@@ -1946,7 +1951,7 @@ dicmdCanvasMouseMove -point (625,169)
 dicmdCanvasMouseMove -point (626,169) 
 dicmdCanvasMouseClick -point (626,169) 
 dicmdCanvasMouseClick -point (626,169) 
-#o --> Out: dicmdSelectShapesByRegion -end (847,115) -start (658,18) 
+#o --> Out: dicmdSelectShapesByRegion -end (707,115) -start (518,18) 
 dicmdCanvasMouseMove -point (626,168) 
 dicmdCanvasMouseMove -point (626,167) 
 dicmdCanvasMouseMove -point (626,166) 
@@ -2033,7 +2038,7 @@ dicmdCanvasMouseMove -point (1025,253)
 dicmdCanvasMouseMove -point (1025,254) 
 dicmdCanvasMouseClick -point (1025,254) 
 dicmdCanvasMouseClick -point (1025,254) 
-#o --> Out: dicmdSelectShapesByRegion -end (1120,173) -start (565,26) 
+#o --> Out: dicmdSelectShapesByRegion -end (980,173) -start (425,26) 
 dicmdCanvasMouseMove -point (1024,254) 
 dicmdCanvasMouseMove -point (1023,254) 
 dicmdCanvasMouseMove -point (1022,254) 

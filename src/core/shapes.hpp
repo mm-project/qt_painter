@@ -51,6 +51,14 @@ public:
 		return LINE; 
 	}
 	
+	virtual void moveCenterToPoint(QPoint& p ) {
+			//m_object.moveTo(p);
+	}
+
+    #ifdef NO_RQ
+    virtual bool contains(const QPoint& point) const {return false;}    
+    #endif
+
 	//FIXME need proper fix and member handling
 	std::vector<QPoint> getPoints() override
 	{
@@ -94,6 +102,10 @@ public:
 	{ 
 		return RECTANGLE; 
 	}
+
+	virtual void moveCenterToPoint(QPoint& p ) {
+                m_object.moveTo(p);
+        }
 	
     //FIXME need proper fix and member handling
 	std::vector<QPoint> getPoints() override
@@ -138,8 +150,11 @@ public:
 	{ 
 		return ELLIPSE; 
 	}
-	
-	    //FIXME need proper fix and member handling
+
+	virtual void moveCenterToPoint(QPoint& p ) {
+			m_object.moveTo(p);
+	}
+
 	std::vector<QPoint> getPoints() override 
 	{ 
 		return std::vector<QPoint>(2) =  {getBottomRight(),getTopLeft()}; 
@@ -182,6 +197,10 @@ public:
 	bool intersects(const QRect& oRect) const 
 	{
 		return m_object.boundingRect().intersects(oRect); 
+	}
+
+	virtual void moveCenterToPoint(QPoint& p ) {
+		   // m_object.moveTo(p);
 	}
 
     //FIXME need proper fix and member handling

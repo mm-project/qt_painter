@@ -1,0 +1,36 @@
+#i --> Info: Welcome to this project. Feel free to expirment. 
+#i --> Info: Set to mode1
+dicmdguiClickButton -object mw/65/70/Home/qt_tabwidget_tabbar 
+#e --> Error: something went wrong with this command -> dicmdguiClickButton
+dicmdguiClickButton -object 0x104:Rectangle 
+incmdCreateObjRectangle
+dicmdAbortActiveCommand 
+incmdCreateObjRectangle
+dicmdCanvasMouseClick -point (78,115) 
+dicmdCanvasMouseClick -point (78,115) 
+dicmdCanvasMouseClick -point (139,160) 
+dicmdCanvasMouseClick -point (139,160) 
+#o --> Out: dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(78,115);(139,160)} 
+dicmdguiClickButton -object 0x104:Ellipse 
+incmdCreateObjEllipse
+dicmdAbortActiveCommand 
+dicmdAbortActiveCommand 
+incmdCreateObjEllipse
+dicmdCanvasMouseClick -point (106,216) 
+dicmdCanvasMouseClick -point (106,216) 
+dicmdCanvasMouseClick -point (163,251) 
+dicmdCanvasMouseClick -point (163,251) 
+#o --> Out: dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(106,216);(163,251)} 
+dicmdAbortActiveCommand 
+dicmdAbortActiveCommand 
+dicmdCanvasMouseClick -point (125,151) 
+dicmdCanvasMouseClick -point (125,151) 
+dicmdCanvasMouseClick -point (272,108) 
+dicmdCanvasMouseClick -point (272,108) 
+dicmdCanvasMouseClick -point (136,240) 
+dicmdCanvasMouseClick -point (136,240) 
+dicmdCanvasMouseRelease -point (383,135) 
+dicmdCanvasMouseClick -point (404,160) 
+dicmdCanvasMouseClick -point (404,160) 
+dicmdCanvasMouseRelease -point (270,255) 
+dicmdQaToolExit 

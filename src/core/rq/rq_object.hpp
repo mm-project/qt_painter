@@ -102,7 +102,7 @@ public:
 
 	virtual bool contains(const CPoint&) const = 0;
 
-	virtual IShape* getObject() const = 0;
+	virtual IShapePtr getObject() const = 0;
 
 	virtual bool intersects(const QRect&) const = 0;
 };
@@ -119,9 +119,9 @@ public:
 
 	RQline() = default;
 
-	RQline(IShape* p) : m_object(static_cast<Line*>(p)) {}
+	RQline(IShapePtr p) : m_object(p) {}
 
-	virtual IShape* getObject() const override
+	virtual IShapePtr getObject() const override
 	{ 
 		return m_object;  
 	}
@@ -134,14 +134,14 @@ public:
 			return CPoint();
 
 		if (i == 0)
-			return CPoint(m_object->getP1());
-		return CPoint(m_object->getP2());
+			return CPoint(static_cast<Line*>(m_object.get())->getP1());
+		return CPoint(static_cast<Line*>(m_object.get())->getP2());
 	}
 
 	virtual bool contains(const CPoint& point) const override
 	{
-		QPoint p1 = m_object->getP1();
-		QPoint p2 = m_object->getP2();
+		QPoint p1 = static_cast<Line*>(m_object.get())->getP1();
+		QPoint p2 = static_cast<Line*>(m_object.get())->getP2();
 		QRectF bbox(p1, p2);
 		if (!bbox.contains(point))
 			// vertical and horizontal case
@@ -160,8 +160,8 @@ public:
 
 	virtual bool intersects(const QRect& oRect) const override
 	{
-		const QPoint p1 = m_object->getP1();
-		const QPoint p2 = m_object->getP2();
+		const QPoint p1 = static_cast<Line*>(m_object.get())->getP1();
+		const QPoint p2 = static_cast<Line*>(m_object.get())->getP2();
 
 		return intersectsLine(oRect.topLeft(), oRect.topRight())
 			|| intersectsLine(oRect.topLeft(), oRect.bottomLeft())
@@ -173,8 +173,8 @@ public:
 private:
 	bool intersectsLine(QPoint a1, QPoint b1) const
 	{
-		const QPoint a0 = m_object->getP1();
-		const QPoint b0 = m_object->getP2();
+		const QPoint a0 = static_cast<Line*>(m_object.get())->getP1();
+		const QPoint b0 = static_cast<Line*>(m_object.get())->getP2();
 
 		float d = (b0.x() - a0.x()) * (b1.y() - a1.y()) - (b0.y() - a0.y()) * (b1.x() - b0.x());
 
@@ -191,7 +191,7 @@ private:
                 return true;
     }
 
-	Line* m_object;
+	IShapePtr m_object;
 };
 
 //
@@ -201,16 +201,16 @@ class RQrect : public IRQobject
 {
 public:
 	RQrect() = default;
-	RQrect(IShape* p) : m_object(static_cast<Rectangle*>(p)) {}
+	RQrect(IShapePtr p) : m_object(p) {}
 
 public:
 	virtual CPoint at(int) const override;
 	virtual bool contains(const CPoint&) const override;
-	virtual IShape* getObject() const override;
+	virtual IShapePtr getObject() const override;
 	virtual bool intersects(const QRect& oRect) const override;
 
 private:
-	Rectangle* m_object;
+	IShapePtr m_object;
 };
 
 //
@@ -220,16 +220,16 @@ class RQellipse : public IRQobject
 {
 public:
 	RQellipse() = default;
-	RQellipse(IShape* p) : m_object(static_cast<Ellipse*>(p)) {}
+	RQellipse(IShapePtr p) : m_object(p) {}
 
 public:
 	virtual CPoint at(int) const override;
 	virtual bool contains(const CPoint&) const override;
-	virtual IShape* getObject() const override;
+	virtual IShapePtr getObject() const override;
 	virtual bool intersects(const QRect& oRect) const override;
 
 private:
-	Ellipse* m_object;
+	IShapePtr m_object;
 };
 
 //
@@ -239,16 +239,16 @@ class RQpolygon : public IRQobject
 {
 public:
 	RQpolygon() = default;
-	RQpolygon(IShape* p) : m_object(static_cast<Polygon*>(p)) {}
+	RQpolygon(IShapePtr p) : m_object(p) {}
 
 public:
 	virtual CPoint at(int) const override;
 	virtual bool contains(const CPoint&) const override;
-	virtual IShape* getObject() const override;
+	virtual IShapePtr getObject() const override;
 	virtual bool intersects(const QRect& oRect) const override;
 
 private:
-	Polygon* m_object;
+	IShapePtr m_object;
 };
 
 }

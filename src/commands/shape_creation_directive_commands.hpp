@@ -25,8 +25,8 @@ template <ObjectType T>
 class dicmdCreateObj : public DirectCommandBase  
 {
 
-        IShape* m_executed_object;    
-        IShape* m_shape;    
+        IShapePtr m_executed_object;    
+        IShapePtr m_shape;    
         ObjectPoolPtr ws;
         RegionQuery& rq = RegionQuery::getInstance();
 
@@ -47,7 +47,7 @@ class dicmdCreateObj : public DirectCommandBase
                 add_option("-fill",new IntCommandOptionValue(pr.toStringsMap()["fill"]));
         }
         
-        void dump(const std::string& f) {
+	void dump(const std::string& f) {
                 QFile* m_cmdfile = new QFile(f.c_str());
                 m_cmdfile->open( QIODevice::WriteOnly | QIODevice::Append ); 
                 QTextStream* cmd_stream = new QTextStream(m_cmdfile);
@@ -60,14 +60,14 @@ class dicmdCreateObj : public DirectCommandBase
         virtual void execute() {
             //* //std::vector<QPoint> v(GET_CMD_ARG(PointListCommandOptionValue,"-points"));
             auto obj  = ShapeCreator::getInstance().create(T);
-			m_shape = obj.get();
+			m_shape = obj;
             for( auto it: PL_ARG("-points") )
                 m_shape->addPoint(it.get());
 
             ShapeProperties pr;
             pr.fromString(S_ARG("-color"),I_ARG("-brush"),I_ARG("-fill"));
 			obj->updateProperties(pr);
-            m_executed_object = ws->addObject(obj).get();
+            m_executed_object = ws->addObject(obj);
             rq.insertObject(m_executed_object);
         }
        

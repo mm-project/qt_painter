@@ -38,8 +38,9 @@ public:
 	void init2(RuntimePoolManagerPtr r, ObjectPoolPtr s);
 	void init();
 	
+	void set_idle_command(CommandBase* cmd);
 	void disactivate_active_command();
-	void activate_command(CommandBase* cmd);
+	void activate_command(CommandBase* cmd, bool needlog = true);
 	void register_command(CommandBase* cmd);
 	CommandBase* find_command(const std::string&);
 	//CommandBase* get_command();
@@ -47,15 +48,19 @@ public:
 	CommandBase* get_active_command();
 	bool is_idle(); 
 	void return_to_idle(); 
+
+	//CommandBase* get_command();
+	//void register_command(const char* nm, CommandBase* cmd) 
 	
 	void mouse_dbl_clicked(int x, int y);
 	void mouse_clicked(int x, int y);
+	void mouse_released(int, int);
+	void mouse_pressed(int, int);
 	void mouse_moved(int x, int y);
 	void key_pressed();
-	void update();
+	void update_tookplace();
 	
 	void on_viewport_changed(LeCallbackData& d);
-
 	
 private:
 	renderer* m_renderer;

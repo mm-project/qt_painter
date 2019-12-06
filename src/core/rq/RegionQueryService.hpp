@@ -6,20 +6,29 @@
 #include "../ishape.hpp"
 #include "../service.hpp"
 
+#ifdef NO_RQ
+    #include "../iobject_pool.hpp"
+#endif
+
 class RegionQuery : public Service<RegionQuery>
 {
 public:
-	void insertObject(IShape*);
-	IShape* getShapeUnderPos(const QPoint&) const;
-	std::vector<IShape*> getShapesUnderRect(const QRect&) const;
+	void insertObject(IShapePtr);
+	void removeObject(IShapePtr);
+	IShapePtr getShapeUnderPos(const QPoint&) const;
+	std::vector<IShapePtr> getShapesUnderRect(const QRect&) const;
 	void clear();
 	void shutDown() override;
+	int getSize() const;
 
-	RegionQuery();
+#ifdef NO_RQ
+    IObjectPoolPtr m_ws;
+    void setWS(IObjectPoolPtr ws);
+#endif
 
+    RegionQuery();
 private:
 	rq::RQtreePtr<IShape> m_tree = nullptr;
-	//rq::RQtreePtr<line> m_tree = nullptr;
 };
 
 #endif

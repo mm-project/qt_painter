@@ -107,7 +107,8 @@ public:
 	virtual ~IShape() = default;
 
 public:
-
+        
+        virtual void moveCenterToPoint(QPoint&) = 0; 
 	virtual void reset() = 0;
 
 	virtual void addPoint(const QPoint&) = 0;
@@ -132,6 +133,10 @@ public:
 
 	virtual bool isDrawMode() {return false;}
 	virtual void draw(QPainter*) = 0;
+        
+    #ifdef NO_RQ
+    virtual bool contains(const QPoint& point) const = 0;   
+    #endif
 
 	// virtual bool contains() const = 0;
 	// virtual bool intersects() const = 0;

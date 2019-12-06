@@ -33,18 +33,16 @@ public:
 
 	virtual void execute() override
 	{
-		// find object from RQ
-		//FIXME need only one init during shape creation
 		RegionQuery& rq = RegionQuery::getInstance();
 		for (auto obj : m_workingSet->getObjects())
-			rq.insertObject(obj.get());
+			rq.insertObject(obj);
 
 		QPoint pos = GET_CMD_ARG(PointCommandOptionValue,"-point");
-		IShape* shape = rq.getShapeUnderPos(pos);
-		rq.clear(); // temp solution for the crash
+		IShapePtr shape = rq.getShapeUnderPos(pos);
 		if (shape != nullptr)
 		{
-			//m_workingSet->removeObject(shape);
+			rq.removeObject(shape);
+			m_workingSet->removeObject(shape);
 		}
 
 	}
