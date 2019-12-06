@@ -55,7 +55,7 @@ bool UT_delete_command()
 {
     
     //Expecting!: dicmdDeleteObj command to be created
-	IObjectPoolPtr ws = std::shared_ptr<Design>(new Design);
+	ObjectPoolPtr ws = std::shared_ptr<Design>(new Design);
     dicmdDeleteObj cmd(ws);
 
     //Expecting!: dicmdCreateObj to be executed on point 0,0 without issues
