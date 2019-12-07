@@ -7,7 +7,7 @@
 #include <vector>
 #include <QObject>
 
-class Design /*final*/ : public ObjectPoolBase
+class Design final : public ObjectPoolBase
 {
 public:
 	//

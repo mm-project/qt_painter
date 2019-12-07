@@ -9,7 +9,7 @@ void ObjectPoolBase::clear() noexcept
 IShapePtr ObjectPoolBase::addObject(IShapePtr shape) 
 {
 	ASSERT_RETURN_VALUE(shape != nullptr, nullptr);
-	m_shapes.push_back(shape);
+	m_shapes.emplace_back(shape);
 	return shape;
 }
 
