@@ -27,7 +27,7 @@ void Selection::dumpToFile(const std::string& fname) const
     z << "Name: "   << getName().c_str() ;
     z << "\nObjCount: " << QString::number(getObjects().size());
     z << "\n======\n";
-    for (auto i : m_objs) {
+    for (auto i : m_shapes) {
         z << ObjType2String(i->getType()).c_str();
         z << ":"; //i->getPoints();
         z << "\n";
@@ -47,7 +47,7 @@ void Selection::clear() noexcept {
 	m_sel_highlight_set->clear();
 	m_oa_highlight_set->clear();
     //m_sb->clear();
-    m_objs.clear();
+    //m_objs.clear();
 }
 
 void Selection::set_working_set(ObjectPoolPtr ws) {
