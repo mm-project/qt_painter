@@ -34,8 +34,8 @@ public:
 	virtual void execute() override
 	{
 		RegionQuery& rq = RegionQuery::getInstance();
-		for (auto obj : m_workingSet->getObjects())
-			rq.insertObject(obj);
+		//for (auto obj : m_workingSet->getObjects())
+		//	rq.insertObject(obj);
 
 		QPoint pos = GET_CMD_ARG(PointCommandOptionValue,"-point");
 		IShapePtr shape = rq.getShapeUnderPos(pos);
@@ -90,7 +90,8 @@ public:
 
 	void on_click(const EvType& ev)
 	{
-		if (ev == MC)
+		// not from me
+		if (ev == MC || ev == MD)
 		{
 			m_position = InteractiveCommandBase::get_last_point();
 			on_commit(OTHER);
