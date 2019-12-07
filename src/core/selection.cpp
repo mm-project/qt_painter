@@ -44,6 +44,7 @@ void Selection::temporary_highlight() {
 
 void Selection::clear() noexcept {
 	ObjectPoolBase::clear();
+	m_sel_highlight_set->clear();
 	m_oa_highlight_set->clear();
     //m_sb->clear();
     m_objs.clear();
