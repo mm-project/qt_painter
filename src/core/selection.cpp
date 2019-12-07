@@ -136,6 +136,8 @@ void Selection::select_shape_under_pos(const QPoint& p) {
 		m_sel_highlight_set->addObject(shape);
         m_sel_highlight_set->highlight_on();
 	}
+	//temp, ask levon
+	addObject(shape);
 }
 
 /* ! get shapes from rq under following bbox, that are part of working set
@@ -207,7 +209,9 @@ void HighlightSet::highlight_off()
     //highlight_on_off(false);    
 }
 
-void HighlightSet::highlight_on_off(bool m_h_on) {
+void HighlightSet::highlight_on_off(bool m_h_on) 
+{
+	// check with levon
 	if (m_sb->getObjects().empty())
 		return;
 	
