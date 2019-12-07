@@ -26,7 +26,6 @@ class Selection : public Service<Selection> , public ObjectPoolBase
         
         RuntimePoolManagerPtr m_rt_pools;
         RuntimePoolPtr m_sb;
-        //std::vector<IShapePtr> m_objs;
         //bool m_h_on;
         RegionQuery& rq = RegionQuery::getInstance();
 

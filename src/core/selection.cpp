@@ -46,8 +46,7 @@ void Selection::clear() noexcept {
 	ObjectPoolBase::clear();
 	m_sel_highlight_set->clear();
 	m_oa_highlight_set->clear();
-    //m_sb->clear();
-    //m_objs.clear();
+    m_sb->clear();
 }
 
 void Selection::set_working_set(ObjectPoolPtr ws) {
@@ -209,10 +208,10 @@ void HighlightSet::highlight_off()
 }
 
 void HighlightSet::highlight_on_off(bool m_h_on) {
-	if (getObjects().empty())
+	if (m_sb->getObjects().empty())
 		return;
 	
-	for ( auto it: getObjects() ) {
+	for ( auto it: m_sb->getObjects() ) {
 		it->updateProperties(m_packet);
 		m_sb->addObject(it);
 	}
