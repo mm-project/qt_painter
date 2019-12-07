@@ -43,11 +43,10 @@ std::string RuntimePool::getName() const noexcept
 	return std::move("Runtime");
 }
 
-void RuntimePool::dumpToFile(const std::string&) const 
-{
 
-}
 
+
+/************** RuntimePoolManager *************/
 RuntimePoolManager::RuntimePoolManager()
 {
 }

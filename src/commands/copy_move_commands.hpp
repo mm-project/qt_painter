@@ -102,7 +102,7 @@ public:
         {
                 //m_sb = std::shared_ptr<ObjectSandbox>(new ObjectSandbox);
                 //m_re->addChildren(m_sb);
-			m_sb = r->getChild("Canvas");
+			m_sb = r->getChild("Generic-InteractiveCommand");
                 //LeCallback cb = 
         }
 

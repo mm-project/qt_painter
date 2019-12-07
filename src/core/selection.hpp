@@ -19,13 +19,12 @@ class HighlightSet;
 class Selection : public Service<Selection> , public ObjectPoolBase
 {
         HighlightSet* m_sel_highlight_set;
-        HighlightSet* m_oa_highlight_set;
+        HighlightSet* m_ao_highlight_set;
         HighlightSet* m_qa_highlight_set;
         QRect m_last_region = { 0, 0, 0, 0 };
         ObjectPoolPtr m_ws;
         
         RuntimePoolManagerPtr m_rt_pools;
-        RuntimePoolPtr m_sb;
         //bool m_h_on;
         RegionQuery& rq = RegionQuery::getInstance();
 

@@ -23,7 +23,7 @@ public:
 	{
 		//re = std::shared_ptr<RuntimePool>(new RuntimePool);
 		//r->addChildren(re);
-		re = r->getChild("Canvas");
+		re = r->getChild("Generic-InteractiveCommand");
 		m_rt_shape = 0;
 	}
 

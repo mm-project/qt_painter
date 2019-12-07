@@ -20,7 +20,6 @@ public:
 	//	Inherited interface
 	IShapePtr addObject(IShapePtr shape) override;
 	std::string getName() const noexcept override;
-	void dumpToFile(const std::string&) const override;
 
 	// Own interface
 	void addPoint(QPoint);

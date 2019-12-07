@@ -53,7 +53,7 @@ canvas::canvas(QWidget* p)
 	m_runtime = std::shared_ptr<RuntimePoolManager>(new RuntimePoolManager);
 	//	Global runtime pool
 	auto runtimePool = std::shared_ptr<RuntimePool>(new RuntimePool);
-	m_runtime->addChild(runtimePool, "Canvas");
+	m_runtime->addChild(runtimePool, "Generic-InteractiveCommand");
 		
 	
 	Selection::getInstance().set_working_set(m_design);
