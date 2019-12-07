@@ -31,7 +31,6 @@ class Selection : public Service<Selection> , public ObjectPoolBase
 
 public:
         virtual std::string getName() const noexcept override;
-        virtual void dumpToFile(const std::string& fname) const;
         virtual void clear() noexcept override;
 
 public:   
@@ -59,7 +58,6 @@ class HighlightSet : public ObjectPoolBase
 
 public:
         virtual std::string getName() const noexcept override;
-        virtual void dumpToFile(const std::string& fname) const {}
         virtual void clear() noexcept override;
 
 public:   

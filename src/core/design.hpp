@@ -18,7 +18,14 @@ public:
 public:
     IShapePtr addObject(IShapePtr) override;
 	std::string getName() const noexcept override;
-	void dumpToFile(const std::string&) const override;
+
+public:
+    bool isSaved() { return m_is_saved; }
+    void save() { m_is_saved = true; }
+
+private:
+    bool m_is_saved = false;
+
 };
 
 using DesignPtr = std::shared_ptr<Design>;

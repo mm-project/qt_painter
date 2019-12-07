@@ -1,12 +1,17 @@
 #include "iobject_pool.hpp"
 #include "core.hpp"
+#include "ishape.hpp"
+
+#include <QFile>
+#include <QDir>
+#include <QTextStream>
 
 void ObjectPoolBase::clear() noexcept
 {
 	m_shapes.clear();
 }
 
-IShapePtr ObjectPoolBase::addObject(IShapePtr shape) 
+IShapePtr ObjectPoolBase::addObject(IShapePtr shape)
 {
 	ASSERT_RETURN_VALUE(shape != nullptr, nullptr);
 	m_shapes.emplace_back(shape);
@@ -24,4 +29,24 @@ void ObjectPoolBase::removeObject(IShapePtr shape) noexcept
 std::vector<IShapePtr> ObjectPoolBase::getObjects() const noexcept
 {
 	return m_shapes;
+}
+
+void ObjectPoolBase::dumpToFile(const std::string& fname) const
+{
+    QFile file(fname.c_str());
+    file.open( QIODevice::WriteOnly | QIODevice::Append );
+    QTextStream z(&file);
+
+    z << "Name: "   << getName().c_str() ;
+    z << "\nObjCount: " << QString::number(getObjects().size());
+    z << "\n======\n";
+    for (auto i : getObjects()) {
+        z << ObjType2String(i->getType()).c_str();
+        z << ":"; //i->getPoints();
+        z << "\n";
+    }
+    z << "--------";
+
+    file.flush();
+    file.close();
 }

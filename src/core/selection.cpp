@@ -11,31 +11,7 @@
 
 std::string Selection::getName() const noexcept
 {
-    //int* a;
-    //*a = 1;    
-    //std::raise(SIGSEGV);
     return "Selection";
-        
-}
-
-void Selection::dumpToFile(const std::string& fname) const
-{
-    QFile file(fname.c_str());
-    file.open( QIODevice::WriteOnly | QIODevice::Append ); 
-    QTextStream z(&file);
- 
-    z << "Name: "   << getName().c_str() ;
-    z << "\nObjCount: " << QString::number(getObjects().size());
-    z << "\n======\n";
-    for (auto i : m_shapes) {
-        z << ObjType2String(i->getType()).c_str();
-        z << ":"; //i->getPoints();
-        z << "\n";
-    }
-    z << "--------";
-
-    file.flush();
-    file.close();
 }
 
 void Selection::temporary_highlight() {
@@ -133,9 +109,6 @@ void Selection::select_shape_under_pos(const QPoint& p) {
 	IShapePtr shape = rq.getShapeUnderPos(p);
 	if (shape != nullptr)
 	{
-		m_sel_highlight_set->addObject(shape);
-        m_sel_highlight_set->highlight_on();
-		//temp, ask levon
 		addObject(shape);
 	}
 }
@@ -177,9 +150,7 @@ void Selection::highlight_last_selected_region(bool on_off)
 
 //*********************************** HIGHLIGHT ********************************************
 HighlightSet::HighlightSet(const std::string& n,const ShapeProperties& p ):m_name(n),m_packet(p) {
-    
 }
-
 
 void HighlightSet::create_sandbox(RuntimePoolManagerPtr ops) {
     m_rt_pools = ops;

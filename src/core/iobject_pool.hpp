@@ -36,7 +36,7 @@ public:
 	virtual void removeObject(IShapePtr) noexcept = 0;
 	virtual std::string getName() const noexcept = 0;
 
-	virtual void dumpToFile(const std::string&) const = 0;
+    virtual void dumpToFile(const std::string&) const = 0;
 };
 
 using ObjectPoolPtr = std::shared_ptr<IObjectPool>;
@@ -59,6 +59,7 @@ public:
 	std::vector<IShapePtr> getObjects() const noexcept override;
 	IShapePtr addObject(IShapePtr) override;
 	void removeObject(IShapePtr) noexcept override;
+    virtual void dumpToFile(const std::string&) const override;
 
 protected:
 	std::vector<IShapePtr> m_shapes;
