@@ -1,9 +1,10 @@
-Name: Selection
+PoolName: Selection
 ObjCount: 5
 ======
-Line:
-Line:
-Line:
-Line:
-Line:
+Line:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
+Line:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
+Line:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
+Line:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
+Line:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
 --------
+

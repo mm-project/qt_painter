@@ -19,6 +19,8 @@ fi
 
 
 tname="$1"
+needmotion="$2"
+export PAINTER_LOG_MOTION="$needmotion"
 if [ "$tname" == "" ]; then
     echo "Eror: Provide test name to create"
     exit 1

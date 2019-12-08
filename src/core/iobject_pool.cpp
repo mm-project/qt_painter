@@ -37,15 +37,17 @@ void ObjectPoolBase::dumpToFile(const std::string& fname) const
     file.open( QIODevice::WriteOnly | QIODevice::Append );
     QTextStream z(&file);
 
-    z << "Name: "   << getName().c_str() ;
+    z << "PoolName: "   << getName().c_str() ;
     z << "\nObjCount: " << QString::number(getObjects().size());
     z << "\n======\n";
     for (auto i : getObjects()) {
         z << ObjType2String(i->getType()).c_str();
-        z << ":"; //i->getPoints();
+        z << ":\t"; //i->getPoints();
+        z << i->getProperties().toString().c_str();
         z << "\n";
     }
     z << "--------";
+    z << "\n\n";
 
     file.flush();
     file.close();

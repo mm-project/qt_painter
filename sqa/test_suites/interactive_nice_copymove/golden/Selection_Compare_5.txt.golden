@@ -1,16 +1,17 @@
-Name: Selection
+PoolName: Selection
 ObjCount: 12
 ======
-Rectangle:
-Rectangle:
-Ellipse:
-Rectangle:
-Rectangle:
-Ellipse:
-Ellipse:
-Ellipse:
-Ellipse:
-Rectangle:
-Rectangle:
-Ellipse:
+Rectangle:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
+Rectangle:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
+Ellipse:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
+Rectangle:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
+Rectangle:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
+Ellipse:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
+Ellipse:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
+Ellipse:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
+Ellipse:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
+Rectangle:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
+Rectangle:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
+Ellipse:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
 --------
+

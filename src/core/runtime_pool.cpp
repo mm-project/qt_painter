@@ -40,21 +40,26 @@ void RuntimePool::changeBasicProperties(const ShapeProperties& b)
 
 std::string RuntimePool::getName() const noexcept
 {
-	return std::move("Runtime");
+	return m_name;
+	//std::move("Runtime");
 }
 
-
+void RuntimePool::setName(const std::string& s) 
+{
+    m_name = s;
+}
 
 
 /************** RuntimePoolManager *************/
-RuntimePoolManager::RuntimePoolManager()
-{
-}
+//RuntimePoolManager::RuntimePoolManager()
+//{
+//}
 
 void RuntimePoolManager::addChild(RuntimePoolPtr p, const std::string& name)
 {
 	ASSERT_RETURN(p != nullptr);
 	m_children[name] = p;
+    p->setName(name);
 }
 
 RuntimePoolPtr RuntimePoolManager::getChild(const std::string& name) const

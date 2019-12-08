@@ -266,7 +266,8 @@ void renderer::draw_selection_rubberband()
 void renderer::draw_all() {
         draw_background();
         draw_grid();            
-        draw_objects();
+        if ( m_des_renderer)
+            draw_objects();
         if ( m_rt_renderer )
             draw_runtime_pools();
         draw_cursor();
@@ -286,7 +287,14 @@ void renderer::render() {
         draw_all();
         stop();
 }
-            
+
+void renderer::rendering_des_mode_change() 
+{
+    //assert(0);
+    m_des_renderer = !m_des_renderer;
+    std::cout << " DS RENDERING: " << m_des_renderer << std::endl;
+}
+
 void renderer::rendering_mode_change() {
     m_rq_renderer = !m_rq_renderer;
     if ( m_rq_renderer )

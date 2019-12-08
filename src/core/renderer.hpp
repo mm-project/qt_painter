@@ -76,7 +76,8 @@ class renderer
         void click_hint();
         void rendering_mode_change();
         void rendering_rt_mode_change();
-            
+        void rendering_des_mode_change();
+          
     private:
         QPainter*  get_painter();
         void start(); 
@@ -109,6 +110,8 @@ class renderer
     private:
         bool m_rq_renderer = true;
         bool m_rt_renderer = true;
+        bool m_des_renderer = true;
+
         
 		QPainter* m_qt_painter;
 		ObjectPoolPtr m_working_set;

@@ -3,6 +3,7 @@
 
 #include "ishape.hpp"
 #include "iobject_pool.hpp"
+#include "service.hpp"
 
 #include <vector>
 
@@ -14,6 +15,8 @@ using RuntimePoolManagerPtr = std::shared_ptr<RuntimePoolManager>;
 
 class RuntimePool : public ObjectPoolBase
 {
+friend RuntimePoolManager;
+
 public:
 	RuntimePool(RuntimePoolManagerPtr = 0);
 
@@ -24,20 +27,23 @@ public:
 	// Own interface
 	void addPoint(QPoint);
 	void movePoint(QPoint);
-
 	void changeBasicProperties(const ShapeProperties&);
 
+private:
+    void setName(const std::string& s);
 	RuntimePoolManagerPtr m_parent;
+    
+private:
+    std::string m_name;
 };
 
-//	not singleton
-class RuntimePoolManager  
+//	TODO: need to be designs to suppport multidesign support
+class RuntimePoolManager : public Service<RuntimePoolManager>
 {
 public:
-	RuntimePoolManager();
+	//RuntimePoolManager();
 	void addChild(RuntimePoolPtr, const std::string&);
 	RuntimePoolPtr getChild(const std::string&) const;
-
 	std::map<std::string, RuntimePoolPtr> getChildren() const noexcept;
 
 private:

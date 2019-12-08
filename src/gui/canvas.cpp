@@ -46,11 +46,11 @@ canvas::canvas(QWidget* p)
         //setStyleSheet("background-color:black;");
 	
         //fixme need preferences
-        m_need_motionlog = !QString::fromLocal8Bit( qgetenv("PAINTER_LOG_MOTION").constData() ).isEmpty();
+    m_need_motionlog = !QString::fromLocal8Bit( qgetenv("PAINTER_LOG_MOTION").constData() ).isEmpty();
         
 	//FIXME move to services
 	m_design = std::shared_ptr<Design>(new Design);
-	m_runtime = std::shared_ptr<RuntimePoolManager>(new RuntimePoolManager);
+	m_runtime = std::shared_ptr<RuntimePoolManager>(&RuntimePoolManager::getInstance());
 	//	Global runtime pool
 	auto runtimePool = std::shared_ptr<RuntimePool>(new RuntimePool);
 	m_runtime->addChild(runtimePool, "Generic-InteractiveCommand");
@@ -125,6 +125,8 @@ void canvas::keyPressEvent(QKeyEvent* ev) {
             cm.find_command("dicmdQaCompareSelection")->execute_and_log();
         else if ( ev->key() == Qt::Key_1 )
             m_renderer->rendering_mode_change();
+        else if ( ev->key() == Qt::Key_4 ) 
+            cm.find_command("dicmdQaCompareRuntime")->execute_and_log();
         else if ( ev->key() == Qt::Key_3 )
             m_renderer->rendering_rt_mode_change();
         else if ( ev->key() == Qt::Key_Z ) 
@@ -193,8 +195,8 @@ void canvas::mouseMoveEvent(QMouseEvent* e)
 	cm.mouse_moved(_x, _y);
 
 	//if Preference::isSet("guiLogMouseMove")
-	//if ( m_need_motionlog )
-		//dicmdCanvasMouseMove(e->pos()).log();
+	if ( m_need_motionlog )
+		dicmdCanvasMouseMove(e->pos()).log();
 	/**/
 	
     update();

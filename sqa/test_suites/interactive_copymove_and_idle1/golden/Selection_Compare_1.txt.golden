@@ -1,9 +1,10 @@
-Name: Selection
+PoolName: Selection
 ObjCount: 5
 ======
-Rectangle:
-Rectangle:
-Rectangle:
-Rectangle:
-Rectangle:
+Rectangle:	  brushC -> #ff0000, brushS -> 10, penC -> #ff0000, penS -> 2
+Rectangle:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
+Rectangle:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
+Rectangle:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
+Rectangle:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
 --------
+

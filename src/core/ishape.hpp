@@ -57,9 +57,9 @@ struct ShapeProperties
 {
 	inline ShapeProperties() = default;
 
-	QColor				pen_color = Qt::white;
+	QColor				    pen_color = Qt::white;
 	QColor			        brush_color = Qt::black;
-	int				pen_width = 1;
+	int				        pen_width = 1;
 	Qt::PenStyle			pen_style = Qt::SolidLine;
 	Qt::PenCapStyle			pen_cap_style = Qt::SquareCap;
 	Qt::PenJoinStyle		pen_join_style = Qt::BevelJoin;
@@ -73,6 +73,14 @@ struct ShapeProperties
             res["fill"]=brush_style;
             
             return res;
+        }
+        
+        std::string toString() const {
+            return std::string("  brushC -> "+brush_color.name().toStdString()+
+                               ", brushS -> "+QString::number(brush_style).toStdString()+
+                               ", penC -> "+pen_color.name().toStdString()+
+                               ", penS -> "+QString::number(pen_style).toStdString());
+            
         }
         
         void fromString(const std::string& color, int pstyle, int bstyle) {

@@ -1,6 +1,7 @@
-Name: Selection
+PoolName: Selection
 ObjCount: 2
 ======
-Ellipse:
-Ellipse:
+Ellipse:	  brushC -> #000000, brushS -> 0, penC -> #ffffff, penS -> 0
+Ellipse:	  brushC -> #000000, brushS -> 0, penC -> #ffffff, penS -> 0
 --------
+
