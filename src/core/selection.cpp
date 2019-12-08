@@ -14,8 +14,15 @@ std::string Selection::getName() const noexcept
     return "Selection";
 }
 
+//shold be removed after Highlit change
 void Selection::temporary_highlight() {
 	 m_sel_highlight_set->highlight_on();
+}
+
+void Selection::addObjectFixme(IShapePtr p)
+{
+    addObject(p);
+    m_sel_highlight_set->addObject(p);
 }
 
 void Selection::clear() noexcept {
@@ -57,8 +64,9 @@ void Selection::set_sandbox(RuntimePoolManagerPtr sanboxes) {
                 
         ShapeProperties p2;
 		p2.pen_color = Qt::red;
-                p2.pen_style = Qt::DashLine;
-                p2.pen_width = 2;
+                p2.pen_style = Qt::DashDotLine;
+                p2.pen_width = 1;
+                p2.brush_style = Qt::NoBrush;
 
         ShapeProperties p3;
 		p3.pen_color = Qt::white;

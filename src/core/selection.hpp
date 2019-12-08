@@ -33,6 +33,7 @@ public:
         virtual void clear() noexcept override;
 
 public:   
+        void addObjectFixme(IShapePtr p);
         void set_working_set(ObjectPoolPtr ws);
         void set_sandbox(RuntimePoolManagerPtr ops);
         void find_and_highlightselect_shapes_from_region(const std::pair<QPoint,QPoint>& point);

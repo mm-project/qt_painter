@@ -120,7 +120,7 @@ public:
             
             m_original_shape = nullptr;
             m_se.clear();
-            m_se.addObject(commited_obj);
+            m_se.addObjectFixme(commited_obj);
             m_sb->clear();
 			m_se.temporary_highlight();
 			//m_cm.return_to_idle();

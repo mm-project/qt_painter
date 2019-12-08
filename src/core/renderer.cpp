@@ -224,7 +224,7 @@ void renderer::draw_runtime_pools() {
     {
 		ASSERT_CONTINUE(it.second != nullptr);
         auto objs = it.second->getObjects();
-        std::cout << it.first << "  : " << objs.size() << std::endl;
+        //std::cout << it.first << "  : " << objs.size() << std::endl;
         for (auto i : objs)
 			i->draw(m_qt_painter);
     }

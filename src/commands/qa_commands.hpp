@@ -154,10 +154,10 @@ class dicmdQaToolExit: public NonTransactionalDirectCommandBase
 namespace {
     std::string qaCompType2string(qaCompType type) {
     	switch (type) {
-                case DESIGN:
-                        return("Design");
-                        break;
-                case SELECTION:
+        case DESIGN:
+            return("Design");
+            break;
+        case SELECTION:
 			return("Selection");
 			break;
 		case CANVAS:

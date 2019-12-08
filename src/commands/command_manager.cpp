@@ -49,6 +49,7 @@ void command_manager::init() {
     register_command(new dicmdTestCmdListOptions);
     register_command(new dicmdQaCompare<CANVAS>);
     register_command(new dicmdQaCompare<DESIGN>);
+    register_command(new dicmdQaCompare<RUNTIME>);    
     register_command(new dicmdQaCompare<SELECTION>);
     register_command(new dicmdSelectShapesByRegion);
     register_command(new dicmdguiClickButton);
