@@ -87,6 +87,8 @@ function postprocess
         fi
         
         if [ -d "../golden" ]; then
+            htmlout="DIFF.html"
+            touch $htmlout
             a=`diff ./logs/painter.log painter.log.golden`
             b=`diff ./logs/painter.lvi painter.lvi.golden`
             #c=`diff painter.out painter.out.golden`
@@ -101,6 +103,8 @@ function postprocess
 nl="
 "
                     problems="$ex <--> $ex.golden $problems $extranl"
+                    $PAINTER_SQA_ROOT/scripts/make_diff_html.sh $ex $ex.golden
+                    echo "<a href=\"$ex.html\"> $ex <--> $ex.golden</a>" >> $htmlout
                     #files[${ex}]="$ex.golden"
                 fi
                 res_d="$res_d$d"
@@ -119,11 +123,18 @@ nl="
                 echo "MISMTACH: logs/painter.log <--> painter.log.golden "
                 files["logs/painter.log"]="painter.log.golden"
                 succ=`expr $succ - 1`
+                cp logs/painter.log painter.log
+                $PAINTER_SQA_ROOT/scripts/make_diff_html.sh painter.log painter.log.golden
+                echo "<a href=\"painter.log.html\">painter.log <--> painter.log.golden</a><br>" >> $htmlout
+
             fi
         
             if [ "$b" != "" ]; then
                 succ=`expr $succ - 1`
                 echo "MISMTACH: logs/painter.lvi <--> painter.lvi.golden "
+                cp logs/painter.lvi painter.lvi
+                $PAINTER_SQA_ROOT/scripts/make_diff_html.sh painter.lvi painter.lvi.golden
+                echo "<a href=\"painter.lvi.html\">painter.lvi <--> painter.lvi.golden</a><br>" >> $htmlout
                 files["logs/painter.lvi"]="painter.lvi.golden"
             fi
 
@@ -131,10 +142,19 @@ nl="
                 #succ=`expr $succ - 1`
                 echo "MISMTACH: painter.out <--> painter.out.golden "
             fi
-
+IFS="
+"
             if [ "$res_d" != "" ]; then
                 succ=`expr $succ - 1`
                 echo "MISMTACH: $problems "
+                #for problem in $problems; do
+                #    a=`echo $problem | sed "s/ <--> / /g"`
+                #    g=`echo $a | cut -d' ' -f1`
+                #    f=`echo $a | cut -d' ' -f2`
+                #    $PAINTER_SQA_ROOT/scripts/make_diff_html.sh $f $g
+                #    echo "<a href=\"$f.html\">$f <--> $g</a>" >> $htmlout
+                #done
+
             fi
 
         #fi
@@ -151,6 +171,21 @@ nl="
             #echo $mismatchs
             #succ=`expr $succ - 1`
             #exit 0
+            a=`cat logs/painter.log | grep "\#e --> Error: " | grep MISMATCH | cut -d' ' -f5-6  |sed "s/$/:/"`
+            #echo "----------------$a---------------"
+            IFS=":"
+            for s in $a; do
+                s=`echo $s | tr -d '\n'` 
+                if [ "$s" != "" ]; then
+                    #echo "($s)"
+                    f=`echo $s | cut -d' ' -f1`
+                    g=`echo $s | cut -d' ' -f2`
+                    #echo "($f) ($g)"
+                    $PAINTER_SQA_ROOT/scripts/make_diff_html.sh $f $g
+                    echo "<a href=\"$f.html\">$f <--> $g</a><br>" >> $htmlout
+                fi
+            done
+
         fi
         
         if [ "$mode" = "compare" ]; then

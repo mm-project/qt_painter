@@ -300,10 +300,11 @@ class dicmdQaCompareInternal: public NonTransactionalDirectCommandBase
             } else {
             
                 if ( are_two_files_different(T,f.c_str(),g.c_str()) ) {
+                    QString htmlv = generate_html_view(f,g);
                     if ( Application::is_debug_mode() ) 
                     {
                         
-                        Messenger::expose_msg(err,"comparision->"+qaCompType2string(T)+":MISMATCH "+f+" "+g+". Click <a href=\"file://"+generate_html_view(f,g).toStdString()+"\">here</a> to see the diff.");
+                        Messenger::expose_msg(err,"comparision->"+qaCompType2string(T)+":MISMATCH "+f+" "+g+". Click <a href=\"file://"+htmlv.toStdString()+"\">here</a> to see the diff.");
                         dicmdQaReplyingBreak().execute_and_log();
                     } else {
                         Messenger::expose_msg(err,"comparision->"+qaCompType2string(T)+":MISMATCH "+f+" "+g);    
