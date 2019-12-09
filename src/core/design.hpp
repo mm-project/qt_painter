@@ -17,10 +17,10 @@ public:
 
 public:
     IShapePtr addObject(IShapePtr) override;
-	std::string getName() const noexcept override;
+    std::string getName() const noexcept override;
 
 public:
-    bool isSaved() { return m_is_saved; }
+    bool isSaved() const noexcept { return m_is_saved; }
     void save() { m_is_saved = true; }
 
 private:

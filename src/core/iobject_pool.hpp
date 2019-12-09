@@ -59,7 +59,7 @@ public:
 	std::vector<IShapePtr> getObjects() const noexcept override;
 	IShapePtr addObject(IShapePtr) override;
 	void removeObject(IShapePtr) noexcept override;
-    virtual void dumpToFile(const std::string&) const override;
+	virtual void dumpToFile(const std::string&) const override;
 
 protected:
 	std::vector<IShapePtr> m_shapes;

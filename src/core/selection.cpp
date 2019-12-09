@@ -195,7 +195,7 @@ void HighlightSet::highlight_on_off(bool m_h_on)
 		return;
 	
 	for ( auto it: getObjects() ) {
-		//m_sb->addObject(it);
+		m_sb->addObject(it);
         m_sb->changeBasicProperties(m_packet);
 	}
 }
