@@ -3,6 +3,7 @@
 exit_code=""
 need_dbg=""
 succ=4
+GDIRNAME=expected
 
 export PAINTER_LOGFILE_PREFIX="painter"
 #mode="regolden"
@@ -44,14 +45,14 @@ function prepocess
     
     verbose "prepocess..."
     rm -rf output
-    mkdir -p golden
+    mkdir -p $GDIRNAME
     mkdir output
     cd output
     
     cp $PAINTER_QA_DIR/etc/webrelated/* . -r
     
     if [ "$mode" != "regolden" ]; then
-        cp ../golden/* ./ -rf
+        cp ../$GDIRNAME/* ./ -rf
         if [ "$?" != 0 ]; then
             succ=`expr $succ - 1`
         fi
@@ -68,25 +69,25 @@ function postprocess
     else
         if [ "$mode" = "regolden" ]; then
             echo "Regoldning..."
-            rm -rf ../golden 
-            mkdir -p ../golden
+            rm -rf ../$GDIRNAME 
+            mkdir -p ../$GDIRNAME
             for e in $extras; do
-                cp -rf $e ../golden/$e.golden &> /dev/null
+                cp -rf $e ../$GDIRNAME/$e.golden &> /dev/null
             done
-            cp ./logs/painter.log ../golden/painter.log.golden
-            cp ./logs/painter.lvi ../golden/painter.lvi.golden
-            #cp painter.out ../golden/painter.out.golden
-            cp `find -name "*.golden*"` ../golden
+            cp ./logs/painter.log ../$GDIRNAME/painter.log.golden
+            cp ./logs/painter.lvi ../$GDIRNAME/painter.lvi.golden
+            #cp painter.out ../$GDIRNAME/painter.out.golden
+            cp `find -name "*.golden*"` ../$GDIRNAME
             #cnvscprs=`find -name "*compare*"`
             #for i in $cnvscprs; do
-            #    cp $i ../golden/$i.golden
+            #    cp $i ../$GDIRNAME/$i.golden
             #done
             echo "Succesfully Regoldened"
             
             return 0;
         fi
         
-        if [ -d "../golden" ]; then
+        if [ -d "../$GDIRNAME" ]; then
             htmlout="DIFF.html"
             touch $htmlout
             a=`diff ./logs/painter.log painter.log.golden`
