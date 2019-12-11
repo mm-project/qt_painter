@@ -1,0 +1,21 @@
+dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(59,46);(152,115)} 
+dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(225,50);(324,116)} 
+dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(486,58);(603,130)} 
+dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(708,83);(812,144)} 
+dicmdCreateObjPolygon -brush 1 -color #000000 -fill 9 -points {(1123,82);(1109,165);(981,142);(986,90);(986,90)} 
+dicmdCreateObjPolygon -brush 1 -color #000000 -fill 9 -points {(1270,92);(1186,96);(1241,176);(1241,176)} 
+dicmdCreateObjLine -brush 1 -color #000000 -fill 9 -points {(401,18);(410,190)} 
+dicmdCreateObjLine -brush 1 -color #000000 -fill 9 -points {(327,220);(517,219)} 
+dicmdCreateObjLine -brush 1 -color #000000 -fill 9 -points {(657,42);(682,208)} 
+dicmdCreateObjLine -brush 1 -color #000000 -fill 9 -points {(944,168);(960,60)} 
+dicmdCreateObjLine -brush 1 -color #000000 -fill 9 -points {(807,178);(985,255)} 
+dicmdSelectShapesByRegion -end (180,149) -start (30,16) 
+dicmdSelectShapesByRegion -end (343,140) -start (207,26) 
+dicmdSelectShapesByRegion -end (346,147) -start (203,38) 
+dicmdSelectShapesByRegion -end (639,169) -start (450,46) 
+dicmdSelectShapesByRegion -end (834,171) -start (690,62) 
+dicmdSelectShapesByRegion -end (1167,204) -start (976,53) 
+dicmdSelectShapesByRegion -end (1286,198) -start (1166,67) 
+dicmdSelectShapesByRegion -end (543,256) -start (309,12) 
+dicmdSelectShapesByRegion -end (998,257) -start (601,22) 
+dicmdSelectShapesByRegion -end (991,173) -start (893,44) 

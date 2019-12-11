@@ -1,0 +1,222 @@
+1will reg callback CONTROLLER_CHANGED-->&Selection::on_controller_update with id1
+QWidget::paintEngine: Should no longer be called
+QPainter::begin: Paint device returned engine == 0, type: 1
+1will reg callback CANVAS_VIEWPORT_CHANGED-->&command_manager::on_viewport_changed with id1
+activating: 0x5615b9f98a90
+qt.svg: Cannot open file '/home/levon/test/qt_painter/etc/icons/upload.svg', because: No such file or directory
+qt.svg: Cannot open file '/home/levon/test/qt_painter/etc/icons/upload.svg', because: No such file or directory
+qt.svg: Cannot open file '/home/levon/test/qt_painter/etc/icons/mouse.svg', because: No such file or directory
+qt.svg: Cannot open file '/home/levon/test/qt_painter/etc/icons/mouse.svg', because: No such file or directory
+qt.svg: Cannot open file '/home/levon/test/qt_painter/etc/icons/selection.svg', because: No such file or directory
+qt.svg: Cannot open file '/home/levon/test/qt_painter/etc/icons/selection.svg', because: No such file or directory
+changed..
+changed..
+1will reg callback MESSENGER-->&ConsoleAssistant::updateView with id1
+ tab bar 
+Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QToolButton in mw/5/10/Console/qt_tabwidget_tabbar/
+Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QToolButton in mw/5/10/Console/qt_tabwidget_tabbar/
+ tab bar 
+Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QPushButton in mw/65/70/Home/qt_tabwidget_stackedwidget/115/141/147/
+Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QPushButton in mw/65/70/Home/qt_tabwidget_stackedwidget/115/141/147/
+Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QPushButton in mw/65/70/Home/qt_tabwidget_stackedwidget/115/141/147/
+Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QPushButton in mw/65/70/Home/qt_tabwidget_stackedwidget/115/141/147/
+Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QPushButton in mw/65/70/Home/qt_tabwidget_stackedwidget/115/141/147/
+Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QPushButton in mw/65/70/Home/qt_tabwidget_stackedwidget/115/141/147/
+Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QPushButton in mw/65/70/Home/qt_tabwidget_stackedwidget/115/141/147/
+Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QRadioButton in mw/65/70/Home/qt_tabwidget_stackedwidget/115/164/
+Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QRadioButton in mw/65/70/Home/qt_tabwidget_stackedwidget/115/164/
+Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QRadioButton in mw/65/70/Home/qt_tabwidget_stackedwidget/115/164/
+Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QRadioButton in mw/65/70/Home/qt_tabwidget_stackedwidget/115/179/
+Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QRadioButton in mw/65/70/Home/qt_tabwidget_stackedwidget/115/179/
+Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QRadioButton in mw/65/70/Home/qt_tabwidget_stackedwidget/115/179/
+Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QToolButton in mw/65/70/Home/qt_tabwidget_tabbar/
+Error: Found widget with no texting property or objectName. Devs please do something. Widget's Hier path : QToolButton in mw/65/70/Home/qt_tabwidget_tabbar/
+Welcome to this project. Feel free to expirment. 
+1will reg callback STOP_REPLY-->&LogReader::reply_stop with id1
+1will reg callback RESUME_REPLY-->&LogReader::reply_resume with id1
+1will reg callback STEP_REPLY-->&LogReader::step_reply with id1
+recv
+Set to mode1
+<#dicmdQaReplyingBreak>#dicmdQaReplyingBreak
+<#i --> Info: Welcome to this project. Feel free to expirment. >#i
+<dicmdguiClickButton -object mw/65/70/Home/qt_tabwidget_tabbar >dicmdguiClickButton
+  ---<-object> <=> <mw/65/70/Home/qt_tabwidget_tabbar>
+dicmdguiClickButton -object mw/65/70/Home/qt_tabwidget_tabbar 
+something went wrong with this command -> dicmdguiClickButton
+ Error: Fixme Exception or Error?? 
+!!!!!!!!!!!!dicmdguiClickButton -object mw/65/70/Home/qt_tabwidget_tabbar 
+<dicmdguiClickButton -object 0x104:Rectangle >dicmdguiClickButton
+  ---<-object> <=> <0x104:Rectangle>
+dicmdguiClickButton -object 0x104:Rectangle 
+activating: 0x5615b9fea3b0
+incmdCreateObjRectangle
+!!!!!!!!!!!!dicmdguiClickButton -object 0x104:Rectangle 
+<incmdCreateObjRectangle>incmdCreateObjRectangle
+?????????incmdCreateObjRectangle
+activating: 0x5615b9fea3b0
+activating: 0x5615ba008f60
+dicmdAbortActiveCommand 
+incmdCreateObjRectangle
+<dicmdCanvasMouseClick -point (121,80) >dicmdCanvasMouseClick
+  ---<-point> <=> <(121,80)>
+dicmdCanvasMouseClick -point (121,80) 
+current commdn is: 0x5615b9fea3b0
+dicmdCanvasMouseClick -point (121,80) 
+------------------------------------------------------------CLICKED2
+!!!!!!!!!!!!dicmdCanvasMouseClick -point (121,80) 
+<dicmdCanvasMouseClick -point (203,143) >dicmdCanvasMouseClick
+  ---<-point> <=> <(203,143)>
+dicmdCanvasMouseClick -point (203,143) 
+current commdn is: 0x5615b9fea3b0
+dicmdCanvasMouseClick -point (203,143) 
+rq.insertObject(create<rectangle>(QPoint(203,143),QPoint(121,80)));  //1, RQ!
+dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(121,80);(203,143)} 
+------------------------------------------------------------CLICKED2
+!!!!!!!!!!!!dicmdCanvasMouseClick -point (203,143) 
+<#o --> Out: dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(121,80);(203,143)} >#o
+<dicmdguiClickButton -object 0x104:Ellipse >dicmdguiClickButton
+  ---<-object> <=> <0x104:Ellipse>
+dicmdguiClickButton -object 0x104:Ellipse 
+activating: 0x5615b9fdbe30
+incmdCreateObjEllipse
+!!!!!!!!!!!!dicmdguiClickButton -object 0x104:Ellipse 
+<dicmdAbortActiveCommand >dicmdAbortActiveCommand
+dicmdAbortActiveCommand 
+activating: 0x5615ba008f60
+dicmdAbortActiveCommand 
+!!!!!!!!!!!!dicmdAbortActiveCommand 
+<incmdCreateObjEllipse>incmdCreateObjEllipse
+?????????incmdCreateObjEllipse
+activating: 0x5615b9fdbe30
+incmdCreateObjEllipse
+<dicmdCanvasMouseClick -point (181,197) >dicmdCanvasMouseClick
+  ---<-point> <=> <(181,197)>
+dicmdCanvasMouseClick -point (181,197) 
+current commdn is: 0x5615b9fdbe30
+dicmdCanvasMouseClick -point (181,197) 
+------------------------------------------------------------CLICKED2
+!!!!!!!!!!!!dicmdCanvasMouseClick -point (181,197) 
+<dicmdCanvasMouseClick -point (261,261) >dicmdCanvasMouseClick
+  ---<-point> <=> <(261,261)>
+dicmdCanvasMouseClick -point (261,261) 
+current commdn is: 0x5615b9fdbe30
+dicmdCanvasMouseClick -point (261,261) 
+rq.insertObject(create<rectangle>(QPoint(261,261),QPoint(181,197)));  //2, RQ!
+dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(181,197);(261,261)} 
+------------------------------------------------------------CLICKED2
+!!!!!!!!!!!!dicmdCanvasMouseClick -point (261,261) 
+<#o --> Out: dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(181,197);(261,261)} >#o
+<dicmdAbortActiveCommand >dicmdAbortActiveCommand
+dicmdAbortActiveCommand 
+!!!!!!!!!!!!dicmdAbortActiveCommand 
+<dicmdAbortActiveCommand >dicmdAbortActiveCommand
+dicmdAbortActiveCommand 
+!!!!!!!!!!!!dicmdAbortActiveCommand 
+<dicmdCanvasMouseClick -point (185,126) >dicmdCanvasMouseClick
+  ---<-point> <=> <(185,126)>
+dicmdCanvasMouseClick -point (185,126) 
+current commdn is: 0x5615b9f98a90
+dicmdCanvasMouseClick -point (185,126) 
+------------------------------------------------------------CLICKED2
+!!!!!!!!!!!!dicmdCanvasMouseClick -point (185,126) 
+<dicmdCanvasMouseClick -point (86,169) >dicmdCanvasMouseClick
+  ---<-point> <=> <(86,169)>
+dicmdCanvasMouseClick -point (86,169) 
+current commdn is: 0x5615b9f98a90
+dicmdCanvasMouseClick -point (86,169) 
+------------------------------------------------------------CLICKED2
+!!!!!!!!!!!!dicmdCanvasMouseClick -point (86,169) 
+<dicmdCanvasMouseClick -point (139,123) >dicmdCanvasMouseClick
+  ---<-point> <=> <(139,123)>
+dicmdCanvasMouseClick -point (139,123) 
+current commdn is: 0x5615b9f98a90
+dicmdCanvasMouseClick -point (139,123) 
+------------------------------------------------------------CLICKED2
+!!!!!!!!!!!!dicmdCanvasMouseClick -point (139,123) 
+<dicmdCanvasMouseRelease -point (572,59) >dicmdCanvasMouseRelease
+  ---<-point> <=> <(572,59)>
+dicmdCanvasMouseRelease -point (572,59) 
+current commdn is: 0x5615b9f98a90
+!!!!!!!!!!!!dicmdCanvasMouseRelease -point (572,59) 
+<dicmdCanvasMouseClick -point (201,231) >dicmdCanvasMouseClick
+  ---<-point> <=> <(201,231)>
+dicmdCanvasMouseClick -point (201,231) 
+current commdn is: 0x5615b9f98a90
+dicmdCanvasMouseClick -point (201,231) 
+------------------------------------------------------------CLICKED2
+!!!!!!!!!!!!dicmdCanvasMouseClick -point (201,231) 
+<dicmdCanvasMouseRelease -point (573,159) >dicmdCanvasMouseRelease
+  ---<-point> <=> <(573,159)>
+dicmdCanvasMouseRelease -point (573,159) 
+current commdn is: 0x5615b9f98a90
+!!!!!!!!!!!!dicmdCanvasMouseRelease -point (573,159) 
+<dicmdguiClickButton -object mw/65/70/Home/qt_tabwidget_tabbar >dicmdguiClickButton
+  ---<-object> <=> <mw/65/70/Home/qt_tabwidget_tabbar>
+dicmdguiClickButton -object mw/65/70/Home/qt_tabwidget_tabbar 
+something went wrong with this command -> dicmdguiClickButton
+ Error: Fixme Exception or Error?? 
+!!!!!!!!!!!!dicmdguiClickButton -object mw/65/70/Home/qt_tabwidget_tabbar 
+<dicmdguiClickButton -object 0x107:Region >dicmdguiClickButton
+  ---<-object> <=> <0x107:Region>
+dicmdguiClickButton -object 0x107:Region 
+activating: 0x5615b9ebba10
+incmdSelectShapesByRegion
+!!!!!!!!!!!!dicmdguiClickButton -object 0x107:Region 
+<incmdSelectShapesByRegion>incmdSelectShapesByRegion
+?????????incmdSelectShapesByRegion
+activating: 0x5615b9ebba10
+activating: 0x5615ba008f60
+dicmdAbortActiveCommand 
+incmdSelectShapesByRegion
+<dicmdCanvasMouseClick -point (27,26) >dicmdCanvasMouseClick
+  ---<-point> <=> <(27,26)>
+dicmdCanvasMouseClick -point (27,26) 
+current commdn is: 0x5615b9ebba10
+dicmdCanvasMouseClick -point (27,26) 
+------------------------------------------------------------CLICKED2
+!!!!!!!!!!!!dicmdCanvasMouseClick -point (27,26) 
+<dicmdCanvasMouseClick -point (479,328) >dicmdCanvasMouseClick
+  ---<-point> <=> <(479,328)>
+dicmdCanvasMouseClick -point (479,328) 
+current commdn is: 0x5615b9ebba10
+dicmdCanvasMouseClick -point (479,328) 
+dicmdSelectShapesByRegion -end (479,328) -start (27,26) 
+------------------------------------------------------------CLICKED2
+!!!!!!!!!!!!dicmdCanvasMouseClick -point (479,328) 
+<#o --> Out: dicmdSelectShapesByRegion -end (479,328) -start (27,26) >#o
+<dicmdQaCompareSelection >dicmdQaCompareSelection
+dicmdQaCompareSelection 
+CanvasFor_Selection_Compare_0.txt.png
+
+
+
+comparision->Selection:MISMATCH Selection_Compare_0.txt Selection_Compare_0.txt.golden
+!!!!!!!!!!!!dicmdQaCompareSelection 
+<#e --> Error: comparision->Selection:MISMATCH Selection_Compare_0.txt Selection_Compare_0.txt.golden>#e
+<dicmdCanvasMouseClick -point (479,35) >dicmdCanvasMouseClick
+  ---<-point> <=> <(479,35)>
+dicmdCanvasMouseClick -point (479,35) 
+current commdn is: 0x5615b9ebba10
+dicmdCanvasMouseClick -point (479,35) 
+------------------------------------------------------------CLICKED2
+!!!!!!!!!!!!dicmdCanvasMouseClick -point (479,35) 
+<dicmdCanvasMouseClick -point (773,260) >dicmdCanvasMouseClick
+  ---<-point> <=> <(773,260)>
+dicmdCanvasMouseClick -point (773,260) 
+current commdn is: 0x5615b9ebba10
+dicmdCanvasMouseClick -point (773,260) 
+dicmdSelectShapesByRegion -end (773,260) -start (479,35) 
+------------------------------------------------------------CLICKED2
+!!!!!!!!!!!!dicmdCanvasMouseClick -point (773,260) 
+<#o --> Out: dicmdSelectShapesByRegion -end (773,260) -start (479,35) >#o
+<dicmdQaCompareSelection >dicmdQaCompareSelection
+dicmdQaCompareSelection 
+CanvasFor_Selection_Compare_1.txt.png
+
+
+
+comparision->Selection:MISMATCH Selection_Compare_1.txt Selection_Compare_1.txt.golden
+!!!!!!!!!!!!dicmdQaCompareSelection 
+<#e --> Error: comparision->Selection:MISMATCH Selection_Compare_1.txt Selection_Compare_1.txt.golden>#e
+<dicmdQaToolExit >dicmdQaToolExit
+dicmdQaToolExit 

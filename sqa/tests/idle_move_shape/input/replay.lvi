@@ -1,0 +1,2 @@
+dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(78,115);(139,160)} 
+dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(106,216);(163,251)} 

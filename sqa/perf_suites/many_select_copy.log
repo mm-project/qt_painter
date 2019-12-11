@@ -1,0 +1,174 @@
+#i --> Info: Welcome to this project. Feel free to expirment. 
+dicmdguiClickButton -object mw/65/70/Home/qt_tabwidget_tabbar 
+dicmdguiClickButton -object 0x104:Rectangle 
+incmdCreateObjRectangle
+dicmdCanvasMouseClick -point (36,38) 
+dicmdCanvasMouseClick -point (97,76) 
+#o --> Out: dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(36,38);(97,76)} 
+dicmdguiClickButton -object 0x104:Ellipse 
+dicmdAbortActiveCommand 
+incmdCreateObjEllipse
+dicmdCanvasMouseClick -point (112,54) 
+dicmdCanvasMouseClick -point (165,82) 
+#o --> Out: dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(112,54);(165,82)} 
+dicmdguiClickButton -object 0x104:Rectangle 
+dicmdAbortActiveCommand 
+incmdCreateObjRectangle
+dicmdCanvasMouseClick -point (66,94) 
+dicmdCanvasMouseClick -point (161,140) 
+#o --> Out: dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(66,94);(161,140)} 
+dicmdguiClickButton -object 0x104:Ellipse 
+dicmdAbortActiveCommand 
+incmdCreateObjEllipse
+dicmdCanvasMouseClick -point (45,162) 
+dicmdCanvasMouseClick -point (101,194) 
+#o --> Out: dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(45,162);(101,194)} 
+dicmdCanvasMouseClick -point (120,171) 
+dicmdCanvasMouseClick -point (171,197) 
+#o --> Out: dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(120,171);(171,197)} 
+dicmdCanvasMouseClick -point (179,122) 
+dicmdCanvasMouseClick -point (228,156) 
+#o --> Out: dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(179,122);(228,156)} 
+dicmdCanvasMouseClick -point (193,89) 
+dicmdCanvasMouseClick -point (240,106) 
+#o --> Out: dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(193,89);(240,106)} 
+dicmdCanvasViewportZoomIn -point (332,133) 
+dicmdCanvasViewportZoomOut -point (332,133) 
+dicmdCanvasViewportZoomOut -point (332,133) 
+dicmdCanvasViewportZoomOut -point (332,133) 
+dicmdAbortActiveCommand 
+incmdSelectShapesByRegion
+dicmdCanvasMouseClick -point (11,19) 
+dicmdCanvasMouseClick -point (243,201) 
+#o --> Out: dicmdSelectShapesByRegion -end (294,243) -start (13,22) 
+incmdObjRelocateByCopy
+dicmdCanvasMouseClick -point (101,103) 
+dicmdCanvasMouseClick -point (101,103) 
+dicmdCanvasMouseRelease -point (101,103) 
+dicmdCanvasMouseRelease -point (211,124) 
+incmdSelectShapesByRegion
+dicmdCanvasMouseClick -point (16,16) 
+dicmdCanvasMouseClick -point (282,200) 
+#o --> Out: dicmdSelectShapesByRegion -end (341,242) -start (19,19) 
+incmdObjRelocateByCopy
+dicmdCanvasMouseClick -point (108,100) 
+dicmdCanvasMouseRelease -point (234,75) 
+incmdSelectShapesByRegion
+dicmdCanvasMouseClick -point (18,19) 
+dicmdCanvasMouseClick -point (400,183) 
+#o --> Out: dicmdSelectShapesByRegion -end (484,221) -start (21,22) 
+incmdObjRelocateByCopy
+dicmdCanvasMouseClick -point (302,110) 
+dicmdCanvasMouseRelease -point (587,89) 
+incmdSelectShapesByRegion
+dicmdCanvasMouseClick -point (769,200) 
+dicmdCanvasMouseClick -point (713,232) 
+#o --> Out: dicmdSelectShapesByRegion -end (862,280) -start (365,131) 
+incmdObjRelocateByCopy
+dicmdCanvasMouseClick -point (556,146) 
+dicmdCanvasMouseRelease -point (940,43) 
+dicmdCanvasViewportZoomIn -point (757,195) 
+dicmdCanvasViewportZoomOut -point (757,195) 
+dicmdCanvasViewportZoomOut -point (757,195) 
+dicmdCanvasViewportZoomOut -point (757,195) 
+dicmdCanvasViewportZoomOut -point (757,195) 
+dicmdguiClickButton -object 0x100:qt_dockwidget_closebutton 
+incmdSelectShapesByRegion
+dicmdCanvasMouseClick -point (16,12) 
+dicmdCanvasMouseClick -point (984,146) 
+#o --> Out: dicmdSelectShapesByRegion -end (1584,235) -start (25,19) 
+incmdObjRelocateByCopy
+dicmdCanvasMouseClick -point (513,100) 
+dicmdCanvasMouseRelease -point (486,198) 
+incmdSelectShapesByRegion
+dicmdCanvasMouseClick -point (17,15) 
+dicmdCanvasMouseClick -point (1099,305) 
+#o --> Out: dicmdSelectShapesByRegion -end (1769,491) -start (27,24) 
+incmdObjRelocateByCopy
+dicmdCanvasMouseClick -point (743,177) 
+dicmdCanvasMouseRelease -point (706,374) 
+dicmdCanvasViewportZoomIn -point (792,417) 
+dicmdCanvasViewportZoomOut -point (792,417) 
+dicmdCanvasViewportZoomOut -point (792,417) 
+dicmdCanvasViewportZoomOut -point (792,417) 
+dicmdCanvasViewportZoomOut -point (792,417) 
+dicmdCanvasViewportZoomOut -point (792,417) 
+incmdSelectShapesByRegion
+dicmdCanvasMouseClick -point (11,10) 
+dicmdCanvasMouseClick -point (329,249) 
+#o --> Out: dicmdSelectShapesByRegion -end (775,587) -start (1196,283) 
+dicmdCanvasMouseClick -point (10,11) 
+dicmdCanvasMouseClick -point (741,398) 
+#o --> Out: dicmdSelectShapesByRegion -end (1747,938) -start (23,25) 
+incmdObjRelocateByCopy
+dicmdCanvasMouseClick -point (416,176) 
+dicmdCanvasMouseRelease -point (396,392) 
+dicmdCanvasViewportZoomIn -point (760,234) 
+dicmdCanvasViewportZoomIn -point (760,234) 
+dicmdCanvasViewportZoomOut -point (760,234) 
+dicmdCanvasViewportZoomOut -point (760,234) 
+dicmdCanvasViewportZoomOut -point (760,234) 
+dicmdCanvasViewportZoomOut -point (760,234) 
+dicmdCanvasViewportZoomOut -point (760,234) 
+dicmdCanvasViewportZoomOut -point (760,234) 
+dicmdCanvasViewportZoomOut -point (760,234) 
+dicmdCanvasViewportZoomOut -point (760,234) 
+dicmdCanvasViewportZoomOut -point (756,240) 
+dicmdCanvasViewportZoomOut -point (756,241) 
+dicmdCanvasViewportZoomOut -point (756,242) 
+dicmdCanvasViewportZoomOut -point (755,242) 
+dicmdCanvasViewportZoomOut -point (755,242) 
+dicmdCanvasViewportZoomOut -point (755,242) 
+incmdSelectShapesByRegion
+dicmdCanvasMouseClick -point (284,188) 
+dicmdCanvasMouseClick -point (11,9) 
+#o --> Out: dicmdSelectShapesByRegion -end (81,66) -start (2101,1391) 
+incmdObjRelocateByCopy
+dicmdCanvasMouseClick -point (95,107) 
+dicmdCanvasMouseRelease -point (228,107) 
+incmdSelectShapesByRegion
+dicmdCanvasMouseClick -point (378,196) 
+dicmdCanvasMouseClick -point (34,10) 
+#o --> Out: dicmdSelectShapesByRegion -end (251,74) -start (2797,1450) 
+incmdObjRelocateByCopy
+dicmdCanvasMouseClick -point (120,88) 
+dicmdCanvasMouseRelease -point (120,89) 
+incmdSelectShapesByRegion
+dicmdCanvasMouseClick -point (430,196) 
+dicmdCanvasMouseClick -point (10,9) 
+#o --> Out: dicmdSelectShapesByRegion -end (74,66) -start (3182,1450) 
+incmdObjRelocateByCopy
+dicmdCanvasMouseClick -point (207,98) 
+dicmdCanvasMouseRelease -point (193,245) 
+dicmdCanvasMouseClick -point (457,356) 
+dicmdCanvasMouseRelease -point (457,356) 
+incmdSelectShapesByRegion
+dicmdCanvasMouseClick -point (415,349) 
+dicmdCanvasMouseClick -point (12,9) 
+#o --> Out: dicmdSelectShapesByRegion -end (88,66) -start (3071,2582) 
+incmdObjRelocateByCopy
+dicmdCanvasMouseClick -point (166,225) 
+dicmdCanvasMouseRelease -point (149,484) 
+incmdSelectShapesByRegion
+dicmdCanvasMouseClick -point (386,21) 
+dicmdCanvasMouseClick -point (14,551) 
+#o --> Out: dicmdSelectShapesByRegion -end (103,4077) -start (2856,155) 
+incmdObjRelocateByCopy
+dicmdCanvasMouseClick -point (167,343) 
+dicmdCanvasMouseRelease -point (455,332) 
+incmdSelectShapesByRegion
+dicmdCanvasMouseClick -point (676,16) 
+dicmdCanvasMouseClick -point (11,554) 
+#o --> Out: dicmdSelectShapesByRegion -end (81,4099) -start (5002,118) 
+incmdObjRelocateByCopy
+dicmdCanvasMouseClick -point (413,217) 
+dicmdCanvasMouseRelease -point (1029,207) 
+dicmdCanvasMouseClick -point (593,202) 
+dicmdCanvasMouseRelease -point (593,202) 
+#dicmdguiClickButton -object mw/65/70/Home/qt_tabwidget_tabbar 
+#dicmdguiClickButton -object mw/65/70/Home/qt_tabwidget_tabbar 
+#dicmdguiClickButton -object mw/65/70/Home/qt_tabwidget_tabbar 
+#dicmdguiClickButton -object 0x106:Save 
+#incmdDesignSave
+#o --> Out: dicmdDesignSave -filename /home/levibyte/git/N/qt_painter/huge3.lvi 
+#ssdicmdQaToolExit 

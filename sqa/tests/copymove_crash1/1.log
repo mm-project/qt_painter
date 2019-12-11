@@ -1,0 +1,73 @@
+dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(96,58);(192,140)} 
+dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(183,173);(298,263)} 
+dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(405,73);(521,144)} 
+dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(279,131);(387,218)} 
+dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(388,241);(536,291)} 
+dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(574,209);(737,287)} 
+dicmdQaReplyingBreak
+dicmdCanvasMouseClick -point (651,243) 
+dicmdCanvasMouseRelease -point (707,96) 
+dicmdCanvasMouseClick -point (356,81) 
+dicmdCanvasMouseRelease -point (694,184) 
+dicmdCanvasMouseClick -point (322,152) 
+dicmdCanvasMouseRelease -point (524,117) 
+dicmdCanvasMouseClick -point (565,169) 
+dicmdCanvasMouseRelease -point (217,82) 
+dicmdCanvasMouseClick -point (146,133) 
+dicmdCanvasMouseRelease -point (671,207) 
+dicmdCanvasMouseClick -point (714,224) 
+dicmdCanvasMouseRelease -point (50,79) 
+dicmdCanvasMouseClick -point (751,123) 
+dicmdCanvasMouseRelease -point (898,137) 
+dicmdCanvasMouseClick -point (269,121) 
+dicmdCanvasMouseRelease -point (516,69) 
+#e --> Error: Layer: 1       0x55d87d8c97b0 /home/levon/test/qt_painter/sqa/../bin/linux/painter(+0xd67b0) [0x55d87d8c97b0]
+#e --> Error: Layer: 2       0x7fbe2b713f20 /lib/x86_64-linux-gnu/libc.so.6(+0x3ef20) [0x7fbe2b713f20]
+#e --> Error: Layer: 3       0x55d87d93931b renderer::draw_objects() + 429
+#e --> Error: Layer: 4       0x55d87d9398d4 renderer::draw_all() + 48
+#e --> Error: Layer: 5       0x55d87d93996c renderer::render() + 48
+#e --> Error: Layer: 6       0x55d87d8d102c canvas::paintEvent(QPaintEvent*) + 32
+#e --> Error: Layer: 7       0x7fbe2d2b2038 QWidget::event(QEvent*) + 504
+#e --> Error: Layer: 8       0x55d87d8d059c canvas::event(QEvent*) + 192
+#e --> Error: Layer: 9       0x7fbe2d27382c QApplicationPrivate::notify_helper(QObject*, QEvent*) + 156
+#e --> Error: Layer: 10      0x7fbe2d27b0f4 QApplication::notify(QObject*, QEvent*) + 676
+#e --> Error: Layer: 11      0x7fbe2c2f19a8 QCoreApplication::notifyInternal2(QObject*, QEvent*) + 280
+#e --> Error: Layer: 12      0x7fbe2d2ab18a QWidgetPrivate::sendPaintEvent(QRegion const&) + 58
+#e --> Error: Layer: 13      0x7fbe2d2ab74a QWidgetPrivate::drawWidget(QPaintDevice*, QRegion const&, QPoint const&, int, QPainter*, QWidgetBackingStore*) + 1386
+#e --> Error: Layer: 14      0x7fbe2d2ac3b0 QWidgetPrivate::paintSiblingsRecursive(QPaintDevice*, QList<QObject*> const&, int, QRegion const&, QPoint const&, int, QPainter*, QWidgetBackingStore*) + 864
+#e --> Error: Layer: 15      0x7fbe2d2ab356 QWidgetPrivate::drawWidget(QPaintDevice*, QRegion const&, QPoint const&, int, QPainter*, QWidgetBackingStore*) + 374
+#e --> Error: Layer: 16      0x7fbe2d282e54 /usr/lib/x86_64-linux-gnu/libQt5Widgets.so.5(+0x163e54) [0x7fbe2d282e54]
+#e --> Error: Layer: 17      0x7fbe2d283095 /usr/lib/x86_64-linux-gnu/libQt5Widgets.so.5(+0x164095) [0x7fbe2d283095]
+#e --> Error: Layer: 18      0x7fbe2d29a66f QWidgetPrivate::syncBackingStore() + 79
+#e --> Error: Layer: 19      0x7fbe2d2b21a8 QWidget::event(QEvent*) + 872
+#e --> Error: Layer: 20      0x7fbe2d3c5c4b QMainWindow::event(QEvent*) + 347
+#e --> Error: Layer: 21      0x7fbe2d27382c QApplicationPrivate::notify_helper(QObject*, QEvent*) + 156
+#e --> Error: Layer: 22      0x7fbe2d27b0f4 QApplication::notify(QObject*, QEvent*) + 676
+#e --> Error: Layer: 23      0x7fbe2c2f19a8 QCoreApplication::notifyInternal2(QObject*, QEvent*) + 280
+#e --> Error: Layer: 24      0x7fbe2c2f411d QCoreApplicationPrivate::sendPostedEvents(QObject*, int, QThreadData*) + 493
+#e --> Error: Layer: 25      0x7fbe2c34b2c3 /usr/lib/x86_64-linux-gnu/libQt5Core.so.5(+0x2e42c3) [0x7fbe2c34b2c3]
+#e --> Error: Layer: 26      0x7fbe29a6a417 g_main_context_dispatch + 743
+#e --> Error: Layer: 27      0x7fbe29a6a650 /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0(+0x4c650) [0x7fbe29a6a650]
+#e --> Error: Layer: 28      0x7fbe29a6a6dc g_main_context_iteration + 44
+#e --> Error: Layer: 29      0x7fbe2c34a8ef QEventDispatcherGlib::processEvents(QFlags<QEventLoop::ProcessEventsFlag>) + 95
+#e --> Error: Layer: 30      0x55d87d92d602 LogReader::execute_next_command() + 268
+#e --> Error: Layer: 31      0x55d87d933149 /home/levon/test/qt_painter/sqa/../bin/linux/painter(+0x140149) [0x55d87d933149]
+#e --> Error: Layer: 32      0x7fbe2c3205b5 QMetaObject::activate(QObject*, int, int, void**) + 2149
+#e --> Error: Layer: 33      0x7fbe2c32d027 QTimer::timeout(QTimer::QPrivateSignal) + 55
+#e --> Error: Layer: 34      0x7fbe2c32d388 QTimer::timerEvent(QTimerEvent*) + 40
+#e --> Error: Layer: 35      0x7fbe2c3210db QObject::event(QEvent*) + 155
+#e --> Error: Layer: 36      0x7fbe2d27382c QApplicationPrivate::notify_helper(QObject*, QEvent*) + 156
+#e --> Error: Layer: 37      0x7fbe2d27b0f4 QApplication::notify(QObject*, QEvent*) + 676
+#e --> Error: Layer: 38      0x7fbe2c2f19a8 QCoreApplication::notifyInternal2(QObject*, QEvent*) + 280
+#e --> Error: Layer: 39      0x7fbe2c349d8e QTimerInfoList::activateTimers() + 1038
+#e --> Error: Layer: 40      0x7fbe2c34a551 /usr/lib/x86_64-linux-gnu/libQt5Core.so.5(+0x2e3551) [0x7fbe2c34a551]
+#e --> Error: Layer: 41      0x7fbe29a6a417 g_main_context_dispatch + 743
+#e --> Error: Layer: 42      0x7fbe29a6a650 /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0(+0x4c650) [0x7fbe29a6a650]
+#e --> Error: Layer: 43      0x7fbe29a6a6dc g_main_context_iteration + 44
+#e --> Error: Layer: 44      0x7fbe2c34a8ef QEventDispatcherGlib::processEvents(QFlags<QEventLoop::ProcessEventsFlag>) + 95
+#e --> Error: Layer: 45      0x7fbe2c2ef9ea QEventLoop::exec(QFlags<QEventLoop::ProcessEventsFlag>) + 314
+#e --> Error: Layer: 46      0x7fbe2c2f8a84 QCoreApplication::exec() + 148
+#e --> Error: Layer: 47      0x55d87d8c99cb main + 192
+#e --> Error: Layer: 48      0x7fbe2b6f6b97 __libc_start_main + 231
+#e --> Error: Layer: 49      0x55d87d8c902a _start + 42
+#e --> Error: 
