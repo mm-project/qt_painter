@@ -4,7 +4,7 @@ if [ -z "$PAINTER_QA_DIR" ]; then
     exit -1
 fi
 
-source $PAINTER_QA_DIR/scripts/test_setup.sh
+source $PAINTER_QA_DIR/scripts/test_runner.sh
 process_options "$@"
 run_test "-replay ../input/crash.log"
 
