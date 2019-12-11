@@ -1,0 +1,44 @@
+#i --> Info: Welcome to this project. Feel free to expirment. 
+#i --> Info: Set to mode1
+dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(96,58);(192,140)} 
+dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(183,173);(298,263)} 
+dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(405,73);(521,144)} 
+dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(279,131);(387,218)} 
+dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(388,241);(536,291)} 
+dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(574,209);(737,287)} 
+dicmdQaReplyingBreak 
+#i --> Info: Set to mode0
+#i --> Info: Replying Stopped for debug. Press "W" to continue to run till next breakpoint, or "S" to execute next command.
+dicmdCanvasMouseClick -point (766,170) 
+dicmdCanvasMouseClick -point (951,213) 
+dicmdCanvasMouseClick -point (899,186) 
+dicmdCanvasViewportZoomOut -point (828,167) 
+dicmdCanvasViewportZoomOut -point (828,167) 
+dicmdCanvasViewportZoomOut -point (828,167) 
+dicmdCanvasViewportZoomOut -point (828,167) 
+dicmdCanvasViewportZoomIn -point (828,167) 
+dicmdCanvasViewportZoomIn -point (828,167) 
+dicmdCanvasViewportZoomIn -point (828,167) 
+dicmdCanvasViewportZoomIn -point (828,167) 
+dicmdCanvasViewportZoomIn -point (828,167) 
+dicmdCanvasViewportZoomOut -point (518,166) 
+dicmdCanvasViewportZoomOut -point (518,166) 
+dicmdCanvasViewportZoomOut -point (518,166) 
+dicmdCanvasMouseClick -point (712,144) 
+dicmdCanvasMouseClick -point (524,197) 
+dicmdCanvasMouseRelease -point (590,150) 
+dicmdCanvasMouseClick -point (384,85) 
+dicmdCanvasMouseRelease -point (540,96) 
+dicmdCanvasMouseClick -point (275,142) 
+dicmdCanvasMouseRelease -point (539,105) 
+dicmdCanvasMouseClick -point (399,208) 
+dicmdCanvasMouseRelease -point (525,67) 
+dicmdCanvasMouseClick -point (227,179) 
+dicmdCanvasMouseRelease -point (584,141) 
+dicmdCanvasMouseClick -point (122,100) 
+dicmdCanvasMouseRelease -point (693,130) 
+dicmdCanvasMouseClick -point (446,71) 
+dicmdCanvasMouseClick -point (734,168) 
+dicmdCanvasMouseRelease -point (293,149) 
+dicmdCanvasMouseClick -point (601,141) 
+dicmdQaToolExit 

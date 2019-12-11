@@ -1,0 +1,37 @@
+test_suites/flowtest1
+test_suites/interactive_directive
+test_suites/selection/byregion/test1
+test_suites/selection/byregion/test5
+test_suites/selection/byregion/basic_test1
+test_suites/generic/all_shapes_runtime
+test_suites/test123
+test_suites/basic/directive/shape_creation/polygons
+test_suites/directive/save_load_reset_basic	
+test_suites/different_selections
+test_suites/interactive_selection_lines
+test_suites/viewport_manipulations
+test_suites/selection_sanity
+test_suites/interactive_point_selection1
+test_suites/interactive_point_selection2
+test_suites/directive/flow_1
+test_suites/object_properties_generic
+<<<<<<< HEAD
+test_suites/undo_redo_very_basic
+test_suites/undo_redo_crashflow
+test_suites/undo_redo_crashflow2
+test_suites/undo_redo_basic_rects
+test_suites/undo_redo_basic_rects_and_properties
+=======
+test_suites/interactive_postselect_copymove_basic
+test_suites/idle_move_shape
+test_suites/idle_move_rect_ellipse
+test_suites/interactive_complicated_copymove
+test_suites/interactive_copymove_and_idle
+test_suites/interactive_copymove_and_idle1
+test_suites/copy_move_interactive_verybasic
+test_suites/interactive_nice_copymove
+test_suites/crash_case 
+test_suites/copymove_crash1
+
+test_suites/idle_select_idle_copy_crash
+>>>>>>> dev

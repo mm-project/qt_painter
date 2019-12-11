@@ -1,0 +1,19 @@
+Name: Selection
+ObjCount: 8
+======
+Rectangle:
+Rectangle:
+<<<<<<< HEAD:sqa/test_suites/undo_redo_basic_rects/golden/Selection_Compare_4.txt.golden
+Rectangle:
+Rectangle:
+Rectangle:
+Rectangle:
+=======
+Ellipse:
+Line:
+Rectangle:
+Ellipse:
+Ellipse:
+Line:
+>>>>>>> dev:sqa/test_suites/viewport_manipulations/golden/Selection_Compare_3.txt.golden
+--------
