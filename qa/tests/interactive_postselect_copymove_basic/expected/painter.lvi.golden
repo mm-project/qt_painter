@@ -1,6 +1,0 @@
-dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(144,73);(275,161)} 
-dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(244,83);(375,161)} 
-dicmdSelectShapesByRegion -end (1037,263) -start (0,0) 
-dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(144,303);(225,321)} 
-dicmdSelectShapesByRegion -end (450,194) -start (15,19) 
-dicmdSelectShapesByRegion -end (700,353) -start (311,175) 

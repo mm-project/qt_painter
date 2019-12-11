@@ -1,7 +1,0 @@
-dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(86,36);(151,81)} 
-dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(130,105);(202,159)} 
-dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(56,121);(104,171)} 
-dicmdCreateObjLine -brush 1 -color #000000 -fill 9 -points {(224,170);(74,232)} 
-dicmdCreateObjPolygon -brush 1 -color #000000 -fill 9 -points {(137,256);(233,212);(299,296);(182,296);(182,296)} 
-dicmdSelectShapesByRegion -end (350,321) -start (29,19) 
-dicmdSelectShapesByRegion -end (362,340) -start (28,26) 
