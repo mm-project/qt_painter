@@ -15,9 +15,12 @@ options="$@"
 
 #echo $DIR
 export PAINTER_QA_DIR=$DIR/..
+export ARTIFACTS_DIR=$DIR/../../artifacts
 export PAINTER_SCRIPTS_DIR=$PAINTER_QA_DIR/scripts
 export PYTHON_PATH=$PAINTER_SCRIPTS_DIR:$PYTHON_PATH
 export IS_CI=0
+
+mkdir -p $ARTIFACTS_DIR
 
 if [ "$CI_BUILD" == "" ]; then
     CI_BUILD="TCI_UNIT"
@@ -47,6 +50,7 @@ fi
 for i in $TESTLST; do
     total=`expr $total + 1`
     cd $PAINTER_QA_DIR/$i
+        testname=`basename $PAINTER_QA_DIR/$i` 
         echo -ne  "Running $PAINTER_QA_DIR/$i --- "
         a=`./run.sh "$options" &> test.info `
         r=$?
@@ -61,6 +65,7 @@ for i in $TESTLST; do
             echo "==========="
             res=1
             crashed=`expr $crashed + 1`
+            cp output $ARTIFACTS_DIR/$testname -rf
         else
             echo -e "\e[31mError (code:$r) \e[0m"
             echo "************"
@@ -68,6 +73,7 @@ for i in $TESTLST; do
             echo "==========="
             failed=`expr $failed + 1`
             res=1
+            cp output $ARTIFACTS_DIR/$testname -rf
         fi
         echo  "------------------------------------------------------------------------------------"
     cd - &> /dev/null

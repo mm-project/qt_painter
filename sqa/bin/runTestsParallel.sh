@@ -22,7 +22,7 @@ declare -A PIDS
 
 function runAll
 {
-    threads_num=5
+    threads_num=8
     testnum_in_chunk=`expr $file_len / $threads_num`
     e=`expr $b + $testnum_in_chunk`
     echo "Running tests in parralel"
@@ -58,7 +58,7 @@ function runParallel
     pid=$!
     PIDS[$pid]=$outfile
     echo "($pid) -> running: $DIR/runRegTests.sh $beg $end &> ${PIDS[$pid]}  &"
-    sleep 1
+    #sleep 1
 }
 
 function waitForAll
