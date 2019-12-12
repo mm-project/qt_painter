@@ -79,7 +79,7 @@ public:
         TranslationsPath,
         ExamplesPath,
         TestsPath,
-        // Insert new values above this line
+        // Insert new values above this Line
         // Please read the comments in qlibraryinfo.cpp before adding
 #ifdef QT_BUILD_QMAKE
         // These are not subject to binary compatibility constraints

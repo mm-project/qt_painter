@@ -68,7 +68,7 @@
  * We will try to include all headers possible under this configuration.
  *
  * MSVC does not define __SSE2__ & family, so we will define them. MSVC 2013 &
- * up do define __AVX__ if the -arch:AVX option is passed on the command-line.
+ * up do define __AVX__ if the -arch:AVX option is passed on the command-Line.
  *
  * Supported XXX are:
  *   Flag    | Arch |  GCC  | Intel CC |  MSVC  |

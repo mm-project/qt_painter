@@ -30,7 +30,7 @@ template<desAction T>
 class InteractiveDesAction: public InteractiveCommandBase
 {
     
-    IObjectPoolPtr m_ws;
+    ObjectPoolPtr m_ws;
     std::string m_fn;
     std::string m_helpstr;
     bool m_is_saved = false;
@@ -38,7 +38,7 @@ class InteractiveDesAction: public InteractiveCommandBase
       
     public:
 	
-        InteractiveDesAction<T>(IObjectPoolPtr s ):m_ws(s) { 
+        InteractiveDesAction<T>(ObjectPoolPtr s ):m_ws(s) { 
                 m_helpstr = sl_action2string(T);
         }
 

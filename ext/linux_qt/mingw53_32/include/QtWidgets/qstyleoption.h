@@ -294,7 +294,7 @@ public:
     enum ToolBarPosition { Beginning, Middle, End, OnlyOne };
     enum ToolBarFeature { None = 0x0, Movable = 0x1 };
     Q_DECLARE_FLAGS(ToolBarFeatures, ToolBarFeature)
-    ToolBarPosition positionOfLine; // The toolbar line position
+    ToolBarPosition positionOfLine; // The toolbar Line position
     ToolBarPosition positionWithinLine; // The position within a toolbar
     Qt::ToolBarArea toolBarArea; // The toolbar docking area
     ToolBarFeatures features;

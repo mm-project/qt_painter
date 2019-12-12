@@ -64,14 +64,14 @@ class QMessageLogContext
     Q_DISABLE_COPY(QMessageLogContext)
 public:
     Q_DECL_CONSTEXPR QMessageLogContext()
-        : version(2), line(0), file(Q_NULLPTR), function(Q_NULLPTR), category(Q_NULLPTR) {}
+        : version(2), Line(0), file(Q_NULLPTR), function(Q_NULLPTR), category(Q_NULLPTR) {}
     Q_DECL_CONSTEXPR QMessageLogContext(const char *fileName, int lineNumber, const char *functionName, const char *categoryName)
-        : version(2), line(lineNumber), file(fileName), function(functionName), category(categoryName) {}
+        : version(2), Line(lineNumber), file(fileName), function(functionName), category(categoryName) {}
 
     void copy(const QMessageLogContext &logContext);
 
     int version;
-    int line;
+    int Line;
     const char *file;
     const char *function;
     const char *category;
@@ -88,10 +88,10 @@ class Q_CORE_EXPORT QMessageLogger
     Q_DISABLE_COPY(QMessageLogger)
 public:
     Q_DECL_CONSTEXPR QMessageLogger() : context() {}
-    Q_DECL_CONSTEXPR QMessageLogger(const char *file, int line, const char *function)
-        : context(file, line, function, "default") {}
-    Q_DECL_CONSTEXPR QMessageLogger(const char *file, int line, const char *function, const char *category)
-        : context(file, line, function, category) {}
+    Q_DECL_CONSTEXPR QMessageLogger(const char *file, int Line, const char *function)
+        : context(file, Line, function, "default") {}
+    Q_DECL_CONSTEXPR QMessageLogger(const char *file, int Line, const char *function, const char *category)
+        : context(file, Line, function, category) {}
 
     void debug(const char *msg, ...) const Q_ATTRIBUTE_FORMAT_PRINTF(2, 3);
     void noDebug(const char *, ...) const Q_ATTRIBUTE_FORMAT_PRINTF(2, 3)

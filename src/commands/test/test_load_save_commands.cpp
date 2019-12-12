@@ -8,11 +8,11 @@ class MockWorkingSet : public IObjectPool
 
 public:
 	virtual void clear() override {} 
-	virtual std::vector<IShape*> getObjects() const override {}
-    IShape* addObject(IShape* s) override { m_shapes_count++; return s;}
+	virtual std::vector<IShapePtr> getObjects() const override {}
+    IShapePtr addObject(IShapePtr s) override { m_shapes_count++; return s;}
 	virtual std::string getName() override {}
 	virtual void dumpToFile(const std::string&) {}
-	virtual void removeObject(IShape*) {}
+	virtual void removeObject(IShapePtr) {}
 	virtual ~MockWorkingSet() {}    
 	int m_shapes_count = 0;
 };
@@ -35,7 +35,7 @@ class MockShape : public IShape
 //Mocking!: 
 ShapeCreator::ShapeCreator() {}
 ShapeCreator::~ShapeCreator() {}
-IShape* ShapeCreator::create(ObjectType) {return new MockShape;}
+IShapePtr ShapeCreator::create(ObjectType) {std::shared_ptr<IShape>(return new MockShape);}
     
 void Messenger::expose_msg(const LogMsgSeverity& s, const std::string&, bool) {}
 void Messenger::log_command(const std::string&, bool) {}

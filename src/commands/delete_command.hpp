@@ -6,6 +6,7 @@
 #include "direct_command_base.hpp"
 
 #include "../core/rq/RegionQueryService.hpp"
+#include "../core/design.hpp"
 #include "../gui/statusbar_manager.hpp"
 
 
@@ -13,14 +14,14 @@
 class dicmdDeleteObj : public DirectCommandBase
 {
 public:
-	dicmdDeleteObj(IObjectPoolPtr ptr, QPoint pos)
-		: m_workingSet(std::dynamic_pointer_cast<WorkingSet>(ptr))
+	dicmdDeleteObj(ObjectPoolPtr ptr, QPoint pos)
+		: m_workingSet(std::dynamic_pointer_cast<Design>(ptr))
 	{
 		add_option("-point",new PointCommandOptionValue(pos));
 	}
 
-	dicmdDeleteObj(IObjectPoolPtr ptr)
-		: m_workingSet(std::dynamic_pointer_cast<WorkingSet>(ptr))
+	dicmdDeleteObj(ObjectPoolPtr ptr)
+		: m_workingSet(std::dynamic_pointer_cast<Design>(ptr))
 	{
 		add_option("-point",new PointCommandOptionValue());
 	}
@@ -33,8 +34,11 @@ public:
 	virtual void execute() override
 	{
 		RegionQuery& rq = RegionQuery::getInstance();
+		//for (auto obj : m_workingSet->getObjects())
+		//	rq.insertObject(obj);
+
 		QPoint pos = GET_CMD_ARG(PointCommandOptionValue,"-point");
-		IShape* shape = rq.getShapeUnderPos(pos);
+		IShapePtr shape = rq.getShapeUnderPos(pos);
 		if (shape != nullptr)
 		{
 			rq.removeObject(shape);
@@ -44,14 +48,14 @@ public:
 	}
 
 private:
-	WorkingSetPtr m_workingSet = nullptr;
+	DesignPtr m_workingSet = nullptr;
 };
 
 class InteractiveDeleteAction : public InteractiveCommandBase
 {
 public:
-	InteractiveDeleteAction(IObjectPoolPtr ptr)
-		: m_workingSet(std::dynamic_pointer_cast<WorkingSet>(ptr))
+	InteractiveDeleteAction(ObjectPoolPtr ptr)
+		: m_workingSet(std::dynamic_pointer_cast<Design>(ptr))
 	{}
 
 	virtual std::string get_name() override
@@ -86,7 +90,8 @@ public:
 
 	void on_click(const EvType& ev)
 	{
-		if (ev == MC)
+		// not from me
+		if (ev == MC || ev == MD)
 		{
 			m_position = InteractiveCommandBase::get_last_point();
 			on_commit(OTHER);
@@ -94,6 +99,6 @@ public:
 	}
 private:
 	QPoint m_position;
-	WorkingSetPtr m_workingSet = nullptr;
+	DesignPtr m_workingSet = nullptr;
 };
 #endif

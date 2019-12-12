@@ -55,7 +55,7 @@
 
 QT_BEGIN_NAMESPACE
 
-/* based on sutherland-hodgman line-by-line clipping, as described in
+/* based on sutherland-hodgman Line-by-Line clipping, as described in
    Computer Graphics and Principles */
 template <typename InType, typename OutType, typename CastType> class QPolygonClipper
 {

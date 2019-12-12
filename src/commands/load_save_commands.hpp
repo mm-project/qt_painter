@@ -4,7 +4,7 @@
 #include "direct_command_base.hpp"
 #include "shape_creation_directive_commands.hpp"
 
-#include "../core/runtime_environment.hpp"
+#include "../core/runtime_pool.hpp"
 
 #include "../io/log_reader.hpp"
 
@@ -14,14 +14,14 @@
 
 class dicmdDesignLoad : public DirectCommandBase 
 {
-        IObjectPoolPtr ws;
+        ObjectPoolPtr ws;
 
 public:
-	dicmdDesignLoad(IObjectPoolPtr s): ws(s) {
+	dicmdDesignLoad(ObjectPoolPtr s): ws(s) {
                 add_option("-filename",new StringCommandOptionValue());
         }
 
-        dicmdDesignLoad(IObjectPoolPtr s, const std::string& fname ): ws(s) {
+        dicmdDesignLoad(ObjectPoolPtr s, const std::string& fname ): ws(s) {
                 add_option("-filename",new StringCommandOptionValue(fname));
         }
         
@@ -42,14 +42,14 @@ public:
 class dicmdDesignSave : public DirectCommandBase 
 {
 
-        IObjectPoolPtr ws;
+        ObjectPoolPtr ws;
         
 public:
-        dicmdDesignSave(IObjectPoolPtr s): ws(s) {
+        dicmdDesignSave(ObjectPoolPtr s): ws(s) {
                 add_option("-filename",new StringCommandOptionValue());
         }
 
-        dicmdDesignSave(IObjectPoolPtr s, const std::string& fname ): ws(s) {
+        dicmdDesignSave(ObjectPoolPtr s, const std::string& fname ): ws(s) {
                 add_option("-filename",new StringCommandOptionValue(fname));
         }
                 

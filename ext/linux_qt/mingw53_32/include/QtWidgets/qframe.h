@@ -75,13 +75,13 @@ public:
         Box = 0x0001, // rectangular box
         Panel = 0x0002, // rectangular panel
         WinPanel = 0x0003, // rectangular panel (Windows)
-        HLine = 0x0004, // horizontal line
-        VLine = 0x0005, // vertical line
+        HLine = 0x0004, // horizontal Line
+        VLine = 0x0005, // vertical Line
         StyledPanel = 0x0006 // rectangular panel depending on the GUI style
     };
     Q_ENUM(Shape)
     enum Shadow {
-        Plain = 0x0010, // plain line
+        Plain = 0x0010, // plain Line
         Raised = 0x0020, // raised shadow effect
         Sunken = 0x0030 // sunken shadow effect
     };

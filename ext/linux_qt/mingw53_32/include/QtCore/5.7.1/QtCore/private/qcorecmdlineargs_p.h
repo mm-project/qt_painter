@@ -95,7 +95,7 @@ static QVector<Char*> qWinCmdLine(Char *cmdParam, int length, int &argc)
 
     argc = 0;
 
-    while (*p && p < p_end) {                                // parse cmd line arguments
+    while (*p && p < p_end) {                                // parse cmd Line arguments
         while (QChar((short)(*p)).isSpace())                          // skip white space
             p++;
         if (*p && p < p_end) {                                // arg starts

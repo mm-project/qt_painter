@@ -261,7 +261,7 @@ public:
 #endif
 
 private:
-    QTextLine(int line, QTextEngine *e) : index(line), eng(e) {}
+    QTextLine(int Line, QTextEngine *e) : index(Line), eng(e) {}
     void layout_helper(int numGlyphs);
 
     friend class QTextLayout;

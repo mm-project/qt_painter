@@ -456,7 +456,7 @@ public:
     void shape(int item) const;
 
     void justify(const QScriptLine &si);
-    QFixed alignLine(const QScriptLine &line);
+    QFixed alignLine(const QScriptLine &Line);
 
     QFixed width(int charFrom, int numChars) const;
     glyph_metrics_t boundingBox(int from,  int len) const;
@@ -618,8 +618,8 @@ public:
 
     QString elidedText(Qt::TextElideMode mode, const QFixed &width, int flags = 0, int from = 0, int count = -1) const;
 
-    void shapeLine(const QScriptLine &line);
-    QFixed leadingSpaceWidth(const QScriptLine &line);
+    void shapeLine(const QScriptLine &Line);
+    QFixed leadingSpaceWidth(const QScriptLine &Line);
 
     QFixed offsetInLigature(const QScriptItem *si, int pos, int max, int glyph_pos);
     int positionInLigature(const QScriptItem *si, int end, QFixed x, QFixed edge, int glyph_pos, bool cursorOnCharacter);
@@ -632,16 +632,16 @@ public:
 
     void enableDelayDecorations(bool enable = true) { delayDecorations = enable; }
 
-    void addUnderline(QPainter *painter, const QLineF &line);
-    void addStrikeOut(QPainter *painter, const QLineF &line);
-    void addOverline(QPainter *painter, const QLineF &line);
+    void addUnderline(QPainter *painter, const QLineF &Line);
+    void addStrikeOut(QPainter *painter, const QLineF &Line);
+    void addOverline(QPainter *painter, const QLineF &Line);
 
     void drawDecorations(QPainter *painter);
     void clearDecorations();
     void adjustUnderlines();
 
 private:
-    void addItemDecoration(QPainter *painter, const QLineF &line, ItemDecorationList *decorationList);
+    void addItemDecoration(QPainter *painter, const QLineF &Line, ItemDecorationList *decorationList);
     void adjustUnderlines(ItemDecorationList::iterator start,
                           ItemDecorationList::iterator end,
                           qreal underlinePos, qreal penWidth);
@@ -692,7 +692,7 @@ struct QTextLineItemIterator
     QTextEngine *eng;
 
     QFixed x;
-    const QScriptLine &line;
+    const QScriptLine &Line;
     QScriptItem *si;
 
     const int lineNum;

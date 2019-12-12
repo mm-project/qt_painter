@@ -1,0 +1,21 @@
+PoolName: Generic-InteractiveCommand
+ObjCount: 1
+======
+Ellipse:	  brushC -> #0000ff, brushS -> 10, penC -> #0000ff, penS -> 3
+--------
+
+PoolName: Highlight-ActiveObjects
+ObjCount: 0
+======
+--------
+
+PoolName: Highlight-QASelectionsTintirid
+ObjCount: 0
+======
+--------
+
+PoolName: Highlight-Selection
+ObjCount: 0
+======
+--------
+

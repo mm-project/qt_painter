@@ -1,0 +1,28 @@
+PoolName: Selection
+ObjCount: 23
+======
+Line:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
+Line:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
+Rectangle:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
+Ellipse:	  brushC -> #ff00ff, brushS -> 9, penC -> #ffffff, penS -> 1
+Ellipse:	  brushC -> #ff00ff, brushS -> 9, penC -> #ffffff, penS -> 1
+Rectangle:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
+Ellipse:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
+Ellipse:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
+Ellipse:	  brushC -> #00ffff, brushS -> 9, penC -> #ffffff, penS -> 1
+Ellipse:	  brushC -> #ff00ff, brushS -> 11, penC -> #ffffff, penS -> 2
+Rectangle:	  brushC -> #0000ff, brushS -> 11, penC -> #ffffff, penS -> 2
+Rectangle:	  brushC -> #0000ff, brushS -> 9, penC -> #ffffff, penS -> 2
+Rectangle:	  brushC -> #0000ff, brushS -> 9, penC -> #ffffff, penS -> 2
+Ellipse:	  brushC -> #ff00ff, brushS -> 9, penC -> #ffffff, penS -> 1
+Ellipse:	  brushC -> #00ffff, brushS -> 9, penC -> #ffffff, penS -> 1
+Ellipse:	  brushC -> #00ffff, brushS -> 11, penC -> #ffffff, penS -> 1
+Ellipse:	  brushC -> #00ffff, brushS -> 11, penC -> #ffffff, penS -> 3
+Polygon:	  brushC -> #ff0000, brushS -> 9, penC -> #ffffff, penS -> 3
+Polygon:	  brushC -> #ff0000, brushS -> 9, penC -> #ffffff, penS -> 3
+Ellipse:	  brushC -> #00ffff, brushS -> 11, penC -> #ffffff, penS -> 2
+Rectangle:	  brushC -> #ff00ff, brushS -> 11, penC -> #ffffff, penS -> 2
+Rectangle:	  brushC -> #0000ff, brushS -> 9, penC -> #ffffff, penS -> 3
+Polygon:	  brushC -> #0000ff, brushS -> 11, penC -> #ffffff, penS -> 2
+--------
+

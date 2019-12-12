@@ -191,7 +191,7 @@ public:
 
     void addItem(QGraphicsItem *item);
     QGraphicsEllipseItem *addEllipse(const QRectF &rect, const QPen &pen = QPen(), const QBrush &brush = QBrush());
-    QGraphicsLineItem *addLine(const QLineF &line, const QPen &pen = QPen());
+    QGraphicsLineItem *addLine(const QLineF &Line, const QPen &pen = QPen());
     QGraphicsPathItem *addPath(const QPainterPath &path, const QPen &pen = QPen(), const QBrush &brush = QBrush());
     QGraphicsPixmapItem *addPixmap(const QPixmap &pixmap);
     QGraphicsPolygonItem *addPolygon(const QPolygonF &polygon, const QPen &pen = QPen(), const QBrush &brush = QBrush());

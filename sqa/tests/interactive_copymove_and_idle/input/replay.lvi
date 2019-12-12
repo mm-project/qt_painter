@@ -1,0 +1,24 @@
+dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(82,38);(183,110)} 
+dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(123,150);(218,216)} 
+dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(175,248);(264,325)} 
+dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(41,277);(130,334)} 
+dicmdSelectShapesByRegion -end (320,328) -start (54,33) 
+dicmdSelectShapesByRegion -end (311,309) -start (50,37) 
+dicmdSelectShapesByRegion -end (588,225) -start (62,28) 
+dicmdSelectShapesByRegion -end (576,218) -start (46,20) 
+dicmdSelectShapesByRegion -end (610,343) -start (343,21) 
+dicmdSelectShapesByRegion -end (585,345) -start (333,31) 
+dicmdSelectShapesByRegion -end (27,350) -start (290,20) 
+dicmdSelectShapesByRegion -end (625,356) -start (11,17) 
+dicmdSelectShapesByRegion -end (25,17) -start (1309,471) 
+dicmdSelectShapesByRegion -end (15,10) -start (1314,482) 
+dicmdSelectShapesByRegion -end (615,25) -start (1271,454) 
+dicmdSelectShapesByRegion -end (1517,844) -start (730,362) 
+dicmdSelectShapesByRegion -end (1597,912) -start (838,365) 
+dicmdSelectShapesByRegion -end (975,596) -start (285,68) 
+dicmdSelectShapesByRegion -end (1010,616) -start (670,202) 
+dicmdSelectShapesByRegion -end (507,721) -start (1460,248) 
+dicmdSelectShapesByRegion -end (898,776) -start (1466,356) 
+dicmdSelectShapesByRegion -end (1714,716) -start (1660,362) 
+dicmdSelectShapesByRegion -end (670,718) -start (77,182) 
+dicmdSelectShapesByRegion -end (34,22) -start (2136,736) 

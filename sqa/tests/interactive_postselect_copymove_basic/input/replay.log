@@ -1,0 +1,22 @@
+#dicmdQaReplyingBreak
+incmdCreateObjRectangle
+dicmdCanvasMouseClick -point (144,73) 
+dicmdCanvasMouseClick -point (275,161) 
+dicmdCanvasMouseClick -point (244,83) 
+dicmdCanvasMouseClick -point (375,161) 
+incmdSelectShapesByRegion
+dicmdCanvasMouseClick -point (0,0) 
+dicmdCanvasMouseClick -point (1037,263) 
+incmdObjRelocateByCopy
+dicmdCanvasMouseClick -point (50,50) 
+dicmdCanvasMouseClick -point (120,120) 
+incmdCreateObjRectangle
+dicmdCanvasMouseClick -point (144,303) 
+dicmdCanvasMouseClick -point (225,321) 
+dicmdSelectShapesByRegion -end (450,194) -start (15,19)
+incmdObjRelocateByMove
+dicmdCanvasMouseClick -point (50,50) 
+dicmdCanvasMouseClick -point (220,220) 
+dicmdSelectShapesByRegion -end (700,353) -start (311,175)
+dicmdQaCompareSelection 
+dicmdQaToolExit

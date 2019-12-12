@@ -57,7 +57,7 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* Note: A `raster' is simply a scan-line converter, used to render      */
+  /* Note: A `raster' is simply a scan-Line converter, used to render      */
   /*       QT_FT_Outlines into QT_FT_Bitmaps.                                    */
   /*                                                                       */
   /*************************************************************************/
@@ -353,7 +353,7 @@ QT_FT_BEGIN_HEADER
   /*    QT_FT_Outline                                                         */
   /*                                                                       */
   /* <Description>                                                         */
-  /*    This structure is used to describe an outline to the scan-line     */
+  /*    This structure is used to describe an outline to the scan-Line     */
   /*    converter.                                                         */
   /*                                                                       */
   /* <Fields>                                                              */
@@ -436,11 +436,11 @@ QT_FT_BEGIN_HEADER
   /*                                 try to detect drop-outs in an outline */
   /*                                 and correct the glyph bitmap to       */
   /*                                 ensure consistent shape continuity.   */
-  /*                                 If set, this flag hints the scan-line */
+  /*                                 If set, this flag hints the scan-Line */
   /*                                 converter to ignore such cases.       */
   /*                                                                       */
   /*   QT_FT_OUTLINE_HIGH_PRECISION  :: This flag indicates that the          */
-  /*                                 scan-line converter should try to     */
+  /*                                 scan-Line converter should try to     */
   /*                                 convert this outline to bitmaps with  */
   /*                                 the highest possible quality.  It is  */
   /*                                 typically set for small character     */
@@ -545,13 +545,13 @@ QT_FT_BEGIN_HEADER
   /*    QT_FT_Outline_LineToFunc                                              */
   /*                                                                       */
   /* <Description>                                                         */
-  /*    A function pointer type used to describe the signature of a `line  */
+  /*    A function pointer type used to describe the signature of a `Line  */
   /*    to' function during outline walking/decomposition.                 */
   /*                                                                       */
-  /*    A `line to' is emitted to indicate a segment in the outline.       */
+  /*    A `Line to' is emitted to indicate a segment in the outline.       */
   /*                                                                       */
   /* <Input>                                                               */
-  /*    to   :: A pointer to the target point of the `line to'.            */
+  /*    to   :: A pointer to the target point of the `Line to'.            */
   /*                                                                       */
   /*    user :: A typeless pointer which is passed from the caller of the  */
   /*            decomposition function.                                    */
@@ -738,7 +738,7 @@ QT_FT_BEGIN_HEADER
   /*      the @QT_FT_GlyphSlotRec structure to read it.                       */
   /*                                                                       */
   /*    QT_FT_GLYPH_FORMAT_OUTLINE ::                                         */
-  /*      The glyph image is a vertorial outline made of line segments     */
+  /*      The glyph image is a vertorial outline made of Line segments     */
   /*      and Bezier arcs; it can be described as an @QT_FT_Outline; you      */
   /*      generally want to access the `outline' field of the              */
   /*      @QT_FT_GlyphSlotRec structure to read it.                           */
@@ -880,7 +880,7 @@ QT_FT_BEGIN_HEADER
   /* <Description>                                                         */
   /*    A function used as a call-back by the anti-aliased renderer in     */
   /*    order to let client applications draw themselves the gray pixel    */
-  /*    spans on each scan line.                                           */
+  /*    spans on each scan Line.                                           */
   /*                                                                       */
   /* <Input>                                                               */
   /*    y     :: The scanline's y-coordinate.                              */
@@ -905,7 +905,7 @@ QT_FT_BEGIN_HEADER
   /*    will be called several times with the same `y' parameter in order  */
   /*    to draw all callbacks.                                             */
   /*                                                                       */
-  /*    Otherwise, the callback is only called once per scan-line, and     */
+  /*    Otherwise, the callback is only called once per scan-Line, and     */
   /*    only for those scanlines that do have `gray' pixels on them.       */
   /*                                                                       */
   typedef void

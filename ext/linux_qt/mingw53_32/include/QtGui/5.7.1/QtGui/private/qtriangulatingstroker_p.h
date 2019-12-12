@@ -93,7 +93,7 @@ private:
     float m_width;
     qreal m_miter_limit;
 
-    int m_roundness;            // Number of line segments in a round join
+    int m_roundness;            // Number of Line segments in a round join
     qreal m_sin_theta;          // sin(m_roundness / 360);
     qreal m_cos_theta;          // cos(m_roundness / 360);
     qreal m_inv_scale;

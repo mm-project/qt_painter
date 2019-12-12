@@ -182,8 +182,8 @@ public:
     void drawTiledPixmap(const QRectF &r, const QPixmap &pm, const QPointF &sr) Q_DECL_OVERRIDE;
     void drawTextItem(const QPointF &p, const QTextItem &textItem) Q_DECL_OVERRIDE;
 
-    void drawLines(const QLine *line, int lineCount) Q_DECL_OVERRIDE;
-    void drawLines(const QLineF *line, int lineCount) Q_DECL_OVERRIDE;
+    void drawLines(const QLine *Line, int lineCount) Q_DECL_OVERRIDE;
+    void drawLines(const QLineF *Line, int lineCount) Q_DECL_OVERRIDE;
 
     void drawPoints(const QPointF *points, int pointCount) Q_DECL_OVERRIDE;
     void drawPoints(const QPoint *points, int pointCount) Q_DECL_OVERRIDE;
@@ -280,7 +280,7 @@ class QRasterPaintEnginePrivate : public QPaintEngineExPrivate
 public:
     QRasterPaintEnginePrivate();
 
-    void rasterizeLine_dashed(QLineF line, qreal width,
+    void rasterizeLine_dashed(QLineF Line, qreal width,
                               int *dashIndex, qreal *dashOffset, bool *inDash);
     void rasterize(QT_FT_Outline *outline, ProcessSpans callback, QSpanData *spanData, QRasterBuffer *rasterBuffer);
     void rasterize(QT_FT_Outline *outline, ProcessSpans callback, void *userData, QRasterBuffer *rasterBuffer);

@@ -212,7 +212,7 @@ public:
     Q_DECL_CONSTEXPR inline QLineF();
     Q_DECL_CONSTEXPR inline QLineF(const QPointF &pt1, const QPointF &pt2);
     Q_DECL_CONSTEXPR inline QLineF(qreal x1, qreal y1, qreal x2, qreal y2);
-    Q_DECL_CONSTEXPR inline QLineF(const QLine &line) : pt1(line.p1()), pt2(line.p2()) { }
+    Q_DECL_CONSTEXPR inline QLineF(const QLine &Line) : pt1(Line.p1()), pt2(Line.p2()) { }
 
     static QLineF fromPolar(qreal length, qreal angle) Q_REQUIRED_RESULT;
 

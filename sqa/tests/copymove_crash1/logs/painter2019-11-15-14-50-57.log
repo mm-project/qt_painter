@@ -1,0 +1,12 @@
+#i --> Info: Welcome to this project. Feel free to expirment. 
+#i --> Info: Set to mode1
+dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(96,58);(192,140)} 
+dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(183,173);(298,263)} 
+dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(405,73);(521,144)} 
+dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(279,131);(387,218)} 
+dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(388,241);(536,291)} 
+dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(574,209);(737,287)} 
+dicmdQaReplyingBreak 
+#i --> Info: Set to mode0
+#i --> Info: Replying Stopped for debug. Press "W" to continue to run till next breakpoint, or "S" to execute next command.
+dicmdQaToolExit 
