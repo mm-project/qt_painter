@@ -4,8 +4,9 @@ ObjCount: 0
 --------
 
 PoolName: Highlight-ActiveObjects
-ObjCount: 0
+ObjCount: 1
 ======
+Polygon:	  brushC -> #0000ff, brushS -> 14, penC -> #ffff00, penS -> 3
 --------
 
 PoolName: Highlight-QASelectionsTintirid

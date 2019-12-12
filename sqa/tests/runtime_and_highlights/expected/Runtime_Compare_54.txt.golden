@@ -17,7 +17,10 @@ ObjCount: 0
 --------
 
 PoolName: Highlight-Selection
-ObjCount: 0
+ObjCount: 3
 ======
+Ellipse:	  brushC -> #000000, brushS -> 0, penC -> #ff0000, penS -> 4
+Polygon:	  brushC -> #000000, brushS -> 0, penC -> #ff0000, penS -> 4
+Line:	  brushC -> #000000, brushS -> 0, penC -> #ff0000, penS -> 4
 --------
 
