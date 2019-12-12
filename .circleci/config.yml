@@ -16,6 +16,6 @@ jobs:
           command: export CI_BUILD="CCI_UNIT_TEST$CIRCLE_BUILD_NUM"; export CI_CHECK=1; export TERM=xterm;  xvfb-run ./sqa/bin/runUnitTests.sh
       - run:
           name: testing_integrations
-          command: export CI_BUILD="CCI_INTG_TEST$CIRCLE_BUILD_NUM"; export CI_CHECK=1; export TERM=xterm;  xvfb-run ./sqa/bin/runRegTests.sh
+          command: export CI_BUILD="CCI_INTG_TEST$CIRCLE_BUILD_NUM"; export CI_CHECK=1; export TERM=xterm;  xvfb-run ./sqa/bin/runTestsParallel.sh
       - store_artifacts:
           path: /root/project/sqa/tests/

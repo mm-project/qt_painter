@@ -28,3 +28,4 @@ tests/copymove_crash1
 tests/idle_select_idle_copy_crash
 tests/runtime_and_highlights
 tests/copymove_runtime_highlights
+tests/runtime_flowik4

@@ -1,0 +1,10 @@
+dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(119,95);(233,174)} 
+dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(298,122);(516,276)} 
+dicmdCreateObjPolygon -brush 1 -color #000000 -fill 9 -points {(776,161);(956,120);(1019,289);(722,293);(722,293)} 
+dicmdCreateObjLine -brush 1 -color #000000 -fill 9 -points {(404,55);(480,49)} 
+dicmdCreateObjLine -brush 1 -color #000000 -fill 9 -points {(594,162);(728,85)} 
+dicmdCreateObjLine -brush 1 -color #000000 -fill 9 -points {(576,272);(641,320)} 
+dicmdCreateObjLine -brush 1 -color #000000 -fill 9 -points {(650,240);(721,181)} 
+dicmdCreateObjLine -brush 1 -color #000000 -fill 9 -points {(428,334);(313,324)} 
+dicmdCreateObjLine -brush 1 -color #000000 -fill 9 -points {(142,248);(233,251)} 
+dicmdCreateObjLine -brush 1 -color #000000 -fill 9 -points {(208,319);(257,282)} 
