@@ -16,12 +16,12 @@ public:
 	ShapeCreator();
 	virtual ~ShapeCreator();
 
-	IShape* create(ObjectType);
+	IShapePtr create(ObjectType);
 
 private:
-	IShape* m_line;
-	IShape* m_rect;
-	IShape* m_ellipse;
-	IShape* m_polygon;
+	IShapePtr m_line;
+	IShapePtr m_rect;
+	IShapePtr m_ellipse;
+	IShapePtr m_polygon;
 };
 #endif

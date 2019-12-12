@@ -1,0 +1,61 @@
+#i --> Info: Welcome to this project. Feel free to expirment. 
+#i --> Info: Set to mode1
+dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(96,58);(192,140)} 
+dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(183,173);(298,263)} 
+dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(405,73);(521,144)} 
+dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(279,131);(387,218)} 
+dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(388,241);(536,291)} 
+dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(574,209);(737,287)} 
+dicmdQaReplyingBreak 
+#i --> Info: Set to mode0
+#i --> Info: Replying Stopped for debug. Press "W" to continue to run till next breakpoint, or "S" to execute next command.
+dicmdQaReplyStep 
+dicmdCanvasMouseClick -point (651,243) 
+dicmdCanvasMouseClick -point (651,243) 
+dicmdQaReplyStep 
+dicmdCanvasMouseRelease -point (707,96) 
+dicmdCanvasMouseRelease -point (707,96) 
+dicmdQaReplyStep 
+dicmdCanvasMouseClick -point (356,81) 
+dicmdCanvasMouseClick -point (356,81) 
+dicmdQaReplyStep 
+dicmdCanvasMouseRelease -point (694,184) 
+dicmdQaReplyStep 
+dicmdCanvasMouseClick -point (322,152) 
+dicmdCanvasMouseClick -point (322,152) 
+dicmdQaReplyStep 
+dicmdCanvasMouseRelease -point (524,117) 
+dicmdCanvasMouseRelease -point (524,117) 
+dicmdQaReplyStep 
+dicmdCanvasMouseClick -point (565,169) 
+dicmdCanvasMouseClick -point (565,169) 
+dicmdQaReplyStep 
+dicmdCanvasMouseRelease -point (217,82) 
+dicmdCanvasMouseRelease -point (217,82) 
+dicmdQaReplyStep 
+dicmdCanvasMouseClick -point (146,133) 
+dicmdCanvasMouseClick -point (146,133) 
+dicmdQaReplyStep 
+dicmdCanvasMouseRelease -point (671,207) 
+dicmdCanvasMouseRelease -point (671,207) 
+dicmdQaReplyStep 
+dicmdCanvasMouseClick -point (714,224) 
+dicmdCanvasMouseClick -point (714,224) 
+dicmdQaReplyStep 
+dicmdCanvasMouseRelease -point (50,79) 
+dicmdCanvasMouseRelease -point (50,79) 
+dicmdQaReplyStep 
+dicmdCanvasMouseClick -point (751,123) 
+dicmdCanvasMouseClick -point (751,123) 
+dicmdQaReplyStep 
+dicmdCanvasMouseRelease -point (898,137) 
+dicmdCanvasMouseRelease -point (898,137) 
+dicmdQaReplyStep 
+dicmdCanvasMouseClick -point (269,121) 
+dicmdCanvasMouseClick -point (269,121) 
+dicmdQaReplyStep 
+dicmdCanvasMouseRelease -point (516,69) 
+dicmdQaReplyStep 
+dicmdQaReplyStep 
+dicmdQaReplyStep 
+dicmdQaToolExit 

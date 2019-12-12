@@ -14,6 +14,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <memory>
 
 class QPainter;
 
@@ -56,9 +57,9 @@ struct ShapeProperties
 {
 	inline ShapeProperties() = default;
 
-	QColor				pen_color = Qt::white;
+	QColor				    pen_color = Qt::white;
 	QColor			        brush_color = Qt::black;
-	int				pen_width = 1;
+	int				        pen_width = 1;
 	Qt::PenStyle			pen_style = Qt::SolidLine;
 	Qt::PenCapStyle			pen_cap_style = Qt::SquareCap;
 	Qt::PenJoinStyle		pen_join_style = Qt::BevelJoin;
@@ -72,6 +73,14 @@ struct ShapeProperties
             res["fill"]=brush_style;
             
             return res;
+        }
+        
+        std::string toString() const {
+            return std::string("  brushC -> "+brush_color.name().toStdString()+
+                               ", brushS -> "+QString::number(brush_style).toStdString()+
+                               ", penC -> "+pen_color.name().toStdString()+
+                               ", penS -> "+QString::number(pen_style).toStdString());
+            
         }
         
         void fromString(const std::string& color, int pstyle, int bstyle) {
@@ -107,37 +116,39 @@ public:
 
 public:
         
-        virtual void moveCenterToPoint(QPoint&) = 0; 
+	virtual void moveCenterToPoint(QPoint&) = 0; 
 	virtual void reset() = 0;
 
 	virtual void addPoint(const QPoint&) = 0;
+	virtual std::vector<QPoint> getPoints() = 0;
+	//	make abstract 
+	virtual void movePoint(const QPoint&) {}
 
 	virtual void updateProperties(ShapeProperties b)
 	{
 		m_properties = b;
 	}
 
-	virtual bool is_draw_mode() {return false;}
-
-	virtual void movePoint(const QPoint&) {}
+	virtual ShapeProperties getProperties() const 
+	{
+			return m_properties;
+	}
 
 	//FIXME should return ObjectType instead
 	virtual ObjectType getType() const = 0;
-        
-        ShapeProperties getProperties() {
-                return m_properties;
-        }
-public:
 
 	virtual IShape* clone() = 0;
+
+	virtual bool isDrawMode() {return false;}
 	virtual void draw(QPainter*) = 0;
         
-    virtual std::vector<QPoint> getPoints() = 0;
-
     #ifdef NO_RQ
     virtual bool contains(const QPoint& point) const = 0;   
     #endif
 
+	// virtual bool contains() const = 0;
+	// virtual bool intersects() const = 0;
+        
 protected:
 	//
 	// Members
@@ -145,5 +156,7 @@ protected:
 	ObjectType m_type;
 	ShapeProperties m_properties;
 };
+
+using IShapePtr = std::shared_ptr<IShape>;
 
 #endif

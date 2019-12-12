@@ -4,7 +4,7 @@
 #include "direct_command_base.hpp"
 
 #include "../core/shape_creator.hpp"
-#include "../core/runtime_environment.hpp"
+#include "../core/runtime_pool.hpp"
 #include "../core/rq/RegionQueryService.hpp"
 
 #include "../io/messenger.hpp"
@@ -25,20 +25,20 @@ template <ObjectType T>
 class dicmdCreateObj : public DirectCommandBase  
 {
 
-        IShape* m_executed_object;    
-        IShape* m_shape;    
-        IObjectPoolPtr ws;
+        IShapePtr m_executed_object;    
+        IShapePtr m_shape;    
+        ObjectPoolPtr ws;
         RegionQuery& rq = RegionQuery::getInstance();
 
     public:
-        dicmdCreateObj<T>(IObjectPoolPtr s): ws(s) { //rq(RegionQuery::getInstance()) {
+        dicmdCreateObj<T>(ObjectPoolPtr s): ws(s) { //rq(RegionQuery::getInstance()) {
                 add_option("-points",new PointListCommandOptionValue());
                 add_option("-color",new StringCommandOptionValue("#000000"));
                 add_option("-brush",new IntCommandOptionValue(0));
                 add_option("-fill",new IntCommandOptionValue(0));
         }
 
-       	dicmdCreateObj<T>(const std::vector<PointCommandOptionValue>& pl, const ShapeProperties& pr, IObjectPoolPtr s): ws(s) {
+       	dicmdCreateObj<T>(const std::vector<PointCommandOptionValue>& pl, const ShapeProperties& pr, ObjectPoolPtr s): ws(s) {
                 //m_pr = pr;
                 //std::to_string(pr.toStringsMap()["color"])
                 add_option("-points",new PointListCommandOptionValue(pl));
@@ -59,14 +59,15 @@ class dicmdCreateObj : public DirectCommandBase
         
         virtual void execute() {
             //* //std::vector<QPoint> v(GET_CMD_ARG(PointListCommandOptionValue,"-points"));
-            m_shape = ShapeCreator::getInstance().create(T);
+            auto obj  = ShapeCreator::getInstance().create(T);
+			m_shape = obj;
             for( auto it: PL_ARG("-points") )
                 m_shape->addPoint(it.get());
 
             ShapeProperties pr;
             pr.fromString(S_ARG("-color"),I_ARG("-brush"),I_ARG("-fill"));
-            m_shape->updateProperties(pr);
-            m_executed_object = ws->addObject(m_shape);
+			obj->updateProperties(pr);
+            m_executed_object = ws->addObject(obj);
             rq.insertObject(m_executed_object);
         }
        

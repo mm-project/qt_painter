@@ -2,8 +2,8 @@
 #define selection_hpp
 
 #include "iobject_pool.hpp"
-#include "runtime_environment.hpp"
-#include "working_set.hpp"
+#include "runtime_pool.hpp"
+#include "design.hpp"
 #include "callback.hpp"
 #include "service.hpp"
 
@@ -16,31 +16,26 @@
 
 class HighlightSet;
 
-class Selection : public Service<Selection> , public WorkingSet
+class Selection : public Service<Selection> , public ObjectPoolBase
 {
         HighlightSet* m_sel_highlight_set;
-        HighlightSet* m_oa_highlight_set;
+        HighlightSet* m_ao_highlight_set;
         HighlightSet* m_qa_highlight_set;
         QRect m_last_region = { 0, 0, 0, 0 };
+        ObjectPoolPtr m_ws;
         
-        IObjectPool* m_ws;
-        ObjectPoolSandbox* m_rt_pools;
-        ObjectSandbox* m_sb;
-        std::vector<IShape*> m_objs;
+        RuntimePoolManagerPtr m_rt_pools;
         //bool m_h_on;
         RegionQuery& rq = RegionQuery::getInstance();
 
 public:
-        virtual void clear();
-        virtual std::vector<IShape*> getObjects();
-        virtual IShape* addObject(IShape*);
-        virtual void removeObject(IShape*) {}
-        virtual std::string getName();
-        virtual void dumpToFile(const std::string& fname);
+        virtual std::string getName() const noexcept override;
+        virtual void clear() noexcept override;
 
 public:   
-        void set_working_set(IObjectPool* ws);
-        void set_sandbox(ObjectPoolSandbox* ops);
+        void addObjectFixme(IShapePtr p);
+        void set_working_set(ObjectPoolPtr ws);
+        void set_sandbox(RuntimePoolManagerPtr ops);
         void find_and_highlightselect_shapes_from_region(const std::pair<QPoint,QPoint>& point);
         void select_shape_under_pos(const QPoint& p );
         void highlightselect_shape_under_pos(const QPoint& p );
@@ -51,25 +46,25 @@ public:
 		void temporary_highlight();
 };
 
-//*
-class HighlightSet : public WorkingSet
+class HighlightSet : public ObjectPoolBase
 {
         //WorkingSet* m_select_set;
-        IObjectPool* m_ws;
-        ObjectPoolSandbox* m_rt_pools;
-        ObjectSandbox* m_sb;
+        ObjectPoolPtr m_ws;
+		RuntimePoolManagerPtr m_rt_pools;
+        RuntimePoolPtr m_sb;
         std::string m_name;
         ShapeProperties m_packet;
         //bool m_h_on;
 
 public:
-        virtual std::string getName() override;
+        virtual std::string getName() const noexcept override;
+        virtual void clear() noexcept override;
+
 public:   
         HighlightSet(const std::string& n,const ShapeProperties& p );
-        void create_sandbox(ObjectPoolSandbox* ops);
+        void create_sandbox(RuntimePoolManagerPtr ops);
         void highlight_on();
         void highlight_off();
-        void clear();
 
 private:
         void highlight_on_off(bool m_h_on);      

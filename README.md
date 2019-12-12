@@ -11,7 +11,7 @@ Highlevel items backlog remained for rel 1.0.0 ( Tegel )
 * Clang-tidy verification
 * Clean valgrind
 * Clean coverity
-* 90% line coverage
+* 90% Line coverage
 
 ### Build/TestHarness related 
 * Building on all platforms
