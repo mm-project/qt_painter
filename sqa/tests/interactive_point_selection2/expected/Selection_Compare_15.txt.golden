@@ -1,6 +1,6 @@
 PoolName: Selection
 ObjCount: 1
 ======
-Polygon:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
+Ellipse:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
 --------
 

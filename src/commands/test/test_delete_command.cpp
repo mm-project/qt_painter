@@ -1,15 +1,14 @@
 #include "../delete_command.hpp"
-#include "../core/iobject_pool.hpp"
 #include "../core/ishape.hpp"
-#include "../core/design.hpp"
-
+//#include "../core/design.hpp"
+//#include "../core/iobject_pool.hpp"
 
 #include <cassert>
 #include <string>
 /*! \file */ 
 /*! \file */
 //IMocking!: Workingset
-class MockWorkingSet : public IObjectPool
+/*class MockWorkingSet : public IObjectPool
 {
 
 public:
@@ -37,7 +36,7 @@ public:
 	}
 	int m_shapes_count = 0;
 };
-
+*/
 
 //IMocking!: Shape
 class MockShape : public IShape
@@ -60,17 +59,20 @@ void Messenger::log_command(const std::string&, bool) {}
 
 RegionQuery::RegionQuery() {}
 void RegionQuery::shutDown() {}
-void RegionQuery::insertObject(IShape*) {}
-void RegionQuery::removeObject(IShape*) {}
+void RegionQuery::insertObject(IShapePtr) {}
+void RegionQuery::removeObject(IShapePtr) {}
 void RegionQuery::clear() {}
-IShape* RegionQuery::getShapeUnderPos(QPoint const&) const { return nullptr; }
+IShapePtr RegionQuery::getShapeUnderPos(QPoint const&) const { return nullptr; }
 
 //void ObjectPoolBase::clear() noexcept {}
 //std::vector<IShapePtr> ObjectPoolBase::getObjects() const noexcept { std::vector<IShapePtr> res; return res; }
 //IShapePtr ObjectPoolBase::addObject(IShapePtr s) { return s;}
 //std::string Design::getName() const noexcept {}
+//std::string ObjectPoolBase::getName() const noexcept {}
+
 //void Design::dumpToFile(const std::string&) const {}
 //void ObjectPoolBase::removeObject(IShapePtr) noexcept {}
+
 
 void ServiceManager::shutDown(){}
 //!Mocking

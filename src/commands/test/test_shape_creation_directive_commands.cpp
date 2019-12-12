@@ -4,21 +4,36 @@
 
 #include <cassert>
 #include <string>
-/*! \file */ 
 //IMocking!: Workingset
 class MockWorkingSet : public IObjectPool
 {
 
 public:
-	virtual void clear() override {} 
-	virtual std::vector<IShapePtr> getObjects() const override {}
-    IShapePtr addObject(IShapePtr s) override { m_shapes_count++; return s;}
-	virtual std::string getName() override {}
-	virtual void dumpToFile(const std::string&) {}
-	virtual void removeObject(IShapePtr) {}
-	virtual ~MockWorkingSet() {}    
+	virtual void clear() noexcept override
+	{
+	}
+	virtual std::vector<IShapePtr> getObjects() const noexcept override
+	{
+	}
+	IShapePtr addObject(IShapePtr s) override
+	{
+		m_shapes_count++; return s;
+	}
+	virtual std::string getName() const noexcept override
+	{
+	}
+	virtual void dumpToFile(const std::string&) const
+	{
+	}
+	virtual void removeObject(IShapePtr) noexcept
+	{
+	}
+	virtual ~MockWorkingSet()
+	{
+	}
 	int m_shapes_count = 0;
 };
+
 
 //IMocking!: Shape
 class MockShape : public IShape
@@ -40,13 +55,16 @@ ShapeCreator::ShapeCreator() {}
 ShapeCreator::~ShapeCreator() {}
 IShapePtr ShapeCreator::create(ObjectType) {return std::shared_ptr<IShape>(new MockShape);}
     
+//Mocking!: Implementations
 void Messenger::expose_msg(const LogMsgSeverity& s, const std::string&, bool) {}
 void Messenger::log_command(const std::string&, bool) {}
 
 RegionQuery::RegionQuery() {}
 void RegionQuery::shutDown() {}
-void RegionQuery::insertObject(IShape*) {}
-void RegionQuery::removeObject(IShape*) {}
+void RegionQuery::insertObject(IShapePtr) {}
+void RegionQuery::removeObject(IShapePtr) {}
+void RegionQuery::clear() {}
+IShapePtr RegionQuery::getShapeUnderPos(QPoint const&) const { return nullptr; }
 
 void ServiceManager::shutDown(){}
 //!Mocking
@@ -65,7 +83,7 @@ bool UT_shape_creation_directive_commands()
 {
     
     //Expecting!: dicmdCreateObj to be created
-    IObjectPoolPtr ws = std::shared_ptr<MockWorkingSet>(new MockWorkingSet);
+    ObjectPoolPtr ws = std::shared_ptr<MockWorkingSet>(new MockWorkingSet);
     dicmdCreateObj<RECTANGLE> rect_cmd(ws);
     
     //Expecting!: adding arguments and no impact on working set

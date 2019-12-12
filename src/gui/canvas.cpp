@@ -106,6 +106,7 @@ bool canvas::event(QEvent* event)
     if (event->type() == QEvent::User ) {
             QPoint p = (dynamic_cast<QMouseEvent*>(event))->pos();
             cm.mouse_pressed(p.x(),p.y());
+            m_renderer->set_cursor_pos_for_drawing(p.x(),p.y());
             update();
     }
    return QWidget::event(event);
@@ -169,6 +170,7 @@ void canvas::mousePressEvent(QMouseEvent* e)
     //if(!Application::is_log_mode())
     //dicmdCanvasMouseClick(p).log();
     cm.mouse_clicked(p.x(),p.y());
+    m_renderer->set_cursor_pos_for_drawing(p.x(),p.y());
     m_renderer->click_hint();
 }
 
@@ -198,7 +200,7 @@ void canvas::mouseMoveEvent(QMouseEvent* e)
 	//if ( m_need_motionlog )
 		//dicmdCanvasMouseMove(e->pos()).log();
 	/**/
-	
+	m_renderer->set_cursor_pos_for_drawing(_x, _y);
     update();
 }
 

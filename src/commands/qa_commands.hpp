@@ -214,12 +214,12 @@ class dicmdQaDump: public NonTransactionalDirectCommandBase
     private:
         void dump_canvas_wrapper(bool isrt=false) {
             //std::cout << "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" << std::endl;
-            if (!isrt)
+            //if (!isrt)
                 Selection::getInstance().highlight_last_selected_region(true);           
             
             dump_canvas(isrt);
             
-            if (!isrt)
+            //if (!isrt)
                 Selection::getInstance().highlight_last_selected_region(false);
         }
 

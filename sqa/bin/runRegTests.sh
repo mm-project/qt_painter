@@ -1,8 +1,5 @@
 #!/bin/bash
 
-BEG=$1
-END=$2
-
 SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
   DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
@@ -12,7 +9,8 @@ done
 DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 
 options="$@"
-
+BEG=$1
+END=$2
 #echo $DIR
 export PAINTER_QA_DIR=$DIR/..
 export ARTIFACTS_DIR=$DIR/../../artifacts
@@ -40,10 +38,10 @@ crashed=0
 t_id=1
 t_res=5
 
-if [ "$PAINTER_QA_TEST_RUN_PARALLEL" == "" ]; then
-    TESTLST=`cat $PAINTER_QA_DIR/tests.lst`
-else
+if [ "$PAINTER_QA_TEST_RUN_PARALLEL" != "" ]; then
     TESTLST=`awk -v b=$BEG -v e=$END 'NR >= b && NR <= e' $PAINTER_QA_DIR/tests.lst`
+else
+    TESTLST=`cat $PAINTER_QA_DIR/tests.lst`
     #echo "DEBUG: awk -v b=$BEG -v e=$END 'NR >= b && NR <= e' $PAINTER_QA_DIR/tests.lst"
 fi
 

@@ -1,23 +1,39 @@
 #include "../load_save_commands.hpp"
 #include "../core/iobject_pool.hpp"
 #include "../core/ishape.hpp"
-/*! \file */ 
-//IMocking!: MockWorkingSet=>IObjectPool
+
+//IMocking!: Workingset
 class MockWorkingSet : public IObjectPool
 {
 
 public:
-	virtual void clear() override {} 
-	virtual std::vector<IShapePtr> getObjects() const override {}
-    IShapePtr addObject(IShapePtr s) override { m_shapes_count++; return s;}
-	virtual std::string getName() override {}
-	virtual void dumpToFile(const std::string&) {}
-	virtual void removeObject(IShapePtr) {}
-	virtual ~MockWorkingSet() {}    
+	virtual void clear() noexcept override
+	{
+	}
+	virtual std::vector<IShapePtr> getObjects() const noexcept override
+	{
+	}
+	IShapePtr addObject(IShapePtr s) override
+	{
+		m_shapes_count++; return s;
+	}
+	virtual std::string getName() const noexcept override
+	{
+	}
+	virtual void dumpToFile(const std::string&) const
+	{
+	}
+	virtual void removeObject(IShapePtr) noexcept
+	{
+	}
+	virtual ~MockWorkingSet()
+	{
+	}
 	int m_shapes_count = 0;
 };
 
-//IMocking!: MockShape=>IShape
+
+//IMocking!: Shape
 class MockShape : public IShape
 {
 	virtual void reset() { }
@@ -32,18 +48,21 @@ class MockShape : public IShape
     virtual void moveCenterToPoint(QPoint&) {}
 };
 
-//Mocking!: 
+//Mocking!: Implementations
 ShapeCreator::ShapeCreator() {}
 ShapeCreator::~ShapeCreator() {}
-IShapePtr ShapeCreator::create(ObjectType) {std::shared_ptr<IShape>(return new MockShape);}
+IShapePtr ShapeCreator::create(ObjectType) {return std::shared_ptr<IShape>(new MockShape);}
     
+//Mocking!: Implementations
 void Messenger::expose_msg(const LogMsgSeverity& s, const std::string&, bool) {}
 void Messenger::log_command(const std::string&, bool) {}
 
 RegionQuery::RegionQuery() {}
 void RegionQuery::shutDown() {}
-void RegionQuery::insertObject(IShape*) {}
-void RegionQuery::removeObject(IShape*) {}
+void RegionQuery::insertObject(IShapePtr) {}
+void RegionQuery::removeObject(IShapePtr) {}
+void RegionQuery::clear() {}
+IShapePtr RegionQuery::getShapeUnderPos(QPoint const&) const { return nullptr; }
 
 void ServiceManager::shutDown(){}
 //!Mocking
@@ -61,7 +80,7 @@ void ServiceManager::shutDown(){}
 bool UT_load_save_commands()
 {
     //Expecting!: dicmdDesignSave command to be properly created
-    IObjectPoolPtr ws = std::shared_ptr<MockWorkingSet>(new MockWorkingSet);
+    ObjectPoolPtr ws = std::shared_ptr<MockWorkingSet>(new MockWorkingSet);
     dicmdDesignSave cmd(ws);
 
     //Expecting!: should be called properly with called arguments

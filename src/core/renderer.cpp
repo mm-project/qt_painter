@@ -1,8 +1,10 @@
 #include "renderer.hpp"
 #include "core.hpp"
-
+#include "application.hpp"
 #include "rq/RegionQueryService.hpp"
 #include "../commands/canvas_commands.hpp"
+
+#include <cassert>
 
 renderer::renderer ( QWidget* w, RuntimePoolManagerPtr r, ObjectPoolPtr s ):m_sandbox(r),m_working_set(s) { 	
     m_scale_factor = 1;
@@ -36,6 +38,7 @@ void renderer::set_cursor_pos_for_drawing(int x,int y)
 {
 	c_cursor_x = x/m_scale_factor - m_origin_point.x();
 	c_cursor_y = y/m_scale_factor - m_origin_point.y();
+    //assert(0);
 }
 
 void renderer::pan(const panDirection& d) {
@@ -242,7 +245,7 @@ void renderer::draw_cursor() {
                 p.setWidth(12);
         } else {
 		p.setColor(Qt::blue);
-                p.setWidth(6);
+                p.setWidth(10);
         }
         
         //p.setJoinStyle(Qt::RoundJoinStyle);
@@ -266,11 +269,12 @@ void renderer::draw_selection_rubberband()
 void renderer::draw_all() {
         draw_background();
         draw_grid();            
-        if ( m_des_renderer)
+        if (m_des_renderer)
             draw_objects();
-        if ( m_rt_renderer )
+        if (m_rt_renderer)
             draw_runtime_pools();
-        draw_cursor();
+        if (Application::is_replay_mode())
+            draw_cursor();
 }
 
 void renderer::draw_all_wno_cursor() {

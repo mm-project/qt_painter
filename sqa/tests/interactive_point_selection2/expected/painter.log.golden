@@ -979,7 +979,6 @@ dicmdCanvasMouseMove -point (295,26)
 dicmdCanvasMouseMove -point (272,1) 
 dicmdguiClickButton -object 0x107:Point 
 dicmdAbortActiveCommand 
-incmdSelectUnderCursoer
 dicmdCanvasMouseMove -point (129,4) 
 dicmdCanvasMouseMove -point (125,7) 
 dicmdCanvasMouseMove -point (121,10) 
@@ -1668,7 +1667,6 @@ dicmdCanvasMouseMove -point (808,33)
 dicmdCanvasMouseMove -point (724,15) 
 dicmdguiClickButton -object 0x107:Point 
 dicmdAbortActiveCommand 
-incmdSelectUnderCursoer
 dicmdCanvasMouseMove -point (810,9) 
 dicmdCanvasMouseMove -point (872,22) 
 dicmdCanvasMouseMove -point (926,33) 
@@ -2617,9 +2615,19 @@ dicmdCanvasMouseMove -point (350,120)
 dicmdCanvasMouseMove -point (350,92) 
 dicmdCanvasMouseMove -point (350,42) 
 dicmdCanvasMouseMove -point (347,8) 
+dicmdAbortActiveCommand 
+dicmdAbortActiveCommand 
+dicmdCanvasMouseClick -point (0,0) 
+dicmdCanvasMouseClick -point (0,0) 
+dicmdCanvasMouseClick -point (0,0) 
+dicmdCanvasMouseClick -point (0,0) 
+dicmdCanvasMouseRelease -point (0,0) 
+dicmdCanvasMouseRelease -point (0,0) 
+dicmdAbortActiveCommand 
 dicmdguiClickButton -object 0x104:Line 
-#w --> Warning: please complete/abort current command before activating incmdCreateObjLine
-#w --> Warning: please complete/abort current command before activating incmdCreateObjLine
+incmdCreateObjLine
+dicmdAbortActiveCommand 
+incmdCreateObjLine
 dicmdCanvasMouseMove -point (45,16) 
 dicmdCanvasMouseMove -point (58,34) 
 dicmdCanvasMouseMove -point (70,49) 
@@ -2663,6 +2671,7 @@ dicmdCanvasMouseMove -point (216,183)
 dicmdCanvasMouseMove -point (217,183) 
 dicmdCanvasMouseClick -point (217,183) 
 dicmdCanvasMouseClick -point (217,183) 
+#o --> Out: dicmdCreateObjLine -brush 1 -color #000000 -fill 9 -points {(218,250);(465,392)} 
 dicmdCanvasMouseMove -point (216,183) 
 dicmdCanvasMouseMove -point (213,183) 
 dicmdCanvasMouseMove -point (209,183) 
@@ -2699,6 +2708,7 @@ dicmdCanvasMouseMove -point (290,131)
 dicmdCanvasMouseMove -point (287,131) 
 dicmdCanvasMouseClick -point (287,131) 
 dicmdCanvasMouseClick -point (287,131) 
+#o --> Out: dicmdCreateObjLine -brush 1 -color #000000 -fill 9 -points {(310,405);(615,280)} 
 dicmdCanvasMouseMove -point (281,131) 
 dicmdCanvasMouseMove -point (265,131) 
 dicmdCanvasMouseMove -point (225,138) 
@@ -2742,6 +2752,7 @@ dicmdCanvasMouseMove -point (144,168)
 dicmdCanvasMouseMove -point (145,168) 
 dicmdCanvasMouseClick -point (145,168) 
 dicmdCanvasMouseClick -point (145,168) 
+#o --> Out: dicmdCreateObjLine -brush 1 -color #000000 -fill 9 -points {(173,325);(310,360)} 
 dicmdCanvasMouseMove -point (152,168) 
 dicmdCanvasMouseMove -point (180,163) 
 dicmdCanvasMouseMove -point (220,156) 
@@ -2785,6 +2796,7 @@ dicmdCanvasMouseMove -point (437,114)
 dicmdCanvasMouseMove -point (438,114) 
 dicmdCanvasMouseClick -point (438,114) 
 dicmdCanvasMouseClick -point (438,114) 
+#o --> Out: dicmdCreateObjLine -brush 1 -color #000000 -fill 9 -points {(778,334);(938,244)} 
 dicmdCanvasMouseMove -point (436,114) 
 dicmdCanvasMouseMove -point (431,114) 
 dicmdCanvasMouseMove -point (424,114) 
@@ -2829,6 +2841,7 @@ dicmdCanvasMouseMove -point (421,104)
 dicmdCanvasMouseMove -point (422,104) 
 dicmdCanvasMouseClick -point (422,104) 
 dicmdCanvasMouseClick -point (422,104) 
+#o --> Out: dicmdCreateObjLine -brush 1 -color #000000 -fill 9 -points {(728,220);(904,222)} 
 dicmdCanvasMouseMove -point (425,106) 
 dicmdCanvasMouseMove -point (429,107) 
 dicmdCanvasMouseMove -point (434,109) 
@@ -2866,6 +2879,7 @@ dicmdCanvasMouseMove -point (548,169)
 dicmdCanvasMouseMove -point (549,169) 
 dicmdCanvasMouseClick -point (549,169) 
 dicmdCanvasMouseClick -point (549,169) 
+#o --> Out: dicmdCreateObjLine -brush 1 -color #000000 -fill 9 -points {(1013,278);(1176,362)} 
 dicmdCanvasMouseMove -point (545,169) 
 dicmdCanvasMouseMove -point (538,169) 
 dicmdCanvasMouseMove -point (506,169) 
@@ -2911,6 +2925,7 @@ dicmdCanvasMouseMove -point (492,175)
 dicmdCanvasMouseMove -point (493,175) 
 dicmdCanvasMouseClick -point (493,175) 
 dicmdCanvasMouseClick -point (493,175) 
+#o --> Out: dicmdCreateObjLine -brush 1 -color #000000 -fill 9 -points {(775,426);(1056,375)} 
 dicmdCanvasMouseMove -point (492,175) 
 dicmdCanvasMouseMove -point (487,175) 
 dicmdCanvasMouseMove -point (478,175) 
@@ -3003,8 +3018,6 @@ dicmdCanvasMouseMove -point (104,45)
 dicmdCanvasMouseMove -point (112,11) 
 dicmdguiClickButton -object 0x107:Point 
 dicmdAbortActiveCommand 
-dicmdAbortActiveCommand 
-incmdSelectUnderCursoer
 dicmdCanvasMouseMove -point (205,22) 
 dicmdCanvasMouseMove -point (194,54) 
 dicmdCanvasMouseMove -point (188,71) 
@@ -3549,9 +3562,16 @@ dicmdCanvasMouseMove -point (400,111)
 dicmdCanvasMouseMove -point (352,89) 
 dicmdCanvasMouseMove -point (331,73) 
 dicmdCanvasMouseMove -point (289,34) 
+dicmdCanvasMouseClick -point (0,0) 
+dicmdCanvasMouseClick -point (0,0) 
+dicmdCanvasMouseRelease -point (0,0) 
+dicmdCanvasMouseClick -point (0,0) 
+dicmdCanvasMouseClick -point (0,0) 
+dicmdCanvasMouseRelease -point (0,0) 
 dicmdguiClickButton -object 0x107:Region 
-#w --> Warning: please complete/abort current command before activating incmdSelectShapesByRegion
-#w --> Warning: please complete/abort current command before activating incmdSelectShapesByRegion
+incmdSelectShapesByRegion
+dicmdAbortActiveCommand 
+incmdSelectShapesByRegion
 dicmdCanvasMouseMove -point (269,7) 
 dicmdCanvasMouseMove -point (265,16) 
 dicmdCanvasMouseMove -point (262,21) 
@@ -3603,6 +3623,7 @@ dicmdCanvasMouseMove -point (12,120)
 dicmdCanvasMouseMove -point (11,120) 
 dicmdCanvasMouseClick -point (11,120) 
 dicmdCanvasMouseClick -point (11,120) 
+#o --> Out: dicmdSelectShapesByRegion -end (61,667) -start (1417,44) 
 dicmdCanvasMouseMove -point (12,120) 
 dicmdCanvasMouseMove -point (16,120) 
 dicmdCanvasMouseMove -point (21,120) 
@@ -3744,6 +3765,7 @@ dicmdCanvasMouseMove -point (8,6)
 dicmdCanvasMouseMove -point (8,5) 
 dicmdCanvasMouseClick -point (8,5) 
 dicmdCanvasMouseClick -point (8,5) 
+#o --> Out: dicmdSelectShapesByRegion -end (44,27) -start (1412,756) 
 dicmdCanvasMouseMove -point (9,5) 
 dicmdCanvasMouseMove -point (12,5) 
 dicmdCanvasMouseMove -point (14,8) 
@@ -3841,6 +3863,7 @@ dicmdCanvasMouseMove -point (128,60)
 dicmdCanvasMouseMove -point (127,59) 
 dicmdCanvasMouseClick -point (127,59) 
 dicmdCanvasMouseClick -point (127,59) 
+#o --> Out: dicmdSelectShapesByRegion -end (706,328) -start (1523,578) 
 dicmdCanvasMouseMove -point (128,59) 
 dicmdCanvasMouseMove -point (130,59) 
 dicmdCanvasMouseMove -point (133,61) 
@@ -4075,6 +4098,7 @@ dicmdCanvasMouseMove -point (296,133)
 dicmdCanvasMouseMove -point (296,132) 
 dicmdCanvasMouseClick -point (296,132) 
 dicmdCanvasMouseClick -point (296,132) 
+#o --> Out: dicmdSelectShapesByRegion -end (204,233) -start (533,338) 
 dicmdCanvasMouseMove -point (295,132) 
 dicmdCanvasMouseMove -point (294,132) 
 dicmdCanvasMouseMove -point (292,132) 
@@ -4141,6 +4165,7 @@ dicmdCanvasMouseMove -point (616,252)
 dicmdCanvasMouseMove -point (616,253) 
 dicmdCanvasMouseClick -point (616,253) 
 dicmdCanvasMouseClick -point (616,253) 
+#o --> Out: dicmdSelectShapesByRegion -end (771,448) -start (138,210) 
 dicmdCanvasMouseMove -point (614,253) 
 dicmdCanvasMouseMove -point (610,252) 
 dicmdCanvasMouseMove -point (606,250) 
@@ -4190,8 +4215,6 @@ dicmdCanvasMouseMove -point (301,59)
 dicmdCanvasMouseMove -point (291,28) 
 dicmdguiClickButton -object 0x107:Point 
 dicmdAbortActiveCommand 
-dicmdAbortActiveCommand 
-incmdSelectUnderCursoer
 dicmdCanvasMouseMove -point (274,8) 
 dicmdCanvasMouseMove -point (286,32) 
 dicmdCanvasMouseMove -point (297,52) 
