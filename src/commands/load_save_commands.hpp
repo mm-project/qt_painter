@@ -17,7 +17,7 @@ class dicmdDesignLoad : public DirectCommandBase
         ObjectPoolPtr ws;
 
 public:
-	dicmdDesignLoad(ObjectPoolPtr s): ws(s) {
+		dicmdDesignLoad(ObjectPoolPtr s): ws(s) {
                 add_option("-filename",new StringCommandOptionValue());
         }
 

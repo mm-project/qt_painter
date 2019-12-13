@@ -1,0 +1,149 @@
+#i --> Info: Welcome to this project. Feel free to expirment. 
+#i --> Info: Set to mode1
+dicmdguiClickButton -object mw/65/70/Home/qt_tabwidget_tabbar 
+#e --> Error: something went wrong with this command -> dicmdguiClickButton
+dicmdguiClickButton -object 0x104:Rectangle 
+incmdCreateObjRectangle
+dicmdAbortActiveCommand 
+incmdCreateObjRectangle
+dicmdCanvasMouseClick -point (86,87) 
+dicmdCanvasMouseClick -point (86,87) 
+dicmdCanvasMouseClick -point (181,175) 
+dicmdCanvasMouseClick -point (181,175) 
+#o --> Out: dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(86,87);(181,175)} 
+dicmdCanvasMouseClick -point (203,155) 
+dicmdCanvasMouseClick -point (203,155) 
+dicmdCanvasMouseClick -point (291,225) 
+dicmdCanvasMouseClick -point (291,225) 
+#o --> Out: dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(203,155);(291,225)} 
+dicmdCanvasMouseClick -point (264,89) 
+dicmdCanvasMouseClick -point (264,89) 
+dicmdCanvasMouseClick -point (371,148) 
+dicmdCanvasMouseClick -point (371,148) 
+#o --> Out: dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(264,89);(371,148)} 
+dicmdCanvasMouseClick -point (364,187) 
+dicmdCanvasMouseClick -point (364,187) 
+dicmdCanvasMouseClick -point (441,236) 
+dicmdCanvasMouseClick -point (441,236) 
+#o --> Out: dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(364,187);(441,236)} 
+dicmdAbortActiveCommand 
+dicmdAbortActiveCommand 
+dicmdCanvasViewportZoomOut -point (131,101) 
+dicmdCanvasViewportZoomOut -point (131,101) 
+dicmdCanvasMouseClick -point (131,101) 
+dicmdCanvasMouseClick -point (131,101) 
+dicmdCanvasMouseClick -point (131,101) 
+dicmdCanvasMouseClick -point (131,101) 
+dicmdCanvasMouseRelease -point (131,101) 
+dicmdCanvasViewportZoomOut -point (131,101) 
+dicmdCanvasViewportZoomOut -point (131,101) 
+dicmdCanvasViewportZoomOut -point (131,101) 
+dicmdCanvasViewportZoomOut -point (131,101) 
+dicmdCanvasViewportZoomOut -point (131,101) 
+dicmdCanvasViewportZoomOut -point (131,101) 
+dicmdCanvasViewportZoomOut -point (131,101) 
+dicmdCanvasViewportZoomOut -point (131,101) 
+dicmdCanvasViewportZoomOut -point (131,101) 
+dicmdCanvasViewportZoomOut -point (131,101) 
+dicmdCanvasMouseRelease -point (131,101) 
+dicmdCanvasMouseClick -point (122,104) 
+dicmdCanvasMouseClick -point (122,104) 
+dicmdCanvasMouseRelease -point (122,104) 
+dicmdCanvasMouseClick -point (210,116) 
+dicmdCanvasMouseClick -point (210,116) 
+dicmdCanvasMouseRelease -point (158,92) 
+dicmdCanvasMouseClick -point (175,73) 
+dicmdCanvasMouseClick -point (175,73) 
+dicmdCanvasMouseRelease -point (182,130) 
+dicmdCanvasMouseClick -point (96,82) 
+dicmdCanvasMouseClick -point (96,82) 
+dicmdCanvasMouseRelease -point (96,82) 
+incmdSelectShapesByRegion
+dicmdCanvasMouseClick -point (96,82) 
+dicmdCanvasMouseClick -point (96,82) 
+dicmdCanvasMouseClick -point (282,205) 
+dicmdCanvasMouseClick -point (282,205) 
+#o --> Out: dicmdSelectShapesByRegion -end (499,363) -start (170,145) 
+incmdObjRelocateByCopy
+dicmdCanvasMouseClick -point (213,152) 
+dicmdCanvasMouseClick -point (213,152) 
+dicmdCanvasMouseRelease -point (584,144) 
+dicmdCanvasMouseClick -point (294,159) 
+dicmdCanvasMouseClick -point (294,159) 
+dicmdCanvasMouseRelease -point (294,159) 
+dicmdCanvasMouseClick -point (178,135) 
+dicmdCanvasMouseClick -point (178,135) 
+dicmdCanvasMouseRelease -point (177,134) 
+dicmdCanvasMouseClick -point (140,123) 
+dicmdCanvasMouseClick -point (140,123) 
+dicmdCanvasMouseRelease -point (140,123) 
+dicmdCanvasMouseClick -point (160,140) 
+dicmdCanvasMouseClick -point (160,140) 
+dicmdCanvasMouseRelease -point (160,140) 
+dicmdCanvasMouseClick -point (152,133) 
+dicmdCanvasMouseClick -point (152,133) 
+dicmdCanvasMouseRelease -point (156,140) 
+dicmdCanvasMouseClick -point (143,114) 
+dicmdCanvasMouseClick -point (143,114) 
+dicmdCanvasMouseRelease -point (160,140) 
+dicmdCanvasMouseClick -point (163,154) 
+dicmdCanvasMouseClick -point (163,154) 
+dicmdCanvasMouseRelease -point (123,102) 
+dicmdCanvasMouseClick -point (155,115) 
+dicmdCanvasMouseClick -point (155,115) 
+dicmdCanvasMouseRelease -point (243,170) 
+dicmdCanvasMouseClick -point (199,142) 
+dicmdCanvasMouseClick -point (199,142) 
+dicmdCanvasMouseRelease -point (149,141) 
+dicmdCanvasMouseClick -point (190,178) 
+dicmdCanvasMouseClick -point (190,178) 
+dicmdCanvasMouseRelease -point (136,155) 
+dicmdCanvasMouseClick -point (129,116) 
+dicmdCanvasMouseClick -point (129,116) 
+dicmdCanvasMouseRelease -point (182,149) 
+dicmdAbortActiveCommand 
+dicmdCanvasMouseClick -point (135,108) 
+dicmdCanvasMouseClick -point (135,108) 
+dicmdCanvasMouseRelease -point (135,108) 
+dicmdQaCompareRuntime 
+#t --> Test: comparision->Runtime:PASS Runtime_Compare_0.txt Runtime_Compare_0.txt.golden
+dicmdQaCompareRuntime 
+#t --> Test: comparision->Runtime:PASS Runtime_Compare_1.txt Runtime_Compare_1.txt.golden
+dicmdQaCompareRuntime 
+#t --> Test: comparision->Runtime:PASS Runtime_Compare_2.txt Runtime_Compare_2.txt.golden
+dicmdQaCompareRuntime 
+#t --> Test: comparision->Runtime:PASS Runtime_Compare_3.txt Runtime_Compare_3.txt.golden
+dicmdQaCompareRuntime 
+#t --> Test: comparision->Runtime:PASS Runtime_Compare_4.txt Runtime_Compare_4.txt.golden
+dicmdQaCompareRuntime 
+#t --> Test: comparision->Runtime:PASS Runtime_Compare_5.txt Runtime_Compare_5.txt.golden
+dicmdQaCompareRuntime 
+#t --> Test: comparision->Runtime:PASS Runtime_Compare_6.txt Runtime_Compare_6.txt.golden
+dicmdQaCompareRuntime 
+#t --> Test: comparision->Runtime:PASS Runtime_Compare_7.txt Runtime_Compare_7.txt.golden
+incmdSelectShapesByRegion
+dicmdCanvasMouseClick -point (89,51) 
+dicmdCanvasMouseClick -point (89,51) 
+dicmdCanvasMouseClick -point (245,214) 
+dicmdCanvasMouseClick -point (245,214) 
+#o --> Out: dicmdSelectShapesByRegion -end (434,379) -start (157,90) 
+dicmdQaCompareRuntime 
+#t --> Test: comparision->Runtime:PASS Runtime_Compare_8.txt Runtime_Compare_8.txt.golden
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_0.txt Selection_Compare_0.txt.golden
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_1.txt Selection_Compare_1.txt.golden
+incmdSelectShapesByRegion
+dicmdCanvasMouseClick -point (488,86) 
+dicmdCanvasMouseClick -point (488,86) 
+dicmdCanvasMouseClick -point (701,222) 
+dicmdCanvasMouseClick -point (701,222) 
+#o --> Out: dicmdSelectShapesByRegion -end (1241,393) -start (864,152) 
+dicmdQaCompareSelection 
+#t --> Test: comparision->Selection:PASS Selection_Compare_2.txt Selection_Compare_2.txt.golden
+incmdObjRelocateByMove
+dicmdCanvasMouseClick -point (580,178) 
+dicmdCanvasMouseClick -point (580,178) 
+dicmdCanvasMouseRelease -point (106,123) 
+dicmdAbortActiveCommand 
+dicmdQaToolExit 
