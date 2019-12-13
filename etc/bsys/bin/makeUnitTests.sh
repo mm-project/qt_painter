@@ -32,6 +32,6 @@ for entry in `cat $PAINTER_BSYS_ROOT/projects.lst`; do
     if [ -d $proj/test ] && [ -f $proj/test/CMakeLists.txt ]; then
         cd $proj/test 
         cmake CMakeLists.txt
-        make
+        make -j4
     fi
 done
