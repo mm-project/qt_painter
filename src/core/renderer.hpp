@@ -2,7 +2,7 @@
 #define renderer_hpp
 
 #include "iobject_pool.hpp"
-#include "runtime_environment.hpp"
+#include "runtime_pool.hpp"
 #include "postman.hpp"
 #include "callback.hpp"
 #include "selection.hpp"
@@ -62,7 +62,7 @@ class renderer
 {
     //Q_OBJECT
     public:
-        renderer ( QWidget* w, ObjectPoolSandboxPtr r, IObjectPoolPtr s );
+        renderer ( QWidget* w, RuntimePoolManagerPtr r, ObjectPoolPtr s );
         ~renderer(); 
         void render(); 
         void pan(const panDirection& d); 
@@ -76,7 +76,8 @@ class renderer
         void click_hint();
         void rendering_mode_change();
         void rendering_rt_mode_change();
-            
+        void rendering_des_mode_change();
+          
     private:
         QPainter*  get_painter();
         void start(); 
@@ -109,22 +110,22 @@ class renderer
     private:
         bool m_rq_renderer = true;
         bool m_rt_renderer = true;
-        
-        QPainter* m_qt_painter;
-        IObjectPoolPtr m_working_set;
-        ObjectPoolSandboxPtr m_sandbox;
-        int m_scale = 30;
-        int m_pan_step = 10;
-        QPoint m_origin_point = {0,0};
-        QPoint m_old_origin_point = {0,0};
-        bool m_need_adjustment = false;
-        QWidget* m_plane;
-        int c_cursor_x = 0;
-        int c_cursor_y = 0;
-        bool m_need_draw_clicked = false;
-        QRect* m_users_pov_rect;
-       
+        bool m_des_renderer = true;
 
+        
+		QPainter* m_qt_painter;
+		ObjectPoolPtr m_working_set;
+		RuntimePoolManagerPtr m_sandbox;
+		int m_scale = 30;
+		int m_pan_step = 10;
+		QPoint m_origin_point = {0,0};
+		QPoint m_old_origin_point = {0,0};
+		bool m_need_adjustment = false;
+		QWidget* m_plane;
+		int c_cursor_x = 0;
+		int c_cursor_y = 0;
+		bool m_need_draw_clicked = false;
+		QRect* m_users_pov_rect;
 };
 
 #endif

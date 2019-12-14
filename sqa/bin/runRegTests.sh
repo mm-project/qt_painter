@@ -1,23 +1,24 @@
 #!/bin/bash
 
 SOURCE="${BASH_SOURCE[0]}"
-while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a 
-symlink
+while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
   DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
   SOURCE="$(readlink "$SOURCE")"
-  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative 
-symlink, we need to resolve it relative to the path where the symlink file was 
-located
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
 done
 DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 
 options="$@"
-
+BEG=$1
+END=$2
 #echo $DIR
-export PAINTER_SQA_ROOT=$DIR/..
-export PAINTER_SCRIPTS_DIR=$PAINTER_SQA_ROOT/scripts
+export PAINTER_QA_DIR=$DIR/..
+export ARTIFACTS_DIR=$DIR/../../artifacts
+export PAINTER_SCRIPTS_DIR=$PAINTER_QA_DIR/scripts
 export PYTHON_PATH=$PAINTER_SCRIPTS_DIR:$PYTHON_PATH
 export IS_CI=0
+
+mkdir -p $ARTIFACTS_DIR
 
 if [ "$CI_BUILD" == "" ]; then
     CI_BUILD="TCI_UNIT"
@@ -36,10 +37,19 @@ passed=0
 crashed=0
 t_id=1
 t_res=5
-for i in `cat $PAINTER_SQA_ROOT/tests.lst`; do
+
+if [ "$PAINTER_QA_TEST_RUN_PARALLEL" != "" ]; then
+    TESTLST=`awk -v b=$BEG -v e=$END 'NR >= b && NR <= e' $PAINTER_QA_DIR/tests.lst`
+else
+    TESTLST=`cat $PAINTER_QA_DIR/tests.lst`
+    #echo "DEBUG: awk -v b=$BEG -v e=$END 'NR >= b && NR <= e' $PAINTER_QA_DIR/tests.lst"
+fi
+
+for i in $TESTLST; do
     total=`expr $total + 1`
-    cd $PAINTER_SQA_ROOT/$i
-        echo -ne  "Running $PAINTER_SQA_ROOT/$i --- "
+    cd $PAINTER_QA_DIR/$i
+        testname=`basename $PAINTER_QA_DIR/$i` 
+        echo -ne  "Running $PAINTER_QA_DIR/$i --- "
         a=`./run.sh "$options" &> test.info `
         r=$?
         if [ "$r" == 0 ]; then
@@ -53,6 +63,7 @@ for i in `cat $PAINTER_SQA_ROOT/tests.lst`; do
             echo "==========="
             res=1
             crashed=`expr $crashed + 1`
+            cp output $ARTIFACTS_DIR/$testname -rf
         else
             echo -e "\e[31mError (code:$r) \e[0m"
             echo "************"
@@ -60,6 +71,7 @@ for i in `cat $PAINTER_SQA_ROOT/tests.lst`; do
             echo "==========="
             failed=`expr $failed + 1`
             res=1
+            cp output $ARTIFACTS_DIR/$testname -rf
         fi
         echo  "------------------------------------------------------------------------------------"
     cd - &> /dev/null
@@ -70,22 +82,28 @@ for i in `cat $PAINTER_SQA_ROOT/tests.lst`; do
     t_id=`expr $ti + 1`
 done
 
+if [ "$PAINTER_QA_TEST_RUN_PARALLEL" == "" ]; then
+    echo 
+    echo "Summary:"
+    echo "         Total:   $total "
+    echo
 
-echo 
-echo "Summary:"
-echo "         Total:   $total "
-echo
-
-if [ "$res" == 0 ]; then
-    echo "         ALL TESTS PASS"
-    exit 0
+    if [ "$res" == 0 ]; then
+        echo "         ALL TESTS PASS"
+        exit 0
+    else
+        echo "         Failed:  $failed"
+        echo "         Passed:  $passed"
+        echo "         Crashd:  $crashed"
+        exit 1
+    fi
 else
-    echo "         Failed:  $failed"
-    echo "         Passed:  $passed"
-    echo "         Crashd:  $crashed"
-    exit 1
+    if [ "$res" == 0 ]; then
+        exit 0
+    else
+        exit 1
+    fi
 fi
-
 
 
 

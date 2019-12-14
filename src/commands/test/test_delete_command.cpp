@@ -1,11 +1,42 @@
 #include "../delete_command.hpp"
-#include "../core/iobject_pool.hpp"
 #include "../core/ishape.hpp"
-
+//#include "../core/design.hpp"
+//#include "../core/iobject_pool.hpp"
 
 #include <cassert>
 #include <string>
 /*! \file */ 
+/*! \file */
+//IMocking!: Workingset
+/*class MockWorkingSet : public IObjectPool
+{
+
+public:
+	virtual void clear() noexcept override
+	{
+	}
+	virtual std::vector<IShapePtr> getObjects() const noexcept override
+	{
+	}
+	IShapePtr addObject(IShapePtr s) override
+	{
+		m_shapes_count++; return s;
+	}
+	virtual std::string getName() const noexcept override
+	{
+	}
+	virtual void dumpToFile(const std::string&) const
+	{
+	}
+	virtual void removeObject(IShapePtr) noexcept
+	{
+	}
+	virtual ~MockWorkingSet()
+	{
+	}
+	int m_shapes_count = 0;
+};
+*/
 
 //IMocking!: Shape
 class MockShape : public IShape
@@ -28,17 +59,20 @@ void Messenger::log_command(const std::string&, bool) {}
 
 RegionQuery::RegionQuery() {}
 void RegionQuery::shutDown() {}
-void RegionQuery::insertObject(IShape*) {}
-void RegionQuery::removeObject(IShape*) {}
+void RegionQuery::insertObject(IShapePtr) {}
+void RegionQuery::removeObject(IShapePtr) {}
 void RegionQuery::clear() {}
-IShape* RegionQuery::getShapeUnderPos(QPoint const&) const { return nullptr; }
+IShapePtr RegionQuery::getShapeUnderPos(QPoint const&) const { return nullptr; }
 
-void WorkingSet::clear()  {} 
-std::vector<IShape*> WorkingSet::getObjects() const { std::vector<IShape*> res; return res; }
-IShape* WorkingSet::addObject(IShape* s) { return s;}
-std::string WorkingSet::getName(){}
-void WorkingSet::dumpToFile(const std::string&) {}
-void WorkingSet::removeObject(IShape*) {}
+//void ObjectPoolBase::clear() noexcept {}
+//std::vector<IShapePtr> ObjectPoolBase::getObjects() const noexcept { std::vector<IShapePtr> res; return res; }
+//IShapePtr ObjectPoolBase::addObject(IShapePtr s) { return s;}
+//std::string Design::getName() const noexcept {}
+//std::string ObjectPoolBase::getName() const noexcept {}
+
+//void Design::dumpToFile(const std::string&) const {}
+//void ObjectPoolBase::removeObject(IShapePtr) noexcept {}
+
 
 void ServiceManager::shutDown(){}
 //!Mocking
@@ -57,7 +91,7 @@ bool UT_delete_command()
 {
     
     //Expecting!: dicmdDeleteObj command to be created
-    IObjectPoolPtr ws = std::shared_ptr<WorkingSet>(new WorkingSet);
+	ObjectPoolPtr ws = std::shared_ptr<Design>(new Design);
     dicmdDeleteObj cmd(ws);
 
     //Expecting!: dicmdCreateObj to be executed on point 0,0 without issues

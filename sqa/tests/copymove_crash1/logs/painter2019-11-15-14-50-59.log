@@ -1,0 +1,43 @@
+#i --> Info: Welcome to this project. Feel free to expirment. 
+#i --> Info: Set to mode1
+dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(96,58);(192,140)} 
+dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(183,173);(298,263)} 
+dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(405,73);(521,144)} 
+dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(279,131);(387,218)} 
+dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(388,241);(536,291)} 
+dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(574,209);(737,287)} 
+dicmdQaReplyingBreak 
+#i --> Info: Set to mode0
+#i --> Info: Replying Stopped for debug. Press "W" to continue to run till next breakpoint, or "S" to execute next command.
+dicmdCanvasViewportZoomOut -point (353,122) 
+dicmdCanvasViewportZoomOut -point (353,122) 
+dicmdCanvasViewportZoomOut -point (353,122) 
+dicmdCanvasViewportZoomOut -point (353,122) 
+dicmdCanvasViewportZoomOut -point (353,122) 
+dicmdCanvasViewportZoomOut -point (353,122) 
+incmdSelectShapesByRegion
+dicmdCanvasMouseClick -point (48,25) 
+dicmdCanvasMouseClick -point (524,245) 
+#o --> Out: dicmdSelectShapesByRegion -end (928,434) -start (85,44) 
+incmdObjRelocateByMove
+dicmdCanvasMouseClick -point (354,152) 
+dicmdAbortActiveCommand 
+incmdSelectShapesByRegion
+dicmdCanvasMouseClick -point (542,63) 
+dicmdCanvasMouseClick -point (1044,225) 
+#o --> Out: dicmdSelectShapesByRegion -end (1849,398) -start (960,111) 
+incmdObjRelocateByCopy
+dicmdCanvasMouseClick -point (988,197) 
+dicmdCanvasMouseClick -point (973,172) 
+dicmdCanvasMouseRelease -point (262,110) 
+dicmdCanvasMouseClick -point (636,105) 
+dicmdCanvasMouseRelease -point (200,163) 
+dicmdCanvasMouseClick -point (722,173) 
+dicmdCanvasMouseRelease -point (359,163) 
+incmdSelectShapesByRegion
+dicmdCanvasMouseClick -point (550,59) 
+dicmdCanvasMouseClick -point (1099,280) 
+#o --> Out: dicmdSelectShapesByRegion -end (1946,496) -start (974,104) 
+incmdObjRelocateByMove
+dicmdCanvasMouseClick -point (976,198) 
+dicmdQaToolExit 

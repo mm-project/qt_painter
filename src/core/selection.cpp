@@ -9,60 +9,30 @@
 #include <QTextStream>
 
 
-std::string Selection::getName() 
+std::string Selection::getName() const noexcept
 {
-    //int* a;
-    //*a = 1;    
-    //std::raise(SIGSEGV);
     return "Selection";
-        
 }
 
-void Selection::dumpToFile(const std::string& fname)
-{
-    QFile file(fname.c_str());
-    file.open( QIODevice::WriteOnly | QIODevice::Append ); 
-    QTextStream z(&file);
- 
-    z << "Name: "   << getName().c_str() ;
-    z << "\nObjCount: " << QString::number(getObjects().size());
-    z << "\n======\n";
-    for (auto i : m_objs) {
-        z << ObjType2String(i->getType()).c_str();
-        z << ":"; //i->getPoints();
-        z << "\n";
-    }
-    z << "--------";
-
-    file.flush();
-    file.close();
-}
-
-IShape* Selection::addObject(IShape* shape) 
-{
-    m_objs.push_back(shape);
-	m_sel_highlight_set->addObject(shape);
-	return shape;
-}
-
+//shold be removed after Highlit change
 void Selection::temporary_highlight() {
 	 m_sel_highlight_set->highlight_on();
 }
 
-std::vector<IShape*> Selection::getObjects()
+void Selection::addObjectFixme(IShapePtr p)
 {
-    return m_objs;
+    addObject(p);
+    m_sel_highlight_set->addObject(p);
 }
 
-void Selection::clear() {
-	WorkingSet::clear();
-    m_sel_highlight_set->clear();
-	m_oa_highlight_set->clear();
+void Selection::clear() noexcept {
+	ObjectPoolBase::clear();
+	m_sel_highlight_set->clear();
+	m_ao_highlight_set->clear();
     //m_sb->clear();
-    m_objs.clear();
 }
 
-void Selection::set_working_set(IObjectPool* ws) {
+void Selection::set_working_set(ObjectPoolPtr ws) {
 	m_ws = ws;        
 	//m_h_on = false;
     REGISTER_CALLBACK(CONTROLLER_CHANGED,&Selection::on_controller_update);
@@ -80,10 +50,10 @@ void Selection::on_controller_update(LeCallbackData&) {
     }
 }
 
-void Selection::set_sandbox(ObjectPoolSandbox* sanboxes) {
+void Selection::set_sandbox(RuntimePoolManagerPtr sanboxes) {
 	m_rt_pools = sanboxes;
-	m_sb = new ObjectSandbox();
-	m_rt_pools->addChildren(std::shared_ptr<ObjectSandbox>(m_sb));
+	//m_sb = new RuntimePool();
+	//m_rt_pools->addChildren(std::shared_ptr<RuntimePool>(m_sb));
         
         ShapeProperties p1;
 		p1.pen_color = Qt::yellow;
@@ -94,8 +64,9 @@ void Selection::set_sandbox(ObjectPoolSandbox* sanboxes) {
                 
         ShapeProperties p2;
 		p2.pen_color = Qt::red;
-                p2.pen_style = Qt::DashLine;
-                p2.pen_width = 2;
+                p2.pen_style = Qt::DashDotLine;
+                p2.pen_width = 1;
+                p2.brush_style = Qt::NoBrush;
 
         ShapeProperties p3;
 		p3.pen_color = Qt::white;
@@ -103,36 +74,36 @@ void Selection::set_sandbox(ObjectPoolSandbox* sanboxes) {
                 p3.pen_style = Qt::DashDotLine;
                 p3.pen_width = 1;
 
-        m_oa_highlight_set = new HighlightSet("ActiveObjects",p1);
+        m_ao_highlight_set = new HighlightSet("ActiveObjects",p1);
         m_sel_highlight_set = new HighlightSet("Selection",p2);
         m_qa_highlight_set = new HighlightSet("QASelectionsTintirid",p3);
-        
+
         m_sel_highlight_set->create_sandbox(m_rt_pools);
-        m_oa_highlight_set->create_sandbox(m_rt_pools);
+        m_ao_highlight_set->create_sandbox(m_rt_pools);
         m_qa_highlight_set->create_sandbox(m_rt_pools);
 }
 
 //asenq te
 void Selection::highlightselect_shape_under_pos(const QPoint& p) {
 	clear();
-	IShape* shape = rq.getShapeUnderPos(p);
-	if (shape != nullptr)
+    IShapePtr shape = std::shared_ptr<IShape>(rq.getShapeUnderPos(p));
+    if (shape != nullptr)
 	{
 		addObject(shape);
 		m_sel_highlight_set->addObject(shape);
         m_sel_highlight_set->highlight_on();
-	}
+    }
 }
 
-
+//just highlight active object
 void Selection::highlight_shape_under_pos(const QPoint& p) {
-	m_oa_highlight_set->clear();
-	IShape* shape = rq.getShapeUnderPos(p);
-	if (shape != nullptr)
+	IShapePtr shape = std::shared_ptr<IShape>(rq.getShapeUnderPos(p));
+    m_ao_highlight_set->clear();
+    if (shape != nullptr)
 	{
-		m_oa_highlight_set->addObject(shape);
-        m_oa_highlight_set->highlight_on();
-	}
+		m_ao_highlight_set->addObject(shape);
+        m_ao_highlight_set->highlight_on();
+    }
 }
 
 /* ! get shapes from rq that under following coord
@@ -140,12 +111,10 @@ void Selection::highlight_shape_under_pos(const QPoint& p) {
  ! */
 void Selection::select_shape_under_pos(const QPoint& p) {
 	//clear();
-	IShape* shape = rq.getShapeUnderPos(p);
+	IShapePtr shape = rq.getShapeUnderPos(p);
 	if (shape != nullptr)
 	{
 		addObject(shape);
-		m_sel_highlight_set->addObject(shape);
-        m_sel_highlight_set->highlight_on();
 	}
 }
 
@@ -165,7 +134,6 @@ void Selection::find_and_highlightselect_shapes_from_region(const std::pair<QPoi
     
     m_last_region = QRect(point.first, point.second);
 	m_sel_highlight_set->highlight_on();
-
 }
 
 void Selection::highlight_last_selected_region(bool on_off) 
@@ -178,24 +146,27 @@ void Selection::highlight_last_selected_region(bool on_off)
     }
     
     std::cout << m_last_region.bottomRight().x() << " " << m_last_region.bottomRight().y() << std::endl;
-    m_qa_highlight_set->addObject(rectangle(m_last_region, ShapeProperties()).clone());
+	//use shape creator instead of clone
+    m_qa_highlight_set->addObject(std::shared_ptr<IShape>(Rectangle(m_last_region, ShapeProperties()).clone()));
     m_qa_highlight_set->highlight_on();
 }
 
 
 //*********************************** HIGHLIGHT ********************************************
-HighlightSet::HighlightSet(const std::string& n,const ShapeProperties& p ):m_name(n),m_packet(p) {
-    
+HighlightSet::HighlightSet(const std::string& n,const ShapeProperties& p ):m_name(n),m_packet(p)
+{
 }
 
-
-void HighlightSet::create_sandbox(ObjectPoolSandbox* ops) {
+void HighlightSet::create_sandbox(RuntimePoolManagerPtr ops) 
+{
     m_rt_pools = ops;
-    m_sb = new ObjectSandbox();
-    m_rt_pools->addChildren(std::shared_ptr<ObjectSandbox>(m_sb));
+    m_sb = std::shared_ptr<RuntimePool>(new RuntimePool());
+    m_rt_pools->addChild(m_sb, "Highlight-" + m_name);
+    //m_sb = m_rt_pools->getChild("Canvas");
 }
 
-std::string HighlightSet::getName() {
+std::string HighlightSet::getName() const noexcept
+{
     return m_name;
 }
 
@@ -204,24 +175,27 @@ void HighlightSet::highlight_on()
     highlight_on_off(true);
 }
 
-void HighlightSet::clear() {
-    WorkingSet::clear();
-    highlight_off();
+void HighlightSet::clear() noexcept
+{
+    ObjectPoolBase::clear();
+    m_sb->clear();
+    //highlight_off();
 }
 
 void HighlightSet::highlight_off()
 {
-    m_sb->clear();
+    clear();
     //highlight_on_off(false);    
 }
 
-void HighlightSet::highlight_on_off(bool m_h_on) {
+void HighlightSet::highlight_on_off(bool m_h_on) 
+{
+	// check with levon
 	if (getObjects().empty())
 		return;
 	
 	for ( auto it: getObjects() ) {
-		it->updateProperties(m_packet);
 		m_sb->addObject(it);
+        m_sb->changeBasicProperties(m_packet);
 	}
 }
-/**/

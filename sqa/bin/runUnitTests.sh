@@ -14,8 +14,8 @@ DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 options="$@"
 
 #echo $DIR
-export PAINTER_SQA_ROOT=$DIR/..
-export PAINTER_SCRIPTS_DIR=$PAINTER_SQA_ROOT/scripts
+export PAINTER_QA_DIR=$DIR/..
+export PAINTER_SCRIPTS_DIR=$PAINTER_QA_DIR/scripts
 export PYTHON_PATH=$PAINTER_SCRIPTS_DIR:$PYTHON_PATH
 export IS_CI=0
 
@@ -36,11 +36,17 @@ passed=0
 crashed=0
 t_id=1
 t_res=5
-for i in `ls $PAINTER_SQA_ROOT/../unit_test_bin`; do
+
+if [ ! -d "$PAINTER_QA_DIR/../unit_test_bin" ]; then
+    echo "Error: seems no unit test has been build :["
+    exit -1
+fi
+
+for i in `ls $PAINTER_QA_DIR/../unit_test_bin`; do
     total=`expr $total + 1`
-    #cd $PAINTER_SQA_ROOT/../unit_test_bin
-        echo -ne  "Running $PAINTER_SQA_ROOT/../unit_test_bin/$i --- "
-        a=`$PAINTER_SQA_ROOT/../unit_test_bin/$i &> uttest.info `
+    #cd $PAINTER_QA_DIR/../unit_test_bin
+        echo -ne  "Running $PAINTER_QA_DIR/../unit_test_bin/$i --- "
+        a=`$PAINTER_QA_DIR/../unit_test_bin/$i &> uttest.info `
         r=$?
         #r=3
         if [ "$r" == 0 ]; then

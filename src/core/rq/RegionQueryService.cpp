@@ -8,7 +8,7 @@ RegionQuery::RegionQuery()
 	m_tree = std::shared_ptr<rq::RQtree<IShape>> (new rq::RQtree<IShape>());
 }
 
-void RegionQuery::insertObject(IShape* object)
+void RegionQuery::insertObject(IShapePtr object)
 {
     DBG_RQ("insert",object);
 	rq::RQobjectPtr obj;
@@ -30,7 +30,7 @@ void RegionQuery::insertObject(IShape* object)
 	m_tree->insert(obj);
 }
  
-void RegionQuery::removeObject(IShape* object)
+void RegionQuery::removeObject(IShapePtr object)
 {
     DBG_RQ("remove",object);
 	rq::RQobjectPtr obj;
@@ -52,7 +52,7 @@ void RegionQuery::removeObject(IShape* object)
 	m_tree->remove(obj);
 }
 
-IShape* RegionQuery::getShapeUnderPos(const QPoint& p) const
+IShapePtr RegionQuery::getShapeUnderPos(const QPoint& p) const
 {
 	rq::RQobjectPtr obj = m_tree->getObject(rq::CPoint(p));
 
@@ -62,9 +62,9 @@ IShape* RegionQuery::getShapeUnderPos(const QPoint& p) const
 	return nullptr;
 }
 
-std::vector<IShape*> RegionQuery::getShapesUnderRect(const QRect& oRect) const
+std::vector<IShapePtr> RegionQuery::getShapesUnderRect(const QRect& oRect) const
 {
-	std::vector<IShape*> shapes;
+	std::vector<IShapePtr> shapes;
 
 	std::vector<rq::RQobjectPtr> objects = m_tree->getObjects(oRect);
 

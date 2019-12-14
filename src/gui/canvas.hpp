@@ -54,8 +54,8 @@ public slots:
 private:
         bool is_runtime_mode;
         bool m_need_motionlog = false;
-        IObjectPoolPtr m_working_set;
-        ObjectPoolSandboxPtr m_sandbox;
+        ObjectPoolPtr m_design;
+        RuntimePoolManagerPtr m_runtime;
         command_manager& cm = command_manager::getInstance();
         renderer* m_renderer;
         int m_scale = 15;

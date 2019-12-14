@@ -7,8 +7,8 @@
 #include "selection_commands.hpp"
 
 #include "../core/selection.hpp"
-#include "../core/runtime_environment.hpp"
-#include "../core/working_set.hpp"
+#include "../core/runtime_pool.hpp"
+#include "../core/design.hpp"
 #include "../core/postman.hpp"
 
 #include "../gui/statusbar_manager.hpp"
@@ -37,16 +37,16 @@ class dicmdObjRelocateBy : public DirectCommandBase
         Selection& m_se = Selection::getInstance();
 public:
 
-        dicmdObjRelocateBy(IObjectPoolPtr ptr, QPoint fpos, QPoint tpos)
-		: m_ws(std::dynamic_pointer_cast<WorkingSet>(ptr))
+        dicmdObjRelocateBy(ObjectPoolPtr ptr, QPoint fpos, QPoint tpos)
+		: m_ws(std::dynamic_pointer_cast<Design>(ptr))
 	{
                 //add_option("-from_region",new PointListCommandOptionValue(pl));
                 add_option("-to",new PointCommandOptionValue(tpos));
                 add_option("-from",new PointCommandOptionValue(fpos));                
 	}
 
-	dicmdObjRelocateBy(IObjectPoolPtr ptr)
-		: m_ws(std::dynamic_pointer_cast<WorkingSet>(ptr))
+	dicmdObjRelocateBy(ObjectPoolPtr ptr)
+		: m_ws(std::dynamic_pointer_cast<Design>(ptr))
 	{
                 //add_option("-from_region",new PointListCommandOptionValue(pl));
                 add_option("-to",new PointCommandOptionValue());
@@ -66,7 +66,7 @@ public:
                 QPoint src_p(GET_CMD_ARG(PointCommandOptionValue,"-from"));
                 
                 for ( auto it : m_se.getObjects() ) {
-					IShape* pShape = nullptr;
+					IShapePtr pShape = nullptr;
                     if ( T == COPY )
                         pShape = m_ws->addObject(it);
 					else 
@@ -81,7 +81,7 @@ public:
 
     
 private:
-	WorkingSetPtr m_ws = nullptr;
+	DesignPtr m_ws = nullptr;
 };
 
 
@@ -89,19 +89,20 @@ template<relocAction T>
 class incmdObjRelocateBy : public InteractiveCommandBase  
 {
    
-        ObjectSandboxPtr m_sb;
-        ObjectPoolSandboxPtr m_re;
-        IObjectPoolPtr m_ws;
+        RuntimePoolPtr m_sb;
+        RuntimePoolManagerPtr m_re;
+        ObjectPoolPtr m_ws;
         Selection& m_se = Selection::getInstance();
         command_manager& m_cm = command_manager::getInstance();
         LeCallback* m_sel_cb = nullptr;
         bool m_move_move = false;
 public:
 	
-        incmdObjRelocateBy<T>(ObjectPoolSandboxPtr r, IObjectPoolPtr s ):m_ws(s),m_re(r)
+        incmdObjRelocateBy<T>(RuntimePoolManagerPtr r, ObjectPoolPtr s ):m_ws(s),m_re(r)
         {
-                m_sb = std::shared_ptr<ObjectSandbox>(new ObjectSandbox);
-                m_re->addChildren(m_sb);
+                //m_sb = std::shared_ptr<ObjectSandbox>(new ObjectSandbox);
+                //m_re->addChildren(m_sb);
+			m_sb = r->getChild("Generic-InteractiveCommand");
                 //LeCallback cb = 
         }
 
@@ -129,7 +130,7 @@ public:
         
         virtual void handle_update() {
                 if ( m_move_move )
-                    for ( auto it: m_sb->getPool()->getObjects() ) {
+                    for ( auto it: m_sb->getObjects() ) {
                         it->updateProperties(controller::getInstance().get_shape_properties());
                         //obj->updateProperties(controller::getInstance().get_shape_properties());        
                     }
@@ -142,7 +143,7 @@ private:
     
                 //std::cout << "SELECTION" << m_se.getObjects().size() << "   RTSHAPES: " << m_sb->getPool()->getObjects().size() << "\n";
                 //*
-				for ( auto it: m_sb->getPool()->getObjects() ) {
+				for ( auto it: m_sb->getObjects() ) {
                     rq.insertObject(m_ws->addObject(it));
                     if ( T == MOVE ) {
                         //remove working set's object that has been selected
@@ -171,7 +172,7 @@ private:
         }
     
         void move_runtimes_to_point(QPoint p) {
-                for ( auto it: m_sb->getPool()->getObjects() ) {
+                for ( auto it: m_sb->getObjects() ) {
                     QPoint point(p-m_distances[m_sb2se[it]]);
                     it->moveCenterToPoint(point);
                 }
@@ -213,7 +214,7 @@ private:
                 // keep mapping runtimeobj<->realobj
                 //std::cout << "XXX SELECTION" << m_se.getObjects().size() << "   RTSHAPES: " << m_sb->getPool()->getObjects().size() << "\n";
                 for ( auto it : m_se.getObjects() ) {
-                    IShape* i = m_sb->addObject(it);
+                    IShapePtr i = m_sb->addObject(it);
                     m_sb2se[i] = it;
                 }                                
                 //std::cout << "YYY SELECTION" << m_se.getObjects().size() << "   RTSHAPES: " << m_sb->getPool()->getObjects().size() << "\n";
@@ -256,8 +257,8 @@ private:
         }
         
         QPoint m_clicked_point;
-        std::map<IShape*,QPoint> m_distances;
-        std::map<IShape*,IShape*> m_sb2se;
+        std::map<IShapePtr,QPoint> m_distances;
+        std::map<IShapePtr,IShapePtr> m_sb2se;
 };
 
 #endif

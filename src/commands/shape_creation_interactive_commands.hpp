@@ -19,10 +19,11 @@ class ObjCreatorCommandBase : public InteractiveCommandBase
 	LePostman& m_postman = LePostman::getInstance();
 	
 public:
-	ObjCreatorCommandBase<T>(ObjectPoolSandboxPtr r, IObjectPoolPtr s): ws(s) 
+	ObjCreatorCommandBase<T>(RuntimePoolManagerPtr r, ObjectPoolPtr s): ws(s) 
 	{
-		re = std::shared_ptr<ObjectSandbox>(new ObjectSandbox);
-		r->addChildren(re);
+		//re = std::shared_ptr<RuntimePool>(new RuntimePool);
+		//r->addChildren(re);
+		re = r->getChild("Generic-InteractiveCommand");
 		m_rt_shape = 0;
 	}
 
@@ -37,7 +38,7 @@ public:
         //assert(0);
 		m_internal_vec.push_back(InteractiveCommandBase::get_last_point());
 		//m_postman->notify(INTERACTIVE_COMMAND_PRE_COMMIT,a);
-		auto ob = re->getPool()->getObjects();
+		auto ob = re->getObjects();
 		for (auto i : ob)
                 dicmdCreateObj<T>(m_internal_vec,m_controller.get_shape_properties(),ws).silent_execute();
                 //ws->addObject(i);
@@ -64,8 +65,9 @@ public:
         
 	void create_runtime_object() {
 		ShapeCreator& shapeCreator = ShapeCreator::getInstance();
-		m_rt_shape = shapeCreator.create(T);
-                re->addObject(m_rt_shape);
+		auto obj = shapeCreator.create(T);
+		m_rt_shape = obj.get();
+		re->addObject(obj);
         }
 	
 	void runtime_set_pos1() {
@@ -98,10 +100,11 @@ public:
 	}
 
 protected:    
-	ObjectSandboxPtr re = nullptr;
+	RuntimePoolPtr re = nullptr;
 private:
-	IObjectPoolPtr ws = nullptr;
+	ObjectPoolPtr ws = nullptr;
 	controller& m_controller = controller::getInstance(); 
+	// TODO: chage into shared_ptr
 	IShape* m_rt_shape = nullptr;;
 	std::vector<PointCommandOptionValue> m_internal_vec;
 };
@@ -114,7 +117,7 @@ class incmdCreateObj : public ObjCreatorCommandBase<T>
 {
 public:
 	
-	incmdCreateObj(ObjectPoolSandboxPtr r, IObjectPoolPtr s ):ObjCreatorCommandBase<T>(r,s)
+	incmdCreateObj(RuntimePoolManagerPtr r, ObjectPoolPtr s ):ObjCreatorCommandBase<T>(r,s)
 	{
 	}
 	
@@ -190,7 +193,7 @@ template <>
 class incmdCreateObj<POLYGON> : public ObjCreatorCommandBase<POLYGON>
 {
 public:
-	incmdCreateObj(ObjectPoolSandboxPtr r, IObjectPoolPtr s ) : ObjCreatorCommandBase<POLYGON>(r,s)
+	incmdCreateObj(RuntimePoolManagerPtr r, ObjectPoolPtr s ) : ObjCreatorCommandBase<POLYGON>(r,s)
 	{
 	}
 
@@ -256,7 +259,7 @@ class incmdCreateNthgon : public ObjCreatorCommandBase<POLYGON>
 	std::string m_name;
 
 public:
-	incmdCreateNthgon(ObjectPoolSandboxPtr r, IObjectPoolPtr s ):ObjCreatorCommandBase<POLYGON>(r,s)
+	incmdCreateNthgon(RuntimePoolManagerPtr r, ObjectPoolPtr s ):ObjCreatorCommandBase<POLYGON>(r,s)
 	{
 		reset_count();
 

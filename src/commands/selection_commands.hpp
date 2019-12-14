@@ -5,7 +5,7 @@
 
 #include "../core/selection.hpp"
 #include "../core/postman.hpp"
-#include "../core/runtime_environment.hpp"
+#include "../core/runtime_pool.hpp"
 #include "../gui/statusbar_manager.hpp"
 
 #include <QPoint>
@@ -18,20 +18,21 @@ class incmdSelectUnderCursoer: public InteractiveCommandBase
 {
         bool m_move_mode = false;
         bool m_shape_added = false;
-        ObjectSandboxPtr m_sb;
-        ObjectPoolSandboxPtr m_re;
-        IObjectPoolPtr m_ws;
+        RuntimePoolPtr m_sb;
+        RuntimePoolManagerPtr m_re;
+        ObjectPoolPtr m_ws;
         command_manager& m_cm = command_manager::getInstance();
         Selection& m_se = Selection::getInstance();
-        IShape* m_original_shape = nullptr;
+        IShapePtr m_original_shape = nullptr;
         LeCallback* m_sel_cb;
         bool m_need_mouserelase_log = false;
 
 public:
 	
-        incmdSelectUnderCursoer(ObjectPoolSandboxPtr r, IObjectPoolPtr s ):m_ws(s),m_re(r) {
-                m_sb = std::shared_ptr<ObjectSandbox>(new ObjectSandbox);
-                m_re->addChildren(m_sb);
+        incmdSelectUnderCursoer(RuntimePoolManagerPtr r, ObjectPoolPtr s ):m_ws(s),m_re(r) {
+            //m_sb = std::shared_ptr<RuntimePool>(new RuntimePool);
+            //m_re->addChild(m_sb,"aaa");
+			m_sb = r->getChild("Generic-InteractiveCommand");
         }
 
 		virtual void abort() {
@@ -111,15 +112,15 @@ public:
 			for (auto it : m_ws->getObjects())
 				rq.insertObject(it);
 
-			IShape* commited_obj = nullptr;
-            for ( auto it: m_sb->getPool()->getObjects() ) {
+			IShapePtr commited_obj = nullptr;
+            for ( auto it: m_sb->getObjects() ) {
                     commited_obj = m_ws->addObject(it);
 					rq.insertObject(commited_obj);
             }        
             
             m_original_shape = nullptr;
             m_se.clear();
-            m_se.addObject(commited_obj);
+            m_se.addObjectFixme(commited_obj);
             m_sb->clear();
 			m_se.temporary_highlight();
 			//m_cm.return_to_idle();
@@ -169,7 +170,7 @@ public:
         
         void move_selected_to_point(QPoint p) {
             m_need_mouserelase_log = true;
-            for ( auto it: m_sb->getPool()->getObjects() ) {
+            for ( auto it: m_sb->getObjects() ) {
                     //std::cout << "rotate..." << std::endl; 
                     it->moveCenterToPoint(p);
             }
@@ -218,7 +219,7 @@ class incmdSelectShapesByRegion : public incmdCreateObj<RECTANGLE>
 {
 	
 public:
-        incmdSelectShapesByRegion(ObjectPoolSandboxPtr r, IObjectPoolPtr s ):incmdCreateObj<RECTANGLE>(r,s) {
+        incmdSelectShapesByRegion(RuntimePoolManagerPtr r, ObjectPoolPtr s ):incmdCreateObj<RECTANGLE>(r,s) {
                 m_first_click = true;
         }
 

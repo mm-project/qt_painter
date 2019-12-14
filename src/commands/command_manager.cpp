@@ -25,8 +25,9 @@
 ///FIXME ????
 //int dicmdQaCanvasCompare::n_index = 0;
 
-void command_manager::init2(ObjectPoolSandboxPtr r, IObjectPoolPtr s) {
-	r = re;
+void command_manager::init2(RuntimePoolManagerPtr r, ObjectPoolPtr s) {
+	//r = re;
+	re = r;
     ws = {s};
     m_current_command = nullptr;
     m_idle_command = new incmdIdle();
@@ -48,6 +49,7 @@ void command_manager::init() {
     register_command(new dicmdTestCmdListOptions);
     register_command(new dicmdQaCompare<CANVAS>);
     register_command(new dicmdQaCompare<DESIGN>);
+    register_command(new dicmdQaCompare<RUNTIME>);    
     register_command(new dicmdQaCompare<SELECTION>);
     register_command(new dicmdSelectShapesByRegion);
     register_command(new dicmdguiClickButton);

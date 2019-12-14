@@ -1,9 +1,12 @@
 #include "renderer.hpp"
-
+#include "core.hpp"
+#include "application.hpp"
 #include "rq/RegionQueryService.hpp"
 #include "../commands/canvas_commands.hpp"
 
-renderer::renderer ( QWidget* w, ObjectPoolSandboxPtr r, IObjectPoolPtr s ):m_sandbox(r),m_working_set(s) { 	
+#include <cassert>
+
+renderer::renderer ( QWidget* w, RuntimePoolManagerPtr r, ObjectPoolPtr s ):m_sandbox(r),m_working_set(s) { 	
     m_scale_factor = 1;
     m_qt_painter = new QPainter(w);
     m_plane = w;
@@ -35,6 +38,7 @@ void renderer::set_cursor_pos_for_drawing(int x,int y)
 {
 	c_cursor_x = x/m_scale_factor - m_origin_point.x();
 	c_cursor_y = y/m_scale_factor - m_origin_point.y();
+    //assert(0);
 }
 
 void renderer::pan(const panDirection& d) {
@@ -200,7 +204,6 @@ void renderer::draw_objects() {
         for (auto i : m_working_set->getObjects())
                 i->draw(m_qt_painter);
         }
-
 }
 
 void renderer::make_viewport_adjustments() {
@@ -222,16 +225,11 @@ void renderer::draw_runtime_pools() {
     auto pools = m_sandbox->getChildren();
     for (auto it : pools)
     {
-        if (it == nullptr)
-                        continue;
-
-        auto p = it->getPool();
-        if (p == nullptr)
-                        continue;
-
-        auto objs = p->getObjects();
+		ASSERT_CONTINUE(it.second != nullptr);
+        auto objs = it.second->getObjects();
+        //std::cout << it.first << "  : " << objs.size() << std::endl;
         for (auto i : objs)
-                i->draw(m_qt_painter);
+			i->draw(m_qt_painter);
     }
 }
 
@@ -247,7 +245,7 @@ void renderer::draw_cursor() {
                 p.setWidth(12);
         } else {
 		p.setColor(Qt::blue);
-                p.setWidth(6);
+                p.setWidth(10);
         }
         
         //p.setJoinStyle(Qt::RoundJoinStyle);
@@ -271,10 +269,12 @@ void renderer::draw_selection_rubberband()
 void renderer::draw_all() {
         draw_background();
         draw_grid();            
-        draw_objects();
-        if ( m_rt_renderer )
+        if (m_des_renderer)
+            draw_objects();
+        if (m_rt_renderer)
             draw_runtime_pools();
-        draw_cursor();
+        if (Application::is_replay_mode())
+            draw_cursor();
 }
 
 void renderer::draw_all_wno_cursor() {
@@ -291,7 +291,14 @@ void renderer::render() {
         draw_all();
         stop();
 }
-            
+
+void renderer::rendering_des_mode_change() 
+{
+    //assert(0);
+    m_des_renderer = !m_des_renderer;
+    std::cout << " DS RENDERING: " << m_des_renderer << std::endl;
+}
+
 void renderer::rendering_mode_change() {
     m_rq_renderer = !m_rq_renderer;
     if ( m_rq_renderer )

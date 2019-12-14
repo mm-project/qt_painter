@@ -1,0 +1,34 @@
+Name: Selection
+ObjCount: 0
+======
+--------Name: Selection
+ObjCount: 23
+======
+Line:
+Line:
+Rectangle:
+Ellipse:
+Rectangle:
+Ellipse:
+Rectangle:
+Ellipse:
+Ellipse:
+Ellipse:
+Ellipse:
+Rectangle:
+Rectangle:
+Ellipse:
+Ellipse:
+Ellipse:
+Rectangle:
+Ellipse:
+Ellipse:
+Ellipse:
+Ellipse:
+Ellipse:
+Rectangle:
+Rectangle:
+Polygon:
+Polygon:
+Polygon:
+--------
