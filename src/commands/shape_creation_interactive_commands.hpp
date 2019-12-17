@@ -72,7 +72,7 @@ public:
 		auto obj = shapeCreator.create(T);
 		m_rt_shape = obj.get();
 		re->addObject(obj);
-        }
+    }
 	
 	void runtime_set_pos1() {
 		re->addPoint(InteractiveCommandBase::get_last_point());
@@ -89,7 +89,7 @@ public:
 		re->movePoint(InteractiveCommandBase::get_last_point());
 		if ( T != POLYGON ) 
 			m_internal_vec.push_back(InteractiveCommandBase::get_last_point());
-        }
+    }
 	
 	virtual void abort() {
 		//log("dicmdAbortActiveCommand");
@@ -156,8 +156,8 @@ public:
                 ObjCreatorCommandBase<T>::handle_update();
                 ObjCreatorCommandBase<T>::runtime_set_pos1();
                 ObjCreatorCommandBase<T>::runtime_set_pos2();
-		InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,on_first_click));
-                return true;
+                InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,on_first_click));
+            return true;
         }
 	
 	void on_first_click(const EvType& ev)

@@ -27,6 +27,8 @@ std::string getTransactionName(TransactionAction T)
 template <TransactionAction T>
 class dicmdTransaction : public DirectCommandBase
 {
+    UndoManager& um = UndoManager::getInstance();
+
 public:
 	dicmdTransaction(int count)
 	{
@@ -44,15 +46,13 @@ public:
 	}
 
 	void undo_n_steps(int c) {
-        UndoManager& man = UndoManager::getInstance();
-        while ( c-- )    
-            man.undo();
+        //while ( c-- )    
+            um.undo();
     }
 
     void redo_n_steps(int c) {
-        UndoManager& man = UndoManager::getInstance();
-        while ( c-- )    
-            man.redo();
+        //while ( c-- )    
+            um.redo();
     }
 
     void execute() override
