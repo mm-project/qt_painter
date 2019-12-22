@@ -7,6 +7,8 @@ environment:
   - ARCH: x86
 
 install:
+- set QTDIR=C:\Qt\5.13.2\msvc2017
+- set PATH=%PATH%;%QTDIR%\bin;C:\MinGW\bin
 - cmake -G "Visual Studio 15 2017" .
 
 build_script:
