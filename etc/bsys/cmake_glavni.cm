@@ -53,7 +53,7 @@ find_package (Qt5Gui)
 #find_package (Qt5Xml)
 
 
-message("QTDIR is ENV{QTDIR}")
+message("QTDIR is $ENV{QTDIR}")
 message("QT_INCLUDE_DIR is ${QT_INCLUDE_DIR}")
 
   
