@@ -7,20 +7,20 @@ if (WIN32)
 	# on visual
 	if (MSVC)
             set ( CMAKE_CXX_FLAGS "-DOS_WINDOWS")
-            if(NOT DEFINED ENV{QTDIR})
+            if(NOT DEFINED $ENV{QTDIR})
                 set(QTDIR "C:\\Qt\\5.14.1\\5.12.5\\msvc2017_64")
 	    endif()
+	    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/windows/)
+	    set(QT_INCLUDE_DIR ${QTDIR}\include\)
 	# on min mingw
 	else()
             set ( CMAKE_CXX_FLAGS "-DOS_LINUX -g -fPIC -Wunused-parameter -pipe -std=gnu++17 -frtti -Wall -Wextra -fexceptions -pthread -Wno-unused-function -Wno-unused-variable")
-            if(NOT DEFINED ENV{QTDIR})
+            if(NOT DEFINED $ENV{QTDIR})
 	    	set(QTDIR "./ext/mingw73_32")
 	    endif()
-	endif(MSVC)
-
-	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/windows/)
-	set(QT_INCLUDE_DIR ${QTDIR}/include)
-	
+	    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/windows/)
+	    set(QT_INCLUDE_DIR ${QTDIR}/include/)
+	endif(MSVC)	
 #linux
 else()
     set(QTDIR "/usr/lib/x86_64-linux-gnu")
@@ -58,11 +58,11 @@ message("QT_INCLUDE_DIR is ${QT_INCLUDE_DIR}")
 
   
 #set(QT_INCLUDE_DIR ${QTDIR}/include)
-include_directories(${QT_INCLUDE_DIR}/)
-include_directories(${QT_INCLUDE_DIR}/QtCore)
-include_directories(${QT_INCLUDE_DIR}/QtGui)
-include_directories(${QT_INCLUDE_DIR}/QtCore)
-include_directories(${QT_INCLUDE_DIR}/QtWidgets)
+include_directories(${QT_INCLUDE_DIR})
+include_directories(${QT_INCLUDE_DIR}QtCore)
+include_directories(${QT_INCLUDE_DIR}QtGui)
+include_directories(${QT_INCLUDE_DIR}QtCore)
+include_directories(${QT_INCLUDE_DIR}QtWidgets)
 
 
 function (make_ut)
