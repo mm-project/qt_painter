@@ -10,19 +10,17 @@ if (WIN32)
             if(NOT DEFINED ENV{QTDIR})
                 set(QTDIR "C:\\Qt\\5.14.1\\5.12.5\\msvc2017_64")
 	    endif()
-	set(QT_INCLUDE_DIR ${QTDIR}\include)
-	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}\bin\windows\)
 	# on min mingw
 	else()
             set ( CMAKE_CXX_FLAGS "-DOS_LINUX -g -fPIC -Wunused-parameter -pipe -std=gnu++17 -frtti -Wall -Wextra -fexceptions -pthread -Wno-unused-function -Wno-unused-variable")
             if(NOT DEFINED ENV{QTDIR})
 	    	set(QTDIR "./ext/mingw73_32")
 	    endif()
-	    
-	set(QT_INCLUDE_DIR ${QTDIR}/include)
-	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/windows/)
 	endif(MSVC)
 
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/windows/)
+	set(QT_INCLUDE_DIR ${QTDIR}/include)
+	
 #linux
 else()
     set(QTDIR "/usr/lib/x86_64-linux-gnu")
@@ -54,6 +52,11 @@ find_package (Qt5Gui)
 #find_package (Qt5Svg)
 #find_package (Qt5Xml)
 
+
+message("QTDIR is ENV{QTDIR}")
+message("QT_INCLUDE_DIR is ${QT_INCLUDE_DIR}")
+
+  
 #set(QT_INCLUDE_DIR ${QTDIR}/include)
 include_directories(${QT_INCLUDE_DIR}/)
 include_directories(${QT_INCLUDE_DIR}/QtCore)
