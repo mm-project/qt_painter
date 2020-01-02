@@ -56,7 +56,9 @@ class dicmdCreateObj : public TransactionalDirectCommandBase
         
         virtual void execute() {
             //* //std::vector<QPoint> v(GET_CMD_ARG(PointListCommandOptionValue,"-points"));
-            auto m_created_object  = ShapeCreator::getInstance().create(T);
+            m_created_object = ShapeCreator::getInstance().create(T);
+			m_created_object = m_ws->addObject(m_created_object);
+            rq.insertObject(m_created_object);
 
             ShapeProperties pr;
             pr.fromString(S_ARG("-color"),I_ARG("-brush"),I_ARG("-fill"));
@@ -64,9 +66,6 @@ class dicmdCreateObj : public TransactionalDirectCommandBase
 
             for( auto it: PL_ARG("-points") )
                 m_created_object->addPoint(it.get());
-
-            m_ws->addObject(m_created_object);
-            rq.insertObject(m_created_object);
         }
         virtual std::string get_name() {
                 return "dicmdCreateObj"+ObjType2String(T);
@@ -74,10 +73,10 @@ class dicmdCreateObj : public TransactionalDirectCommandBase
        
         void undo() override
         {
+            m_ws->removeObject(m_created_object);
+			rq.clear();
             for (auto it : m_ws->getObjects())
                 rq.insertObject(it);
-
-            m_ws->removeObject(m_created_object);
         }
 
         void redo() override

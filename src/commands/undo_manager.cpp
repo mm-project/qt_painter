@@ -3,14 +3,20 @@
 
 void UndoManager::pushCommand(UndoCommandBase* command)
 {
-	m_stack.push_back(std::shared_ptr<UndoCommandBase>(command));
 	++m_position;
+	if (m_stack.size() < m_position)
+		m_stack.emplace_back(std::shared_ptr<UndoCommandBase>(command));
+	else
+		m_stack[m_position] = std::shared_ptr<UndoCommandBase>(command);
 }
 
 void UndoManager::pushCommand(std::shared_ptr<UndoCommandBase> command)
 {
-	m_stack.push_back(command);
 	++m_position;
+	if (m_stack.size() <= m_position)
+		m_stack.emplace_back(std::shared_ptr<UndoCommandBase>(command));
+	else
+		m_stack[m_position] = std::shared_ptr<UndoCommandBase>(command);
 }
 
 void UndoManager::undo()
