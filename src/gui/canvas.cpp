@@ -22,6 +22,7 @@
 #include "../commands/delete_command.hpp"
 #include "../commands/copy_move_commands.hpp"
 #include "../commands/command_manager.hpp"
+#include "../commands/undo_redo_command.hpp"
 
 #include <QRect>
 #include <QPainter>
@@ -90,6 +91,8 @@ canvas::canvas(QWidget* p)
     cm.register_command(new dicmdObjRelocateBy<COPY>(m_design));
     cm.register_command(new incmdObjRelocateBy<MOVE>(m_runtime, m_design));
     cm.register_command(new incmdObjRelocateBy<COPY>(m_runtime, m_design));
+    cm.register_command(new dicmdTransaction<Undo>);
+    cm.register_command(new dicmdTransaction<Redo>);
     cm.set_idle_command(cm.find_command("incmdSelectUnderCursoer"));
     //cm.set_idle_command(new INCMD_HIGHLIGHT_BY_POINT);
   }
@@ -194,7 +197,8 @@ void canvas::mouseMoveEvent(QMouseEvent* e)
 	//_y = (_y / m_scale) * m_scale;
 	//e->pos().setX(_x);
 	//e->pos().setY(_y);
-	cm.mouse_moved(_x, _y);
+        cm.mouse_moved(_x, _y);
+		m_renderer->set_cursor_pos_for_drawing(_x, _y);
 
 	//if Preference::isSet("guiLogMouseMove")
 	//if ( m_need_motionlog )
@@ -296,6 +300,17 @@ void canvas::abordCommand()
     cm.activate_command(cm.find_command("dicmdAbortActiveCommand"));
 }
 
+void canvas::invoke_redo()
+{
+	dicmdTransaction<Redo>(1).execute_and_log();
+    //cm.activate_command(cm.find_command("incmdTransactionRedo"));
+}
+
+void canvas::invoke_undo()
+{
+	dicmdTransaction<Undo>(1).execute_and_log();
+     //cm.activate_command(cm.find_command("incmdTransactionUndo"));
+}
 void canvas::invoke_copy()
 {
     cm.activate_command(cm.find_command("incmdObjRelocateByCopy"));

@@ -40,35 +40,39 @@ public:
 		//m_postman->notify(INTERACTIVE_COMMAND_PRE_COMMIT,a);
 		auto ob = re->getObjects();
 		for (auto i : ob)
-                dicmdCreateObj<T>(m_internal_vec,m_controller.get_shape_properties(),ws).silent_execute();
-                //ws->addObject(i);
-                //end transaction
+		{
+			//dicmdCreateObj<T>(m_internal_vec,ws).silent_execute();
+
+            auto cmd = std::shared_ptr<dicmdCreateObj<T>>(new dicmdCreateObj<T>(m_internal_vec, m_controller.get_shape_properties(), ws));
+			//cmd->silent_execute();
+
+            UndoManager& man = UndoManager::getInstance();
+			man.pushCommand(cmd);
+            cmd->silent_execute();
+		}
 		finish();
 		//m_postman->notify(INTERACTIVE_COMMAND_POST_COMMIT,a);
 	}
 	
 	virtual void finish() {
-		m_internal_vec.clear();
-		re->clear();
-		//command_manager::getInstance().return_to_idle();
-        //assert(0);
-        //return;
+        m_internal_vec.clear();
+        re->clear();
 	}
 	
 	void set_properties(const ShapeProperties& p) {
-		re->changeBasicProperties(p);
+        re->changeBasicProperties(p);
 	}
         
 	IShape* get_runtime_object() {
-                return m_rt_shape;
-        }
+        return m_rt_shape;
+    }
         
 	void create_runtime_object() {
 		ShapeCreator& shapeCreator = ShapeCreator::getInstance();
 		auto obj = shapeCreator.create(T);
 		m_rt_shape = obj.get();
 		re->addObject(obj);
-        }
+    }
 	
 	void runtime_set_pos1() {
 		re->addPoint(InteractiveCommandBase::get_last_point());
@@ -85,7 +89,7 @@ public:
 		re->movePoint(InteractiveCommandBase::get_last_point());
 		if ( T != POLYGON ) 
 			m_internal_vec.push_back(InteractiveCommandBase::get_last_point());
-        }
+    }
 	
 	virtual void abort() {
 		//log("dicmdAbortActiveCommand");
@@ -152,8 +156,8 @@ public:
                 ObjCreatorCommandBase<T>::handle_update();
                 ObjCreatorCommandBase<T>::runtime_set_pos1();
                 ObjCreatorCommandBase<T>::runtime_set_pos2();
-		InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,on_first_click));
-                return true;
+                InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,on_first_click));
+            return true;
         }
 	
 	void on_first_click(const EvType& ev)

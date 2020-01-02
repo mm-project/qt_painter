@@ -11,6 +11,7 @@
 #include "../commands/command_manager.hpp"
 #include "../commands/gui_commands.hpp"
 #include "../commands/qa_commands.hpp"
+#include "../commands/undo_manager.hpp"
 
 #include "../io/messenger.hpp"
 
@@ -157,6 +158,8 @@ void main_window::make_connections()
 	connect(this, SIGNAL(actionDiscarded()), m_shapes, SLOT(discardAction()));
 	connect(m_shapes, SIGNAL(showConsole()), m_console, SLOT(show()));
 	connect(m_shapes, SIGNAL(hideConsole()), m_console, SLOT(hide()));
+	connect(m_shapes, SIGNAL(undo()), m_canvas, SLOT(invoke_undo()));
+	connect(m_shapes, SIGNAL(redo()), m_canvas, SLOT(invoke_redo()));
 }
 
 

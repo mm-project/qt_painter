@@ -8,6 +8,7 @@
 #include <iostream>
 
 LogReader::LogReader() {
+    //m_interp = CommandInterp::getInstance();
     m_timer = new QTimer;
     REGISTER_CALLBACK(STOP_REPLY,&LogReader::reply_stop)
     REGISTER_CALLBACK(RESUME_REPLY,&LogReader::reply_resume)
@@ -83,6 +84,7 @@ bool LogReader::replay_logfile(const std::string& fname) {
         return false;
 
     //std::cout << "noway" << std::endl;
+    
     for (  auto line : lines  ) {
         //m_interp->interpret_from_string(line.toStdString());
         m_command_queue.push(line);
@@ -107,6 +109,7 @@ bool LogReader::replay_logfile_imi(const std::string& fname) {
         replay_cmd(line.toStdString());
     }
 
+    //fixme
     Application::getInstance().set_replay_mode(false);
 
     return true;    
@@ -146,4 +149,3 @@ void LogReader::execute_next_command() {
     //QApplication::processEvents();
 }
     
-

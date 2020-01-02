@@ -76,6 +76,12 @@ void create_shape_gui::build_design(QRibbonWidget* ribbonWidget)
 	group->addRibbonButton(save_b2);
 	group->addRibbonButton(load_b);
 	group->addRibbonButton(close_b1);
+	QRibbonButton* undo_b = new QRibbonButton(this, "Undo", getIconDir() + "undo.svg", false);
+	connect(undo_b, SIGNAL(clicked()), this, SIGNAL(undo()));
+	QRibbonButton* redo_b = new QRibbonButton(this, "Redo", getIconDir() + "redo.svg", false);
+	connect(redo_b, SIGNAL(clicked()), this, SIGNAL(redo()));
+	group->addRibbonButton(undo_b);
+	group->addRibbonButton(redo_b);
 	ribbonWidget->addGroup(group);
 }
 
