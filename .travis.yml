@@ -18,6 +18,7 @@ addons:
     build_command_prepend: "cmake"
     build_command: "make"
     branch_pattern: coverity
+    notification_email: baghi.blbul@gmail.com
   apt:
     sources:
     - ubuntu-toolchain-r-test
