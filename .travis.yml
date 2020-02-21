@@ -1,7 +1,7 @@
 language: cpp
 os: linux
 compiler: gcc
-dist: trusty
+dist: Bionic
 sudo: required
 
 
