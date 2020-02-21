@@ -17,7 +17,7 @@ addons:
       name: mm-project/qt_painter
     build_command_prepend: "cmake"
     build_command: "make"
-    branch_pattern: coverity_scan
+    branch_pattern: coverity
   apt:
     sources:
     - ubuntu-toolchain-r-test
