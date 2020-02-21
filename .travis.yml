@@ -10,7 +10,6 @@ compiler: gcc
 dist: Bionic
 sudo: required
 
-
 addons:
   coverity_scan:
     project:
