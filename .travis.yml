@@ -25,7 +25,7 @@ compiler:
   - clang
 
 before_script:
-  - sudo apt-get upgrade && sudo apt-get update && sudo apt-get install -y git less wget cmake xvfb build-essential qt5-default python3 python3-pip curl; sudo pip3 install requests
+  - sudo apt-get upgrade && sudo apt-get update && sudo apt-get install -y --allow-unauthenticated git less wget cmake xvfb build-essential qt5-default python3 python3-pip curl; sudo pip3 install requests
   - cmake .
 
 script:
