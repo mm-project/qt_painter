@@ -4,20 +4,28 @@ compiler: gcc
 sudo: required
 dist: trusty
 
+
 addons:
-  apt:
-    packages:
-      - cmake
-      - g++-4.8
-        # OpenGL related
-      - libgl1-mesa-dev
-      - mesa-utils
-      - libgl1-mesa-glx 
   coverity_scan:
     project:
-      name: "mm-project/qt_painter"
-      description: "Coverity build submitted via Travis CI"
-    notification_email: baghi.blbul@gmail.com
-    build_command_prepend: "cov-configure --comptype gcc --compiler gcc-4.8 --template"
-    build_command:   "make -j2 VERBOSE=1"
+      name: mm-project/qt_painter
+    build_command_prepend: "cmake"
+    build_command: "make"
     branch_pattern: coverity_scan
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - gcc-4.8
+    - g++-4.8
+    - clang
+
+compiler:
+  - gcc
+  - clang
+
+before_script:
+  - cmake .
+
+script:
+  - make
