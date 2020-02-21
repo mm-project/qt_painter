@@ -26,7 +26,6 @@ addons:
 
 compiler:
   - gcc
-  - clang
 
 before_script:
   - sudo apt-get --allow-unauthenticated install -y git less wget cmake xvfb build-essential qt5-default python3 python3-pip curl
