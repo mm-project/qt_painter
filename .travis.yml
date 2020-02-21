@@ -15,7 +15,7 @@ addons:
   coverity_scan:
     project:
       name: mm-project/qt_painter
-    build_command_prepend: "cmake"
+    build_command_prepend: "cmake ."
     build_command: "make"
     branch_pattern: coverity
     notification_email: baghi.blbul@gmail.com
