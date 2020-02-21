@@ -2,7 +2,7 @@ env:
   global:
     # COVERITY_SCAN_TOKEN
     # ** specific to your project **
-    - secure: "4vnHXMv23bg4jJpal_IrYg"
+    - secure: "MW/13AiXToYMILrHlPkHPT00EJ9du0KSy/SUk19zxvPYdG8LCpwYOUHnaj/ALCM7WqsHMcm/8VQQUlz3xth+87PJ6sG/H9ErC+Ii+1oKQtJAPgJqO1hw+OlLwQUqgDYuyNO1unmUT5aZWc1Hi4xO7Vb6mymZLr0W07iBexBmDdR0RPXsxdWanCR7i9Vq14cIXFpz6kr0be4S9s1J/RTotdBskk4dEaJwBW8/Uok5ZdA008B0LHHnuwxQ4FaJSZeQJd+MoV1UOH+96y4QAyG4Dh+uYaVOeKQ4dmoU/yWeIYvSorH1PNvB7KO2LEEbb70Fxrk5tYPdPKgMzluuz9EqraxwjvW/HMOQiVduTJ3DdD4uges4Kd93Gj67rVN10K+ILMsK+Jp3EiJevHnIUBKdEPCgJyp9jK9BNmnmnWhHFlXSCyQ+tOqhF4ytV9Q8BDrCKtQATt/1eveV4j3p0nTkT2GTZr/+rYiW+ndRAJVbufzcs0clZQj2s4XTADLI0Of4oa6VKlhsgrmYsZm/dTs5ymDGB7uadjop29XnDLX8MTZ47QuTjwn22QMH1pe2fGjKgwx4gWV5Y1ljq0X2+wdnxWcnrG3elSdWSDXj3QG5CZ+2g2/66O1qradUGfTJJnBce4Bk4sIqfDjBOsWc2OrQOsVpPuOokkTMxbIrYOJcpmc="
     
 language: cpp
 os: linux
