@@ -104,7 +104,7 @@ class dicmdguiClickButton: public NonTransactionalDirectCommandBase
             add_option("-object",new StringCommandOptionValue(""));
         }
         
-        dicmdguiClickButton(const std::string& on): NonTransactionalDirectCommandBase("-object",new StringCommandOptionValue(on)) 
+        dicmdguiClickButton(const std::string& on):NonTransactionalDirectCommandBase("-object",new StringCommandOptionValue(on)) 
         { 
             //FIXME add_option()
             m_on = on; 
