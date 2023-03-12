@@ -35,7 +35,7 @@ public:
 	virtual IShapePtr addObject(IShapePtr) = 0;
 	virtual void removeObject(IShapePtr) noexcept = 0;
 	
-    virtual std::string getName() const noexcept {} 
+    virtual std::string getName() const noexcept { return {}; } 
     virtual void dumpToFile(const std::string&) const = 0;
 };
 

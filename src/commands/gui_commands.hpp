@@ -179,7 +179,7 @@ class dicmdCanvasMouseMove: public NonTransactionalDirectCommandBase
         virtual void execute() {
             m_p = GET_CMD_ARG(PointCommandOptionValue,"-point");
             //m_p = (dynamic_cast<PointCommandOptionValue*>(get_option_val("-point")))->get();
-            QMouseEvent event(QEvent::MouseMove, m_p, Qt::LeftButton, 0, 0);
+            QMouseEvent event(QEvent::MouseMove, m_p, Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
             QApplication::sendEvent(CM->findChild<QWidget*>("CANVAS"), &event);
         } 
 };

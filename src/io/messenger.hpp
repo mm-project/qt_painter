@@ -20,7 +20,11 @@ class MessengerCallbackData : public LeCallbackData
     LogMsgSeverity m_sev;
     
     public:
-        MessengerCallbackData(const LogMsgSeverity& s, const std::string& msg, const std::string& ecodemsg):m_sev(s),m_msg(msg),m_ecodemsg(ecodemsg) {}
+        MessengerCallbackData(const LogMsgSeverity& s, const std::string& msg, const std::string& ecodemsg)
+        :m_msg(msg)
+        ,m_ecodemsg(ecodemsg)
+        ,m_sev(s) {}
+        
         std::string get_message() { return m_msg; }
         std::string get_errorcode() { return m_ecodemsg; }
         

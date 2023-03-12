@@ -156,18 +156,20 @@ class dicmdQaToolExit: public NonTransactionalDirectCommandBase
 namespace {
     std::string qaCompType2string(qaCompType type) {
     	switch (type) {
-        case DESIGN:
-            return("Design");
-            break;
-        case SELECTION:
-			return("Selection");
-			break;
-		case CANVAS:
-			return("Canvas");
-			break;
-		case RUNTIME:
-			return("Runtime");
-			break;            
+            case DESIGN:
+                return("Design");
+                break;
+            case SELECTION:
+                return("Selection");
+                break;
+            case CANVAS:
+                return("Canvas");
+                break;
+            case RUNTIME:
+                return("Runtime");
+                break;            
+            default:
+                return "";
             }
 		return "";
     }
@@ -369,11 +371,13 @@ class dicmdQaCompare: public NonTransactionalDirectCommandBase
                 //std::cout << "r1egoooooldneeeen" << QString::fromLocal8Bit( qgetenv("ELEN_PAINTER_REGOLDEN").constData() ).toStdString() << std::endl;
     
                 if ( ! QString::fromLocal8Bit( qgetenv("ELEN_PAINTER_REGOLDEN").constData() ).isEmpty() )
+                {
                     //std::cout << "r?????" << std::endl;
                     if ( T == RUNTIME ) 
                         dicmdQaDump<SELECTIONCANVAS2>().set_arg("-filename","CanvasFor_"+get_index_str()+".golden.png")->execute();
                     else
-                        dicmdQaDump<SELECTIONCANVAS>().set_arg("-filename","CanvasFor_"+get_index_str()+".golden.png")->execute();                        
+                        dicmdQaDump<SELECTIONCANVAS>().set_arg("-filename","CanvasFor_"+get_index_str()+".golden.png")->execute();     
+                }                   
             }
             
             dicmdQaCompareInternal<T>()

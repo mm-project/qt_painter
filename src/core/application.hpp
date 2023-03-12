@@ -40,7 +40,7 @@ class Application: public Service<Application> //, public QApplication
                     qDebug()<< button->objectName();
             return QApplication::notify(receiver, event);
         }
-        /**/
+        */
         
         static bool is_replay_mode() { return ( Application::getInstance().get_mode() == APPREPLAY); }
         static bool is_testing_mode() { return (Application::getInstance().get_mode() == APPTESTING); }

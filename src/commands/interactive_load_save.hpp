@@ -57,7 +57,7 @@ class InteractiveDesAction: public InteractiveCommandBase
 		
 		
     private:
-        void on_commit(const EvType& ev) {
+        void on_commit(const EvType& ) {
             if ( T == LOAD  ) {
                 if ( is_agreed_with_user() )  {
                     m_fn = QFileDialog::getOpenFileName(0,"Load Design","","*.*",0,QFileDialog::DontUseNativeDialog).toStdString();

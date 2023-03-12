@@ -54,7 +54,7 @@ class InteractiveCommandBase : public CommandBase
                 std::cout << "------------------------------------------------------------CLICKED2\n";
                 return;
             }
-            /**/
+            */
             if ( m_is_released ) {
                 m_is_released = false;
                 m_current_event_handler(MC);

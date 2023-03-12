@@ -27,7 +27,7 @@
 class Line : public IShape
 {
 public:
-	inline Line(QLine = QLine(), ShapeProperties = ShapeProperties());
+	Line(QLine = QLine(), ShapeProperties = ShapeProperties());
 	virtual ~Line() = default;
 
 public:
@@ -51,7 +51,7 @@ public:
 		return LINE; 
 	}
 	
-	virtual void moveCenterToPoint(QPoint& p ) {
+	virtual void moveCenterToPoint(QPoint&) {
 			//m_object.moveTo(p);
 	}
 
@@ -77,7 +77,7 @@ private:
 class Rectangle : public IShape
 {
 public:
-	inline Rectangle(QRect = QRect(), ShapeProperties = ShapeProperties());
+	Rectangle(QRect = QRect(), ShapeProperties = ShapeProperties());
 	virtual ~Rectangle() = default;
 
 public:
@@ -125,7 +125,7 @@ private:
 class Ellipse : public IShape
 {
 public:
-	inline Ellipse(QRect = QRect(), ShapeProperties = ShapeProperties());
+	Ellipse(QRect = QRect(), ShapeProperties = ShapeProperties());
 	virtual ~Ellipse() = default;
   
 public:
@@ -168,8 +168,7 @@ private:
 class Polygon : public IShape 
 {
 public:
-
-	inline Polygon(QPolygon = QPolygon(), ShapeProperties = ShapeProperties());
+	Polygon(QPolygon = QPolygon(), ShapeProperties = ShapeProperties());
 	virtual ~Polygon() = default;
 
 public:
@@ -199,14 +198,14 @@ public:
 		return m_object.boundingRect().intersects(oRect); 
 	}
 
-	virtual void moveCenterToPoint(QPoint& p ) {
+	virtual void moveCenterToPoint(QPoint& ) {
 		   // m_object.moveTo(p);
 	}
 
     //FIXME need proper fix and member handling
 	std::vector<QPoint> getPoints() override 
 	{ 
-		return m_object.toStdVector(); 
+		return std::vector<QPoint>(m_object.begin(), m_object.end()); 
 	}
 	
 private:

@@ -80,7 +80,7 @@ public:
 		InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(InteractiveDeleteAction, idle));
 	}
 
-	void idle(const EvType& ev)
+	void idle(const EvType&)
 	{
 		//if (ev != MC)
 		//	return;

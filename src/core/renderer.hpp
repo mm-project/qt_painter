@@ -48,7 +48,11 @@ namespace
 class canvasTransformClbkDt: public LeCallbackData
 {
     public:
-        canvasTransformClbkDt(float kx, int dx, float ky,int dy):m_kx(kx),m_dx(dx),m_ky(ky),m_dy(dy) {}
+        canvasTransformClbkDt(float kx, int dx, float ky,int dy)
+            :m_kx(kx)
+            ,m_ky(ky)
+            ,m_dx(dx)
+            ,m_dy(dy) {}
         
         float m_kx = 1;
         float m_ky = 1;
