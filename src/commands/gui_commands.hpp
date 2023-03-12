@@ -206,7 +206,7 @@ class dicmdCanvasMouseClick: public NonTransactionalDirectCommandBase
             //m_p = (dynamic_cast<PointCommandOptionValue*>(get_option_val("-point")))->get();
             m_p = GET_CMD_ARG(PointCommandOptionValue,"-point");
             dicmdCanvasMouseMove(m_p).execute();
-            QMouseEvent event(QEvent::MouseButtonPress, m_p, Qt::LeftButton, 0, 0);
+            QMouseEvent event(QEvent::MouseButtonPress, m_p, Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
             QApplication::sendEvent(CM->findChild<QWidget*>("CANVAS"), &event);
         } 
 };
@@ -233,7 +233,7 @@ class dicmdCanvasMousePress: public NonTransactionalDirectCommandBase
             //m_p = (dynamic_cast<PointCommandOptionValue*>(get_option_val("-point")))->get();
             m_p = GET_CMD_ARG(PointCommandOptionValue,"-point");
             dicmdCanvasMouseMove(m_p).execute();
-            QMouseEvent event(QEvent::User, m_p, Qt::LeftButton, 0, 0);
+            QMouseEvent event(QEvent::User, m_p, Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
             QApplication::sendEvent(CM->findChild<QWidget*>("CANVAS"), &event);
         } 
 };
@@ -260,7 +260,7 @@ class dicmdCanvasMouseRelease: public NonTransactionalDirectCommandBase
             //m_p = (dynamic_cast<PointCommandOptionValue*>(get_option_val("-point")))->get();
             m_p = GET_CMD_ARG(PointCommandOptionValue,"-point");
             dicmdCanvasMouseMove(m_p).execute();
-            QMouseEvent event(QEvent::MouseButtonRelease, m_p, Qt::LeftButton, 0, 0);
+            QMouseEvent event(QEvent::MouseButtonRelease, m_p, Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
             QApplication::sendEvent(CM->findChild<QWidget*>("CANVAS"), &event);
         } 
 };
@@ -289,7 +289,7 @@ class dicmdCanvasMouseDblClick: public NonTransactionalDirectCommandBase
             //m_p = (dynamic_cast<PointCommandOptionValue*>(get_option_val("-point")))->get();
             m_p = GET_CMD_ARG(PointCommandOptionValue,"-point");
             dicmdCanvasMouseMove(m_p).execute();
-            QMouseEvent event(QEvent::MouseButtonDblClick, m_p, Qt::LeftButton, 0, 0);
+            QMouseEvent event(QEvent::MouseButtonDblClick, m_p, Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
             QApplication::sendEvent(CM->findChild<QWidget*>("CANVAS"), &event);
         } 
 };
