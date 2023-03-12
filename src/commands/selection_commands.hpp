@@ -29,7 +29,7 @@ class incmdSelectUnderCursoer: public InteractiveCommandBase
 
 public:
 	
-        incmdSelectUnderCursoer(RuntimePoolManagerPtr r, ObjectPoolPtr s ):m_ws(s),m_re(r) {
+        incmdSelectUnderCursoer(RuntimePoolManagerPtr r, ObjectPoolPtr s ):m_re(r), m_ws(s) {
             //m_sb = std::shared_ptr<RuntimePool>(new RuntimePool);
             //m_re->addChild(m_sb,"aaa");
 			m_sb = r->getChild("Generic-InteractiveCommand");
@@ -130,7 +130,7 @@ public:
         }
         
         
-        void on_press(const EvType& ev) {
+        void on_press(const EvType& ) {
             //assert(0);    
             //if (m_move_mode)
                 //    return;
@@ -240,7 +240,7 @@ public:
                 sp.pen_color = Qt::gray;
                 sp.pen_style = Qt::DotLine;
                 set_properties(sp);
-                /**/
+                */
 
         }
        

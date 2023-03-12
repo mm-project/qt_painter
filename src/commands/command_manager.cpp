@@ -92,7 +92,7 @@ void command_manager::activate_command(CommandBase* cmd, bool needlog) {
     //delete m_current_command;
 	std::cout << "activating1: " <<  m_current_command->is_completed() << std::endl;
 
-	if ( cmd==nullptr || cmd!=nullptr && cmd !=find_command("dicmdAbortActiveCommand") && !m_current_command->is_completed() ) {
+	if ( cmd==nullptr || ( cmd!=nullptr && cmd !=find_command("dicmdAbortActiveCommand") && !m_current_command->is_completed() ) ) {
 		Messenger::expose_msg(warn,"please complete/abort current command before activating "+cmd->get_name());
 		return;
 	}
@@ -184,7 +184,7 @@ void command_manager::on_viewport_changed(LeCallbackData& d)
     std::cout << m_kx << " " << m_ky << std::endl;
     std::cout << m_dx << " " << m_dy << std::endl;
     std::cout << "***\n";
-    /**/
+    */
 }
 
 void command_manager::mouse_dbl_clicked(int x, int y) {

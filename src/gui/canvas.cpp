@@ -186,7 +186,9 @@ void canvas::mouseMoveEvent(QMouseEvent* e)
 {
     m_last_cursor = e->pos();
     if( cm.is_idle() ) 
+    {
         return;
+    }
 
 	int _x = e->pos().x();
 	int _y = e->pos().y();

@@ -160,7 +160,7 @@ void main_window::make_connections()
 }
 
 
-void main_window::closeEvent(QCloseEvent *event) {
+void main_window::closeEvent(QCloseEvent *) {
         dicmdQaToolExit().log();
 }
 

@@ -98,7 +98,7 @@ class incmdObjRelocateBy : public InteractiveCommandBase
         bool m_move_move = false;
 public:
 	
-        incmdObjRelocateBy(RuntimePoolManagerPtr r, ObjectPoolPtr s ):m_ws(s),m_re(r)
+        incmdObjRelocateBy(RuntimePoolManagerPtr r, ObjectPoolPtr s ):m_re(r), m_ws(s)
         {
                 //m_sb = std::shared_ptr<ObjectSandbox>(new ObjectSandbox);
                 //m_re->addChildren(m_sb);
@@ -189,7 +189,7 @@ private:
         }
         
         //waiting for selection
-        void idle(const EvType& ev) {
+        void idle(const EvType&) {
                 //std::cout << "COPYMOVE IDLE" <<  m_se.getObjects().size() << std::endl;
                 // no selection, invoke selectbyregion to select object firsts and return
                 if ( m_se.getObjects().empty() ) {
