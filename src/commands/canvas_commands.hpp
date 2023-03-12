@@ -40,11 +40,11 @@ class dicmdCanvasViewport: public NonTransactionalDirectCommandBase
     QPoint m_p;
     public:
 
-		dicmdCanvasViewport<T>() {
+		dicmdCanvasViewport() {
             add_option("-point",new PointCommandOptionValue(QPoint(0,0)));
         }
         
-        dicmdCanvasViewport<T>(const QPoint& p):NonTransactionalDirectCommandBase("-point",new PointCommandOptionValue(p)) 
+        dicmdCanvasViewport(const QPoint& p):NonTransactionalDirectCommandBase("-point",new PointCommandOptionValue(p)) 
         { m_p = p; }
         
 
