@@ -179,7 +179,7 @@ class dicmdQaDump: public NonTransactionalDirectCommandBase
     std::string m_fname;
     public:        
         
-        dicmdQaDump<T>() {
+        dicmdQaDump() {
             add_option("-filename",new StringCommandOptionValue("hopar.png"));
         }
         
@@ -263,7 +263,7 @@ template <qaCompType T>
 class dicmdQaCompareInternal: public NonTransactionalDirectCommandBase
 {
     public:        
-        dicmdQaCompareInternal<T>() {
+        dicmdQaCompareInternal() {
             add_option("-dumpfile",new StringCommandOptionValue("hopar.png"));
             add_option("-goldenfile",new StringCommandOptionValue("hopar.png.golden"));
         }

@@ -98,8 +98,8 @@ template <typename T>
 class ListCommandOptionValue : public ICommandOptionValue 
 {
     public:
-        ListCommandOptionValue<T>() {}
-        ListCommandOptionValue<T>(const std::vector<T>& v):m_data(v){}
+        ListCommandOptionValue() {}
+        ListCommandOptionValue(const std::vector<T>& v):m_data(v){}
         
         std::vector<T> get() { return m_data; }
 

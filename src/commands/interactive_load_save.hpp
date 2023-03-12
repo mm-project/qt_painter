@@ -38,7 +38,7 @@ class InteractiveDesAction: public InteractiveCommandBase
       
     public:
 	
-        InteractiveDesAction<T>(ObjectPoolPtr s ):m_ws(s) { 
+        InteractiveDesAction(ObjectPoolPtr s ):m_ws(s) { 
                 m_helpstr = sl_action2string(T);
         }
 

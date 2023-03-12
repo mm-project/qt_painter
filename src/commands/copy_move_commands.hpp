@@ -98,7 +98,7 @@ class incmdObjRelocateBy : public InteractiveCommandBase
         bool m_move_move = false;
 public:
 	
-        incmdObjRelocateBy<T>(RuntimePoolManagerPtr r, ObjectPoolPtr s ):m_ws(s),m_re(r)
+        incmdObjRelocateBy(RuntimePoolManagerPtr r, ObjectPoolPtr s ):m_ws(s),m_re(r)
         {
                 //m_sb = std::shared_ptr<ObjectSandbox>(new ObjectSandbox);
                 //m_re->addChildren(m_sb);

@@ -19,7 +19,7 @@ class ObjCreatorCommandBase : public InteractiveCommandBase
 	LePostman& m_postman = LePostman::getInstance();
 	
 public:
-	ObjCreatorCommandBase<T>(RuntimePoolManagerPtr r, ObjectPoolPtr s): ws(s) 
+	ObjCreatorCommandBase(RuntimePoolManagerPtr r, ObjectPoolPtr s): ws(s) 
 	{
 		//re = std::shared_ptr<RuntimePool>(new RuntimePool);
 		//r->addChildren(re);
