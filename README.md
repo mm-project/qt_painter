@@ -18,3 +18,4 @@ Highlevel items backlog remained for rel 1.0.0 ( Tegel )
 * GUI/QA harness commands
 * Building docker image 
 * Automation on quality tools ( valgrind, clang-tidy, lcov... )
+
