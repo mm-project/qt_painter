@@ -74,7 +74,7 @@ class incmdSelectUnderCursoer : public ObjCreatorCommandBase<RECTANGLE>
   public:
     incmdSelectUnderCursoer(RuntimePoolManagerPtr r, ObjectPoolPtr s) : ObjCreatorCommandBase<RECTANGLE>(r, s)
     {
-        // m_re = re;
+        m_re = r;
         m_ws = s;
         // m_sb = std::shared_ptr<RuntimePool>(new RuntimePool);
         // m_re->addChild(m_sb,"aaa");
