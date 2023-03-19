@@ -3,78 +3,86 @@
 
 #include "messenger.hpp"
 
-#include "../core/service.hpp"
 #include "../commands/command_manager.hpp"
-#include "../commands/icommand_base.hpp"
 #include "../commands/direct_command_base.hpp"
+#include "../commands/icommand_base.hpp"
+#include "../core/service.hpp"
 
-
-
-#include <QStringList>
 #include <QString>
+#include <QStringList>
 
-#include <string>
 #include <iostream>
+#include <string>
 
 class CommandInterp : public Service<CommandInterp>
 {
-	command_manager& m_cm = command_manager::getInstance();
-        
-public:
-	bool interpret_from_string(const std::string& n) {
-		execute_cmd(get_cmd_obj(n));
-		return true;
-	}
-	
-	
-	CommandBase* get_cmd_obj(const std::string& n) {
-		if (n.empty())
-			return nullptr;
-		QStringList tokens = QString(n.c_str()).split(" ");  
-		std::string cmd_name = tokens[0].toStdString();
-		//std::cout << "<"<<n<<">" << tokens[0].toStdString() << std::endl;
-		if ( cmd_name.front() == '#' )
-			return 0;
-		
-		CommandBase* cmd = command_manager::getInstance().find_command(cmd_name);
-		if ( !cmd ) {
-			Messenger::expose_msg(usr,cmd_name);
-			Messenger::expose_msg(err,cmd_name+" command not found"); //FIXME enhance with message.err file
-			return 0;
-		}
-			
-		//std::cout << cmd << std::endl;
-		//std::cout << cmd->get_name() << std::endl;
-		//std::cout << cmd->get_type() << std::endl;
-		
-		//fixme parsing
-		for (int i=1; i<tokens.size()-1; i=i+2 ) {
-			//std::cout << "  ---<" << tokens[i].toStdString() << "> <=> <"<< tokens[i+1].toStdString() << ">" << std::endl;
-			if ( ! cmd->set_arg(tokens[i].toStdString(),tokens[i+1].toStdString()) ) {
-				Messenger::expose_msg(usr,cmd_name+" "+tokens[i].toStdString()+" "+tokens[i+1].toStdString());
-				Messenger::expose_msg(err,tokens[i].toStdString()+" argument is in invalid ");
-				return 0;
-			}
-		}
-		
-		return cmd;
-				
-	}
-	
-	void execute_cmd(CommandBase* cmd) {
-		if(!cmd)
-			return;
-		//std::cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!<"<<n.toStdString()<<">" << tokens[0].toStdString() << std::endl;
-		
-		if ( cmd->get_type() == Interactive )  {
-			//std::cout  << "?????????" << cmd->get_name() << std::endl;
-            m_cm.activate_command(dynamic_cast<CommandBase*>(cmd));
+    command_manager &m_cm = command_manager::getInstance();
+
+  public:
+    bool interpret_from_string(const std::string &n)
+    {
+        execute_cmd(get_cmd_obj(n));
+        return true;
+    }
+
+    CommandBase *get_cmd_obj(const std::string &n)
+    {
+        if (n.empty())
+            return nullptr;
+        QStringList tokens = QString(n.c_str()).split(" ");
+        std::string cmd_name = tokens[0].toStdString();
+        // std::cout << "<"<<n<<">" << tokens[0].toStdString() << std::endl;
+        if (cmd_name.front() == '#')
+            return 0;
+
+        CommandBase *cmd = command_manager::getInstance().find_command(cmd_name);
+        if (!cmd)
+        {
+            Messenger::expose_msg(usr, cmd_name);
+            Messenger::expose_msg(err, cmd_name + " command not found"); // FIXME enhance with message.err file
+            return 0;
         }
-		else {
-			cmd->execute_and_log();
-			//std::cout  << "!!!!!!!!!!!!" << dynamic_cast<DirectCommandBase*>(cmd)->get_cmdname_and_stringified_opts() << std::endl;
-        }	
-	}
+
+        // std::cout << cmd << std::endl;
+        // std::cout << cmd->get_name() << std::endl;
+        // std::cout << cmd->get_type() << std::endl;
+
+        // fixme parsing
+        for (int i = 1; i < tokens.size() - 1; i = i + 2)
+        {
+            // std::cout << "  ---<" << tokens[i].toStdString() << "> <=> <"<< tokens[i+1].toStdString() << ">" <<
+            // std::endl;
+            if (!cmd->set_arg(tokens[i].toStdString(), tokens[i + 1].toStdString()))
+            {
+                Messenger::expose_msg(usr,
+                                      cmd_name + " " + tokens[i].toStdString() + " " + tokens[i + 1].toStdString());
+                Messenger::expose_msg(err, tokens[i].toStdString() + " argument is in invalid ");
+                return 0;
+            }
+        }
+
+        return cmd;
+    }
+
+    void execute_cmd(CommandBase *cmd)
+    {
+        if (!cmd)
+            return;
+        // std::cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!<"<<n.toStdString()<<">" << tokens[0].toStdString() <<
+        // std::endl;
+
+        if (cmd->get_type() == Interactive)
+        {
+            // std::cout  << "?????????" << cmd->get_name() << std::endl;
+            m_cm.activate_command(dynamic_cast<CommandBase *>(cmd));
+        }
+        else
+        {
+            cmd->execute_and_log();
+            // std::cout  << "!!!!!!!!!!!!" << dynamic_cast<DirectCommandBase*>(cmd)->get_cmdname_and_stringified_opts()
+            // << std::endl;
+        }
+    }
 };
 
 #endif

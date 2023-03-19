@@ -5,9 +5,9 @@
 
 #include <memory>
 
-#include <QStatusBar>
-#include <QMovie>
 #include <QLabel>
+#include <QMovie>
+#include <QStatusBar>
 
 //
 //	class StatusBarManager : Singletone
@@ -15,29 +15,29 @@
 //
 class StatusBarManager : public Service<StatusBarManager>
 {
-public:
-	//
-	//	Methods
-	//
-	//	Initialize with StatusBar
-	void setStatusBar(QStatusBar*);
-	//	Clear the content, call from closing application
-	void shutDown() override;
+  public:
+    //
+    //	Methods
+    //
+    //	Initialize with StatusBar
+    void setStatusBar(QStatusBar *);
+    //	Clear the content, call from closing application
+    void shutDown() override;
 
-	void clear();
+    void clear();
 
-	void updateStatusBar(const QString&, bool error, bool processing);
+    void updateStatusBar(const QString &, bool error, bool processing);
 
-	StatusBarManager();
-	virtual ~StatusBarManager();
+    StatusBarManager();
+    virtual ~StatusBarManager();
 
-private:
-	//
-	//	Contents
-	//
-	QStatusBar*									m_pStatusBar = nullptr;
-	QMovie*										m_pGif = nullptr;
-	QLabel*										m_pStatusBarLabel = nullptr;
-	QLabel*										m_pGifLabel = nullptr;
+  private:
+    //
+    //	Contents
+    //
+    QStatusBar *m_pStatusBar = nullptr;
+    QMovie *m_pGif = nullptr;
+    QLabel *m_pStatusBarLabel = nullptr;
+    QLabel *m_pGifLabel = nullptr;
 };
 #endif

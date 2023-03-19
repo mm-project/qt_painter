@@ -1,6 +1,6 @@
 #include "RQtree.hpp"
 #include "../ishape.hpp"
 
-rq::RQtree<IShape*> tree;
+rq::RQtree<IShape *> tree;
 
-//mi ban chanem :P
+// mi ban chanem :P

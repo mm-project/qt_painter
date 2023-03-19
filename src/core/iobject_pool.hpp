@@ -3,15 +3,15 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//	Inludes	
+//	Inludes
 //
 #include "ishape.hpp"
 
 //
-//Stl
+// Stl
 //
-#include <vector>
 #include <memory>
+#include <vector>
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -19,24 +19,27 @@
 //
 class IObjectPool
 {
-public:
-	//
-	//	Interface
-	//
-	//	Desturctor
-	virtual ~IObjectPool() = default;
+  public:
+    //
+    //	Interface
+    //
+    //	Desturctor
+    virtual ~IObjectPool() = default;
 
-public:
-	//	Clear the content
-	virtual void clear() noexcept = 0;
+  public:
+    //	Clear the content
+    virtual void clear() noexcept = 0;
 
-	//	Content modiifiers
-	virtual std::vector<IShapePtr> getObjects() const noexcept = 0;
-	virtual IShapePtr addObject(IShapePtr) = 0;
-	virtual void removeObject(IShapePtr) noexcept = 0;
-	
-    virtual std::string getName() const noexcept { return {}; } 
-    virtual void dumpToFile(const std::string&) const = 0;
+    //	Content modiifiers
+    virtual std::vector<IShapePtr> getObjects() const noexcept = 0;
+    virtual IShapePtr addObject(IShapePtr) = 0;
+    virtual void removeObject(IShapePtr) noexcept = 0;
+
+    virtual std::string getName() const noexcept
+    {
+        return {};
+    }
+    virtual void dumpToFile(const std::string &) const = 0;
 };
 
 using ObjectPoolPtr = std::shared_ptr<IObjectPool>;
@@ -44,26 +47,26 @@ using ObjectPoolPtr = std::shared_ptr<IObjectPool>;
 //	default implementation
 class ObjectPoolBase : public IObjectPool
 {
-public:
-	//
-	//	Interface
-	//
-	//	Desturctor
-	virtual ~ObjectPoolBase() = default;
+  public:
+    //
+    //	Interface
+    //
+    //	Desturctor
+    virtual ~ObjectPoolBase() = default;
 
-public:
-	//	Clear the content
-	void clear() noexcept override;
+  public:
+    //	Clear the content
+    void clear() noexcept override;
 
-	//	Content modiifiers
-	std::vector<IShapePtr> getObjects() const noexcept override;
-	IShapePtr addObject(IShapePtr) override;
-	void removeObject(IShapePtr) noexcept override;
-	
-    void dumpToFile(const std::string&) const override;
+    //	Content modiifiers
+    std::vector<IShapePtr> getObjects() const noexcept override;
+    IShapePtr addObject(IShapePtr) override;
+    void removeObject(IShapePtr) noexcept override;
 
-protected:
-	std::vector<IShapePtr> m_shapes;
+    void dumpToFile(const std::string &) const override;
+
+  protected:
+    std::vector<IShapePtr> m_shapes;
 };
 
 #endif

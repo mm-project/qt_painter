@@ -1,8 +1,8 @@
 #ifndef Q_RIBBON_WIDGET_H
 #define Q_RIBBON_WIDGET_H
 
-#include <QWidget>
 #include <QVector>
+#include <QWidget>
 
 class QRibbonGroup;
 class QHBoxLayout;
@@ -11,34 +11,33 @@ class QHBoxLayout;
 //	represents the widget in the one tab
 class QRibbonWidget : public QWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 
-public:
-	//	Constructor
-	explicit QRibbonWidget(QWidget* = 0);
+  public:
+    //	Constructor
+    explicit QRibbonWidget(QWidget * = 0);
 
-	//	Destructor
-	virtual ~QRibbonWidget();
+    //	Destructor
+    virtual ~QRibbonWidget();
 
-public:
+  public:
+    //	@brief Adds group
+    void addGroup(QRibbonGroup *);
 
-	//	@brief Adds group
-	void addGroup(QRibbonGroup*);
+    // @brief Returns group count
+    int count() const;
 
-	// @brief Returns group count
-	int count() const;
+    // @brief Removes group with given index
+    void removeGroup(int);
 
-	// @brief Removes group with given index
-	void removeGroup(int);
+    // @brief Inserts group with the given index
+    void insertGroup(int, QRibbonGroup *);
 
-	// @brief Inserts group with the given index
-	void insertGroup(int, QRibbonGroup*);
+    void addStretch(int);
 
-	void addStretch(int);
-
-private:
-	QVector<QRibbonGroup*> m_groups;
-	QHBoxLayout* m_groupLayout;
+  private:
+    QVector<QRibbonGroup *> m_groups;
+    QHBoxLayout *m_groupLayout;
 };
 
 #endif
