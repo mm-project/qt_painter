@@ -3,13 +3,14 @@
 
 #include <string>
 
-class mmModalDialog 
+class mmModalDialog
 {
-    
-    public:
-        static bool ask_yn_question(const std::string& tl, const std::string& bd);
-        static bool critical(const std::string& tl, const std::string& bd);
-    private:
+
+  public:
+    static bool ask_yn_question(const std::string &tl, const std::string &bd);
+    static bool critical(const std::string &tl, const std::string &bd);
+
+  private:
 };
 
 #endif
