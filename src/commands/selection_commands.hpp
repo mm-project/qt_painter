@@ -176,11 +176,8 @@ class incmdSelectUnderCursoer : public ObjCreatorCommandBase<RECTANGLE>
     void movement_commit()
     {
         // set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer,on_idle));
-        std::cout << "11111111111111111111111111111111111" << std::endl;
         if (m_original_shape == nullptr || m_se.getObjects().empty())
             return;
-
-        std::cout << "22222222222222222222222222222222222" << std::endl;
 
         // if (! m_se.getObjects().empty() )
         // m_ws->removeObject(dynamic_cast<WorkingSet*>((m_ws).get())->get_clonee(m_se.getObjects()[0]));
@@ -190,17 +187,13 @@ class incmdSelectUnderCursoer : public ObjCreatorCommandBase<RECTANGLE>
 
         // rq.removeObject(m_original_shape);
         int count = rq.getSize();
-        std::cout << "33333333333333333333333333333333333333" << std::endl;
         m_ws->removeObject(m_original_shape);
-        std::cout << "444444444444444444444444444444444444444" << std::endl;
 
         // temporary
         rq.clear();
-        std::cout << "5555555555555555555555555555" << std::endl;
         for (auto it : m_ws->getObjects())
             rq.insertObject(it);
 
-        std::cout << "66666666666666666666666666" << std::endl;
         IShapePtr commited_obj = nullptr;
         for (auto it : m_sb->getObjects())
         {
@@ -208,7 +201,6 @@ class incmdSelectUnderCursoer : public ObjCreatorCommandBase<RECTANGLE>
             rq.insertObject(commited_obj);
         }
 
-        std::cout << "7777777777777777777777777777777" << std::endl;
         m_original_shape = nullptr;
         m_se.clear();
         m_se.addObjectFixme(commited_obj);
