@@ -7,57 +7,62 @@
 
 #include <iostream>
 
-LogReader::LogReader() {
-    m_timer = new QTimer;
-    REGISTER_CALLBACK(STOP_REPLY,&LogReader::reply_stop)
-    REGISTER_CALLBACK(RESUME_REPLY,&LogReader::reply_resume)
-    REGISTER_CALLBACK(STEP_REPLY,&LogReader::step_reply)
-}
-
-LogReader::~LogReader() {
-    //std::cout << "germania text << std::endl;
-}
-
-void LogReader::step_reply(LeCallbackData&) 
+LogReader::LogReader()
 {
-    //Application::getInstance().set_replay_mode(true);
-    execute_next_command();
-    //Application::getInstance().set_replay_mode(false);    
+    m_timer = new QTimer;
+    REGISTER_CALLBACK(STOP_REPLY, &LogReader::reply_stop)
+    REGISTER_CALLBACK(RESUME_REPLY, &LogReader::reply_resume)
+    REGISTER_CALLBACK(STEP_REPLY, &LogReader::step_reply)
 }
 
-void LogReader::reply_resume(LeCallbackData&) 
+LogReader::~LogReader()
+{
+    // std::cout << "germania text << std::endl;
+}
+
+void LogReader::step_reply(LeCallbackData &)
+{
+    // Application::getInstance().set_replay_mode(true);
+    execute_next_command();
+    // Application::getInstance().set_replay_mode(false);
+}
+
+void LogReader::reply_resume(LeCallbackData &)
 {
     std::cout << "recv" << std::endl;
     m_paused = false;
     connect(m_timer, SIGNAL(timeout()), this, SLOT(execute_next_command()));
     Application::getInstance().set_replay_mode(true);
-    m_timer->start(1);    
+    m_timer->start(1);
 }
 
-void LogReader::reply_stop(LeCallbackData&) 
+void LogReader::reply_stop(LeCallbackData &)
 {
-    m_paused = true;   
+    m_paused = true;
     disconnect(m_timer, 0, 0, 0);
     Application::getInstance().set_replay_mode(false);
-    Messenger::expose_msg(info,"Replying Stopped for debug. Press \"W\" to continue to run till next breakpoint, or \"S\" to execute next command.");
+    Messenger::expose_msg(info, "Replying Stopped for debug. Press \"W\" to continue to run till next breakpoint, or "
+                                "\"S\" to execute next command.");
 }
 
-bool LogReader::is_paused() 
+bool LogReader::is_paused()
 {
-    return m_paused;   
+    return m_paused;
 }
 
-QStringList LogReader::read_file(const std::string& fname) {
+QStringList LogReader::read_file(const std::string &fname)
+{
     QStringList stringList;
 
     QFile file(fname.c_str());
-    if(!file.exists() || !file.open(QIODevice::ReadOnly)) {
-        //fixme call mmModalDialog , that will also put error message to console and log
+    if (!file.exists() || !file.open(QIODevice::ReadOnly))
+    {
+        // fixme call mmModalDialog , that will also put error message to console and log
         Application::getInstance().set_replay_mode(false);
-        //mmModalDialog::critical("Log replay error", "Can't open file "+fname+" to replay");
+        // mmModalDialog::critical("Log replay error", "Can't open file "+fname+" to replay");
         return stringList;
     }
-    
+
     QTextStream textStream(&file);
     while (true)
     {
@@ -67,83 +72,87 @@ QStringList LogReader::read_file(const std::string& fname) {
         else
             stringList.append(line);
     }
-    
+
     file.close();
     return stringList;
 }
 
-bool LogReader::replay_logfile(const std::string& fname) {
-    //connect(m_timer, SIGNAL(timeout()), this, SLOT(execute_next_command()));
+bool LogReader::replay_logfile(const std::string &fname)
+{
+    // connect(m_timer, SIGNAL(timeout()), this, SLOT(execute_next_command()));
     QStringList lines = read_file(fname);
-    
-	if ( !QString::fromLocal8Bit(qgetenv("ELEN_PAINTER_STARTDBG").constData()).isEmpty() )
-		m_command_queue.push("dicmdQaReplyingBreak");
-	
-    if ( lines.size() == 0 )
+
+    if (!QString::fromLocal8Bit(qgetenv("ELEN_PAINTER_STARTDBG").constData()).isEmpty())
+        m_command_queue.push("dicmdQaReplyingBreak");
+
+    if (lines.size() == 0)
         return false;
 
-    //std::cout << "noway" << std::endl;
-    for (  auto line : lines  ) {
-        //m_interp->interpret_from_string(line.toStdString());
+    // std::cout << "noway" << std::endl;
+    for (auto line : lines)
+    {
+        // m_interp->interpret_from_string(line.toStdString());
         m_command_queue.push(line);
-        //execute_next_command();
+        // execute_next_command();
     }
- 
+
     reply_resume(fixme);
-    //m_timer->start(1);
+    // m_timer->start(1);
     return true;
 }
 
-bool LogReader::replay_logfile_imi(const std::string& fname) {
+bool LogReader::replay_logfile_imi(const std::string &fname)
+{
     QStringList lines = read_file(fname);
-    
-    if ( lines.size() == 0 )
+
+    if (lines.size() == 0)
         return false;
 
-    //std::cout << "noway" << std::endl;
+    // std::cout << "noway" << std::endl;
     Application::getInstance().set_mode(APPLOAD);
-    
-    for (  auto line : lines  ) {
+
+    for (auto line : lines)
+    {
         replay_cmd(line.toStdString());
     }
 
     Application::getInstance().set_replay_mode(false);
 
-    return true;    
+    return true;
 }
 
-void LogReader::replay_cmd(const std::string& cmd_str ) {
-    //Application::getInstance().set_replay_mode(true);
+void LogReader::replay_cmd(const std::string &cmd_str)
+{
+    // Application::getInstance().set_replay_mode(true);
     m_command_queue.push(QString::fromStdString(cmd_str));
     execute_next_command();
-    //Application::getInstance().set_replay_mode(false);
-
+    // Application::getInstance().set_replay_mode(false);
 }
 
-void LogReader::execute_next_command() {
-    //return;
-    if (m_command_queue.empty()) {
+void LogReader::execute_next_command()
+{
+    // return;
+    if (m_command_queue.empty())
+    {
         Application::getInstance().set_replay_mode(false);
         disconnect(m_timer, 0, 0, 0);
-        //reply_stop(fixme);
+        // reply_stop(fixme);
         return;
     }
-    
-    //std::cout << "dolya varavsyaka" << std::endl;
-    CommandBase* cmd = m_interp.get_cmd_obj(m_command_queue.front().toStdString());
+
+    // std::cout << "dolya varavsyaka" << std::endl;
+    CommandBase *cmd = m_interp.get_cmd_obj(m_command_queue.front().toStdString());
     m_command_queue.pop();
-    
-    //if (m_command_queue.empty()) {
-    //    reply_stop(fixme);
-    //    return;
-    //}
-        //disconnect(m_timer, 0, 0, 0);
+
+    // if (m_command_queue.empty()) {
+    //     reply_stop(fixme);
+    //     return;
+    // }
+    // disconnect(m_timer, 0, 0, 0);
     QApplication::processEvents();
     m_interp.execute_cmd(cmd);
     QApplication::processEvents();
-    
-    //t->deleteLater();
-    //QApplication::processEvents();
-}
-    
 
+    // t->deleteLater();
+    // QApplication::processEvents();
+}

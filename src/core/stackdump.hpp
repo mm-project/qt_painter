@@ -25,26 +25,27 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "../io/messenger.hpp"
 #include "../core/application.hpp"
 #include "../gui/modal_dialog.hpp"
+#include "../io/messenger.hpp"
 
-#ifdef  OS_LINUX
-	#include <execinfo.h> // for backtrace
-	#include <dlfcn.h>    // for dladdr
-	#include <cxxabi.h>   // for __cxa_demangle
-	#include <execinfo.h>
-	#include <stdlib.h>
-	#include <unistd.h>
+#ifdef OS_LINUX
+#include <execinfo.h> // for backtrace
+#include <dlfcn.h>    // for dladdr
+#include <cxxabi.h>   // for __cxa_demangle
+#include <execinfo.h>
+#include <stdlib.h>
+#include <unistd.h>
 #endif //  OS_LINUX
 
 #include <cstdio>
 #include <cstdlib>
-#include <string>
 #include <sstream>
+#include <string>
 
-namespace {
-    
+namespace
+{
+
 // This function produces a stack backtrace with demangled function & method names.
 std::string Backtrace(int skip = 1)
 {
@@ -56,24 +57,28 @@ std::string Backtrace(int skip = 1)
     char **symbols = backtrace_symbols(callstack, nFrames);
 
     std::ostringstream trace_buf;
-    for (int i = skip; i < nFrames; i++) {
+    for (int i = skip; i < nFrames; i++)
+    {
         printf("%s\n", symbols[i]);
 
         Dl_info info;
-        if (dladdr(callstack[i], &info) && info.dli_sname) {
+        if (dladdr(callstack[i], &info) && info.dli_sname)
+        {
             char *demangled = NULL;
             int status = -1;
             if (info.dli_sname[0] == '_')
                 demangled = abi::__cxa_demangle(info.dli_sname, NULL, 0, &status);
-                snprintf(buf, sizeof(buf), "%s %-3d %*p %s + %zd\n",
-                     "Layer:", i, int(2 + sizeof(void*) * 2), callstack[i],
-                     status == 0 ? demangled :
-                     info.dli_sname == 0 ? symbols[i] : info.dli_sname,
+            snprintf(buf, sizeof(buf), "%s %-3d %*p %s + %zd\n", "Layer:", i, int(2 + sizeof(void *) * 2), callstack[i],
+                     status == 0           ? demangled
+                     : info.dli_sname == 0 ? symbols[i]
+                                           : info.dli_sname,
                      (char *)callstack[i] - (char *)info.dli_saddr);
-                free(demangled);
-        } else {
-                snprintf(buf, sizeof(buf), "%s %-3d %*p %s\n",
-                     "Layer:",i, int(2 + sizeof(void*) * 2), callstack[i], symbols[i]);
+            free(demangled);
+        }
+        else
+        {
+            snprintf(buf, sizeof(buf), "%s %-3d %*p %s\n", "Layer:", i, int(2 + sizeof(void *) * 2), callstack[i],
+                     symbols[i]);
         }
         trace_buf << buf;
     }
@@ -82,18 +87,19 @@ std::string Backtrace(int skip = 1)
         trace_buf << "[truncated]\n";
     return trace_buf.str();
 #endif // OS_LINUX
-	return "";
+    return "";
 }
 
-void handler(int sig) {
+void handler(int sig)
+{
     std::string s(Backtrace());
-    Messenger::expose_msg(err,s);
-    //if ( ! Application::is_testing_mode() )
-    //    mmModalDialog::critical("Crashed","Nice one. Program unexpectedly terminated.");
-    //std::cout << s << std::endl;
+    Messenger::expose_msg(err, s);
+    // if ( ! Application::is_testing_mode() )
+    //     mmModalDialog::critical("Crashed","Nice one. Program unexpectedly terminated.");
+    // std::cout << s << std::endl;
     exit(11);
 }
 
-}
+} // namespace
 
 #endif
