@@ -38,7 +38,7 @@ class dicmdSelectShapesByRegion : public DirectCommandBase
                                                GET_CMD_ARG(PointCommandOptionValue, "-end"));
         Selection::getInstance().clear();
         Selection::getInstance().find_and_highlightselect_shapes_from_region(m_reg);
-        int count = Selection::getInstance().getObjects().size();
+        const int count = Selection::getInstance().getObjects().size();
         std::string msg("Selected " + QString::number(count).toStdString() + " shapes.");
         StatusBarManager::getInstance().updateStatusBar(msg.c_str(), 1, 0);
 
