@@ -188,7 +188,7 @@ class incmdSelectUnderCursoer : public ObjCreatorCommandBase<RECTANGLE>
         m_move_mode = false;
         std::cout << "Adding..." << std::endl;
 
-        rq.removeObject(m_original_shape);
+        // rq.removeObject(m_original_shape);
         int count = rq.getSize();
         std::cout << "33333333333333333333333333333333333333" << std::endl;
         m_ws->removeObject(m_original_shape);
