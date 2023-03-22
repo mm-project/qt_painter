@@ -59,6 +59,7 @@ class canvas : public QWidget
     renderer *m_renderer;
     int m_scale = 15;
     QPoint m_last_cursor = {0, 0};
+	QPoint m_last_click_cursor = {0,0};
 };
 
 #endif

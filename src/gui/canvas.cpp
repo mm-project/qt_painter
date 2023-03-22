@@ -97,7 +97,7 @@ renderer *canvas::get_renderer()
     return m_renderer;
 }
 
-// this is temporary
+// this is temporary, used only during log replay
 bool canvas::event(QEvent *event)
 {
     if (event->type() == QEvent::User)
@@ -162,16 +162,26 @@ void canvas::keyPressEvent(QKeyEvent *ev)
 
 void canvas::mousePressEvent(QMouseEvent *e)
 {
-    if (cm.is_idle())
+    m_last_click_cursor = e->pos();
+	
+	if (!Application::is_replay_mode())
+		cm.mouse_pressed2(m_last_cursor.x(), m_last_cursor.y());
+	else
+		cm.mouse_pressed(m_last_cursor.x(), m_last_cursor.y());
+		
+
+	if (cm.is_idle())
         return;
 
-    QPoint p(e->pos());
+    // m_last_cursor = e->pos();
+	// QPoint p(e->pos());
     // if(!Application::is_replay_mode())
     // if(!Application::is_log_mode())
+
     // dicmdCanvasMouseClick(p).log();
-    cm.mouse_clicked(p.x(), p.y());
-    m_renderer->set_cursor_pos_for_drawing(p.x(), p.y());
-    m_renderer->click_hint();
+    // cm.mouse_clicked(p.x(), p.y());
+    // m_renderer->set_cursor_pos_for_drawing(p.x(), p.y());
+    // m_renderer->click_hint();
 }
 
 // FIXME not needed anymore
@@ -184,6 +194,7 @@ void canvas::current_type_changed()
 
 void canvas::mouseMoveEvent(QMouseEvent *e)
 {
+	//std::cout << "move x: " << e->pos().x() << std::endl;
     m_last_cursor = e->pos();
     if (cm.is_idle())
     {
@@ -225,8 +236,32 @@ void canvas::mouseDoubleClickEvent(QMouseEvent *e)
 
 void canvas::mouseReleaseEvent(QMouseEvent *e)
 {
-    cm.mouse_released(e->pos().x(), e->pos().y());
-    // dicmdCanvasMouseDblClick(e->pos()).log();
+    // dicmdCanvasMouseClick(p).log();
+    // cm.mouse_clicked(p.x(), p.y());
+    // m_renderer->set_cursor_pos_for_drawing(p.x(), p.y());
+    // m_renderer->click_hint();
+	
+	QPoint p(e->pos());
+
+	//std::cout << "release x: " << e->pos().x() << std::endl;
+	
+	if (e->pos() == m_last_click_cursor) {
+		std::cout << " ---click---" << std::endl;
+		//dicmdCanvasMouseClick(p).log();
+		cm.mouse_clicked(p.x(), p.y());
+		m_renderer->set_cursor_pos_for_drawing(p.x(), p.y());
+		m_renderer->click_hint();
+	} else {
+		std::cout << " ---hold---" << std::endl;
+		//dicmdCanvasMousePress(m_last_click_cursor).log();
+		cm.mouse_pressed(m_last_click_cursor.x(), m_last_click_cursor.y());
+		
+		std::cout << " ---release---" << std::endl;
+		//dicmdCanvasMouseRelease(p).log();
+		cm.mouse_released(e->pos().x(), e->pos().y());
+    }
+
+	// dicmdCanvasMouseDblClick(e->pos()).log();
     update();
 }
 
