@@ -135,8 +135,10 @@ class dicmdguiClickButton : public NonTransactionalDirectCommandBase
         m_on = GET_CMD_ARG(StringCommandOptionValue, "-object");
         // m_on = (dynamic_cast<StringCommandOptionValue*>(get_option_val("-object")))->to_string();
         QAbstractButton *btn = CM->findChild<QAbstractButton *>(m_on.c_str());
-        if (!btn)
-            throw 123;
+        if (!btn) {
+            std::cout << "Error: button not found: " << m_on << std::endl;
+			throw 123;
+		}
         btn->click();
     }
 };
@@ -171,8 +173,10 @@ class dicmdguiSelectRadioButton : public NonTransactionalDirectCommandBase
         m_on = GET_CMD_ARG(StringCommandOptionValue, "-object");
         // m_on = (dynamic_cast<StringCommandOptionValue*>(get_option_val("-object")))->to_string();
         QRadioButton *btn = CM->findChild<QRadioButton *>(m_on.c_str());
-        if (!btn)
-            throw 123;
+        if (!btn) {
+            std::cout << "Error: button not found: " << m_on << std::endl;
+			throw 123;
+		}
         btn->click();
     }
 };
@@ -209,36 +213,6 @@ class dicmdCanvasMouseMove : public NonTransactionalDirectCommandBase
     }
 };
 
-class dicmdCanvasMouseClick : public NonTransactionalDirectCommandBase
-{
-
-    QPoint m_p;
-
-  public:
-    dicmdCanvasMouseClick()
-    {
-        add_option("-point", new PointCommandOptionValue(QPoint(0, 0)));
-    }
-
-    dicmdCanvasMouseClick(const QPoint &p) : NonTransactionalDirectCommandBase("-point", new PointCommandOptionValue(p))
-    {
-        m_p = p;
-    }
-
-    virtual std::string get_name()
-    {
-        return "dicmdCanvasMouseClick";
-    }
-
-    virtual void execute()
-    {
-        // m_p = (dynamic_cast<PointCommandOptionValue*>(get_option_val("-point")))->get();
-        m_p = GET_CMD_ARG(PointCommandOptionValue, "-point");
-        dicmdCanvasMouseMove(m_p).execute();
-        QMouseEvent event(QEvent::MouseButtonPress, m_p, Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
-        QApplication::sendEvent(CM->findChild<QWidget *>("CANVAS"), &event);
-    }
-};
 
 class dicmdCanvasMousePress : public NonTransactionalDirectCommandBase
 {
@@ -300,6 +274,42 @@ class dicmdCanvasMouseRelease : public NonTransactionalDirectCommandBase
         dicmdCanvasMouseMove(m_p).execute();
         QMouseEvent event(QEvent::MouseButtonRelease, m_p, Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
         QApplication::sendEvent(CM->findChild<QWidget *>("CANVAS"), &event);
+    }
+};
+
+class dicmdCanvasMouseClick : public NonTransactionalDirectCommandBase
+{
+
+    QPoint m_p;
+
+  public:
+    dicmdCanvasMouseClick()
+    {
+        add_option("-point", new PointCommandOptionValue(QPoint(0, 0)));
+    }
+
+    dicmdCanvasMouseClick(const QPoint &p) : NonTransactionalDirectCommandBase("-point", new PointCommandOptionValue(p))
+    {
+        m_p = p;
+    }
+
+    virtual std::string get_name()
+    {
+        return "dicmdCanvasMouseClick";
+    }
+
+    virtual void execute()
+    {
+        // m_p = (dynamic_cast<PointCommandOptionValue*>(get_option_val("-point")))->get();
+        m_p = GET_CMD_ARG(PointCommandOptionValue, "-point");
+        dicmdCanvasMouseMove(m_p).execute();
+		dicmdCanvasMousePress(m_p).execute();
+        dicmdCanvasMouseMove(m_p).execute();
+		dicmdCanvasMouseRelease(m_p).execute();
+		
+		std::cout << "-------------dicmdCanvasMouseClick()" << std::endl;
+        //QMouseEvent event(QEvent::MouseButtonPress, m_p, Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
+        //QApplication::sendEvent(CM->findChild<QWidget *>("CANVAS"), &event);
     }
 };
 

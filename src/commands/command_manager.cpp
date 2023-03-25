@@ -245,7 +245,7 @@ void command_manager::mouse_pressed2(int x, int y)
     // if (!Application::is_replay_mode())
     //	  dicmdCanvasMousePress(QPoint(x, y)).log();
 	is_mouse_released = false;
-    // m_current_command->handle_mouse_press(x / m_kx - m_dx, y / m_ky - m_dy);
+    //m_current_command->handle_mouse_press(x / m_kx - m_dx, y / m_ky - m_dy);
 }
 
 // FIXME interface?

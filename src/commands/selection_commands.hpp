@@ -76,10 +76,10 @@ class incmdSelectUnderCursoer : public InteractiveCommandBase
         std::string msg("(idle) Selected " + QString::number(m_se.getObjects().size()).toStdString() + " shapes.");
         StatusBarManager::getInstance().updateStatusBar(msg.c_str(), 1, 0);
 
-        // if ( ev == MU )
-        //         on_click();
+        if ( ev == MU )
+             on_click();
         // else
-        if (ev == MM)
+        else if (ev == MM)
             m_se.highlight_shape_under_pos(InteractiveCommandBase::get_last_point());
 		else if (ev == MC) {
 			std::cout << "Mouseclick" << std::endl; 
@@ -201,7 +201,7 @@ class incmdSelectUnderCursoer : public InteractiveCommandBase
 		m_need_mouserelase_log = true;
         for (auto it : m_sb->getObjects())
         {
-            assert(0);
+            //assert(0);
 			// std::cout << "rotate..." << std::endl;
             it->moveCenterToPoint(p);
         }

@@ -153,7 +153,7 @@ template <ObjectType T> class incmdCreateObj : public ObjCreatorCommandBase<T>
         // if ( ev == KP ) //key pressed, abort
         //	InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,abort1));
 
-        if (ev != MD && ev != MC) // not mouse click, return
+        if (ev != MC) // not mouse click, return
             return false;
 
         // mouse clicked , set first point and go to next state
@@ -171,7 +171,7 @@ template <ObjectType T> class incmdCreateObj : public ObjCreatorCommandBase<T>
         // assert(0);
         if (ev == MM)
             ObjCreatorCommandBase<T>::runtime_set_pos2();
-        else if (ev == MD || ev == MC)
+        else if (ev == MC)
             on_commit(OTHER);
         // InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,on_commit));
 
