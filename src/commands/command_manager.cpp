@@ -206,9 +206,10 @@ void command_manager::mouse_clicked(int x, int y)
 	std::cout << "current commdn is: " << m_current_command << std::endl;
     // std::cout << x << "(" << x/m_kx-m_dx << ")  --- " << y << "(" << y/m_ky-m_dy << ")" << std::endl;
     // find_command("dicmdCanvasMouseClick").log();
-    // if(!Application::is_replay_mode())
-    dicmdCanvasMouseClick(QPoint(x, y)).log();
-    m_current_command->handle_mouse_click(x / m_kx - m_dx, y / m_ky - m_dy);
+    if(!Application::is_replay_mode())
+		dicmdCanvasMouseClick(QPoint(x, y)).log();
+    
+	m_current_command->handle_mouse_click(x / m_kx - m_dx, y / m_ky - m_dy);
 }
 
 void command_manager::mouse_moved(int x, int y)
@@ -245,7 +246,7 @@ void command_manager::mouse_pressed2(int x, int y)
     // if (!Application::is_replay_mode())
     //	  dicmdCanvasMousePress(QPoint(x, y)).log();
 	is_mouse_released = false;
-    //m_current_command->handle_mouse_press(x / m_kx - m_dx, y / m_ky - m_dy);
+    m_current_command->handle_mouse_press(x / m_kx - m_dx, y / m_ky - m_dy);
 }
 
 // FIXME interface?

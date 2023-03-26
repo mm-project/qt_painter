@@ -240,7 +240,8 @@ class dicmdCanvasMousePress : public NonTransactionalDirectCommandBase
         // m_p = (dynamic_cast<PointCommandOptionValue*>(get_option_val("-point")))->get();
         m_p = GET_CMD_ARG(PointCommandOptionValue, "-point");
         dicmdCanvasMouseMove(m_p).execute();
-        QMouseEvent event(QEvent::User, m_p, Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
+     	QMouseEvent event(QEvent::MouseButtonPress, m_p, Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
+		//QMouseEvent event(QEvent::User, m_p, Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
         QApplication::sendEvent(CM->findChild<QWidget *>("CANVAS"), &event);
     }
 };
@@ -303,13 +304,13 @@ class dicmdCanvasMouseClick : public NonTransactionalDirectCommandBase
         // m_p = (dynamic_cast<PointCommandOptionValue*>(get_option_val("-point")))->get();
         m_p = GET_CMD_ARG(PointCommandOptionValue, "-point");
         dicmdCanvasMouseMove(m_p).execute();
-		dicmdCanvasMousePress(m_p).execute();
-        dicmdCanvasMouseMove(m_p).execute();
-		dicmdCanvasMouseRelease(m_p).execute();
+		//dicmdCanvasMousePress(m_p).execute();
+        //dicmdCanvasMouseMove(m_p).execute();
+		//dicmdCanvasMouseRelease(m_p).execute();
 		
 		std::cout << "-------------dicmdCanvasMouseClick()" << std::endl;
-        //QMouseEvent event(QEvent::MouseButtonPress, m_p, Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
-        //QApplication::sendEvent(CM->findChild<QWidget *>("CANVAS"), &event);
+        QMouseEvent event(QEvent::User, m_p, Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
+        QApplication::sendEvent(CM->findChild<QWidget *>("CANVAS"), &event);
     }
 };
 

@@ -103,7 +103,7 @@ bool canvas::event(QEvent *event)
     if (event->type() == QEvent::User)
     {
         QPoint p = (dynamic_cast<QMouseEvent *>(event))->pos();
-        //cm.mouse_pressed(p.x(), p.y());
+        cm.mouse_clicked(p.x(), p.y());
         m_renderer->set_cursor_pos_for_drawing(p.x(), p.y());
         update();
     }
@@ -167,7 +167,7 @@ void canvas::mousePressEvent(QMouseEvent *e)
 	//if (!Application::is_replay_mode())
 	//	cm.mouse_pressed2(m_last_cursor.x(), m_last_cursor.y());
 	//else
-		cm.mouse_pressed(m_last_cursor.x(), m_last_cursor.y());
+		cm.mouse_pressed2(m_last_cursor.x(), m_last_cursor.y());
 		
 
 	if (cm.is_idle())
@@ -247,7 +247,7 @@ void canvas::mouseReleaseEvent(QMouseEvent *e)
 	
 	std::cout << "release x: " << e->pos().x() << "----- lastpos x: " << m_last_click_cursor.x() << std::endl;
 	
-	if (e->pos() == m_last_cursor) {
+	if (e->pos() == m_last_click_cursor) {
 		std::cout << " ---click---" << std::endl;
 		//dicmdCanvasMouseClick(p).log();
 		cm.mouse_clicked(p.x(), p.y());
@@ -257,6 +257,7 @@ void canvas::mouseReleaseEvent(QMouseEvent *e)
 		std::cout << " ---hold---" << std::endl;
 		//dicmdCanvasMousePress(m_last_click_cursor).log();
 		cm.mouse_pressed(m_last_click_cursor.x(), m_last_click_cursor.y());
+		//dicmdCanvasMousePress(m_last_click_cursor).log();
 		
 		std::cout << " ---release---" << std::endl;
 		//dicmdCanvasMouseRelease(p).log();

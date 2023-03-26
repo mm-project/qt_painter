@@ -157,10 +157,10 @@ void Messenger::expose_msg(const LogMsgSeverity &s, const std::string &msg, bool
 // static used by CommandBase internally , fixme add friend
 void Messenger::log_command(const std::string &msg, bool iscmd)
 {
-    // if(! Application::is_replay_mode())
-    Messenger::expose_msg(ok, msg, iscmd);
-    // else
-    //     Messenger::expose_msg(log_,msg,iscmd);
+    if(! Application::is_replay_mode())
+		Messenger::expose_msg(ok, msg, iscmd);
+    else
+        Messenger::expose_msg(log_,msg,iscmd);
 }
 
 // Messenger::expose(err,"Error: ... ")
