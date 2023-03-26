@@ -76,31 +76,13 @@ class incmdSelectUnderCursoer : public InteractiveCommandBase
         std::string msg("(idle) Selected " + QString::number(m_se.getObjects().size()).toStdString() + " shapes.");
         StatusBarManager::getInstance().updateStatusBar(msg.c_str(), 1, 0);
 
-        if ( ev == MU )
-             on_click();
+        // if ( ev == MU )
+        //         on_click();
         // else
-        else if (ev == MM)
+        if (ev == MM)
             m_se.highlight_shape_under_pos(InteractiveCommandBase::get_last_point());
-		else if (ev == MC) {
-			std::cout << "Mouseclick" << std::endl; 
-			m_se.highlightselect_shape_under_pos(InteractiveCommandBase::get_last_point());
-		}
-		//	//set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer,on_press));
-		else if (ev == MD) {
-			//m_se.highlightselect_shape_under_pos(InteractiveCommandBase::get_last_point());
-            //assert(0);
-			//on_click();
-			//m_se.clear();
-			//assert(0);
-			//m_se.highlightselect_shape_under_pos(InteractiveCommandBase::get_lastprs_point());
-			std::cout << "Mousedown->go to on_press" << std::endl; 
-			m_se.select_shape_under_pos(InteractiveCommandBase::get_lastprs_point());
-			if (!m_se.getObjects().empty())
-				set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer,on_press));
-			//on_press(OTHER);
-		}
-			//set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer,on_press));
-			//on_press(OTHER); // set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer,on_press));
+        else if (ev == MD)
+            on_press(OTHER); // set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer,on_press));
         else
             return;
     }
@@ -162,7 +144,7 @@ class incmdSelectUnderCursoer : public InteractiveCommandBase
         // assert(0);
         /// if selection empty pick the shape under mouse
         // if ( m_se.getObjects().empty() )
-        // on_click();
+        on_click();
         // if (!m_shape_added) {
         // if (m_sb)
         //     m_sb->clear();
@@ -170,8 +152,7 @@ class incmdSelectUnderCursoer : public InteractiveCommandBase
         // m_se.select_shape_under_pos(InteractiveCommandBase::get_last_point());
         if (!m_se.getObjects().empty())
         {
-            //assert(0);
-			m_sb->clear();
+            m_sb->clear();
             m_original_shape = m_se.getObjects()[0];
             // for ( auto it : m_se.getObjects() )
             //    m_sb->addObject(it);
@@ -188,21 +169,18 @@ class incmdSelectUnderCursoer : public InteractiveCommandBase
 
     void on_mousemove(const EvType &ev)
     {
-        std::cout << ev << std::endl;
-		if (ev == MDM)
-			move_selected_to_point(InteractiveCommandBase::get_last_point());
+        if (ev == MDM)
+            move_selected_to_point(InteractiveCommandBase::get_last_point());
         else if (ev == MU)
             movement_commit();
     }
 
     void move_selected_to_point(QPoint p)
     {
-        //assert(0);
-		m_need_mouserelase_log = true;
+        m_need_mouserelase_log = true;
         for (auto it : m_sb->getObjects())
         {
-            //assert(0);
-			// std::cout << "rotate..." << std::endl;
+            // std::cout << "rotate..." << std::endl;
             it->moveCenterToPoint(p);
         }
     }
