@@ -37,8 +37,8 @@ template <ObjectType T> class ObjCreatorCommandBase : public InteractiveCommandB
     {
         // begin transaction
         // assert(0);
-        if (T != POLYGON)
-			m_internal_vec.push_back(InteractiveCommandBase::get_last_point());
+        //if (T != POLYGON)
+		m_internal_vec.push_back(InteractiveCommandBase::get_last_point());
         // m_postman->notify(INTERACTIVE_COMMAND_PRE_COMMIT,a);
         auto ob = re->getObjects();
         for (auto i : ob)
