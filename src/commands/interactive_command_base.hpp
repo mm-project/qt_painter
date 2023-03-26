@@ -27,7 +27,7 @@ class InteractiveCommandBase : public CommandBase
     virtual void handle_mouse_release(int x, int y)
     {
         // log("click "+x+" "+y);
-        //if (!m_is_released)
+        // if (!m_is_released)
         //    return;
 
         m_last_release_point.setX(x);
@@ -39,7 +39,7 @@ class InteractiveCommandBase : public CommandBase
 
     virtual void handle_mouse_press(int x, int y)
     {
-		m_last_press_point.setX(x);
+        m_last_press_point.setX(x);
         m_last_press_point.setY(y);
         m_current_event_handler(MD);
         m_is_released = false;
@@ -62,7 +62,7 @@ class InteractiveCommandBase : public CommandBase
             return;
         }
         */
-		/*
+        /*
         if (m_is_released)
         {
             m_is_released = false;
@@ -75,21 +75,21 @@ class InteractiveCommandBase : public CommandBase
             m_current_event_handler(MD);
             m_is_released = true;
         }
-		*/
+        */
     }
 
     virtual void handle_mouse_move(int x, int y, bool is_released)
     {
         m_last_cursor_point.setX(x);
         m_last_cursor_point.setY(y);
-		//std::cout << "------------------------------------------------------------MOVE " << is_released << std::endl;
-        
-		//assert(is_released == true);
-		//std::cout << "------------------------------------------------------------MOVE " << is_released << std::endl;
-        if  (is_released)
-			m_current_event_handler(MM);
-		else
-			m_current_event_handler(MDM);			
+        // std::cout << "------------------------------------------------------------MOVE " << is_released << std::endl;
+
+        // assert(is_released == true);
+        // std::cout << "------------------------------------------------------------MOVE " << is_released << std::endl;
+        if (is_released)
+            m_current_event_handler(MM);
+        else
+            m_current_event_handler(MDM);
     }
 
     virtual void handle_mouse_dblclick(int, int)

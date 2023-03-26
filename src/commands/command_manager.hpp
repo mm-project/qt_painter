@@ -78,8 +78,8 @@ class command_manager : public Service<command_manager>
     float m_ky = 1;
     int m_dx = 0;
     int m_dy = 0;
-	
-	bool is_mouse_released = true;
+
+    bool is_mouse_released = true;
 };
 
 #endif
