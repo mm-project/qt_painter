@@ -151,6 +151,10 @@ void canvas::keyPressEvent(QKeyEvent *ev)
         cm.activate_command(cm.find_command("incmdSelectShapesByRegion"));
     else if (ev->key() == Qt::Key_N)
         cm.find_command("dicmdQaReplyStep")->execute_and_log();
+    else if (ev->key() == Qt::Key_9) {
+        //Selection::getInstance().highlight_last_selected_region(false);
+		Selection::getInstance().highlight_last_selected_region(true);
+	}
     else
     {
         if (cm.is_idle())
