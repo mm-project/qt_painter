@@ -206,7 +206,7 @@ void command_manager::mouse_clicked(int x, int y)
     std::cout << "current commdn is: " << m_current_command << std::endl;
     // std::cout << x << "(" << x/m_kx-m_dx << ")  --- " << y << "(" << y/m_ky-m_dy << ")" << std::endl;
     // find_command("dicmdCanvasMouseClick").log();
-    if (!Application::is_replay_mode())
+    //if (!Application::is_replay_mode())
         dicmdCanvasMouseClick(QPoint(x, y)).log();
 
     m_current_command->handle_mouse_click(x / m_kx - m_dx, y / m_ky - m_dy);
