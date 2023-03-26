@@ -265,12 +265,12 @@ void renderer::draw_cursor()
     if (m_need_draw_clicked)
     {
         p.setColor(Qt::red);
-        p.setWidth(12);
+        p.setWidth(14);
     }
     else
     {
         p.setColor(Qt::blue);
-        p.setWidth(10);
+        p.setWidth(9);
     }
 
     // p.setJoinStyle(Qt::RoundJoinStyle);

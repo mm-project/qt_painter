@@ -91,8 +91,9 @@ class incmdSelectUnderCursoer : public InteractiveCommandBase
     void on_click()
     {
         m_se.clear();
-        m_se.select_shape_under_pos(InteractiveCommandBase::get_last_point());
-        std::string msg("Selected " + QString::number(m_se.getObjects().size()).toStdString() + " shapes.");
+        //m_se.highlightselect_shape_under_pos(InteractiveCommandBase::get_last_point());
+        m_se.select_shape_under_pos(InteractiveCommandBase::get_last_point());        
+		std::string msg("Selected " + QString::number(m_se.getObjects().size()).toStdString() + " shapes.");
         StatusBarManager::getInstance().updateStatusBar(msg.c_str(), 1, 0);
     }
 
@@ -141,7 +142,7 @@ class incmdSelectUnderCursoer : public InteractiveCommandBase
         // assert(0);
         // if (m_move_mode)
         //     return;
-        // assert(0);
+        // assert(0);`
         /// if selection empty pick the shape under mouse
         // if ( m_se.getObjects().empty() )
         on_click();

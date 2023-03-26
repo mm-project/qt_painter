@@ -215,7 +215,7 @@ void command_manager::mouse_clicked(int x, int y)
 void command_manager::mouse_moved(int x, int y)
 {
     // std::cout << "***current commdn is: " <<  m_current_command << std::endl;
-    // dicmdCanvasMouseMove(QPoint(x,y)).log();
+    //dicmdCanvasMouseMove(QPoint(x,y)).log();
     // std::cout << "---mousemove and " << is_mouse_released << std::endl;
     m_current_command->handle_mouse_move(x / m_kx - m_dx, y / m_ky - m_dy, is_mouse_released);
 }

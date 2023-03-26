@@ -97,16 +97,34 @@ renderer *canvas::get_renderer()
     return m_renderer;
 }
 
-// this is temporary, used only during log replay
+// this is temporary, used only during log replay to simulate click event
 bool canvas::event(QEvent *event)
 {
-    if (event->type() == QEvent::User)
+    //m_mouse_hold = false;
+    //m_renderer->click_hint(false);
+	//*
+	if (event->type() == QEvent::User)
     {
-        QPoint p = (dynamic_cast<QMouseEvent *>(event))->pos();
+        //assert(0);
+		QPoint p = (dynamic_cast<QMouseEvent *>(event))->pos();
         cm.mouse_clicked(p.x(), p.y());
-        m_renderer->set_cursor_pos_for_drawing(p.x(), p.y());
-        update();
+        m_renderer->click_hint(true);
+		m_renderer->set_cursor_pos_for_drawing(p.x(), p.y());
+        //m_mouse_hold = true;
+		update();
+		//QWidget::event(event);
+        //m_renderer->click_hint(false);
+		
+        //m_renderer->click_hint(false);
     }
+	/**/
+	
+	/*
+	if (event->type() == QEvent::MouseMove && !m_mouse_hold) 
+        m_renderer->click_hint(false);
+	*/
+	
+    //m_renderer->click_hint(false);
     return QWidget::event(event);
 }
 
@@ -164,10 +182,66 @@ void canvas::keyPressEvent(QKeyEvent *ev)
     update();
 }
 
+// FIXME not needed anymore
+void canvas::current_type_changed()
+{
+    // not needed
+    // controller* c = controller::get_instance();
+    // m_runtime_environment->change_object_type(c->get_object_type());
+}
+
+void canvas::mouseMoveEvent(QMouseEvent *e)
+{
+    // std::cout << "move x: " << e->pos().x() << std::endl;
+    //assert(0);
+	//m_renderer->click_hint(false);
+
+	m_last_cursor = e->pos();
+    //if (cm.is_idle())
+    //{
+    //    return;
+    //}
+
+    int _x = e->pos().x();
+    int _y = e->pos().y();
+    //_x = (_x / m_scale) * m_scale;
+    //_y = (_y / m_scale) * m_scale;
+    // e->pos().setX(_x);
+    // e->pos().setY(_y);
+    cm.mouse_moved(_x, _y);
+
+    // if Preference::isSet("guiLogMouseMove")
+    // if ( m_need_motionlog )
+    // dicmdCanvasMouseMove(e->pos()).log();
+    /**/
+    m_renderer->set_cursor_pos_for_drawing(_x, _y);
+    //if ( ! m_mouse_hold )
+	//	m_renderer->click_hint(false);
+
+	update();
+}
+
+void canvas::wheelEvent(QWheelEvent *e)
+{
+    // fixme need log?
+    m_renderer->zoom((e->delta() / 120), e->pos());
+    update();
+}
+
+void canvas::mouseDoubleClickEvent(QMouseEvent *e)
+{
+    // if(!Application::is_replay_mode())
+    // dicmdCanvasMouseDblClick(e->pos()).log();
+
+    cm.mouse_dbl_clicked(e->pos().x(), e->pos().y());
+    // if(!Application::is_log_mode())
+    update();
+}
+
 void canvas::mousePressEvent(QMouseEvent *e)
 {
     m_last_click_cursor = e->pos();
-
+	m_mouse_hold = true;
     // if (!Application::is_replay_mode())
     //	cm.mouse_pressed2(m_last_cursor.x(), m_last_cursor.y());
     // else
@@ -190,56 +264,6 @@ void canvas::mousePressEvent(QMouseEvent *e)
     // m_renderer->click_hint();
 }
 
-// FIXME not needed anymore
-void canvas::current_type_changed()
-{
-    // not needed
-    // controller* c = controller::get_instance();
-    // m_runtime_environment->change_object_type(c->get_object_type());
-}
-
-void canvas::mouseMoveEvent(QMouseEvent *e)
-{
-    // std::cout << "move x: " << e->pos().x() << std::endl;
-    m_last_cursor = e->pos();
-    if (cm.is_idle())
-    {
-        return;
-    }
-
-    int _x = e->pos().x();
-    int _y = e->pos().y();
-    //_x = (_x / m_scale) * m_scale;
-    //_y = (_y / m_scale) * m_scale;
-    // e->pos().setX(_x);
-    // e->pos().setY(_y);
-    cm.mouse_moved(_x, _y);
-
-    // if Preference::isSet("guiLogMouseMove")
-    // if ( m_need_motionlog )
-    // dicmdCanvasMouseMove(e->pos()).log();
-    /**/
-    m_renderer->set_cursor_pos_for_drawing(_x, _y);
-    update();
-}
-
-void canvas::wheelEvent(QWheelEvent *e)
-{
-    // fixme need log?
-    m_renderer->zoom((e->delta() / 120), e->pos());
-    update();
-}
-
-void canvas::mouseDoubleClickEvent(QMouseEvent *e)
-{
-    // if(!Application::is_replay_mode())
-    // dicmdCanvasMouseDblClick(e->pos()).log();
-
-    cm.mouse_dbl_clicked(e->pos().x(), e->pos().y());
-    // if(!Application::is_log_mode())
-    update();
-}
-
 void canvas::mouseReleaseEvent(QMouseEvent *e)
 {
     // dicmdCanvasMouseClick(p).log();
@@ -247,11 +271,12 @@ void canvas::mouseReleaseEvent(QMouseEvent *e)
     
     QPoint p(e->pos());
     m_renderer->set_cursor_pos_for_drawing(p.x(), p.y());
-    // m_renderer->click_hint();
+    m_renderer->click_hint(false);
 
     // std::cout << "release x: " << e->pos().x() << std::endl;
 
     std::cout << "release x: " << e->pos().x() << "----- lastpos x: " << m_last_click_cursor.x() << std::endl;
+	m_mouse_hold = false;
 
     if (e->pos() == m_last_click_cursor)
     {
@@ -274,7 +299,7 @@ void canvas::mouseReleaseEvent(QMouseEvent *e)
         m_last_click_cursor = p;
     }
 
-	m_renderer->click_hint(false);
+	//m_renderer->click_hint(false);
 
     // dicmdCanvasMouseDblClick(e->pos()).log();
     update();
@@ -288,8 +313,12 @@ void canvas::on_update()
 
 void canvas::paintEvent(QPaintEvent *)
 {
+    //if ( ! m_mouse_hold )
+	//	m_renderer->click_hint(false);
+
     m_renderer->render();
-    // update(); why?
+    update();
+	// update(); why?
 }
 
 void canvas::invoke_create_line()

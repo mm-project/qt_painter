@@ -60,6 +60,7 @@ class canvas : public QWidget
     int m_scale = 15;
     QPoint m_last_cursor = {0, 0};
     QPoint m_last_click_cursor = {0, 0};
+	bool m_mouse_hold = false;
 };
 
 #endif
