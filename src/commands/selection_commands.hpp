@@ -296,7 +296,7 @@ class incmdSelectShapesByRegion : public incmdCreateObj<RECTANGLE>
   public:
     void on_idle(const EvType &ev)
     {
-        if (ev == MC || ev == MD)
+        if (ev == MC)
         {
             if (m_first_click)
             {

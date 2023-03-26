@@ -37,7 +37,8 @@ template <ObjectType T> class ObjCreatorCommandBase : public InteractiveCommandB
     {
         // begin transaction
         // assert(0);
-        m_internal_vec.push_back(InteractiveCommandBase::get_last_point());
+        if (T != POLYGON)
+			m_internal_vec.push_back(InteractiveCommandBase::get_last_point());
         // m_postman->notify(INTERACTIVE_COMMAND_PRE_COMMIT,a);
         auto ob = re->getObjects();
         for (auto i : ob)
@@ -221,7 +222,7 @@ template <> class incmdCreateObj<POLYGON> : public ObjCreatorCommandBase<POLYGON
     bool idle(const EvType &ev)
     {
 
-        if (ev != MD && ev != MC) // not mouse click, return
+        if (ev != MC) // not mouse click, return
             return false;
 
         ObjCreatorCommandBase<POLYGON>::create_runtime_object();
@@ -233,7 +234,7 @@ template <> class incmdCreateObj<POLYGON> : public ObjCreatorCommandBase<POLYGON
     void on_first_click(const EvType &ev)
     {
         // assert(0);
-        if (ev == MD || ev == MC)
+        if (ev == MC)
             ObjCreatorCommandBase<POLYGON>::runtime_set_pos2();
         else if (ev == MM)
             ObjCreatorCommandBase<POLYGON>::runtime_movePoint();
