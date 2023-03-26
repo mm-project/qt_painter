@@ -83,4 +83,5 @@ dicmdCanvasMouseClick -point (821,120)
 dicmdCanvasMouseClick -point (821,120) 
 dicmdCanvasMouseRelease -point (630,101) 
 dicmdCanvasMouseRelease -point (630,101) 
+dicmdCanvasMouseClick -point (630,101) 
 dicmdQaToolExit 
