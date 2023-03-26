@@ -1,9 +1,28 @@
-dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(119,114);(189,172)} 
-dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(175,195);(219,234)} 
-dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(218,265);(264,301)} 
-dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(242,118);(302,191)} 
-dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(294,252);(379,315)} 
-dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(59,246);(152,298)} 
+#i --> Info: Welcome to this project. Feel free to expirment. 
+dicmdguiClickButton -object mw/65/70/Home/qt_tabwidget_tabbar 
+dicmdguiClickButton -object 0x104:Rectangle 
+incmdCreateObjRectangle
+dicmdCanvasMouseClick -point (119,114) 
+dicmdCanvasMouseClick -point (189,172) 
+#o --> Out: dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(119,114);(189,172)} 
+dicmdCanvasMouseClick -point (175,195) 
+dicmdCanvasMouseClick -point (219,234) 
+#o --> Out: dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(175,195);(219,234)} 
+dicmdCanvasMouseClick -point (218,265) 
+dicmdCanvasMouseClick -point (264,301) 
+#o --> Out: dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(218,265);(264,301)} 
+dicmdguiClickButton -object 0x104:Ellipse 
+dicmdAbortActiveCommand 
+incmdCreateObjEllipse
+dicmdCanvasMouseClick -point (242,118) 
+dicmdCanvasMouseClick -point (302,191) 
+#o --> Out: dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(242,118);(302,191)} 
+dicmdCanvasMouseClick -point (294,252) 
+dicmdCanvasMouseClick -point (379,315) 
+#o --> Out: dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(294,252);(379,315)} 
+dicmdCanvasMouseClick -point (59,246) 
+dicmdCanvasMouseClick -point (152,298) 
+#o --> Out: dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(59,246);(152,298)} 
 dicmdCanvasViewportZoomOut -point (550,218) 
 dicmdCanvasViewportZoomOut -point (550,218) 
 dicmdCanvasViewportZoomOut -point (550,218) 
@@ -27,17 +46,15 @@ incmdSelectShapesByRegion
 dicmdCanvasMouseClick -point (50,67) 
 dicmdCanvasMouseClick -point (329,263) 
 #o --> Out: dicmdSelectShapesByRegion -end (449,383) -start (0,67) 
-dicmdQaReplyingBreak
+#dicmdQaReplyingBreak
 incmdObjRelocateByCopy
 dicmdCanvasMouseClick -point (329,263) 
 dicmdCanvasMouseClick -point (979,226) 
 dicmdAbortActiveCommand 
-dicmdQaReplyingBreak
 incmdSelectShapesByRegion
 dicmdCanvasMouseClick -point (724,72) 
 dicmdCanvasMouseClick -point (917,238) 
 #o --> Out: dicmdSelectShapesByRegion -end (1396,343) -start (1086,75) 
-dicmdQaReplyingBreak
 incmdObjRelocateByMove
 dicmdCanvasMouseClick -point (917,238) 
 dicmdCanvasMouseClick -point (571,211) 
@@ -46,7 +63,6 @@ incmdSelectShapesByRegion
 dicmdCanvasMouseClick -point (64,74) 
 dicmdCanvasMouseClick -point (322,265) 
 #o --> Out: dicmdSelectShapesByRegion -end (438,386) -start (23,79) 
-dicmdQaReplyingBreak
 dicmdQaCompareSelection 
 #e --> Error: comparision->Selection:MISMATCH Selection_Compare_0.txt Selection_Compare_0.txt.golden
 dicmdAbortActiveCommand 
@@ -69,7 +85,6 @@ incmdSelectShapesByRegion
 dicmdCanvasMouseClick -point (799,69) 
 dicmdCanvasMouseClick -point (1080,302) 
 #o --> Out: dicmdSelectShapesByRegion -end (1659,446) -start (1206,71) 
-dicmdQaReplyingBreak
 dicmdQaCompareSelection 
 #e --> Error: comparision->Selection:MISMATCH Selection_Compare_3.txt Selection_Compare_3.txt.golden
 dicmdCanvasMouseClick -point (408,60) 
@@ -79,19 +94,19 @@ dicmdQaCompareSelection
 #e --> Error: comparision->Selection:MISMATCH Selection_Compare_4.txt Selection_Compare_4.txt.golden
 dicmdAbortActiveCommand 
 dicmdAbortActiveCommand 
-dicmdCanvasMouseClick -point (247,202) 
+dicmdCanvasMousePress -point (247,202) 
 dicmdCanvasMouseRelease -point (484,109) 
-dicmdCanvasMouseClick -point (224,120) 
+dicmdCanvasMousePress -point (224,120) 
 dicmdCanvasMouseRelease -point (572,125) 
-dicmdCanvasMouseClick -point (157,115) 
+dicmdCanvasMousePress -point (157,115) 
 dicmdCanvasMouseRelease -point (564,100) 
-dicmdCanvasMouseClick -point (178,158) 
+dicmdCanvasMousePress -point (178,158) 
 dicmdCanvasMouseRelease -point (560,118) 
-dicmdCanvasMouseClick -point (200,206) 
+dicmdCanvasMousePress -point (200,206) 
 dicmdCanvasMouseRelease -point (500,131) 
-dicmdCanvasMouseClick -point (249,205) 
+dicmdCanvasMousePress -point (249,205) 
 dicmdCanvasMouseRelease -point (500,140) 
-dicmdCanvasMouseClick -point (132,200) 
+dicmdCanvasMousePress -point (132,200) 
 dicmdCanvasMouseRelease -point (526,102) 
 dicmdguiClickButton -object 0x107:Region 
 incmdSelectShapesByRegion
