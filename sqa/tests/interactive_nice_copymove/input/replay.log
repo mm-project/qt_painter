@@ -46,7 +46,7 @@ incmdSelectShapesByRegion
 dicmdCanvasMouseClick -point (64,74) 
 dicmdCanvasMouseClick -point (322,265) 
 #o --> Out: dicmdSelectShapesByRegion -end (438,386) -start (23,79) 
-
+dicmdQaReplyingBreak
 dicmdQaCompareSelection 
 #e --> Error: comparision->Selection:MISMATCH Selection_Compare_0.txt Selection_Compare_0.txt.golden
 dicmdAbortActiveCommand 
@@ -62,13 +62,14 @@ dicmdCanvasMouseClick -point (1062,283)
 dicmdQaCompareSelection 
 #e --> Error: comparision->Selection:MISMATCH Selection_Compare_2.txt Selection_Compare_2.txt.golden
 dicmdAbortActiveCommand 
-dicmdCanvasMouseClick -point (957,210) 
+dicmdCanvasMousePress -point (957,210) 
 dicmdCanvasMouseRelease -point (468,163) 
 dicmdguiClickButton -object 0x107:Region 
 incmdSelectShapesByRegion
 dicmdCanvasMouseClick -point (799,69) 
 dicmdCanvasMouseClick -point (1080,302) 
 #o --> Out: dicmdSelectShapesByRegion -end (1659,446) -start (1206,71) 
+dicmdQaReplyingBreak
 dicmdQaCompareSelection 
 #e --> Error: comparision->Selection:MISMATCH Selection_Compare_3.txt Selection_Compare_3.txt.golden
 dicmdCanvasMouseClick -point (408,60) 
