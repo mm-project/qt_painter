@@ -1,7 +1,10 @@
 #ifndef POINT_HPP
 #define POINT_HPP
 
-#include "../shapes.hpp"
+#include "../qt_shapes/line.hpp"
+#include "../qt_shapes/ellipse.hpp"
+#include "../qt_shapes/rectangle.hpp"
+#include "../qt_shapes/polygon.hpp"
 
 #include <iostream>
 #include <memory>

@@ -2,7 +2,6 @@
 #include "../gui/controller.hpp"
 #include "postman.hpp"
 #include "rq/RegionQueryService.hpp"
-#include "shapes.hpp"
 
 #include <QDir>
 #include <QFile>
@@ -197,7 +196,7 @@ void HighlightSet::highlight_off()
     // highlight_on_off(false);
 }
 
-void HighlightSet::highlight_on_off(bool m_h_on)
+void HighlightSet::highlight_on_off(bool )
 {
     // check with levon
     if (getObjects().empty())

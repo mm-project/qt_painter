@@ -5,7 +5,7 @@
 
 #include "../core/rq/RegionQueryService.hpp"
 #include "../core/runtime_pool.hpp"
-#include "../core/shape_creator.hpp"
+#include "../core/qt_shapes/shape_creator.hpp"
 
 #include "../io/messenger.hpp"
 
