@@ -77,7 +77,7 @@ function postprocess
             done
             cp ./logs/painter.log ../$GDIRNAME/painter.log.golden
             cp ./logs/painter.lvi ../$GDIRNAME/painter.lvi.golden
-	     mv ./$testname.mov ../$GDIRNAME/$testname.golden.mov
+	     mv ./$testname.mp4 ../$GDIRNAME/$testname.golden.mp4
             #cp painter.out ../$GDIRNAME/painter.out.golden
             cp `find -name "*.golden*"` ../$GDIRNAME
             #cnvscprs=`find -name "*compare*"`
@@ -242,8 +242,9 @@ function run
     	xvfb_pid=$!
     	sleep 1
     	export DISPLAY=:$dsp
-    	ffmpeg -y -r 30 -s 1280x1024 -f x11grab -i :$dsp -vcodec qtrle $testname.mov &> ffmpeg.log &
-	#ffmpeg_pid=$!
+    	ffmpeg -y -r 24 -s 1280x1024 -f x11grab -i :$dsp -codec:v libx264 $testname.mp4 &> ffmpeg.log &
+	
+        #ffmpeg_pid=$!
     fi
     $tool $options &> pntr.output
     exit_code=$?
