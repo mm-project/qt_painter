@@ -18,7 +18,7 @@ class Singleton
     {
     }
 
-protected:
+  protected:
     // can't copy
     Singleton() = default;
     Singleton(const Singleton &) = delete;
@@ -82,11 +82,10 @@ class ServiceManager : public Service<ServiceManager>
     //	Delete content in order of registering
     void shutDown() override;
 
-	template <typename T>
-	void addService(T& obj)
-	{
-		m_services.emplace_back(&obj);
-	}
+    template <typename T> void addService(T &obj)
+    {
+        m_services.emplace_back(&obj);
+    }
 
   private:
     std::vector<Singleton *> m_services;
@@ -96,4 +95,3 @@ template <typename T>
 typename std::function<void(T &)> Service<T>::m_callback = std::bind(&ServiceManager::addService<T>,
                                                                      &ServiceManager::getInstance(),
                                                                      std::placeholders::_1);
-

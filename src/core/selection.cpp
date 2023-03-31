@@ -196,7 +196,7 @@ void HighlightSet::highlight_off()
     // highlight_on_off(false);
 }
 
-void HighlightSet::highlight_on_off(bool )
+void HighlightSet::highlight_on_off(bool)
 {
     // check with levon
     if (getObjects().empty())

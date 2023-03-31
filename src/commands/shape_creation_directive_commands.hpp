@@ -3,9 +3,9 @@
 
 #include "direct_command_base.hpp"
 
+#include "../core/qt_shapes/shape_creator.hpp"
 #include "../core/rq/RegionQueryService.hpp"
 #include "../core/runtime_pool.hpp"
-#include "../core/qt_shapes/shape_creator.hpp"
 
 #include "../io/messenger.hpp"
 
