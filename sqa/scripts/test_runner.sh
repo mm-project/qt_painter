@@ -243,12 +243,9 @@ function run
     	sleep 1
     	export DISPLAY=:$dsp
     	ffmpeg -y -r 24 -s 1280x1024 -f x11grab -i :$dsp -codec:v libx264 $testname.mp4 &> ffmpeg.log &
-	
-        #ffmpeg_pid=$!
     fi
     $tool $options &> pntr.output
     exit_code=$?
-    #kill -9 $ffmpeg_pid &> /dev/null
     kill -9 $xvfb_pid &> /dev/null
 }
 
