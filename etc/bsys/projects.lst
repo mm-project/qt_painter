@@ -1,5 +1,6 @@
 src/commands
 src/core
+src/core/qt_shapes
 src/core/rq
 src/gui
 src/io

@@ -1,5 +1,4 @@
-#ifndef service_h
-#define service_h
+#pragma once
 
 #include <functional>
 #include <memory>
@@ -23,14 +22,12 @@ class Singleton
     // can't copy
     Singleton() = default;
     Singleton(const Singleton &) = delete;
-    Singleton(const Singleton &&) = delete;
     Singleton &operator=(const Singleton &) = delete;
-    Singleton &operator=(const Singleton &&) = delete;
 };
 
 //	getInstacne returns reference with from c++11 (it's safe)
 //	Default constructor is private
-//	Copy/Move constructor/assignment operator is not supported
+//	Copy constructor/assignment operator is not supported
 template <typename T> class Service : public Singleton
 {
   public:
@@ -67,9 +64,7 @@ template <typename T> class Service : public Singleton
   protected:
     Service() = default;
     Service(const Service &) = delete;
-    Service(const Service &&) = delete;
     Service &operator=(const Service &) = delete;
-    Service &operator=(const Service &&) = delete;
 
   public:
     static std::function<void(T &)> m_callback;
@@ -89,7 +84,7 @@ class ServiceManager : public Service<ServiceManager>
 
     template <typename T> void addService(T &obj)
     {
-        m_services.push_back(&obj);
+        m_services.emplace_back(&obj);
     }
 
   private:
@@ -100,5 +95,3 @@ template <typename T>
 typename std::function<void(T &)> Service<T>::m_callback = std::bind(&ServiceManager::addService<T>,
                                                                      &ServiceManager::getInstance(),
                                                                      std::placeholders::_1);
-
-#endif

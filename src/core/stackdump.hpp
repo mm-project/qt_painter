@@ -30,9 +30,9 @@
 #include "../io/messenger.hpp"
 
 #ifdef OS_LINUX
-#include <execinfo.h> // for backtrace
-#include <dlfcn.h>    // for dladdr
 #include <cxxabi.h>   // for __cxa_demangle
+#include <dlfcn.h>    // for dladdr
+#include <execinfo.h> // for backtrace
 #include <execinfo.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -90,7 +90,7 @@ std::string Backtrace(int skip = 1)
     return "";
 }
 
-void handler(int sig)
+void handler(int)
 {
     std::string s(Backtrace());
     Messenger::expose_msg(err, s);
