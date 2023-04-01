@@ -33,7 +33,7 @@ void LogReader::reply_resume(LeCallbackData &)
     m_paused = false;
     connect(m_timer, SIGNAL(timeout()), this, SLOT(execute_next_command()));
     Application::getInstance().set_replay_mode(true);
-    m_timer->start(1);
+    m_timer->start(20);
 }
 
 void LogReader::reply_stop(LeCallbackData &)
