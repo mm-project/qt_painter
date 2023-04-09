@@ -19,8 +19,8 @@ jobs:
       - store_artifacts:
           path: /root/project/artifacts
   docker-build:
-   machine:
-    image: ubuntu-2204:2022.04.2
+    machine:
+      image: ubuntu-2204:2022.04.2
     #docker:
     #    - image: docker:dind
     steps:
