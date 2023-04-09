@@ -1,9 +1,9 @@
 version: 2
 
 workflows:
-  build1:
+  build-and-test:
     jobs:
-      - deploy:
+      - build2:
           filters:
             branches:
               only:
