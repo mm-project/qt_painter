@@ -1,32 +1,29 @@
 version: 2
-
-
-build2:
-  jobs:
-    build:
-      docker:
-          - image: hopar/qtpainter:0.0.1
-      steps:
-        - checkout
-        - run:
-            name: compile
-            command: export TERM=xterm; cmake CMakeLists.txt; make -j8
-        - run:
-            name: compile_ut
-            command: export TERM=xterm; ./etc/bsys/bin/makeUnitTests.sh
-        - run:
-            name: testing_unit
-            command: export CI_BUILD="CCI_UNIT_TEST$CIRCLE_BUILD_NUM"; export CI_CHECK=1; export TERM=xterm;  xvfb-run ./sqa/bin/runUnitTests.sh
-        - run:
-            name: testing_integrations
-            command: export CI_BUILD="CCI_INTG_TEST$CIRCLE_BUILD_NUM"; export CI_CHECK=1; export TERM=xterm; export PAINTER_QA_XVFB=1; ./sqa/bin/runTestsParallel.sh
-        - store_artifacts:
-            path: /root/project/artifacts
+jobs:
+  build:
+    docker:
+        - image: hopar/qtpainter:0.0.1
+    steps:
+      - checkout
+      - run:
+          name: compile
+          command: export TERM=xterm; cmake CMakeLists.txt; make -j8
+      - run:
+          name: compile_ut
+          command: export TERM=xterm; ./etc/bsys/bin/makeUnitTests.sh
+      - run:
+          name: testing_unit
+          command: export CI_BUILD="CCI_UNIT_TEST$CIRCLE_BUILD_NUM"; export CI_CHECK=1; export TERM=xterm;  xvfb-run ./sqa/bin/runUnitTests.sh
+      - run:
+          name: testing_integrations
+          command: export CI_BUILD="CCI_INTG_TEST$CIRCLE_BUILD_NUM"; export CI_CHECK=1; export TERM=xterm; export PAINTER_QA_XVFB=1; ./sqa/bin/runTestsParallel.sh
+      - store_artifacts:
+          path: /root/project/artifacts
 
 workflows:
   build-and-test:
     jobs:
-      - build2:
+      - build:
           filters:
             branches:
               only:
