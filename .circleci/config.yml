@@ -1,4 +1,3 @@
-version: 2
 jobs:
   build:
     docker:
@@ -21,10 +20,11 @@ jobs:
           path: /root/project/artifacts
 
 workflows:
+  version: 2
   build-and-test:
     jobs:
       - build:
-          filters:
-            branches:
-              only:
-                - issue-188/Add-circeci-workflow-for-docker-build-push
+#          filters:
+#            branches:
+#              only:
+#                - issue-188/Add-circeci-workflow-for-docker-build-push
