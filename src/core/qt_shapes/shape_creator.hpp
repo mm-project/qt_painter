@@ -3,8 +3,8 @@
 
 #include <memory>
 
-#include "ishape.hpp"
-#include "service.hpp"
+#include "../ishape.hpp"
+#include "../service.hpp"
 
 //
 //	class ShapeCreator
