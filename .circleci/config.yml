@@ -18,13 +18,17 @@ jobs:
           command: export CI_BUILD="CCI_INTG_TEST$CIRCLE_BUILD_NUM"; export CI_CHECK=1; export TERM=xterm; export PAINTER_QA_XVFB=1; ./sqa/bin/runTestsParallel.sh
       - store_artifacts:
           path: /root/project/artifacts
-  docker-build:
+  docker-build-push:
     machine:
       image: ubuntu-2204:2022.04.2
     steps:
+      - checkout
       - run:
-          name: dockerbuild
+          name: docker_build
           command: docker build -t hopar/mm-qtpainter:latest -f ./etc/bsys/Dockerfile .
+      - run:
+          name: docker_push
+          command: echo 1
 
 workflows:
   version: 2
