@@ -20,7 +20,7 @@ jobs:
           path: /root/project/artifacts
   docker-build:
     docker:
-        - image: docker/dind:latest
+        - image: docker:dind
     steps:
       - run:
           name: dockerbuild
