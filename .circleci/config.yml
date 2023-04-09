@@ -24,7 +24,7 @@ jobs:
     steps:
       - run:
           name: dockerbuild
-          command: docker build -t hopar/qtpainter:latest -f ./etc/bsys/Dockerfile
+          command: docker build -t hopar/qtpainter:latest -f ./etc/bsys/Dockerfile .
 
 workflows:
   version: 2
