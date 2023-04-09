@@ -21,13 +21,10 @@ jobs:
   docker-build:
     machine:
       image: ubuntu-2204:2022.04.2
-    #docker:
-    #    - image: docker:dind
     steps:
-      - checkout
       - run:
           name: dockerbuild
-          command: docker build -t hopar/qtpainter:latest -f ./etc/bsys/Dockerfile .
+          command: docker build -t hopar/mm-qtpainter:latest -f ./etc/bsys/Dockerfile .
 
 workflows:
   version: 2
