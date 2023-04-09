@@ -19,8 +19,10 @@ jobs:
       - store_artifacts:
           path: /root/project/artifacts
   docker-build:
-    docker:
-        - image: docker:dind
+   machine:
+    image: ubuntu-2204:2022.04.2
+    #docker:
+    #    - image: docker:dind
     steps:
       - run:
           name: dockerbuild
@@ -35,6 +37,6 @@ workflows:
             branches:
               only:
                 - issue-188/Add-circeci-workflow-for-docker-build-push
-  build-and-test:
-    jobs:
-      - build
+  #build-and-test:
+  #  jobs:
+  #    - build
