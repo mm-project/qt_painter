@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-        - image: hopar/qtpainter:0.0.1
+        - image: hopar/qtpainter:0.0.6
     steps:
       - checkout
       - run:
