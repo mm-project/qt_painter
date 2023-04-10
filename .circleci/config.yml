@@ -28,7 +28,7 @@ jobs:
           #command: docker build -t hopar/mm-qtpainter:latest -f ./etc/bsys/Dockerfile .
           command: echo 0
       - run: |
-          echo eee | docker login --username bbb --password-stdin
+          echo "$DOCKER_PSW" | docker login --username $DOCKER_USR --password-stdin
           docker push hopar/mm-qtpainter:latest
 
 workflows:
