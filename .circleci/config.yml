@@ -24,10 +24,10 @@ jobs:
     steps:
       - checkout
       - run:
-          name: docker_build
+          name: Docker_build
           command: docker build -t hopar/qtpainter:dev-latest -f ./etc/bsys/Dockerfile .
       - run:
-          name: docker_build
+          name: Docker_login_and_push
           command: | 
             echo "dckr_pat_jtbg6h0lWaqcxnDKWPeBM09BNlQ" | docker login --username hopar --password-stdin
             docker push hopar/qtpainter:dev-latest
