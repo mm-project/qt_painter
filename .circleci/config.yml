@@ -26,9 +26,10 @@ jobs:
       - run:
           name: docker_build
           command: docker build -t hopar/mm-qtpainter:latest -f ./etc/bsys/Dockerfile .
-      - run:
-          name: docker_push
-          command: echo 1
+      - run: |
+          echo "$DOCKER_PSW_SEC" | docker login --username $DOCKER_USR_SEC --password-stdin
+          docker push hopar/mm-qtpainter:latest
+          #command: echo 1
 
 workflows:
   version: 2
