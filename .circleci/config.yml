@@ -41,7 +41,7 @@ workflows:
             branches:
               only:
                 - issue-188/Add-circeci-workflow-for-docker-build-push
-      - build-and-test-after-docker-push:
+      - build:
           requires:
             - docker-build-push
           filters:
