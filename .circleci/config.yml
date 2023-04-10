@@ -40,18 +40,18 @@ workflows:
           filters:
             branches:
               ignore:
-                - issue-188/Add-circeci-workflow-for-docker-build-push
+                - dev-docker-change
   docker-build-and-push:
     jobs:
       - docker-build-push:
           filters:
             branches:
               only:
-                - issue-188/Add-circeci-workflow-for-docker-build-push
+                - dev-docker-change
       - build:
           requires:
             - docker-build-push
           filters:
             branches:
               only:
-                - issue-188/Add-circeci-workflow-for-docker-build-push
+                - dev-docker-change
