@@ -34,6 +34,9 @@ jobs:
 
 workflows:
   version: 2
+  build-app:
+    jobs:
+      - build
   docker-build-and-push:
     jobs:
       - docker-build-push:
