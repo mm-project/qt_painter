@@ -36,7 +36,11 @@ workflows:
   version: 2
   build-app:
     jobs:
-      - build
+      - build:
+          filters:
+            branches:
+              ignore:
+                - issue-188/Add-circeci-workflow-for-docker-build-push
   docker-build-and-push:
     jobs:
       - docker-build-push:
@@ -51,7 +55,3 @@ workflows:
             branches:
               only:
                 - issue-188/Add-circeci-workflow-for-docker-build-push
-
-#build-and-test:
-  #  jobs:
-  #    - build
