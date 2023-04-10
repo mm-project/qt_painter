@@ -1,7 +1,7 @@
 jobs:
   build:
     docker:
-        - image: hopar/qtpainter:0.0.1
+        - image: hopar/qtpainter:dev-latest
     steps:
       - checkout
       - run:
@@ -25,11 +25,12 @@ jobs:
       - checkout
       - run:
           name: docker_build
-          #command: docker build -t hopar/mm-qtpainter:latest -f ./etc/bsys/Dockerfile .
-          command: echo 0
-      - run: |
-          echo "dckr_pat_jtbg6h0lWaqcxnDKWPeBM09BNlQ" | docker login --username hopar --password-stdin
-          docker push hopar/mm-qtpainter:latest
+          command: docker build -t hopar/qtpainter:dev-latest -f ./etc/bsys/Dockerfile .
+      - run:
+          name: docker_build
+          command: | 
+            echo "dckr_pat_jtbg6h0lWaqcxnDKWPeBM09BNlQ" | docker login --username hopar --password-stdin
+            docker push hopar/qtpainter:dev-latest
 
 workflows:
   version: 2
@@ -40,6 +41,14 @@ workflows:
             branches:
               only:
                 - issue-188/Add-circeci-workflow-for-docker-build-push
-  #build-and-test:
+      - build-and-test-after-docker-push:
+          requires:
+            - docker-build-push
+          filters:
+            branches:
+              only:
+                - issue-188/Add-circeci-workflow-for-docker-build-push
+
+#build-and-test:
   #  jobs:
   #    - build
