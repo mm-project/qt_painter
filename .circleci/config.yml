@@ -29,7 +29,7 @@ jobs:
       - run:
           name: Docker_login_and_push
           command: | 
-            echo "dckr_pat_jtbg6h0lWaqcxnDKWPeBM09BNlQ" | docker login --username hopar --password-stdin
+            echo "$DOCKER_PSW" | docker login --username $DOCKER_USR --password-stdin
             docker push hopar/qtpainter:dev-latest
 
 workflows:
