@@ -4,6 +4,7 @@ exit_code=""
 need_dbg=""
 succ=4
 GDIRNAME=expected
+testname=`basename $PWD`
 
 export PAINTER_LOGFILE_PREFIX="painter"
 #mode="regolden"
@@ -76,6 +77,7 @@ function postprocess
             done
             cp ./logs/painter.log ../$GDIRNAME/painter.log.golden
             cp ./logs/painter.lvi ../$GDIRNAME/painter.lvi.golden
+	     mv ./$testname.mp4 ../$GDIRNAME/$testname.golden.mp4
             #cp painter.out ../$GDIRNAME/painter.out.golden
             cp `find -name "*.golden*"` ../$GDIRNAME
             #cnvscprs=`find -name "*compare*"`
@@ -240,9 +242,13 @@ function run
     	xvfb_pid=$!
     	sleep 1
     	export DISPLAY=:$dsp
+    	ffmpeg -y -r 24 -s 1280x1024 -f x11grab -i :$dsp -codec:v libx264 $testname.mp4 &> ffmpeg.log &
+	ffmpeg_pid=$!
     fi
     $tool $options &> pntr.output
     exit_code=$?
+    kill -15 $ffmpeg_pid
+    sleep 1
     kill -9 $xvfb_pid &> /dev/null
 }
 
