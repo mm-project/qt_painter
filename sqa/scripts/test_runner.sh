@@ -5,7 +5,7 @@ need_dbg=""
 succ=4
 GDIRNAME="expected"
 ODIRNAME="output"
-if [ -z "$PAINTER_TEST_OUT_DIRNAME" ]; then
+if [ ! -z "$PAINTER_TEST_OUT_DIRNAME" ]; then
   ODIRNAME=$PAINTER_TEST_OUT_DIRNAME
 fi
 
