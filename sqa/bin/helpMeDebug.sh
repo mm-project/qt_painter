@@ -17,10 +17,10 @@ if [ "$need_rebuild" != "" ]; then
 	git checkout $golden_branch
 	cmake . 
 	make -j8 
-	mv bin/linux/painter bin/linux/painter.golden
+	cp bin/linux/painter bin/linux/painter.golden
 fi
 cd $testname
-export PAINTER_EXE_NAME="painter.golden"
+#export PAINTER_EXE_NAME="painter.golden"
 ./run.sh
 cd -
 exit 0
@@ -30,8 +30,9 @@ if [ "$need_rebuild" != "" ]; then
 	git checkout $debug_branch &> /dev/null
 	cmake . &> /dev/null
 	make -j8 &> /dev/null
+	cp bin/linux/painter bin/linux/painter.tmp
 fi
-export PAINTER_EXE_NAME="painter"
+export PAINTER_EXE_NAME="painter.temp"
 export PAINTER_TEST_OUT_DIRNAME="output_debug"
 cd $testname
 ./run.sh
