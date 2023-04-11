@@ -15,14 +15,15 @@ export PAINTER_QA_XVFB=1
 echo "Building and running on >$golden_branch<"
 if [ "$need_rebuild" != "" ]; then
 	git checkout $golden_branch
-	cmake . &> /dev/null
-	make -j8 &> /dev/null
-	mv bin/linux/painter bin/linux/painter.golden &> /dev/null
+	cmake . 
+	make -j8 
+	mv bin/linux/painter bin/linux/painter.golden
 fi
 cd $testname
 export PAINTER_EXE_NAME="painter.golden"
 ./run.sh
 cd -
+exit 0
 
 echo "Building and running on >$debug_branch<"
 if [ "$need_rebuild" != "" ]; then
