@@ -3,7 +3,12 @@
 exit_code=""
 need_dbg=""
 succ=4
-GDIRNAME=expected
+GDIRNAME="expected"
+ODIRNAME="output"
+if [ -z "$PAINTER_TEST_OUT_DIRNAME" ]; then
+  ODIRNAME=$PAINTER_TEST_OUT_DIRNAME
+fi
+
 testname=`basename $PWD`
 
 export PAINTER_LOGFILE_PREFIX="painter"
@@ -45,10 +50,10 @@ function prepocess
     fi
     
     verbose "prepocess..."
-    rm -rf output
+    rm -rf $ODIRNAME
     mkdir -p $GDIRNAME
-    mkdir output
-    cd output
+    mkdir $ODIRNAME
+    cd $ODIRNAME
     
     cp $PAINTER_QA_DIR/etc/webrelated/* . -r
     
@@ -231,7 +236,7 @@ function run
     local options="$1"
     verbose "running..."
     platform=linux
-    toolexe=painter
+    toolexe=$PAINTER_EXE_NAME
     toolpath=$PAINTER_QA_DIR/../bin/$platform
     tool=$toolpath/$toolexe
     verbose "invocation: $tool "$options" &> painter.out "

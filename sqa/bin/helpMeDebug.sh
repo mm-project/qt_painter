@@ -1,4 +1,6 @@
 #!/bin/sh
+
+set -e 
 #golden_branch_str="$1"
 golden_branch="dev"
 debug_branch_str="$1"
