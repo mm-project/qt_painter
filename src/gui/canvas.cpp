@@ -9,7 +9,6 @@
 #include "../core/design.hpp"
 #include "../core/runtime_pool.hpp"
 #include "../core/selection.hpp"
-#include "../core/shapes.hpp"
 
 #include "../commands/basic_commands.hpp"
 #include "../commands/command_manager.hpp"

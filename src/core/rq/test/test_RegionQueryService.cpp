@@ -1,5 +1,4 @@
 #include "../../ishape.hpp"
-#include "../../shapes.hpp"
 #include "../RegionQueryService.hpp"
 #include "../debug_helper.hpp"
 

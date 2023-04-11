@@ -90,7 +90,7 @@ std::string Backtrace(int skip = 1)
     return "";
 }
 
-void handler(int sig)
+void handler(int)
 {
     std::string s(Backtrace());
     Messenger::expose_msg(err, s);

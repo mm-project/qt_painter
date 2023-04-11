@@ -4,7 +4,6 @@
 #include "../gui/controller.hpp"
 
 #include "design.hpp"
-#include "shapes.hpp"
 
 RuntimePool::RuntimePool(RuntimePoolManagerPtr p) : m_parent(p)
 {

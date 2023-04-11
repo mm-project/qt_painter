@@ -6,7 +6,7 @@
 #include "shape_creation_directive_commands.hpp"
 
 #include "../core/postman.hpp"
-#include "../core/shape_creator.hpp"
+#include "../core/qt_shapes/shape_creator.hpp"
 #include "../gui/controller.hpp"
 #include "../gui/statusbar_manager.hpp"
 

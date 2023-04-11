@@ -1,5 +1,9 @@
 #include "shape_creator.hpp"
-#include "shapes.hpp"
+
+#include "ellipse.hpp"
+#include "line.hpp"
+#include "polygon.hpp"
+#include "rectangle.hpp"
 
 ShapeCreator::ShapeCreator()
 {

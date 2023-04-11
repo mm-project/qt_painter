@@ -234,8 +234,16 @@ function run
     tool=$toolpath/$toolexe
     verbose "invocation: $tool "$options" &> painter.out "
 
+    if [ "$PAINTER_QA_XVFB" != "" ]; then
+    	dsp=$(( ( RANDOM % 100000 )  + 1 ))
+    	Xvfb :$dsp &> xvfb.log &
+    	xvfb_pid=$!
+    	sleep 1
+    	export DISPLAY=:$dsp
+    fi
     $tool $options &> pntr.output
     exit_code=$?
+    kill -9 $xvfb_pid &> /dev/null
 }
 
 function run_test
