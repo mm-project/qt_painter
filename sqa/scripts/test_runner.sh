@@ -5,6 +5,11 @@ need_dbg=""
 succ=4
 GDIRNAME="expected"
 ODIRNAME="output"
+
+if [ -z "$PAINTER_EXE_NAME" ]; then
+  PAINTER_EXE_NAME="painter"
+fi
+
 if [ ! -z "$PAINTER_TEST_OUT_DIRNAME" ]; then
   ODIRNAME=$PAINTER_TEST_OUT_DIRNAME
 fi
@@ -252,7 +257,7 @@ function run
     fi
     $tool $options &> pntr.output
     exit_code=$?
-    kill -15 $ffmpeg_pid
+    kill -15 $ffmpeg_pid &> /dev/null
     sleep 1
     kill -9 $xvfb_pid &> /dev/null
 }
