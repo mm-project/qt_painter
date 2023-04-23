@@ -49,7 +49,10 @@ class InteractiveCommandBase : public CommandBase
     virtual void handle_mouse_click(int x, int y)
     {
         // log("click "+x+" "+y);
-        m_last_click_point.setX(x);
+        if (!m_is_released)
+			return;
+		
+		m_last_click_point.setX(x);
         m_last_click_point.setY(y);
         m_current_event_handler(MC);
         m_is_released = true;

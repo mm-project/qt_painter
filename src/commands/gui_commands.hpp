@@ -310,6 +310,7 @@ class dicmdCanvasMouseClick : public NonTransactionalDirectCommandBase
         
 		//*
 		dicmdCanvasMouseMove(m_p).execute();
+		QApplication::processEvents();
 		dicmdCanvasMousePress(m_p).execute();
 		QApplication::processEvents();
         //dicmdCanvasMouseMove(m_p).execute();

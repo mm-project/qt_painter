@@ -1,37 +1,14 @@
 #i --> Info: Welcome to this project. Feel free to expirment. 
 #i --> Info: Set to mode1
-dicmdguiClickButton -object mw/65/70/Home/qt_tabwidget_tabbar 
-#e --> Error: something went wrong with this command -> dicmdguiClickButton
-dicmdguiClickButton -object 0x104:Rectangle 
-incmdCreateObjRectangle
+dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(121,80);(203,143)} 
+dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(181,197);(261,261)} 
 dicmdAbortActiveCommand 
-incmdCreateObjRectangle
-dicmdCanvasMouseClick -point (121,80) 
-dicmdCanvasMouseClick -point (121,80) 
-dicmdCanvasMouseClick -point (203,143) 
-dicmdCanvasMouseClick -point (203,143) 
-#o --> Out: dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(121,80);(203,143)} 
-dicmdguiClickButton -object 0x104:Ellipse 
-incmdCreateObjEllipse
-dicmdAbortActiveCommand 
-dicmdAbortActiveCommand 
-incmdCreateObjEllipse
-dicmdCanvasMouseClick -point (181,197) 
-dicmdCanvasMouseClick -point (181,197) 
-dicmdCanvasMouseClick -point (261,261) 
-dicmdCanvasMouseClick -point (261,261) 
-#o --> Out: dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(181,197);(261,261)} 
-dicmdAbortActiveCommand 
-dicmdAbortActiveCommand 
-dicmdCanvasMouseClick -point (185,126) 
-dicmdCanvasMouseClick -point (185,126) 
-dicmdCanvasMouseClick -point (86,169) 
-dicmdCanvasMouseClick -point (86,169) 
-dicmdCanvasMouseClick -point (139,123) 
-dicmdCanvasMouseClick -point (139,123) 
+dicmdCanvasMousePress -point (185,126) 
+#u --> User: dicmdCanvasMouseRlease
+#e --> Error: dicmdCanvasMouseRlease command not found
+dicmdCanvasMousePress -point (139,123) 
 dicmdCanvasMouseRelease -point (572,59) 
-dicmdCanvasMouseClick -point (201,231) 
-dicmdCanvasMouseClick -point (201,231) 
+dicmdCanvasMousePress -point (201,231) 
 dicmdCanvasMouseRelease -point (573,159) 
 dicmdguiClickButton -object mw/65/70/Home/qt_tabwidget_tabbar 
 #e --> Error: something went wrong with this command -> dicmdguiClickButton

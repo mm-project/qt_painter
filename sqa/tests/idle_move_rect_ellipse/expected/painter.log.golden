@@ -1,68 +1,33 @@
 #i --> Info: Welcome to this project. Feel free to expirment. 
 #i --> Info: Set to mode1
-dicmdQaReplyingBreak 
-#i --> Info: Set to mode0
-#i --> Info: Replying Stopped for debug. Press "W" to continue to run till next breakpoint, or "S" to execute next command.
-dicmdQaReplyStep 
 dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(121,80);(203,143)} 
-dicmdQaReplyStep 
 dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(181,197);(261,261)} 
-dicmdQaReplyStep 
 dicmdAbortActiveCommand 
-dicmdQaReplyStep 
 dicmdCanvasMousePress -point (185,126) 
-dicmdQaReplyStep 
 #u --> User: dicmdCanvasMouseRlease
-#i --> Info: Set to mode0
-#i --> Info: Replying Stopped for debug. Press "W" to continue to run till next breakpoint, or "S" to execute next command.
 #e --> Error: dicmdCanvasMouseRlease command not found
-dicmdQaReplyStep 
-dicmdCanvasMousePress -point (139,123) 
-dicmdQaReplyStep 
-dicmdCanvasMouseRelease -point (572,59) 
 dicmdCanvasMousePress -point (139,123) 
 dicmdCanvasMouseRelease -point (572,59) 
-dicmdQaReplyStep 
-dicmdCanvasMousePress -point (201,231) 
-dicmdQaReplyStep 
-dicmdCanvasMouseRelease -point (573,159) 
 dicmdCanvasMousePress -point (201,231) 
 dicmdCanvasMouseRelease -point (573,159) 
-dicmdQaReplyStep 
 dicmdguiClickButton -object mw/65/70/Home/qt_tabwidget_tabbar 
-#i --> Info: Set to mode0
-#i --> Info: Replying Stopped for debug. Press "W" to continue to run till next breakpoint, or "S" to execute next command.
 #e --> Error: something went wrong with this command -> dicmdguiClickButton
-dicmdQaReplyStep 
 dicmdguiClickButton -object 0x107:Region 
 incmdSelectShapesByRegion
-dicmdQaReplyStep 
 dicmdAbortActiveCommand 
 incmdSelectShapesByRegion
-dicmdQaReplyStep 
 dicmdCanvasMouseClick -point (27,26) 
 dicmdCanvasMouseClick -point (27,26) 
-dicmdQaReplyStep 
 dicmdCanvasMouseClick -point (479,328) 
 dicmdCanvasMouseClick -point (479,328) 
 #o --> Out: dicmdSelectShapesByRegion -end (479,328) -start (27,26) 
-dicmdQaReplyStep 
-dicmdQaReplyStep 
 dicmdQaCompareSelection 
 #t --> Test: comparision->Selection:PASS Selection_Compare_0.txt Selection_Compare_0.txt.golden
-dicmdQaReplyStep 
-dicmdQaReplyStep 
 dicmdCanvasMouseClick -point (479,35) 
 dicmdCanvasMouseClick -point (479,35) 
-dicmdQaReplyStep 
 dicmdCanvasMouseClick -point (773,260) 
 dicmdCanvasMouseClick -point (773,260) 
 #o --> Out: dicmdSelectShapesByRegion -end (773,260) -start (479,35) 
-dicmdQaReplyStep 
-dicmdQaReplyStep 
 dicmdQaCompareSelection 
 #t --> Test: comparision->Selection:PASS Selection_Compare_1.txt Selection_Compare_1.txt.golden
-dicmdQaReplyStep 
-dicmdQaReplyStep 
-dicmdQaReplyStep 
 dicmdQaToolExit 

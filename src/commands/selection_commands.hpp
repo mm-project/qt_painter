@@ -79,10 +79,13 @@ class incmdSelectUnderCursoer : public InteractiveCommandBase
         // if ( ev == MU )
         //         on_click();
         // else
+		std::cout << "---------?????? " << ev << std::endl;
         if (ev == MM)
             m_se.highlight_shape_under_pos(InteractiveCommandBase::get_last_point());
         else if (ev == MD)
-            on_press(OTHER); // set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer,on_press));
+            //return;
+			//assert(0);
+			on_press(OTHER); // set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer,on_press));
         else
             return;
     }

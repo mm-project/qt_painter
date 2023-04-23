@@ -271,7 +271,7 @@ template <relocAction T> class incmdObjRelocateBy : public InteractiveCommandBas
         if (ev == MM)
             move_runtimes_to_point(InteractiveCommandBase::get_last_point());
 
-        if (ev == MC)
+        if (ev == MC || ev == MD )
         {
 
             if (!m_se.getObjects().empty())
