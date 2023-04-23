@@ -247,7 +247,7 @@ function run
     fi
     $tool $options &> pntr.output
     exit_code=$?
-    kill -15 $ffmpeg_pid
+    kill -15 $ffmpeg_pid &> /dev/null
     sleep 1
     kill -9 $xvfb_pid &> /dev/null
 }
