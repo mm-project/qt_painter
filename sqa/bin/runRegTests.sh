@@ -56,7 +56,9 @@ for i in $TESTLST; do
             echo -e "\e[32mPass\e[0m"
             t_res=1
             passed=`expr $passed + 1`
-            cp output $ARTIFACTS_DIR/$testname -rf
+            if [ "$PAINTER_NEED_TEST_PASS_ARTIFACTS" != "" ]; then
+	    	cp output $ARTIFACTS_DIR/$testname -rf
+	    fi
         elif [ "$r" == 3 ]; then
             echo -e "\e[4;5;41mC R A S H\e[0;25m"
             echo "******stack******"
