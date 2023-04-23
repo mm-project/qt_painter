@@ -10,7 +10,8 @@
 #include <iostream>
 #include <string>
 
-#define HANDLE_FUNCTION(C, M) std::bind(&C::M, this, std::placeholders::_1)
+//TODO: change signature if DBX mode
+#define HANDLE_FUNCTION(C, M) std::bind(&C::M, this, std::placeholders::_1),std::make_pair<std::string,std::string>(#C,#M)
 typedef std::function<void(const EvType &)> CmdMemFun;
 
 class InteractiveCommandBase : public CommandBase
@@ -19,6 +20,29 @@ class InteractiveCommandBase : public CommandBase
     bool m_is_released = true;
 
   public:
+	const char* Event2Name(const EvType &ev)
+	{
+		switch(ev) {
+			case MC: return "Mouse-click";
+				break;
+			case MD: return "Mouse-down";
+				break;
+			case MU: return "Mouse-up";
+				break;
+			case MM: return "Mouse-move";
+				break;
+			case MDM: return "Mouse-down-move";
+				break;
+			case MDC: return "Mouse-double-click";
+				break;
+		}
+	}
+
+	void debug_event(const EvType &ev)
+	{
+		std::cout << "Event: --------- " << m_current_event_handler_info.first << "::" << m_current_event_handler_info.second << "(" << Event2Name(ev) << ")" << std::endl;
+	}
+
     virtual CommandType get_type()
     {
         return Interactive;
@@ -123,9 +147,11 @@ class InteractiveCommandBase : public CommandBase
         return m_autorepeat;
     }
 
-    void set_next_handler(CmdMemFun fun)
+    void set_next_handler(CmdMemFun fun,std::pair<std::string,std::string> p)
     {
         m_current_event_handler = fun;
+		std::cout << "Event handler pass: " << p.first <<"::"<< p.second << std::endl; 
+		m_current_event_handler_info = p;
     }
 
     QPoint get_last_point()
@@ -145,6 +171,7 @@ class InteractiveCommandBase : public CommandBase
 
   private:
     CmdMemFun m_current_event_handler;
+	std::pair<std::string,std::string> m_current_event_handler_info;
     QPoint m_last_cursor_point;
     QPoint m_last_click_point;
     QPoint m_last_release_point;
