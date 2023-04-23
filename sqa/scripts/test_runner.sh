@@ -3,7 +3,17 @@
 exit_code=""
 need_dbg=""
 succ=4
-GDIRNAME=expected
+GDIRNAME="expected"
+ODIRNAME="output"
+
+if [ -z "$PAINTER_EXE_NAME" ]; then
+  PAINTER_EXE_NAME="painter"
+fi
+
+if [ ! -z "$PAINTER_TEST_OUT_DIRNAME" ]; then
+  ODIRNAME=$PAINTER_TEST_OUT_DIRNAME
+fi
+
 testname=`basename $PWD`
 
 export PAINTER_LOGFILE_PREFIX="painter"
