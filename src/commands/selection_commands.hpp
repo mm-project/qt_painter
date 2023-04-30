@@ -26,6 +26,8 @@ class incmdSelectUnderCursoer : public InteractiveCommandBase
     IShapePtr m_original_shape = nullptr;
     LeCallback *m_sel_cb;
     bool m_need_mouserelase_log = false;
+    int dx = 0;
+    int dy = 0;
 
   public:
     incmdSelectUnderCursoer(RuntimePoolManagerPtr r, ObjectPoolPtr s) : m_re(r), m_ws(s)
@@ -174,7 +176,10 @@ class incmdSelectUnderCursoer : public InteractiveCommandBase
             m_move_mode = true;
             // m_need_mouserelase_log = true;
             set_can_complete(false);
-            set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer, on_mousemove));
+            QPoint clk_p(InteractiveCommandBase::get_last_point());
+	    dx = m_original_shape->getPoints()[1].x() - clk_p.x();
+	    dy = m_original_shape->getPoints()[1].y() - clk_p.y();
+	    set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer, on_mousemove));
         }
         // m_shape_added = true;
         //}
@@ -196,7 +201,11 @@ class incmdSelectUnderCursoer : public InteractiveCommandBase
         for (auto it : m_sb->getObjects())
         {
             // std::cout << "rotate..." << std::endl;
-            it->moveCenterToPoint(p);
+	    
+	    int x = p.x() + dx;
+	    int y = p.y() + dy; 
+	    QPoint np(x,y);
+	    it->moveCenterToPoint(np);
         }
     }
 };

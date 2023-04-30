@@ -1,6 +1,7 @@
 PoolName: Generic-InteractiveCommand
-ObjCount: 1
+ObjCount: 2
 ======
+Rectangle:	  brushC -> #0000ff, brushS -> 10, penC -> #ffffff, penS -> 3
 Ellipse:	  brushC -> #00ffff, brushS -> 9, penC -> #ffffff, penS -> 2
 --------
 
@@ -15,8 +16,9 @@ ObjCount: 0
 --------
 
 PoolName: Highlight-Selection
-ObjCount: 1
+ObjCount: 2
 ======
+Rectangle:	  brushC -> #000000, brushS -> 0, penC -> #ff0000, penS -> 4
 Ellipse:	  brushC -> #000000, brushS -> 0, penC -> #ff0000, penS -> 4
 --------
 
