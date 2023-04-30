@@ -4,17 +4,13 @@ dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(121,80);(203,1
 dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(181,197);(261,261)} 
 dicmdAbortActiveCommand 
 dicmdCanvasMousePress -point (185,126) 
-#u --> User: dicmdCanvasMouseRlease
-#e --> Error: dicmdCanvasMouseRlease command not found
+dicmdCanvasMouseRelease -point (86,169) 
+#u --> User: error
+#e --> Error: error command not found
 dicmdCanvasMousePress -point (139,123) 
 dicmdCanvasMouseRelease -point (572,59) 
 dicmdCanvasMousePress -point (201,231) 
 dicmdCanvasMouseRelease -point (573,159) 
-dicmdguiClickButton -object mw/65/70/Home/qt_tabwidget_tabbar 
-#e --> Error: something went wrong with this command -> dicmdguiClickButton
-dicmdguiClickButton -object 0x107:Region 
-incmdSelectShapesByRegion
-dicmdAbortActiveCommand 
 incmdSelectShapesByRegion
 dicmdCanvasMouseClick -point (27,26) 
 dicmdCanvasMouseClick -point (27,26) 

@@ -301,7 +301,8 @@ dicmdCanvasMouseMove -point (778,143)
 dicmdCanvasMouseClick -point (778,143) 
 dicmdCanvasMouseMove -point (778,144) 
 #o --> Out: dicmdCreateObjPolygon -points {(550,101);(659,52);(778,143);(778,144)} 
-dicmdCanvasMouseDblClick -point (778,144) 
+dicmdCanvasMouseDblClick -point (778,144)
+hopar1
 dicmdCanvasMouseMove -point (777,144) 
 dicmdCanvasMouseMove -point (772,144) 
 dicmdCanvasMouseMove -point (761,144) 
@@ -460,6 +461,7 @@ dicmdCanvasMouseClick -point (491,72)
 dicmdCanvasMouseMove -point (491,73) 
 #o --> Out: dicmdCreateObjPolygon -points {(422,62);(477,124);(545,33);(491,72);(491,73)} 
 dicmdCanvasMouseDblClick -point (491,73) 
+hopar
 dicmdCanvasMouseMove -point (491,74) 
 dicmdCanvasMouseMove -point (491,75) 
 dicmdCanvasMouseMove -point (491,77) 
@@ -626,6 +628,7 @@ dicmdCanvasMouseMove -point (1151,91)
 dicmdCanvasMouseClick -point (1151,91) 
 #o --> Out: dicmdCreateObjPolygon -points {(1020,45);(971,179);(1195,182);(855,91);(1151,91);(1151,91)} 
 dicmdCanvasMouseDblClick -point (1151,91) 
+hopar
 dicmdCanvasMouseClick -point (1151,91) 
 dicmdCanvasMouseMove -point (1147,91) 
 dicmdCanvasMouseMove -point (1140,91) 
@@ -1524,7 +1527,8 @@ dicmdCanvasMouseMove -point (813,62)
 dicmdCanvasMouseMove -point (814,62) 
 dicmdCanvasMouseMove -point (815,61) 
 dicmdCanvasMouseClick -point (815,61) 
-dicmdCanvasMouseDblClick -point (815,61) 
+dicmdCanvasMouseDblClick -point (815,61)
+hopar
 dicmdCanvasMouseMove -point (816,61) 
 dicmdCanvasMouseMove -point (817,66) 
 dicmdCanvasMouseMove -point (818,73) 

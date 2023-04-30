@@ -20,6 +20,12 @@ class InteractiveCommandBase : public CommandBase
     bool m_is_released = true;
 
   public:
+	//InteractiveCommandBase() 
+	//{
+	//	m_current_event_handler = std::bind(&InteractiveCommandBase::debug_event, this, std::placeholders::_1);
+	//}
+
+  public:
 	const char* Event2Name(const EvType &ev)
 	{
 		switch(ev) {
@@ -41,6 +47,7 @@ class InteractiveCommandBase : public CommandBase
 	void debug_event(const EvType &ev)
 	{
 		std::cout << "Event: --------- " << m_current_event_handler_info.first << "::" << m_current_event_handler_info.second << "(" << Event2Name(ev) << ")" << std::endl;
+		//m_current_event_handler2(ev);
 	}
 
     virtual CommandType get_type()
@@ -54,7 +61,8 @@ class InteractiveCommandBase : public CommandBase
         // if (!m_is_released)
         //    return;
 
-        m_last_release_point.setX(x);
+        //debug_event(MU);
+		m_last_release_point.setX(x);
         m_last_release_point.setY(y);
         m_current_event_handler(MU);
         m_is_released = true;
@@ -76,6 +84,7 @@ class InteractiveCommandBase : public CommandBase
         //if (!m_is_released)
 		//	return;
 		
+		assert(0);
 		m_last_click_point.setX(x);
         m_last_click_point.setY(y);
         m_current_event_handler(MC);
@@ -169,8 +178,14 @@ class InteractiveCommandBase : public CommandBase
         return m_last_press_point;
     }
 
+    QPoint get_lastrls_point()
+    {
+        return m_last_release_point;
+    }
+
   private:
     CmdMemFun m_current_event_handler;
+    //CmdMemFun m_current_event_handler2;
 	std::pair<std::string,std::string> m_current_event_handler_info;
     QPoint m_last_cursor_point;
     QPoint m_last_click_point;

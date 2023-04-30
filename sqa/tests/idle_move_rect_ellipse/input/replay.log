@@ -2,23 +2,24 @@ dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(121,80);(203,1
 dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(181,197);(261,261)}
 dicmdAbortActiveCommand 
 dicmdCanvasMousePress -point (185,126)
-dicmdCanvasMouseRlease -point (86,169)
+dicmdCanvasMouseRelease -point (86,169)
+error
+
 dicmdCanvasMousePress -point (139,123)
 dicmdCanvasMouseRelease -point (572,59) 
+
 dicmdCanvasMousePress -point (201,231)
 dicmdCanvasMouseRelease -point (573,159) 
-dicmdguiClickButton -object mw/65/70/Home/qt_tabwidget_tabbar 
-dicmdguiClickButton -object 0x107:Region 
+
 incmdSelectShapesByRegion
 dicmdCanvasMouseClick -point (27,26) 
 dicmdCanvasMouseClick -point (479,328) 
 #o --> Out: dicmdSelectShapesByRegion -end (479,328) -start (27,26) 
 dicmdQaCompareSelection 
-#e --> Error: comparision->Selection:MISMATCH Selection_Compare_0.txt Selection_Compare_0.txt.golden
+
 dicmdCanvasMouseClick -point (479,35) 
 dicmdCanvasMouseClick -point (773,260) 
 #o --> Out: dicmdSelectShapesByRegion -end (773,260) -start (479,35) 
 dicmdQaCompareSelection 
-#e --> Error: comparision->Selection:MISMATCH Selection_Compare_1.txt Selection_Compare_1.txt.golden
-#dicmdQaToolExit 
+
 dicmdQaToolExit

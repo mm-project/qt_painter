@@ -154,7 +154,8 @@ template <ObjectType T> class incmdCreateObj : public ObjCreatorCommandBase<T>
         // if ( ev == KP ) //key pressed, abort
         //	InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,abort1));
 
-        if (ev != MC) // not mouse click, return
+        InteractiveCommandBase::debug_event(ev);
+		if (ev != MU) // not mouse click, return
             return false;
 
         // mouse clicked , set first point and go to next state
@@ -172,7 +173,7 @@ template <ObjectType T> class incmdCreateObj : public ObjCreatorCommandBase<T>
         // assert(0);
         if (ev == MM)
             ObjCreatorCommandBase<T>::runtime_set_pos2();
-        else if (ev == MC)
+        else if (ev == MU || ev == MC)
             on_commit(OTHER);
         // InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<T>,on_commit));
 
@@ -222,7 +223,7 @@ template <> class incmdCreateObj<POLYGON> : public ObjCreatorCommandBase<POLYGON
     bool idle(const EvType &ev)
     {
 
-        if (ev != MC) // not mouse click, return
+        if (ev != MU) // not mouse click, return
             return false;
 
         ObjCreatorCommandBase<POLYGON>::create_runtime_object();
@@ -234,7 +235,7 @@ template <> class incmdCreateObj<POLYGON> : public ObjCreatorCommandBase<POLYGON
     void on_first_click(const EvType &ev)
     {
         // assert(0);
-        if (ev == MC)
+        if (ev == MU)
             ObjCreatorCommandBase<POLYGON>::runtime_set_pos2();
         else if (ev == MM)
             ObjCreatorCommandBase<POLYGON>::runtime_movePoint();

@@ -1,11 +1,26 @@
-dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(113,97);(201,178)}
-dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(217,228);(297,297)}
-dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(270,134);(395,191)}
+#i --> Info: Welcome to this project. Feel free to expirment. 
+dicmdguiClickButton -object mw/65/70/Home/qt_tabwidget_tabbar 
+dicmdguiClickButton -object 0x104:Rectangle 
+incmdCreateObjRectangle
+dicmdCanvasMouseClick -point (113,97) 
+dicmdCanvasMouseClick -point (201,178) 
+#o --> Out: dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(113,97);(201,178)} 
+dicmdCanvasMouseClick -point (217,228) 
+dicmdCanvasMouseClick -point (297,297) 
+#o --> Out: dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(217,228);(297,297)} 
+dicmdguiClickButton -object 0x104:Ellipse 
+dicmdAbortActiveCommand 
+incmdCreateObjEllipse
+dicmdCanvasMouseClick -point (270,134) 
+dicmdCanvasMouseClick -point (395,191) 
+#o --> Out: dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(270,134);(395,191)}
+error
+dicmdAbortActiveCommand 
 dicmdAbortActiveCommand 
 dicmdCanvasMousePress -point (168,141)
-dicmdCanvasMouseRelease -point (168,141) 
-error
-dicmdQaCompareSelection
+dicmdCanvasMouseMove -point (168,141)
+dicmdCanvasMouseRelease -point (168,141)
+dicmdQaCompareSelection 
 #e --> Error: comparision->Selection:MISMATCH Selection_Compare_0.txt Selection_Compare_0.txt.golden
 dicmdCanvasMouseClick -point (250,255) 
 dicmdCanvasMouseRelease -point (250,255) 
