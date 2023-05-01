@@ -248,9 +248,10 @@ template <relocAction T> class incmdObjRelocateBy : public InteractiveCommandBas
 
     void wait_for_first_click(const EvType &ev)
     {
-        if (ev == MC || ev == MU || ev == MD)
+        //if (ev == MC || ev == MU || ev == MD)
+        if (ev == MU)			
         {
-            m_clicked_point = InteractiveCommandBase::get_lastclk_point();
+            m_clicked_point = InteractiveCommandBase::get_lastprs_point();
             for (auto shape : m_se.getObjects())
             {
                 QPoint diff(m_clicked_point - shape->getPoints()[0]);
@@ -270,7 +271,7 @@ template <relocAction T> class incmdObjRelocateBy : public InteractiveCommandBas
         if (ev == MM)
             move_runtimes_to_point(InteractiveCommandBase::get_last_point());
 
-        if (ev == MC || ev == MU || ev == MD)
+        if (ev == MU)
         {
 
             if (!m_se.getObjects().empty())

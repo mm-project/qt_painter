@@ -13,11 +13,13 @@ dicmdAbortActiveCommand
 incmdCreateObjEllipse
 dicmdCanvasMouseClick -point (270,134) 
 dicmdCanvasMouseClick -point (395,191) 
-#o --> Out: dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(270,134);(395,191)} 
+#o --> Out: dicmdCreateObjEllipse -brush 1 -color #000000 -fill 9 -points {(270,134);(395,191)}
+error
 dicmdAbortActiveCommand 
 dicmdAbortActiveCommand 
-dicmdCanvasMouseClick -point (168,141) 
-dicmdCanvasMouseRelease -point (168,141) 
+dicmdCanvasMousePress -point (168,141)
+dicmdCanvasMouseMove -point (168,141)
+dicmdCanvasMouseRelease -point (168,141)
 dicmdQaCompareSelection 
 #e --> Error: comparision->Selection:MISMATCH Selection_Compare_0.txt Selection_Compare_0.txt.golden
 dicmdCanvasMouseClick -point (250,255) 

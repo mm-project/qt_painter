@@ -22,11 +22,11 @@ declare -A PIDS
 
 function runAll
 {
-    threads_num=8
+    threads_num=32
     testnum_in_chunk=`expr $file_len / $threads_num`
     e=`expr $b + $testnum_in_chunk`
     echo "Running tests in parralel"
-    echo "Threads: $threads_num ( tests running in 1 thread: $testnum_in_chunk )"
+    echo "Threads: $threads_num ( tests running in each thread: $testnum_in_chunk )"
     echo
     #echo "file_len: $file_len"
     while [[ "$e" -le "$file_len" ]]; do

@@ -79,10 +79,17 @@ class incmdSelectUnderCursoer : public InteractiveCommandBase
         // if ( ev == MU )
         //         on_click();
         // else
-        if (ev == MM)
+		InteractiveCommandBase::debug_event(ev);
+        
+		if (ev == MM)
             m_se.highlight_shape_under_pos(InteractiveCommandBase::get_last_point());
-        else if (ev == MD)
-            on_press(OTHER); // set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer,on_press));
+		else if (ev == MD)
+            //on_click();
+			//m_se.highlightselect_shape_under_pos(InteractiveCommandBase::get_last_point());        
+		//else if (ev == MDM)
+            //return;
+			//assert(0);
+			on_press(OTHER); // set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer,on_press));
         else
             return;
     }
@@ -91,13 +98,17 @@ class incmdSelectUnderCursoer : public InteractiveCommandBase
     void on_click()
     {
         m_se.clear();
-        m_se.select_shape_under_pos(InteractiveCommandBase::get_last_point());
-        std::string msg("Selected " + QString::number(m_se.getObjects().size()).toStdString() + " shapes.");
+        //m_se.highlightselect_shape_under_pos(InteractiveCommandBase::get_last_point());
+        m_se.highlightselect_shape_under_pos(InteractiveCommandBase::get_last_point());        
+		std::string msg("Selected " + QString::number(m_se.getObjects().size()).toStdString() + " shapes.");
         StatusBarManager::getInstance().updateStatusBar(msg.c_str(), 1, 0);
     }
 
     void movement_commit()
     {
+		//if ( get_lastrls_point() == get_lastprs_point() )
+		//	set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer, on_idle));
+
         // set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer,on_idle));
         if (m_original_shape == nullptr || m_se.getObjects().empty())
             return;
@@ -141,7 +152,7 @@ class incmdSelectUnderCursoer : public InteractiveCommandBase
         // assert(0);
         // if (m_move_mode)
         //     return;
-        // assert(0);
+        // assert(0);`
         /// if selection empty pick the shape under mouse
         // if ( m_se.getObjects().empty() )
         on_click();
@@ -150,13 +161,15 @@ class incmdSelectUnderCursoer : public InteractiveCommandBase
         //     m_sb->clear();
         // m_se.highlightselect_shape_under_pos(InteractiveCommandBase::get_last_point());
         // m_se.select_shape_under_pos(InteractiveCommandBase::get_last_point());
+
         if (!m_se.getObjects().empty())
         {
-            m_sb->clear();
+            //assert(0);
+			m_sb->clear();
             m_original_shape = m_se.getObjects()[0];
             // for ( auto it : m_se.getObjects() )
             //    m_sb->addObject(it);
-            std::cout << "OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO" << m_original_shape << std::endl;
+            std::cout << "OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  ->>> " << m_original_shape << std::endl;
             m_sb->addObject(m_original_shape);
             m_move_mode = true;
             // m_need_mouserelase_log = true;
@@ -169,7 +182,9 @@ class incmdSelectUnderCursoer : public InteractiveCommandBase
 
     void on_mousemove(const EvType &ev)
     {
-        if (ev == MM)
+        InteractiveCommandBase::debug_event(ev);
+
+		if (ev == MDM)
             move_selected_to_point(InteractiveCommandBase::get_last_point());
         else if (ev == MU)
             movement_commit();
@@ -274,15 +289,16 @@ class incmdSelectShapesByRegion : public incmdCreateObj<RECTANGLE>
             ObjCreatorCommandBase<RECTANGLE>::set_next_handler(HANDLE_FUNCTION(incmdSelectShapesByRegion, on_idle));
     }
 
-    virtual void handle_mouse_click(int x, int y)
+    virtual void handle_mouse_release(int x, int y)
     {
-        if (m_first_click)
-            m_reg.first = InteractiveCommandBase::get_last_point();
+        std::cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << x << ":" << y << std::endl;
+		if (m_first_click)
+            m_reg.first = QPoint(x,y);//InteractiveCommandBase::get_lastrls_point();
         else
-            m_reg.second = InteractiveCommandBase::get_last_point();
+            m_reg.second = QPoint(x,y);//InteractiveCommandBase::get_lastrls_point();
 
         m_first_click = true;
-        InteractiveCommandBase::handle_mouse_click(x, y);
+        InteractiveCommandBase::handle_mouse_release(x, y);
     }
 
     // helpers
@@ -295,7 +311,7 @@ class incmdSelectShapesByRegion : public incmdCreateObj<RECTANGLE>
   public:
     void on_idle(const EvType &ev)
     {
-        if (ev == MC || ev == MD)
+        if (ev == MU)
         {
             if (m_first_click)
             {
