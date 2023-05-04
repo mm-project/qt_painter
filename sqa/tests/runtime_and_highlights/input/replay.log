@@ -2465,6 +2465,7 @@ dicmdCanvasMouseMove -point (788,89)
 dicmdCanvasMouseMove -point (789,89) 
 dicmdCanvasMouseMove -point (790,88) 
 dicmdCanvasMouseMove -point (791,88) 
+hopar-hoparinski
 dicmdQaCompareRuntime 
 #e --> Error: comparision->Runtime:MISMATCH Runtime_Compare_18.txt Runtime_Compare_18.txt.golden
 dicmdCanvasMouseMove -point (790,88) 
