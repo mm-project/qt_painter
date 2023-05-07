@@ -41,6 +41,7 @@ set(CMAKE_CXX_STANDARD 20)
 find_package (Qt5Widgets)
 find_package (Qt5Core)
 find_package (Qt5Gui)
+find_package (TBB)
 #find_package (Qt5Svg)
 #find_package (Qt5Xml)
 
