@@ -2,6 +2,7 @@
 #include "core/stackdump.hpp"
 #include "gui/main_window.hpp"
 #include "io/log_reader.hpp"
+#include "io/command_interpreter.hpp"
 
 #include <QApplication>
 
@@ -18,11 +19,23 @@ void handle_replaying(const std::string &fname)
     // delete r;
 }
 
+void handle_python(const std::string &fname)
+{
+    CommandInterp& ci = CommandInterp::getInstance();
+    ci.interpret_from_file(fname);
+}
+
 void hande_commandline_options(int argc, char **argv)
 {
     if (argc == 3)
-    { // && argv[1] == "-replay" ) {
-        handle_replaying(argv[2]);
+    {
+        char* instr = argv[1];
+
+        if (strcmp(instr,"-replay") == 0)
+            handle_replaying(argv[2]);
+
+        if (strcmp(instr,"-exec_python") == 0)
+            handle_python(argv[2]);
     }
 }
 
