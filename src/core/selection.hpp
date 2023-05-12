@@ -44,6 +44,7 @@ class Selection : public Service<Selection>, public ObjectPoolBase
     void on_controller_update(LeCallbackData &);
     void highlight_last_selected_region(bool);
     void temporary_highlight();
+    void highlightselect_all();
 };
 
 class HighlightSet : public ObjectPoolBase

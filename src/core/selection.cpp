@@ -13,6 +13,17 @@ std::string Selection::getName() const noexcept
 }
 
 // shold be removed after Highlit change
+void Selection::highlightselect_all()
+{
+    clear();
+    for (const auto& obj : m_ws->getObjects())
+    {
+        addObject(obj);
+        m_sel_highlight_set->addObject(obj);
+    }
+    m_sel_highlight_set->highlight_on();
+}
+
 void Selection::temporary_highlight()
 {
     m_sel_highlight_set->highlight_on();
