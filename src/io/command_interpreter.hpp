@@ -13,17 +13,19 @@
 
 #include <iostream>
 #include <string>
+#include <cstdio>
+
+
 
 class CommandInterp : public Service<CommandInterp>
 {
     command_manager &m_cm = command_manager::getInstance();
+  public:
+	CommandInterp();
+    bool interpret_from_string(const std::string &n);
+    bool interpret_from_file(const std::string& path);
 
   public:
-    bool interpret_from_string(const std::string &n)
-    {
-        execute_cmd(get_cmd_obj(n));
-        return true;
-    }
 
     CommandBase *get_cmd_obj(const std::string &n)
     {
