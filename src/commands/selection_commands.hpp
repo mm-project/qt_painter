@@ -235,7 +235,7 @@ class dicmdSelectAllShapes : public DirectCommandBase
     {
     }
 
-    virtual void execute()
+    void execute() override
     {
 
         Selection::getInstance().highlightselect_all();

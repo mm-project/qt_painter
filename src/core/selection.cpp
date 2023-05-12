@@ -16,7 +16,7 @@ std::string Selection::getName() const noexcept
 void Selection::highlightselect_all()
 {
     clear();
-    for (auto obj : m_ws->getObjects())
+    for (const auto& obj : m_ws->getObjects())
     {
         addObject(obj);
         m_sel_highlight_set->addObject(obj);
