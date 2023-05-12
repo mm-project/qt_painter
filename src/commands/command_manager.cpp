@@ -63,6 +63,7 @@ void command_manager::init()
     register_command(new dicmdQaReplyingBreak);
     register_command(new dicmdQaReplyingResume);
     register_command(new dicmdQaReplyStep);
+    register_command(new dicmdSelectAllShapes);
 
     m_current_command = m_idle_command;
 }

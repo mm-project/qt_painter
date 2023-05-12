@@ -227,6 +227,26 @@ class dicmdSelectShapesByRegion : public DirectCommandBase
     }
 };
 
+class dicmdSelectAllShapes : public DirectCommandBase
+{
+
+  public:
+    dicmdSelectAllShapes()
+    {
+    }
+
+    virtual void execute()
+    {
+
+        Selection::getInstance().highlightselect_all();
+    }
+
+    virtual std::string get_name()
+    {
+        return "dicmdSelectAllShapes";
+    }
+};
+
 class incmdSelectShapesByRegion : public incmdCreateObj<RECTANGLE>
 {
 
