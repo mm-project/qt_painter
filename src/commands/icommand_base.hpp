@@ -48,9 +48,16 @@ class CommandBase : public ICommand
         // m_cm = command_manager::get_instance();
     }
 
+
+    virtual void direct_execute(int,int,int,int)
+    {
+
+
+    }
+
     virtual void execute_and_log()
     {
-        log();
+        //log();
         try
         {
             // pre_execute();

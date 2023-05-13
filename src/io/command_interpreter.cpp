@@ -1,4 +1,7 @@
 #include "command_interpreter.hpp"
+#include "../commands/shape_creation_directive_commands.hpp"
+#include "../commands/selection_commands.hpp"
+
 
 #define PY_SSIZE_T_CLEAN
 #pragma push_macro("slots")
@@ -8,6 +11,10 @@
 
 //*
 namespace {
+
+CommandBase* rect_creator_cmd = nullptr;
+CommandBase* line_creator_cmd = nullptr;
+
 static PyObject* python_dicmdCanvasMouseClick(PyObject *self, PyObject *args)
 {
 
@@ -71,27 +78,12 @@ static PyObject* python_dicmdCanvasMouseRelease(PyObject *self, PyObject *args)
 static PyObject* python_dicmdCreateObjLine(PyObject *self, PyObject *args)
 {
 
-    int x1;
-    int y1;
-    int x2;
-    int y2;
-    command_manager& cm = command_manager::getInstance();
-    CommandBase* cmd = cm.find_command("dicmdCreateObjLine");
+    int x1,y1,x2,y2;
 
     if(!PyArg_ParseTuple(args, "iiii", &x1, &y1, &x2, &y2))
         return NULL;
 
-    //std::cout << x << " " << y << std::endl;
-    QString coord_str1 = "(" +QString::number(x1) + "," + QString::number(y1) +")";
-    QString coord_str2 = "(" +QString::number(x2) + "," + QString::number(y2) +")";
-    QString final_str = "{" + coord_str1 + ";" + coord_str2 + "}";
-
-    cmd->set_arg("-brush","1");
-    cmd->set_arg("-color","#0000ff");
-    cmd->set_arg("-fill","9");
-    cmd->set_arg("-points",final_str.toStdString());
-    //cm.activate_command(dynamic_cast<CommandBase *>(cmd));
-    cmd->execute_and_log();
+    line_creator_cmd->direct_execute(x1,y1,x2,y2);
     return PyLong_FromLong(0);
 
 }
@@ -100,28 +92,12 @@ static PyObject* python_dicmdCreateObjLine(PyObject *self, PyObject *args)
 static PyObject* python_dicmdCreateObjRectangle(PyObject *self, PyObject *args)
 {
 
-    //assert(0);
-    int x1;
-    int y1;
-    int x2;
-    int y2;
-    command_manager& cm = command_manager::getInstance();
-    CommandBase* cmd = cm.find_command("dicmdCreateObjRectangle");
+    int x1,y1,x2,y2;
 
     if(!PyArg_ParseTuple(args, "iiii", &x1, &y1, &x2, &y2))
         return NULL;
 
-    //std::cout << x << " " << y << std::endl;
-    QString coord_str1 = "(" +QString::number(x1) + "," + QString::number(y1) +")";
-    QString coord_str2 = "(" +QString::number(x2) + "," + QString::number(y2) +")";
-    QString final_str = "{" + coord_str1 + ";" + coord_str2 + "}";
-
-    cmd->set_arg("-brush","1");
-    cmd->set_arg("-color","#0000ff");
-    cmd->set_arg("-fill","9");
-    cmd->set_arg("-points",final_str.toStdString());
-    //cm.activate_command(dynamic_cast<CommandBase *>(cmd));
-    cmd->execute_and_log();
+    rect_creator_cmd->direct_execute(x1,y1,x2,y2);
     return PyLong_FromLong(0);
 
 }
@@ -197,6 +173,8 @@ static PyMethodDef MMProjectMethods[] = {
     {"dicmdQaToolExit", python_dicmdQaToolExit, METH_VARARGS , "Exit the tool."},
     {NULL, NULL, 0, NULL}
 };
+//    {"dicmdSelectAllShapes", python_dicmdSelectAllShapes, METH_VARARGS , "Selects all shapes "},
+
 
 static PyModuleDef MMProjectModule = {
     PyModuleDef_HEAD_INIT, "emb", NULL, -1, MMProjectMethods,
@@ -230,6 +208,10 @@ bool CommandInterp::interpret_from_string(const std::string &n)
 
 CommandInterp::CommandInterp()
 {
+    command_manager& cm = command_manager::getInstance();
+    line_creator_cmd = cm.find_command("dicmdCreateObjLine");
+    rect_creator_cmd = cm.find_command("dicmdCreateObjRectangle");
+
     PyImport_AppendInittab("mmproject", &PyInit_mmproject);
     Py_Initialize();
     PyRun_SimpleString("import mmproject\n");
