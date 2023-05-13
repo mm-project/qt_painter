@@ -1,6 +1,7 @@
 PoolName: Generic-InteractiveCommand
-ObjCount: 0
+ObjCount: 1
 ======
+Rectangle:	  brushC -> #0000ff, brushS -> 10, penC -> #ffffff, penS -> 3
 --------
 
 PoolName: Highlight-ActiveObjects
