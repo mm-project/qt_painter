@@ -91,7 +91,8 @@ class renderer
     void rendering_mode_change();
     void rendering_rt_mode_change();
     void rendering_des_mode_change();
-    QPixmap get_shapes_on_pixmap(auto shapes, int i, int w, int h);
+    QPixmap put_shapes_on_pixmap(auto shapes, int i, int w, int h);
+    std::vector<QRect> init_query_rects(int num_regions);
 
   private:
     QPainter *get_painter();

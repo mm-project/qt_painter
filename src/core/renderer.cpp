@@ -293,43 +293,106 @@ void renderer::draw_selection_rubberband()
 */
 
 
-QPixmap renderer::get_shapes_on_pixmap(auto shapes, int i, int w, int h)
+QPixmap renderer::put_shapes_on_pixmap(auto shapes, int i, int w, int h)
 {
     QPixmap pixmap(w,h);
-    //pixmap.fill(Qt::blue);
-    switch(i) {
-        case 0:
-            pixmap.fill(Qt::yellow);
-            break;
-        case 1:
-            pixmap.fill(Qt::blue);
-            break;
-        case 2:
-            pixmap.fill(Qt::green);
-            break;
-        case 3:
-            pixmap.fill(Qt::red);
-            break;
-        //default:
-        // code block
-    }
+    QColor color(255/(1+i), 255/(1+i), 255/(1+i));
+    pixmap.fill(color);
 
-    //pixmap.fill(Qt::black);
     QPainter *painter = new QPainter(&pixmap);
-    //canvas->setPen(QColor(255,34,255,255));
-    //canvas->drawRect(15,15,100,100);
-    //pix.save("test.bmp")
     for (const auto& shape : shapes)
         shape->draw(painter);
 
-    //pixmap.save("region" + QString::number(i) + ".bmp");
+    pixmap.save("region" + QString::number(i) + ".bmp");
 
     delete painter;
     return pixmap;
 
 }
 
+std::vector<QRect> renderer::init_query_rects(int num_regions)
+{
 
+    std::vector<QRect> query_rects(num_regions);
+
+    int factor;
+    switch(num_regions) {
+        case 4:
+            factor = 2;
+            break;
+        case 16:
+            factor = 4;
+            break;
+        case 64:
+            factor = 8;
+            break;
+    }
+
+
+    int canvas_h = 1 / get_zoom_factor() * (m_plane->height()) - m_origin_point.y();
+    int canvas_w = 1 / get_zoom_factor() * (m_plane->width()) - m_origin_point.x();
+
+    int query_w = canvas_w/factor;
+    int query_h = canvas_h/factor;
+
+    int k=0;
+    for(int i=0;i<factor;i++)
+        for(int j=0;j<factor;j++) {
+            std::cout << "creating region " << k << std::endl;
+            query_rects[k] = QRect(j*canvas_w/factor,i*canvas_h/factor,query_w,query_h);
+            k++;
+        }
+
+    return query_rects;
+}
+
+void renderer::draw_all()
+{
+    RegionQuery &rq = RegionQuery::getInstance();
+
+    int canvas_h = 1 / get_zoom_factor() * (m_plane->height()) - m_origin_point.y();
+    int canvas_w = 1 / get_zoom_factor() * (m_plane->width()) - m_origin_point.x();
+
+    int num_threads = 4;
+    int num_regions = num_threads;
+    int factor;
+    switch(num_regions) {
+        case 4:
+            factor = 2;
+            break;
+        case 16:
+            factor = 4;
+            break;
+        case 64:
+            factor = 8;
+            break;
+    }
+
+    int query_w = canvas_w/factor;
+    int query_h = canvas_h/factor;
+
+    std::vector<QRect> query_rects = init_query_rects(num_regions);
+    std::vector<QPixmap> pixmaps(num_regions);
+
+    #pragma omp parallel for
+    for(int i=0;i<num_regions;i++){
+        auto shapes = rq.getShapesUnderRect(query_rects[i]);
+        //std::cout << "region" << i << ":   shapes:" << shapes.size() << std::endl;
+        pixmaps[i] = put_shapes_on_pixmap(shapes,i,canvas_w,canvas_h);
+    }
+
+    QPixmap canvas(canvas_w,canvas_h);
+    canvas.fill(Qt::black);
+    //QPainter *painter = new QPainter(&canvas);
+    m_qt_painter->setPen(QColor(255,34,255,255));
+    #pragma omp parallel for
+    for(int i=0;i<num_regions;i++)
+        m_qt_painter->drawPixmap(query_rects[i].x(),query_rects[i].y(),query_w,query_h,pixmaps[i],query_rects[i].x(),query_rects[i].y(),query_w,query_h);
+    //canvas.save("canvas.bmp");
+    //delete painter;
+}
+
+/*
 void renderer::draw_all()
 {
     RegionQuery &rq = RegionQuery::getInstance();
@@ -344,21 +407,14 @@ void renderer::draw_all()
 
     int query_w = canvas_w/2;
     int query_h = canvas_h/2;
-
     int mid_x = canvas_w/2;
     int mid_y = canvas_h/2;
 
-    std::vector<QRect> query_regions(4);
-    query_regions[0] = QRect(0,0,query_w,query_h);
-    query_regions[1] = QRect(mid_x,0,query_w,query_h);
-    query_regions[2] = QRect(0,mid_y,query_w,query_h);
-    query_regions[3] = QRect(mid_x,mid_y,query_w,query_h);
-
-
-
-    std::vector<QPixmap> regions(4);
+    int regions = 4;
+    query_regions = init_regions(regions)
+    std::vector<QPixmap> regions(regions);
     #pragma omp parallel for
-    for(int i=0;i<4;i++){
+    for(int i=0;i<regions;i++){
         auto shapes = rq.getShapesUnderRect(query_regions[i]);
         std::cout << "region" << i << ":   shapes:" << shapes.size() << std::endl;
         regions[i] = get_shapes_on_pixmap(shapes,i,canvas_w,canvas_h);
@@ -385,7 +441,8 @@ void renderer::draw_all()
     if (Application::is_replay_mode())
         draw_cursor();
     */
-}
+//}
+//*/
 
 void renderer::draw_all_wno_cursor()
 {
