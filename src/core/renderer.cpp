@@ -291,8 +291,86 @@ void renderer::draw_selection_rubberband()
             obj->draw(m_qt_painter);
 }
 */
+
+
+QPixmap renderer::get_shapes_on_pixmap(auto shapes, int i, int w, int h)
+{
+    QPixmap pixmap(w,h);
+    //pixmap.fill(Qt::blue);
+    switch(i) {
+        case 0:
+            pixmap.fill(Qt::black);
+            break;
+        case 1:
+            pixmap.fill(Qt::blue);
+            break;
+        case 2:
+            pixmap.fill(Qt::green);
+            break;
+        case 3:
+            pixmap.fill(Qt::red);
+            break;
+        //default:
+        // code block
+    }
+
+    //pixmap.fill(Qt::black);
+    QPainter *painter = new QPainter(&pixmap);
+    //canvas->setPen(QColor(255,34,255,255));
+    //canvas->drawRect(15,15,100,100);
+    //pix.save("test.bmp")
+    for (const auto& shape : shapes)
+        shape->draw(painter);
+
+    //pixmap.save("region" + QString::number(i) + ".bmp");
+
+    delete painter;
+    return pixmap;
+
+}
+
+
 void renderer::draw_all()
 {
+    RegionQuery &rq = RegionQuery::getInstance();
+    //int canvas_w = m_plane->width();
+    //int canvas_h = m_plane->height();
+
+    int canvas_h = 1 / get_zoom_factor() * (m_plane->height()) - m_origin_point.y();
+    int canvas_w = 1 / get_zoom_factor() * (m_plane->width()) - m_origin_point.x();
+
+    int query_w = canvas_w/2;
+    int query_h = canvas_h/2;
+
+    int mid_x = canvas_w/2;
+    int mid_y = canvas_h/2;
+
+    std::vector<QRect> query_regions(4);
+    query_regions[0] = QRect(0,0,query_w,query_h);
+    query_regions[1] = QRect(mid_x,0,query_w,query_h);
+    query_regions[2] = QRect(0,mid_y,query_w,query_h);
+    query_regions[3] = QRect(mid_x,mid_y,query_w,query_h);
+
+
+
+    std::vector<QPixmap> regions(4);
+    #pragma omp parallel for
+    for(int i=0;i<4;i++){
+        auto shapes = rq.getShapesUnderRect(query_regions[i]);
+        std::cout << "region" << i << ":   shapes:" << shapes.size() << std::endl;
+        regions[i] = get_shapes_on_pixmap(shapes,i,canvas_w,canvas_h);
+    }
+
+    QPixmap canvas(canvas_w,canvas_h);
+    canvas.fill(Qt::black);
+    //QPainter *painter = new QPainter(&canvas);
+    m_qt_painter->setPen(QColor(255,34,255,255));
+    m_qt_painter->drawPixmap(0,0,query_w,query_h,regions[0],0,0,query_w,query_h);
+    m_qt_painter->drawPixmap(mid_x,0,query_w,query_h,regions[1],mid_x,0,query_w,query_h);
+    m_qt_painter->drawPixmap(0,mid_y,query_w,query_h,regions[2],0,mid_y,query_w,query_h);
+    m_qt_painter->drawPixmap(mid_x,mid_y,query_w,query_h,regions[3],mid_x,mid_y,query_w,query_h);
+
+    /*
     draw_background();
     draw_grid();
     if (m_des_renderer)
@@ -301,6 +379,7 @@ void renderer::draw_all()
         draw_runtime_pools();
     if (Application::is_replay_mode())
         draw_cursor();
+    */
 }
 
 void renderer::draw_all_wno_cursor()

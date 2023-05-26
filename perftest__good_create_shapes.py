@@ -7,24 +7,24 @@ def create_good_shapes(row,column):
     epsilon = 90
     mmproject.dicmdCreateObjRectangle(delta*row,delta*column,delta*row-epsilon,delta*column-epsilon)
 
-k=1
-for i in range(4):
-    #print("column {}, row {}".format(column,row))
-    create_good_shapes(i,i)
-    k = k + 1
-    print(k)
-
-
-#start_time = time.time()
 #k=1
-#for column in range(10):
-#    for row in range(10):
-#        #print("column {}, row {}".format(column,row))
-#        create_good_shapes(column,row)
-#        k = k + 1
-#        print(k)
-#print("Creation: --- %s seconds ---" % (time.time() - start_time))
-#mmproject.dicmdQaToolExit()
+#for i in range(4):
+#    #print("column {}, row {}".format(column,row))
+#    create_good_shapes(i,i)
+#    k = k + 1
+#    print(k)
+
+
+start_time = time.time()
+k=1
+for column in range(100):
+    for row in range(100):
+        #print("column {}, row {}".format(column,row))
+        create_good_shapes(column,row)
+        k = k + 1
+        print(k)
+print("Creation: --- %s seconds ---" % (time.time() - start_time))
+mmproject.dicmdQaToolExit()
 
 
 #for i in range(10):
