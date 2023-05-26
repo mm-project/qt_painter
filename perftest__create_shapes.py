@@ -18,10 +18,10 @@ def create_rand_shapes():
 #mmproject.dicmdCreateObjRectangle(200,200,400,400)
 
 start_time = time.time()
-for number in range(10000):
+for number in range(1000000):
     create_rand_shapes()
 print("Creation: --- %s seconds ---" % (time.time() - start_time))
-mmproject.dicmdQaToolExit()
+#mmproject.dicmdQaToolExit()
 
 #start_time = time.time()
 #mmproject.dicmdSelectShapesByRegion(0,0,1000000,1000000)

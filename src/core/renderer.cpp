@@ -299,7 +299,7 @@ QPixmap renderer::get_shapes_on_pixmap(auto shapes, int i, int w, int h)
     //pixmap.fill(Qt::blue);
     switch(i) {
         case 0:
-            pixmap.fill(Qt::black);
+            pixmap.fill(Qt::yellow);
             break;
         case 1:
             pixmap.fill(Qt::blue);
@@ -339,6 +339,9 @@ void renderer::draw_all()
     int canvas_h = 1 / get_zoom_factor() * (m_plane->height()) - m_origin_point.y();
     int canvas_w = 1 / get_zoom_factor() * (m_plane->width()) - m_origin_point.x();
 
+    //int canvas_h = get_zoom_factor() * (m_plane->height());
+    //int canvas_w = get_zoom_factor() * (m_plane->width());
+
     int query_w = canvas_w/2;
     int query_h = canvas_h/2;
 
@@ -369,6 +372,8 @@ void renderer::draw_all()
     m_qt_painter->drawPixmap(mid_x,0,query_w,query_h,regions[1],mid_x,0,query_w,query_h);
     m_qt_painter->drawPixmap(0,mid_y,query_w,query_h,regions[2],0,mid_y,query_w,query_h);
     m_qt_painter->drawPixmap(mid_x,mid_y,query_w,query_h,regions[3],mid_x,mid_y,query_w,query_h);
+
+    //draw_grid();
 
     /*
     draw_background();

@@ -60,12 +60,12 @@ struct ShapeProperties
     inline ShapeProperties() = default;
 
     QColor pen_color = Qt::white;
-    QColor brush_color = Qt::blue;
+    QColor brush_color = Qt::black;
     int pen_width = 1;
     Qt::PenStyle pen_style = Qt::SolidLine;
     Qt::PenCapStyle pen_cap_style = Qt::SquareCap;
     Qt::PenJoinStyle pen_join_style = Qt::BevelJoin;
-    Qt::BrushStyle brush_style = Qt::CrossPattern;
+    Qt::BrushStyle brush_style = Qt::SolidPattern;
 
     // fixme temporary fix
     std::map<std::string, int> toStringsMap() const

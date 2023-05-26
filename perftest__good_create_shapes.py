@@ -3,8 +3,8 @@ import random
 import time
 
 def create_good_shapes(row,column):
-    delta = 100
-    epsilon = 90
+    delta = 200
+    epsilon = 70
     mmproject.dicmdCreateObjRectangle(delta*row,delta*column,delta*row-epsilon,delta*column-epsilon)
 
 #k=1
@@ -16,15 +16,15 @@ def create_good_shapes(row,column):
 
 
 start_time = time.time()
-k=1
+#k=1
 for column in range(100):
     for row in range(100):
         #print("column {}, row {}".format(column,row))
         create_good_shapes(column,row)
-        k = k + 1
-        print(k)
+        #k = k + 1
+        #print(k)
 print("Creation: --- %s seconds ---" % (time.time() - start_time))
-mmproject.dicmdQaToolExit()
+#mmproject.dicmdQaToolExit()
 
 
 #for i in range(10):
