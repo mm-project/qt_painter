@@ -104,7 +104,7 @@ bool canvas::event(QEvent *event)
         QPoint p = (dynamic_cast<QMouseEvent *>(event))->pos();
         cm.mouse_pressed(p.x(), p.y());
         m_renderer->set_cursor_pos_for_drawing(p.x(), p.y());
-        update();
+        //update();
     }
     return QWidget::event(event);
 }
@@ -204,14 +204,14 @@ void canvas::mouseMoveEvent(QMouseEvent *e)
     // dicmdCanvasMouseMove(e->pos()).log();
     /**/
     m_renderer->set_cursor_pos_for_drawing(_x, _y);
-    update();
+    //update();
 }
 
 void canvas::wheelEvent(QWheelEvent *e)
 {
     // fixme need log?
     m_renderer->zoom((e->delta() / 120), e->pos());
-    update();
+    //update();
 }
 
 void canvas::mouseDoubleClickEvent(QMouseEvent *e)
@@ -221,20 +221,20 @@ void canvas::mouseDoubleClickEvent(QMouseEvent *e)
 
     cm.mouse_dbl_clicked(e->pos().x(), e->pos().y());
     // if(!Application::is_log_mode())
-    update();
+    //update();
 }
 
 void canvas::mouseReleaseEvent(QMouseEvent *e)
 {
     cm.mouse_released(e->pos().x(), e->pos().y());
     // dicmdCanvasMouseDblClick(e->pos()).log();
-    update();
+    //update();
 }
 
 void canvas::on_update()
 {
     cm.update_tookplace();
-    update();
+    //update();
 }
 
 void canvas::paintEvent(QPaintEvent *)
