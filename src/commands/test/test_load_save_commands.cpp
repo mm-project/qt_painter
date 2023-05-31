@@ -70,7 +70,7 @@ class MockShape : public IShape
     {
         return false;
     }
-    bool contains( const QRect& ) const override
+    bool intersects( const QRect& ) const override
     {
         return false;
     }
