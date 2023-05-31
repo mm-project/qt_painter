@@ -43,8 +43,8 @@ bool test1()
 
     //(15,15) is in range of (10,10)-(20,20),
     // therefore Rectangle n2 should be returned
-    assert(rq.getShapeUnderPos(QPoint(15, 15)) != nullptr);
-    assert(rq.getShapeUnderPos(QPoint(15, 15)) != index2shape[1]);
+    assert(rq.getShapeUnderPos(QPoint(15, 15)).front() != nullptr);
+    assert(rq.getShapeUnderPos(QPoint(15, 15)).front() != index2shape[1]);
 
     // region (0,0)-(100,100) should contain all the inserted objects
     assert(rq.getShapesUnderRect(QRect(0, 0, 100, 100)).size() == 3);
