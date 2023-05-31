@@ -57,3 +57,14 @@ QPoint Polygon::getBottomRight() const
 {
     return m_object.boundingRect().bottomRight();
 }
+
+QPoint Polygon::center() const 
+{
+    // What is center for the polygon?
+    return m_object.boundingRect().center(); 
+}
+
+bool Polygon::isDisjointFrom( const QRect& ) const
+{
+    return false;
+}

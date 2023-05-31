@@ -34,6 +34,7 @@ class Line : public IShape
   private:
     void setP1(const QPoint &);
     void setP2(const QPoint &);
+    bool intersectsLine( const QPoint& a1, const QPoint& b1) const;
 
   public:
     QPoint getP1() const;
@@ -61,6 +62,12 @@ class Line : public IShape
     {
         return std::vector<QPoint>(2) = {m_object.p1(), m_object.p2()};
     }
+
+    bool contains( const QPoint& ) const override;
+    bool intersects( const QRect& ) const override;
+    bool isDisjointFrom( const QRect& ) const override;
+
+    QPoint center() const override;
 
   private:
     QLine m_object;

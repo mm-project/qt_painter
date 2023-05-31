@@ -39,12 +39,12 @@ class Polygon : public IShape
     QPoint getTopLeft() const;
     QPoint getBottomRight() const;
 
-    bool contains(const QPoint &point) const
+    bool contains(const QPoint &point) const override
     {
         return m_object.boundingRect().contains(point);
     }
 
-    bool intersects(const QRect &oRect) const
+    bool intersects(const QRect &oRect) const override
     {
         return m_object.boundingRect().intersects(oRect);
     }
@@ -59,6 +59,9 @@ class Polygon : public IShape
     {
         return std::vector<QPoint>(m_object.begin(), m_object.end());
     }
+
+    QPoint center() const override;
+    bool isDisjointFrom( const QRect& ) const override;
 
   private:
     QPolygon m_object;

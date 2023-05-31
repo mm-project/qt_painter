@@ -34,11 +34,11 @@ class dicmdDeleteObj : public DirectCommandBase
         //	rq.insertObject(obj);
 
         QPoint pos = GET_CMD_ARG(PointCommandOptionValue, "-point");
-        IShapePtr shape = rq.getShapeUnderPos(pos);
-        if (shape != nullptr)
+        //IShapePtr shape = rq.getShapeUnderPos(pos);
+        //if (shape != nullptr)
         {
-            rq.removeObject(shape);
-            m_workingSet->removeObject(shape);
+        //    rq.removeObject(shape);
+        //    m_workingSet->removeObject(shape);
         }
     }
 
