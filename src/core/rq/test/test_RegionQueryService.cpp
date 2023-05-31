@@ -1,4 +1,8 @@
 #include "../../ishape.hpp"
+#include "../../qt_shapes/rectangle.hpp"
+#include "../../qt_shapes/ellipse.hpp"
+#include "../../qt_shapes/line.hpp"
+#include "../../qt_shapes/polygon.hpp"
 #include "../RegionQueryService.hpp"
 #include "../debug_helper.hpp"
 
