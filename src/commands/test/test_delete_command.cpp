@@ -96,7 +96,7 @@ void RegionQuery::removeObject(IShapePtr)
 void RegionQuery::clear()
 {
 }
-std::vector<IShape> RegionQuery::getShapeUnderPos(QPoint const &) const
+std::vector<IShapePtr> RegionQuery::getShapeUnderPos(QPoint const &) const
 {
     return nullptr;
 }
