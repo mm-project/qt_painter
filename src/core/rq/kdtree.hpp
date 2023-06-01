@@ -192,8 +192,8 @@ std::vector<T> KDtree<T>::query( const QRect& oRect ) const
         if ( pNode == nullptr )
             continue;
 
-        if ( pNode->object->isDisjointFrom( oRect ) )
-            continue;
+        //if ( pNode->object->isDisjointFrom( oRect ) )
+        //    continue;
 
         if ( pNode->object->intersects( oRect ) )
             result.emplace_back( pNode->object );
