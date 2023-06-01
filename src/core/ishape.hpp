@@ -68,6 +68,17 @@ struct ShapeProperties
     Qt::PenJoinStyle pen_join_style = Qt::BevelJoin;
     Qt::BrushStyle brush_style = Qt::SolidPattern;
 
+    bool operator < (ShapeProperties t) const
+    {
+        return ( pen_width < t.pen_width &&
+                 brush_color.value() < t.brush_color.value() &&
+                 brush_style < t.brush_style &&
+                 pen_color.value() < t.pen_color.value() &&
+                 pen_style < t.pen_style
+                );
+
+    }
+
     // fixme temporary fix
     std::map<std::string, int> toStringsMap() const
     {
