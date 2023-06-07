@@ -30,15 +30,20 @@ class dicmdDeleteObj : public DirectCommandBase
     virtual void execute() override
     {
         RegionQuery &rq = RegionQuery::getInstance();
-        // for (auto obj : m_workingSet->getObjects())
-        //	rq.insertObject(obj);
-
         QPoint pos = GET_CMD_ARG(PointCommandOptionValue, "-point");
-        //IShapePtr shape = rq.getShapeUnderPos(pos);
-        //if (shape != nullptr)
+        auto shapes = rq.getShapeUnderPos(pos);
+        rq.clear();
+
+        for (auto& obj : m_workingSet->getObjects())
+        	rq.insertObject(obj);
+
+        for ( auto& shape : shapes )
         {
-        //    rq.removeObject(shape);
-        //    m_workingSet->removeObject(shape);
+            if (shape != nullptr)
+            {
+                //rq.removeObject(shape);
+                m_workingSet->removeObject(shape);
+            }
         }
     }
 
