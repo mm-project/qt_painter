@@ -32,16 +32,16 @@ class dicmdDeleteObj : public DirectCommandBase
         RegionQuery &rq = RegionQuery::getInstance();
         QPoint pos = GET_CMD_ARG(PointCommandOptionValue, "-point");
         auto shapes = rq.getShapeUnderPos(pos);
-        rq.clear();
+        //rq.clear();
 
-        for (auto& obj : m_workingSet->getObjects())
-        	rq.insertObject(obj);
+        //for (auto& obj : m_workingSet->getObjects())
+        //	rq.insertObject(obj);
 
         for ( auto& shape : shapes )
         {
             if (shape != nullptr)
             {
-                //rq.removeObject(shape);
+                rq.removeObject(shape);
                 m_workingSet->removeObject(shape);
             }
         }

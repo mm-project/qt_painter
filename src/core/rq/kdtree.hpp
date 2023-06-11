@@ -74,6 +74,8 @@ public:
     void insert( const T& object );
     void clear();
 
+    void remove( const T& object );
+
     std::vector<T> query( const QPoint& ) const;
     std::vector<T> query( const QRect& ) const;
 
@@ -182,7 +184,6 @@ template <typename T>
 std::vector<T> KDtree<T>::query( const QRect& oRect ) const
 {
     std::vector<T> result;
-    auto nDepth = 0;
     std::stack< KDnodePtr<T> > nodes;
     nodes.push( m_pRoot );
     while ( !nodes.empty() )
@@ -202,4 +203,65 @@ std::vector<T> KDtree<T>::query( const QRect& oRect ) const
         nodes.push( pNode->pRight );
     }
     return result;
+}
+
+template <typename T>
+void KDtree<T>::remove( const T& object )
+{
+    // TODO: make it better
+    std::vector<T> shapes_to_insert;
+    KDnodePtr<T> pShapeToDelete;
+    std::stack< KDnodePtr<T> > nodes;
+    nodes.push( m_pRoot );
+    while ( !nodes.empty() )
+    {
+        auto pNode = nodes.top();
+        nodes.pop();
+        if ( pNode == nullptr )
+            continue;
+
+        if ( pNode->pLeft != nullptr && pNode->pLeft->object == object )
+        {
+            pShapeToDelete = pNode->pLeft;
+            pNode->pLeft = nullptr; // remove the link
+            break;
+        }
+
+        if ( pNode->pRight != nullptr && pNode->pRight->object == object )
+        {
+            pShapeToDelete = pNode->pRight;
+            pNode->pRight = nullptr; // remove the link
+            break;
+        }
+
+        if ( pNode->object == object )
+        {
+            pShapeToDelete = pNode;
+            break;
+        }
+        nodes.push( pNode->pLeft );
+        nodes.push( pNode->pRight );
+    }
+           
+    nodes = {};
+
+    nodes.push( pShapeToDelete );
+    while ( !nodes.empty() )
+    {
+        auto pNode = nodes.top();
+        nodes.pop();
+        if ( pNode == nullptr )
+            continue;
+
+        nodes.push( pNode->pLeft );
+        nodes.push( pNode->pRight );
+        shapes_to_insert.emplace_back( pNode->object );
+    }
+
+    pShapeToDelete = nullptr;
+    // skip the first shape
+    for ( size_t i = 1; i < shapes_to_insert.size(); ++i )
+    {
+        insert( shapes_to_insert[i] );
+    }
 }

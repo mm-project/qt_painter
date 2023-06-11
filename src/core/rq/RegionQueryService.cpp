@@ -17,7 +17,7 @@ void RegionQuery::insertObject(IShapePtr object)
 void RegionQuery::removeObject(IShapePtr object)
 {
     DBG_RQ("remove", object);
-    //m_tree->remove(obj);
+    m_tree->remove( object );
 }
 
 std::vector<IShapePtr> RegionQuery::getShapeUnderPos(const QPoint &p) const
