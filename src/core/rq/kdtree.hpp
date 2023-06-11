@@ -236,6 +236,7 @@ void KDtree<T>::remove( const T& object )
 
         if ( pNode->object == object )
         {
+            m_pRoot = nullptr;
             pShapeToDelete = pNode;
             break;
         }
