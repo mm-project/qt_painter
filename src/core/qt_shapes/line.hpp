@@ -49,7 +49,7 @@ class Line : public IShape
         // m_object.moveTo(p);
     }
 
-#ifdef NO_RQ
+#ifdef DUMMY_RQ
     virtual bool contains(const QPoint &point) const
     {
         return false;
