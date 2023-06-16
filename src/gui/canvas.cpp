@@ -1,7 +1,7 @@
 #include "canvas.hpp"
 #include "controller.hpp"
 
-#ifdef NO_RQ
+#ifdef DUMMY_RQ
 #include "../core/rq/RegionQueryService.hpp"
 #endif
 
