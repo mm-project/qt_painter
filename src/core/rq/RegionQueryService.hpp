@@ -21,12 +21,11 @@ class RegionQuery : public Service<RegionQuery>
     void shutDown() override;
     int getSize() const;
 
-    RegionQuery();
-
 #ifdef DUMMY_RQ
     ObjectPoolPtr m_ws;
-    void setWS(ObjectPoolPtr ws);
 #endif
+
+    RegionQuery();
 
   private:
     rq::RQtreePtr<IShape> m_tree = nullptr;

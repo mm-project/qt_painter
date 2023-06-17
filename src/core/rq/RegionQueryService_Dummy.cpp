@@ -1,11 +1,22 @@
 #ifdef DUMMY_RQ
 
 #include "RegionQueryService.hpp"
+#include "../design.hpp"
 
+RegionQuery::RegionQuery()
+{
+    m_ws = std::shared_ptr<Design>(new Design);
+}
 
-void RegionQuery::insertObject(IShapePtr) {}
+void RegionQuery::insertObject(IShapePtr shape)
+{
+    m_ws->addObject(shape);
+}
 
-void RegionQuery::removeObject(IShapePtr) {}
+void RegionQuery::removeObject(IShapePtr shape)
+{
+    m_ws->removeObject(shape);
+}
 
 IShapePtr RegionQuery::getShapeUnderPos(const QPoint & point) const
 {
@@ -37,12 +48,11 @@ std::vector<IShapePtr> RegionQuery::getShapesUnderRect(const QRect & box) const
 }
 
 
-void RegionQuery::clear() { m_ws->clear(); }
+void RegionQuery::clear() { m_ws->getObjects().clear(); }
 void RegionQuery::shutDown() {}
 int RegionQuery::getSize() const { return m_ws->getObjects().size(); }
 
-void RegionQuery::setWS(ObjectPoolPtr ws) {m_ws = ws;}
+//void RegionQuery::setWS(ObjectPoolPtr ws) {m_ws = ws;}
 
-RegionQuery::RegionQuery() {};
 
 #endif // ifdef DUMMY_RQ

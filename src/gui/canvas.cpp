@@ -55,9 +55,9 @@ canvas::canvas(QWidget *p) : QWidget(p), is_runtime_mode(false)
 
     Selection::getInstance().set_working_set(m_design);
     Selection::getInstance().set_sandbox(m_runtime);
-#ifdef DUMMY_RQ
-    RegionQuery::getInstance().setWS(m_design);
-#endif
+//#ifdef DUMMY_RQ
+//    RegionQuery::getInstance().setWS(m_design);
+//#endif
 
     m_renderer = new renderer(this, m_runtime, m_design);
 
