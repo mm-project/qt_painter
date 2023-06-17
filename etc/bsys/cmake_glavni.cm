@@ -19,7 +19,11 @@ if (WIN32)
 #linux
 else()
 	set(LD_AUX "dl -lpython3.10")
-    set(CMAKE_CXX_FLAGS "-DDUMMY_RQ -DNO_QT -DOS_LINUX -g -fPIC -Wunused-parameter -pipe -std=gnu++17 -frtti -Wall -Wextra -fexceptions -pthread -Wno-unused-function -Wno-unused-variable")
+	set(CXX_ADDITIONS "")
+	if(DEFINED ENV{DUMMY_RQ})
+        set(CXX_ADDITIONS "-DDUMMY_RQ")
+    endif()
+    set(CMAKE_CXX_FLAGS " ${CXX_ADDITIONS} -DNO_QT -DOS_LINUX -g -fPIC -Wunused-parameter -pipe -std=gnu++17 -frtti -Wall -Wextra -fexceptions -pthread -Wno-unused-function -Wno-unused-variable")
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/linux/)
     #linux64
     if (EXISTS "/usr/include/x86_64-linux-gnu/qt5/")

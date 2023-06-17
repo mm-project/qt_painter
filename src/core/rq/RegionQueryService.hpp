@@ -19,7 +19,6 @@ class RegionQuery : public Service<RegionQuery>
     void shutDown() override;
     int getSize() const;
 
-  private:
     RegionQuery();
 
   private:
