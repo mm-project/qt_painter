@@ -159,7 +159,7 @@ class IShape
     virtual void draw(QPainter *) = 0;
 
 #ifdef DUMMY_RQ
-    virtual bool contains(const QPoint &point) const = 0;
+    virtual bool contains(const QPoint &point) const { return false; }
 #endif
 
     // virtual bool contains() const = 0;
