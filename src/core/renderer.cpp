@@ -253,9 +253,9 @@ void renderer::draw_runtime_pools()
     }
 }
 
-void renderer::click_hint()
+void renderer::click_hint(bool flag)
 {
-    m_need_draw_clicked = true;
+    m_need_draw_clicked = flag;
 }
 
 void renderer::draw_cursor()
@@ -265,12 +265,12 @@ void renderer::draw_cursor()
     if (m_need_draw_clicked)
     {
         p.setColor(Qt::red);
-        p.setWidth(12);
+        p.setWidth(14);
     }
     else
     {
         p.setColor(Qt::blue);
-        p.setWidth(10);
+        p.setWidth(9);
     }
 
     // p.setJoinStyle(Qt::RoundJoinStyle);
@@ -278,7 +278,7 @@ void renderer::draw_cursor()
 
     m_qt_painter->setPen(p);
     m_qt_painter->drawPoint(c_cursor_x, c_cursor_y);
-    m_need_draw_clicked = false;
+    //m_need_draw_clicked = false;
 }
 /*
 void renderer::draw_selection_rubberband()
@@ -299,8 +299,8 @@ void renderer::draw_all()
         draw_objects();
     if (m_rt_renderer)
         draw_runtime_pools();
-    if (Application::is_replay_mode())
-        draw_cursor();
+    //if (Application::is_replay_mode())
+    draw_cursor();
 }
 
 void renderer::draw_all_wno_cursor()

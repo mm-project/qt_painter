@@ -57,7 +57,7 @@ class Rectangle : public IShape
     }
 
     // FIXME need proper fix and member handling
-    std::vector<QPoint> getPoints() override
+    virtual std::vector<QPoint> getPoints() override
     {
         return std::vector<QPoint>(2) = {getBottomRight(), getTopLeft()};
     }
