@@ -4,12 +4,13 @@
 #include <QPen>
 
 #include <iostream>
+#include <cmath>
 
 ///////////////////////////////////////////////////////////////////////////////
 //
 // @Line implementation
 //
-Line::Line(QLine l, ShapeProperties p) : IShape(LINE, p), m_waitForSecondClick(false)
+Line::Line(QLineF l, ShapeProperties p) : IShape(LINE, p), m_waitForSecondClick(false)
 {
     m_object = l;
 }
@@ -60,31 +61,31 @@ void Line::setP2(const QPoint &p)
 
 QPoint Line::getP1() const
 {
-    return m_object.p1();
+    return m_object.toLine().p1();
 }
 
 QPoint Line::getP2() const
 {
-    return m_object.p2();
+    return m_object.toLine().p2();
 }
 
-bool Line::contains( const QPoint& point ) const 
+bool Line::contains( const QPoint& p ) const 
 {
-    QPoint p1 = getP1();
-    QPoint p2 = getP2();
-    QRectF bbox(p1, p2);
-    if (!bbox.contains(point))
-        // vertical and horizontal case
-        return point.x() == p1.x() || point.x() == p2.x() || point.y() == p1.y() || point.y() == p2.y();
-    float x = (float)(point.x() - p1.x()) / (p2.x() - p1.x());
-    float y = (float)(point.y() - p1.y()) / (p2.y() - p1.y());
-    float out = x / y * 100000 / 100000;
-    std::cout << out << std::endl;
-    bool b = out > 0.95 && out < 1.25;
-    if (!b)
-        // vertical and horizontal case
-        return point.x() == p1.x() || point.x() == p2.x() || point.y() == p1.y() || point.y() == p2.y();
-    return b;
+    const auto a = m_object.p1();
+    const auto b = m_object.p2();
+    QRectF bbox(a, b);
+    if ( !bbox.contains( p ) )
+        return false;
+
+    const float EPSILON = 20; // this is supposed to be small but we don't use floating system
+    auto x = (b.y() - a.y()) / (b.x() - a.x());     
+    auto y = a.y() - x * a.x();
+    if ( fabs( p.y() - (x * p.x() + y ) ) < EPSILON)
+    {
+        return true;
+    }
+
+   return false;
 }
 
 bool Line::intersects( const QRect& oRect ) const 
@@ -120,7 +121,7 @@ bool Line::intersectsLine( const QPoint& a1, const QPoint& b1) const
 
 QPoint Line::center() const 
 { 
-    return m_object.center();
+    return m_object.toLine().center();
 }
 
 bool Line::isDisjointFrom( const QRect& ) const 
