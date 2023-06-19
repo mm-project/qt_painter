@@ -39,10 +39,7 @@ class Polygon : public IShape
     QPoint getTopLeft() const;
     QPoint getBottomRight() const;
 
-    bool contains(const QPoint &point) const override
-    {
-        return m_object.boundingRect().contains(point);
-    }
+    bool contains(const QPoint &point) const override;
 
     bool intersects(const QRect &oRect) const override
     {

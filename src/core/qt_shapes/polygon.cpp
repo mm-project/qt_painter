@@ -68,3 +68,8 @@ bool Polygon::isDisjointFrom( const QRect& ) const
 {
     return false;
 }
+
+bool Polygon::contains(const QPoint &point) const
+{
+    return m_object.containsPoint( point, Qt::OddEvenFill );
+}
