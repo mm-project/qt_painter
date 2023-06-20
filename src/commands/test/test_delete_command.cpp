@@ -71,6 +71,22 @@ class MockShape : public IShape
     virtual void moveCenterToPoint(QPoint &)
     {
     }
+    bool contains( const QPoint& ) const override
+    {
+        return false;
+    }
+    bool intersects( const QRect& ) const override
+    {
+        return false;
+    }
+    bool isDisjointFrom( const QRect& ) const override
+    {
+        return false;
+    }
+    QPoint center() const override
+    {
+        return {};
+    }
 };
 
 // Mocking!: Implementations
@@ -96,9 +112,9 @@ void RegionQuery::removeObject(IShapePtr)
 void RegionQuery::clear()
 {
 }
-IShapePtr RegionQuery::getShapeUnderPos(QPoint const &) const
+std::vector<IShapePtr> RegionQuery::getShapeUnderPos(QPoint const &) const
 {
-    return nullptr;
+    return {};
 }
 
 // void ObjectPoolBase::clear() noexcept {}
