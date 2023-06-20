@@ -1,7 +1,6 @@
-#ifndef REQGION_QUERY_SERVICE_HPP
-#define REQGION_QUERY_SERVICE_HPP
+#pragma once
 
-#include "RQtree.hpp"
+#include "kdtree.hpp"
 
 #include "../ishape.hpp"
 #include "../service.hpp"
@@ -15,7 +14,7 @@ class RegionQuery : public Service<RegionQuery>
   public:
     void insertObject(IShapePtr);
     void removeObject(IShapePtr);
-    IShapePtr getShapeUnderPos(const QPoint &) const;
+    std::vector<IShapePtr> getShapeUnderPos(const QPoint &) const;
     std::vector<IShapePtr> getShapesUnderRect(const QRect &) const;
     void clear();
     void shutDown() override;
@@ -29,7 +28,6 @@ class RegionQuery : public Service<RegionQuery>
     RegionQuery();
 
   private:
-    rq::RQtreePtr<IShape> m_tree = nullptr;
+    KDtreePtr<IShapePtr> m_tree = nullptr;
 };
 
-#endif

@@ -57,3 +57,20 @@ QPoint Polygon::getBottomRight() const
 {
     return m_object.boundingRect().bottomRight();
 }
+
+QPoint Polygon::center() const 
+{
+    return m_object.boundingRect().bottomRight();
+    // What is center for the polygon?
+    //return m_object.boundingRect().center(); 
+}
+
+bool Polygon::isDisjointFrom( const QRect& ) const
+{
+    return false;
+}
+
+bool Polygon::contains(const QPoint &point) const
+{
+    return m_object.containsPoint( point, Qt::OddEvenFill );
+}

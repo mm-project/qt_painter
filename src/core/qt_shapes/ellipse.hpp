@@ -37,11 +37,11 @@ class Ellipse : public IShape
     QPoint getTopLeft() const;
     QPoint getBottomRight() const;
 
-    bool contains(const QPoint &point) const
+    bool contains(const QPoint &point) const override
     {
         return m_object.contains(point);
     }
-    bool intersects(const QRect &oRect) const
+    bool intersects(const QRect &oRect) const override
     {
         return m_object.intersects(oRect);
     }
@@ -61,6 +61,9 @@ class Ellipse : public IShape
         return std::vector<QPoint>(2) = {getBottomRight(), getTopLeft()};
     }
 
+    QPoint center() const override;
+    bool isDisjointFrom( const QRect& ) const override;
+    
   private:
     QRect m_object;
     bool m_waitForSecondClick;

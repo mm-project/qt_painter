@@ -20,7 +20,7 @@
 class Line : public IShape
 {
   public:
-    Line(QLine = QLine(), ShapeProperties = ShapeProperties());
+    Line(QLineF = QLineF(), ShapeProperties = ShapeProperties());
     virtual ~Line() = default;
 
   public:
@@ -34,6 +34,7 @@ class Line : public IShape
   private:
     void setP1(const QPoint &);
     void setP2(const QPoint &);
+    bool intersectsLine( const QPoint& a1, const QPoint& b1) const;
 
   public:
     QPoint getP1() const;
@@ -59,10 +60,16 @@ class Line : public IShape
     // FIXME need proper fix and member handling
     std::vector<QPoint> getPoints() override
     {
-        return std::vector<QPoint>(2) = {m_object.p1(), m_object.p2()};
+        return std::vector<QPoint>(2) = {m_object.toLine().p1(), m_object.toLine().p2()};
     }
 
+    bool contains( const QPoint& ) const override;
+    bool intersects( const QRect& ) const override;
+    bool isDisjointFrom( const QRect& ) const override;
+
+    QPoint center() const override;
+
   private:
-    QLine m_object;
+    QLineF m_object;
     bool m_waitForSecondClick;
 };
