@@ -163,7 +163,7 @@ class IShape
     virtual bool contains(const QPoint &point) const { return false; }
 #endif
 
-    virtual bool contains( const QPoint& ) const = 0;
+    //virtual bool contains( const QPoint& ) const = 0;
     virtual bool intersects( const QRect& ) const = 0;
     virtual bool isDisjointFrom( const QRect& ) const = 0;
 

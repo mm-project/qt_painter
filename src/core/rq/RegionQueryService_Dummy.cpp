@@ -18,13 +18,14 @@ void RegionQuery::removeObject(IShapePtr shape)
     m_ws->removeObject(shape);
 }
 
-IShapePtr RegionQuery::getShapeUnderPos(const QPoint & point) const
+std::vector<IShapePtr> RegionQuery::getShapeUnderPos(const QPoint & point) const
 {
+    std::vector<IShapePtr> shapes;
     for (auto shape : m_ws->getObjects())
         if (shape->contains(point))
-            return shape;
+            shapes.push_back(shape);
 
-    return nullptr;
+    return shapes;
 }
 
 std::vector<IShapePtr> RegionQuery::getShapesUnderRect(const QRect & box) const

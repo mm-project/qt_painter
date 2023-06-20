@@ -1,6 +1,8 @@
 #pragma once
 
+#ifndef DUMMY_RQ
 #include "kdtree.hpp"
+#endif
 
 #include "../ishape.hpp"
 #include "../service.hpp"
@@ -26,9 +28,11 @@ class RegionQuery : public Service<RegionQuery>
 
     RegionQuery();
 
+#ifndef DUMMY_RQ
   private:
     KDtreePtr<IShapePtr> m_tree = nullptr;
+#endif
+
 };
 
 
-#endif //REQGION_QUERY_SERVICE_HPP
