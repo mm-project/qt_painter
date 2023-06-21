@@ -4,12 +4,12 @@
 #include "kdtree.hpp"
 #endif
 
-#include "../ishape.hpp"
-#include "../service.hpp"
-
 #ifdef DUMMY_RQ
 #include "../iobject_pool.hpp"
 #endif
+
+#include "../ishape.hpp"
+#include "../service.hpp"
 
 class RegionQuery : public Service<RegionQuery>
 {
@@ -22,15 +22,15 @@ class RegionQuery : public Service<RegionQuery>
     void shutDown() override;
     int getSize() const;
 
-#ifdef DUMMY_RQ
-    ObjectPoolPtr m_ws;
-#endif
-
     RegionQuery();
 
 #ifndef DUMMY_RQ
   private:
     KDtreePtr<IShapePtr> m_tree = nullptr;
+#endif
+
+#ifdef DUMMY_RQ
+    ObjectPoolPtr m_ws = nullptr;
 #endif
 
 };
