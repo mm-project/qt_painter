@@ -1,7 +1,6 @@
 #ifndef DUMMY_RQ
 
 #include "RegionQueryService.hpp"
-
 #include "debug_helper.hpp"
 #include "rq_object.hpp"
 
