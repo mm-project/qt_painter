@@ -159,10 +159,6 @@ class IShape
     }
     virtual void draw(QPainter *) = 0;
 
-#ifdef NO_RQ
-    virtual bool contains(const QPoint &point) const = 0;
-#endif
-
     virtual bool contains( const QPoint& ) const = 0;
     virtual bool intersects( const QRect& ) const = 0;
     virtual bool isDisjointFrom( const QRect& ) const = 0;

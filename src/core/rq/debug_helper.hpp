@@ -6,59 +6,6 @@
 #include <sstream>
 #include <vector>
 
-#ifdef NO_RQ
-RegionQuery::RegionQuery()
-{
-}
-void RegionQuery::insertObject(IShape *)
-{
-}
-void RegionQuery::removeObject(IShape *)
-{
-}
-void RegionQuery::clear()
-{
-}
-void RegionQuery::shutDown()
-{
-}
-int RegionQuery::getSize() const
-{
-    m_ws->getObjects().size();
-}
-
-void RegionQuery::setWS(IObjectPoolPtr ws)
-{
-    m_ws = ws;
-}
-
-IShape *RegionQuery::getShapeUnderPos(const QPoint &point) const
-{
-    for (auto shape : m_ws->getObjects())
-        if (shape->contains(point))
-            return shape;
-
-    return nullptr;
-}
-
-std::vector<IShape *> RegionQuery::getShapesUnderRect(const QRect &box) const
-{
-    std::vector<IShape *> shapes;
-    for (auto shape : m_ws->getObjects())
-    {
-        bool contains = true;
-
-        for (auto point : shape->getPoints())
-            if (!box.contains(point))
-                contains = false;
-
-        if (contains)
-            shapes.push_back(shape);
-    }
-    return shapes;
-}
-#endif
-
 #ifndef DEBUG_RQ
 #define DBG_RQ(what, obj)
 #else

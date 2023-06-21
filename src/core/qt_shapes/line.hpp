@@ -50,13 +50,6 @@ class Line : public IShape
         // m_object.moveTo(p);
     }
 
-#ifdef NO_RQ
-    virtual bool contains(const QPoint &point) const
-    {
-        return false;
-    }
-#endif
-
     // FIXME need proper fix and member handling
     std::vector<QPoint> getPoints() override
     {

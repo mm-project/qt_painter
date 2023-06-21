@@ -1,10 +1,6 @@
 #include "canvas.hpp"
 #include "controller.hpp"
 
-#ifdef NO_RQ
-#include "../core/rq/RegionQueryService.hpp"
-#endif
-
 #include "../core/application.hpp"
 #include "../core/design.hpp"
 #include "../core/runtime_pool.hpp"
@@ -55,9 +51,6 @@ canvas::canvas(QWidget *p) : QWidget(p), is_runtime_mode(false)
 
     Selection::getInstance().set_working_set(m_design);
     Selection::getInstance().set_sandbox(m_runtime);
-#ifdef NO_RQ
-    RegionQuery::getInstance().setWS(m_working_set);
-#endif
 
     m_renderer = new renderer(this, m_runtime, m_design);
 

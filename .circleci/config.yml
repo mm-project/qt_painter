@@ -5,14 +5,23 @@ jobs:
     steps:
       - checkout
       - run:
-          name: compile
-          command: export TERM=xterm; cmake CMakeLists.txt; make -j8
+          name: compile w dummy_rq
+          command: export TERM=xterm; export DUMMY_RQ=1; cmake CMakeLists.txt; make -j8
+      - run:
+          name: compile_ut_w_dummy_rq
+          command: export TERM=xterm; export DUMMY_RQ=1; ./etc/bsys/bin/makeUnitTests.sh
+      - run:
+          name: testing_unit_w_dummy_rq
+          command: export CI_BUILD="CCI_UNIT_TEST$CIRCLE_BUILD_NUM"; export CI_CHECK=1; export TERM=xterm;  xvfb-run ./sqa/bin/runUnitTests.sh
       - run:
           name: compile_ut
-          command: export TERM=xterm; ./etc/bsys/bin/makeUnitTests.sh
+          command: export TERM=xterm; make clean; ./etc/bsys/bin/makeUnitTests.sh
       - run:
           name: testing_unit
           command: export CI_BUILD="CCI_UNIT_TEST$CIRCLE_BUILD_NUM"; export CI_CHECK=1; export TERM=xterm;  xvfb-run ./sqa/bin/runUnitTests.sh
+      - run:
+          name: compile
+          command: export TERM=xterm; make clean; cmake CMakeLists.txt; make -j8
       - run:
           name: testing_integrations
           command: export CI_BUILD="CCI_INTG_TEST$CIRCLE_BUILD_NUM"; export CI_CHECK=1; export TERM=xterm; export PAINTER_QA_XVFB=1; ./sqa/bin/runTestsParallel.sh

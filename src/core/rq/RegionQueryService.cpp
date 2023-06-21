@@ -1,8 +1,9 @@
+#ifndef DUMMY_RQ
+
 #include "RegionQueryService.hpp"
 #include "debug_helper.hpp"
 #include "rq_object.hpp"
 
-#ifndef NO_RQ
 RegionQuery::RegionQuery()
 {
     m_tree = std::shared_ptr<KDtree<IShapePtr>>(new KDtree<IShapePtr>());
