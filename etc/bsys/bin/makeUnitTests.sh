@@ -6,9 +6,7 @@ while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a
 symlink
   DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
   SOURCE="$(readlink "$SOURCE")"
-  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative 
-symlink, we need to resolve it relative to the path where the symlink file was 
-located
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative  symlink, we need to resolve it relative to the path where the symlink file was located
 done
 DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 
@@ -26,6 +24,7 @@ export PAINTER_BSYS_ROOT=$DIR/..
 #    export QT_LIB_DIR="/usr/lib/x86_64-linux-gnu/"
 #fi
 
+#mkdir $PAINTER_ROOT/unit_test_bin/expected -p
 for entry in `cat $PAINTER_BSYS_ROOT/projects.lst`; do
     echo $entry
     proj=$PAINTER_ROOT/$entry
@@ -33,5 +32,10 @@ for entry in `cat $PAINTER_BSYS_ROOT/projects.lst`; do
         cd $proj/test 
         cmake CMakeLists.txt
         make -j4
+        if [ -d expected ]; then
+          dirname=$(basename $entry)
+          mkdir -p $PAINTER_ROOT/unit_test_bin/$dirname
+          cp expected $PAINTER_ROOT/unit_test_bin/$dirname -rf
+        fi
     fi
 done
