@@ -14,7 +14,7 @@
 #include <iostream>
 #include <map>
 
-/*
+
 class dicmdSelectShapesByRegion : public DirectCommandBase
 {
     std::pair<QPoint, QPoint> m_reg;
@@ -55,7 +55,7 @@ class dicmdSelectShapesByRegion : public DirectCommandBase
         return "dicmdSelectShapesByRegion";
     }
 };
-*/
+
 class incmdSelectUnderCursoer : public ObjCreatorCommandBase<RECTANGLE>
 {
     bool m_move_mode = false;
@@ -272,6 +272,7 @@ class incmdSelectUnderCursoer : public ObjCreatorCommandBase<RECTANGLE>
     }
 };
 
+/*
 class dicmdSelectShapesByRegion : public DirectCommandBase
 {
     std::pair<QPoint, QPoint> m_reg;
@@ -312,6 +313,7 @@ class dicmdSelectShapesByRegion : public DirectCommandBase
         return "dicmdSelectShapesByRegion";
     }
 };
+*/
 
 class dicmdSelectAllShapes : public DirectCommandBase
 {
