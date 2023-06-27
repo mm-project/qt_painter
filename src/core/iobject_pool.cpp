@@ -2,6 +2,9 @@
 #include "core.hpp"
 #include "ishape.hpp"
 
+#include <vector>
+#include <set>
+
 #include <QDir>
 #include <QFile>
 #include <QTextStream>
@@ -37,16 +40,22 @@ void ObjectPoolBase::dumpToFile(const std::string &fname) const
     file.open(QIODevice::WriteOnly | QIODevice::Append);
     QTextStream z(&file);
 
+    // Sort objects before dumping.
+    std::vector<std::multiset<ShapeProperties>> shapes_sorted_info(4);
+    for (auto i : getObjects())
+        shapes_sorted_info[i->getType()].insert(i->getProperties());
+
     z << "PoolName: " << getName().c_str();
     z << "\nObjCount: " << QString::number(getObjects().size());
     z << "\n======\n";
-    for (auto i : getObjects())
-    {
-        z << ObjType2String(i->getType()).c_str();
-        z << ":\t"; // i->getPoints();
-        z << i->getProperties().toString().c_str();
-        z << "\n";
-    }
+    for(int i=0; i<shapes_sorted_info.size(); i++)
+        for (auto const& y : shapes_sorted_info[i])
+        {
+            z << ObjType2String(ObjectType(i)).c_str();
+            z << ":\t"; // i->getPoints();
+            z << y.toString().c_str();
+            z << "\n";
+        }
     z << "--------";
     z << "\n\n";
 

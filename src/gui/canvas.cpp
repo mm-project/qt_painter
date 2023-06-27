@@ -1,15 +1,10 @@
 #include "canvas.hpp"
 #include "controller.hpp"
 
-#ifdef NO_RQ
-#include "../core/rq/RegionQueryService.hpp"
-#endif
-
 #include "../core/application.hpp"
 #include "../core/design.hpp"
 #include "../core/runtime_pool.hpp"
 #include "../core/selection.hpp"
-#include "../core/shapes.hpp"
 
 #include "../commands/basic_commands.hpp"
 #include "../commands/command_manager.hpp"
@@ -56,9 +51,6 @@ canvas::canvas(QWidget *p) : QWidget(p), is_runtime_mode(false)
 
     Selection::getInstance().set_working_set(m_design);
     Selection::getInstance().set_sandbox(m_runtime);
-#ifdef NO_RQ
-    RegionQuery::getInstance().setWS(m_working_set);
-#endif
 
     m_renderer = new renderer(this, m_runtime, m_design);
 
@@ -151,6 +143,8 @@ void canvas::keyPressEvent(QKeyEvent *ev)
         cm.activate_command(cm.find_command("incmdSelectShapesByRegion"));
     else if (ev->key() == Qt::Key_N)
         cm.find_command("dicmdQaReplyStep")->execute_and_log();
+    else if (ev->key()==Qt::Key_A && (QGuiApplication::keyboardModifiers() & Qt::ControlModifier))
+        cm.find_command("dicmdSelectAllShapes")->execute_and_log();
     else
     {
         if (cm.is_idle())

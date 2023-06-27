@@ -70,6 +70,8 @@ class incmdSelectUnderCursoer : public ObjCreatorCommandBase<RECTANGLE>
     LeCallback *m_sel_cb;
     bool m_need_mouserelase_log = false;
     bool drag_mode = false;
+    int dx = 0;
+    int dy = 0;
 
   public:
     incmdSelectUnderCursoer(RuntimePoolManagerPtr r, ObjectPoolPtr s) : ObjCreatorCommandBase<RECTANGLE>(r, s)
@@ -237,7 +239,10 @@ class incmdSelectUnderCursoer : public ObjCreatorCommandBase<RECTANGLE>
             m_move_mode = true;
             // m_need_mouserelase_log = true;
             set_can_complete(false);
-            set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer, on_mousemove));
+            QPoint clk_p(InteractiveCommandBase::get_last_point());
+	    dx = m_original_shape->getPoints()[1].x() - clk_p.x();
+	    dy = m_original_shape->getPoints()[1].y() - clk_p.y();
+	    set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer, on_mousemove));
         }
         // m_shape_added = true;
         //}
@@ -257,8 +262,73 @@ class incmdSelectUnderCursoer : public ObjCreatorCommandBase<RECTANGLE>
         for (auto it : m_sb->getObjects())
         {
             // std::cout << "rotate..." << std::endl;
-            it->moveCenterToPoint(p);
+	    
+	    int x = p.x() + dx;
+	    int y = p.y() + dy; 
+	    QPoint np(x,y);
+	    it->moveCenterToPoint(np);
         }
+    }
+};
+
+class dicmdSelectShapesByRegion : public DirectCommandBase
+{
+    std::pair<QPoint, QPoint> m_reg;
+
+  public:
+    dicmdSelectShapesByRegion()
+    {
+        add_option("-start", new PointCommandOptionValue());
+        add_option("-end", new PointCommandOptionValue());
+    }
+
+    dicmdSelectShapesByRegion(QPoint p1, QPoint p2)
+    {
+        add_option("-start", new PointCommandOptionValue(p1));
+        add_option("-end", new PointCommandOptionValue(p2));
+    }
+
+    virtual void execute()
+    {
+
+        m_reg = std::make_pair<QPoint, QPoint>(GET_CMD_ARG(PointCommandOptionValue, "-start"),
+                                               GET_CMD_ARG(PointCommandOptionValue, "-end"));
+        Selection::getInstance().clear();
+        Selection::getInstance().find_and_highlightselect_shapes_from_region(m_reg);
+        int count = Selection::getInstance().getObjects().size();
+        std::string msg("Selected " + QString::number(count).toStdString() + " shapes.");
+        StatusBarManager::getInstance().updateStatusBar(msg.c_str(), 1, 0);
+
+        if (!Selection::getInstance().getObjects().empty())
+        {
+            LeCallbackData d;
+            NOTIFY(OBJECT_SELECTED, d);
+        }
+    }
+
+    virtual std::string get_name()
+    {
+        return "dicmdSelectShapesByRegion";
+    }
+};
+
+class dicmdSelectAllShapes : public DirectCommandBase
+{
+
+  public:
+    dicmdSelectAllShapes()
+    {
+    }
+
+    void execute() override
+    {
+
+        Selection::getInstance().highlightselect_all();
+    }
+
+    std::string get_name() override
+    {
+        return "dicmdSelectAllShapes";
     }
 };
 

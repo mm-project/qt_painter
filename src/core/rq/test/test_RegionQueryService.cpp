@@ -1,5 +1,8 @@
 #include "../../ishape.hpp"
-#include "../../shapes.hpp"
+#include "../../qt_shapes/rectangle.hpp"
+#include "../../qt_shapes/ellipse.hpp"
+#include "../../qt_shapes/line.hpp"
+#include "../../qt_shapes/polygon.hpp"
 #include "../RegionQueryService.hpp"
 #include "../debug_helper.hpp"
 
@@ -44,8 +47,8 @@ bool test1()
 
     //(15,15) is in range of (10,10)-(20,20),
     // therefore Rectangle n2 should be returned
-    assert(rq.getShapeUnderPos(QPoint(15, 15)) != nullptr);
-    assert(rq.getShapeUnderPos(QPoint(15, 15)) != index2shape[1]);
+    assert(rq.getShapeUnderPos(QPoint(15, 15)).front() != nullptr);
+    assert(rq.getShapeUnderPos(QPoint(15, 15)).front() != index2shape[1]);
 
     // region (0,0)-(100,100) should contain all the inserted objects
     assert(rq.getShapesUnderRect(QRect(0, 0, 100, 100)).size() == 3);
@@ -316,6 +319,41 @@ void test5()
     device->save("testing.pic");
 }
 
+void test6()
+{
+    int viewport_h = 900;
+    int viewport_w = 1200;
+
+    QPixmap device(viewport_w,viewport_h);
+    device.fill(Qt::black);
+    QPainter *painter = new QPainter(&device);
+
+    RegionQuery &rq = RegionQuery::getInstance();
+    rq.clear();
+
+
+    srand(time(0));
+    for(int i=1;i<10000;i++) {
+        int x1 = 10 + (rand() % 1000);
+        int y1 = 10 + (rand() % 1000);
+        int x2 = x1 + 10;
+        int y2 = y1 + 10;
+        //std::cout << x1 << " " << y1 << " ---- " << x2 << " " << y2 << std::endl;
+        rq.insertObject(create<Rectangle>(QPoint(x1, y1), QPoint(x2, y2)));
+    }
+
+    std::vector<IShapePtr> shapes = rq.getShapesUnderRect(QRect(0, 0, viewport_w, viewport_h));
+    std::cout << "Shapes in viewport: " << shapes.size() << std::endl;
+    for (auto shape : shapes)
+    {
+        shape->draw(painter);
+    }
+    painter->end();
+    delete painter;
+
+    device.save("rq.bmp");
+}
+
 int main(int argc, char **argv)
 {
     QGuiApplication app(argc, argv);
@@ -324,4 +362,5 @@ int main(int argc, char **argv)
     // test2();
     // test3();
     test5();
+    test6();
 }

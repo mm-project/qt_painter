@@ -2,11 +2,13 @@
 #include "../gui/controller.hpp"
 #include "postman.hpp"
 #include "rq/RegionQueryService.hpp"
-#include "shapes.hpp"
+#include "qt_shapes/rectangle.hpp"
 
 #include <QDir>
 #include <QFile>
 #include <QTextStream>
+
+#include <iostream>
 
 std::string Selection::getName() const noexcept
 {
@@ -14,6 +16,17 @@ std::string Selection::getName() const noexcept
 }
 
 // shold be removed after Highlit change
+void Selection::highlightselect_all()
+{
+    clear();
+    for (const auto& obj : m_ws->getObjects())
+    {
+        addObject(obj);
+        m_sel_highlight_set->addObject(obj);
+    }
+    m_sel_highlight_set->highlight_on();
+}
+
 void Selection::temporary_highlight()
 {
     m_sel_highlight_set->highlight_on();
@@ -92,24 +105,30 @@ void Selection::set_sandbox(RuntimePoolManagerPtr sanboxes)
 void Selection::highlightselect_shape_under_pos(const QPoint &p)
 {
     clear();
-    IShapePtr shape = std::shared_ptr<IShape>(rq.getShapeUnderPos(p));
-    if (shape != nullptr)
+    auto arrShapes = rq.getShapeUnderPos(p);
+    for ( const auto& shape : arrShapes )
     {
-        addObject(shape);
-        m_sel_highlight_set->addObject(shape);
-        m_sel_highlight_set->highlight_on();
+        if (shape != nullptr)
+        {
+            addObject(shape);
+            m_sel_highlight_set->addObject(shape);
+            m_sel_highlight_set->highlight_on();
+        }
     }
 }
 
 // just highlight active object
 void Selection::highlight_shape_under_pos(const QPoint &p)
 {
-    IShapePtr shape = std::shared_ptr<IShape>(rq.getShapeUnderPos(p));
+    auto arrShapes = rq.getShapeUnderPos(p);
     m_ao_highlight_set->clear();
-    if (shape != nullptr)
+    for ( const auto& shape : arrShapes )
     {
-        m_ao_highlight_set->addObject(shape);
-        m_ao_highlight_set->highlight_on();
+        if (shape != nullptr)
+        {
+            m_ao_highlight_set->addObject(shape);
+            m_ao_highlight_set->highlight_on();
+        }
     }
 }
 
@@ -119,10 +138,13 @@ void Selection::highlight_shape_under_pos(const QPoint &p)
 void Selection::select_shape_under_pos(const QPoint &p)
 {
     // clear();
-    IShapePtr shape = rq.getShapeUnderPos(p);
-    if (shape != nullptr)
+    auto arrShapes = rq.getShapeUnderPos(p);
+    for ( const auto& shape : arrShapes )
     {
-        addObject(shape);
+        if (shape != nullptr)
+        {
+            addObject(shape);
+        }
     }
 }
 
@@ -197,7 +219,7 @@ void HighlightSet::highlight_off()
     // highlight_on_off(false);
 }
 
-void HighlightSet::highlight_on_off(bool m_h_on)
+void HighlightSet::highlight_on_off(bool)
 {
     // check with levon
     if (getObjects().empty())
