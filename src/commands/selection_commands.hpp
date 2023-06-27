@@ -14,6 +14,7 @@
 #include <iostream>
 #include <map>
 
+/*
 class dicmdSelectShapesByRegion : public DirectCommandBase
 {
     std::pair<QPoint, QPoint> m_reg;
@@ -54,7 +55,7 @@ class dicmdSelectShapesByRegion : public DirectCommandBase
         return "dicmdSelectShapesByRegion";
     }
 };
-
+*/
 class incmdSelectUnderCursoer : public ObjCreatorCommandBase<RECTANGLE>
 {
     bool m_move_mode = false;
@@ -124,7 +125,7 @@ class incmdSelectUnderCursoer : public ObjCreatorCommandBase<RECTANGLE>
         std::string msg("(idle) Selected " + QString::number(m_se.getObjects().size()).toStdString() + " shapes.");
         StatusBarManager::getInstance().updateStatusBar(msg.c_str(), 1, 0);
 
-        if (rq.getShapeUnderPos(InteractiveCommandBase::get_last_point()) == nullptr && ev == MD)
+        if (rq.getShapeUnderPos(InteractiveCommandBase::get_last_point())[0] == nullptr && ev == MD)
         {
             drag_mode = true;
             set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer, wait_for_drag));
