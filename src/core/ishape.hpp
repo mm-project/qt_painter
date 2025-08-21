@@ -71,13 +71,14 @@ struct ShapeProperties
 
     bool operator < (ShapeProperties t) const
     {
-        return ( pen_width < t.pen_width &&
+        /*return ( pen_width < t.pen_width &&
                  brush_color.value() < t.brush_color.value() &&
                  brush_style < t.brush_style &&
                  pen_color.value() < t.pen_color.value() &&
                  pen_style < t.pen_style
-                );
-
+                );*/
+        // compare by memory, which one is less
+        return this < &t;
     }
 
     // fixme temporary fix
