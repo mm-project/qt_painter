@@ -7,8 +7,8 @@
 
 RegionQuery::RegionQuery()
 {
-    //m_tree = std::shared_ptr<KDtree<IShapePtr>>(new KDtree<IShapePtr>());
-    m_tree = std::shared_ptr<QtShapeQuadtree<IShapePtr>>(new QtShapeQuadtree<IShapePtr>());
+    m_tree = std::shared_ptr<KDtree<IShapePtr>>(new KDtree<IShapePtr>());
+    //m_tree = std::shared_ptr<QtShapeQuadtree<IShapePtr>>(new QtShapeQuadtree<IShapePtr>());
 }
 
 void RegionQuery::insertObject(IShapePtr object)
