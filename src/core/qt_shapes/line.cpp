@@ -131,31 +131,5 @@ bool Line::isDisjointFrom( const QRect& ) const
 
 QRectF Line::getBBox() const 
 {
-    auto p1 = getP1();
-    auto p2 = getP2();
-    auto minX = 0;
-    auto minY = 0;
-    auto maxX = 0;
-    auto maxY = 0;
-    if (p1.x() > p2.x()) 
-    {
-        minX = p2.x();
-        maxX = p1.x();
-    }
-    else
-    {
-        minX = p1.x();
-        maxX = p2.x();
-    }
-    if (p1.y() > p2.y())
-    {
-        minY = p2.y();
-        maxY = p1.y();
-    }
-    else
-    {
-        minY = p1.y();
-        maxY = p2.y();
-    }
-    return QRectF(minX, minY, maxX, maxY);
+    return QRectF(m_object.p1(), m_object.p2());
 }

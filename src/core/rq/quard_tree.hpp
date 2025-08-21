@@ -74,12 +74,11 @@ struct DefaultShapeTraits<std::shared_ptr<IShape>, Scalar> {
     
     static AABB<Scalar> aabb(const T& shape) {
         auto bbox = shape->getBBox();
-        return { 
-            static_cast<Scalar>(bbox.left()), 
-            static_cast<Scalar>(bbox.top()),
-            static_cast<Scalar>(bbox.right()), 
-            static_cast<Scalar>(bbox.bottom()) 
-        };
+        // make sure minx < maxx and miny < maxy
+        return { std::min(bbox.left(), bbox.right()), 
+            std::min(bbox.top(), bbox.bottom()), 
+            std::max(bbox.left(), bbox.right()), 
+            std::max(bbox.top(), bbox.bottom()) };
     }
     
     static bool contains_point(const T& shape, Scalar x, Scalar y) {
