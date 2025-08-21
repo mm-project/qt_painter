@@ -297,10 +297,10 @@ public:
     using Core = ds::Quadtree<T, Scalar, ds::DefaultShapeTraits<T, Scalar>>;
     using Box  = ds::AABB<Scalar>;
 
-    explicit QtShapeQuadtree(Box world = Box{-10000.0, -10000.0, 10000.0, 10000.0},
-                             std::size_t capacity = 8,
-                             std::size_t maxDepth = 16,
-                             std::size_t mergeThreshold = 3)
+    explicit QtShapeQuadtree(Box world = Box{-1000000.0, -1000000.0, 1000000.0, 1000000.0},
+                             std::size_t capacity = 16,
+                             std::size_t maxDepth = 32,
+                             std::size_t mergeThreshold = 6)
         : core_(world, capacity, maxDepth, mergeThreshold) {}
 
     void insert(const std::vector<T>& arrObjects) override { 
@@ -329,10 +329,13 @@ public:
 
     std::vector<T> query(const QRect& rect) const noexcept override {
         std::vector<T> out;
-        const Scalar l = static_cast<Scalar>(rect.left());
-        const Scalar t = static_cast<Scalar>(rect.top());
-        const Scalar r = static_cast<Scalar>(rect.right());
-        const Scalar b = static_cast<Scalar>(rect.bottom());
+        Scalar l = static_cast<Scalar>(rect.left());
+        Scalar t = static_cast<Scalar>(rect.top());
+        Scalar r = static_cast<Scalar>(rect.right());
+        Scalar b = static_cast<Scalar>(rect.bottom());
+        // make rect normalized
+        if (l > r) std::swap(l, r);
+        if (t > b) std::swap(t, b);
         core_.queryRange(Box{l,t,r,b}, [&](const T& t){ out.push_back(t); });
         return out;
     }
