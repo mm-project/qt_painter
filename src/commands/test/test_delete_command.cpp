@@ -87,6 +87,11 @@ class MockShape : public IShape
     {
         return {};
     }
+
+    QRectF getBBox() const override
+    {
+        return {};
+    }
 };
 
 // Mocking!: Implementations
