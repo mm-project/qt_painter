@@ -128,3 +128,8 @@ bool Line::isDisjointFrom( const QRect& ) const
 {
     return false;
 }
+
+QRectF Line::getBBox() const 
+{
+    return QRectF(m_object.p1(), m_object.p2());
+}

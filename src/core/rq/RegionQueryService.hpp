@@ -2,6 +2,7 @@
 
 #ifndef DUMMY_RQ
 #include "kdtree.hpp"
+#include "rqtree_interface.hpp"
 #endif
 
 #ifdef DUMMY_RQ
@@ -26,7 +27,7 @@ class RegionQuery : public Service<RegionQuery>
 
 #ifndef DUMMY_RQ
   private:
-    KDtreePtr<IShapePtr> m_tree = nullptr;
+    std::shared_ptr<IRQtree<IShapePtr>> m_tree = nullptr;
 #endif
 
 #ifdef DUMMY_RQ
