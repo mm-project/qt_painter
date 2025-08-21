@@ -1,6 +1,7 @@
 #pragma once
 
 #include "rqtree_interface.hpp"
+#include "../qt_shapes/line.hpp"
 
 #include <algorithm>
 #include <array>
@@ -91,6 +92,7 @@ struct DefaultShapeTraits<std::shared_ptr<IShape>, Scalar> {
         return { static_cast<Scalar>(center.x()), static_cast<Scalar>(center.y()) };
     }
 };
+
 
 // -----------------------------
 // Dynamic Quadtree for SHAPES
@@ -256,7 +258,19 @@ private:
     void queryRangeNode(const Node* n, const Box& range, F&& cb) const {
         if (!n->box.intersects(range)) return;
         for (const auto& it : n->items) {
-            if (range.intersects(Traits::aabb(it))) cb(it);
+            // For IShapePtr, use the shape's intersects method for more accurate testing
+            if constexpr (std::is_same_v<T, std::shared_ptr<IShape>>) {
+                QRect qrange(static_cast<int>(range.minx), static_cast<int>(range.miny), 
+                           static_cast<int>(range.width()), static_cast<int>(range.height()));
+                if (it->intersects(qrange)) {
+                    cb(it);
+                }
+            } else {
+                // Fallback to AABB intersection for other types
+                if (range.intersects(Traits::aabb(it))) {
+                    cb(it);
+                }
+            }
         }
         if (n->isLeaf()) return;
         for (int i=0;i<4;++i) queryRangeNode(n->child[std::size_t(i)].get(), range, cb);
