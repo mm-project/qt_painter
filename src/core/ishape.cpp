@@ -1,6 +1,6 @@
 #include "ishape.hpp"
 
-bool ShapeProperties::operator < (const ShapeProperties &t) const
+bool ShapeProperties::operator < (const ShapeProperties& t) const
 {
     return generateKey() < t.generateKey();
 }
