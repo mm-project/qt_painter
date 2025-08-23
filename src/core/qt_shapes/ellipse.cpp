@@ -77,3 +77,8 @@ bool Ellipse::isDisjointFrom( const QRect& oRect ) const
 {
     return ! oRect.contains( m_object );
 }
+
+QRectF Ellipse::getBBox() const 
+{
+    return QRectF(m_object);
+}

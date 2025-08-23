@@ -9,6 +9,7 @@
 // Qt
 #include <QColor>
 #include <QRect>
+#include <QRectF>
 #include <QPoint>
 
 // STL
@@ -157,6 +158,7 @@ class IShape
     virtual bool isDisjointFrom( const QRect& ) const = 0;
 
     virtual QPoint center() const = 0;
+    virtual QRectF getBBox() const = 0;
 
   protected:
     //

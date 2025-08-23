@@ -4,8 +4,10 @@ ObjCount: 0
 --------
 
 PoolName: Highlight-ActiveObjects
-ObjCount: 1
+ObjCount: 3
 ======
+Polygon:	  brushC -> #0000ff, brushS -> 14, penC -> #ffff00, penS -> 3
+Polygon:	  brushC -> #0000ff, brushS -> 14, penC -> #ffff00, penS -> 3
 Polygon:	  brushC -> #0000ff, brushS -> 14, penC -> #ffff00, penS -> 3
 --------
 

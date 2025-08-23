@@ -62,6 +62,8 @@ class Line : public IShape
 
     QPoint center() const override;
 
+    QRectF getBBox() const override;
+
   private:
     QLineF m_object;
     bool m_waitForSecondClick;

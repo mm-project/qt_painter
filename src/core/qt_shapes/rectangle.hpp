@@ -11,6 +11,7 @@
 #include <QObject>
 #include <QPoint>
 #include <QRect>
+#include <QRectF> // Added include for QRectF
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -64,6 +65,8 @@ class Rectangle : public IShape
 
     QPoint center() const override;
     bool isDisjointFrom( const QRect& ) const override;
+
+    QRectF getBBox() const override; // Changed return type to QRectF
 
   private:
     QRect m_object;
