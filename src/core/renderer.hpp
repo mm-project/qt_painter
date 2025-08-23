@@ -126,8 +126,8 @@ class renderer
     bool m_des_renderer = true;
 
     QPainter *m_qt_painter;
-    ObjectPoolPtr m_working_set;
     RuntimePoolManagerPtr m_sandbox;
+    ObjectPoolPtr m_working_set;
     int m_scale = 30;
     int m_pan_step = 10;
     QPoint m_origin_point = {0, 0};

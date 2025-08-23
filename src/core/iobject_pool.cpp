@@ -48,7 +48,7 @@ void ObjectPoolBase::dumpToFile(const std::string &fname) const
     z << "PoolName: " << getName().c_str();
     z << "\nObjCount: " << QString::number(getObjects().size());
     z << "\n======\n";
-    for(int i=0; i<shapes_sorted_info.size(); i++)
+    for(size_t i=0; i<shapes_sorted_info.size(); i++)
         for (auto const& y : shapes_sorted_info[i])
         {
             z << ObjType2String(ObjectType(i)).c_str();
