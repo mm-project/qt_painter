@@ -9,10 +9,11 @@
 //     m_types_count = 0;
 // }
 
-LeCallbackType LePostman::add_callback_type(const std::string &name)
+LeCallbackType LePostman::add_callback_type(const std::string &)
 {
     // LeCallbackType cbt(name);
-    LeCallbackType cbt;
+    // TODO: fix this
+    LeCallbackType cbt = LeCallbackType::OBJECT_SELECTED;
     m_index2type[++m_types_count] = cbt;
     return cbt;
 }
@@ -46,7 +47,7 @@ void LePostman::deregister_callback(const std::string &n, LeCallbackType &t, int
     m_type2vecfun[t].erase(m_type2vecfun[t].begin() + id);
 }
 
-void LePostman::notify(const std::string &n, const LeCallbackType &t)
+void LePostman::notify(const std::string &, const LeCallbackType &t)
 {
     // std::cout << "notify1" << std::endl;
     for (auto it : m_type2vecfun[t])
@@ -60,7 +61,7 @@ void LePostman::notify(const std::string &n, const LeCallbackType &t)
 //         notify(n,t,data)
 // }
 
-void LePostman::notify(const std::string &n, const LeCallbackType &t, LeCallbackData &data)
+void LePostman::notify(const std::string &, const LeCallbackType &t, LeCallbackData &data)
 {
     // std::cout << "notify2" << std::endl;
     for (auto it : m_type2vecfun[t])
