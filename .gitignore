@@ -20,3 +20,5 @@ src/core/rq/test/test_RegionQueryService_autogen
 src/gui/gui_autogen
 src/io/io_autogen
 CMakeFiles
+output
+*.OUT

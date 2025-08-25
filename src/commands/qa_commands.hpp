@@ -286,6 +286,36 @@ template <qaCompType T> class dicmdQaDump : public NonTransactionalDirectCommand
     }
 };
 
+template <qaCompType T> class dicmdQaCompare : public NonTransactionalDirectCommandBase
+{
+    static int n_index;
+
+    std::string get_index_str()
+    {
+        std::stringstream z;
+        z << qaCompType2string(T) << "_Compare_" << n_index;
+        if (T == CANVAS)
+            z << ".png";
+        else
+            z << ".txt";
+        return z.str();
+    }
+
+  public:
+    virtual std::string get_name()
+    {
+        return "dicmdQaCompare" + qaCompType2string(T);
+    }
+
+    static int get_current_index()
+    {
+        return n_index;
+    }
+
+    virtual void execute();
+};
+
+
 template <qaCompType T> class dicmdQaCompareInternal : public NonTransactionalDirectCommandBase
 {
   public:
@@ -332,12 +362,42 @@ template <qaCompType T> class dicmdQaCompareInternal : public NonTransactionalDi
         else
         {
 
+            auto fnCheckBreak = [&]()
+            {
+                if (Application::is_debug_mode())
+                {
+                    // Check if values are defined
+                    // compare with type T 
+                    const auto compareType = QString::fromLocal8Bit(qgetenv("ELEN_PAINTER_TESTTYPE").constData());
+                    if (compareType.isEmpty())
+                    {
+                        return true;
+                    }
+                    if (compareType.toLower().toStdString() != QString::fromStdString(qaCompType2string(T)).toLower().toStdString())
+                    {
+                        return false;
+                    }
+                    // counter 
+                    // read the value 
+                    const auto compareCounter = QString::fromLocal8Bit(qgetenv("ELEN_PAINTER_COUNTER").constData());
+                    if (compareCounter.isEmpty())
+                    {
+                        return true;
+                    }
+                    if (dicmdQaCompare<T>::get_current_index() < compareCounter.toInt())
+                    {
+                        return false;
+                    }
+                    return true;
+                }
+                return false;
+            };
+
             if (are_two_files_different(T, f.c_str(), g.c_str()))
             {
                 QString htmlv = generate_html_view(f, g);
-                if (Application::is_debug_mode())
-                {
-
+                if (fnCheckBreak())
+                { 
                     Messenger::expose_msg(err, "comparision->" + qaCompType2string(T) + ":MISMATCH " + f + " " + g +
                                                    ". Click <a href=\"file://" + htmlv.toStdString() +
                                                    "\">here</a> to see the diff.");
@@ -376,58 +436,37 @@ template <qaCompType T> class dicmdQaCompareInternal : public NonTransactionalDi
     }
 };
 
-template <qaCompType T> class dicmdQaCompare : public NonTransactionalDirectCommandBase
+template <qaCompType T> 
+void dicmdQaCompare<T>::execute()
 {
-    static int n_index;
-
-    std::string get_index_str()
+    // if not a canvas compare, do extra canvas compare in any case
+    if (T != CANVAS)
     {
-        std::stringstream z;
-        z << qaCompType2string(T) << "_Compare_" << n_index;
-        if (T == CANVAS)
-            z << ".png";
-        else
-            z << ".txt";
-        return z.str();
-    }
+        dicmdQaDump<CANVAS>().set_arg("-filename", "CanvasFor_" + get_index_str() + ".png")->execute();
+        // std::cout << "r1egoooooldneeeen" << QString::fromLocal8Bit( qgetenv("ELEN_PAINTER_REGOLDEN").constData()
+        // ).toStdString() << std::endl;
 
-  public:
-    virtual std::string get_name()
-    {
-        return "dicmdQaCompare" + qaCompType2string(T);
-    }
-
-    virtual void execute()
-    {
-        // if not a canvas compare, do extra canvas compare in any case
-        if (T != CANVAS)
+        if (!QString::fromLocal8Bit(qgetenv("ELEN_PAINTER_REGOLDEN").constData()).isEmpty())
         {
-            dicmdQaDump<CANVAS>().set_arg("-filename", "CanvasFor_" + get_index_str() + ".png")->execute();
-            // std::cout << "r1egoooooldneeeen" << QString::fromLocal8Bit( qgetenv("ELEN_PAINTER_REGOLDEN").constData()
-            // ).toStdString() << std::endl;
-
-            if (!QString::fromLocal8Bit(qgetenv("ELEN_PAINTER_REGOLDEN").constData()).isEmpty())
-            {
-                // std::cout << "r?????" << std::endl;
-                if (T == RUNTIME)
-                    dicmdQaDump<SELECTIONCANVAS2>()
-                        .set_arg("-filename", "CanvasFor_" + get_index_str() + ".golden.png")
-                        ->execute();
-                else
-                    dicmdQaDump<SELECTIONCANVAS>()
-                        .set_arg("-filename", "CanvasFor_" + get_index_str() + ".golden.png")
-                        ->execute();
-            }
+            // std::cout << "r?????" << std::endl;
+            if (T == RUNTIME)
+                dicmdQaDump<SELECTIONCANVAS2>()
+                    .set_arg("-filename", "CanvasFor_" + get_index_str() + ".golden.png")
+                    ->execute();
+            else
+                dicmdQaDump<SELECTIONCANVAS>()
+                    .set_arg("-filename", "CanvasFor_" + get_index_str() + ".golden.png")
+                    ->execute();
         }
-
-        dicmdQaCompareInternal<T>()
-            .set_arg("-dumpfile", get_index_str())
-            ->set_arg("-goldenfile", get_index_str() + ".golden")
-            ->execute();
-
-        n_index++;
     }
-};
+
+    dicmdQaCompareInternal<T>()
+        .set_arg("-dumpfile", get_index_str())
+        ->set_arg("-goldenfile", get_index_str() + ".golden")
+        ->execute();
+
+    n_index++;
+}
 
 class dicmdTestCmdListOptions : public NonTransactionalDirectCommandBase
 {
