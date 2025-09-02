@@ -1,1 +1,1 @@
-/Users/levon.sargsyan/int/qt_painter/sqa/scripts/run_with_replay.sh
+../../../scripts/run_with_replay.sh
