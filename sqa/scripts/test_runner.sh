@@ -231,6 +231,9 @@ function run
     local options="$1"
     verbose "running..."
     platform=linux
+    if [[ "$(uname)" == "Darwin" ]]; then
+        platform=mac
+    fi
     toolexe=painter
     toolpath=$PAINTER_QA_DIR/../bin/$platform
     tool=$toolpath/$toolexe
