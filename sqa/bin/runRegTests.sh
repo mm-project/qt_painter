@@ -82,7 +82,7 @@ for i in $TESTLST; do
         r=`python3 $PAINTER_SCRIPTS_DIR/testrail_binder.py -action update_test_result --runid $run_id --resultid $t_res --testname "$i" `
         echo "RESULT:<$r>" &> testrail.io
     fi
-    t_id=`expr $ti + 1`
+    t_id=`expr $t_id + 1`
 done
 
 if [ "$PAINTER_QA_TEST_RUN_PARALLEL" == "" ]; then

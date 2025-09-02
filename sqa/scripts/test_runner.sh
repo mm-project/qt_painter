@@ -50,10 +50,10 @@ function prepocess
     mkdir output
     cd output
     
-    cp $PAINTER_QA_DIR/etc/webrelated/* . -r
+    cp -r $PAINTER_QA_DIR/etc/webrelated/* .
     
     if [ "$mode" != "regolden" ]; then
-        cp ../$GDIRNAME/* ./ -rf
+        cp -rf ../$GDIRNAME/* ./
         if [ "$?" != 0 ]; then
             succ=`expr $succ - 1`
         fi
