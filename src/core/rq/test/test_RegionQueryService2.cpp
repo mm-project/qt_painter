@@ -59,8 +59,8 @@ int main(int argc, char **argv)
     pixmap.fill(Qt::black);
     QPainter *painter = new QPainter(&pixmap);
 
-    std::cout << "inserting " << n << "x" << n << " objects ..." << std::endl;
     int n = 200;
+    std::cout << "inserting " << n << "x" << n << " objects ..." << std::endl;
     create_matrix_of_n_objs(n);
 
     std::cout << "proceeding region query..." << std::endl;
