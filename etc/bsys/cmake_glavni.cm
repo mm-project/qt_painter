@@ -1,30 +1,29 @@
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(LD_AUX "") 
-
-##### Windows
+#windows
 if (WIN32) 
 	# on visual
 	if (MSVC)
             set ( CMAKE_CXX_FLAGS "-DOS_WINDOWS")
             set(QTDIR "C:\\Qt\\5.14.1\\5.12.5\\msvc2017_64")
-	# on mingw
+	# on min mingw
 	else()
             set ( CMAKE_CXX_FLAGS "-DOS_LINUX -g -fPIC -Wunused-parameter -pipe -std=gnu++17 -frtti -Wall -Wextra -fexceptions -pthread -Wno-unused-function -Wno-unused-variable")
             set(QTDIR "./ext/mingw73_32")
-	endif()
+	endif(MSVC)
 
 	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/windows/)
 	set(QT_INCLUDE_DIR ${QTDIR}/include)
 
-##### Mac
 elseif(APPLE)
     set(QTDIR "/opt/homebrew/opt/qt@5")
+    set(QT_INCLUDE_DIR ${QTDIR}/include)
     include_directories("/usr/include/python3.10")
     include_directories("/opt/homebrew/opt/python@3.12/Frameworks/Python.framework/Versions/3.12/Headers")
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/mac/)
 
-#### Linux
+#linux
 else()
     set(QTDIR "/usr/lib/x86_64-linux-gnu")
 	set(LD_AUX "dl -lpython3.10")
@@ -34,15 +33,14 @@ else()
     endif()
     set(CMAKE_CXX_FLAGS " ${CXX_ADDITIONS} -DNO_QT -DOS_LINUX -g -fPIC -Wunused-parameter -pipe -std=gnu++17 -frtti -Wall -Wextra -fexceptions -pthread -Wno-unused-function -Wno-unused-variable -Werror")
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/linux/)
-    
     #linux64
     if (EXISTS "/usr/include/x86_64-linux-gnu/qt5/")
             set(QT_INCLUDE_DIR "/usr/include/x86_64-linux-gnu/qt5/")
-    #linux32
     else()
+    #linux32
             set(QT_INCLUDE_DIR "/usr/include/i386-linux-gnu/qt5/")
     endif()
-endif ()
+endif (WIN32)
 
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/.tmp/lib)
@@ -60,7 +58,8 @@ find_package (Qt5Gui)
 find_package (TBB)
 find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
 
-set(QT_INCLUDE_DIR ${QTDIR}/include)
+#set(QT_INCLUDE_DIR ${QTDIR}/include)
+include_directories("/usr/include/python3.10")
 include_directories(SYSTEM ${QT_INCLUDE_DIR}/)
 include_directories(SYSTEM ${QT_INCLUDE_DIR}/QtCore)
 include_directories(SYSTEM ${QT_INCLUDE_DIR}/QtGui)
