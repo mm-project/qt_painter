@@ -42,9 +42,8 @@ void create_rect_at_given_cell_and_row(int column, int row)
 }
 
 
-bool test_rq_by_inserting_matrix_of_n_objs(int n)
+void create_matrix_of_n_objs(int n)
 {
-
     for(int column=0; column<n; column++)
         for(int row=0; row<n; row++)
             create_rect_at_given_cell_and_row(column,row);
@@ -55,21 +54,22 @@ int main(int argc, char **argv)
 {
     QGuiApplication app(argc, argv);
 
-    int n = 200;
+    std::cout << "initizialazing..." << std::endl;
+    QPixmap pixmap(10000,10000);
+    pixmap.fill(Qt::black);
+    QPainter *painter = new QPainter(&pixmap);
+
     std::cout << "inserting " << n << "x" << n << " objects ..." << std::endl;
-    test_rq_by_inserting_matrix_of_n_objs(n);
+    int n = 200;
+    create_matrix_of_n_objs(n);
 
-
-    std::cout << "rendering..." << std::endl;
-    QPixmap device(10000,10000);
-    device.fill(Qt::black);
-    QPainter *painter = new QPainter(&device);
-
+    std::cout << "proceeding region query..." << std::endl;
     RegionQuery &rq = RegionQuery::getInstance();
     for (auto & shape: rq.getShapesUnderRect(QRect(0, 0, 1000000, 1000000)))
         shape->draw(painter);
 
-    device.save("rq.png");
+    std::cout << "saving..." << std::endl;
+    pixmap.save("rq.png");
 
     std::cout << "comparing..." << std::endl;
     assert(are_imagefiles_different("rq.png","expected/rq.png"));
@@ -77,6 +77,4 @@ int main(int argc, char **argv)
     delete painter;
 
     std::cout << "pass" << std::endl;
-
-
 }
