@@ -1,7 +1,6 @@
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(LD_AUX "") 
-set(QTDIR "/usr/lib/x86_64-linux-gnu")
 #windows
 if (WIN32) 
 	# on visual
@@ -16,8 +15,17 @@ if (WIN32)
 
 	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/windows/)
 	set(QT_INCLUDE_DIR ${QTDIR}/include)
+
+elseif(APPLE)
+    set(QTDIR "/opt/homebrew/opt/qt@5")
+    set(QT_INCLUDE_DIR ${QTDIR}/include)
+    include_directories("/usr/include/python3.10")
+    include_directories("/opt/homebrew/opt/python@3.12/Frameworks/Python.framework/Versions/3.12/Headers")
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/mac/)
+
 #linux
 else()
+    set(QTDIR "/usr/lib/x86_64-linux-gnu")
 	set(LD_AUX "dl -lpython3.10")
 	set(CXX_ADDITIONS "")
 	if(DEFINED ENV{DUMMY_RQ})
@@ -45,9 +53,10 @@ set(CMAKE_CXX_STANDARD 20)
 find_package (Qt5Widgets)
 find_package (Qt5Core)
 find_package (Qt5Gui)
-find_package (TBB)
 #find_package (Qt5Svg)
 #find_package (Qt5Xml)
+find_package (TBB)
+find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
 
 #set(QT_INCLUDE_DIR ${QTDIR}/include)
 include_directories("/usr/include/python3.10")
