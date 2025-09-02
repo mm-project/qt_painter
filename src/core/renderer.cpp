@@ -85,7 +85,7 @@ void renderer::zoom(int factor, QPoint p)
         zoom_internal(ZOOMOUT, p);
 }
 
-void renderer::prezoom(QPoint p)
+void renderer::prezoom(QPoint )
 {
 }
 

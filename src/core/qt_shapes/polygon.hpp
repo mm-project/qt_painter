@@ -11,6 +11,7 @@
 #include <QObject>
 #include <QPoint>
 #include <QPolygonF>
+#include <QRectF>
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -59,6 +60,8 @@ class Polygon : public IShape
 
     QPoint center() const override;
     bool isDisjointFrom( const QRect& ) const override;
+
+    QRectF getBBox() const override;
 
   private:
     QPolygon m_object;

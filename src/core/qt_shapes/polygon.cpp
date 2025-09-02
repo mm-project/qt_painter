@@ -74,3 +74,8 @@ bool Polygon::contains(const QPoint &point) const
 {
     return m_object.containsPoint( point, Qt::OddEvenFill );
 }
+
+QRectF Polygon::getBBox() const 
+{
+    return QRectF(m_object.boundingRect());
+}

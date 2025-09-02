@@ -203,7 +203,10 @@ void canvas::mouseMoveEvent(QMouseEvent *e)
 void canvas::wheelEvent(QWheelEvent *e)
 {
     // fixme need log?
-    m_renderer->zoom((e->delta() / 120), e->pos());
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+    m_renderer->zoom((e->angleDelta().y() / 120), e->pos());
+#pragma GCC diagnostic pop
     update();
 }
 

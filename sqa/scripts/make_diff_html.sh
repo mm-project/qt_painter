@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 f=$1
 g=$2
 

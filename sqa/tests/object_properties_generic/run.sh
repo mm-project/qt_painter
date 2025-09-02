@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 if [ -z "$PAINTER_QA_DIR" ]; then
     echo "please set \$PAINTER_QA_DIR first"
     exit -1

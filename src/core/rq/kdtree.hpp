@@ -1,17 +1,14 @@
 #pragma once
 
+#include "rqtree_interface.hpp"
+
 #include <memory>
-#include <vector>
 #include <stack>
 
-// TODO: change this
-#include <QPoint>
-#include <QRect>
-
 template <typename T> 
-class KDnode;
+struct KDnode;
 template <typename T> 
-using KDnodePtr = std::shared_ptr< KDnode < T> >;
+using KDnodePtr = std::shared_ptr< KDnode < T > >;
 
 template <typename T>
 class KDtree;
@@ -63,21 +60,23 @@ bool compare( KDnodePtr<T> pLeft, KDnodePtr<T> pRight, int nDimension )
 }
 
 template <typename T>
-class KDtree
+class KDtree : public IRQtree<T>
 {
 public:
     KDtree() = default;
-    explicit KDtree( const std::vector<T> arrObjects );
+    explicit KDtree( const std::vector<T>& arrObjects );
 
 public:
-    void insert( const std::vector<T> arrObjects );
-    void insert( const T& object );
-    void clear();
+    void insert( const std::vector<T>& arrObjects ) override;
+    void insert( const T& object ) override;
+    void clear() override;
 
-    void remove( const T& object );
+    void remove( const T& object ) override;
 
-    std::vector<T> query( const QPoint& ) const;
-    std::vector<T> query( const QRect& ) const;
+    std::vector<T> query( const QPoint& ) const noexcept override;
+    std::vector<T> query( const QRect& ) const noexcept override;
+
+    size_t getSize() const noexcept override { return 0; }
 
 private:
     void initRoot();
@@ -87,7 +86,7 @@ private:
 };
 
 template <typename T>
-KDtree<T>::KDtree( const std::vector<T> arrObjecrs )
+KDtree<T>::KDtree( const std::vector<T>& arrObjecrs )
 {
     insert( arrObjecrs );
 }
@@ -102,7 +101,7 @@ void KDtree<T>::initRoot()
 }
 
 template <typename T>
-void KDtree<T>::insert( const std::vector<T> arrObjecrs )
+void KDtree<T>::insert( const std::vector<T>& arrObjecrs )
 {
     initRoot();
     for ( const auto& object : arrObjecrs )
@@ -160,7 +159,7 @@ void KDtree<T>::clear()
 }
 
 template <typename T>
-std::vector<T> KDtree<T>::query( const QPoint& oPoint ) const
+std::vector<T> KDtree<T>::query( const QPoint& oPoint ) const noexcept
 {
     std::vector<T> result;
     auto pNode = m_pRoot;
@@ -181,7 +180,7 @@ std::vector<T> KDtree<T>::query( const QPoint& oPoint ) const
 }
 
 template <typename T>
-std::vector<T> KDtree<T>::query( const QRect& oRect ) const
+std::vector<T> KDtree<T>::query( const QRect& oRect ) const noexcept
 {
     std::vector<T> result;
     std::stack< KDnodePtr<T> > nodes;

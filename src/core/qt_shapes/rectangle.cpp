@@ -77,3 +77,8 @@ bool Rectangle::isDisjointFrom( const QRect& oRect ) const
 {
     return ! oRect.contains( m_object );
 }
+
+QRectF Rectangle::getBBox() const 
+{
+    return QRectF(m_object);
+}
