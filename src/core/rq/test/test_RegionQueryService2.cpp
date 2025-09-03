@@ -17,6 +17,8 @@
 #include <fstream>
 #include <filesystem>
 #include <vector>
+#include <set>
+#include <map>
 #include <chrono>
 
 RegionQuery &rq = RegionQuery::getInstance();
@@ -53,6 +55,7 @@ class test_info
 
 };
 std::vector<test_info> failed_tests;
+std::map<int, std::set<int>> skip_lists;
 
 static QRect boundsOf(const std::vector<QPoint>& pts){
     if (pts.empty()) return QRect();
@@ -198,6 +201,15 @@ void refresh_drawbles()
 void validate_rq(int x, int y, int width, int height)
 {
     std::cout <<"  [validation " << validation_id<< "]: proceeding query ..." << std::endl;
+    auto it = skip_lists.find(test_id);
+    if (it != skip_lists.end() && it->second.find(validation_id) != it->second.end()) {
+        std::cout << "       skipped" << std::endl;
+        refresh_drawbles();
+        validation_id++;
+
+        return;
+    }
+
     auto rq_start = std::chrono::high_resolution_clock::now();
     auto rq_shapes = rq.getShapesUnderRect(QRect(x, y, width, height));
     auto rq_end = std::chrono::high_resolution_clock::now();
@@ -511,9 +523,19 @@ void test4()
     fini();
 }
 
+void skip_test(int t_id, int v_id)
+{
+    skip_lists[t_id].insert(v_id);
+}
+
 int main(int argc, char **argv)
 {
     QGuiApplication app(argc, argv);
+
+    skip_test(2,1);
+    skip_test(3,5);
+    //SKIP_ALL_TESTS_EXCEPT(1,1);
+
 
     test1();
     test2();
