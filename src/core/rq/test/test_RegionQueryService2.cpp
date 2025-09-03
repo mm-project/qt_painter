@@ -56,6 +56,7 @@ class test_info
 };
 std::vector<test_info> failed_tests;
 std::map<int, std::set<int>> skip_lists;
+std::map<int, std::set<int>> allow_lists;
 
 static QRect boundsOf(const std::vector<QPoint>& pts){
     if (pts.empty()) return QRect();
@@ -201,6 +202,8 @@ void refresh_drawbles()
 void validate_rq(int x, int y, int width, int height)
 {
     std::cout <<"  [validation " << validation_id<< "]: proceeding query ..." << std::endl;
+    
+    ///*
     auto it = skip_lists.find(test_id);
     if (it != skip_lists.end() && it->second.find(validation_id) != it->second.end()) {
         std::cout << "       skipped" << std::endl;
@@ -209,6 +212,18 @@ void validate_rq(int x, int y, int width, int height)
 
         return;
     }
+    /**/
+    
+    //*
+    auto it2 = allow_lists.find(test_id);
+    if ( allow_lists.size() > 0  && ( it2 == allow_lists.end() || it2->second.find(validation_id) == it2->second.end())) {
+        std::cout << "       skipped" << std::endl;
+        refresh_drawbles();
+        validation_id++;
+
+        return;
+    }
+    /**/
 
     auto rq_start = std::chrono::high_resolution_clock::now();
     auto rq_shapes = rq.getShapesUnderRect(QRect(x, y, width, height));
@@ -272,7 +287,7 @@ void validate_rq(int x, int y, int width, int height)
     validation_id++;
 }
 
-void generate_html_diff1()
+void generate_html_diff()
 {
     std::string html = R"(
         <!DOCTYPE html>
@@ -281,117 +296,40 @@ void generate_html_diff1()
         <meta charset="UTF-8">
         <title>4 Column Table</title>
         <style>
-            table {
-            border-collapse: collapse;
-            width: 90%;
-            margin: 20px auto;
-            }
-            th, td {
-            border: 1px solid #555;
-            padding: 10px;
-            text-align: center;
-            }
-            th {
-            background-color: #f2f2f2;
-            }
-            table img {
-            width: 90%;
-            height: auto;
-            }
+        body { font-family: sans-serif; }
+        table { border-collapse: collapse; width: 90%; margin: 20px auto; }
+        th, td { border: 1px solid #555; padding: 10px; text-align: center; vertical-align: top; }
+        th { background-color: #f2f2f2; }
+        /* thumbnails */
+        table img { width: 90%; height: auto; cursor: zoom-in; }
+        /* overlay */
+        #overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.75);
+            justify-content: center; align-items: center;
+            z-index: 9999;
+        }
+        #overlay img {
+            max-width: 90vw; max-height: 90vh; box-shadow: 0 0 20px rgba(255,255,255,0.4);
+        }
         </style>
         </head>
         <body>
         <h2 style="text-align:center;">Region query unit test failures</h2>
+
+        <!-- Overlay for full image -->
+        <div id="overlay" onclick="this.style.display='none'">
+        <img id="fullImage" alt="full">
+        </div>
+
         <table>
-            <tr>
-                <th>Check</th>
-                <th>Design and select</th>
-                <th>RQ data</th>
-                <th>WS data</th>
-            </tr>
+        <tr>
+            <th>Check</th>
+            <th>Design and select</th>
+            <th>RQ data</th>
+            <th>WS data</th>
+        </tr>
         )";
-
-    
-    for (auto& failed_test : failed_tests) {
-        int t_id = failed_test.test_id;
-        int v_id = failed_test.validation_id;
-        int rq_oc = failed_test.rq_object_count;
-        int ws_oc = failed_test.ws_object_count;
-
-        html += "<tr>\n";
-        html += "  <td>Test" + std::to_string(t_id) + 
-                " Validation" + std::to_string(v_id) + "</td>\n";
-        html += "  <td><img src=\"des_" + std::to_string(t_id) + "_" + 
-                std::to_string(v_id) + ".png\"></td>\n";
-        html += "  <td><img src=\"rq_" + std::to_string(t_id) + "_" + 
-                std::to_string(v_id) + ".png\"><br> RQ Got " + 
-                std::to_string(rq_oc) + " objs</td>\n";
-        html += "  <td><img src=\"ws_" + std::to_string(t_id) + "_" + 
-                std::to_string(v_id) + ".png\"><br> WS Got " + 
-                std::to_string(ws_oc) + " objs</td>\n";
-        html += "</tr>\n";
-    }
-
-    html += "</table>\n";
-    html += "</body>\n";
-    html += "</html>\n";
-
-    // Write string to file
-    std::ofstream out("table.html");
-    if (!out) {
-        std::cerr << "Error: could not open file for writing!\n";
-        //return 1;
-    }
-
-    out << html;
-    out.close();
-
-    std::cout << "HTML file created: table.html\n";
-}
-
-void generate_html_diff()
-{
-    std::string html = R"(
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>4 Column Table</title>
-<style>
-  body { font-family: sans-serif; }
-  table { border-collapse: collapse; width: 90%; margin: 20px auto; }
-  th, td { border: 1px solid #555; padding: 10px; text-align: center; vertical-align: top; }
-  th { background-color: #f2f2f2; }
-  /* thumbnails */
-  table img { width: 90%; height: auto; cursor: zoom-in; }
-  /* overlay */
-  #overlay {
-    display: none; position: fixed; inset: 0;
-    background: rgba(0,0,0,0.75);
-    justify-content: center; align-items: center;
-    z-index: 9999;
-  }
-  #overlay img {
-    max-width: 90vw; max-height: 90vh; box-shadow: 0 0 20px rgba(255,255,255,0.4);
-  }
-</style>
-</head>
-<body>
-<h2 style="text-align:center;">Region query unit test failures</h2>
-
-<!-- Overlay for full image -->
-<div id="overlay" onclick="this.style.display='none'">
-  <img id="fullImage" alt="full">
-</div>
-
-<table>
-  <tr>
-    <th>Check</th>
-    <th>Design and select</th>
-    <th>RQ data</th>
-    <th>WS data</th>
-  </tr>
-)";
 
     for (auto& failed_test : failed_tests) {
         int t_id  = failed_test.test_id;
@@ -420,28 +358,28 @@ void generate_html_diff()
     }
 
     html += R"(
-</table>
+        </table>
 
-<script>
-  function showImage(src) {
-    var o = document.getElementById('overlay');
-    var img = document.getElementById('fullImage');
-    img.src = src;
-    o.style.display = 'flex';
-  }
-</script>
+        <script>
+        function showImage(src) {
+            var o = document.getElementById('overlay');
+            var img = document.getElementById('fullImage');
+            img.src = src;
+            o.style.display = 'flex';
+        }
+        </script>
 
-</body>
-</html>
-)";
+        </body>
+        </html>
+        )";
 
-    std::ofstream out("table.html");
+    std::ofstream out("rq_ut_diff.html");
     if (!out) {
         std::cerr << "Error: could not open file for writing!\n";
         return;
     }
     out << html;
-    std::cout << "HTML file created: table.html\n";
+    std::cout << "HTML file created: rq_ut_diff.html\n";
 }
 
 
@@ -458,6 +396,7 @@ void print_results()
         std::cout << "tests failed." << std::endl;
         std::cout << std::endl;
         generate_html_diff();
+        exit(1);
     } else {
         std::cout << std::endl;
         std::cout << "all tests passed." << std::endl;
@@ -465,6 +404,15 @@ void print_results()
     }
 }
 
+void skip_test(int t_id, int v_id)
+{
+    skip_lists[t_id].insert(v_id);
+}
+
+void skip_all_tests_except(int t_id, int v_id)
+{
+    allow_lists[t_id].insert(v_id);
+}
 
 
 
@@ -523,19 +471,32 @@ void test4()
     fini();
 }
 
-void skip_test(int t_id, int v_id)
-{
-    skip_lists[t_id].insert(v_id);
-}
-
 int main(int argc, char **argv)
 {
     QGuiApplication app(argc, argv);
 
+    // do NOT remove, ws query not working properly for those cases 
     skip_test(2,1);
     skip_test(3,5);
-    //SKIP_ALL_TESTS_EXCEPT(1,1);
+    skip_test(4,5);
 
+    // remove after rq fix 
+    /*
+    skip_test(1,1);
+    skip_test(3,1);
+    skip_test(3,4);
+    skip_test(3,6);
+    skip_test(3,7);
+    skip_test(4,1);
+    skip_test(4,4);
+    skip_test(4,6);
+    skip_test(4,7);
+    /**/
+
+    //use to debug
+    //skip_all_tests_except(test_id1,validation_id2);
+    //...
+    //skip_all_tests_except(test_idx,validation_idy);
 
     test1();
     test2();
