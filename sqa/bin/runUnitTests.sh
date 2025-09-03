@@ -42,6 +42,9 @@ fi
 
 for i in `ls $PAINTER_QA_DIR/../unit_test_bin`; do
     total=`expr $total + 1`
+    if [ -d $PAINTER_QA_DIR/../unit_test_bin/$i ]; then
+        continue
+    fi
     #cd $PAINTER_QA_DIR/../unit_test_bin
         echo -ne  "Running $PAINTER_QA_DIR/../unit_test_bin/$i --- "
         a=`$PAINTER_QA_DIR/../unit_test_bin/$i &> uttest.info `

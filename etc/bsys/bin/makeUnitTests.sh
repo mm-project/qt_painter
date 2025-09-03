@@ -30,12 +30,12 @@ for entry in `cat $PAINTER_BSYS_ROOT/projects.lst`; do
     proj=$PAINTER_ROOT/$entry
     if [ -d $proj/test ] && [ -f $proj/test/CMakeLists.txt ]; then
         cd $proj/test 
-        cmake CMakeLists.txt
+        cmake CMakeLists.txt -DCMAKE_POLICY_VERSION_MINIMUM=3.5
         make -j4
         if [ -d expected ]; then
           dirname=$(basename $entry)
           mkdir -p $PAINTER_ROOT/unit_test_bin/$dirname
-          cp expected $PAINTER_ROOT/unit_test_bin/$dirname -rf
+          cp -rf expected $PAINTER_ROOT/unit_test_bin/$dirname 
         fi
     fi
 done
