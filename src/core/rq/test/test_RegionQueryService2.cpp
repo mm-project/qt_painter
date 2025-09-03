@@ -481,7 +481,6 @@ int main(int argc, char **argv)
     skip_test(4,5);
 
     // remove after rq fix 
-    /*
     skip_test(1,1);
     skip_test(3,1);
     skip_test(3,4);
