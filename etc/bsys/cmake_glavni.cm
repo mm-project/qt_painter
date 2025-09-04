@@ -1,6 +1,6 @@
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-set(LD_AUX "")
+set(LD_AUX "") 
 set(QTDIR "/usr/lib/x86_64-linux-gnu")
 #windows
 if (WIN32) 
@@ -53,9 +53,9 @@ set(CMAKE_CXX_STANDARD 20)
 find_package (Qt5Widgets)
 find_package (Qt5Core)
 find_package (Qt5Gui)
+find_package (TBB)
 #find_package (Qt5Svg)
 #find_package (Qt5Xml)
-find_package (TBB)
 find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
 
 #set(QT_INCLUDE_DIR ${QTDIR}/include)
