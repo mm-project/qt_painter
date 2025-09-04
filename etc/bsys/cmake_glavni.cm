@@ -1,6 +1,7 @@
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-set(LD_AUX "") 
+set(LD_AUX "")
+set(QTDIR "/usr/lib/x86_64-linux-gnu")
 #windows
 if (WIN32) 
 	# on visual
@@ -25,7 +26,6 @@ elseif(APPLE)
 
 #linux
 else()
-    set(QTDIR "/usr/lib/x86_64-linux-gnu")
 	set(LD_AUX "dl -lpython3.10")
 	set(CXX_ADDITIONS "")
 	if(DEFINED ENV{DUMMY_RQ})
