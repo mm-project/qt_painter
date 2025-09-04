@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -e
 
 SOURCE="${BASH_SOURCE[0]}"
@@ -31,7 +31,7 @@ for entry in `cat $PAINTER_BSYS_ROOT/projects.lst`; do
     proj=$PAINTER_ROOT/$entry
     if [ -d $proj/test ] && [ -f $proj/test/CMakeLists.txt ]; then
         cd $proj/test 
-        cmake CMakeLists.txt
+        cmake CMakeLists.txt -DCMAKE_POLICY_VERSION_MINIMUM=3.5
         make -j4
     fi
 done
