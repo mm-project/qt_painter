@@ -16,7 +16,6 @@ if [ "$tst_lst" == "" ]; then
 fi
 
 file_len=`wc -l "$tst_lst" | xargs | cut -d' ' -f1`
-
 b=0
 e=1
 declare -A PIDS 
