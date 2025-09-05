@@ -5,9 +5,10 @@ void performance_test()
 {
 
     // n*n matrices, 50 means 50*50 total objects
-    std::vector<int> magnitudes = {50, 100, 200, 400, 800, 1600, 3200, 6400, 12800, 25600, 51200};
-    //std::vector<int> magnitudes = {50, 100, 200, 400, 800, 1600, 3200, 6400, 12800};
+    //std::vector<int> magnitudes = {50, 100, 200, 400, 800, 1600, 3200, 6400, 12800, 25600, 51200};
+    std::vector<int> magnitudes = {50, 100, 200, 400, 800, 1600, 3200, 6400, 12800};
     //std::vector<int> magnitudes = {50, 150, 200, 250};
+    //std::vector<int> magnitudes = {50, 100, 200, 400};
     //std::vector<int> magnitudes = {10, 100, 1000, 10000, 100000, 1000000};
     
     int repeat_factor = 1;
@@ -105,7 +106,7 @@ void test6()
     fini();
 }
 
-int main_perf(int argc, char **argv)
+int main2(int argc, char **argv)
 {
     QGuiApplication app(argc, argv);
     performance_test();

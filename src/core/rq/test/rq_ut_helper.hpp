@@ -659,7 +659,58 @@ void do_perf_test(int repeat_factor, std::vector<int>& magnitudes)
         //std::cout << std::endl;    
     }
     std::cout << std::endl;
+    std::cout << "Calculating computional complexity" << std::endl;
+    int j = 1;
+    std::map<int, std::vector<int>> seqs;
+    for (int i=0; i<magnitudes.size()-1; i++) {
+        std::vector<int> results_1 = results[magnitudes[i+1]];
+        std::vector<int> results_2 = results[magnitudes[i]];
+        auto mag_ratio = magnitudes[i+1]/magnitudes[i];
+        auto ws_insert_ratio = results_1[0]/results_2[0];
+        auto rq_insert_ratio = results_1[1]/results_2[1];
+        auto ws_query_ratio = 1;
+        if ( results_2[2] != 0 )
+            ws_query_ratio = results_1[2]/results_2[2];
+        auto rq_query_ratio = 1;
+        if ( results_2[3] != 0 )
+            rq_query_ratio = results_1[3]/results_2[3];
+
+        std::cout << "step "<< j << std::endl;
+        std::cout << "  mag ratio:" << mag_ratio << std::endl; 
+        std::cout << "  ws insert ratio:" << ws_insert_ratio << std::endl; 
+        seqs[0].push_back(ws_insert_ratio);
+        std::cout << "  rq insert ratio:" << rq_insert_ratio << std::endl; 
+        seqs[1].push_back(rq_insert_ratio);
+        std::cout << "  ws query ratio:" << ws_query_ratio << std::endl; 
+        seqs[2].push_back(ws_query_ratio);
+        std::cout << "  rq query ratio:" << rq_query_ratio << std::endl; 
+        seqs[3].push_back(rq_query_ratio);    
+        j++;
+    }
     std::cout << std::endl;
+    std::cout << std::endl;
+    
+    std::cout << "ws insert sequence: ";
+    for (auto & ws_insert: seqs[0])
+        std::cout << ws_insert << ",";
+    std::cout << std::endl;
+    
+    std::cout << "rq insert sequence: ";
+    for (auto & rq_insert: seqs[1])
+        std::cout << rq_insert << ",";
+    std::cout << std::endl;
+
+    std::cout << "ws query sequence: ";
+    for (auto & ws_query: seqs[2])
+        std::cout << ws_query << ",";
+    std::cout << std::endl;
+
+    std::cout << "rq query sequence: ";
+    for (auto & rq_query: seqs[3])
+        std::cout << rq_query << ",";
+    std::cout << std::endl;
+
+    std::cout << std::endl;    
     write_results_graph_html(results);
 
 }
