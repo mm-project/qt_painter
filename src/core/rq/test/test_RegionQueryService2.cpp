@@ -1,6 +1,19 @@
 #include "rq_ut_helper.hpp"
 
 
+void performance_test()
+{
+
+    // n*n matrices, 50 means 50*50 total objects
+    //std::vector<int> magnitudes = {50, 100, 200, 400, 800, 1600, 3200, 6400, 12800, 25600, 51200};
+    std::vector<int> magnitudes = {50, 100, 200, 400, 800, 1600, 3200, 6400, 12800};
+    //std::vector<int> magnitudes = {50, 150, 200, 250};
+    //std::vector<int> magnitudes = {10, 100, 1000, 10000, 100000, 1000000};
+    
+    int repeat_factor = 1;
+    do_perf_test(repeat_factor,magnitudes);
+}
+
 void run_validations()
 {
     //v1
@@ -29,6 +42,10 @@ void run_validations()
     validate_rq(100, 100, 200, 50);
     //v13
     validate_rq(100, 100, 50, 200);
+    //v14
+    validate_rq(400, 400, 500, 200);
+    //v14
+    validate_rq(400, 400, 200, 500);
 }
 
 void test1() 
@@ -74,6 +91,17 @@ void test5()
     fini();
 }
 
+/*
+int main(int argc, char **argv)
+{
+    QGuiApplication app(argc, argv);
+    performance_test();
+
+    return 0;
+
+}
+*/
+
 int main(int argc, char **argv)
 {
     QGuiApplication app(argc, argv);
@@ -102,6 +130,7 @@ int main(int argc, char **argv)
     //...
     //skip_all_tests_except(test_idx,validation_idy);
 
+    /*
     test1();
     test2();
     test3();
@@ -109,4 +138,8 @@ int main(int argc, char **argv)
     test5();
 
     print_results();
+    */
+
+    return 0;
 }
+
