@@ -73,38 +73,20 @@ int ws_query_ms = 777;
 int rq_query_ms = 666;
 
 
-static QRect boundsOf(const std::vector<QPoint>& pts){
-    if (pts.empty()) return QRect();
-    int minx=pts[0].x(), maxx=minx, miny=pts[0].y(), maxy=miny;
-    for (size_t i=1;i<pts.size();++i){
-        minx = std::min(minx, pts[i].x());
-        maxx = std::max(maxx, pts[i].x());
-        miny = std::min(miny, pts[i].y());
-        maxy = std::max(maxy, pts[i].y());
-    }
-    return QRect(QPoint(minx,miny), QPoint(maxx,maxy)).normalized();
-}
 
-std::vector<IShapePtr> getShapesUnderRect(int x,int y,int w,int h)
+std::vector<IShapePtr> getShapesUnderRect(int x,int y,int w,int h) 
 {
-    std::vector<IShapePtr> out;
-    QRect r = QRect(x,y,w,h).normalized();
-    r.adjust(0,0,1,1);
+    
+    std::vector<IShapePtr> shapes;    
+    QRect r = QRect(x,y,w,h);
 
-    for (auto& s : the_ws) {
-        const auto& pts = s->getPoints();
-        if (pts.empty()) continue;
+    for (auto shape : the_ws)
+        if (shape->intersects(r))
+            shapes.push_back(shape);
 
-        bool hit = false;
-        for (const auto& p : pts) {
-            if (r.contains(p)) { hit = true; break; }
-        }
-        if (!hit && boundsOf(pts).intersects(r)) hit = true;
-
-        if (hit) out.push_back(s);
-    }
-    return out;
+    return shapes;
 }
+
 
 template <typename T> IShapePtr create(QPoint p1, QPoint p2)
 {
