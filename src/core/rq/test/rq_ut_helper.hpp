@@ -27,6 +27,7 @@
 #include <fstream>
 #include <limits>
 #include <algorithm>
+#include <cmath>
 
 
 RegionQuery &rq = RegionQuery::getInstance();
@@ -43,6 +44,7 @@ struct drawble
     QPixmap* pixmap;
 };
 std::pair<drawble,drawble> drawbles;
+bool need_drawing = true;
 
 class test_info
 {
@@ -183,40 +185,41 @@ auto init()
     rq.clear();
     the_ws.clear();
     
-    /*
-    QPixmap* pixmap1 = new QPixmap(PIXMAP_W,PIXMAP_H);
-    pixmap1->fill(Qt::black);
-    QPainter* painter1 = new QPainter(pixmap1);
+    if (need_drawing) {
+        QPixmap* pixmap1 = new QPixmap(PIXMAP_W,PIXMAP_H);
+        pixmap1->fill(Qt::black);
+        QPainter* painter1 = new QPainter(pixmap1);
 
-    QPixmap* pixmap2 = new QPixmap(PIXMAP_W,PIXMAP_H);
-    pixmap2->fill(Qt::black);
-    QPainter* painter2 = new QPainter(pixmap2);
+        QPixmap* pixmap2 = new QPixmap(PIXMAP_W,PIXMAP_H);
+        pixmap2->fill(Qt::black);
+        QPainter* painter2 = new QPainter(pixmap2);
 
-    drawble d1;
-    d1.painter = painter1;
-    d1.pixmap = pixmap1;
+        drawble d1;
+        d1.painter = painter1;
+        d1.pixmap = pixmap1;
 
-    drawble d2;
-    d2.painter = painter2;
-    d2.pixmap = pixmap2;
+        drawble d2;
+        d2.painter = painter2;
+        d2.pixmap = pixmap2;
 
-    drawbles = std::make_pair(d1,d2);
-    */
+        drawbles = std::make_pair(d1,d2);
+    }
 }
 
 void fini()
 {
-    /*
-    delete drawbles.first.painter;
-    delete drawbles.first.pixmap;
-    delete drawbles.second.painter;
-    delete drawbles.second.pixmap;
-    
-    drawbles.first.pixmap = 0;
-    drawbles.second.pixmap = 0;
-    drawbles.first.painter = 0;
-    drawbles.second.painter = 0;
-    */
+    if (need_drawing) {
+        delete drawbles.first.painter;
+        delete drawbles.first.pixmap;
+        delete drawbles.second.painter;
+        delete drawbles.second.pixmap;
+        
+        drawbles.first.pixmap = 0;
+        drawbles.second.pixmap = 0;
+        drawbles.first.painter = 0;
+        drawbles.second.painter = 0;
+    }
+
     std::cout << std::endl;
     rq.clear();
     the_ws.clear();
@@ -227,7 +230,8 @@ void fini()
 
 void refresh_drawbles()
 {
-    return;
+    if (!need_drawing)
+        return;
 
     delete drawbles.first.painter;
     delete drawbles.first.pixmap;
@@ -255,7 +259,7 @@ void refresh_drawbles()
     drawbles = std::make_pair(d1,d2);
 }
 
-void validate_rq(int x, int y, int width, int height, bool need_drawing = true)
+void validate_rq(int x, int y, int width, int height)
 {
     std::cout <<"  [validation " << validation_id<< "]: proceeding query ..." << std::endl;
     
@@ -687,8 +691,9 @@ int get_mean_value(std::vector<int> vec)
     }
 }
 
-void do_perf_test(int repeat_factor, std::vector<int>& magnitudes)
+void do_rq_perf_test(int repeat_factor, std::vector<int>& magnitudes)
 {
+    need_drawing = false;
     std::map<int, std::vector<int>> results;
     for (auto & magnitude: magnitudes) {
         std::vector<int> ws_insert_times;
@@ -698,7 +703,7 @@ void do_perf_test(int repeat_factor, std::vector<int>& magnitudes)
         for (int i=0; i<repeat_factor; i++) {
             init();
             insert_nxn_matrix_of_objs<Rectangle>(magnitude);
-            validate_rq(400, 400, 400, 400, false);
+            validate_rq(400, 400, 400, 400);
             fini();
             ws_insert_times.push_back(ws_insert_ms);
             rq_insert_times.push_back(rq_insert_ms);
@@ -740,7 +745,7 @@ void do_perf_test(int repeat_factor, std::vector<int>& magnitudes)
     std::cout << "Calculating computional complexity" << std::endl;
     int j = 1;
     std::map<int, std::vector<int>> seqs;
-    for (int i=0; i<magnitudes.size()-1; i++) {
+    for (long unsigned int i=0; i<magnitudes.size()-1; i++) {
         std::vector<int> results_1 = results[magnitudes[i+1]];
         std::vector<int> results_2 = results[magnitudes[i]];
         auto mag_ratio = magnitudes[i+1]/magnitudes[i];
