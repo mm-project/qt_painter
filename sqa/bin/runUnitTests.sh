@@ -47,9 +47,9 @@ for i in `ls $PAINTER_QA_DIR/../unit_test_bin`; do
     if [ -d $PAINTER_QA_DIR/../unit_test_bin/$i ]; then
         continue
     fi
-        rm -rf $PAINTER_QA_DIR/../unit_test_out
-        mkdir -p $PAINTER_QA_DIR/../unit_test_out
-        cd $PAINTER_QA_DIR/../unit_test_out
+        #rm -rf $PAINTER_QA_DIR/../unit_test_out
+        #mkdir -p $PAINTER_QA_DIR/../unit_test_out
+        #cd $PAINTER_QA_DIR/../unit_test_out
         echo -ne  "Running $PAINTER_QA_DIR/../unit_test_bin/$i --- "
         a=`$PAINTER_QA_DIR/../unit_test_bin/$i &> uttest.info `
         r=$?
