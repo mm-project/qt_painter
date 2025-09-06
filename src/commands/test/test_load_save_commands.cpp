@@ -12,6 +12,7 @@ class MockWorkingSet : public IObjectPool
     }
     virtual std::vector<IShapePtr> getObjects() const noexcept override
     {
+        return {};
     }
     IShapePtr addObject(IShapePtr s) override
     {
@@ -19,7 +20,8 @@ class MockWorkingSet : public IObjectPool
         return s;
     }
     virtual std::string getName() const noexcept override
-    {
+    {   
+        return "MockWorkingSet";
     }
     virtual void dumpToFile(const std::string &) const
     {
@@ -42,7 +44,7 @@ class MockShape : public IShape
     virtual void addPoint(const QPoint &)
     {
     }
-    virtual void updateProperties(ShapeProperties b)
+    virtual void updateProperties(ShapeProperties)
     {
     }
     virtual bool is_draw_mode()
@@ -61,8 +63,9 @@ class MockShape : public IShape
     }
     virtual std::vector<QPoint> getPoints()
     {
+        return {};
     }
-    virtual ObjectType getType() const {};
+    virtual ObjectType getType() const {return ObjectType::LINE;};
     virtual void moveCenterToPoint(QPoint &)
     {
     }
@@ -82,6 +85,10 @@ class MockShape : public IShape
     {
         return {};
     }
+    QRectF getBBox() const override
+    {
+        return {};
+    }
 };
 
 // Mocking!: Implementations
@@ -97,7 +104,7 @@ IShapePtr ShapeCreator::create(ObjectType)
 }
 
 // Mocking!: Implementations
-void Messenger::expose_msg(const LogMsgSeverity &s, const std::string &, bool)
+void Messenger::expose_msg(const LogMsgSeverity &, const std::string &, bool)
 {
 }
 void Messenger::log_command(const std::string &, bool)
@@ -148,6 +155,7 @@ bool UT_load_save_commands()
     // Expecting!: should be called properly with called arguments
     cmd.set_arg("-filename", "morqur");
     cmd.execute();
+    return true;
 }
 
 int main()

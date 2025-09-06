@@ -47,7 +47,7 @@ class MockShape : public IShape
     virtual void addPoint(const QPoint &)
     {
     }
-    virtual void updateProperties(ShapeProperties b)
+    virtual void updateProperties(ShapeProperties)
     {
     }
     virtual bool is_draw_mode()
@@ -66,8 +66,9 @@ class MockShape : public IShape
     }
     virtual std::vector<QPoint> getPoints()
     {
+        return {};
     }
-    virtual ObjectType getType() const {};
+    virtual ObjectType getType() const {return ObjectType::LINE;};
     virtual void moveCenterToPoint(QPoint &)
     {
     }
@@ -87,10 +88,15 @@ class MockShape : public IShape
     {
         return {};
     }
+
+    QRectF getBBox() const override
+    {
+        return {};
+    }
 };
 
 // Mocking!: Implementations
-void Messenger::expose_msg(const LogMsgSeverity &s, const std::string &, bool)
+void Messenger::expose_msg(const LogMsgSeverity &, const std::string &, bool)
 {
 }
 void Messenger::log_command(const std::string &, bool)
@@ -155,7 +161,9 @@ bool UT_delete_command()
     // Expecting!: command should throw exception when argument is invalid
     cmd.set_arg("-p1int", "(0,0)");
     cmd.execute();
+    return true;
 }
+
 
 int main()
 {

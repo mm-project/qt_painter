@@ -57,6 +57,7 @@ bool test1()
     // delete index2shape[1].get();
     // rq.insertObject(create<Ellipse>(QPoint(99,99),QPoint(105,105)));           //n4
     // assert(rq.getShapesUnderRect(QRect(0,0,100,100)).size() == 4);
+    return true;
 }
 
 bool test2()
@@ -122,6 +123,7 @@ bool test2()
     // pic.save("test.bmp");
     // pic.save("test.bmp");
     painter->end();
+    return true;
 }
 
 void test4()

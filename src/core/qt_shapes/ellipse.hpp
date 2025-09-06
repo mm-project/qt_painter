@@ -11,6 +11,7 @@
 #include <QObject>
 #include <QPoint>
 #include <QPolygonF>
+#include <QRectF>
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -63,6 +64,8 @@ class Ellipse : public IShape
 
     QPoint center() const override;
     bool isDisjointFrom( const QRect& ) const override;
+
+    QRectF getBBox() const override;
     
   private:
     QRect m_object;

@@ -3,10 +3,12 @@
 #include "RegionQueryService.hpp"
 #include "debug_helper.hpp"
 #include "rq_object.hpp"
+#include "quard_tree.hpp"
 
 RegionQuery::RegionQuery()
 {
-    m_tree = std::shared_ptr<KDtree<IShapePtr>>(new KDtree<IShapePtr>());
+    //m_tree = std::shared_ptr<KDtree<IShapePtr>>(new KDtree<IShapePtr>());
+    m_tree = std::shared_ptr<QtShapeQuadtree<IShapePtr>>(new QtShapeQuadtree<IShapePtr>());
 }
 
 void RegionQuery::insertObject(IShapePtr object)
@@ -43,7 +45,7 @@ void RegionQuery::shutDown()
 
 int RegionQuery::getSize() const
 {
-    //return m_tree->getSize();
+    return m_tree->getSize();
 }
 
 #endif // ifndef NO_RQ
