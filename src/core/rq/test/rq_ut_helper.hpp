@@ -159,10 +159,33 @@ template <typename T> void insert_nxn_matrix_of_objs_internal(int n, bool ws)
     std::cout << std::endl;
 }
 
+template <typename T>
+void insert_n_objs_as_square_plus_spares_internal(int N, bool ws) 
+{
+    if (N <= 0) return;
+
+    // largest s such that s*s <= N
+    int s = static_cast<int>(std::floor(std::sqrt(static_cast<double>(N))));
+    int base = s * s;
+    int r = N - base; // remainder to place
+
+    // Place s x s block
+    for (int col = 0; col < s; ++col) {
+        for (int row = 0; row < s; ++row) {
+            create_obj_at_given_cell_and_row<T>(col, row, ws);
+        }
+    }
+
+    if (r == 0) return;
+
+    for (int k = 0; k < r; ++k)
+        create_obj_at_given_cell_and_row<T>(s + k, 0, ws);
+}
+
 template <typename T> void insert_nxn_matrix_of_objs(int n)
 {
     std::cout << "  inserting " << n << "x" << n << " objects to ws ..." << std::endl;
-    the_ws.reserve(n*n);
+    //the_ws.reserve(n*n);
     auto ws_insert_start = std::chrono::high_resolution_clock::now();
     insert_nxn_matrix_of_objs_internal<T>(n,true);
     auto ws_insert_end = std::chrono::high_resolution_clock::now();
@@ -173,6 +196,26 @@ template <typename T> void insert_nxn_matrix_of_objs(int n)
     std::cout << "  inserting " << n << "x" << n << " objects to rq ..." << std::endl;
     auto rq_insert_start = std::chrono::high_resolution_clock::now();
     insert_nxn_matrix_of_objs_internal<T>(n,false);
+    auto rq_insert_end = std::chrono::high_resolution_clock::now();
+    rq_insert_ms = std::chrono::duration_cast<std::chrono::microseconds>(rq_insert_end - rq_insert_start).count();
+    std::cout << "       --> rq insert took " << rq_insert_ms <<  std::endl;
+
+}
+
+template <typename T> void insert_n_objs_as_square_plus_spares(int n)
+{
+    std::cout << "  inserting " << n << " objects to ws ..." << std::endl;
+    //the_ws.reserve(n*n);
+    auto ws_insert_start = std::chrono::high_resolution_clock::now();
+    insert_n_objs_as_square_plus_spares_internal<T>(n,true);
+    auto ws_insert_end = std::chrono::high_resolution_clock::now();
+    ws_insert_ms = std::chrono::duration_cast<std::chrono::microseconds>(ws_insert_end - ws_insert_start).count();
+    std::cout << "       --> ws insert took " << ws_insert_ms <<  std::endl;
+
+    
+    std::cout << "  inserting " << n << " objects to rq ..." << std::endl;
+    auto rq_insert_start = std::chrono::high_resolution_clock::now();
+    insert_n_objs_as_square_plus_spares_internal<T>(n,false);
     auto rq_insert_end = std::chrono::high_resolution_clock::now();
     rq_insert_ms = std::chrono::duration_cast<std::chrono::microseconds>(rq_insert_end - rq_insert_start).count();
     std::cout << "       --> rq insert took " << rq_insert_ms <<  std::endl;
@@ -691,7 +734,7 @@ int get_mean_value(std::vector<int> vec)
     }
 }
 
-void do_rq_perf_test(int repeat_factor, std::vector<int>& magnitudes)
+void do_rq_perf_test(int repeat_factor, std::vector<int>& magnitudes, bool squares = false)
 {
     need_drawing = false;
     std::map<int, std::vector<int>> results;
@@ -702,7 +745,10 @@ void do_rq_perf_test(int repeat_factor, std::vector<int>& magnitudes)
         std::vector<int> rq_query_times;
         for (int i=0; i<repeat_factor; i++) {
             init();
-            insert_nxn_matrix_of_objs<Rectangle>(magnitude);
+            if (squares)
+                insert_nxn_matrix_of_objs<Rectangle>(magnitude);
+            else
+                insert_n_objs_as_square_plus_spares<Rectangle>(magnitude);
             validate_rq(400, 400, 400, 400);
             fini();
             ws_insert_times.push_back(ws_insert_ms);

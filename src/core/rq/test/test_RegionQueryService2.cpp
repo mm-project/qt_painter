@@ -1,22 +1,40 @@
 #include "rq_ut_helper.hpp"
 
 
-void performance_test()
+void performance_test1()
 {
 
     // n*n matrices, 50 means 50*50 total objects
     //std::vector<int> magnitudes = {50, 100, 200, 400, 800, 1600, 3200, 6400, 12800, 25600, 51200};
-    //std::vector<int> magnitudes = {50, 100, 200, 400, 800, 1600, 3200, 6400, 12800};
+    std::vector<int> magnitudes = {50, 100, 200, 400, 800, 1600, 3200, 6400, 12800};
     //std::vector<int> magnitudes = {10, 20, 40, 80, 160, 320, 640, 1280, 2560, 5120, 10240};
     //std::vector<int> magnitudes = {10, 20, 40, 80, 160, 320, 640, 1280, 2560, 5120};
     //std::vector<int> magnitudes = {10, 20, 40, 80, 160, 320, 640, 1280};
     //std::vector<int> magnitudes = {50, 150, 200, 250};
     //std::vector<int> magnitudes = {50, 100, 200, 400};
     //std::vector<int> magnitudes = {10, 100, 1000, 10000, 100000, 1000000};
+        
+    int repeat_factor = 5;
+    bool squares = true;  
+    do_rq_perf_test(repeat_factor, magnitudes, squares);
+}
+
+void performance_test2()
+{
     
-    int repeat_factor = 1;
-    std::vector<int> magnitudes = {50, 100, 200, 400, 800, 1600, 3200, 6400, 12800, 25600};
-    
+    std::vector<int> magnitudes;
+    int max = 10000000;
+    int step = 500000;
+    int seed = 0;
+    for (int i = 1; i < 250000; i++) {
+        int k = seed + step * i;
+        if (k>=max)
+            break;
+        //std::cout << i << " will insert " << k << " objects" << std::endl;
+        magnitudes.push_back(k);
+    }
+    //magnitudes.push_back(10000000);
+    int repeat_factor = 5;  
     do_rq_perf_test(repeat_factor, magnitudes);
 }
 
@@ -113,7 +131,7 @@ void test6()
 
 int main_perf()
 {
-    performance_test();
+    performance_test2();
     return 0;
 }
 
