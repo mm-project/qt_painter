@@ -139,25 +139,42 @@ template <typename T> void create_obj_at_given_cell_and_row(int column, int row,
 
 template <typename T> void insert_nxn_matrix_of_objs_internal(int n, bool ws)
 {
-    for(int column=0; column<n; column++)
-        for(int row=0; row<n; row++)
+    int total = n*n;
+    double i = 1;
+    double incr = 10;
+    double percent = 0;
+    for(int column=0; column<n; column++) {
+        for(int row=0; row<n; row++) {
             create_obj_at_given_cell_and_row<T>(column,row, ws);
+            i++;
+            double diff = total - i;
+            percent = 100 - (diff * 100)/total;
+            if (fmod(percent,incr) == 0.0)
+                std::cout << "  "  << percent << "%" << std::flush; 
+                //std::cout << "  "  << total << " " << i << " " << percent << "%" << std::endl;
+        }
+    }
+    std::cout << std::endl;
 }
 
 template <typename T> void insert_nxn_matrix_of_objs(int n)
 {
     std::cout << "  inserting " << n << "x" << n << " objects to ws ..." << std::endl;
+    the_ws.reserve(n*n);
     auto ws_insert_start = std::chrono::high_resolution_clock::now();
     insert_nxn_matrix_of_objs_internal<T>(n,true);
     auto ws_insert_end = std::chrono::high_resolution_clock::now();
-    ws_insert_ms = std::chrono::duration_cast<std::chrono::milliseconds>(ws_insert_end - ws_insert_start).count();
+    ws_insert_ms = std::chrono::duration_cast<std::chrono::microseconds>(ws_insert_end - ws_insert_start).count();
+    std::cout << "       --> ws insert took " << ws_insert_ms <<  std::endl;
 
     
     std::cout << "  inserting " << n << "x" << n << " objects to rq ..." << std::endl;
     auto rq_insert_start = std::chrono::high_resolution_clock::now();
     insert_nxn_matrix_of_objs_internal<T>(n,false);
     auto rq_insert_end = std::chrono::high_resolution_clock::now();
-    rq_insert_ms = std::chrono::duration_cast<std::chrono::milliseconds>(rq_insert_end - rq_insert_start).count();
+    rq_insert_ms = std::chrono::duration_cast<std::chrono::microseconds>(rq_insert_end - rq_insert_start).count();
+    std::cout << "       --> rq insert took " << rq_insert_ms <<  std::endl;
+
 }
 
 auto init() 
@@ -166,6 +183,7 @@ auto init()
     rq.clear();
     the_ws.clear();
     
+    /*
     QPixmap* pixmap1 = new QPixmap(PIXMAP_W,PIXMAP_H);
     pixmap1->fill(Qt::black);
     QPainter* painter1 = new QPainter(pixmap1);
@@ -183,10 +201,12 @@ auto init()
     d2.pixmap = pixmap2;
 
     drawbles = std::make_pair(d1,d2);
+    */
 }
 
 void fini()
 {
+    /*
     delete drawbles.first.painter;
     delete drawbles.first.pixmap;
     delete drawbles.second.painter;
@@ -196,7 +216,8 @@ void fini()
     drawbles.second.pixmap = 0;
     drawbles.first.painter = 0;
     drawbles.second.painter = 0;
-
+    */
+    std::cout << std::endl;
     rq.clear();
     the_ws.clear();
 
@@ -206,6 +227,8 @@ void fini()
 
 void refresh_drawbles()
 {
+    return;
+
     delete drawbles.first.painter;
     delete drawbles.first.pixmap;
     delete drawbles.second.painter;
@@ -261,14 +284,14 @@ void validate_rq(int x, int y, int width, int height, bool need_drawing = true)
     auto rq_start = std::chrono::high_resolution_clock::now();
     auto rq_shapes = rq.getShapesUnderRect(QRect(x, y, width, height));
     auto rq_end = std::chrono::high_resolution_clock::now();
-    auto rq_duration = std::chrono::duration_cast<std::chrono::milliseconds>(rq_end - rq_start).count();
+    auto rq_duration = std::chrono::duration_cast<std::chrono::microseconds>(rq_end - rq_start).count();
     std::cout << "       --> rq lookup took " << rq_duration << "ms and got " << rq_shapes.size() << " objects" << std::endl;
     rq_query_ms = rq_duration;
 
     auto ws_start = std::chrono::high_resolution_clock::now();
     auto ws_shapes = getShapesUnderRect(x, y, width, height);
     auto ws_end = std::chrono::high_resolution_clock::now();
-    auto ws_duration = std::chrono::duration_cast<std::chrono::milliseconds>(ws_end - ws_start).count();
+    auto ws_duration = std::chrono::duration_cast<std::chrono::microseconds>(ws_end - ws_start).count();
     std::cout << "       --> ws lookup took " << ws_duration << "ms and got " << ws_shapes.size() << " objects" << std::endl;
     ws_query_ms = ws_duration;
 
@@ -451,62 +474,67 @@ void skip_all_tests_except(int t_id, int v_id)
     allow_lists[t_id].insert(v_id);
 }
 
+#include <map>
+#include <vector>
+#include <string>
+#include <sstream>
+#include <fstream>
+#include <limits>
+#include <algorithm>
+
 void write_results_graph_html(const std::map<int, std::vector<int>>& results)
 {
     struct Pt { int x; int y; };
-    std::vector<Pt> Insert1, Insert2, Query1, Query2;
+    // Series
+    std::vector<Pt> wsInsert, rqInsert, wsQuery, rqQuery;
 
+    // Global X range (magnitude)
     int x_min = std::numeric_limits<int>::max();
     int x_max = std::numeric_limits<int>::min();
-    int y_min = std::numeric_limits<int>::max();
-    int y_max = std::numeric_limits<int>::min();
+
+    auto upd = [](int v, int& lo, int& hi){ lo = std::min(lo, v); hi = std::max(hi, v); };
+
+    // Per-chart Y "tops" (for suggestedMax). Each chart has its own scale.
+    int y_ins_both_top = std::numeric_limits<int>::min();
+    int y_qry_both_top = std::numeric_limits<int>::min();
+    int y_ins_ws_top   = std::numeric_limits<int>::min();
+    int y_ins_rq_top   = std::numeric_limits<int>::min();
+    int y_qry_ws_top   = std::numeric_limits<int>::min();
+    int y_qry_rq_top   = std::numeric_limits<int>::min();
 
     for (const auto& [mag, vec] : results) {
-        x_min = std::min(x_min, mag);
-        x_max = std::max(x_max, mag);
+        upd(mag, x_min, x_max);
 
-        auto push_if = [&](size_t idx, std::vector<Pt>& dst) {
+        auto push_top = [&](size_t idx, std::vector<Pt>& dst, int& chart_top){
             if (vec.size() > idx) {
-                int dur = vec[idx];
-                dst.push_back({mag, dur});
-                y_min = std::min(y_min, dur);
-                y_max = std::max(y_max, dur);
+                int d = vec[idx];
+                dst.push_back({mag, d});
+                chart_top = std::max(chart_top, d);
             }
         };
 
-        // mapping: vec[0]=Insert1, vec[1]=Insert2, vec[2]=Query1, vec[3]=Query2
-        push_if(0, Insert1);
-        push_if(1, Insert2);
-        push_if(2, Query1);
-        push_if(3, Query2);
+        // Map indices → series
+        push_top(0, wsInsert, y_ins_ws_top);
+        push_top(1, rqInsert, y_ins_rq_top);
+        push_top(2, wsQuery,  y_qry_ws_top);
+        push_top(3, rqQuery,  y_qry_rq_top);
+
+        // Row 1 combined chart tops
+        y_ins_both_top = std::max({y_ins_both_top, y_ins_ws_top, y_ins_rq_top});
+        y_qry_both_top = std::max({y_qry_both_top, y_qry_ws_top, y_qry_rq_top});
     }
 
     if (x_min == std::numeric_limits<int>::max()) { x_min = 0; x_max = 1; }
-    if (y_min == std::numeric_limits<int>::max()) { y_min = 0; y_max = 1; }
+    auto safeTop = [](int v){ return (v==std::numeric_limits<int>::min()) ? 1 : v; };
 
-    auto pad = [](int lo, int hi) {
-        int range = std::max(1, hi - lo);
-        int pad = std::max(1, range / 20);
-        return std::pair<int,int>{lo - pad, hi + pad};
-    };
-    auto [x_lo, x_hi] = pad(x_min, x_max);
-    auto [y_lo, y_hi] = pad(y_min, y_max);
-
-    auto points_to_js = [](const std::vector<Pt>& v) {
-        std::ostringstream os;
-        os << "[";
-        for (size_t i = 0; i < v.size(); ++i) {
-            if (i) os << ",";
-            os << "{\"x\":" << v[i].x << ",\"y\":" << v[i].y << "}";
+    auto to_js = [](const std::vector<Pt>& v){
+        std::ostringstream os; os << "[";
+        for (size_t i=0;i<v.size();++i){
+            if(i) os<<",";
+            os<<"{\"x\":"<<v[i].x<<",\"y\":"<<v[i].y<<"}";
         }
-        os << "]";
-        return os.str();
+        os << "]"; return os.str();
     };
-
-    const std::string Insert1_js = points_to_js(Insert1);
-    const std::string Insert2_js = points_to_js(Insert2);
-    const std::string Query1_js  = points_to_js(Query1);
-    const std::string Query2_js  = points_to_js(Query2);
 
     std::ofstream out("results_graph.html");
     out <<
@@ -514,82 +542,132 @@ R"(<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Insert vs Query — Two Charts, Two Curves Each</title>
+  <title>Insert & Query — WS vs RQ</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     * { box-sizing: border-box; }
-    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
-    h2 { text-align: center; margin: 16px 0; }
-    .charts {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      padding: 24px;
-    }
-    .chart-card {
-      position: relative;
-      aspect-ratio: 3 / 2;
-      min-height: 360px;
-    }
-    .chart-card > canvas {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-    }
-    @media (max-width: 900px) {
-      .charts { grid-template-columns: 1fr; }
-    }
+    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background:#fafafa; }
+    h2 { text-align: center; margin: 20px 0; }
+    .charts { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding: 8px 24px 24px; }
+    .chart-card { position: relative; aspect-ratio: 3 / 2; min-height: 360px; background: #fff; border-radius: 12px; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+    .chart-card > canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .row-title { margin: 6px 24px 0; font-weight: 600; color:#333; }
+    @media (max-width: 1100px) { .charts { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
-  <h2>WS vs RQ — Insert & Query</h2>
+  <h2>Insert & Query — WS vs RQ</h2>
+
+  <!-- Row 1: Insert (WS & RQ) — Query (WS & RQ) -->
+  <div class="row-title">Insert (WS & RQ) — Query (WS & RQ)</div>
   <div class="charts">
-    <div class="chart-card"><canvas id="chartInsert"></canvas></div>
-    <div class="chart-card"><canvas id="chartQuery"></canvas></div>
+    <div class="chart-card"><canvas id="insert_both"></canvas></div>
+    <div class="chart-card"><canvas id="query_both"></canvas></div>
   </div>
+
+  <!-- Row 2: Insert (WS) — Insert (RQ) -->
+  <div class="row-title">Insert (WS) — Insert (RQ)</div>
+  <div class="charts">
+    <div class="chart-card"><canvas id="insert_ws"></canvas></div>
+    <div class="chart-card"><canvas id="insert_rq"></canvas></div>
+  </div>
+
+  <!-- Row 3: Query (WS) — Query (RQ) -->
+  <div class="row-title">Query (WS) — Query (RQ)</div>
+  <div class="charts">
+    <div class="chart-card"><canvas id="query_ws"></canvas></div>
+    <div class="chart-card"><canvas id="query_rq"></canvas></div>
+  </div>
+
   <script>
-    const commonOptions = {
-      responsive: true,
-      maintainAspectRatio: true,
-      layout: { padding: 8 },
-      interaction: { mode: 'nearest', intersect: false },
-      plugins: { legend: { position: 'top' }, tooltip: { enabled: true } },
-      scales: {
-        x: {
-          min: )" << x_lo << R"(, max: )" << x_hi << R"(,
-          title: { display: true, text: 'Magnitude' }
+    // ===== Data from C++ =====
+    const wsInsert = )" << to_js(wsInsert) << R"(;
+    const rqInsert = )" << to_js(rqInsert) << R"(;
+    const wsQuery  = )" << to_js(wsQuery)  << R"(;
+    const rqQuery  = )" << to_js(rqQuery)  << R"(;
+
+    const xMin = )" << x_min << R"(;
+    const xMax = )" << x_max << R"(;
+
+    // Per-chart suggestedMax (never go below 0 thanks to suggestedMin)
+    const yInsBothMax = )" << safeTop(y_ins_both_top) << R"( * 1.05;
+    const yQryBothMax = )" << safeTop(y_qry_both_top) << R"( * 1.05;
+    const yInsWsMax   = )" << safeTop(y_ins_ws_top)   << R"( * 1.05;
+    const yInsRqMax   = )" << safeTop(y_ins_rq_top)   << R"( * 1.05;
+    const yQryWsMax   = )" << safeTop(y_qry_ws_top)   << R"( * 1.05;
+    const yQryRqMax   = )" << safeTop(y_qry_rq_top)   << R"( * 1.05;
+
+    const fmt = n => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+    function makeOptions(title, yTop){
+      return {
+        responsive: true,
+        maintainAspectRatio: true,
+        interaction: { mode: 'nearest', intersect: false },
+        plugins: {
+          legend: { position: 'top' },
+          title: { display: true, text: title }
         },
-        y: {
-          min: )" << y_lo << R"(, max: )" << y_hi << R"(,
-          title: { display: true, text: 'Duration (ms)' }
+        scales: {
+          x: { min: xMin, max: xMax, title: { display: true, text: 'Magnitude' } },
+          y: { suggestedMin: 0, suggestedMax: yTop, title: { display: true, text: 'Duration (ms)' }, ticks: { callback: v => fmt(v) } }
         }
-      }
-    };
+      };
+    }
 
-    // Insert chart
-    new Chart(document.getElementById('chartInsert'), {
+    // ==== Row 1 ====
+    new Chart(document.getElementById('insert_both'), {
       type: 'scatter',
-      data: {
-        datasets: [
-          { label: 'WS Insert', data: )" << Insert1_js << R"(, borderColor: 'blue', backgroundColor: 'rgba(0,0,255,0.15)', showLine: true },
-          { label: 'RQ Insert', data: )" << Insert2_js << R"(, borderColor: 'red', backgroundColor: 'rgba(255,0,0,0.15)', showLine: true }
-        ]
-      },
-      options: commonOptions
+      data: { datasets: [
+        { label: 'WS Insert', data: wsInsert, borderColor: 'blue',  backgroundColor: 'rgba(0,0,255,0.15)', showLine: true, pointRadius: 3 },
+        { label: 'RQ Insert', data: rqInsert, borderColor: 'red',   backgroundColor: 'rgba(255,0,0,0.15)', showLine: true, pointRadius: 3 }
+      ]},
+      options: makeOptions('Insert (WS & RQ)', yInsBothMax)
     });
 
-    // Query chart
-    new Chart(document.getElementById('chartQuery'), {
+    new Chart(document.getElementById('query_both'), {
       type: 'scatter',
-      data: {
-        datasets: [
-          { label: 'WS Query', data: )" << Query1_js << R"(, borderColor: 'blue', backgroundColor: 'rgba(0,128,0,0.15)', showLine: true },
-          { label: 'RQ Query', data: )" << Query2_js << R"(, borderColor: 'red', backgroundColor: 'rgba(128,0,128,0.15)', showLine: true }
-        ]
-      },
-      options: commonOptions
+      data: { datasets: [
+        { label: 'WS Query', data: wsQuery, borderColor: 'blue', backgroundColor: 'rgba(0,0,255,0.15)', showLine: true, pointRadius: 3 },
+        { label: 'RQ Query', data: rqQuery, borderColor: 'red',  backgroundColor: 'rgba(255,0,0,0.15)', showLine: true, pointRadius: 3 }
+      ]},
+      options: makeOptions('Query (WS & RQ)', yQryBothMax)
     });
+
+    // ==== Row 2 ====
+    new Chart(document.getElementById('insert_ws'), {
+      type: 'scatter',
+      data: { datasets: [
+        { label: 'WS Insert', data: wsInsert, borderColor: 'blue', backgroundColor: 'rgba(0,0,255,0.15)', showLine: true, pointRadius: 3 }
+      ]},
+      options: makeOptions('Insert (WS)', yInsWsMax)
+    });
+
+    new Chart(document.getElementById('insert_rq'), {
+      type: 'scatter',
+      data: { datasets: [
+        { label: 'RQ Insert', data: rqInsert, borderColor: 'red', backgroundColor: 'rgba(255,0,0,0.15)', showLine: true, pointRadius: 3 }
+      ]},
+      options: makeOptions('Insert (RQ)', yInsRqMax)
+    });
+
+    // ==== Row 3 ====
+    new Chart(document.getElementById('query_ws'), {
+      type: 'scatter',
+      data: { datasets: [
+        { label: 'WS Query', data: wsQuery, borderColor: 'blue', backgroundColor: 'rgba(0,0,255,0.15)', showLine: true, pointRadius: 3 }
+      ]},
+      options: makeOptions('Query (WS)', yQryWsMax)
+    });
+
+    new Chart(document.getElementById('query_rq'), {
+      type: 'scatter',
+      data: { datasets: [
+        { label: 'RQ Query', data: rqQuery, borderColor: 'red', backgroundColor: 'rgba(255,0,0,0.15)', showLine: true, pointRadius: 3 }
+      ]},
+      options: makeOptions('Query (RQ)', yQryRqMax)
+    });
+
   </script>
 </body>
 </html>)";

@@ -104,7 +104,8 @@ bool Line::intersectsLine( const QPoint& a1, const QPoint& b1) const
     const QPoint a0 = getP1();
     const QPoint b0 = getP2();
 
-    float d = (b0.x() - a0.x()) * (b1.y() - a1.y()) - (b0.y() - a0.y()) * (b1.x() - b0.x());
+    //float d = (b0.x() - a0.x()) * (b1.y() - a1.y()) - (b0.y() - a0.y()) * (b1.x() - b0.x());
+    float d = (b0.x() - a0.x()) * (b1.y() - a1.y()) - (b0.y() - a0.y()) * (b1.x() - a1.x());
 
     if (d == 0)
         return false;
