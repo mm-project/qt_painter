@@ -139,20 +139,25 @@ template <typename T> void create_obj_at_given_cell_and_row(int column, int row,
     create_obj<T>(delta*row,delta*column,delta*row-epsilon,delta*column-epsilon,ws);
 }
 
+void print_percentage(double incr, int total, int current)
+{
+    double diff = total - current;
+    double percent = 100 - (diff * 100)/total;
+    if (fmod(percent,incr) == 0.0)
+        std::cout << "  "  << percent << "%" << std::flush; 
+}
+
 template <typename T> void insert_nxn_matrix_of_objs_internal(int n, bool ws)
 {
     int total = n*n;
     double i = 1;
-    double incr = 10;
-    double percent = 0;
+    //double incr = 10;
+    //double percent = 0;
     for(int column=0; column<n; column++) {
         for(int row=0; row<n; row++) {
             create_obj_at_given_cell_and_row<T>(column,row, ws);
             i++;
-            double diff = total - i;
-            percent = 100 - (diff * 100)/total;
-            if (fmod(percent,incr) == 0.0)
-                std::cout << "  "  << percent << "%" << std::flush; 
+            print_percentage(10, total, i);
                 //std::cout << "  "  << total << " " << i << " " << percent << "%" << std::endl;
         }
     }
@@ -170,16 +175,23 @@ void insert_n_objs_as_square_plus_spares_internal(int N, bool ws)
     int r = N - base; // remainder to place
 
     // Place s x s block
+    int i = 1;
     for (int col = 0; col < s; ++col) {
         for (int row = 0; row < s; ++row) {
             create_obj_at_given_cell_and_row<T>(col, row, ws);
+            i++;
+            print_percentage(10, N, i);
         }
     }
 
     if (r == 0) return;
 
-    for (int k = 0; k < r; ++k)
+    for (int k = 0; k < r; ++k) {
         create_obj_at_given_cell_and_row<T>(s + k, 0, ws);
+        //print_percentage(10, N-i, k);
+    }
+    std::cout << std::endl;
+
 }
 
 template <typename T> void insert_nxn_matrix_of_objs(int n)

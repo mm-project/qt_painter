@@ -23,8 +23,8 @@ void performance_test2()
 {
     
     std::vector<int> magnitudes;
-    int max = 10000000;
-    int step = 500000;
+    int max = 150000000;
+    int step = 1000000;
     int seed = 0;
     for (int i = 1; i < 250000; i++) {
         int k = seed + step * i;
@@ -33,8 +33,8 @@ void performance_test2()
         //std::cout << i << " will insert " << k << " objects" << std::endl;
         magnitudes.push_back(k);
     }
-    //magnitudes.push_back(10000000);
-    int repeat_factor = 5;  
+    //magnitudes.push_back(100000000);
+    int repeat_factor = 7;
     do_rq_perf_test(repeat_factor, magnitudes);
 }
 
