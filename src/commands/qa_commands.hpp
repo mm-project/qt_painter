@@ -162,6 +162,9 @@ class dicmdQaToolExit : public NonTransactionalDirectCommandBase
     virtual void execute()
     {
         // FIXME
+        if (Application::getInstance().is_debug_mode())
+            return;
+
         QApplication::quit();
         QApplication::exit();
         exit(0);
