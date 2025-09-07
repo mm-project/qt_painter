@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 test=$1
-rest="${@:2}"
+other_args="${@:2}"
 
 if [ "$test" == "" ]; then
     echo "error: please provide path to test"
@@ -18,7 +18,8 @@ DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 qa_dir=$(realpath "$DIR/../")
 export PAINTER_QA_DIR="$qa_dir"
 echo "setting PAINTER_QA_DIR to $PAINTER_QA_DIR"
-echo "running $test ...."
 
-#cd $test
-#./run.sh "$rest"
+echo "running $test ...."
+echo 
+cd $test
+./run.sh "$other_args"
