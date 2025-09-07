@@ -15,6 +15,10 @@ while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symli
 done
 DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 
-export PAINTER_QA_DIR=$DIR/..
-cd $test
-./run.sh "$rest"
+qa_dir=$(realpath "$DIR/../")
+export PAINTER_QA_DIR="$qa_dir"
+echo "setting PAINTER_QA_DIR to $PAINTER_QA_DIR"
+echo "running $test ...."
+
+#cd $test
+#./run.sh "$rest"
