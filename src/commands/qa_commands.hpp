@@ -253,6 +253,8 @@ template <qaCompType T> class dicmdQaDump : public NonTransactionalDirectCommand
     void dump_canvas(bool onlyrt = false)
     {
         QWidget *w = command_manager::getInstance().get_main_widget()->findChild<QWidget *>("CANVAS");
+
+        //dynamic_cast<canvas *>(w)->get_renderer()->hint_drawing_cursor_one_time();
         // FIXME exception on error or what?
         if (!w)
             return;
@@ -263,6 +265,7 @@ template <qaCompType T> class dicmdQaDump : public NonTransactionalDirectCommand
         QPixmap pixmap(w->size());
         w->render(&pixmap);
         pixmap.save(m_fname.c_str());
+        //dynamic_cast<canvas *>(w)->get_renderer()->hint_drawing_cursor_one_time();
 
         if (onlyrt)
             dynamic_cast<canvas *>(w)->get_renderer()->rendering_des_mode_change();
