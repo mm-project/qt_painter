@@ -209,7 +209,7 @@ void renderer::draw_objects()
     int starty = -1 * m_origin_point.y();
     int _height = 1 / get_zoom_factor() * (m_plane->height() - starty);
     int _width = 1 / get_zoom_factor() * (m_plane->width() - startx);    
-    //std::cout << "renderer" << startx << " " << starty << "      " << _width << " " << _height << std::endl;
+    // std::cout << "renderer" << startx << " " << starty << "      " << _width << " " << _height << std::endl;
 
     if (m_rq_renderer)
     {

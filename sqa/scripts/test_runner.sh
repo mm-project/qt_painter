@@ -68,7 +68,7 @@ function prepocess
         export ELEN_PAINTER_STARTDBG="1"
         process_debug_options
     fi
-
+    
     verbose "prepocess..."
     rm -rf output
     mkdir -p $GDIRNAME
