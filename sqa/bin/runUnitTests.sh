@@ -36,20 +36,23 @@ passed=0
 crashed=0
 t_id=1
 t_res=5
+dir_postfix="unit_test_out"
 
 if [ ! -d "$PAINTER_QA_DIR/../unit_test_bin" ]; then
     echo "Error: seems no unit test has been build :["
     exit -1
 fi
 
+rm -rf $PAINTER_QA_DIR/../$dir_postfix
+
 for i in `ls $PAINTER_QA_DIR/../unit_test_bin`; do
     total=`expr $total + 1`
     if [ -d $PAINTER_QA_DIR/../unit_test_bin/$i ]; then
         continue
     fi
-        #rm -rf $PAINTER_QA_DIR/../unit_test_out
-        #mkdir -p $PAINTER_QA_DIR/../unit_test_out
-        #cd $PAINTER_QA_DIR/../unit_test_out
+        dir="$dir_postfix/output_of_$i"
+        mkdir -p $PAINTER_QA_DIR/../$dir
+        cd $PAINTER_QA_DIR/../$dir
         echo -ne  "Running $PAINTER_QA_DIR/../unit_test_bin/$i --- "
         a=`$PAINTER_QA_DIR/../unit_test_bin/$i &> uttest.info `
         r=$?
