@@ -396,6 +396,7 @@ template <qaCompType T> class dicmdQaCompareInternal : public NonTransactionalDi
                 return false;
             };
 
+            //check if ELEN_PAINTER_COMPAREDBG then stop at comparision number.
             if (are_two_files_different(T, f.c_str(), g.c_str()))
             {
                 QString htmlv = generate_html_view(f, g);
@@ -443,6 +444,9 @@ template <qaCompType T>
 void dicmdQaCompare<T>::execute()
 {
     // if not a canvas compare, do extra canvas compare in any case
+    
+    command_manager::getInstance().fix_last_qa_point();
+
     if (T != CANVAS)
     {
         dicmdQaDump<CANVAS>().set_arg("-filename", "CanvasFor_" + get_index_str() + ".png")->execute();

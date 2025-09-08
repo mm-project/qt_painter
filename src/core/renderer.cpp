@@ -209,7 +209,7 @@ void renderer::draw_objects()
     int starty = -1 * m_origin_point.y();
     int _height = 1 / get_zoom_factor() * (m_plane->height() - starty);
     int _width = 1 / get_zoom_factor() * (m_plane->width() - startx);    
-    // std::cout << "renderer" << startx << " " << starty << "      " << _width << " " << _height << std::endl;
+    //std::cout << "renderer" << startx << " " << starty << "      " << _width << " " << _height << std::endl;
 
     if (m_rq_renderer)
     {
@@ -251,6 +251,11 @@ void renderer::draw_runtime_pools()
         for (auto i : objs)
             i->draw(m_qt_painter);
     }
+}
+
+void renderer::hint_drawing_cursor_one_time()
+{
+    m_need_draw_cursor = !m_need_draw_cursor;
 }
 
 void renderer::click_hint()
@@ -299,7 +304,7 @@ void renderer::draw_all()
         draw_objects();
     if (m_rt_renderer)
         draw_runtime_pools();
-    if (Application::is_replay_mode())
+    if (m_need_draw_cursor || Application::is_replay_mode())
         draw_cursor();
 }
 

@@ -146,11 +146,11 @@ void canvas::keyPressEvent(QKeyEvent *ev)
     else if (ev->key() == Qt::Key_O)
         Selection::getInstance().highlight_dehighlight_last_selected_region();
     else if (ev->key() == Qt::Key_P) {
-        //auto p = cm.get_last_qa_compare_point();
-        auto p = m_last_cursor;
+        auto p = cm.get_qa_point();
         int _x = p.x();
         int _y = p.y();
         m_renderer->set_cursor_pos_for_drawing(_x, _y);
+        m_renderer->hint_drawing_cursor_one_time();
     }
     else if (ev->key()==Qt::Key_A && (QGuiApplication::keyboardModifiers() & Qt::ControlModifier))
         cm.find_command("dicmdSelectAllShapes")->execute_and_log();
