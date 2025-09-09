@@ -9,6 +9,7 @@ testname=`basename $PWD`
 export PAINTER_LOGFILE_PREFIX="painter"
 #mode="regolden"
 mode=""
+other_args=""
 extras=""
 
 function extra_comparision {
@@ -19,7 +20,14 @@ function process_options
 {
     verbose "process_options"
     unset ELEN_PAINTER_REGOLDEN
-    mode=$1
+    unset ELEN_PAINTER_TESTTYPE
+    unset ELEN_PAINTER_COUNTER
+    unset ELEN_PAINTER_TESTDBG
+    unset ELEN_PAINTER_STARTDBG
+    args="$1"
+
+    read -r mode other_args <<< "$args"
+    echo "mode:[$mode]< options:[$other_args]<"
     #if [ "$1" == "regolden" ]; then
     #    mode="regolden"
     #fi
@@ -33,6 +41,17 @@ function verbose
     fi
 }
 
+function process_debug_options
+{
+    #args="$1"
+    if [ "$other_args" != "" ]; then
+        var1="${other_args%%=*}"
+        var2="${other_args#*=}"
+        export ELEN_PAINTER_TESTTYPE=$var1
+        export ELEN_PAINTER_COUNTER=$var2
+    fi
+}
+
 function prepocess
 {
     if [ "$mode" = "regolden" ]; then
@@ -41,7 +60,13 @@ function prepocess
     
     if [ "$mode" = "debug" ]; then
         export ELEN_PAINTER_TESTDBG="1"
+        process_debug_options
+    fi
+
+    if [ "$mode" = "start_debug" ]; then
+        export ELEN_PAINTER_TESTDBG="1"
         export ELEN_PAINTER_STARTDBG="1"
+        process_debug_options
     fi
     
     verbose "prepocess..."

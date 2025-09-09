@@ -253,6 +253,8 @@ template <qaCompType T> class dicmdQaDump : public NonTransactionalDirectCommand
     void dump_canvas(bool onlyrt = false)
     {
         QWidget *w = command_manager::getInstance().get_main_widget()->findChild<QWidget *>("CANVAS");
+
+        //dynamic_cast<canvas *>(w)->get_renderer()->hint_drawing_cursor_one_time();
         // FIXME exception on error or what?
         if (!w)
             return;
@@ -263,6 +265,7 @@ template <qaCompType T> class dicmdQaDump : public NonTransactionalDirectCommand
         QPixmap pixmap(w->size());
         w->render(&pixmap);
         pixmap.save(m_fname.c_str());
+        //dynamic_cast<canvas *>(w)->get_renderer()->hint_drawing_cursor_one_time();
 
         if (onlyrt)
             dynamic_cast<canvas *>(w)->get_renderer()->rendering_des_mode_change();
@@ -396,6 +399,7 @@ template <qaCompType T> class dicmdQaCompareInternal : public NonTransactionalDi
                 return false;
             };
 
+            //check if ELEN_PAINTER_COMPAREDBG then stop at comparision number.
             if (are_two_files_different(T, f.c_str(), g.c_str()))
             {
                 QString htmlv = generate_html_view(f, g);
@@ -443,6 +447,9 @@ template <qaCompType T>
 void dicmdQaCompare<T>::execute()
 {
     // if not a canvas compare, do extra canvas compare in any case
+    
+    command_manager::getInstance().fix_last_qa_point();
+
     if (T != CANVAS)
     {
         dicmdQaDump<CANVAS>().set_arg("-filename", "CanvasFor_" + get_index_str() + ".png")->execute();

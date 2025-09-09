@@ -253,6 +253,11 @@ void renderer::draw_runtime_pools()
     }
 }
 
+void renderer::hint_drawing_cursor_one_time()
+{
+    m_need_draw_cursor = !m_need_draw_cursor;
+}
+
 void renderer::click_hint()
 {
     m_need_draw_clicked = true;
@@ -299,7 +304,7 @@ void renderer::draw_all()
         draw_objects();
     if (m_rt_renderer)
         draw_runtime_pools();
-    if (Application::is_replay_mode())
+    if (m_need_draw_cursor || Application::is_replay_mode())
         draw_cursor();
 }
 

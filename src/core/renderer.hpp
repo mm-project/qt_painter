@@ -90,6 +90,7 @@ class renderer
     void rendering_mode_change();
     void rendering_rt_mode_change();
     void rendering_des_mode_change();
+    void hint_drawing_cursor_one_time();
 
   private:
     QPainter *get_painter();
@@ -137,6 +138,7 @@ class renderer
     int c_cursor_x = 0;
     int c_cursor_y = 0;
     bool m_need_draw_clicked = false;
+    bool m_need_draw_cursor = false;
     QRect *m_users_pov_rect;
 };
 
