@@ -2,8 +2,17 @@
 #set -e
 
 tmp_dir="/tmp"
+
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+  DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+done
+DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+
 dev_painter_root="$tmp_dir/qt_painter"
-current_painter_root="/Users/levon.sargsyan/int/qt_painter"
+current_painter_root=$(realpath "$DIR/../../")
 declare -A PIDS
 
 function make_dev_binary
@@ -14,7 +23,7 @@ function make_dev_binary
         git clone https://github.com/mm-project/qt_painter.git
     fi
     cd $dev_painter_root
-    branch="task/257/add-ability-to-run-test-with-comparision-with-dev"
+    branch="dev"
     git checkout $branch
     git pull origin $branch
     cmake . -DCMAKE_POLICY_VERSION_MINIMUM=3.5
@@ -31,16 +40,19 @@ function run_test
 
     if [ "$where" == "current" ]; then
         painter_root=$current_painter_root
+        test_full_path=$painter_root/$test_path
     elif [ "$where" == "dev" ]; then
         painter_root=$dev_painter_root
+        test_full_path=$current_painter_root/$test_path
+        #test_full_path=$painter_root/$test_path
     else
         echo "Error"
         exit 1
     fi
 
     export PAINTER_QA_DIR=$painter_root/sqa
-    echo "Running [$where]:  $PAINTER_QA_DIR/bin/runTest.sh $painter_root/$test_path "$mode" "$options" "
-    $PAINTER_QA_DIR/bin/runTest.sh $painter_root/$test_path "$mode" "$options" &> /dev/null &
+    echo "Running [$where]:  $PAINTER_QA_DIR/bin/runTest.sh $test_full_path "$mode" "$options" "
+    $PAINTER_QA_DIR/bin/runTest.sh $test_full_path "$mode" "$options" &> /dev/null &
     pid=$!
     PIDS[$pid]="1"
 }
@@ -70,16 +82,20 @@ function main
     mode="$2"
     options="$3"
 
+    echo ""
     #echo "Executing >$test_path< >$mode< >$options<"
-    #exit 1
     
-    #echo -ne "Building dev .... "
-    #make_dev_binary &> /dev/null
-    #echo " done"
+    echo -ne "Building dev .... "
+    make_dev_binary &> /dev/null
+    echo " done"
 
+    echo "Running tests in compare  .... "
     run_test "current" $test_path "$mode" "$options"
     run_test "dev" $test_path "$mode" "$options"
     wait_for_any_test_to_close
+
+    echo
+    echo "bye."
 }
 
 main "$@"
