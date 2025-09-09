@@ -321,7 +321,6 @@ template <qaCompType T> class dicmdQaCompare : public NonTransactionalDirectComm
     virtual void execute();
 };
 
-#include <iostream>
 template <qaCompType T> class dicmdQaCompareInternal : public NonTransactionalDirectCommandBase
 {
   public:
@@ -370,14 +369,12 @@ template <qaCompType T> class dicmdQaCompareInternal : public NonTransactionalDi
 
             auto fnCheckBreak = [&](bool on_failure)
             {
-                std::cout << "AAA" << std::endl;
                 if (Application::is_debug_mode())
                 {
                     // if on_failure is false then it's master, check env_variable
                     auto bResult = true;
                     if (on_failure == false)
                     {
-                        std::cout << "On Failure" << std::endl;
                         const auto compareType = QString::fromLocal8Bit(qgetenv("ELEN_PAINTER_COMPAREDBG").constData());
                         if (compareType.isEmpty())
                         {

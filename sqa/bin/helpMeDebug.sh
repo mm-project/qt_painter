@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
-set -e
+#set -e
 
 tmp_dir="/tmp"
 dev_painter_root="$tmp_dir/qt_painter"
 current_painter_root="/Users/levon.sargsyan/int/qt_painter"
+declare -A PIDS
 
 function make_dev_binary
 {
@@ -13,8 +14,9 @@ function make_dev_binary
         git clone https://github.com/mm-project/qt_painter.git
     fi
     cd $dev_painter_root
-    git checkout dev
-    git pull origin dev
+    branch="task/257/add-ability-to-run-test-with-comparision-with-dev"
+    git checkout $branch
+    git pull origin $branch
     cmake . -DCMAKE_POLICY_VERSION_MINIMUM=3.5
     make -j8
     cd -
@@ -37,9 +39,30 @@ function run_test
     fi
 
     export PAINTER_QA_DIR=$painter_root/sqa
-    echo "Running [$where]:  $PAINTER_QA_DIR/sqa/bin/runTest.sh $painter_root/$test_path "$mode" "$options" "
-    #$PAINTER_QA_DIR/sqa/bin/runTest.sh $painter_root/$test_path "$mode" "$options" &> /dev/null &
+    echo "Running [$where]:  $PAINTER_QA_DIR/bin/runTest.sh $painter_root/$test_path "$mode" "$options" "
+    $PAINTER_QA_DIR/bin/runTest.sh $painter_root/$test_path "$mode" "$options" &> /dev/null &
+    pid=$!
+    PIDS[$pid]="1"
 }
+
+function wait_for_any_test_to_close
+{
+    all_finished=false
+    while [ "$all_finished" != "true" ]; do
+        #echo "waiting.."
+         all_finished="true"
+         for current_pid in "${!PIDS[@]}"; do
+             r=`ps -o pid= -p $current_pid`
+             if [ "$r" != "" ]; then
+                #echo " ---> not finished ${PIDS[$current_pid]}" 
+                all_finished="false"
+                break
+             else
+                PIDS[$current_pid]=""
+             fi
+         done
+     done
+ }
 
 function main
 {
@@ -56,6 +79,7 @@ function main
 
     run_test "current" $test_path "$mode" "$options"
     run_test "dev" $test_path "$mode" "$options"
+    wait_for_any_test_to_close
 }
 
 main "$@"
