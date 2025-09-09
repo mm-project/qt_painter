@@ -1,7 +1,4 @@
 #!/usr/bin/env bash
-#set -e
-
-tmp_dir="/tmp"
 
 SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
@@ -11,6 +8,7 @@ while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symli
 done
 DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 
+tmp_dir="/tmp"
 dev_painter_root="$tmp_dir/qt_painter"
 current_painter_root=$(realpath "$DIR/../../")
 declare -A PIDS
