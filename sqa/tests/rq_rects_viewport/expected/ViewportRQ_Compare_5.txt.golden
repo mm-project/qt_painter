@@ -1,21 +1,21 @@
 Name: Viewport RQ
 ObjCount: 16
 ======
-Rectangle:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
-Rectangle:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
-Rectangle:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
-Rectangle:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
-Rectangle:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
-Rectangle:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
-Rectangle:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
-Rectangle:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
-Rectangle:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
-Rectangle:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
-Rectangle:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
-Rectangle:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
-Rectangle:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
-Rectangle:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
-Rectangle:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
-Rectangle:	  brushC -> #000000, brushS -> 9, penC -> #ffffff, penS -> 1
+Rectangle:	  brushC -> #0000ff, brushS -> 5, penC -> #ffffff, penS -> 5
+Rectangle:	  brushC -> #0000ff, brushS -> 5, penC -> #ffffff, penS -> 5
+Rectangle:	  brushC -> #00ff00, brushS -> 4, penC -> #ffffff, penS -> 4
+Rectangle:	  brushC -> #00ff00, brushS -> 4, penC -> #ffffff, penS -> 4
+Rectangle:	  brushC -> #00ffff, brushS -> 8, penC -> #ffffff, penS -> 8
+Rectangle:	  brushC -> #4b0082, brushS -> 6, penC -> #ffffff, penS -> 6
+Rectangle:	  brushC -> #4b0082, brushS -> 6, penC -> #ffffff, penS -> 6
+Rectangle:	  brushC -> #8b00ff, brushS -> 7, penC -> #ffffff, penS -> 7
+Rectangle:	  brushC -> #8b00ff, brushS -> 7, penC -> #ffffff, penS -> 7
+Rectangle:	  brushC -> #ff0000, brushS -> 1, penC -> #ffffff, penS -> 1
+Rectangle:	  brushC -> #ff0000, brushS -> 1, penC -> #ffffff, penS -> 1
+Rectangle:	  brushC -> #ff0000, brushS -> 1, penC -> #ffffff, penS -> 1
+Rectangle:	  brushC -> #ff7f00, brushS -> 2, penC -> #ffffff, penS -> 2
+Rectangle:	  brushC -> #ff7f00, brushS -> 2, penC -> #ffffff, penS -> 2
+Rectangle:	  brushC -> #ffff00, brushS -> 3, penC -> #ffffff, penS -> 3
+Rectangle:	  brushC -> #ffff00, brushS -> 3, penC -> #ffffff, penS -> 3
 --------
 
