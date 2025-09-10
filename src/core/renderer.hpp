@@ -91,6 +91,7 @@ class renderer
     void rendering_rt_mode_change();
     void rendering_des_mode_change();
     void hint_drawing_cursor_one_time();
+    QRect get_viewport();
 
   private:
     QPainter *get_painter();
