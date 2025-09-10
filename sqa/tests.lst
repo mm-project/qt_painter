@@ -32,3 +32,7 @@ tests/runtime_flowik4
 tests/broken_copymove
 tests/python_cli/first_python_cli_test
 tests/selection/select_all_basic
+tests/ao_rects
+tests/ao_rects
+tests/ao_rects
+tests/ao_rects

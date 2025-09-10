@@ -76,6 +76,7 @@ function prepocess
     cd output
     
     cp -r $PAINTER_QA_DIR/etc/webrelated/* .
+    cp $PAINTER_QA_DIR/designs/* ./
     
     if [ "$mode" != "regolden" ]; then
         cp -rf ../$GDIRNAME/* ./
@@ -102,9 +103,14 @@ function postprocess
             done
             cp ./logs/painter.log ../$GDIRNAME/painter.log.golden
             cp ./logs/painter.lvi ../$GDIRNAME/painter.lvi.golden
-	     mv ./$testname.mp4 ../$GDIRNAME/$testname.golden.mp4
+	     #mv ./$testname.mp4 ../$GDIRNAME/$testname.golden.mp4
             #cp painter.out ../$GDIRNAME/painter.out.golden
-            cp `find -name "*.golden*"` ../$GDIRNAME
+            #cp `find ./ -name "*.golden*"` ../$GDIRNAME
+            #cp $(find ./ -name "*.golden*") ../"$GDIRNAME"/
+            golden_files=$(find ./ -name "*.golden*")
+            for f in $golden_files; do
+                cp $f ../$GDIRNAME
+            done
             #cnvscprs=`find -name "*compare*"`
             #for i in $cnvscprs; do
             #    cp $i ../$GDIRNAME/$i.golden

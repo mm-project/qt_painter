@@ -356,14 +356,14 @@ template <qaCompType T> class dicmdQaCompareInternal : public NonTransactionalDi
 // Messenger::expose_msg(test,"dicmdQaCanvasCompare-compare-regolden: "+f+" "+g);
 // std::cout << "#/t CanvasCompare REGOLDENED: " << f << " " << g << std::endl;
 // FIXME not compatible with other OS
-#ifdef OS_LINUX
+//#ifdef OS_LINUXX
             // std::cout << "hoparrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr" << std::endl;
             z << "cp " << f << " " << g;
             system(z.str().c_str());
             Messenger::expose_msg(test, "comparision->" + qaCompType2string(T) + ":PASS " + f + " " + g);
-#else
-            Messenger::expose_msg(err, "Autoregoldening is availble only in linux ( currently )");
-#endif
+//#else
+//            Messenger::expose_msg(err, "Autoregoldening is availble only in linux ( currently )");
+//#endif
         }
         else
         {

@@ -202,9 +202,9 @@ void canvas::mouseMoveEvent(QMouseEvent *e)
     cm.mouse_moved(_x, _y);
 
     // if Preference::isSet("guiLogMouseMove")
-    // if ( m_need_motionlog )
-    // dicmdCanvasMouseMove(e->pos()).log();
-    /**/
+    //if ( m_need_motionlog )
+    //    dicmdCanvasMouseMove(e->pos()).log();
+
     m_renderer->set_cursor_pos_for_drawing(_x, _y);
     update();
 }
