@@ -143,6 +143,16 @@ float renderer::get_zoom_factor()
 //
 // }
 
+QRect renderer::get_viewport()
+{
+    int startx = -1 * m_origin_point.x(); // m_old_origin_point.x()-m_origin_point.x();
+    int starty = -1 * m_origin_point.y();
+    int _height = 1 / get_zoom_factor() * (m_plane->height() - starty);
+    int _width = 1 / get_zoom_factor() * (m_plane->width() - startx);    
+
+    return QRect(startx, starty, _width, _height);
+}
+
 QPainter *renderer::get_painter()
 {
     return m_qt_painter;
