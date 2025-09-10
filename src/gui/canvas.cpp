@@ -115,6 +115,8 @@ void canvas::keyPressEvent(QKeyEvent *ev)
         cm.activate_command(cm.find_command("incmdObjRelocateByCopy"));
     else if (ev->key() == Qt::Key_2)
         cm.find_command("dicmdQaCompareSelection")->execute_and_log();
+    else if (ev->key() == Qt::Key_0)
+        cm.find_command("dicmdQaCompareViewportRQ")->execute_and_log();
     else if (ev->key() == Qt::Key_1)
         m_renderer->rendering_mode_change();
     else if (ev->key() == Qt::Key_4)
@@ -143,6 +145,15 @@ void canvas::keyPressEvent(QKeyEvent *ev)
         cm.activate_command(cm.find_command("incmdSelectShapesByRegion"));
     else if (ev->key() == Qt::Key_N)
         cm.find_command("dicmdQaReplyStep")->execute_and_log();
+    else if (ev->key() == Qt::Key_O)
+        Selection::getInstance().highlight_dehighlight_last_selected_region();
+    else if (ev->key() == Qt::Key_P) {
+        auto p = cm.get_qa_point();
+        int _x = p.x();
+        int _y = p.y();
+        m_renderer->set_cursor_pos_for_drawing(_x, _y);
+        m_renderer->hint_drawing_cursor_one_time();
+    }
     else if (ev->key()==Qt::Key_A && (QGuiApplication::keyboardModifiers() & Qt::ControlModifier))
         cm.find_command("dicmdSelectAllShapes")->execute_and_log();
     else

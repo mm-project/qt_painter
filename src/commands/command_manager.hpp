@@ -18,6 +18,7 @@
 
 // Qt
 #include <QWidget>
+#include <QPoint>
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -51,6 +52,9 @@ class command_manager : public Service<command_manager>
     // CommandBase* get_command();
     // void register_command(const char* nm, CommandBase* cmd)
 
+    void fix_last_qa_point();
+    QPoint get_qa_point();
+
     void mouse_dbl_clicked(int x, int y);
     void mouse_clicked(int x, int y);
     void mouse_released(int, int);
@@ -77,6 +81,8 @@ class command_manager : public Service<command_manager>
     float m_ky = 1;
     int m_dx = 0;
     int m_dy = 0;
+    QPoint m_last_qa_point;
+    QPoint m_last_cursor_point;
 };
 
 #endif
