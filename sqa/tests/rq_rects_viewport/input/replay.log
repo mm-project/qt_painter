@@ -33,28 +33,28 @@ dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(1063,-131);(12
 dicmdCreateObjRectangle -brush 1 -color #000000 -fill 9 -points {(1097,-94);(1189,8)} 
 #i --> Info: Set to mode0
 dicmdQaCompareViewportRQ 
-#e --> Error: comparision->ViewportRQ:MISMATCH ViewportRQ_Compare_0.txt ViewportRQ_Compare_0.txt.golden
+#t --> CompareViewportRQ: ViewportRQ_Compare_0.txt ViewportRQ_Compare_0.txt.golden
 dicmdCanvasViewportZoomIn -point (425,261) 
 dicmdQaCompareViewportRQ 
-#e --> Error: comparision->ViewportRQ:MISMATCH ViewportRQ_Compare_1.txt ViewportRQ_Compare_1.txt.golden
+#t --> CompareViewportRQ: ViewportRQ_Compare_1.txt ViewportRQ_Compare_1.txt.golden
 dicmdCanvasViewportZoomIn -point (425,261) 
 dicmdQaCompareViewportRQ 
-#e --> Error: comparision->ViewportRQ:MISMATCH ViewportRQ_Compare_2.txt ViewportRQ_Compare_2.txt.golden
+#t --> CompareViewportRQ: ViewportRQ_Compare_2.txt ViewportRQ_Compare_2.txt.golden
 dicmdCanvasViewportZoomOut -point (425,261) 
 dicmdQaCompareViewportRQ 
-#e --> Error: comparision->ViewportRQ:MISMATCH ViewportRQ_Compare_3.txt ViewportRQ_Compare_3.txt.golden
+#t --> CompareViewportRQ: ViewportRQ_Compare_3.txt ViewportRQ_Compare_3.txt.golden
 dicmdCanvasViewportZoomIn -point (425,261) 
 dicmdQaCompareViewportRQ 
-#e --> Error: comparision->ViewportRQ:MISMATCH ViewportRQ_Compare_4.txt ViewportRQ_Compare_4.txt.golden
+#t --> CompareViewportRQ: ViewportRQ_Compare_4.txt ViewportRQ_Compare_4.txt.golden
 dicmdCanvasViewportZoomIn -point (425,261) 
 dicmdQaCompareViewportRQ 
-#e --> Error: comparision->ViewportRQ:MISMATCH ViewportRQ_Compare_5.txt ViewportRQ_Compare_5.txt.golden
+#t --> CompareViewportRQ: ViewportRQ_Compare_5.txt ViewportRQ_Compare_5.txt.golden
 dicmdCanvasViewportZoomOut -point (425,261) 
 dicmdQaCompareViewportRQ 
-#e --> Error: comparision->ViewportRQ:MISMATCH ViewportRQ_Compare_6.txt ViewportRQ_Compare_6.txt.golden
+#t --> CompareViewportRQ: ViewportRQ_Compare_6.txt ViewportRQ_Compare_6.txt.golden
 dicmdCanvasViewportZoomOut -point (425,261) 
 dicmdQaCompareViewportRQ 
-#e --> Error: comparision->ViewportRQ:MISMATCH ViewportRQ_Compare_7.txt ViewportRQ_Compare_7.txt.golden
+#t --> CompareViewportRQ: ViewportRQ_Compare_7.txt ViewportRQ_Compare_7.txt.golden
 dicmdCanvasViewportZoomOut -point (425,261) 
 dicmdCanvasOriginPanRight 
 dicmdCanvasOriginPanLeft 
@@ -156,31 +156,31 @@ dicmdCanvasViewportZoomOut -point (425,261)
 dicmdCanvasViewportZoomIn -point (425,261) 
 dicmdCanvasViewportZoomIn -point (425,261) 
 dicmdQaCompareViewportRQ 
-#e --> Error: comparision->ViewportRQ:MISMATCH ViewportRQ_Compare_8.txt ViewportRQ_Compare_8.txt.golden
+#t --> CompareViewportRQ: ViewportRQ_Compare_8.txt ViewportRQ_Compare_8.txt.golden
 dicmdCanvasViewportZoomIn -point (425,261) 
 dicmdQaCompareViewportRQ 
-#e --> Error: comparision->ViewportRQ:MISMATCH ViewportRQ_Compare_9.txt ViewportRQ_Compare_9.txt.golden
+#t --> CompareViewportRQ: ViewportRQ_Compare_9.txt ViewportRQ_Compare_9.txt.golden
 dicmdCanvasViewportZoomIn -point (425,261) 
 dicmdCanvasViewportZoomIn -point (425,261) 
 dicmdQaCompareViewportRQ 
-#e --> Error: comparision->ViewportRQ:MISMATCH ViewportRQ_Compare_10.txt ViewportRQ_Compare_10.txt.golden
+#t --> CompareViewportRQ: ViewportRQ_Compare_10.txt ViewportRQ_Compare_10.txt.golden
 dicmdCanvasViewportZoomIn -point (425,261) 
 dicmdQaCompareViewportRQ 
-#e --> Error: comparision->ViewportRQ:MISMATCH ViewportRQ_Compare_11.txt ViewportRQ_Compare_11.txt.golden
+#t --> CompareViewportRQ: ViewportRQ_Compare_11.txt ViewportRQ_Compare_11.txt.golden
 dicmdCanvasViewportZoomIn -point (425,261) 
 dicmdQaCompareViewportRQ 
-#e --> Error: comparision->ViewportRQ:MISMATCH ViewportRQ_Compare_12.txt ViewportRQ_Compare_12.txt.golden
+#t --> CompareViewportRQ: ViewportRQ_Compare_12.txt ViewportRQ_Compare_12.txt.golden
 dicmdCanvasViewportZoomOut -point (425,261) 
 dicmdCanvasViewportZoomOut -point (425,261) 
 dicmdCanvasViewportZoomOut -point (425,261) 
 dicmdQaCompareViewportRQ 
-#e --> Error: comparision->ViewportRQ:MISMATCH ViewportRQ_Compare_13.txt ViewportRQ_Compare_13.txt.golden
+#t --> CompareViewportRQ: ViewportRQ_Compare_13.txt ViewportRQ_Compare_13.txt.golden
 dicmdCanvasViewportZoomOut -point (425,261) 
 dicmdQaCompareViewportRQ 
-#e --> Error: comparision->ViewportRQ:MISMATCH ViewportRQ_Compare_14.txt ViewportRQ_Compare_14.txt.golden
+#t --> CompareViewportRQ: ViewportRQ_Compare_14.txt ViewportRQ_Compare_14.txt.golden
 dicmdCanvasViewportZoomOut -point (425,261) 
 dicmdQaCompareViewportRQ 
-#e --> Error: comparision->ViewportRQ:MISMATCH ViewportRQ_Compare_15.txt ViewportRQ_Compare_15.txt.golden
+#t --> CompareViewportRQ: ViewportRQ_Compare_15.txt ViewportRQ_Compare_15.txt.golden
 dicmdCanvasViewportZoomOut -point (425,261) 
 dicmdCanvasViewportZoomIn -point (425,261) 
 dicmdCanvasOriginPanUp 
@@ -219,11 +219,11 @@ dicmdCanvasOriginPanRight
 dicmdCanvasOriginPanRight 
 dicmdCanvasOriginPanRight 
 dicmdQaCompareViewportRQ 
-#e --> Error: comparision->ViewportRQ:MISMATCH ViewportRQ_Compare_16.txt ViewportRQ_Compare_16.txt.golden
+#t --> CompareViewportRQ: ViewportRQ_Compare_16.txt ViewportRQ_Compare_16.txt.golden
 dicmdCanvasOriginPanLeft 
 dicmdCanvasOriginPanLeft 
 dicmdQaCompareViewportRQ 
-#e --> Error: comparision->ViewportRQ:MISMATCH ViewportRQ_Compare_17.txt ViewportRQ_Compare_17.txt.golden
+#t --> CompareViewportRQ: ViewportRQ_Compare_17.txt ViewportRQ_Compare_17.txt.golden
 dicmdCanvasOriginPanLeft 
 dicmdCanvasOriginPanRight 
 dicmdCanvasOriginPanLeft 
@@ -233,5 +233,5 @@ dicmdCanvasOriginPanRight
 dicmdCanvasOriginPanRight 
 dicmdCanvasOriginPanRight 
 dicmdQaCompareViewportRQ 
-#e --> Error: comparision->ViewportRQ:MISMATCH ViewportRQ_Compare_18.txt ViewportRQ_Compare_18.txt.golden
+#t --> CompareViewportRQ: ViewportRQ_Compare_18.txt ViewportRQ_Compare_18.txt.golden
 dicmdQaToolExit 
