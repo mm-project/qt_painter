@@ -24,6 +24,7 @@ function process_options
     unset ELEN_PAINTER_COUNTER
     unset ELEN_PAINTER_TESTDBG
     unset ELEN_PAINTER_STARTDBG
+    unset ELEN_PAINTER_COMPAREDBG
     args="$1"
 
     read -r mode other_args <<< "$args"
@@ -68,7 +69,13 @@ function prepocess
         export ELEN_PAINTER_STARTDBG="1"
         process_debug_options
     fi
-    
+
+    if [ "$mode" = "compare_debug" ]; then
+        export ELEN_PAINTER_TESTDBG="1"
+        export ELEN_PAINTER_COMPAREDBG="1"
+        process_debug_options
+    fi
+
     verbose "prepocess..."
     rm -rf output
     mkdir -p $GDIRNAME

@@ -365,7 +365,6 @@ template <qaCompType T> class dicmdQaCompare : public NonTransactionalDirectComm
     virtual void execute();
 };
 
-
 template <qaCompType T> class dicmdQaCompareInternal : public NonTransactionalDirectCommandBase
 {
   public:
@@ -412,16 +411,28 @@ template <qaCompType T> class dicmdQaCompareInternal : public NonTransactionalDi
         else
         {
 
-            auto fnCheckBreak = [&]()
+            auto fnCheckBreak = [&](bool on_failure)
             {
                 if (Application::is_debug_mode())
                 {
+                    // if on_failure is false then it's master, check env_variable
+                    auto bResult = true;
+                    if (on_failure == false)
+                    {
+                        const auto compareType = QString::fromLocal8Bit(qgetenv("ELEN_PAINTER_COMPAREDBG").constData());
+                        if (compareType.isEmpty())
+                        {
+                            return false;
+                        }
+                        std::cout << "Not empty" << std::endl;
+                        bResult = false;
+                    }
                     // Check if values are defined
                     // compare with type T 
                     const auto compareType = QString::fromLocal8Bit(qgetenv("ELEN_PAINTER_TESTTYPE").constData());
                     if (compareType.isEmpty())
                     {
-                        return true;
+                        return bResult;
                     }
                     if (compareType.toLower().toStdString() != QString::fromStdString(qaCompType2string(T)).toLower().toStdString())
                     {
@@ -432,7 +443,7 @@ template <qaCompType T> class dicmdQaCompareInternal : public NonTransactionalDi
                     const auto compareCounter = QString::fromLocal8Bit(qgetenv("ELEN_PAINTER_COUNTER").constData());
                     if (compareCounter.isEmpty())
                     {
-                        return true;
+                        return bResult;
                     }
                     if (dicmdQaCompare<T>::get_current_index() < compareCounter.toInt())
                     {
@@ -444,10 +455,10 @@ template <qaCompType T> class dicmdQaCompareInternal : public NonTransactionalDi
             };
 
             //check if ELEN_PAINTER_COMPAREDBG then stop at comparision number.
-            if (are_two_files_different(T, f.c_str(), g.c_str()))
+            if (are_two_files_different(T, f.c_str(), g.c_str()) || fnCheckBreak(false))
             {
                 QString htmlv = generate_html_view(f, g);
-                if (fnCheckBreak())
+                if (fnCheckBreak(true))
                 { 
                     Messenger::expose_msg(err, "comparision->" + qaCompType2string(T) + ":MISMATCH " + f + " " + g +
                                                    ". Click <a href=\"file://" + htmlv.toStdString() +
