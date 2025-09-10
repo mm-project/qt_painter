@@ -7,6 +7,7 @@
 
 #include "../core/application.hpp"
 #include "../core/postman.hpp"
+#include "../core/ishape.hpp"
 #include "../core/runtime_pool.hpp"
 #include "../core/selection.hpp"
 #include "../gui/canvas.hpp"
@@ -19,6 +20,8 @@
 
 #include <fstream>
 #include <sstream>
+#include <set>
+
 /*
 #include <filesystem>
 namespace fs = std::filesystem;
@@ -31,7 +34,8 @@ enum qaCompType
     CANVAS,
     RUNTIME,
     SELECTIONCANVAS,
-    SELECTIONCANVAS2
+    SELECTIONCANVAS2,
+    VIEWPORT_RQ
 };
 
 namespace
@@ -189,6 +193,9 @@ std::string qaCompType2string(qaCompType type)
     case RUNTIME:
         return ("Runtime");
         break;
+    case VIEWPORT_RQ:
+        return ("ViewportRQ");
+        break;
     default:
         return "";
     }
@@ -234,6 +241,9 @@ template <qaCompType T> class dicmdQaDump : public NonTransactionalDirectCommand
         case SELECTIONCANVAS2:
             return dump_canvas_wrapper(true);
             break;
+        case VIEWPORT_RQ:
+            return dump_rq();
+            break;
         }
     }
 
@@ -271,6 +281,40 @@ template <qaCompType T> class dicmdQaDump : public NonTransactionalDirectCommand
             dynamic_cast<canvas *>(w)->get_renderer()->rendering_des_mode_change();
 
         std::cout << m_fname.c_str() << "\n\n\n\n";
+    }
+
+    void dump_rq()
+    {
+        QWidget *w = command_manager::getInstance().get_main_widget()->findChild<QWidget *>("CANVAS");
+        QRect v = dynamic_cast<canvas *>(w)->get_renderer()->get_viewport();
+        RegionQuery& rq = RegionQuery::getInstance();
+        auto objs = rq.getShapesUnderRect(v);
+        
+        QFile file(m_fname.c_str());
+        file.open(QIODevice::WriteOnly | QIODevice::Append);
+        QTextStream z(&file);
+
+        // Sort objects before dumping.
+        std::vector<std::multiset<ShapeProperties>> shapes_sorted_info(4);
+        for (auto i : objs)
+            shapes_sorted_info[i->getType()].insert(i->getProperties());
+
+        z << "Name: Viewport RQ" ;
+        z << "\nObjCount: " << QString::number(objs.size());
+        z << "\n======\n";
+        for(size_t i=0; i<shapes_sorted_info.size(); i++)
+            for (auto const& y : shapes_sorted_info[i])
+            {
+                z << ObjType2String(ObjectType(i)).c_str();
+                z << ":\t"; // i->getPoints();
+                z << y.toString().c_str();
+                z << "\n";
+            }
+        z << "--------";
+        z << "\n\n";
+
+        file.flush();
+        file.close();
     }
 
     void dump_selection()
