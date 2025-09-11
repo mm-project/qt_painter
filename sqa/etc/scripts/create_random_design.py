@@ -61,12 +61,16 @@ def get_random_color():
         return "{:02X}{:02X}{:02X}".format(r, g, b)
 
 def create_rand_obj():
-    objs = ["dicmdCreateObjRectangle", "dicmdCreateObjLine", "dicmdCreateObjEllipse", "dicmdCreateObjPolygon"]
+    #objs = ["dicmdCreateObjRectangle", "dicmdCreateObjLine", "dicmdCreateObjEllipse", "dicmdCreateObjPolygon"]
+    objs = ["dicmdCreateObjLine"]
     obj = random.choice(objs)
     brush = random.randint(1, 9)
     fill = random.randint(1, 9)
     #color = "{:06X}".format(random.randint(0, 0xFFFFFF))
-    color = get_random_color()
+    #color = get_random_color()
+    color = "000000"
+    brush = "1" 
+    fill = "9" 
     points = get_rand_points(obj, delta=50)  # polygon points max 50px apart
     cmd_line = f"{obj} -brush {brush} -color #{color} -fill {fill} -points {points}"
     print(cmd_line)

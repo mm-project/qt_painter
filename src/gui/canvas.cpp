@@ -145,6 +145,11 @@ void canvas::keyPressEvent(QKeyEvent *ev)
         cm.activate_command(cm.find_command("incmdSelectShapesByRegion"));
     else if (ev->key() == Qt::Key_N)
         cm.find_command("dicmdQaReplyStep")->execute_and_log();
+    else if (ev->key() == Qt::Key_9) {
+        cm.find_command("dicmdQaCompareSelection")->execute_and_log();
+        cm.find_command("dicmdQaCompareViewportRQ")->execute_and_log();
+        cm.find_command("dicmdQaCompareRuntime")->execute_and_log();
+    }
     else if (ev->key() == Qt::Key_O)
         Selection::getInstance().highlight_dehighlight_last_selected_region();
     else if (ev->key() == Qt::Key_P) {
