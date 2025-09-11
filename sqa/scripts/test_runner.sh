@@ -84,6 +84,7 @@ function prepocess
     cd output
     
     cp -r $PAINTER_QA_DIR/etc/webrelated/* .
+    cp $PAINTER_QA_DIR/designs/* ./
     
     if [ "$mode" != "regolden" ]; then
         cp -rf ../$GDIRNAME/* ./

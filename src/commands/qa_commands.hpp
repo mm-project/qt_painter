@@ -390,8 +390,17 @@ template <qaCompType T> class dicmdQaCompareInternal : public NonTransactionalDi
         // std::cout << "regoooooldneeeen" << QString::fromLocal8Bit( qgetenv("ELEN_PAINTER_REGOLDEN").constData()
         // ).toStdString() << std::endl;
         bool regoldenmode = false;
+        bool creationmode = false;
         if (!QString::fromLocal8Bit(qgetenv("ELEN_PAINTER_REGOLDEN").constData()).isEmpty())
             regoldenmode = true;
+
+        if (!QString::fromLocal8Bit(qgetenv("ELEN_PAINTER_TESTCREATION").constData()).isEmpty())
+            creationmode = true;
+        
+        if (creationmode) {
+            Messenger::expose_msg(info, "Created comparision checkpoint:" + qaCompType2string(T) + " " + g);
+            return;
+        }
 
         if (regoldenmode)
         {
@@ -405,7 +414,7 @@ template <qaCompType T> class dicmdQaCompareInternal : public NonTransactionalDi
             system(z.str().c_str());
             Messenger::expose_msg(test, "comparision->" + qaCompType2string(T) + ":PASS " + f + " " + g);
 #else
-            Messenger::expose_msg(err, "Autoregoldening is availble only in linux ( currently )");
+            Messenger::expose_msg(err, "Autoregoldening is availble only in linux and mac ( currently )");
 #endif
         }
         else
