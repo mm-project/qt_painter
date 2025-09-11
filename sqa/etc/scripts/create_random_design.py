@@ -48,22 +48,32 @@ def get_rand_points(obj, delta=50):
 
     return "{" + ";".join(points) + "}"
 
+def get_random_color():
+    while True:
+        r = random.randint(0, 255)
+        g = random.randint(0, 255)
+        b = random.randint(0, 255)
+
+        # Reject if too close to black (all channels very low)
+        if r < 40 and g < 40 and b < 40:
+            continue
+
+        return "{:02X}{:02X}{:02X}".format(r, g, b)
 
 def create_rand_obj():
     objs = ["dicmdCreateObjRectangle", "dicmdCreateObjLine", "dicmdCreateObjEllipse", "dicmdCreateObjPolygon"]
     obj = random.choice(objs)
     brush = random.randint(1, 9)
     fill = random.randint(1, 9)
-    color = "{:06X}".format(random.randint(0, 0xFFFFFF))
+    #color = "{:06X}".format(random.randint(0, 0xFFFFFF))
+    color = get_random_color()
     points = get_rand_points(obj, delta=50)  # polygon points max 50px apart
     cmd_line = f"{obj} -brush {brush} -color #{color} -fill {fill} -points {points}"
     print(cmd_line)
 
-
 def create_design():
     for _ in range(1000):
         create_rand_obj()
-
 
 if __name__ == "__main__":
     create_design()
