@@ -28,6 +28,7 @@ function process_options
     args="$1"
 
     read -r mode other_args <<< "$args"
+    #mode="regolden"
     echo "mode:[$mode]< options:[$other_args]<"
     #if [ "$1" == "regolden" ]; then
     #    mode="regolden"
@@ -109,9 +110,12 @@ function postprocess
             done
             cp ./logs/painter.log ../$GDIRNAME/painter.log.golden
             cp ./logs/painter.lvi ../$GDIRNAME/painter.lvi.golden
-	     mv ./$testname.mp4 ../$GDIRNAME/$testname.golden.mp4
+            mv ./$testname.mp4 ../$GDIRNAME/$testname.golden.mp4
             #cp painter.out ../$GDIRNAME/painter.out.golden
-            cp `find -name "*.golden*"` ../$GDIRNAME
+            golden_files=$(find ./ -name "*.golden*")
+            for f in $golden_files; do
+                cp $f ../$GDIRNAME
+            done            
             #cnvscprs=`find -name "*compare*"`
             #for i in $cnvscprs; do
             #    cp $i ../$GDIRNAME/$i.golden
