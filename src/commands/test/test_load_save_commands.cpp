@@ -5,48 +5,48 @@
 // IMocking!: Workingset
 class MockWorkingSet : public IObjectPool {
 
-public:
-  virtual void clear() noexcept override {}
-  virtual std::vector<IShapePtr> getObjects() const noexcept override {
-    return {};
-  }
-  IShapePtr addObject(IShapePtr s) override {
-    m_shapes_count++;
-    return s;
-  }
-  virtual std::string getName() const noexcept override {
-    return "MockWorkingSet";
-  }
-  virtual void dumpToFile(const std::string &) const {}
-  virtual void removeObject(IShapePtr) noexcept {}
-  virtual ~MockWorkingSet() {}
-  int m_shapes_count = 0;
+  public:
+    virtual void clear() noexcept override {}
+    virtual std::vector<IShapePtr> getObjects() const noexcept override {
+        return {};
+    }
+    IShapePtr addObject(IShapePtr s) override {
+        m_shapes_count++;
+        return s;
+    }
+    virtual std::string getName() const noexcept override {
+        return "MockWorkingSet";
+    }
+    virtual void dumpToFile(const std::string &) const {}
+    virtual void removeObject(IShapePtr) noexcept {}
+    virtual ~MockWorkingSet() {}
+    int m_shapes_count = 0;
 };
 
 // IMocking!: Shape
 class MockShape : public IShape {
-  virtual void reset() {}
-  virtual void addPoint(const QPoint &) {}
-  virtual void updateProperties(ShapeProperties) {}
-  virtual bool is_draw_mode() { return false; }
-  virtual void movePoint(const QPoint &) {}
-  virtual IShape *clone() { return new MockShape; }
-  virtual void draw(QPainter *) {}
-  virtual std::vector<QPoint> getPoints() { return {}; }
-  virtual ObjectType getType() const { return ObjectType::LINE; };
-  virtual void moveCenterToPoint(QPoint &) {}
-  bool contains(const QPoint &) const override { return false; }
-  bool intersects(const QRect &) const override { return false; }
-  bool isDisjointFrom(const QRect &) const override { return false; }
-  QPoint center() const override { return {}; }
-  QRectF getBBox() const override { return {}; }
+    virtual void reset() {}
+    virtual void addPoint(const QPoint &) {}
+    virtual void updateProperties(ShapeProperties) {}
+    virtual bool is_draw_mode() { return false; }
+    virtual void movePoint(const QPoint &) {}
+    virtual IShape *clone() { return new MockShape; }
+    virtual void draw(QPainter *) {}
+    virtual std::vector<QPoint> getPoints() { return {}; }
+    virtual ObjectType getType() const { return ObjectType::LINE; };
+    virtual void moveCenterToPoint(QPoint &) {}
+    bool contains(const QPoint &) const override { return false; }
+    bool intersects(const QRect &) const override { return false; }
+    bool isDisjointFrom(const QRect &) const override { return false; }
+    QPoint center() const override { return {}; }
+    QRectF getBBox() const override { return {}; }
 };
 
 // Mocking!: Implementations
 ShapeCreator::ShapeCreator() {}
 ShapeCreator::~ShapeCreator() {}
 IShapePtr ShapeCreator::create(ObjectType) {
-  return std::shared_ptr<IShape>(new MockShape);
+    return std::shared_ptr<IShape>(new MockShape);
 }
 
 // Mocking!: Implementations
@@ -59,7 +59,7 @@ void RegionQuery::insertObject(IShapePtr) {}
 void RegionQuery::removeObject(IShapePtr) {}
 void RegionQuery::clear() {}
 std::vector<IShapePtr> RegionQuery::getShapeUnderPos(QPoint const &) const {
-  return {};
+    return {};
 }
 
 void ServiceManager::shutDown() {}
@@ -77,17 +77,17 @@ void ServiceManager::shutDown() {}
     \endlist
 */
 bool UT_load_save_commands() {
-  // Expecting!: dicmdDesignSave command to be properly created
-  ObjectPoolPtr ws = std::shared_ptr<MockWorkingSet>(new MockWorkingSet);
-  dicmdDesignSave cmd(ws);
+    // Expecting!: dicmdDesignSave command to be properly created
+    ObjectPoolPtr ws = std::shared_ptr<MockWorkingSet>(new MockWorkingSet);
+    dicmdDesignSave cmd(ws);
 
-  // Expecting!: should be called properly with called arguments
-  cmd.set_arg("-filename", "morqur");
-  cmd.execute();
-  return true;
+    // Expecting!: should be called properly with called arguments
+    cmd.set_arg("-filename", "morqur");
+    cmd.execute();
+    return true;
 }
 
 int main() {
-  // UT_load_save_commands();
-  return 0;
+    // UT_load_save_commands();
+    return 0;
 }

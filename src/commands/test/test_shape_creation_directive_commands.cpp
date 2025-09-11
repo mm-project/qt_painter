@@ -7,48 +7,48 @@
 // IMocking!: Workingset
 class MockWorkingSet : public IObjectPool {
 
-public:
-  virtual void clear() noexcept override {}
-  virtual std::vector<IShapePtr> getObjects() const noexcept override {
-    return {};
-  }
-  IShapePtr addObject(IShapePtr s) override {
-    m_shapes_count++;
-    return s;
-  }
-  virtual std::string getName() const noexcept override {
-    return "MockWorkingSet";
-  }
-  virtual void dumpToFile(const std::string &) const {}
-  virtual void removeObject(IShapePtr) noexcept {}
-  virtual ~MockWorkingSet() {}
-  int m_shapes_count = 0;
+  public:
+    virtual void clear() noexcept override {}
+    virtual std::vector<IShapePtr> getObjects() const noexcept override {
+        return {};
+    }
+    IShapePtr addObject(IShapePtr s) override {
+        m_shapes_count++;
+        return s;
+    }
+    virtual std::string getName() const noexcept override {
+        return "MockWorkingSet";
+    }
+    virtual void dumpToFile(const std::string &) const {}
+    virtual void removeObject(IShapePtr) noexcept {}
+    virtual ~MockWorkingSet() {}
+    int m_shapes_count = 0;
 };
 
 // IMocking!: Shape
 class MockShape : public IShape {
-  virtual void reset() {}
-  virtual void addPoint(const QPoint &) {}
-  virtual void updateProperties(ShapeProperties) {}
-  virtual bool is_draw_mode() { return false; }
-  virtual void movePoint(const QPoint &) {}
-  virtual IShape *clone() { return new MockShape; }
-  virtual void draw(QPainter *) {}
-  virtual std::vector<QPoint> getPoints() { return {}; }
-  virtual ObjectType getType() const { return ObjectType::LINE; };
-  virtual void moveCenterToPoint(QPoint &) {}
-  bool contains(const QPoint &) const override { return false; }
-  bool intersects(const QRect &) const override { return false; }
-  bool isDisjointFrom(const QRect &) const override { return false; }
-  QPoint center() const override { return {}; }
-  QRectF getBBox() const override { return {}; }
+    virtual void reset() {}
+    virtual void addPoint(const QPoint &) {}
+    virtual void updateProperties(ShapeProperties) {}
+    virtual bool is_draw_mode() { return false; }
+    virtual void movePoint(const QPoint &) {}
+    virtual IShape *clone() { return new MockShape; }
+    virtual void draw(QPainter *) {}
+    virtual std::vector<QPoint> getPoints() { return {}; }
+    virtual ObjectType getType() const { return ObjectType::LINE; };
+    virtual void moveCenterToPoint(QPoint &) {}
+    bool contains(const QPoint &) const override { return false; }
+    bool intersects(const QRect &) const override { return false; }
+    bool isDisjointFrom(const QRect &) const override { return false; }
+    QPoint center() const override { return {}; }
+    QRectF getBBox() const override { return {}; }
 };
 
 // Mocking!: Implementations
 ShapeCreator::ShapeCreator() {}
 ShapeCreator::~ShapeCreator() {}
 IShapePtr ShapeCreator::create(ObjectType) {
-  return std::shared_ptr<IShape>(new MockShape);
+    return std::shared_ptr<IShape>(new MockShape);
 }
 
 // Mocking!: Implementations
@@ -61,7 +61,7 @@ void RegionQuery::insertObject(IShapePtr) {}
 void RegionQuery::removeObject(IShapePtr) {}
 void RegionQuery::clear() {}
 std::vector<IShapePtr> RegionQuery::getShapeUnderPos(QPoint const &) const {
-  return {};
+    return {};
 }
 
 void ServiceManager::shutDown() {}
@@ -80,25 +80,26 @@ void ServiceManager::shutDown() {}
 */
 bool UT_shape_creation_directive_commands() {
 
-  // Expecting!: dicmdCreateObj to be created
-  ObjectPoolPtr ws = std::shared_ptr<MockWorkingSet>(new MockWorkingSet);
-  dicmdCreateObj<RECTANGLE> rect_cmd(ws);
+    // Expecting!: dicmdCreateObj to be created
+    ObjectPoolPtr ws = std::shared_ptr<MockWorkingSet>(new MockWorkingSet);
+    dicmdCreateObj<RECTANGLE> rect_cmd(ws);
 
-  // Expecting!: adding arguments and no impact on working set
-  rect_cmd.set_arg("-points", "{(0,0;100,100)}");
-  assert("SHAPES COUNT IN WS BEFORE EXECUTING" &&
-         dynamic_cast<MockWorkingSet *>(ws.get())->m_shapes_count == 0);
+    // Expecting!: adding arguments and no impact on working set
+    rect_cmd.set_arg("-points", "{(0,0;100,100)}");
+    assert("SHAPES COUNT IN WS BEFORE EXECUTING" &&
+           dynamic_cast<MockWorkingSet *>(ws.get())->m_shapes_count == 0);
 
-  // Expecting!: executing command and working set should be added with 1 shape
-  rect_cmd.execute();
-  assert("SHAPES COUNT IN WS AFTER EXECUTING FIRST TIME" &&
-         dynamic_cast<MockWorkingSet *>(ws.get())->m_shapes_count == 1);
+    // Expecting!: executing command and working set should be added with 1
+    // shape
+    rect_cmd.execute();
+    assert("SHAPES COUNT IN WS AFTER EXECUTING FIRST TIME" &&
+           dynamic_cast<MockWorkingSet *>(ws.get())->m_shapes_count == 1);
 
-  // Expecting!: executing command and working set should have addional shapes
-  rect_cmd.execute();
-  assert("SHAPES COUNT IN WS AFTER EXECUTING SECOND TIME" &&
-         dynamic_cast<MockWorkingSet *>(ws.get())->m_shapes_count == 2);
-  return true;
+    // Expecting!: executing command and working set should have addional shapes
+    rect_cmd.execute();
+    assert("SHAPES COUNT IN WS AFTER EXECUTING SECOND TIME" &&
+           dynamic_cast<MockWorkingSet *>(ws.get())->m_shapes_count == 2);
+    return true;
 }
 
 int main() { UT_shape_creation_directive_commands(); }

@@ -52,51 +52,52 @@ namespace {
 // names.
 std::string Backtrace(int skip = 1) {
 #ifdef OS_LINUX
-  void *callstack[128];
-  const int nMaxFrames = sizeof(callstack) / sizeof(callstack[0]);
-  char buf[1024];
-  int nFrames = backtrace(callstack, nMaxFrames);
-  char **symbols = backtrace_symbols(callstack, nFrames);
+    void *callstack[128];
+    const int nMaxFrames = sizeof(callstack) / sizeof(callstack[0]);
+    char buf[1024];
+    int nFrames = backtrace(callstack, nMaxFrames);
+    char **symbols = backtrace_symbols(callstack, nFrames);
 
-  std::ostringstream trace_buf;
-  for (int i = skip; i < nFrames; i++) {
-    printf("%s\n", symbols[i]);
+    std::ostringstream trace_buf;
+    for (int i = skip; i < nFrames; i++) {
+        printf("%s\n", symbols[i]);
 
-    Dl_info info;
-    if (dladdr(callstack[i], &info) && info.dli_sname) {
-      char *demangled = NULL;
-      int status = -1;
-      if (info.dli_sname[0] == '_')
-        demangled = abi::__cxa_demangle(info.dli_sname, NULL, 0, &status);
-      snprintf(buf, sizeof(buf), "%s %-3d %*p %s + %zd\n", "Layer:", i,
-               int(2 + sizeof(void *) * 2), callstack[i],
-               status == 0           ? demangled
-               : info.dli_sname == 0 ? symbols[i]
-                                     : info.dli_sname,
-               (char *)callstack[i] - (char *)info.dli_saddr);
-      free(demangled);
-    } else {
-      snprintf(buf, sizeof(buf), "%s %-3d %*p %s\n", "Layer:", i,
-               int(2 + sizeof(void *) * 2), callstack[i], symbols[i]);
+        Dl_info info;
+        if (dladdr(callstack[i], &info) && info.dli_sname) {
+            char *demangled = NULL;
+            int status = -1;
+            if (info.dli_sname[0] == '_')
+                demangled =
+                    abi::__cxa_demangle(info.dli_sname, NULL, 0, &status);
+            snprintf(buf, sizeof(buf), "%s %-3d %*p %s + %zd\n", "Layer:", i,
+                     int(2 + sizeof(void *) * 2), callstack[i],
+                     status == 0           ? demangled
+                     : info.dli_sname == 0 ? symbols[i]
+                                           : info.dli_sname,
+                     (char *)callstack[i] - (char *)info.dli_saddr);
+            free(demangled);
+        } else {
+            snprintf(buf, sizeof(buf), "%s %-3d %*p %s\n", "Layer:", i,
+                     int(2 + sizeof(void *) * 2), callstack[i], symbols[i]);
+        }
+        trace_buf << buf;
     }
-    trace_buf << buf;
-  }
-  free(symbols);
-  if (nFrames == nMaxFrames)
-    trace_buf << "[truncated]\n";
-  return trace_buf.str();
+    free(symbols);
+    if (nFrames == nMaxFrames)
+        trace_buf << "[truncated]\n";
+    return trace_buf.str();
 #endif // OS_LINUX
-  return "";
+    return "";
 }
 
 void handler(int) {
-  std::string s(Backtrace());
-  Messenger::expose_msg(err, s);
-  // if ( ! Application::is_testing_mode() )
-  //     mmModalDialog::critical("Crashed","Nice one. Program unexpectedly
-  //     terminated.");
-  // std::cout << s << std::endl;
-  exit(11);
+    std::string s(Backtrace());
+    Messenger::expose_msg(err, s);
+    // if ( ! Application::is_testing_mode() )
+    //     mmModalDialog::critical("Crashed","Nice one. Program unexpectedly
+    //     terminated.");
+    // std::cout << s << std::endl;
+    exit(11);
 }
 
 } // namespace

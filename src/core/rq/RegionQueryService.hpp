@@ -13,23 +13,23 @@
 #include "../service.hpp"
 
 class RegionQuery : public Service<RegionQuery> {
-public:
-  void insertObject(IShapePtr);
-  void removeObject(IShapePtr);
-  std::vector<IShapePtr> getShapeUnderPos(const QPoint &) const;
-  std::vector<IShapePtr> getShapesUnderRect(const QRect &) const;
-  void clear();
-  void shutDown() override;
-  int getSize() const;
+  public:
+    void insertObject(IShapePtr);
+    void removeObject(IShapePtr);
+    std::vector<IShapePtr> getShapeUnderPos(const QPoint &) const;
+    std::vector<IShapePtr> getShapesUnderRect(const QRect &) const;
+    void clear();
+    void shutDown() override;
+    int getSize() const;
 
-  RegionQuery();
+    RegionQuery();
 
 #ifndef DUMMY_RQ
-private:
-  std::shared_ptr<IRQtree<IShapePtr>> m_tree = nullptr;
+  private:
+    std::shared_ptr<IRQtree<IShapePtr>> m_tree = nullptr;
 #endif
 
 #ifdef DUMMY_RQ
-  ObjectPoolPtr m_ws = nullptr;
+    ObjectPoolPtr m_ws = nullptr;
 #endif
 };

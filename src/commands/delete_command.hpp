@@ -10,82 +10,82 @@
 #include "../gui/statusbar_manager.hpp"
 
 class dicmdDeleteObj : public DirectCommandBase {
-public:
-  dicmdDeleteObj(ObjectPoolPtr ptr, QPoint pos)
-      : m_workingSet(std::dynamic_pointer_cast<Design>(ptr)) {
-    add_option("-point", new PointCommandOptionValue(pos));
-  }
-
-  dicmdDeleteObj(ObjectPoolPtr ptr)
-      : m_workingSet(std::dynamic_pointer_cast<Design>(ptr)) {
-    add_option("-point", new PointCommandOptionValue());
-  }
-
-  virtual std::string get_name() override { return "dicmdDeleteShape"; }
-
-  virtual void execute() override {
-    RegionQuery &rq = RegionQuery::getInstance();
-    QPoint pos = GET_CMD_ARG(PointCommandOptionValue, "-point");
-    auto shapes = rq.getShapeUnderPos(pos);
-    // rq.clear();
-
-    // for (auto& obj : m_workingSet->getObjects())
-    //	rq.insertObject(obj);
-
-    for (auto &shape : shapes) {
-      if (shape != nullptr) {
-        rq.removeObject(shape);
-        m_workingSet->removeObject(shape);
-      }
+  public:
+    dicmdDeleteObj(ObjectPoolPtr ptr, QPoint pos)
+        : m_workingSet(std::dynamic_pointer_cast<Design>(ptr)) {
+        add_option("-point", new PointCommandOptionValue(pos));
     }
-  }
 
-private:
-  DesignPtr m_workingSet = nullptr;
+    dicmdDeleteObj(ObjectPoolPtr ptr)
+        : m_workingSet(std::dynamic_pointer_cast<Design>(ptr)) {
+        add_option("-point", new PointCommandOptionValue());
+    }
+
+    virtual std::string get_name() override { return "dicmdDeleteShape"; }
+
+    virtual void execute() override {
+        RegionQuery &rq = RegionQuery::getInstance();
+        QPoint pos = GET_CMD_ARG(PointCommandOptionValue, "-point");
+        auto shapes = rq.getShapeUnderPos(pos);
+        // rq.clear();
+
+        // for (auto& obj : m_workingSet->getObjects())
+        //	rq.insertObject(obj);
+
+        for (auto &shape : shapes) {
+            if (shape != nullptr) {
+                rq.removeObject(shape);
+                m_workingSet->removeObject(shape);
+            }
+        }
+    }
+
+  private:
+    DesignPtr m_workingSet = nullptr;
 };
 
 class InteractiveDeleteAction : public InteractiveCommandBase {
-public:
-  InteractiveDeleteAction(ObjectPoolPtr ptr)
-      : m_workingSet(std::dynamic_pointer_cast<Design>(ptr)) {}
+  public:
+    InteractiveDeleteAction(ObjectPoolPtr ptr)
+        : m_workingSet(std::dynamic_pointer_cast<Design>(ptr)) {}
 
-  virtual std::string get_name() override { return "incmdDeleteShape"; }
+    virtual std::string get_name() override { return "incmdDeleteShape"; }
 
-  virtual void abort() override {
-    command_manager::getInstance().return_to_idle();
-  }
-
-  virtual void execute() override {
-    StatusBarManager::getInstance().updateStatusBar("Click and delete object",
-                                                    1, 0);
-    InteractiveCommandBase::set_next_handler(
-        HANDLE_FUNCTION(InteractiveDeleteAction, idle));
-  }
-
-  void on_commit(const EvType &) {
-    dicmdDeleteObj(m_workingSet, m_position).silent_execute();
-    InteractiveCommandBase::set_next_handler(
-        HANDLE_FUNCTION(InteractiveDeleteAction, idle));
-  }
-
-  void idle(const EvType &) {
-    // if (ev != MC)
-    //	return;
-
-    InteractiveCommandBase::set_next_handler(
-        HANDLE_FUNCTION(InteractiveDeleteAction, on_click));
-  }
-
-  void on_click(const EvType &ev) {
-    // not from me
-    if (ev == MC || ev == MD) {
-      m_position = InteractiveCommandBase::get_last_point();
-      on_commit(OTHER);
+    virtual void abort() override {
+        command_manager::getInstance().return_to_idle();
     }
-  }
 
-private:
-  QPoint m_position;
-  DesignPtr m_workingSet = nullptr;
+    virtual void execute() override {
+        StatusBarManager::getInstance().updateStatusBar(
+            "Click and delete object", 1, 0);
+        InteractiveCommandBase::set_next_handler(
+            HANDLE_FUNCTION(InteractiveDeleteAction, idle));
+    }
+
+    void on_commit(const EvType &) {
+        dicmdDeleteObj(m_workingSet, m_position).silent_execute();
+        InteractiveCommandBase::set_next_handler(
+            HANDLE_FUNCTION(InteractiveDeleteAction, idle));
+    }
+
+    void idle(const EvType &) {
+        // if (ev != MC)
+        //	return;
+
+        InteractiveCommandBase::set_next_handler(
+            HANDLE_FUNCTION(InteractiveDeleteAction, on_click));
+    }
+
+    void on_click(const EvType &ev) {
+        // not from me
+        if (ev == MC || ev == MD) {
+            m_position = InteractiveCommandBase::get_last_point();
+            on_commit(OTHER);
+        }
+    }
+
+  private:
+    QPoint m_position;
+    DesignPtr m_workingSet = nullptr;
 };
 #endif

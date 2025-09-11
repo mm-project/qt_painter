@@ -5,11 +5,11 @@
 
 class mmModalDialog {
 
-public:
-  static bool ask_yn_question(const std::string &tl, const std::string &bd);
-  static bool critical(const std::string &tl, const std::string &bd);
+  public:
+    static bool ask_yn_question(const std::string &tl, const std::string &bd);
+    static bool critical(const std::string &tl, const std::string &bd);
 
-private:
+  private:
 };
 
 #endif

@@ -12,13 +12,13 @@ template <typename T> class CNode;
 template <typename T> using CNodePtr = std::shared_ptr<CNode<T>>;
 
 template <typename T> class CNode {
-public:
-  CNode(const RQobjectPtr & = 0, CNodePtr<T> = 0, CNodePtr<T> = 0);
-  ~CNode() = default;
+  public:
+    CNode(const RQobjectPtr & = 0, CNodePtr<T> = 0, CNodePtr<T> = 0);
+    ~CNode() = default;
 
-  RQobjectPtr m_object;
-  CNodePtr<T> m_left_ptr;
-  CNodePtr<T> m_right_ptr;
+    RQobjectPtr m_object;
+    CNodePtr<T> m_left_ptr;
+    CNodePtr<T> m_right_ptr;
 };
 
 template <typename T>

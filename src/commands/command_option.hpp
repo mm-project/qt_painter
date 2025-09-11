@@ -14,12 +14,12 @@
 //  Template.
 // template<typename T>
 class ICommandOptionValue {
-public:
-  // virtual T get() = 0;
-  virtual std::string to_string() = 0;
-  virtual void from_string(const std::string &) = 0;
-  // FIXME again compiler unhappy with = 0
-  virtual ~ICommandOptionValue() {}
+  public:
+    // virtual T get() = 0;
+    virtual std::string to_string() = 0;
+    virtual void from_string(const std::string &) = 0;
+    // FIXME again compiler unhappy with = 0
+    virtual ~ICommandOptionValue() {}
 };
 
 // FIXME need to think more
@@ -52,110 +52,110 @@ class CommandOptionValueGetter {
 // get_option_val(Op)>(get_option_val(Op)))->get()
 
 #define StringListCommandOptionValue                                           \
-  ListCommandOptionValue<StringCommandOptionValue>
+    ListCommandOptionValue<StringCommandOptionValue>
 #define PointListCommandOptionValue                                            \
-  ListCommandOptionValue<PointCommandOptionValue>
+    ListCommandOptionValue<PointCommandOptionValue>
 
 class IntCommandOptionValue : public ICommandOptionValue {
-  int m_data = 0;
+    int m_data = 0;
 
-public:
-  IntCommandOptionValue() {}
-  IntCommandOptionValue(const int &i) : m_data(i) {}
-  int get() { return m_data; }
-  std::string to_string() { return std::to_string(m_data); }
-  void from_string(const std::string &s) { m_data = atoi(s.c_str()); }
+  public:
+    IntCommandOptionValue() {}
+    IntCommandOptionValue(const int &i) : m_data(i) {}
+    int get() { return m_data; }
+    std::string to_string() { return std::to_string(m_data); }
+    void from_string(const std::string &s) { m_data = atoi(s.c_str()); }
 };
 
 class StringCommandOptionValue : public ICommandOptionValue {
-  std::string m_str = "";
+    std::string m_str = "";
 
-public:
-  StringCommandOptionValue() {}
-  StringCommandOptionValue(const std::string &s) : m_str(s) {}
-  std::string get() { return m_str; }
-  std::string to_string() { return get(); }
-  void from_string(const std::string &s) { m_str = s; }
+  public:
+    StringCommandOptionValue() {}
+    StringCommandOptionValue(const std::string &s) : m_str(s) {}
+    std::string get() { return m_str; }
+    std::string to_string() { return get(); }
+    void from_string(const std::string &s) { m_str = s; }
 };
 
 namespace {
 std::vector<std::string> split(const std::string &s, char delimiter) {
-  std::vector<std::string> tokens;
-  std::string token;
-  std::istringstream tokenStream(s);
-  while (std::getline(tokenStream, token, delimiter)) {
-    tokens.push_back(token);
-  }
-  return tokens;
+    std::vector<std::string> tokens;
+    std::string token;
+    std::istringstream tokenStream(s);
+    while (std::getline(tokenStream, token, delimiter)) {
+        tokens.push_back(token);
+    }
+    return tokens;
 }
 } // namespace
 
 template <typename T>
 class ListCommandOptionValue : public ICommandOptionValue {
-public:
-  ListCommandOptionValue() {}
-  ListCommandOptionValue(const std::vector<T> &v) : m_data(v) {}
+  public:
+    ListCommandOptionValue() {}
+    ListCommandOptionValue(const std::vector<T> &v) : m_data(v) {}
 
-  std::vector<T> get() { return m_data; }
+    std::vector<T> get() { return m_data; }
 
-  void from_string(const std::string &str) {
-    m_data.clear();
-    std::string s = str;
-    s = s.substr(1, s.size() - 2);
-    // std::cout << s << std::endl;
-    for (auto it : split(s, ';')) {
-      T t;
-      t.from_string(it);
-      m_data.push_back(t);
+    void from_string(const std::string &str) {
+        m_data.clear();
+        std::string s = str;
+        s = s.substr(1, s.size() - 2);
+        // std::cout << s << std::endl;
+        for (auto it : split(s, ';')) {
+            T t;
+            t.from_string(it);
+            m_data.push_back(t);
+        }
     }
-  }
 
-  std::string to_string() {
-    std::stringstream z;
+    std::string to_string() {
+        std::stringstream z;
 
-    z << ";{";
-    for (auto it : m_data)
-      z << it.to_string() << ";";
+        z << ";{";
+        for (auto it : m_data)
+            z << it.to_string() << ";";
 
-    std::string a = z.str();
-    a = a.substr(1, a.size() - 2);
-    z.str("");
+        std::string a = z.str();
+        a = a.substr(1, a.size() - 2);
+        z.str("");
 
-    z << a << "}";
+        z << a << "}";
 
-    return z.str();
-  }
+        return z.str();
+    }
 
-private:
-  std::vector<T> m_data;
+  private:
+    std::vector<T> m_data;
 };
 
 class PointCommandOptionValue
     : public ICommandOptionValue // public ICommandOptionValue<QPoint>
 {
-public:
-  PointCommandOptionValue() {}
-  PointCommandOptionValue(const QPoint &p) : m_x(p.x()), m_y(p.y()) {}
-  PointCommandOptionValue(int x, int y) : m_x(x), m_y(y) {}
+  public:
+    PointCommandOptionValue() {}
+    PointCommandOptionValue(const QPoint &p) : m_x(p.x()), m_y(p.y()) {}
+    PointCommandOptionValue(int x, int y) : m_x(x), m_y(y) {}
 
-  // FIXME check validity
-  void from_string(const std::string &str) {
-    m_x = std::atoi(str.substr(1, str.find(",")).c_str());
-    m_y = std::atoi(str.substr(str.find(",") + 1, str.find(")")).c_str());
-  }
+    // FIXME check validity
+    void from_string(const std::string &str) {
+        m_x = std::atoi(str.substr(1, str.find(",")).c_str());
+        m_y = std::atoi(str.substr(str.find(",") + 1, str.find(")")).c_str());
+    }
 
-  QPoint get() { return QPoint(m_x, m_y); }
+    QPoint get() { return QPoint(m_x, m_y); }
 
-  std::string to_string() {
-    std::stringstream z;
-    z << "(" << m_x << "," << m_y << ")";
+    std::string to_string() {
+        std::stringstream z;
+        z << "(" << m_x << "," << m_y << ")";
 
-    return z.str();
-  }
+        return z.str();
+    }
 
-private:
-  int m_x;
-  int m_y;
+  private:
+    int m_x;
+    int m_y;
 };
 
 #endif

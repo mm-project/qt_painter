@@ -27,21 +27,22 @@ LeCallback::LeCallback(const std::string &n, callBackFun2 f2, int id,
       m_is_purged(false) {}
 
 void LeCallback::purge() {
-  if (!m_is_purged) {
-    LePostman::getInstance().deregister_callback(m_name, m_type, m_internal_id);
-    m_is_purged = true;
-  }
+    if (!m_is_purged) {
+        LePostman::getInstance().deregister_callback(m_name, m_type,
+                                                     m_internal_id);
+        m_is_purged = true;
+    }
 }
 
 void LeCallback::call() {
-  if (m_f2 != nullptr)
-    m_f2();
-  // assert(0);
+    if (m_f2 != nullptr)
+        m_f2();
+    // assert(0);
 }
 
 void LeCallback::call(LeCallbackData &data) {
-  if (m_f1 != nullptr)
-    m_f1(data);
+    if (m_f1 != nullptr)
+        m_f1(data);
 }
 
 // void LeCallback::call(LeCallbackData data) {
