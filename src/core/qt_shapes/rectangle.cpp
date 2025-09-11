@@ -24,7 +24,6 @@ void Rectangle::draw(QPainter *p)
     QPen pen(m_properties.pen_color, m_properties.pen_width, m_properties.pen_style, m_properties.pen_cap_style,
              m_properties.pen_join_style);
     QBrush brush(m_properties.brush_color, m_properties.brush_style);
-    pen.setCosmetic(true);
     p->setBrush(brush);
     p->setPen(pen);
     p->drawRect(m_object);

@@ -103,7 +103,6 @@ bool LogReader::replay_logfile(const std::string &fname)
 
 bool LogReader::replay_logfile_imi(const std::string &fname)
 {
-    //return replay_logfile(fname);
     QStringList lines = read_file(fname);
 
     if (lines.size() == 0)
@@ -117,8 +116,8 @@ bool LogReader::replay_logfile_imi(const std::string &fname)
         replay_cmd(line.toStdString());
     }
 
-    Application::getInstance().set_mode(APPNORM);
-    //Application::getInstance().set_replay_mode(false);
+    //Application::getInstance().set_mode(APPNORM);
+    Application::getInstance().set_replay_mode(false);
 
     return true;
 }
