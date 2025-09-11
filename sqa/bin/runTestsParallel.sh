@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
@@ -15,7 +15,7 @@ if [ "$tst_lst" == "" ]; then
     tst_lst=$PAINTER_QA_DIR/tests.lst
 fi
 
-file_len=`wc -l $tst_lst | cut -d' ' -f1`
+file_len=`wc -l "$tst_lst" | xargs | cut -d' ' -f1`
 b=0
 e=1
 declare -A PIDS 
@@ -29,6 +29,7 @@ function runAll
     echo "Threads: $threads_num ( tests running in 1 thread: $testnum_in_chunk )"
     echo
     #echo "file_len: $file_len"
+    i=0
     while [[ "$e" -le "$file_len" ]]; do
         i=`expr $i + 1`
         runParallel $i $b $e

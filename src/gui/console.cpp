@@ -72,6 +72,8 @@ void ConsoleWidget::appendText(const QString &text, LogMsgSeverity severity, QSt
         m_view->append("<font color=\"#39a5b8\">Information: " + text + "</font> <u><font color=\"blue\">(" + code +
                        ")</u></font> ");
         return;
+    default:
+        break;
     }
 
     m_view->append(text);

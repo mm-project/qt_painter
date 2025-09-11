@@ -67,3 +67,18 @@ void Rectangle::addPoint(const QPoint &point)
         m_waitForSecondClick = true;
     }
 }
+
+QPoint Rectangle::center() const 
+{
+    return m_object.center();
+}
+
+bool Rectangle::isDisjointFrom( const QRect& oRect ) const
+{
+    return ! oRect.contains( m_object );
+}
+
+QRectF Rectangle::getBBox() const 
+{
+    return QRectF(m_object);
+}

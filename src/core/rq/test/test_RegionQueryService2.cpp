@@ -1,204 +1,160 @@
-#include "../RegionQueryService.hpp"
-#include "../debug_helper.hpp"
-
-#include <QPoint>
-#include <QPainter>
-#include <QPixmap>
-#include <QGuiApplication>
-
-#include <cassert>
-#include <iostream>
+#include "rq_ut_helper.hpp"
 
 
-//std::map<int, IShapePtr> index2shape;
-//int shapes_num = 0;
-
-int canvas_w = 1200;
-int canvas_h = 400;
-int num_threads = 16;
-int num_regions = num_threads;
-
-int query_w;
-int query_h;
-
-template <typename T> IShapePtr create(QPoint p1, QPoint p2)
+void performance_test1()
 {
-    IShapePtr shape = std::shared_ptr<T>(new T);
-    // std::cout << shapes_num << " " << shape << std::endl;
-    //index2shape[++shapes_num] = shape;
-    shape->addPoint(p2);
-    shape->addPoint(p1);
-    // if ( std::is_same<T, polygon>)
-    //    shape->addPoint(p3);
 
-    return shape;
+    // n*n matrices, 50 means 50*50 total objects
+    //std::vector<int> magnitudes = {50, 100, 200, 400, 800, 1600, 3200, 6400, 12800, 25600, 51200};
+    std::vector<int> magnitudes = {50, 100, 200, 400, 800, 1600, 3200, 6400, 12800};
+    //std::vector<int> magnitudes = {10, 20, 40, 80, 160, 320, 640, 1280, 2560, 5120, 10240};
+    //std::vector<int> magnitudes = {10, 20, 40, 80, 160, 320, 640, 1280, 2560, 5120};
+    //std::vector<int> magnitudes = {10, 20, 40, 80, 160, 320, 640, 1280};
+    //std::vector<int> magnitudes = {50, 150, 200, 250};
+    //std::vector<int> magnitudes = {50, 100, 200, 400};
+    //std::vector<int> magnitudes = {10, 100, 1000, 10000, 100000, 1000000};
+        
+    int repeat_factor = 5;
+    bool squares = true;  
+    do_rq_perf_test(repeat_factor, magnitudes, squares);
 }
 
-void create_rect(int x1, int y1, int x2, int y2)
+void performance_test2()
 {
-    RegionQuery &rq = RegionQuery::getInstance();
-    rq.insertObject(create<Rectangle>(QPoint(x1, y1), QPoint(x2, y2))); // n1
-}
-
-
-void create_rect_at_given_cell_and_row(int column, int row)
-{
-    int delta = 80;
-    int epsilon = 70;
-    create_rect(delta*row,delta*column,delta*row-epsilon,delta*column-epsilon);
-}
-
-
-//bool test_rq_by_inserting_1k_by_1k_objs()
-bool create_design()
-{
-
-    /*
-    create_rect(28,25,295,140);
-    create_rect(989,39,1060,179);
-    create_rect(33,279,452,330);
-    create_rect(877,253,1165,345);
-    */
-
-    //*
-    for(int column=0; column<40; column++)
-        for(int row=0; row<40; row++)
-            //create_rect(0,0,100,100);
-            create_rect_at_given_cell_and_row(column,row);
-    /**/
-
-}
-
-QPixmap put_shapes_on_pixmap(auto shapes, int i, int w, int h)
-{
-    QPixmap pixmap(w,h);
-    QColor color(255/(1+i), 255/(1+i), 255/(1+i));
-    pixmap.fill(color);
-
-    QPainter *painter = new QPainter(&pixmap);
-    for (const auto& shape : shapes)
-        shape->draw(painter);
-
-    pixmap.save("region" + QString::number(i) + ".bmp");
-
-    delete painter;
-    return pixmap;
-
-}
-
-
-std::vector<QRect> init_query_rects(int num_regions)
-{
-
-    std::vector<QRect> query_rects(num_regions);
-
-    int factor;
-    switch(num_regions) {
-        case 4:
-            factor = 2;
+    
+    std::vector<int> magnitudes;
+    int max = 150000000;
+    int step = 1000000;
+    int seed = 0;
+    for (int i = 1; i < 250000; i++) {
+        int k = seed + step * i;
+        if (k>=max)
             break;
-        case 16:
-            factor = 4;
-            break;
-        case 64:
-            factor = 8;
-            break;
+        //std::cout << i << " will insert " << k << " objects" << std::endl;
+        magnitudes.push_back(k);
     }
-
-    query_w = canvas_w/factor;
-    query_h = canvas_h/factor;
-
-    int k=0;
-    for(int i=0;i<factor;i++)
-        for(int j=0;j<factor;j++) {
-            std::cout << "creating region " << k << std::endl;
-            query_rects[k] = QRect(j*canvas_w/factor,i*canvas_h/factor,query_w,query_h);
-            k++;
-        }
-
-    return query_rects;
+    //magnitudes.push_back(100000000);
+    int repeat_factor = 7;
+    do_rq_perf_test(repeat_factor, magnitudes);
 }
 
-
-bool test_mt_rendering()
+void run_validations()
 {
-    RegionQuery &rq = RegionQuery::getInstance();
-
-    std::vector<QRect> query_rects = init_query_rects(num_regions);
-    std::vector<QPixmap> pixmaps(num_regions);
-
-    #pragma omp parallel for
-    for(int i=0;i<num_regions;i++){
-        auto shapes = rq.getShapesUnderRect(query_rects[i]);
-        std::cout << "region" << i << ":   shapes:" << shapes.size() << std::endl;
-        pixmaps[i] = put_shapes_on_pixmap(shapes,i,canvas_w,canvas_h);
-    }
-
-    QPixmap canvas(canvas_w,canvas_h);
-    canvas.fill(Qt::black);
-    QPainter *painter = new QPainter(&canvas);
-    painter->setPen(QColor(255,34,255,255));
-    for(int i=0;i<num_regions;i++)
-        painter->drawPixmap(query_rects[i].x(),query_rects[i].y(),query_w,query_h,pixmaps[i],query_rects[i].x(),query_rects[i].y(),query_w,query_h);
-    canvas.save("canvas.bmp");
-    delete painter;
-
+    //v1
+    validate_rq(0, 0, 10, 10);
+    //v2
+    validate_rq(0, 0, 500, 500);
+    //v3
+    validate_rq(0, 0, 1000, 1000);
+    //v4
+    validate_rq(88, 88, 101, 103);
+    //v5
+    validate_rq(400, 441, 100, 203);
+    //v6
+    validate_rq(123, 432, 10, 509);
+    //v7
+    validate_rq(123, 432, 99, 10);
+    //v8
+    validate_rq(111, 222, 333, 444);
+    //v9
+    validate_rq(111, 222, 33, 44);
+    //v10
+    validate_rq(500, 500, 900, 10);
+    //v11
+    validate_rq(500, 500, 10, 700);
+    //v12
+    validate_rq(100, 100, 200, 50);
+    //v13
+    validate_rq(100, 100, 50, 200);
+    //v14
+    validate_rq(400, 400, 500, 200);
+    //v14
+    validate_rq(400, 400, 200, 500);
+    //v15
+    validate_rq(0, 0, 492, 492);
+    //v16
+    validate_rq(432, 312, 122, 124);
 }
 
-/*
-bool put_all_pixmaps_to_canvas()
+void test1() 
 {
-
-    QPixmap canvas(canvas_w,canvas_h);
-    canvas.fill(Qt::black);
-    QPainter *painter = new QPainter(&canvas);
-    painter->setPen(QColor(255,34,255,255));
-
-
-    canvas.save("canvas.bmp");
-    delete painter;
-
+    init();
+    insert_nxn_matrix_of_objs<Rectangle>(10);
+    run_validations();
+    fini();
 }
-*/
 
+void test2() 
+{
+    init();
+    insert_nxn_matrix_of_objs<Ellipse>(10);
+    run_validations();    
+    fini();
+}
+
+void test3() 
+{
+    init();
+    insert_nxn_matrix_of_objs<Line>(10);
+    run_validations();    
+    fini();
+}
+
+void test4() 
+{
+    init();
+    insert_nxn_matrix_of_objs<Polygon>(10);
+    run_validations();
+    fini();
+}
+
+void test5() 
+{
+    init();
+    insert_nxn_matrix_of_objs<Rectangle>(10);
+    insert_nxn_matrix_of_objs<Ellipse>(10);
+    insert_nxn_matrix_of_objs<Polygon>(10);
+    run_validations();
+    fini();
+}
+
+void test6() 
+{
+    init();
+    insert_nxn_matrix_of_objs<Rectangle>(10);
+    insert_nxn_matrix_of_objs<Line>(10);
+    insert_nxn_matrix_of_objs<Ellipse>(10);
+    insert_nxn_matrix_of_objs<Polygon>(10);
+    run_validations();
+    fini();
+}
+
+int main_perf()
+{
+    performance_test2();
+    return 0;
+}
 
 int main(int argc, char **argv)
 {
     QGuiApplication app(argc, argv);
+    
+    // use following functions to debug
+    //
+    //   skip_all_tests_except(test_idx,validation_idy);
+    // or
+    //   skip_tests(test_idx,validation_idy);
+    //
+    // both functions can be used multiple times.
 
-    /*
-    QPixmap canvas(2000,2000);
-    QPainter *paint = new QPainter(&canvas);
-    canvas->setPen(QColor(255,34,255,255));
-    canvas->drawRect(15,15,100,100);
-    pix.save("test.bmp")
-    // delete paint;
-    //scene->addPixmap(pix);
-    */
+    test1();
+    test2();
+    //test3();
+    test4();
+    test5();
+    //test6();
 
-    create_design();
-    test_mt_rendering();
-    //put_all_pixmaps_to_canvas();
-
-    //QPixmap pic(1000,1000);//("myImage.png");
-    //pic.load("myImage.png");
-    //QPainter *painter = new QPainter(&pic);
-    //painter->begin(&pic);
-    //painter->drawRect(0,0,100,100);
-    //painter->end();
-
-    //painter->begin();
-    /*
-    RegionQuery &rq = RegionQuery::getInstance();
-    assert(rq.getShapesUnderRect(QRect(0, 0, 10000, 10000)).size() != 0);
-    for (auto shape : rq.getShapesUnderRect(QRect(0, 0, 10000, 10000)))
-        shape->getPoints();
-    //painter->end();
-    //pic.save("test.bmp");
-    */
-    //test_mt_rq();
-    ;
-    // pic.save("test.bmp");
-
-    std::cout << "pass" << std::endl;
+    print_results();
+    
+    return 0;
 }

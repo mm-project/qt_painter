@@ -67,3 +67,18 @@ void Ellipse::addPoint(const QPoint &point)
         m_waitForSecondClick = true;
     }
 }
+
+QPoint Ellipse::center() const 
+{ 
+    return m_object.center();
+}
+
+bool Ellipse::isDisjointFrom( const QRect& oRect ) const
+{
+    return ! oRect.contains( m_object );
+}
+
+QRectF Ellipse::getBBox() const 
+{
+    return QRectF(m_object);
+}

@@ -93,6 +93,8 @@ class renderer
     void rendering_des_mode_change();
     QPixmap put_shapes_on_pixmap(auto shapes, int i, int w, int h);
     std::vector<QRect> init_query_rects(int num_regions);
+    void hint_drawing_cursor_one_time();
+    QRect get_viewport();
 
   private:
     QPainter *get_painter();
@@ -129,8 +131,8 @@ class renderer
     bool m_des_renderer = true;
 
     QPainter *m_qt_painter;
-    ObjectPoolPtr m_working_set;
     RuntimePoolManagerPtr m_sandbox;
+    ObjectPoolPtr m_working_set;
     int m_scale = 30;
     int m_pan_step = 10;
     QPoint m_origin_point = {0, 0};
@@ -140,6 +142,7 @@ class renderer
     int c_cursor_x = 0;
     int c_cursor_y = 0;
     bool m_need_draw_clicked = false;
+    bool m_need_draw_cursor = false;
     QRect *m_users_pov_rect;
 };
 

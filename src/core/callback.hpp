@@ -64,12 +64,12 @@ class LeCallback
     LeCallback(const std::string &n, callBackFun2 f2, int id, const LeCallbackType &t);
 
   private:
+    std::string m_name;
     callBackFun1 m_f1;
     callBackFun2 m_f2;
     int m_internal_id;
     LeCallbackType m_type;
     bool m_is_purged;
-    std::string m_name;
 };
 
 #endif

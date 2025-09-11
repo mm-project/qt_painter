@@ -85,7 +85,7 @@ void renderer::zoom(int factor, QPoint p)
         zoom_internal(ZOOMOUT, p);
 }
 
-void renderer::prezoom(QPoint p)
+void renderer::prezoom(QPoint )
 {
 }
 
@@ -142,6 +142,16 @@ float renderer::get_zoom_factor()
 // void renderer::pan(int x, int y) {
 //
 // }
+
+QRect renderer::get_viewport()
+{
+    int startx = -1 * m_origin_point.x(); // m_old_origin_point.x()-m_origin_point.x();
+    int starty = -1 * m_origin_point.y();
+    int _height = 1 / get_zoom_factor() * (m_plane->height() - starty);
+    int _width = 1 / get_zoom_factor() * (m_plane->width() - startx);    
+
+    return QRect(startx, starty, _width, _height);
+}
 
 QPainter *renderer::get_painter()
 {
@@ -205,16 +215,16 @@ void renderer::draw_objects()
     // for (auto i : shapes)
     //       i->draw(m_qt_painter);
 
-    int _height = 1 / get_zoom_factor() * (m_plane->height());
-    int _width = 1 / get_zoom_factor() * (m_plane->width());
     int startx = -1 * m_origin_point.x(); // m_old_origin_point.x()-m_origin_point.x();
     int starty = -1 * m_origin_point.y();
+    int _height = 1 / get_zoom_factor() * (m_plane->height() - starty);
+    int _width = 1 / get_zoom_factor() * (m_plane->width() - startx);    
     // std::cout << "renderer" << startx << " " << starty << "      " << _width << " " << _height << std::endl;
 
     if (m_rq_renderer)
     {
         RegionQuery &rq = RegionQuery::getInstance();
-        for (auto shape : rq.getShapesUnderRect(QRect(startx, starty, _width, _height)))
+	for (auto& shape : rq.getShapesUnderRect(QRect(startx, starty, _width, _height)))
             shape->draw(m_qt_painter);
     }
     else
@@ -251,6 +261,11 @@ void renderer::draw_runtime_pools()
         for (auto i : objs)
             i->draw(m_qt_painter);
     }
+}
+
+void renderer::hint_drawing_cursor_one_time()
+{
+    m_need_draw_cursor = !m_need_draw_cursor;
 }
 
 void renderer::click_hint()
@@ -438,7 +453,7 @@ void renderer::draw_all()
         draw_objects();
     if (m_rt_renderer)
         draw_runtime_pools();
-    if (Application::is_replay_mode())
+    if (m_need_draw_cursor || Application::is_replay_mode())
         draw_cursor();
     */
 //}

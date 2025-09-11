@@ -51,6 +51,7 @@ void command_manager::init()
     register_command(new dicmdQaCompare<DESIGN>);
     register_command(new dicmdQaCompare<RUNTIME>);
     register_command(new dicmdQaCompare<SELECTION>);
+    register_command(new dicmdQaCompare<VIEWPORT_RQ>);
     register_command(new dicmdSelectShapesByRegion);
     register_command(new dicmdguiClickButton);
     register_command(new dicmdguiClickModalButton);
@@ -66,6 +67,14 @@ void command_manager::init()
     register_command(new dicmdSelectAllShapes);
 
     m_current_command = m_idle_command;
+}
+
+void command_manager::fix_last_qa_point() {
+    m_last_qa_point = m_last_cursor_point;
+}
+
+QPoint command_manager::get_qa_point() {
+    return m_last_qa_point;
 }
 
 void command_manager::set_idle_command(CommandBase *cmd)
@@ -215,6 +224,7 @@ void command_manager::mouse_moved(int x, int y)
 {
     // std::cout << "***current commdn is: " <<  m_current_command << std::endl;
     // dicmdCanvasMouseMove(QPoint(x,y)).log();
+    m_last_cursor_point = QPoint(x / m_kx - m_dx, y / m_ky - m_dy);
     m_current_command->handle_mouse_move(x / m_kx - m_dx, y / m_ky - m_dy);
 }
 

@@ -1,10 +1,6 @@
 #include "canvas.hpp"
 #include "controller.hpp"
 
-#ifdef NO_RQ
-#include "../core/rq/RegionQueryService.hpp"
-#endif
-
 #include "../core/application.hpp"
 #include "../core/design.hpp"
 #include "../core/runtime_pool.hpp"
@@ -44,7 +40,7 @@ canvas::canvas(QWidget *p) : QWidget(p), is_runtime_mode(false)
     // setStyleSheet("background-color:black;");
 
     // fixme need preferences
-    m_need_motionlog = !QString::fromLocal8Bit(qgetenv("PAINTER_LOG_MOTION").constData()).isEmpty();
+    m_need_motionlog = !(QString::fromLocal8Bit(qgetenv("PAINTER_LOG_MOTION").constData()).isEmpty());
 
     // FIXME move to services
     m_design = std::shared_ptr<Design>(new Design);
@@ -55,9 +51,6 @@ canvas::canvas(QWidget *p) : QWidget(p), is_runtime_mode(false)
 
     Selection::getInstance().set_working_set(m_design);
     Selection::getInstance().set_sandbox(m_runtime);
-#ifdef NO_RQ
-    RegionQuery::getInstance().setWS(m_working_set);
-#endif
 
     m_renderer = new renderer(this, m_runtime, m_design);
 
@@ -122,6 +115,8 @@ void canvas::keyPressEvent(QKeyEvent *ev)
         cm.activate_command(cm.find_command("incmdObjRelocateByCopy"));
     else if (ev->key() == Qt::Key_2)
         cm.find_command("dicmdQaCompareSelection")->execute_and_log();
+    else if (ev->key() == Qt::Key_0)
+        cm.find_command("dicmdQaCompareViewportRQ")->execute_and_log();
     else if (ev->key() == Qt::Key_1)
         m_renderer->rendering_mode_change();
     else if (ev->key() == Qt::Key_4)
@@ -150,6 +145,20 @@ void canvas::keyPressEvent(QKeyEvent *ev)
         cm.activate_command(cm.find_command("incmdSelectShapesByRegion"));
     else if (ev->key() == Qt::Key_N)
         cm.find_command("dicmdQaReplyStep")->execute_and_log();
+    else if (ev->key() == Qt::Key_9) {
+        cm.find_command("dicmdQaCompareSelection")->execute_and_log();
+        cm.find_command("dicmdQaCompareViewportRQ")->execute_and_log();
+        cm.find_command("dicmdQaCompareRuntime")->execute_and_log();
+    }
+    else if (ev->key() == Qt::Key_O)
+        Selection::getInstance().highlight_dehighlight_last_selected_region();
+    else if (ev->key() == Qt::Key_P) {
+        auto p = cm.get_qa_point();
+        int _x = p.x();
+        int _y = p.y();
+        m_renderer->set_cursor_pos_for_drawing(_x, _y);
+        m_renderer->hint_drawing_cursor_one_time();
+    }
     else if (ev->key()==Qt::Key_A && (QGuiApplication::keyboardModifiers() & Qt::ControlModifier))
         cm.find_command("dicmdSelectAllShapes")->execute_and_log();
     else
@@ -200,9 +209,9 @@ void canvas::mouseMoveEvent(QMouseEvent *e)
     cm.mouse_moved(_x, _y);
 
     // if Preference::isSet("guiLogMouseMove")
-    // if ( m_need_motionlog )
-    // dicmdCanvasMouseMove(e->pos()).log();
-    /**/
+    if ( m_need_motionlog )
+        dicmdCanvasMouseMove(e->pos()).log();
+
     m_renderer->set_cursor_pos_for_drawing(_x, _y);
     //update();
 }
@@ -210,8 +219,11 @@ void canvas::mouseMoveEvent(QMouseEvent *e)
 void canvas::wheelEvent(QWheelEvent *e)
 {
     // fixme need log?
-    m_renderer->zoom((e->delta() / 120), e->pos());
-    //update();
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+    m_renderer->zoom((e->angleDelta().y() / 120), e->pos());
+#pragma GCC diagnostic pop
+//    update();
 }
 
 void canvas::mouseDoubleClickEvent(QMouseEvent *e)

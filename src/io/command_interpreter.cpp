@@ -35,7 +35,7 @@ static PyObject* python_dicmdCanvasMouseClick(PyObject *self, PyObject *args)
 
 }
 
-static PyObject* python_dicmdCanvasMousePress(PyObject *self, PyObject *args)
+static PyObject* python_dicmdCanvasMousePress(PyObject *, PyObject *args)
 {
 
     int x;
@@ -55,7 +55,7 @@ static PyObject* python_dicmdCanvasMousePress(PyObject *self, PyObject *args)
 
 }
 
-static PyObject* python_dicmdCanvasMouseRelease(PyObject *self, PyObject *args)
+static PyObject* python_dicmdCanvasMouseRelease(PyObject *, PyObject *args)
 {
 
     int x;
@@ -75,7 +75,7 @@ static PyObject* python_dicmdCanvasMouseRelease(PyObject *self, PyObject *args)
 }
 
 
-static PyObject* python_dicmdCreateObjLine(PyObject *self, PyObject *args)
+static PyObject* python_dicmdCreateObjLine(PyObject *, PyObject *args)
 {
 
     int x1,y1,x2,y2;
@@ -89,7 +89,7 @@ static PyObject* python_dicmdCreateObjLine(PyObject *self, PyObject *args)
 }
 
 
-static PyObject* python_dicmdCreateObjRectangle(PyObject *self, PyObject *args)
+static PyObject* python_dicmdCreateObjRectangle(PyObject *, PyObject *args)
 {
 
     int x1,y1,x2,y2;
@@ -102,7 +102,7 @@ static PyObject* python_dicmdCreateObjRectangle(PyObject *self, PyObject *args)
 
 }
 
-static PyObject* python_dicmdSelectShapesByRegion(PyObject *self, PyObject *args)
+static PyObject* python_dicmdSelectShapesByRegion(PyObject *, PyObject *args)
 {
 
     //assert(0);
@@ -128,7 +128,7 @@ static PyObject* python_dicmdSelectShapesByRegion(PyObject *self, PyObject *args
 
 }
 
-static PyObject* python_dicmdQaToolExit(PyObject *self, PyObject *args)
+static PyObject* python_dicmdQaToolExit(PyObject *, PyObject *args)
 {
 
     command_manager& cm = command_manager::getInstance();
@@ -142,7 +142,7 @@ static PyObject* python_dicmdQaToolExit(PyObject *self, PyObject *args)
 
 }
 
-static PyObject* python_dicmdQaCompareSelection(PyObject *self, PyObject *args)
+static PyObject* python_dicmdQaCompareSelection(PyObject *, PyObject *args)
 {
 
     command_manager& cm = command_manager::getInstance();
