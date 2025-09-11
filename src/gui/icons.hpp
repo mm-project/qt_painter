@@ -23,14 +23,8 @@
 #endif
 #endif
 
-static QString getIconDir()
-{
-    return ICONPATH;
-};
+static QString getIconDir() { return ICONPATH; };
 
-static QString getStylesDir()
-{
-    return STYLESPATH;
-};
+static QString getStylesDir() { return STYLESPATH; };
 
 #endif

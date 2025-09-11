@@ -13,19 +13,17 @@ dicmdCanvasOriginPanUp
 dicmdCanvasOriginPanDown
 */
 
-template <panDirection T> class dicmdCanvasOrigin : public NonTransactionalDirectCommandBase
-{
-  public:
-    virtual std::string get_name()
-    {
-        return "dicmdCanvasOrigin" + panDirection2str(T);
-    }
+template <panDirection T>
+class dicmdCanvasOrigin : public NonTransactionalDirectCommandBase {
+public:
+  virtual std::string get_name() {
+    return "dicmdCanvasOrigin" + panDirection2str(T);
+  }
 
-    virtual void execute()
-    {
-        command_manager::getInstance().get_main_renderer()->pan(T);
-        command_manager::getInstance().get_main_widget()->update();
-    }
+  virtual void execute() {
+    command_manager::getInstance().get_main_renderer()->pan(T);
+    command_manager::getInstance().get_main_widget()->update();
+  }
 };
 
 /*
@@ -33,32 +31,30 @@ dicmdCanvasZoomIn -to_point
 dicmdCanvasZoomOut -from_point
 */
 
-template <zoomDirection T> class dicmdCanvasViewport : public NonTransactionalDirectCommandBase
-{
-    QPoint m_p;
+template <zoomDirection T>
+class dicmdCanvasViewport : public NonTransactionalDirectCommandBase {
+  QPoint m_p;
 
-  public:
-    dicmdCanvasViewport()
-    {
-        add_option("-point", new PointCommandOptionValue(QPoint(0, 0)));
-    }
+public:
+  dicmdCanvasViewport() {
+    add_option("-point", new PointCommandOptionValue(QPoint(0, 0)));
+  }
 
-    dicmdCanvasViewport(const QPoint &p) : NonTransactionalDirectCommandBase("-point", new PointCommandOptionValue(p))
-    {
-        m_p = p;
-    }
+  dicmdCanvasViewport(const QPoint &p)
+      : NonTransactionalDirectCommandBase("-point",
+                                          new PointCommandOptionValue(p)) {
+    m_p = p;
+  }
 
-    virtual std::string get_name()
-    {
-        return "dicmdCanvasViewport" + zoomDirection2str(T);
-    }
+  virtual std::string get_name() {
+    return "dicmdCanvasViewport" + zoomDirection2str(T);
+  }
 
-    virtual void execute()
-    {
-        m_p = GET_CMD_ARG(PointCommandOptionValue, "-point");
-        command_manager::getInstance().get_main_renderer()->zoom_internal(T, m_p);
-        command_manager::getInstance().get_main_widget()->update();
-    }
+  virtual void execute() {
+    m_p = GET_CMD_ARG(PointCommandOptionValue, "-point");
+    command_manager::getInstance().get_main_renderer()->zoom_internal(T, m_p);
+    command_manager::getInstance().get_main_widget()->update();
+  }
 };
 
 #endif

@@ -10,18 +10,17 @@
 //	class ShapeCreator
 //	based on AbstractFactoryIdea
 //
-class ShapeCreator : public Service<ShapeCreator>
-{
-  public:
-    ShapeCreator();
-    virtual ~ShapeCreator();
+class ShapeCreator : public Service<ShapeCreator> {
+public:
+  ShapeCreator();
+  virtual ~ShapeCreator();
 
-    IShapePtr create(ObjectType);
+  IShapePtr create(ObjectType);
 
-  private:
-    IShapePtr m_line;
-    IShapePtr m_rect;
-    IShapePtr m_ellipse;
-    IShapePtr m_polygon;
+private:
+  IShapePtr m_line;
+  IShapePtr m_rect;
+  IShapePtr m_ellipse;
+  IShapePtr m_polygon;
 };
 #endif
