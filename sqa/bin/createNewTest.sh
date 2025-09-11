@@ -87,7 +87,8 @@ else
         fi
         #echo "dicmdDesignLoad -filename $design_name" >> init.log
         echo "### adding design from $design_name" >> init.log
-        cat $design_name >> init.log 
+        cat $design_name >> init.log
+        echo >> init.log
         echo "### added design from $design_name" >> init.log
         echo >> init.log
         $painterexe -replay init.log &> /dev/null
