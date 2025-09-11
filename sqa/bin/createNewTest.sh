@@ -85,7 +85,11 @@ else
             echo "Error $design_name not found"
             exit 1
         fi
-        echo "dicmdDesignLoad -filename $design_name" >> init.log
+        #echo "dicmdDesignLoad -filename $design_name" >> init.log
+        echo "### adding design from $design_name" >> init.log
+        cat $design_name >> init.log 
+        echo "### added design from $design_name" >> init.log
+        echo >> init.log
         $painterexe -replay init.log &> /dev/null
     else
         $painterexe &> /dev/null
