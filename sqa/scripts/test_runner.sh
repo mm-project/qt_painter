@@ -116,7 +116,7 @@ function postprocess
             golden_files=$(find ./ -name "*.golden*")
             for f in $golden_files; do
                 cp $f ../$GDIRNAME
-            done
+            done            
             #cnvscprs=`find -name "*compare*"`
             #for i in $cnvscprs; do
             #    cp $i ../$GDIRNAME/$i.golden
