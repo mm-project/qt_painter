@@ -12,8 +12,7 @@
 #include "../ishape.hpp"
 #include "../service.hpp"
 
-class RegionQuery : public Service<RegionQuery>
-{
+class RegionQuery : public Service<RegionQuery> {
   public:
     void insertObject(IShapePtr);
     void removeObject(IShapePtr);
@@ -33,7 +32,4 @@ class RegionQuery : public Service<RegionQuery>
 #ifdef DUMMY_RQ
     ObjectPoolPtr m_ws = nullptr;
 #endif
-
 };
-
-

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "rqtree_interface.hpp"
 #include "../qt_shapes/line.hpp"
+#include "rqtree_interface.hpp"
 
 #include <algorithm>
 #include <array>
@@ -19,48 +19,54 @@
 
 namespace ds {
 
-template <class Scalar>
-struct AABB {
-    static_assert(std::is_floating_point<Scalar>::value, "Scalar must be floating point");
+template <class Scalar> struct AABB {
+    static_assert(std::is_floating_point<Scalar>::value,
+                  "Scalar must be floating point");
     Scalar minx{}, miny{}, maxx{}, maxy{}; // closed box semantics
 
-    Scalar width()  const { return maxx - minx; }
+    Scalar width() const { return maxx - minx; }
     Scalar height() const { return maxy - miny; }
 
-    std::pair<Scalar,Scalar> center() const { return { (minx+maxx)/Scalar(2), (miny+maxy)/Scalar(2) }; }
+    std::pair<Scalar, Scalar> center() const {
+        return {(minx + maxx) / Scalar(2), (miny + maxy) / Scalar(2)};
+    }
 
     bool containsPoint(Scalar x, Scalar y, Scalar eps = Scalar(0)) const {
-        return (x >= minx - eps && x <= maxx + eps && y >= miny - eps && y <= maxy + eps);
+        return (x >= minx - eps && x <= maxx + eps && y >= miny - eps &&
+                y <= maxy + eps);
     }
-    bool containsBox(const AABB& b) const {
-        return b.minx >= minx && b.maxx <= maxx && b.miny >= miny && b.maxy <= maxy;
+    bool containsBox(const AABB &b) const {
+        return b.minx >= minx && b.maxx <= maxx && b.miny >= miny &&
+               b.maxy <= maxy;
     }
-    bool intersects(const AABB& b) const {
-        return !(b.minx > maxx || b.maxx < minx || b.miny > maxy || b.maxy < miny);
+    bool intersects(const AABB &b) const {
+        return !(b.minx > maxx || b.maxx < minx || b.miny > maxy ||
+                 b.maxy < miny);
     }
 };
 
 // Distance from point to AABB (squared)
 template <class Scalar>
-inline Scalar dist2_point_aabb(Scalar x, Scalar y, const AABB<Scalar>& r) {
-    Scalar dx = (x < r.minx ? r.minx - x : (x > r.maxx ? x - r.maxx : Scalar(0)));
-    Scalar dy = (y < r.miny ? r.miny - y : (y > r.maxy ? y - r.maxy : Scalar(0)));
-    return dx*dx + dy*dy;
+inline Scalar dist2_point_aabb(Scalar x, Scalar y, const AABB<Scalar> &r) {
+    Scalar dx =
+        (x < r.minx ? r.minx - x : (x > r.maxx ? x - r.maxx : Scalar(0)));
+    Scalar dy =
+        (y < r.miny ? r.miny - y : (y > r.maxy ? y - r.maxy : Scalar(0)));
+    return dx * dx + dy * dy;
 }
 
 // -----------------------------
 // Shape Traits
 // -----------------------------
-template <class T, class Scalar>
-struct DefaultShapeTraits {
-    static AABB<Scalar> aabb(const T& t) {
-        return { t.minx(), t.miny(), t.maxx(), t.maxy() };
+template <class T, class Scalar> struct DefaultShapeTraits {
+    static AABB<Scalar> aabb(const T &t) {
+        return {t.minx(), t.miny(), t.maxx(), t.maxy()};
     }
-    static bool contains_point(const T& t, Scalar x, Scalar y) {
+    static bool contains_point(const T &t, Scalar x, Scalar y) {
         auto b = aabb(t);
-        return b.containsPoint(x,y);
+        return b.containsPoint(x, y);
     }
-    static std::pair<Scalar,Scalar> anchor(const T& t) {
+    static std::pair<Scalar, Scalar> anchor(const T &t) {
         auto b = aabb(t);
         return b.center();
     }
@@ -71,41 +77,41 @@ struct DefaultShapeTraits {
 template <class Scalar>
 struct DefaultShapeTraits<std::shared_ptr<IShape>, Scalar> {
     using T = std::shared_ptr<IShape>;
-    
-    static AABB<Scalar> aabb(const T& shape) {
+
+    static AABB<Scalar> aabb(const T &shape) {
         auto bbox = shape->getBBox();
         // make sure minx < maxx and miny < maxy
-        return { std::min(bbox.left(), bbox.right()), 
-            std::min(bbox.top(), bbox.bottom()), 
-            std::max(bbox.left(), bbox.right()), 
-            std::max(bbox.top(), bbox.bottom()) };
+        return {std::min(bbox.left(), bbox.right()),
+                std::min(bbox.top(), bbox.bottom()),
+                std::max(bbox.left(), bbox.right()),
+                std::max(bbox.top(), bbox.bottom())};
     }
-    
-    static bool contains_point(const T& shape, Scalar x, Scalar y) {
+
+    static bool contains_point(const T &shape, Scalar x, Scalar y) {
         QPoint pt(static_cast<int>(x), static_cast<int>(y));
         return shape->contains(pt);
     }
-    
-    static std::pair<Scalar,Scalar> anchor(const T& shape) {
+
+    static std::pair<Scalar, Scalar> anchor(const T &shape) {
         auto center = shape->center();
-        return { static_cast<Scalar>(center.x()), static_cast<Scalar>(center.y()) };
+        return {static_cast<Scalar>(center.x()),
+                static_cast<Scalar>(center.y())};
     }
 };
-
 
 // -----------------------------
 // Dynamic Quadtree for SHAPES
 // -----------------------------
-template <class T, class Scalar = double, class Traits = DefaultShapeTraits<T,Scalar>>
+template <class T, class Scalar = double,
+          class Traits = DefaultShapeTraits<T, Scalar>>
 class Quadtree {
-public:
+  public:
     using Box = AABB<Scalar>;
 
-    explicit Quadtree(Box world,
-                      std::size_t capacity = 8,
-                      std::size_t maxDepth = 16,
-                      std::size_t mergeThreshold = 3)
-        : world_(std::move(world)), capacity_(capacity), maxDepth_(maxDepth), mergeThreshold_(mergeThreshold) {
+    explicit Quadtree(Box world, std::size_t capacity = 8,
+                      std::size_t maxDepth = 16, std::size_t mergeThreshold = 3)
+        : world_(std::move(world)), capacity_(capacity), maxDepth_(maxDepth),
+          mergeThreshold_(mergeThreshold) {
         root_ = std::make_unique<Node>(nullptr, world_, 0);
     }
 
@@ -116,39 +122,38 @@ public:
         size_ = 0;
     }
 
-    void insert(const T& obj) { insertOne(obj); }
+    void insert(const T &obj) { insertOne(obj); }
 
-    void insert(const std::vector<T>& objs) {
-        for (const auto& o : objs) insertOne(o);
+    void insert(const std::vector<T> &objs) {
+        for (const auto &o : objs)
+            insertOne(o);
     }
 
-    void remove(const T& object) {
-        removeFromNode(root_.get(), object);
-    }
+    void remove(const T &object) { removeFromNode(root_.get(), object); }
 
     // ------------ Queries ------------
-    template <class F>
-    void queryRange(const Box& range, F&& cb) const {
+    template <class F> void queryRange(const Box &range, F &&cb) const {
         queryRangeNode(root_.get(), range, std::forward<F>(cb));
     }
 
-    template <class F>
-    void queryPoint(Scalar x, Scalar y, F&& cb) const {
+    template <class F> void queryPoint(Scalar x, Scalar y, F &&cb) const {
         queryPointNode(root_.get(), x, y, std::forward<F>(cb));
     }
 
     std::size_t size() const noexcept { return size_; }
-    const Box& bounds() const { return world_; }
+    const Box &bounds() const { return world_; }
 
-private:
+  private:
     struct Node {
-        Node* parent;
+        Node *parent;
         Box box;
         std::size_t depth;
         std::array<std::unique_ptr<Node>, 4> child{}; // NW NE SW SE
-        std::vector<T> items; // shapes stored here when they straddle boundaries or node is leaf
+        std::vector<T> items; // shapes stored here when they straddle
+                              // boundaries or node is leaf
         std::size_t subtreeCount{0};
-        Node(Node* p, const Box& b, std::size_t d) : parent(p), box(b), depth(d) {}
+        Node(Node *p, const Box &b, std::size_t d)
+            : parent(p), box(b), depth(d) {}
         bool isLeaf() const { return child[0] == nullptr; }
     };
 
@@ -159,64 +164,82 @@ private:
     std::size_t mergeThreshold_;
     std::size_t size_ = 0;
 
-    int childIndexForShape(const Node* n, const T& obj) const {
+    int childIndexForShape(const Node *n, const T &obj) const {
         auto c = n->box.center();
         const Scalar midx = c.first;
         const Scalar midy = c.second;
         const Box bb = Traits::aabb(obj);
 
-        Box nw{ n->box.minx, n->box.miny, midx,        midy };
-        Box ne{ midx,        n->box.miny, n->box.maxx, midy };
-        Box sw{ n->box.minx, midy,        midx,        n->box.maxy };
-        Box se{ midx,        midy,        n->box.maxx, n->box.maxy };
-        if (nw.containsBox(bb)) return 0;
-        if (ne.containsBox(bb)) return 1;
-        if (sw.containsBox(bb)) return 2;
-        if (se.containsBox(bb)) return 3;
+        Box nw{n->box.minx, n->box.miny, midx, midy};
+        Box ne{midx, n->box.miny, n->box.maxx, midy};
+        Box sw{n->box.minx, midy, midx, n->box.maxy};
+        Box se{midx, midy, n->box.maxx, n->box.maxy};
+        if (nw.containsBox(bb))
+            return 0;
+        if (ne.containsBox(bb))
+            return 1;
+        if (sw.containsBox(bb))
+            return 2;
+        if (se.containsBox(bb))
+            return 3;
         return -1;
     }
 
-    void subdivide(Node* n) {
-        if (!n->isLeaf()) return;
+    void subdivide(Node *n) {
+        if (!n->isLeaf())
+            return;
         auto c = n->box.center();
         Scalar midx = c.first;
         Scalar midy = c.second;
-        n->child[0] = std::make_unique<Node>(n, Box{ n->box.minx, n->box.miny, midx,        midy }, n->depth+1);
-        n->child[1] = std::make_unique<Node>(n, Box{ midx,        n->box.miny, n->box.maxx, midy }, n->depth+1);
-        n->child[2] = std::make_unique<Node>(n, Box{ n->box.minx, midy,        midx,        n->box.maxy }, n->depth+1);
-        n->child[3] = std::make_unique<Node>(n, Box{ midx,        midy,        n->box.maxx, n->box.maxy }, n->depth+1);
+        n->child[0] = std::make_unique<Node>(
+            n, Box{n->box.minx, n->box.miny, midx, midy}, n->depth + 1);
+        n->child[1] = std::make_unique<Node>(
+            n, Box{midx, n->box.miny, n->box.maxx, midy}, n->depth + 1);
+        n->child[2] = std::make_unique<Node>(
+            n, Box{n->box.minx, midy, midx, n->box.maxy}, n->depth + 1);
+        n->child[3] = std::make_unique<Node>(
+            n, Box{midx, midy, n->box.maxx, n->box.maxy}, n->depth + 1);
 
         std::vector<T> remaining;
         remaining.reserve(n->items.size());
-        for (const auto& it : n->items) {
+        for (const auto &it : n->items) {
             int idx = childIndexForShape(n, it);
-            if (idx < 0) { remaining.push_back(it); continue; }
+            if (idx < 0) {
+                remaining.push_back(it);
+                continue;
+            }
             n->child[std::size_t(idx)]->items.push_back(it);
             ++n->child[std::size_t(idx)]->subtreeCount;
         }
         n->items.swap(remaining);
     }
 
-    void tryMerge(Node* n) {
-        if (!n || n->isLeaf()) return;
+    void tryMerge(Node *n) {
+        if (!n || n->isLeaf())
+            return;
         bool childrenAreLeaves = true;
         std::size_t total = n->items.size();
-        for (int i=0;i<4;++i) {
-            Node* ch = n->child[std::size_t(i)].get();
-            if (!ch->isLeaf()) { childrenAreLeaves = false; break; }
+        for (int i = 0; i < 4; ++i) {
+            Node *ch = n->child[std::size_t(i)].get();
+            if (!ch->isLeaf()) {
+                childrenAreLeaves = false;
+                break;
+            }
             total += ch->items.size();
         }
-        if (childrenAreLeaves && (total <= mergeThreshold_ || total <= capacity_)) {
-            for (int i=0;i<4;++i) {
-                Node* ch = n->child[std::size_t(i)].get();
-                for (auto& it : ch->items) n->items.push_back(std::move(it));
+        if (childrenAreLeaves &&
+            (total <= mergeThreshold_ || total <= capacity_)) {
+            for (int i = 0; i < 4; ++i) {
+                Node *ch = n->child[std::size_t(i)].get();
+                for (auto &it : ch->items)
+                    n->items.push_back(std::move(it));
                 n->child[std::size_t(i)].reset();
             }
             n->subtreeCount = n->items.size();
         }
     }
 
-    void insertIntoNode(Node* n, const T& obj) {
+    void insertIntoNode(Node *n, const T &obj) {
         if (!n->isLeaf()) {
             int idx = childIndexForShape(n, obj);
             if (idx >= 0) {
@@ -224,43 +247,54 @@ private:
                 return;
             }
         }
-        if (n->isLeaf() && (n->items.size() >= capacity_) && (n->depth < maxDepth_)) {
+        if (n->isLeaf() && (n->items.size() >= capacity_) &&
+            (n->depth < maxDepth_)) {
             subdivide(n);
             insertIntoNode(n, obj);
             return;
         }
         n->items.push_back(obj);
-        for (Node* p = n; p; p = p->parent) ++p->subtreeCount;
+        for (Node *p = n; p; p = p->parent)
+            ++p->subtreeCount;
         ++size_;
     }
 
-    void insertOne(const T& obj) {
-        insertIntoNode(root_.get(), obj);
-    }
+    void insertOne(const T &obj) { insertIntoNode(root_.get(), obj); }
 
-    bool removeFromNode(Node* n, const T& object) {
-        auto& v = n->items;
+    bool removeFromNode(Node *n, const T &object) {
+        auto &v = n->items;
         auto it = std::find(v.begin(), v.end(), object);
         if (it != v.end()) {
             v.erase(it);
-            for (Node* p = n; p; p = p->parent) { --p->subtreeCount; }
-            if (size_) --size_;
-            for (Node* p = n; p; p = p->parent) tryMerge(p);
+            for (Node *p = n; p; p = p->parent) {
+                --p->subtreeCount;
+            }
+            if (size_)
+                --size_;
+            for (Node *p = n; p; p = p->parent)
+                tryMerge(p);
             return true;
         }
-        if (n->isLeaf()) return false;
-        for (int i=0;i<4;++i) if (removeFromNode(n->child[std::size_t(i)].get(), object)) return true;
+        if (n->isLeaf())
+            return false;
+        for (int i = 0; i < 4; ++i)
+            if (removeFromNode(n->child[std::size_t(i)].get(), object))
+                return true;
         return false;
     }
 
     template <class F>
-    void queryRangeNode(const Node* n, const Box& range, F&& cb) const {
-        if (!n->box.intersects(range)) return;
-        for (const auto& it : n->items) {
-            // For IShapePtr, use the shape's intersects method for more accurate testing
+    void queryRangeNode(const Node *n, const Box &range, F &&cb) const {
+        if (!n->box.intersects(range))
+            return;
+        for (const auto &it : n->items) {
+            // For IShapePtr, use the shape's intersects method for more
+            // accurate testing
             if constexpr (std::is_same_v<T, std::shared_ptr<IShape>>) {
-                QRect qrange(static_cast<int>(range.minx), static_cast<int>(range.miny), 
-                           static_cast<int>(range.width()), static_cast<int>(range.height()));
+                QRect qrange(static_cast<int>(range.minx),
+                             static_cast<int>(range.miny),
+                             static_cast<int>(range.width()),
+                             static_cast<int>(range.height()));
                 if (it->intersects(qrange)) {
                     cb(it);
                 }
@@ -271,20 +305,27 @@ private:
                 }
             }
         }
-        if (n->isLeaf()) return;
-        for (int i=0;i<4;++i) queryRangeNode(n->child[std::size_t(i)].get(), range, cb);
+        if (n->isLeaf())
+            return;
+        for (int i = 0; i < 4; ++i)
+            queryRangeNode(n->child[std::size_t(i)].get(), range, cb);
     }
 
     template <class F>
-    void queryPointNode(const Node* n, Scalar x, Scalar y, F&& cb) const {
-        if (!n->box.containsPoint(x,y)) return;
-        for (const auto& it : n->items) {
+    void queryPointNode(const Node *n, Scalar x, Scalar y, F &&cb) const {
+        if (!n->box.containsPoint(x, y))
+            return;
+        for (const auto &it : n->items) {
             auto bb = Traits::aabb(it);
-            if (!bb.containsPoint(x,y)) continue;
-            if (Traits::contains_point(it, x, y)) cb(it);
+            if (!bb.containsPoint(x, y))
+                continue;
+            if (Traits::contains_point(it, x, y))
+                cb(it);
         }
-        if (n->isLeaf()) return;
-        for (int i=0;i<4;++i) queryPointNode(n->child[std::size_t(i)].get(), x, y, cb);
+        if (n->isLeaf())
+            return;
+        for (int i = 0; i < 4; ++i)
+            queryPointNode(n->child[std::size_t(i)].get(), x, y, cb);
     }
 };
 
@@ -293,57 +334,54 @@ private:
 // Qt adapter
 template <class T, class Scalar = double>
 class QtShapeQuadtree : public IRQtree<T> {
-public:
+  public:
     using Core = ds::Quadtree<T, Scalar, ds::DefaultShapeTraits<T, Scalar>>;
-    using Box  = ds::AABB<Scalar>;
+    using Box = ds::AABB<Scalar>;
 
-    explicit QtShapeQuadtree(Box world = Box{-1000000.0, -1000000.0, 1000000.0, 1000000.0},
+    explicit QtShapeQuadtree(Box world = Box{-1000000.0, -1000000.0, 1000000.0,
+                                             1000000.0},
                              std::size_t capacity = 16,
                              std::size_t maxDepth = 32,
                              std::size_t mergeThreshold = 6)
         : core_(world, capacity, maxDepth, mergeThreshold) {}
 
-    void insert(const std::vector<T>& arrObjects) override { 
-        for (const auto& o : arrObjects) core_.insert(o); 
-    }
-    
-    void insert(const T& object) override { 
-        core_.insert(object); 
+    void insert(const std::vector<T> &arrObjects) override {
+        for (const auto &o : arrObjects)
+            core_.insert(o);
     }
 
-    void clear() override { 
-        core_.clear(); 
-    }
+    void insert(const T &object) override { core_.insert(object); }
 
-    void remove(const T& object) override { 
-        core_.remove(object); 
-    }
+    void clear() override { core_.clear(); }
 
-    std::vector<T> query(const QPoint& point) const noexcept override {
+    void remove(const T &object) override { core_.remove(object); }
+
+    std::vector<T> query(const QPoint &point) const noexcept override {
         std::vector<T> out;
         Scalar x = static_cast<Scalar>(point.x());
         Scalar y = static_cast<Scalar>(point.y());
-        core_.queryPoint(x, y, [&](const T& t){ out.push_back(t); });
+        core_.queryPoint(x, y, [&](const T &t) { out.push_back(t); });
         return out;
     }
 
-    std::vector<T> query(const QRect& rect) const noexcept override {
+    std::vector<T> query(const QRect &rect) const noexcept override {
         std::vector<T> out;
         Scalar l = static_cast<Scalar>(rect.left());
         Scalar t = static_cast<Scalar>(rect.top());
         Scalar r = static_cast<Scalar>(rect.right());
         Scalar b = static_cast<Scalar>(rect.bottom());
         // make rect normalized
-        if (l > r) std::swap(l, r);
-        if (t > b) std::swap(t, b);
-        core_.queryRange(Box{l,t,r,b}, [&](const T& t){ out.push_back(t); });
+        if (l > r)
+            std::swap(l, r);
+        if (t > b)
+            std::swap(t, b);
+        core_.queryRange(Box{l, t, r, b},
+                         [&](const T &t) { out.push_back(t); });
         return out;
     }
 
-    std::size_t getSize() const noexcept override { 
-        return core_.size(); 
-    }
+    std::size_t getSize() const noexcept override { return core_.size(); }
 
-private:
+  private:
     Core core_;
 };

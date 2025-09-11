@@ -13,11 +13,14 @@
  *    notice, this list of conditions and the following disclaimer in the
  *    documentation and/or other materials provided with the distribution.
 
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
- * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
+ FOR
+ * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ DAMAGES
  * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
  * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
  * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
@@ -43,12 +46,11 @@
 #include <sstream>
 #include <string>
 
-namespace
-{
+namespace {
 
-// This function produces a stack backtrace with demangled function & method names.
-std::string Backtrace(int skip = 1)
-{
+// This function produces a stack backtrace with demangled function & method
+// names.
+std::string Backtrace(int skip = 1) {
 #ifdef OS_LINUX
     void *callstack[128];
     const int nMaxFrames = sizeof(callstack) / sizeof(callstack[0]);
@@ -57,28 +59,26 @@ std::string Backtrace(int skip = 1)
     char **symbols = backtrace_symbols(callstack, nFrames);
 
     std::ostringstream trace_buf;
-    for (int i = skip; i < nFrames; i++)
-    {
+    for (int i = skip; i < nFrames; i++) {
         printf("%s\n", symbols[i]);
 
         Dl_info info;
-        if (dladdr(callstack[i], &info) && info.dli_sname)
-        {
+        if (dladdr(callstack[i], &info) && info.dli_sname) {
             char *demangled = NULL;
             int status = -1;
             if (info.dli_sname[0] == '_')
-                demangled = abi::__cxa_demangle(info.dli_sname, NULL, 0, &status);
-            snprintf(buf, sizeof(buf), "%s %-3d %*p %s + %zd\n", "Layer:", i, int(2 + sizeof(void *) * 2), callstack[i],
+                demangled =
+                    abi::__cxa_demangle(info.dli_sname, NULL, 0, &status);
+            snprintf(buf, sizeof(buf), "%s %-3d %*p %s + %zd\n", "Layer:", i,
+                     int(2 + sizeof(void *) * 2), callstack[i],
                      status == 0           ? demangled
                      : info.dli_sname == 0 ? symbols[i]
                                            : info.dli_sname,
                      (char *)callstack[i] - (char *)info.dli_saddr);
             free(demangled);
-        }
-        else
-        {
-            snprintf(buf, sizeof(buf), "%s %-3d %*p %s\n", "Layer:", i, int(2 + sizeof(void *) * 2), callstack[i],
-                     symbols[i]);
+        } else {
+            snprintf(buf, sizeof(buf), "%s %-3d %*p %s\n", "Layer:", i,
+                     int(2 + sizeof(void *) * 2), callstack[i], symbols[i]);
         }
         trace_buf << buf;
     }
@@ -90,12 +90,12 @@ std::string Backtrace(int skip = 1)
     return "";
 }
 
-void handler(int)
-{
+void handler(int) {
     std::string s(Backtrace());
     Messenger::expose_msg(err, s);
     // if ( ! Application::is_testing_mode() )
-    //     mmModalDialog::critical("Crashed","Nice one. Program unexpectedly terminated.");
+    //     mmModalDialog::critical("Crashed","Nice one. Program unexpectedly
+    //     terminated.");
     // std::cout << s << std::endl;
     exit(11);
 }

@@ -15,8 +15,7 @@
 #include <iostream>
 #include <map>
 
-pen_brush_gui::pen_brush_gui(QWidget *p) : QWidget(p)
-{
+pen_brush_gui::pen_brush_gui(QWidget *p) : QWidget(p) {
     init_layout();
     // make_connections();
     // init_colors();
@@ -25,8 +24,7 @@ pen_brush_gui::pen_brush_gui(QWidget *p) : QWidget(p)
     init_brush_style();
 }
 
-void pen_brush_gui::init_layout()
-{
+void pen_brush_gui::init_layout() {
     m_pen_layout = new QVBoxLayout;
     m_brush_layout = new QVBoxLayout;
 
@@ -152,27 +150,32 @@ void pen_brush_gui::init_layout()
     setLayout(layout);
 }
 
-void pen_brush_gui::make_connections()
-{
-    connect(m_pen_color, SIGNAL(currentIndexChanged(const QString &)), this, SLOT(pen_color_changed(const QString &)));
+void pen_brush_gui::make_connections() {
+    connect(m_pen_color, SIGNAL(currentIndexChanged(const QString &)), this,
+            SLOT(pen_color_changed(const QString &)));
     connect(m_brush_color, SIGNAL(currentIndexChanged(const QString &)), this,
             SLOT(brush_color_changed(const QString &)));
-    connect(m_pen_width, SIGNAL(valueChanged(int)), this, SLOT(pen_width_changed(int)));
+    connect(m_pen_width, SIGNAL(valueChanged(int)), this,
+            SLOT(pen_width_changed(int)));
     connect(m_pen_cap_style, SIGNAL(currentIndexChanged(const QString &)), this,
             SLOT(pen_cap_style_changed(const QString &)));
-    connect(m_pen_join_style, SIGNAL(currentIndexChanged(const QString &)), this,
-            SLOT(pen_join_style_changed(const QString &)));
+    connect(m_pen_join_style, SIGNAL(currentIndexChanged(const QString &)),
+            this, SLOT(pen_join_style_changed(const QString &)));
     connect(m_brush_style, SIGNAL(currentIndexChanged(const QString &)), this,
             SLOT(brush_style_changed(const QString &)));
-    connect(m_solid_line, SIGNAL(pressed()), this, SLOT(change_style_to_solid_line()));
-    connect(m_dash_line, SIGNAL(pressed()), this, SLOT(change_style_to_dash_line()));
-    connect(m_dot_line, SIGNAL(pressed()), this, SLOT(change_style_to_dot_line()));
-    connect(m_dash_dot_line, SIGNAL(pressed()), this, SLOT(change_style_to_dash_dot_line()));
-    connect(m_dash_dot_dot_line, SIGNAL(pressed()), this, SLOT(change_style_to_dash_dot_dot_line()));
+    connect(m_solid_line, SIGNAL(pressed()), this,
+            SLOT(change_style_to_solid_line()));
+    connect(m_dash_line, SIGNAL(pressed()), this,
+            SLOT(change_style_to_dash_line()));
+    connect(m_dot_line, SIGNAL(pressed()), this,
+            SLOT(change_style_to_dot_line()));
+    connect(m_dash_dot_line, SIGNAL(pressed()), this,
+            SLOT(change_style_to_dash_dot_line()));
+    connect(m_dash_dot_dot_line, SIGNAL(pressed()), this,
+            SLOT(change_style_to_dash_dot_dot_line()));
 }
 
-void pen_brush_gui::init_colors()
-{
+void pen_brush_gui::init_colors() {
     m_pen_color->addItem("White");
     m_pen_color->addItem("Yellow");
     m_pen_color->addItem("Green");
@@ -193,22 +196,19 @@ void pen_brush_gui::init_colors()
     m_brush_color->addItem("Cyan");
 }
 
-void pen_brush_gui::init_cap_style()
-{
+void pen_brush_gui::init_cap_style() {
     m_pen_cap_style->addItem("Square Cap");
     m_pen_cap_style->addItem("Flat Cap");
     m_pen_cap_style->addItem("Round Cap");
 }
 
-void pen_brush_gui::init_join_style()
-{
+void pen_brush_gui::init_join_style() {
     m_pen_join_style->addItem("Bevel Join");
     m_pen_join_style->addItem("Miter Join");
     m_pen_join_style->addItem("Round Join");
 }
 
-void pen_brush_gui::init_brush_style()
-{
+void pen_brush_gui::init_brush_style() {
     m_brush_style->addItem("Solid Pattern");
     m_brush_style->addItem("Dense1 Pattern");
     m_brush_style->addItem("Dense2 Pattern");
@@ -226,19 +226,16 @@ void pen_brush_gui::init_brush_style()
     m_brush_style->addItem("Diag Cross Pattern");
 }
 
-namespace
-{
+namespace {
 
 typedef std::map<QString, QColor> string_to_color;
 typedef std::map<QString, Qt::PenCapStyle> string_to_cap_style;
 typedef std::map<QString, Qt::PenJoinStyle> string_to_join_style;
 typedef std::map<QString, Qt::BrushStyle> string_to_brush_style;
 
-QColor get_color_from_string(const QString &s)
-{
+QColor get_color_from_string(const QString &s) {
     static string_to_color map;
-    if (map.empty())
-    {
+    if (map.empty()) {
         map["White"] = Qt::white;
         map["Black"] = Qt::black;
         map["Green"] = Qt::green;
@@ -253,11 +250,9 @@ QColor get_color_from_string(const QString &s)
     return (*it).second;
 }
 
-Qt::PenCapStyle get_cap_style_from_string(const QString &s)
-{
+Qt::PenCapStyle get_cap_style_from_string(const QString &s) {
     static string_to_cap_style map;
-    if (map.empty())
-    {
+    if (map.empty()) {
         map["Square Cap"] = Qt::SquareCap;
         map["Flat Cap"] = Qt::FlatCap;
         map["Round Cap"] = Qt::RoundCap;
@@ -266,11 +261,9 @@ Qt::PenCapStyle get_cap_style_from_string(const QString &s)
     return (*it).second;
 }
 
-Qt::PenJoinStyle get_join_style_from_string(const QString &s)
-{
+Qt::PenJoinStyle get_join_style_from_string(const QString &s) {
     static string_to_join_style map;
-    if (map.empty())
-    {
+    if (map.empty()) {
         map["Bevel Join"] = Qt::BevelJoin;
         map["Miter Join"] = Qt::MiterJoin;
         map["Round Join"] = Qt::RoundJoin;
@@ -279,11 +272,9 @@ Qt::PenJoinStyle get_join_style_from_string(const QString &s)
     return (*it).second;
 }
 
-Qt::BrushStyle get_brush_style_from_string(const QString &s)
-{
+Qt::BrushStyle get_brush_style_from_string(const QString &s) {
     static string_to_brush_style map;
-    if (map.empty())
-    {
+    if (map.empty()) {
         map["Solid Pattern"] = Qt::SolidPattern;
         map["Dense1 Pattern"] = Qt::Dense1Pattern;
         map["Dense2 Pattern"] = Qt::Dense2Pattern;
@@ -305,78 +296,67 @@ Qt::BrushStyle get_brush_style_from_string(const QString &s)
 }
 } // namespace
 
-void pen_brush_gui::pen_color_changed(const QString &)
-{
+void pen_brush_gui::pen_color_changed(const QString &) {
     controller &c = controller::getInstance();
     // c->change_pen_coyylor(get_color_from_string(s));
     emit something_changed();
 }
 
-void pen_brush_gui::brush_color_changed(const QString &s)
-{
+void pen_brush_gui::brush_color_changed(const QString &s) {
     controller &c = controller::getInstance();
     c.change_brush_color(get_color_from_string(s));
     emit something_changed();
 }
 
-void pen_brush_gui::pen_width_changed(int i)
-{
+void pen_brush_gui::pen_width_changed(int i) {
     controller &c = controller::getInstance();
     c.change_pen_width(i);
     emit something_changed();
 }
 
-void pen_brush_gui::pen_cap_style_changed(const QString &s)
-{
+void pen_brush_gui::pen_cap_style_changed(const QString &s) {
     controller &c = controller::getInstance();
     c.change_pen_cap_style(get_cap_style_from_string(s));
     emit something_changed();
 }
 
-void pen_brush_gui::pen_join_style_changed(const QString &s)
-{
+void pen_brush_gui::pen_join_style_changed(const QString &s) {
     controller &c = controller::getInstance();
     c.change_pen_join_style(get_join_style_from_string(s));
     emit something_changed();
 }
 
-void pen_brush_gui::change_style_to_solid_line()
-{
+void pen_brush_gui::change_style_to_solid_line() {
     controller &c = controller::getInstance();
     c.change_pen_style(Qt::SolidLine);
     emit something_changed();
 }
 
-void pen_brush_gui::change_style_to_dash_line()
-{
+void pen_brush_gui::change_style_to_dash_line() {
     controller &c = controller::getInstance();
     c.change_pen_style(Qt::DashLine);
     emit something_changed();
 }
 
-void pen_brush_gui::change_style_to_dot_line()
-{
+void pen_brush_gui::change_style_to_dot_line() {
     controller &c = controller::getInstance();
     c.change_pen_style(Qt::DotLine);
     emit something_changed();
 }
 
-void pen_brush_gui::change_style_to_dash_dot_line()
-{
+void pen_brush_gui::change_style_to_dash_dot_line() {
     controller &c = controller::getInstance();
     c.change_pen_style(Qt::DashDotLine);
     emit something_changed();
 }
 
-void pen_brush_gui::change_style_to_dash_dot_dot_line()
-{
+void pen_brush_gui::change_style_to_dash_dot_dot_line() {
     controller &c = controller::getInstance();
     c.change_pen_style(Qt::DashDotDotLine);
     emit something_changed();
 }
 
-void pen_brush_gui::brush_style_changed(const QString &s)
-{
+void pen_brush_gui::brush_style_changed(const QString &s) {
     controller &c = controller::getInstance();
     c.change_brush_style(get_brush_style_from_string(s));
     emit something_changed();

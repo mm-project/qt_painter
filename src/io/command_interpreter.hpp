@@ -11,24 +11,20 @@
 #include <QString>
 #include <QStringList>
 
+#include <cstdio>
 #include <iostream>
 #include <string>
-#include <cstdio>
 
-
-
-class CommandInterp : public Service<CommandInterp>
-{
+class CommandInterp : public Service<CommandInterp> {
     command_manager &m_cm = command_manager::getInstance();
+
   public:
-	CommandInterp();
+    CommandInterp();
     bool interpret_from_string(const std::string &n);
-    bool interpret_from_file(const std::string& path);
+    bool interpret_from_file(const std::string &path);
 
   public:
-
-    CommandBase *get_cmd_obj(const std::string &n)
-    {
+    CommandBase *get_cmd_obj(const std::string &n) {
         if (n.empty())
             return nullptr;
         QStringList tokens = QString(n.c_str()).split(" ");
@@ -37,11 +33,13 @@ class CommandInterp : public Service<CommandInterp>
         if (cmd_name.front() == '#')
             return 0;
 
-        CommandBase *cmd = command_manager::getInstance().find_command(cmd_name);
-        if (!cmd)
-        {
+        CommandBase *cmd =
+            command_manager::getInstance().find_command(cmd_name);
+        if (!cmd) {
             Messenger::expose_msg(usr, cmd_name);
-            Messenger::expose_msg(err, cmd_name + " command not found"); // FIXME enhance with message.err file
+            Messenger::expose_msg(
+                err, cmd_name + " command not found"); // FIXME enhance with
+                                                       // message.err file
             return 0;
         }
 
@@ -50,15 +48,16 @@ class CommandInterp : public Service<CommandInterp>
         // std::cout << cmd->get_type() << std::endl;
 
         // fixme parsing
-        for (int i = 1; i < tokens.size() - 1; i = i + 2)
-        {
-            // std::cout << "  ---<" << tokens[i].toStdString() << "> <=> <"<< tokens[i+1].toStdString() << ">" <<
-            // std::endl;
-            if (!cmd->set_arg(tokens[i].toStdString(), tokens[i + 1].toStdString()))
-            {
-                Messenger::expose_msg(usr,
-                                      cmd_name + " " + tokens[i].toStdString() + " " + tokens[i + 1].toStdString());
-                Messenger::expose_msg(err, tokens[i].toStdString() + " argument is in invalid ");
+        for (int i = 1; i < tokens.size() - 1; i = i + 2) {
+            // std::cout << "  ---<" << tokens[i].toStdString() << "> <=> <"<<
+            // tokens[i+1].toStdString() << ">" << std::endl;
+            if (!cmd->set_arg(tokens[i].toStdString(),
+                              tokens[i + 1].toStdString())) {
+                Messenger::expose_msg(usr, cmd_name + " " +
+                                               tokens[i].toStdString() + " " +
+                                               tokens[i + 1].toStdString());
+                Messenger::expose_msg(err, tokens[i].toStdString() +
+                                               " argument is in invalid ");
                 return 0;
             }
         }
@@ -66,22 +65,20 @@ class CommandInterp : public Service<CommandInterp>
         return cmd;
     }
 
-    void execute_cmd(CommandBase *cmd)
-    {
+    void execute_cmd(CommandBase *cmd) {
         if (!cmd)
             return;
-        // std::cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!<"<<n.toStdString()<<">" << tokens[0].toStdString() <<
-        // std::endl;
+        // std::cout <<
+        // "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!<"<<n.toStdString()<<">"
+        // << tokens[0].toStdString() << std::endl;
 
-        if (cmd->get_type() == Interactive)
-        {
+        if (cmd->get_type() == Interactive) {
             // std::cout  << "?????????" << cmd->get_name() << std::endl;
             m_cm.activate_command(dynamic_cast<CommandBase *>(cmd));
-        }
-        else
-        {
+        } else {
             cmd->execute_and_log();
-            // std::cout  << "!!!!!!!!!!!!" << dynamic_cast<DirectCommandBase*>(cmd)->get_cmdname_and_stringified_opts()
+            // std::cout  << "!!!!!!!!!!!!" <<
+            // dynamic_cast<DirectCommandBase*>(cmd)->get_cmdname_and_stringified_opts()
             // << std::endl;
         }
     }

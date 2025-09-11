@@ -5,8 +5,7 @@
 #include <QFile>
 #include <QLayout>
 
-QRibbon::QRibbon(QWidget *p) : QTabWidget(p)
-{
+QRibbon::QRibbon(QWidget *p) : QTabWidget(p) {
     setFixedHeight(127);
 
     QFile styles(getStylesDir() + "defaults.qss");

@@ -14,8 +14,7 @@
 #include <string>
 
 ///	@class Console
-class ConsoleWidget : public QFrame
-{
+class ConsoleWidget : public QFrame {
     Q_OBJECT
 
   public:
@@ -39,8 +38,7 @@ class ConsoleWidget : public QFrame
 };
 
 ///	@class OuputControl
-class OutputWidget : public QFrame
-{
+class OutputWidget : public QFrame {
     Q_OBJECT
 
   public:
@@ -55,8 +53,7 @@ class OutputWidget : public QFrame
 };
 
 ///	@class ConsoleAssistant
-class ConsoleAssistant : public QFrame
-{
+class ConsoleAssistant : public QFrame {
     Q_OBJECT
 
   public:

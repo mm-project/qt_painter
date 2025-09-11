@@ -8,9 +8,9 @@
 
 // Qt
 #include <QColor>
+#include <QPoint>
 #include <QRect>
 #include <QRectF>
-#include <QPoint>
 
 // STL
 #include <map>
@@ -24,20 +24,11 @@ class QPainter;
 //
 // @enum Object Type
 //
-enum ObjectType
-{
-    LINE = 0,
-    RECTANGLE,
-    ELLIPSE,
-    POLYGON
-};
+enum ObjectType { LINE = 0, RECTANGLE, ELLIPSE, POLYGON };
 
-namespace
-{
-std::string ObjType2String(const ObjectType &t)
-{
-    switch (t)
-    {
+namespace {
+std::string ObjType2String(const ObjectType &t) {
+    switch (t) {
     case LINE:
         return "Line";
     case RECTANGLE:
@@ -57,8 +48,7 @@ std::string ObjType2String(const ObjectType &t)
 //	@struct ShapeProperties
 //	collection of parameters and properties for drawing
 //
-struct ShapeProperties
-{
+struct ShapeProperties {
     inline ShapeProperties() = default;
 
     QColor pen_color = Qt::white;
@@ -69,11 +59,10 @@ struct ShapeProperties
     Qt::PenJoinStyle pen_join_style = Qt::BevelJoin;
     Qt::BrushStyle brush_style = Qt::SolidPattern;
 
-    bool operator < (const ShapeProperties &t) const;
+    bool operator<(const ShapeProperties &t) const;
 
     // fixme temporary fix
-    std::map<std::string, int> toStringsMap() const
-    {
+    std::map<std::string, int> toStringsMap() const {
         std::map<std::string, int> res;
         // res["color"]=1;//brush_color.name().toStdString();
         res["brush"] = pen_style;
@@ -82,21 +71,22 @@ struct ShapeProperties
         return res;
     }
 
-    std::string toString() const
-    {
-        return std::string("  brushC -> " + brush_color.name().toStdString() + ", brushS -> " +
-                           QString::number(brush_style).toStdString() + ", penC -> " + pen_color.name().toStdString() +
-                           ", penS -> " + QString::number(pen_style).toStdString());
+    std::string toString() const {
+        return std::string(
+            "  brushC -> " + brush_color.name().toStdString() + ", brushS -> " +
+            QString::number(brush_style).toStdString() + ", penC -> " +
+            pen_color.name().toStdString() + ", penS -> " +
+            QString::number(pen_style).toStdString());
     }
 
-    void fromString(const std::string &color, int pstyle, int bstyle)
-    {
+    void fromString(const std::string &color, int pstyle, int bstyle) {
         pen_style = (Qt::PenStyle)pstyle;
         brush_style = (Qt::BrushStyle)bstyle;
         brush_color = QColor(QString(color.c_str()));
         // pen_color = QColor(QString(color.c_str()));
     }
-private:
+
+  private:
     std::string generateKey() const;
 };
 
@@ -104,19 +94,15 @@ private:
 //
 // interface for the shapes
 //
-class IShape
-{
+class IShape {
   public:
   public:
     // @Constructor
     inline IShape() = default;
-    inline IShape(ObjectType t) : m_type(t)
-    {
-    }
+    inline IShape(ObjectType t) : m_type(t) {}
 
-    inline IShape(ObjectType t, ShapeProperties p) : m_type(t), m_properties(p)
-    {
-    }
+    inline IShape(ObjectType t, ShapeProperties p)
+        : m_type(t), m_properties(p) {}
 
     // @Destructor
     virtual ~IShape() = default;
@@ -128,34 +114,23 @@ class IShape
     virtual void addPoint(const QPoint &) = 0;
     virtual std::vector<QPoint> getPoints() = 0;
     //	make abstract
-    virtual void movePoint(const QPoint &)
-    {
-    }
+    virtual void movePoint(const QPoint &) {}
 
-    virtual void updateProperties(ShapeProperties b)
-    {
-        m_properties = b;
-    }
+    virtual void updateProperties(ShapeProperties b) { m_properties = b; }
 
-    virtual ShapeProperties getProperties() const
-    {
-        return m_properties;
-    }
+    virtual ShapeProperties getProperties() const { return m_properties; }
 
     // FIXME should return ObjectType instead
     virtual ObjectType getType() const = 0;
 
     virtual IShape *clone() = 0;
 
-    virtual bool isDrawMode()
-    {
-        return false;
-    }
+    virtual bool isDrawMode() { return false; }
     virtual void draw(QPainter *) = 0;
 
-    virtual bool contains( const QPoint& ) const = 0;
-    virtual bool intersects( const QRect& ) const = 0;
-    virtual bool isDisjointFrom( const QRect& ) const = 0;
+    virtual bool contains(const QPoint &) const = 0;
+    virtual bool intersects(const QRect &) const = 0;
+    virtual bool isDisjointFrom(const QRect &) const = 0;
 
     virtual QPoint center() const = 0;
     virtual QRectF getBBox() const = 0;

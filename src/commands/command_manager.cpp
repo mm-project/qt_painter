@@ -23,20 +23,19 @@
 /// FIXME ????
 // int dicmdQaCanvasCompare::n_index = 0;
 
-void command_manager::init2(RuntimePoolManagerPtr r, ObjectPoolPtr s)
-{
+void command_manager::init2(RuntimePoolManagerPtr r, ObjectPoolPtr s) {
     // r = re;
     re = r;
     ws = {s};
     m_current_command = nullptr;
     m_idle_command = new incmdIdle();
 
-    REGISTER_CALLBACK(CANVAS_VIEWPORT_CHANGED, &command_manager::on_viewport_changed);
+    REGISTER_CALLBACK(CANVAS_VIEWPORT_CHANGED,
+                      &command_manager::on_viewport_changed);
 }
 
 // FIMXE should be called from outside
-void command_manager::init()
-{
+void command_manager::init() {
     register_command(new dicmdCanvasMouseMove);
     register_command(new dicmdCanvasMouseClick);
     register_command(new dicmdCanvasMouseRelease);
@@ -73,42 +72,41 @@ void command_manager::fix_last_qa_point() {
     m_last_qa_point = m_last_cursor_point;
 }
 
-QPoint command_manager::get_qa_point() {
-    return m_last_qa_point;
-}
+QPoint command_manager::get_qa_point() { return m_last_qa_point; }
 
-void command_manager::set_idle_command(CommandBase *cmd)
-{
+void command_manager::set_idle_command(CommandBase *cmd) {
     m_idle_command = cmd;
     m_current_command = m_idle_command;
     activate_command(m_current_command, false);
     // std::cout << "idle is: " <<  m_idle_command << std::endl;
 }
 
-CommandBase *command_manager::find_command(const std::string &cmd_name)
-{
+CommandBase *command_manager::find_command(const std::string &cmd_name) {
     // FIXME if non , put error and return idle_command
-    // std::cout << "FindCmd: "<< cmd_name << " "<< m_name2command[cmd_name] << std::endl;
+    // std::cout << "FindCmd: "<< cmd_name << " "<< m_name2command[cmd_name] <<
+    // std::endl;
     return m_name2command[cmd_name];
 }
 
-void command_manager::register_command(CommandBase *cmd)
-{
+void command_manager::register_command(CommandBase *cmd) {
     // FIXME check is not 0
     m_name2command[cmd->get_name()] = cmd;
-    // std::cout << "RegCmd: " << cmd->get_name() << "---" << m_name2command[cmd->get_name()]  << std::endl;
+    // std::cout << "RegCmd: " << cmd->get_name() << "---" <<
+    // m_name2command[cmd->get_name()]  << std::endl;
 }
 
-void command_manager::activate_command(CommandBase *cmd, bool needlog)
-{
+void command_manager::activate_command(CommandBase *cmd, bool needlog) {
     // FIXME crashes obviously
     // delete m_current_command;
-    std::cout << "activating1: " << m_current_command->is_completed() << std::endl;
+    std::cout << "activating1: " << m_current_command->is_completed()
+              << std::endl;
 
     if (cmd == nullptr ||
-        (cmd != nullptr && cmd != find_command("dicmdAbortActiveCommand") && !m_current_command->is_completed()))
-    {
-        Messenger::expose_msg(warn, "please complete/abort current command before activating " + cmd->get_name());
+        (cmd != nullptr && cmd != find_command("dicmdAbortActiveCommand") &&
+         !m_current_command->is_completed())) {
+        Messenger::expose_msg(
+            warn, "please complete/abort current command before activating " +
+                      cmd->get_name());
         return;
     }
 
@@ -131,22 +129,17 @@ void command_manager::activate_command(CommandBase *cmd, bool needlog)
         m_current_command->execute();
 }
 
-CommandBase *command_manager::get_active_command()
-{
-    return m_current_command;
-}
+CommandBase *command_manager::get_active_command() { return m_current_command; }
 
-bool command_manager::is_idle()
-{
+bool command_manager::is_idle() {
     return false;
     return (m_current_command == m_idle_command);
 }
 
-void command_manager::disactivate_active_command()
-{
-    if (!is_idle() && m_current_command->get_type() == Interactive)
-    {
-        // fixme , abort should be logged implicitly from interactive command base
+void command_manager::disactivate_active_command() {
+    if (!is_idle() && m_current_command->get_type() == Interactive) {
+        // fixme , abort should be logged implicitly from interactive command
+        // base
         dicmdAbortActiveCommand().log();
         m_current_command->abort();
     }
@@ -154,8 +147,7 @@ void command_manager::disactivate_active_command()
     return_to_idle();
 }
 
-void command_manager::return_to_idle()
-{
+void command_manager::return_to_idle() {
     // std::cout << "(cm) back to idle" << std::endl;
     // delete m_last_command;
     StatusBarManager::getInstance().updateStatusBar("cmIdle.", 1, 0);
@@ -177,18 +169,11 @@ void command_manager::event_wrapper() {
 }
 */
 
-void command_manager::set_main_renderer(renderer *r)
-{
-    m_renderer = r;
-}
+void command_manager::set_main_renderer(renderer *r) { m_renderer = r; }
 
-renderer *command_manager::get_main_renderer()
-{
-    return m_renderer;
-}
+renderer *command_manager::get_main_renderer() { return m_renderer; }
 
-void command_manager::on_viewport_changed(LeCallbackData &d)
-{
+void command_manager::on_viewport_changed(LeCallbackData &d) {
     canvasTransformClbkDt &d1 = dynamic_cast<canvasTransformClbkDt &>(d);
     m_kx = d1.m_kx;
     m_dx = d1.m_dx;
@@ -203,44 +188,42 @@ void command_manager::on_viewport_changed(LeCallbackData &d)
     */
 }
 
-void command_manager::mouse_dbl_clicked(int x, int y)
-{
-    // std::cout << x << "(" << x/m_kx-m_dx << ")  --- " << y << "(" << y/m_ky-m_dy << ")" << std::endl;
+void command_manager::mouse_dbl_clicked(int x, int y) {
+    // std::cout << x << "(" << x/m_kx-m_dx << ")  --- " << y << "(" <<
+    // y/m_ky-m_dy << ")" << std::endl;
     dicmdCanvasMouseDblClick(QPoint(x, y)).log();
     m_current_command->handle_mouse_dblclick(x / m_kx - m_dx, y / m_ky - m_dy);
 }
 
-void command_manager::mouse_clicked(int x, int y)
-{
+void command_manager::mouse_clicked(int x, int y) {
     std::cout << "current commdn is: " << m_current_command << std::endl;
-    // std::cout << x << "(" << x/m_kx-m_dx << ")  --- " << y << "(" << y/m_ky-m_dy << ")" << std::endl;
+    // std::cout << x << "(" << x/m_kx-m_dx << ")  --- " << y << "(" <<
+    // y/m_ky-m_dy << ")" << std::endl;
     // find_command("dicmdCanvasMouseClick").log();
     // if(!Application::is_replay_mode())
     dicmdCanvasMouseClick(QPoint(x, y)).log();
     m_current_command->handle_mouse_click(x / m_kx - m_dx, y / m_ky - m_dy);
 }
 
-void command_manager::mouse_moved(int x, int y)
-{
+void command_manager::mouse_moved(int x, int y) {
     // std::cout << "***current commdn is: " <<  m_current_command << std::endl;
     // dicmdCanvasMouseMove(QPoint(x,y)).log();
     m_last_cursor_point = QPoint(x / m_kx - m_dx, y / m_ky - m_dy);
     m_current_command->handle_mouse_move(x / m_kx - m_dx, y / m_ky - m_dy);
 }
 
-void command_manager::mouse_released(int x, int y)
-{
+void command_manager::mouse_released(int x, int y) {
     auto command = dynamic_cast<InteractiveCommandBase *>(m_current_command);
     if (command == nullptr)
         return;
     if (!Application::is_replay_mode() && command->need_log_mouserelease())
         dicmdCanvasMouseRelease(QPoint(x, y)).log();
-    std::cout << "ELRELRLERLELREL: current commdn is: " << m_current_command << std::endl;
+    std::cout << "ELRELRLERLELREL: current commdn is: " << m_current_command
+              << std::endl;
     m_current_command->handle_mouse_release(x / m_kx - m_dx, y / m_ky - m_dy);
 }
 
-void command_manager::mouse_pressed(int x, int y)
-{
+void command_manager::mouse_pressed(int x, int y) {
     if (!Application::is_replay_mode())
         dicmdCanvasMousePress(QPoint(x, y)).log();
 
@@ -248,23 +231,11 @@ void command_manager::mouse_pressed(int x, int y)
 }
 
 // FIXME interface?
-void command_manager::key_pressed()
-{
-    m_current_command->handle_key_press();
-}
+void command_manager::key_pressed() { m_current_command->handle_key_press(); }
 
 // FIXME interface?
-void command_manager::update_tookplace()
-{
-    m_current_command->handle_update();
-}
+void command_manager::update_tookplace() { m_current_command->handle_update(); }
 
-void command_manager::set_main_widget(QWidget *w)
-{
-    m_main_widget = w;
-}
+void command_manager::set_main_widget(QWidget *w) { m_main_widget = w; }
 
-QWidget *command_manager::get_main_widget()
-{
-    return m_main_widget;
-}
+QWidget *command_manager::get_main_widget() { return m_main_widget; }

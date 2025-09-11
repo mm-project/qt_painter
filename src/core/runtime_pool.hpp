@@ -13,8 +13,7 @@ using RuntimePoolPtr = std::shared_ptr<RuntimePool>;
 class RuntimePoolManager;
 using RuntimePoolManagerPtr = std::shared_ptr<RuntimePoolManager>;
 
-class RuntimePool : public ObjectPoolBase
-{
+class RuntimePool : public ObjectPoolBase {
     friend RuntimePoolManager;
 
   public:
@@ -38,8 +37,7 @@ class RuntimePool : public ObjectPoolBase
 };
 
 //	TODO: need to be designs to suppport multidesign support
-class RuntimePoolManager : public Service<RuntimePoolManager>
-{
+class RuntimePoolManager : public Service<RuntimePoolManager> {
   public:
     // RuntimePoolManager();
     void addChild(RuntimePoolPtr, const std::string &);

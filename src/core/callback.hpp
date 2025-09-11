@@ -5,16 +5,12 @@
 
 #include <string>
 
-class LeCallbackData
-{
+class LeCallbackData {
   public:
-    virtual ~LeCallbackData()
-    {
-    }
+    virtual ~LeCallbackData() {}
 };
 
-enum LeCallbackType
-{
+enum LeCallbackType {
     OBJECT_SELECTED,
     STEP_REPLY,
     STOP_REPLY,
@@ -48,8 +44,7 @@ class LeCallbackType
 typedef std::function<void(LeCallbackData &)> callBackFun1;
 typedef std::function<void()> callBackFun2;
 
-class LeCallback
-{
+class LeCallback {
     friend class LePostman;
 
   public:
@@ -60,8 +55,10 @@ class LeCallback
     std::string get_name();
 
   private:
-    LeCallback(const std::string &n, callBackFun1 f1, int id, const LeCallbackType &t);
-    LeCallback(const std::string &n, callBackFun2 f2, int id, const LeCallbackType &t);
+    LeCallback(const std::string &n, callBackFun1 f1, int id,
+               const LeCallbackType &t);
+    LeCallback(const std::string &n, callBackFun2 f2, int id,
+               const LeCallbackType &t);
 
   private:
     std::string m_name;

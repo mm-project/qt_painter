@@ -16,8 +16,7 @@
 
 class HighlightSet;
 
-class Selection : public Service<Selection>, public ObjectPoolBase
-{
+class Selection : public Service<Selection>, public ObjectPoolBase {
     HighlightSet *m_sel_highlight_set;
     HighlightSet *m_ao_highlight_set;
     HighlightSet *m_qa_highlight_set;
@@ -37,7 +36,8 @@ class Selection : public Service<Selection>, public ObjectPoolBase
     void addObjectFixme(IShapePtr p);
     void set_working_set(ObjectPoolPtr ws);
     void set_sandbox(RuntimePoolManagerPtr ops);
-    void find_and_highlightselect_shapes_from_region(const std::pair<QPoint, QPoint> &point);
+    void find_and_highlightselect_shapes_from_region(
+        const std::pair<QPoint, QPoint> &point);
     void select_shape_under_pos(const QPoint &p);
     void highlightselect_shape_under_pos(const QPoint &p);
     void highlight_shape_under_pos(const QPoint &p);
@@ -49,8 +49,7 @@ class Selection : public Service<Selection>, public ObjectPoolBase
     void highlightselect_all();
 };
 
-class HighlightSet : public ObjectPoolBase
-{
+class HighlightSet : public ObjectPoolBase {
     // WorkingSet* m_select_set;
     ObjectPoolPtr m_ws;
     RuntimePoolManagerPtr m_rt_pools;

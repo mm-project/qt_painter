@@ -19,8 +19,7 @@ class QRibbonWidget;
 //
 // @class create_shape_gui : Assistant for creating objects
 //
-class create_shape_gui : public QWidget
-{
+class create_shape_gui : public QWidget {
     Q_OBJECT
 
   public:

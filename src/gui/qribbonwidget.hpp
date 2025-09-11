@@ -9,8 +9,7 @@ class QHBoxLayout;
 
 //	@class QRibbonWidget
 //	represents the widget in the one tab
-class QRibbonWidget : public QWidget
-{
+class QRibbonWidget : public QWidget {
     Q_OBJECT
 
   public:

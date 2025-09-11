@@ -12,31 +12,26 @@
 #include <iostream>
 #include <sstream>
 
-Messenger::Messenger()
-{
-    init();
-}
+Messenger::Messenger() { init(); }
 
-Messenger::~Messenger()
-{
-    fini();
-}
+Messenger::~Messenger() { fini(); }
 
-void Messenger::fini()
-{
+void Messenger::fini() {
     m_cmdfile->close();
     m_logfile->close();
 }
 
-void Messenger::init()
-{
+void Messenger::init() {
 
-    QString pathenv = QString::fromLocal8Bit(qgetenv("PAINTER_LOGS_DIR").constData());
-    QString idpostfix = QString::fromLocal8Bit(qgetenv("PAINTER_LOGFILE_PREFIX").constData());
+    QString pathenv =
+        QString::fromLocal8Bit(qgetenv("PAINTER_LOGS_DIR").constData());
+    QString idpostfix =
+        QString::fromLocal8Bit(qgetenv("PAINTER_LOGFILE_PREFIX").constData());
 
     QString m_path = pathenv.isEmpty() ? "./logs/" : pathenv;
 
-    QString postfix = "painter" + QDateTime::currentDateTime().toString("yyyy-MM-dd-HH-mm-ss");
+    QString postfix = "painter" + QDateTime::currentDateTime().toString(
+                                      "yyyy-MM-dd-HH-mm-ss");
     postfix = idpostfix.isEmpty() ? postfix : idpostfix;
     // std::cout << id.toStdString() << std::endl;
 
@@ -57,11 +52,9 @@ void Messenger::init()
     */
 }
 
-std::string Messenger::decorate_for_logging(const LogMsgSeverity &r)
-{
+std::string Messenger::decorate_for_logging(const LogMsgSeverity &r) {
 
-    switch (r)
-    {
+    switch (r) {
     case ok:
         return ("");
     case log_:
@@ -90,19 +83,19 @@ std::string Messenger::decorate_for_logging(const LogMsgSeverity &r)
 }
 
 // FIXME
-void Messenger::expose_internal(const LogMsgSeverity &severity, const std::string &m, bool iscmd)
-{
+void Messenger::expose_internal(const LogMsgSeverity &severity,
+                                const std::string &m, bool iscmd) {
     LeCallbackData fixme;
     if ((severity == warn || severity == err) &&
-        (!QString::fromLocal8Bit(qgetenv("ELEN_PAINTER_STARTDBG").constData()).isEmpty()))
+        (!QString::fromLocal8Bit(qgetenv("ELEN_PAINTER_STARTDBG").constData())
+              .isEmpty()))
         NOTIFY(STOP_REPLY, fixme);
 
     if (Application::is_load_mode())
         return;
 
     QString lines(m.c_str());
-    for (auto line : lines.split("\n"))
-    {
+    for (auto line : lines.split("\n")) {
         std::string msg = line.toStdString();
         write_entry_to_console_gui(severity, msg);
 
@@ -116,8 +109,8 @@ void Messenger::expose_internal(const LogMsgSeverity &severity, const std::strin
     }
 }
 
-void Messenger::write_entry_to_console_gui(const LogMsgSeverity &s, const std::string &msg)
-{
+void Messenger::write_entry_to_console_gui(const LogMsgSeverity &s,
+                                           const std::string &msg) {
     std::cout << msg << std::endl;
 
     std::string errcode = "";
@@ -129,8 +122,7 @@ void Messenger::write_entry_to_console_gui(const LogMsgSeverity &s, const std::s
 }
 
 // fixme duplicates
-void Messenger::write_entry_to_logfile(const std::string &msg)
-{
+void Messenger::write_entry_to_logfile(const std::string &msg) {
     m_logfile->open(QIODevice::WriteOnly | QIODevice::Append);
     log_stream = new QTextStream(m_logfile);
     (*log_stream) << msg.c_str();
@@ -138,8 +130,7 @@ void Messenger::write_entry_to_logfile(const std::string &msg)
     m_logfile->close();
 }
 
-void Messenger::write_entry_to_cmdfile(const std::string &msg)
-{
+void Messenger::write_entry_to_cmdfile(const std::string &msg) {
     m_cmdfile->open(QIODevice::WriteOnly | QIODevice::Append);
     cmd_stream = new QTextStream(m_cmdfile);
     (*cmd_stream) << (msg + "\n").c_str();
@@ -148,15 +139,14 @@ void Messenger::write_entry_to_cmdfile(const std::string &msg)
 }
 
 // static
-void Messenger::expose_msg(const LogMsgSeverity &s, const std::string &msg, bool iscmd)
-{
+void Messenger::expose_msg(const LogMsgSeverity &s, const std::string &msg,
+                           bool iscmd) {
 
     Messenger::getInstance().expose_internal(s, msg, iscmd);
 }
 
 // static used by CommandBase internally , fixme add friend
-void Messenger::log_command(const std::string &msg, bool iscmd)
-{
+void Messenger::log_command(const std::string &msg, bool iscmd) {
     // if(! Application::is_replay_mode())
     Messenger::expose_msg(ok, msg, iscmd);
     // else

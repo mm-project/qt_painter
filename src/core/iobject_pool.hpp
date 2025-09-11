@@ -17,8 +17,7 @@
 //
 //	Object pool interface
 //
-class IObjectPool
-{
+class IObjectPool {
   public:
     //
     //	Interface
@@ -35,18 +34,14 @@ class IObjectPool
     virtual IShapePtr addObject(IShapePtr) = 0;
     virtual void removeObject(IShapePtr) noexcept = 0;
 
-    virtual std::string getName() const noexcept
-    {
-        return {};
-    }
+    virtual std::string getName() const noexcept { return {}; }
     virtual void dumpToFile(const std::string &) const = 0;
 };
 
 using ObjectPoolPtr = std::shared_ptr<IObjectPool>;
 
 //	default implementation
-class ObjectPoolBase : public IObjectPool
-{
+class ObjectPoolBase : public IObjectPool {
   public:
     //
     //	Interface

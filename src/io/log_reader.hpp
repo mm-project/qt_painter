@@ -19,8 +19,7 @@
 #include <iostream>
 #include <queue>
 
-class LogReader : public QObject
-{
+class LogReader : public QObject {
     Q_OBJECT
 
     QTimer *m_timer;

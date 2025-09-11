@@ -9,18 +9,19 @@
 #include <QLayout>
 #include <QTabWidget>
 
-ConsoleWidget::ConsoleWidget(QWidget *parent) : QFrame(parent)
-{
+ConsoleWidget::ConsoleWidget(QWidget *parent) : QFrame(parent) {
     // viewer part
     m_view = new QTextBrowser(this);
-    m_view->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::LinksAccessibleByMouse);
+    m_view->setTextInteractionFlags(Qt::TextSelectableByMouse |
+                                    Qt::LinksAccessibleByMouse);
     // m_view->setMinimumHeight(100);
     m_view->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
     // m_view->setOpenExternalLinks(true);
     m_view->setOpenLinks(false);
-    connect(m_view, SIGNAL(anchorClicked(QUrl)), this, SLOT(onConsoleLinkClicked(QUrl)));
-    // m_view->setHtml( "<a href=\"https://www.w3schools.com\">Visit W3Schools</a>" );
-    // writable part
+    connect(m_view, SIGNAL(anchorClicked(QUrl)), this,
+            SLOT(onConsoleLinkClicked(QUrl)));
+    // m_view->setHtml( "<a href=\"https://www.w3schools.com\">Visit
+    // W3Schools</a>" ); writable part
     m_console = new QLineEdit(this);
     m_console->setFixedHeight(15);
     m_console->installEventFilter(this);
@@ -32,22 +33,22 @@ ConsoleWidget::ConsoleWidget(QWidget *parent) : QFrame(parent)
     setLayout(layout);
 }
 
-void ConsoleWidget::onConsoleLinkClicked(QUrl url)
-{
+void ConsoleWidget::onConsoleLinkClicked(QUrl url) {
     QDesktopServices::openUrl(url);
 }
 
-void ConsoleWidget::appendText(const QString &text, LogMsgSeverity severity, QString code)
-{
-    switch (severity)
-    {
+void ConsoleWidget::appendText(const QString &text, LogMsgSeverity severity,
+                               QString code) {
+    switch (severity) {
     case err:
         // m_view->setTextColor(Qt::red);
-        m_view->append("<font color=\"#ba2d2d\">Error: " + text + "</font> <u><font color=\"blue\">(" + code +
+        m_view->append("<font color=\"#ba2d2d\">Error: " + text +
+                       "</font> <u><font color=\"blue\">(" + code +
                        ")</u></font> ");
         return;
     case warn:
-        m_view->append("<font color=\"#e3ac22\">Warning: " + text + "</font> <u><font color=\"blue\">(" + code +
+        m_view->append("<font color=\"#e3ac22\">Warning: " + text +
+                       "</font> <u><font color=\"blue\">(" + code +
                        ")</u></font> ");
         return;
     case usr:
@@ -69,7 +70,8 @@ void ConsoleWidget::appendText(const QString &text, LogMsgSeverity severity, QSt
         m_view->setTextColor(Qt::black);
         break;
     case info:
-        m_view->append("<font color=\"#39a5b8\">Information: " + text + "</font> <u><font color=\"blue\">(" + code +
+        m_view->append("<font color=\"#39a5b8\">Information: " + text +
+                       "</font> <u><font color=\"blue\">(" + code +
                        ")</u></font> ");
         return;
     default:
@@ -79,24 +81,19 @@ void ConsoleWidget::appendText(const QString &text, LogMsgSeverity severity, QSt
     m_view->append(text);
 }
 
-void ConsoleWidget::onCommandEntered()
-{
+void ConsoleWidget::onCommandEntered() {
     CommandInterp &pCommand = CommandInterp::getInstance();
     pCommand.interpret_from_string(m_console->text().toStdString());
     m_console->clear();
 }
 
-bool ConsoleWidget::eventFilter(QObject *obj, QEvent *evn)
-{
+bool ConsoleWidget::eventFilter(QObject *obj, QEvent *evn) {
     QLineEdit *lineEdit = qobject_cast<QLineEdit *>(obj);
-    if (lineEdit != nullptr)
-    {
-        if (evn->type() == QEvent::KeyPress)
-        {
+    if (lineEdit != nullptr) {
+        if (evn->type() == QEvent::KeyPress) {
             QKeyEvent *keyEvn = static_cast<QKeyEvent *>(evn);
             auto key = keyEvn->key();
-            if (key == Qt::Key_Enter || key == Qt::Key_Return)
-            {
+            if (key == Qt::Key_Enter || key == Qt::Key_Return) {
                 onCommandEntered();
                 return true;
             }
@@ -105,8 +102,7 @@ bool ConsoleWidget::eventFilter(QObject *obj, QEvent *evn)
     return false;
 }
 
-OutputWidget::OutputWidget(QWidget *parent) : QFrame(parent)
-{
+OutputWidget::OutputWidget(QWidget *parent) : QFrame(parent) {
     m_view = new QTextEdit(this);
     m_view->setTextInteractionFlags(Qt::TextSelectableByMouse);
     // m_view->setMinimumHeight(100);
@@ -119,16 +115,18 @@ OutputWidget::OutputWidget(QWidget *parent) : QFrame(parent)
     setLayout(layout);
 }
 
-void OutputWidget::appendText(const QString &text, LogMsgSeverity svr, bool need_decorate = false)
-{
+void OutputWidget::appendText(const QString &text, LogMsgSeverity svr,
+                              bool need_decorate = false) {
     if (need_decorate)
-        m_view->append(QString::fromStdString(Messenger::decorate_for_logging(svr)) + text);
+        m_view->append(
+            QString::fromStdString(Messenger::decorate_for_logging(svr)) +
+            text);
     else
         m_view->append(text);
 }
 
-ConsoleAssistant::ConsoleAssistant(QDockWidget &b, QWidget *parent) : QFrame(parent), m_base(b)
-{
+ConsoleAssistant::ConsoleAssistant(QDockWidget &b, QWidget *parent)
+    : QFrame(parent), m_base(b) {
     m_console = new ConsoleWidget(this);
     m_output = new OutputWidget(this);
 
@@ -148,24 +146,22 @@ ConsoleAssistant::ConsoleAssistant(QDockWidget &b, QWidget *parent) : QFrame(par
 
     // Listening for MESSENGER callback in updateView
     REGISTER_CALLBACK(MESSENGER, &ConsoleAssistant::updateView);
-    connect(m_tabs, SIGNAL(currentChanged(int)), this, SLOT(updateWindowTitle(int)));
+    connect(m_tabs, SIGNAL(currentChanged(int)), this,
+            SLOT(updateWindowTitle(int)));
 }
 
-void ConsoleAssistant::updateView(LeCallbackData &d)
-{
+void ConsoleAssistant::updateView(LeCallbackData &d) {
     MessengerCallbackData &data = dynamic_cast<MessengerCallbackData &>(d);
     LogMsgSeverity svr = data.get_severity();
     QString msgcode = QString::fromStdString(data.get_errorcode());
     QString msg = QString::fromStdString(data.get_message());
 
     // write important things to console
-    if (svr == usr || svr == err || svr == warn || svr == info)
-    {
+    if (svr == usr || svr == err || svr == warn || svr == info) {
         m_console->appendText(msg, svr, msgcode);
     }
     // write only transaction out's to output
-    if (svr == out)
-    {
+    if (svr == out) {
         m_output->appendText(msg, svr);
         return;
     }
@@ -174,8 +170,7 @@ void ConsoleAssistant::updateView(LeCallbackData &d)
     m_log->appendText(msg, svr, true);
 }
 
-void ConsoleAssistant::updateWindowTitle(int index)
-{
+void ConsoleAssistant::updateWindowTitle(int index) {
     // what? :)
     if (index == 0)
         m_base.setWindowTitle("Command Interpreter");

@@ -16,8 +16,7 @@ class ConsoleAssistant;
 //
 // @class mainWindow
 //
-class main_window : public QMainWindow
-{
+class main_window : public QMainWindow {
     Q_OBJECT
 
   public:

@@ -5,18 +5,13 @@
 #include <vector>
 
 //	Interface for working with servies
-class Singleton
-{
+class Singleton {
   public:
-    virtual ~Singleton()
-    {
-    }
+    virtual ~Singleton() {}
 
   public:
     // some servies may be don't need this
-    virtual void shutDown()
-    {
-    }
+    virtual void shutDown() {}
 
   protected:
     // can't copy
@@ -28,16 +23,13 @@ class Singleton
 //	getInstacne returns reference with from c++11 (it's safe)
 //	Default constructor is private
 //	Copy constructor/assignment operator is not supported
-template <typename T> class Service : public Singleton
-{
+template <typename T> class Service : public Singleton {
   public:
     using ServicePtr = std::unique_ptr<T>;
 
   public:
-    static T &getInstance()
-    {
-        if (m_instance == nullptr)
-        {
+    static T &getInstance() {
+        if (m_instance == nullptr) {
             // first need to register deps
             T::registerDependencies();
             m_instance = std::unique_ptr<T>(new T);
@@ -48,12 +40,9 @@ template <typename T> class Service : public Singleton
     }
 
     // need to define in child if you have a dependency
-    static void registerDependencies()
-    {
-    }
+    static void registerDependencies() {}
 
-    template <typename U> static void addDependency()
-    {
+    template <typename U> static void addDependency() {
         if (std::is_base_of<Service<U>, U>())
             Service<U>::getInstance();
     }
@@ -73,17 +62,16 @@ template <typename T> class Service : public Singleton
     static ServicePtr m_instance;
 };
 
-template <typename T> typename Service<T>::ServicePtr Service<T>::m_instance = nullptr;
+template <typename T>
+typename Service<T>::ServicePtr Service<T>::m_instance = nullptr;
 
-class ServiceManager : public Service<ServiceManager>
-{
+class ServiceManager : public Service<ServiceManager> {
   public:
     //	Things needed for main application
     //	Delete content in order of registering
     void shutDown() override;
 
-    template <typename T> void addService(T &obj)
-    {
+    template <typename T> void addService(T &obj) {
         m_services.emplace_back(&obj);
     }
 
@@ -92,6 +80,6 @@ class ServiceManager : public Service<ServiceManager>
 };
 
 template <typename T>
-typename std::function<void(T &)> Service<T>::m_callback = std::bind(&ServiceManager::addService<T>,
-                                                                     &ServiceManager::getInstance(),
-                                                                     std::placeholders::_1);
+typename std::function<void(T &)> Service<T>::m_callback =
+    std::bind(&ServiceManager::addService<T>, &ServiceManager::getInstance(),
+              std::placeholders::_1);

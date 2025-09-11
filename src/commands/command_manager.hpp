@@ -5,7 +5,7 @@
 //
 // Includes
 //
-//#include "icommand_base.hpp"
+// #include "icommand_base.hpp"
 
 #include "../core/callback.hpp"
 #include "../core/design.hpp"
@@ -17,8 +17,8 @@
 #include <string>
 
 // Qt
-#include <QWidget>
 #include <QPoint>
+#include <QWidget>
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -27,8 +27,7 @@
 class renderer;
 class CommandBase;
 
-class command_manager : public Service<command_manager>
-{
+class command_manager : public Service<command_manager> {
   public:
     void set_main_widget(QWidget *w);
     QWidget *get_main_widget();

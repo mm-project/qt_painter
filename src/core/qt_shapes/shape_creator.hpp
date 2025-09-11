@@ -10,8 +10,7 @@
 //	class ShapeCreator
 //	based on AbstractFactoryIdea
 //
-class ShapeCreator : public Service<ShapeCreator>
-{
+class ShapeCreator : public Service<ShapeCreator> {
   public:
     ShapeCreator();
     virtual ~ShapeCreator();

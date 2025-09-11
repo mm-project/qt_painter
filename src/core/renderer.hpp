@@ -13,25 +13,12 @@
 
 #include <iostream>
 
-enum panDirection
-{
-    PANUP,
-    PANDOWN,
-    PANLEFT,
-    PANRIGHT
-};
-enum zoomDirection
-{
-    ZOOMIN,
-    ZOOMOUT
-};
+enum panDirection { PANUP, PANDOWN, PANLEFT, PANRIGHT };
+enum zoomDirection { ZOOMIN, ZOOMOUT };
 
-namespace
-{
-std::string panDirection2str(const panDirection &p)
-{
-    switch (p)
-    {
+namespace {
+std::string panDirection2str(const panDirection &p) {
+    switch (p) {
     case PANUP:
         return "PanUp";
     case PANDOWN:
@@ -44,10 +31,8 @@ std::string panDirection2str(const panDirection &p)
     return "";
 }
 
-std::string zoomDirection2str(const zoomDirection &p)
-{
-    switch (p)
-    {
+std::string zoomDirection2str(const zoomDirection &p) {
+    switch (p) {
     case ZOOMIN:
         return "ZoomIn";
     case ZOOMOUT:
@@ -57,12 +42,10 @@ std::string zoomDirection2str(const zoomDirection &p)
 }
 } // namespace
 
-class canvasTransformClbkDt : public LeCallbackData
-{
+class canvasTransformClbkDt : public LeCallbackData {
   public:
-    canvasTransformClbkDt(float kx, int dx, float ky, int dy) : m_kx(kx), m_ky(ky), m_dx(dx), m_dy(dy)
-    {
-    }
+    canvasTransformClbkDt(float kx, int dx, float ky, int dy)
+        : m_kx(kx), m_ky(ky), m_dx(dx), m_dy(dy) {}
 
     float m_kx = 1;
     float m_ky = 1;
@@ -71,8 +54,7 @@ class canvasTransformClbkDt : public LeCallbackData
 };
 
 // REPONSIBLE FOR VIEWPORT CONTROLL
-class renderer
-{
+class renderer {
     // Q_OBJECT
   public:
     renderer(QWidget *w, RuntimePoolManagerPtr r, ObjectPoolPtr s);

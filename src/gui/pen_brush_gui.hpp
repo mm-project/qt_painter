@@ -8,8 +8,7 @@ class QSpinBox;
 class QVBoxLayout;
 class QRadioButton;
 
-class pen_brush_gui : public QWidget
-{
+class pen_brush_gui : public QWidget {
     Q_OBJECT
 
   public:

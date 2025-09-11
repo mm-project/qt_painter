@@ -6,13 +6,7 @@
 
 #include <QString>
 
-enum appMode
-{
-    APPNORM,
-    APPREPLAY,
-    APPTESTING,
-    APPLOAD
-};
+enum appMode { APPNORM, APPREPLAY, APPTESTING, APPLOAD };
 
 class Application : public Service<Application> //, public QApplication
 {
@@ -22,28 +16,28 @@ class Application : public Service<Application> //, public QApplication
     bool m_is_debug = false;
 
     // using QApplication::QApplication;
-    Application()
-    {
+    Application() {
         m_mode = APPNORM;
-        m_is_debug = QString::fromLocal8Bit(qgetenv("ELEN_PAINTER_TESTDBG").constData()).isEmpty() ? false : true;
+        m_is_debug =
+            QString::fromLocal8Bit(qgetenv("ELEN_PAINTER_TESTDBG").constData())
+                    .isEmpty()
+                ? false
+                : true;
     }
 
-    void set_replay_mode(bool m)
-    {
-        Messenger::expose_msg(info, "Set to mode" + QString::number(int(m)).toStdString());
+    void set_replay_mode(bool m) {
+        Messenger::expose_msg(info, "Set to mode" +
+                                        QString::number(int(m)).toStdString());
         m_mode = m ? APPREPLAY : APPNORM;
     }
 
-    void set_mode(const appMode &m)
-    {
-        Messenger::expose_msg(info, "Set to mode" + QString::number(int(m)).toStdString());
+    void set_mode(const appMode &m) {
+        Messenger::expose_msg(info, "Set to mode" +
+                                        QString::number(int(m)).toStdString());
         m_mode = m;
     }
 
-    appMode get_mode()
-    {
-        return m_mode;
-    }
+    appMode get_mode() { return m_mode; }
 
   public:
     /*
@@ -55,20 +49,16 @@ class Application : public Service<Application> //, public QApplication
     }
     */
 
-    static bool is_replay_mode()
-    {
+    static bool is_replay_mode() {
         return (Application::getInstance().get_mode() == APPREPLAY);
     }
-    static bool is_testing_mode()
-    {
+    static bool is_testing_mode() {
         return (Application::getInstance().get_mode() == APPTESTING);
     }
-    static bool is_load_mode()
-    {
+    static bool is_load_mode() {
         return (Application::getInstance().get_mode() == APPLOAD);
     }
-    static bool is_debug_mode()
-    {
+    static bool is_debug_mode() {
         return Application::getInstance().m_is_debug;
     }
 };

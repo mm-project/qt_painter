@@ -8,8 +8,7 @@ class QLabel;
 class QGridLayout;
 class QRibbonButton;
 
-enum class QRibbonButtonSize
-{
+enum class QRibbonButtonSize {
     size16,
     size24,
     size32, // defualt?
@@ -18,8 +17,7 @@ enum class QRibbonButtonSize
 
 //	@class QRibbonGroup
 //	reprents single button group in the widget
-class QRibbonGroup : public QWidget
-{
+class QRibbonGroup : public QWidget {
     Q_OBJECT
 
   public:
@@ -27,9 +25,7 @@ class QRibbonGroup : public QWidget
     explicit QRibbonGroup(QWidget * = 0);
 
     //	Destructor
-    virtual ~QRibbonGroup()
-    {
-    }
+    virtual ~QRibbonGroup() {}
 
   public:
     //	@brief Sets group title
@@ -41,9 +37,11 @@ class QRibbonGroup : public QWidget
     // @brief Adds button into the group
     void addButton(QWidget *);
 
-    void addButton(QWidget *, const QString &, QRibbonButtonSize = QRibbonButtonSize::size46);
+    void addButton(QWidget *, const QString &,
+                   QRibbonButtonSize = QRibbonButtonSize::size46);
 
-    void addRibbonButton(QRibbonButton *, QRibbonButtonSize = QRibbonButtonSize::size46);
+    void addRibbonButton(QRibbonButton *,
+                         QRibbonButtonSize = QRibbonButtonSize::size46);
 
   private:
     QLabel *m_label;

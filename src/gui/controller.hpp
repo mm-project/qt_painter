@@ -4,8 +4,7 @@
 #include "../core/ishape.hpp"
 #include "../core/service.hpp"
 
-class controller : public Service<controller>
-{
+class controller : public Service<controller> {
   public:
     void change_object_type(ObjectType);
     void change_pen_width(int);
@@ -16,10 +15,7 @@ class controller : public Service<controller>
     void change_pen_join_style(Qt::PenJoinStyle);
     void change_brush_style(Qt::BrushStyle);
 
-    ShapeProperties get_shape_properties() const
-    {
-        return properties;
-    }
+    ShapeProperties get_shape_properties() const { return properties; }
     ObjectType get_object_type() const;
     int get_pen_width() const;
     QColor get_pen_color() const;

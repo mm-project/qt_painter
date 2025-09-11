@@ -12,8 +12,7 @@
 // REPONSIBLE FOR VIEWPORT CONTROLL
 
 // ACTUALL CANVAS
-class canvas : public QWidget
-{
+class canvas : public QWidget {
     Q_OBJECT
 
   public:

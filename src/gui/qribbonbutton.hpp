@@ -3,12 +3,12 @@
 
 #include <QToolButton>
 
-class QRibbonButton : public QToolButton
-{
+class QRibbonButton : public QToolButton {
     Q_OBJECT
 
   public:
-    QRibbonButton(QWidget *p = nullptr, const QString & = "", const QString & = "", bool = true);
+    QRibbonButton(QWidget *p = nullptr, const QString & = "",
+                  const QString & = "", bool = true);
 
     void mute(bool f);
   signals:

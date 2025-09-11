@@ -32,19 +32,21 @@
 #define INCMD_HIGHLIGHT_BY_REGION incmdSelectShapesByRegion(m_runtime, m_design)
 #define INCMD_HIGHLIGHT_BY_POINT incmdSelectUnderCursoer(m_runtime, m_design)
 
-canvas::canvas(QWidget *p) : QWidget(p), is_runtime_mode(false)
-{
+canvas::canvas(QWidget *p) : QWidget(p), is_runtime_mode(false) {
     setFocusPolicy(Qt::StrongFocus);
     setMouseTracking(true);
     setObjectName("CANVAS");
     // setStyleSheet("background-color:black;");
 
     // fixme need preferences
-    m_need_motionlog = !QString::fromLocal8Bit(qgetenv("PAINTER_LOG_MOTION").constData()).isEmpty();
+    m_need_motionlog =
+        !QString::fromLocal8Bit(qgetenv("PAINTER_LOG_MOTION").constData())
+             .isEmpty();
 
     // FIXME move to services
     m_design = std::shared_ptr<Design>(new Design);
-    m_runtime = std::shared_ptr<RuntimePoolManager>(&RuntimePoolManager::getInstance());
+    m_runtime =
+        std::shared_ptr<RuntimePoolManager>(&RuntimePoolManager::getInstance());
     //	Global runtime pool
     auto runtimePool = std::shared_ptr<RuntimePool>(new RuntimePool);
     m_runtime->addChild(runtimePool, "Generic-InteractiveCommand");
@@ -84,16 +86,11 @@ canvas::canvas(QWidget *p) : QWidget(p), is_runtime_mode(false)
     // cm.set_idle_command(new INCMD_HIGHLIGHT_BY_POINT);
 }
 
-renderer *canvas::get_renderer()
-{
-    return m_renderer;
-}
+renderer *canvas::get_renderer() { return m_renderer; }
 
 // this is temporary
-bool canvas::event(QEvent *event)
-{
-    if (event->type() == QEvent::User)
-    {
+bool canvas::event(QEvent *event) {
+    if (event->type() == QEvent::User) {
         QPoint p = (dynamic_cast<QMouseEvent *>(event))->pos();
         cm.mouse_pressed(p.x(), p.y());
         m_renderer->set_cursor_pos_for_drawing(p.x(), p.y());
@@ -102,13 +99,12 @@ bool canvas::event(QEvent *event)
     return QWidget::event(event);
 }
 
-void canvas::keyPressEvent(QKeyEvent *ev)
-{
+void canvas::keyPressEvent(QKeyEvent *ev) {
 
     // binding goes here
     // if(ev->modifiers() & Qt::ShiftModifier) {
-    // if ( ev->key() == Qt::Key_1 )  cm.find_command("dicmdQaCompareCanvas")->execute();
-    // better handling
+    // if ( ev->key() == Qt::Key_1 )
+    // cm.find_command("dicmdQaCompareCanvas")->execute(); better handling
     if (ev->key() == Qt::Key_M)
         cm.activate_command(cm.find_command("incmdObjRelocateByMove"));
     else if (ev->key() == Qt::Key_C)
@@ -153,11 +149,10 @@ void canvas::keyPressEvent(QKeyEvent *ev)
         int _y = p.y();
         m_renderer->set_cursor_pos_for_drawing(_x, _y);
         m_renderer->hint_drawing_cursor_one_time();
-    }
-    else if (ev->key()==Qt::Key_A && (QGuiApplication::keyboardModifiers() & Qt::ControlModifier))
+    } else if (ev->key() == Qt::Key_A &&
+               (QGuiApplication::keyboardModifiers() & Qt::ControlModifier))
         cm.find_command("dicmdSelectAllShapes")->execute_and_log();
-    else
-    {
+    else {
         if (cm.is_idle())
             return;
         cm.key_pressed();
@@ -165,8 +160,7 @@ void canvas::keyPressEvent(QKeyEvent *ev)
     update();
 }
 
-void canvas::mousePressEvent(QMouseEvent *e)
-{
+void canvas::mousePressEvent(QMouseEvent *e) {
     if (cm.is_idle())
         return;
 
@@ -180,18 +174,15 @@ void canvas::mousePressEvent(QMouseEvent *e)
 }
 
 // FIXME not needed anymore
-void canvas::current_type_changed()
-{
+void canvas::current_type_changed() {
     // not needed
     // controller* c = controller::get_instance();
     // m_runtime_environment->change_object_type(c->get_object_type());
 }
 
-void canvas::mouseMoveEvent(QMouseEvent *e)
-{
+void canvas::mouseMoveEvent(QMouseEvent *e) {
     m_last_cursor = e->pos();
-    if (cm.is_idle())
-    {
+    if (cm.is_idle()) {
         return;
     }
 
@@ -211,8 +202,7 @@ void canvas::mouseMoveEvent(QMouseEvent *e)
     update();
 }
 
-void canvas::wheelEvent(QWheelEvent *e)
-{
+void canvas::wheelEvent(QWheelEvent *e) {
     // fixme need log?
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
@@ -221,8 +211,7 @@ void canvas::wheelEvent(QWheelEvent *e)
     update();
 }
 
-void canvas::mouseDoubleClickEvent(QMouseEvent *e)
-{
+void canvas::mouseDoubleClickEvent(QMouseEvent *e) {
     // if(!Application::is_replay_mode())
     // dicmdCanvasMouseDblClick(e->pos()).log();
 
@@ -231,87 +220,69 @@ void canvas::mouseDoubleClickEvent(QMouseEvent *e)
     update();
 }
 
-void canvas::mouseReleaseEvent(QMouseEvent *e)
-{
+void canvas::mouseReleaseEvent(QMouseEvent *e) {
     cm.mouse_released(e->pos().x(), e->pos().y());
     // dicmdCanvasMouseDblClick(e->pos()).log();
     update();
 }
 
-void canvas::on_update()
-{
+void canvas::on_update() {
     cm.update_tookplace();
     update();
 }
 
-void canvas::paintEvent(QPaintEvent *)
-{
+void canvas::paintEvent(QPaintEvent *) {
     m_renderer->render();
     // update(); why?
 }
 
-void canvas::invoke_create_line()
-{
+void canvas::invoke_create_line() {
     cm.activate_command(cm.find_command("incmdCreateObjLine"));
 }
 
-void canvas::invoke_create_rect()
-{
+void canvas::invoke_create_rect() {
     cm.activate_command(cm.find_command("incmdCreateObjRectangle"));
 }
 
-void canvas::invoke_create_ellipse()
-{
+void canvas::invoke_create_ellipse() {
     cm.activate_command(cm.find_command("incmdCreateObjEllipse"));
 }
 
-void canvas::invoke_create_polygon()
-{
+void canvas::invoke_create_polygon() {
     cm.activate_command(cm.find_command("incmdCreateObjPolygon"));
 }
 
-void canvas::invoke_select_by_region()
-{
+void canvas::invoke_select_by_region() {
     cm.activate_command(cm.find_command("incmdSelectShapesByRegion"));
 }
 
-void canvas::invoke_select_by_point()
-{
+void canvas::invoke_select_by_point() {
     cm.disactivate_active_command();
     // cm.activate_command(cm.find_command("incmdSelectUnderCursoer"));
 }
 
-void canvas::invoke_save()
-{
+void canvas::invoke_save() {
     cm.activate_command(cm.find_command("incmdDesignSave"));
 }
 
-void canvas::invoke_load()
-{
+void canvas::invoke_load() {
     cm.activate_command(cm.find_command("incmdDesignLoad"));
 }
 
-void canvas::reset()
-{
-    cm.activate_command(cm.find_command("incmdDesignNew"));
-}
+void canvas::reset() { cm.activate_command(cm.find_command("incmdDesignNew")); }
 
-void canvas::invoke_delete()
-{
+void canvas::invoke_delete() {
     cm.activate_command(cm.find_command("incmdDeleteShape"));
 }
 
-void canvas::abordCommand()
-{
+void canvas::abordCommand() {
     cm.activate_command(cm.find_command("dicmdAbortActiveCommand"));
 }
 
-void canvas::invoke_copy()
-{
+void canvas::invoke_copy() {
     cm.activate_command(cm.find_command("incmdObjRelocateByCopy"));
 }
 
-void canvas::invoke_move()
-{
+void canvas::invoke_move() {
     cm.activate_command(cm.find_command("incmdObjRelocateByMove"));
 }

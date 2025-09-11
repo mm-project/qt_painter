@@ -4,85 +4,63 @@
 #include "command_option.hpp"
 #include "icommand_base.hpp"
 
-class DirectCommandBase : public CommandBase
-{
+class DirectCommandBase : public CommandBase {
     // bool m_is_aborted;
 
   public:
     // DirectCommandBase():m_is_aborted(false) {}
-    DirectCommandBase()
-    {
-    }
+    DirectCommandBase() {}
     // FIXME !!! how about many args?
-    DirectCommandBase(const std::string &n, ICommandOptionValue *v)
-    {
+    DirectCommandBase(const std::string &n, ICommandOptionValue *v) {
         add_option(n, v);
     }
 
-    virtual ~DirectCommandBase()
-    {
-        for (std::pair<const std::string, ICommandOptionValue *> &x : m_ops)
-        {
+    virtual ~DirectCommandBase() {
+        for (std::pair<const std::string, ICommandOptionValue *> &x : m_ops) {
             delete x.second;
             x.second = 0;
         }
     }
 
   private:
-    bool check_option_exists(const std::string &s)
-    {
+    bool check_option_exists(const std::string &s) {
         // std::map::iterator<std::string,ICommandOptionValue*> i;
         return m_ops.find(s) != m_ops.end();
     }
 
   public:
-    virtual bool can_undo()
-    {
-        return true;
-    }
+    virtual bool can_undo() { return true; }
 
-    virtual bool is_transaction_cmd()
-    {
-        return true;
-    }
+    virtual bool is_transaction_cmd() { return true; }
 
-    virtual void silent_execute()
-    {
+    virtual void silent_execute() {
         bool clean = true;
-        try
-        {
+        try {
             execute();
-        }
-        catch (...)
-        {
+        } catch (...) {
             clean = false;
         }
 
         if (clean)
-            Messenger::expose_msg(out, get_cmdname_and_stringified_opts(), is_transaction_cmd());
+            Messenger::expose_msg(out, get_cmdname_and_stringified_opts(),
+                                  is_transaction_cmd());
         else
             Messenger::expose_msg(err, "unknown error");
     }
 
-    virtual CommandType get_type()
-    {
-        return Directive;
-    }
+    virtual CommandType get_type() { return Directive; }
 
-    virtual void log()
-    {
+    virtual void log() {
         CommandBase::log_impl(get_cmdname_and_stringified_opts());
     }
 
-    virtual void abort()
-    {
+    virtual void abort() {
         // m_is_aborted = true;
     }
 
   public:
     // ued by replay_log
-    virtual CommandBase *set_arg(const std::string &n, const std::string &v)
-    {
+    virtual CommandBase *set_arg(const std::string &n, const std::string &v) {
         // std::cout << n << " " << v << std::endl;
         if (!check_option_exists(n))
             return 0;
@@ -100,25 +78,21 @@ class DirectCommandBase : public CommandBase
     */
 
     // used by us
-    void add_option(const std::string &n, ICommandOptionValue *v)
-    {
+    void add_option(const std::string &n, ICommandOptionValue *v) {
         // FIXME check if exisitis
         m_ops[n] = v;
     }
 
-    std::string get_cmdname_and_stringified_opts()
-    {
+    std::string get_cmdname_and_stringified_opts() {
         std::stringstream z;
         z << get_name() << " ";
-        for (std::pair<const std::string, ICommandOptionValue *> &x : m_ops)
-        {
+        for (std::pair<const std::string, ICommandOptionValue *> &x : m_ops) {
             z << x.first << " " << x.second->to_string() << " ";
         }
         return z.str();
     }
 
-    ICommandOptionValue *get_option_val(const std::string &n)
-    {
+    ICommandOptionValue *get_option_val(const std::string &n) {
         // FIXME check exisits
         return m_ops[n];
     }
@@ -128,18 +102,12 @@ class DirectCommandBase : public CommandBase
     // ICommandOptionValue* m_op;
 };
 
-class NonTransactionalDirectCommandBase : public DirectCommandBase
-{
+class NonTransactionalDirectCommandBase : public DirectCommandBase {
   public:
-    NonTransactionalDirectCommandBase()
-    {
-    }
-    NonTransactionalDirectCommandBase(const std::string &n, ICommandOptionValue *v) : DirectCommandBase(n, v)
-    {
-    }
-    virtual bool is_transaction_cmd()
-    {
-        return false;
-    }
+    NonTransactionalDirectCommandBase() {}
+    NonTransactionalDirectCommandBase(const std::string &n,
+                                      ICommandOptionValue *v)
+        : DirectCommandBase(n, v) {}
+    virtual bool is_transaction_cmd() { return false; }
 };
 #endif

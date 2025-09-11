@@ -2,50 +2,38 @@
 
 #include "RegionQueryService.hpp"
 #include "debug_helper.hpp"
-#include "rq_object.hpp"
 #include "quard_tree.hpp"
+#include "rq_object.hpp"
 
-RegionQuery::RegionQuery()
-{
-    //m_tree = std::shared_ptr<KDtree<IShapePtr>>(new KDtree<IShapePtr>());
-    m_tree = std::shared_ptr<QtShapeQuadtree<IShapePtr>>(new QtShapeQuadtree<IShapePtr>());
+RegionQuery::RegionQuery() {
+    // m_tree = std::shared_ptr<KDtree<IShapePtr>>(new KDtree<IShapePtr>());
+    m_tree = std::shared_ptr<QtShapeQuadtree<IShapePtr>>(
+        new QtShapeQuadtree<IShapePtr>());
 }
 
-void RegionQuery::insertObject(IShapePtr object)
-{
+void RegionQuery::insertObject(IShapePtr object) {
     DBG_RQ("insert", object);
     m_tree->insert(object);
 }
 
-void RegionQuery::removeObject(IShapePtr object)
-{
+void RegionQuery::removeObject(IShapePtr object) {
     DBG_RQ("remove", object);
-    m_tree->remove( object );
+    m_tree->remove(object);
 }
 
-std::vector<IShapePtr> RegionQuery::getShapeUnderPos(const QPoint &p) const
-{
+std::vector<IShapePtr> RegionQuery::getShapeUnderPos(const QPoint &p) const {
     return m_tree->query(p);
 }
 
-std::vector<IShapePtr> RegionQuery::getShapesUnderRect(const QRect &oRect) const
-{
+std::vector<IShapePtr>
+RegionQuery::getShapesUnderRect(const QRect &oRect) const {
     return m_tree->query(oRect);
 }
 
-void RegionQuery::clear()
-{
-    m_tree->clear();
-}
+void RegionQuery::clear() { m_tree->clear(); }
 
-void RegionQuery::shutDown()
-{
-    clear();
-}
+void RegionQuery::shutDown() { clear(); }
 
-int RegionQuery::getSize() const
-{
-    return m_tree->getSize();
-}
+int RegionQuery::getSize() const { return m_tree->getSize(); }
 
 #endif // ifndef NO_RQ

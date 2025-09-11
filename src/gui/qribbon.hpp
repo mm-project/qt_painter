@@ -6,8 +6,7 @@
 
 //	class QRibbon
 //	represents the ribbon widgets in tab
-class QRibbon : public QTabWidget
-{
+class QRibbon : public QTabWidget {
     Q_OBJECT
 
   public:
@@ -15,9 +14,7 @@ class QRibbon : public QTabWidget
     explicit QRibbon(QWidget * = 0);
 
     //	Destructor
-    virtual ~QRibbon()
-    {
-    }
+    virtual ~QRibbon() {}
 };
 
 #endif

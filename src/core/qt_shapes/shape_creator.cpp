@@ -5,22 +5,17 @@
 #include "polygon.hpp"
 #include "rectangle.hpp"
 
-ShapeCreator::ShapeCreator()
-{
+ShapeCreator::ShapeCreator() {
     m_line = std::shared_ptr<IShape>(new Line);
     m_rect = std::shared_ptr<IShape>(new Rectangle);
     m_ellipse = std::shared_ptr<IShape>(new Ellipse);
     m_polygon = std::shared_ptr<IShape>(new Polygon);
 }
 
-ShapeCreator::~ShapeCreator()
-{
-}
+ShapeCreator::~ShapeCreator() {}
 
-IShapePtr ShapeCreator::create(ObjectType t)
-{
-    switch (t)
-    {
+IShapePtr ShapeCreator::create(ObjectType t) {
+    switch (t) {
     case LINE:
         return std::shared_ptr<IShape>(m_line->clone());
     case RECTANGLE:

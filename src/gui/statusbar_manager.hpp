@@ -13,8 +13,7 @@
 //	class StatusBarManager : Singletone
 //	Manages StatusBar in MainWindow, allows to change status everywhere
 //
-class StatusBarManager : public Service<StatusBarManager>
-{
+class StatusBarManager : public Service<StatusBarManager> {
   public:
     //
     //	Methods

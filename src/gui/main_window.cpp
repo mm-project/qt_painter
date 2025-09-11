@@ -31,24 +31,20 @@
 #include <iostream>
 
 // FIXME todo enhanced~! (from QApplication)
-bool main_window::eventFilter(QObject *obj, QEvent *event)
-{
-    // std::cout << "------("<<obj->objectName().toStdString() << ") " << event->type() << std::endl;
-    if (event->type() == QEvent::MouseButtonPress)
-    {
+bool main_window::eventFilter(QObject *obj, QEvent *event) {
+    // std::cout << "------("<<obj->objectName().toStdString() << ") " <<
+    // event->type() << std::endl;
+    if (event->type() == QEvent::MouseButtonPress) {
 
-        if (qobject_cast<QRadioButton *>(obj))
-        {
+        if (qobject_cast<QRadioButton *>(obj)) {
             dicmdguiSelectRadioButton(obj->objectName().toStdString()).log();
         }
 
-        if (QTabBar *w = qobject_cast<QTabBar *>(obj))
-        {
+        if (QTabBar *w = qobject_cast<QTabBar *>(obj)) {
             dicmdguiClickButton(obj->objectName().toStdString()).log();
         }
 
-        if (QAbstractButton *btn = qobject_cast<QAbstractButton *>(obj))
-        {
+        if (QAbstractButton *btn = qobject_cast<QAbstractButton *>(obj)) {
             if (btn->parent() && btn->parentWidget()->isModal())
                 dicmdguiClickModalButton(obj->objectName().toStdString()).log();
             else if (!btn->objectName().isEmpty())
@@ -62,8 +58,8 @@ bool main_window::eventFilter(QObject *obj, QEvent *event)
                 QString s(cmb->currentText());
                 s.replace(" ","/");
                 //dicmdguiSelectComboValue(obj->objectName().toStdString(),s.toStdString()).log();
-                std::cout << "("<<s.toStdString() << ") (" << obj->objectName().toStdString() <<")" << event->type() <<
-        std::endl;
+                std::cout << "("<<s.toStdString() << ") (" <<
+        obj->objectName().toStdString() <<")" << event->type() << std::endl;
             //}
         }*/
         /*
@@ -72,8 +68,8 @@ bool main_window::eventFilter(QObject *obj, QEvent *event)
                 QString s(cmb->currentText());
                 s.replace(" ","/");
                 //dicmdguiSelectComboValue(obj->objectName().toStdString(),s.toStdString()).log();
-                std::cout << "("<<s.toStdString() << ") (" << obj->objectName().toStdString() <<")" << event->type() <<
-        std::endl;
+                std::cout << "("<<s.toStdString() << ") (" <<
+        obj->objectName().toStdString() <<")" << event->type() << std::endl;
             //}
         }*/
     }
@@ -85,8 +81,7 @@ bool main_window::eventFilter(QObject *obj, QEvent *event)
 //
 // implemenation of class mainWindow
 //
-main_window::main_window(QWidget *p) : QMainWindow(p)
-{
+main_window::main_window(QWidget *p) : QMainWindow(p) {
     // initalize services
     ServiceManager::getInstance();
 
@@ -120,11 +115,11 @@ main_window::main_window(QWidget *p) : QMainWindow(p)
     setObjectName("mw");
     setRecursiveChildWidgetsObjectName(this);
     m_canvas->setObjectName("CANVAS");
-    Messenger::expose_msg(info, "Welcome to this project. Feel free to expirment. ");
+    Messenger::expose_msg(info,
+                          "Welcome to this project. Feel free to expirment. ");
 }
 
-void main_window::setRecursiveChildWidgetsObjectName(QWidget *w)
-{
+void main_window::setRecursiveChildWidgetsObjectName(QWidget *w) {
     if (w->objectName().isEmpty())
         utilities::set_object_name_for_logging(w, true);
     else
@@ -133,24 +128,28 @@ void main_window::setRecursiveChildWidgetsObjectName(QWidget *w)
     QObjectList children = w->children();
     QObjectList::const_iterator it = children.begin();
     QObjectList::const_iterator eIt = children.end();
-    while (it != eIt)
-    {
+    while (it != eIt) {
         QWidget *pChild = (QWidget *)(*it++);
         setRecursiveChildWidgetsObjectName(pChild);
     }
 }
 
-void main_window::make_connections()
-{
+void main_window::make_connections() {
     connect(m_shapes, SIGNAL(something_changed()), m_canvas, SLOT(on_update()));
-    connect(m_shapes, SIGNAL(createLine()), m_canvas, SLOT(invoke_create_line()));
-    connect(m_shapes, SIGNAL(createRect()), m_canvas, SLOT(invoke_create_rect()));
-    connect(m_shapes, SIGNAL(createEllipse()), m_canvas, SLOT(invoke_create_ellipse()));
-    connect(m_shapes, SIGNAL(createPolygon()), m_canvas, SLOT(invoke_create_polygon()));
+    connect(m_shapes, SIGNAL(createLine()), m_canvas,
+            SLOT(invoke_create_line()));
+    connect(m_shapes, SIGNAL(createRect()), m_canvas,
+            SLOT(invoke_create_rect()));
+    connect(m_shapes, SIGNAL(createEllipse()), m_canvas,
+            SLOT(invoke_create_ellipse()));
+    connect(m_shapes, SIGNAL(createPolygon()), m_canvas,
+            SLOT(invoke_create_polygon()));
     connect(m_shapes, SIGNAL(reset()), m_canvas, SLOT(reset()));
     connect(m_shapes, SIGNAL(close()), this, SLOT(close()));
-    connect(m_shapes, SIGNAL(selectByRegion()), m_canvas, SLOT(invoke_select_by_region()));
-    connect(m_shapes, SIGNAL(selectByPoint()), m_canvas, SLOT(invoke_select_by_point()));
+    connect(m_shapes, SIGNAL(selectByRegion()), m_canvas,
+            SLOT(invoke_select_by_region()));
+    connect(m_shapes, SIGNAL(selectByPoint()), m_canvas,
+            SLOT(invoke_select_by_point()));
     connect(m_shapes, SIGNAL(save()), m_canvas, SLOT(invoke_save()));
     connect(m_shapes, SIGNAL(load()), m_canvas, SLOT(invoke_load()));
     connect(m_shapes, SIGNAL(deleteShape()), m_canvas, SLOT(invoke_delete()));
@@ -162,18 +161,11 @@ void main_window::make_connections()
     connect(m_shapes, SIGNAL(hideConsole()), m_console, SLOT(hide()));
 }
 
-void main_window::closeEvent(QCloseEvent *)
-{
-    dicmdQaToolExit().log();
-}
+void main_window::closeEvent(QCloseEvent *) { dicmdQaToolExit().log(); }
 
-main_window::~main_window()
-{
+main_window::~main_window() {
     // clear all services
     ServiceManager::getInstance().shutDown();
 }
 
-void main_window::onCommandDiscard()
-{
-    emit actionDiscarded();
-}
+void main_window::onCommandDiscard() { emit actionDiscarded(); }
