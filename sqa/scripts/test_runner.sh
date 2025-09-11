@@ -110,7 +110,7 @@ function postprocess
             done
             cp ./logs/painter.log ../$GDIRNAME/painter.log.golden
             cp ./logs/painter.lvi ../$GDIRNAME/painter.lvi.golden
-            #mv ./$testname.mp4 ../$GDIRNAME/$testname.golden.mp4
+            mv ./$testname.mp4 ../$GDIRNAME/$testname.golden.mp4
             #cp painter.out ../$GDIRNAME/painter.out.golden
             golden_files=$(find ./ -name "*.golden*")
             for f in $golden_files; do
