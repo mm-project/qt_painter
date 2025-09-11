@@ -40,7 +40,7 @@ canvas::canvas(QWidget *p) : QWidget(p), is_runtime_mode(false)
     // setStyleSheet("background-color:black;");
 
     // fixme need preferences
-    m_need_motionlog = !QString::fromLocal8Bit(qgetenv("PAINTER_LOG_MOTION").constData()).isEmpty();
+    m_need_motionlog = !(QString::fromLocal8Bit(qgetenv("PAINTER_LOG_MOTION").constData()).isEmpty());
 
     // FIXME move to services
     m_design = std::shared_ptr<Design>(new Design);
@@ -204,8 +204,8 @@ void canvas::mouseMoveEvent(QMouseEvent *e)
     cm.mouse_moved(_x, _y);
 
     // if Preference::isSet("guiLogMouseMove")
-    //if ( m_need_motionlog )
-    //    dicmdCanvasMouseMove(e->pos()).log();
+    if ( m_need_motionlog )
+        dicmdCanvasMouseMove(e->pos()).log();
 
     m_renderer->set_cursor_pos_for_drawing(_x, _y);
     update();
