@@ -76,6 +76,7 @@ else
     cd tmp
     export PAINTER_LOGS_DIR="../input/"
     export PAINTER_LOGFILE_PREFIX="replay"
+    export ELEN_PAINTER_TESTCREATION="1"
     if [ "$needmotion" == "true" ]; then
         export PAINTER_LOG_MOTION="1"
     fi
@@ -103,6 +104,7 @@ else
     export PAINTER_LOGS_DIR=""
     export PAINTER_LOGFILE_PREFIX=""
     unset PAINTER_LOG_MOTION
+    unset ELEN_PAINTER_TESTCREATION
 
     ./run.sh regolden
     ./run.sh

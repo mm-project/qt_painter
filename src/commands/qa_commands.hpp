@@ -390,8 +390,17 @@ template <qaCompType T> class dicmdQaCompareInternal : public NonTransactionalDi
         // std::cout << "regoooooldneeeen" << QString::fromLocal8Bit( qgetenv("ELEN_PAINTER_REGOLDEN").constData()
         // ).toStdString() << std::endl;
         bool regoldenmode = false;
+        bool creationmode = false;
         if (!QString::fromLocal8Bit(qgetenv("ELEN_PAINTER_REGOLDEN").constData()).isEmpty())
             regoldenmode = true;
+
+        if (!QString::fromLocal8Bit(qgetenv("ELEN_PAINTER_TESTCREATION").constData()).isEmpty())
+            creationmode = true;
+        
+        if (creationmode) {
+            Messenger::expose_msg(info, "Created comparision checkpoint:" + qaCompType2string(T) + " " + g);
+            return;
+        }
 
         if (regoldenmode)
         {
