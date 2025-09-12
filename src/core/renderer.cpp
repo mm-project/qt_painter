@@ -256,21 +256,30 @@ void renderer::draw_objects()
     int starty = -1 * m_origin_point.y();
     int _height = 1 / get_zoom_factor() * (m_plane->height() - starty);
     int _width = 1 / get_zoom_factor() * (m_plane->width() - startx);    
-    // std::cout << "renderer" << startx << " " << starty << "      " << _width << " " << _height << std::endl;
+    //std::cout << "renderer" << startx << " " << starty << "      " << _width << " " << _height << std::endl;
 
-    if (m_rq_renderer)
-    {
-        RegionQuery &rq = RegionQuery::getInstance();
+    //if (m_rq_renderer)
+    //{
         auto objs = rq.getShapesUnderRect(QRect(startx, starty, _width, _height));
-        std::cout << " Objects:" << format_number(objs.size()) << std::endl;
-	    for (auto& shape : objs)
-            shape->draw(m_qt_painter);
-    }
-    else
-    {
-        for (auto i : m_working_set->getObjects())
-            i->draw(m_qt_painter);
-    }
+        //std::cout << " Objects:" << format_number(objs.size()) << std::endl;
+	    for (auto& shape : objs) {
+            auto bbox = shape->getBBox();
+            auto sw = std::abs(bbox.width()/_width);
+            auto sh = std::abs(bbox.height()/_height);
+            std::cout << "    ----" << sw << " X " << sh << std::endl;
+            if (sh > 0.001 && sw > 0.001 ) {
+                std::cout << "less" << std::endl;
+                shape->draw(m_qt_painter);
+            } else {
+                m_qt_painter->drawPoint(shape->center());
+            }
+        }
+    //}
+    //else
+    //{
+    //    for (auto i : m_working_set->getObjects())
+    //        i->draw(m_qt_painter);
+    //}
 }
 
 void renderer::make_viewport_adjustments()
@@ -531,7 +540,7 @@ void renderer::render()
     draw_all();
     auto end1 = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end1 - start1);
-    std::cout << "Function took " << format_duration(duration) << " \n";
+    //std::cout << "Function took " << format_duration(duration) << " \n";
     stop();
 }
 

@@ -144,6 +144,9 @@ class renderer
     bool m_need_draw_clicked = false;
     bool m_need_draw_cursor = false;
     QRect *m_users_pov_rect;
+
+    RegionQuery &rq = RegionQuery::getInstance();
+
 };
 
 #endif

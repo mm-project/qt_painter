@@ -63,7 +63,7 @@ def create_rand_obj():
     mmproject.dicmdCreateObjRectangle(x1,y1,x2,y2)
 
 def create_design():
-    for _ in range(50000000):
+    for _ in range(5000000):
         create_rand_obj()
 
 if __name__ == "__main__":
