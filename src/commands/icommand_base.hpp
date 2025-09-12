@@ -101,7 +101,7 @@ class CommandBase : public ICommand
     virtual void handle_mouse_release(int, int)
     {
     }
-    virtual void handle_mouse_move(int, int)
+    virtual void handle_mouse_move(int, int, bool)
     {
     }
     virtual void handle_mouse_press(int, int)

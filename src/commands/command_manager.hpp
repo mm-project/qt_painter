@@ -59,6 +59,7 @@ class command_manager : public Service<command_manager>
     void mouse_clicked(int x, int y);
     void mouse_released(int, int);
     void mouse_pressed(int, int);
+    void mouse_pressed2(int, int);
     void mouse_moved(int x, int y);
     void key_pressed();
     void update_tookplace();
@@ -81,6 +82,8 @@ class command_manager : public Service<command_manager>
     float m_ky = 1;
     int m_dx = 0;
     int m_dy = 0;
+
+    bool is_mouse_released = true;
     QPoint m_last_qa_point;
     QPoint m_last_cursor_point;
 };

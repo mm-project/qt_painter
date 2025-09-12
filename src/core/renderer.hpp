@@ -86,7 +86,7 @@ class renderer
     void zoomin_p(QPoint p);
     void zoomout_p(QPoint p);
     void set_cursor_pos_for_drawing(int, int);
-    void click_hint();
+    void click_hint(bool);
     void rendering_mode_change();
     void rendering_rt_mode_change();
     void rendering_des_mode_change();

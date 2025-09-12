@@ -1,0 +1,46 @@
+incmdCreateObjRectangle
+dicmdCanvasMouseClick -point (86,36) 
+dicmdCanvasMouseClick -point (151,81) 
+
+incmdCreateObjEllipse
+dicmdCanvasMouseClick -point (130,105) 
+dicmdCanvasMouseClick -point (202,159) 
+
+incmdCreateObjRectangle
+dicmdCanvasMouseClick -point (56,121) 
+dicmdCanvasMouseClick -point (104,171) 
+
+incmdCreateObjLine
+dicmdCanvasMouseClick -point (224,170) 
+dicmdCanvasMouseClick -point (74,232) 
+
+incmdCreateObjPolygon
+dicmdCanvasMouseClick -point (137,256) 
+dicmdCanvasMouseClick -point (233,212) 
+dicmdCanvasMouseClick -point (299,296) 
+dicmdCanvasMouseClick -point (182,296) 
+dicmdCanvasMouseDblClick -point (182,296) 
+
+incmdSelectShapesByRegion
+dicmdCanvasMouseClick -point (29,19) 
+dicmdCanvasMouseClick -point (350,321) 
+dicmdQaCompareRuntime 
+
+incmdObjRelocateByCopy
+dicmdQaCompareRuntime 
+dicmdCanvasMouseClick -point (354,304) 
+dicmdQaCompareRuntime 
+dicmdCanvasMouseClick -point (987,267)
+
+incmdSelectShapesByRegion
+dicmdCanvasMouseClick -point (28,26) 
+dicmdCanvasMouseClick -point (362,340) 
+
+incmdObjRelocateByMove
+dicmdQaCompareRuntime 
+dicmdCanvasMouseClick -point (237,273) 
+dicmdQaCompareRuntime 
+dicmdCanvasMouseClick -point (529,232)
+
+dicmdQaToolExit 
+dicmdQaToolExit

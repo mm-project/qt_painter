@@ -1,0 +1,129 @@
+dicmdCreateObjRectangle -brush 3 -color #0000ff -fill 10 -points {(57,57);(163,119)}
+dicmdCreateObjEllipse -brush 2 -color #00ffff -fill 9 -points {(107,146);(290,247)}
+dicmdCreateObjPolygon -brush 1 -color #ff00ff -fill 11 -points {(357,122);(412,175);(540,196);(562,53);(616,108);(619,113);(619,113)}
+dicmdCreateObjLine -brush 3 -color #ff0000 -fill 9 -points {(375,311);(589,230)}
+dicmdSelectShapesByRegion -end (706,338) -start (24,23)
+stop1
+dicmdCanvasMouseClick -point (764,287) 
+stop11
+dicmdCanvasMouseRelease -point (764,287)
+stop2
+dicmdCanvasMouseClick -point (133,101) 
+stop22
+dicmdCanvasMouseRelease -point (133,101) 
+stop3
+dicmdQaCompareRuntime 
+dicmdCanvasMouseClick -point (220,183) 
+dicmdCanvasMouseRelease -point (220,183) 
+stop4
+dicmdQaCompareRuntime 
+dicmdCanvasMouseClick -point (449,157) 
+dicmdCanvasMouseRelease -point (449,157) 
+dicmdQaCompareRuntime 
+dicmdCanvasMouseClick -point (486,277) 
+dicmdCanvasMouseRelease -point (486,277) 
+dicmdQaCompareRuntime 
+dicmdCanvasMouseClick -point (536,308) 
+dicmdCanvasMouseRelease -point (536,308) 
+dicmdCanvasMouseClick -point (125,94) 
+dicmdQaCompareRuntime 
+dicmdCanvasMouseRelease -point (810,58) 
+dicmdCanvasMouseClick -point (226,205) 
+dicmdQaCompareRuntime 
+dicmdCanvasMouseRelease -point (785,157) 
+dicmdQaCompareRuntime
+dicmdCanvasMouseClick -point (649,277) 
+dicmdCanvasMouseRelease -point (649,277) 
+dicmdCanvasMouseClick -point (531,258) 
+dicmdQaCompareRuntime
+dicmdCanvasMouseRelease -point (817,292) 
+dicmdQaCompareRuntime
+dicmdCanvasMouseClick -point (825,351) 
+dicmdCanvasMouseRelease -point (825,351) 
+dicmdQaCompareRuntime
+dicmdCanvasMouseClick -point (517,159) 
+dicmdCanvasMouseRelease -point (517,159) 
+dicmdCanvasMouseClick -point (510,159) 
+dicmdQaCompareRuntime
+dicmdCanvasMouseRelease -point (910,332) 
+dicmdQaCompareRuntime
+dicmdCanvasMouseClick -point (529,298) 
+dicmdCanvasMouseRelease -point (529,298) 
+dicmdQaCompareRuntime
+dicmdCanvasMouseClick -point (516,294) 
+dicmdQaCompareRuntime
+dicmdCanvasMouseRelease -point (521,298) 
+dicmdCanvasMouseClick -point (490,262) 
+dicmdQaCompareRuntime
+dicmdCanvasMouseRelease -point (422,263) 
+dicmdCanvasMouseClick -point (403,301) 
+dicmdQaCompareRuntime
+dicmdCanvasMouseRelease -point (404,301) 
+dicmdQaCompareRuntime
+dicmdCanvasMouseClick -point (424,302) 
+dicmdCanvasMouseRelease -point (424,302) 
+dicmdQaCompareRuntime
+dicmdCanvasMouseClick -point (685,300) 
+dicmdCanvasMouseRelease -point (685,300) 
+dicmdCanvasMouseClick -point (532,251) 
+dicmdQaCompareRuntime
+dicmdCanvasMouseRelease -point (275,167) 
+dicmdQaCompareRuntime
+dicmdCanvasMouseClick -point (303,206) 
+dicmdCanvasMouseRelease -point (303,206) 
+incmdSelectShapesByRegion
+dicmdCanvasMouseClick -point (717,23) 
+dicmdCanvasViewportZoomOut -point (1037,68) 
+dicmdCanvasViewportZoomOut -point (1037,68) 
+dicmdCanvasMouseClick -point (1037,68) 
+o --> Out: dicmdSelectShapesByRegion -end (1037,68) -start (467,273)
+dicmdCanvasMouseClick -point (573,27) 
+dicmdCanvasMouseClick -point (848,252) 
+o --> Out: dicmdSelectShapesByRegion -end (1026,304) -start (693,32)
+dicmdCanvasMouseClick -point (255,30) 
+dicmdCanvasMouseClick -point (864,293) 
+o --> Out: dicmdSelectShapesByRegion -end (1045,354) -start (308,36)
+dicmdCanvasViewportZoomIn -point (756,180) 
+dicmdCanvasViewportZoomOut -point (756,180) 
+dicmdCanvasViewportZoomOut -point (756,180) 
+dicmdCanvasViewportZoomOut -point (756,180) 
+dicmdCanvasViewportZoomOut -point (756,180) 
+dicmdCanvasViewportZoomOut -point (756,180) 
+dicmdCanvasViewportZoomOut -point (756,180) 
+dicmdCanvasViewportZoomOut -point (756,180) 
+incmdObjRelocateByCopy
+dicmdCanvasMouseClick -point (436,114) 
+dicmdQaCompareRuntime 
+dicmdQaCompareRuntime
+dicmdCanvasMouseRelease -point (688,70) 
+dicmdCanvasMouseClick -point (325,21) 
+dicmdQaCompareRuntime
+dicmdCanvasMouseRelease -point (472,122) 
+incmdSelectShapesByRegion
+dicmdCanvasMouseClick -point (637,9) 
+dicmdCanvasMouseClick -point (881,178) 
+o --> Out: dicmdSelectShapesByRegion -end (1888,381) -start (1365,19)
+incmdObjRelocateByMove
+dicmdCanvasMouseClick -point (747,100) 
+dicmdQaCompareRuntime 
+dicmdQaCompareRuntime
+dicmdCanvasMouseRelease -point (92,166) 
+dicmdQaCompareRuntime
+dicmdCanvasMouseClick -point (343,234) 
+dicmdCanvasMouseRelease -point (343,234) 
+dicmdAbortActiveCommand 
+dicmdQaCompareRuntime 
+dicmdQaCompareRuntime 
+dicmdQaCompareRuntime 
+dicmdQaCompareRuntime 
+dicmdQaCompareRuntime
+dicmdCanvasMouseClick -point (229,74) 
+dicmdCanvasMouseRelease -point (229,74) 
+dicmdAbortActiveCommand 
+dicmdCanvasViewportZoomIn -point (226,79) 
+dicmdCanvasViewportZoomIn -point (226,79) 
+dicmdCanvasViewportZoomIn -point (226,79) 
+dicmdAbortActiveCommand 
+dicmdAbortActiveCommand 
+dicmdQaCompareRuntime 
+dicmdQaToolExit 

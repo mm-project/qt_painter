@@ -1,6 +1,10 @@
 #include "canvas.hpp"
 #include "controller.hpp"
 
+#ifdef NO_RQ
+#include "../core/rq/RegionQueryService.hpp"
+#endif
+
 #include "../core/application.hpp"
 #include "../core/design.hpp"
 #include "../core/runtime_pool.hpp"
@@ -40,7 +44,7 @@ canvas::canvas(QWidget *p) : QWidget(p), is_runtime_mode(false)
     // setStyleSheet("background-color:black;");
 
     // fixme need preferences
-    m_need_motionlog = !(QString::fromLocal8Bit(qgetenv("PAINTER_LOG_MOTION").constData()).isEmpty());
+    m_need_motionlog = !QString::fromLocal8Bit(qgetenv("PAINTER_LOG_MOTION").constData()).isEmpty();
 
     // FIXME move to services
     m_design = std::shared_ptr<Design>(new Design);
@@ -51,6 +55,9 @@ canvas::canvas(QWidget *p) : QWidget(p), is_runtime_mode(false)
 
     Selection::getInstance().set_working_set(m_design);
     Selection::getInstance().set_sandbox(m_runtime);
+#ifdef NO_RQ
+    RegionQuery::getInstance().setWS(m_working_set);
+#endif
 
     m_renderer = new renderer(this, m_runtime, m_design);
 
@@ -89,16 +96,34 @@ renderer *canvas::get_renderer()
     return m_renderer;
 }
 
-// this is temporary
+// this is temporary, used only during log replay to simulate click event
 bool canvas::event(QEvent *event)
 {
-    if (event->type() == QEvent::User)
+    //m_mouse_hold = false;
+    //m_renderer->click_hint(false);
+	//*
+	if (event->type() == QEvent::User)
     {
-        QPoint p = (dynamic_cast<QMouseEvent *>(event))->pos();
-        cm.mouse_pressed(p.x(), p.y());
-        m_renderer->set_cursor_pos_for_drawing(p.x(), p.y());
-        update();
+        //assert(0);
+		QPoint p = (dynamic_cast<QMouseEvent *>(event))->pos();
+        cm.mouse_clicked(p.x(), p.y());
+        m_renderer->click_hint(true);
+		m_renderer->set_cursor_pos_for_drawing(p.x(), p.y());
+        //m_mouse_hold = true;
+		update();
+		//QWidget::event(event);
+        //m_renderer->click_hint(false);
+		
+        //m_renderer->click_hint(false);
     }
+	/**/
+	
+	/*
+	if (event->type() == QEvent::MouseMove && !m_mouse_hold) 
+        m_renderer->click_hint(false);
+	*/
+	
+    //m_renderer->click_hint(false);
     return QWidget::event(event);
 }
 
@@ -113,16 +138,16 @@ void canvas::keyPressEvent(QKeyEvent *ev)
         cm.activate_command(cm.find_command("incmdObjRelocateByMove"));
     else if (ev->key() == Qt::Key_C)
         cm.activate_command(cm.find_command("incmdObjRelocateByCopy"));
-    else if (ev->key() == Qt::Key_2)
-        cm.find_command("dicmdQaCompareSelection")->execute_and_log();
     else if (ev->key() == Qt::Key_0)
-        cm.find_command("dicmdQaCompareViewportRQ")->execute_and_log();
+        m_renderer->rendering_des_mode_change();
     else if (ev->key() == Qt::Key_1)
         m_renderer->rendering_mode_change();
-    else if (ev->key() == Qt::Key_4)
-        cm.find_command("dicmdQaCompareRuntime")->execute_and_log();
-    else if (ev->key() == Qt::Key_3)
+    else if (ev->key() == Qt::Key_2)
         m_renderer->rendering_rt_mode_change();
+    else if (ev->key() == Qt::Key_3)
+        cm.find_command("dicmdQaCompareRuntime")->execute_and_log();
+    else if (ev->key() == Qt::Key_4)
+        cm.find_command("dicmdQaCompareSelection")->execute_and_log();
     else if (ev->key() == Qt::Key_Z)
         m_renderer->zoomout_p(m_last_cursor);
     else if (ev->key() == Qt::Key_X)
@@ -145,22 +170,12 @@ void canvas::keyPressEvent(QKeyEvent *ev)
         cm.activate_command(cm.find_command("incmdSelectShapesByRegion"));
     else if (ev->key() == Qt::Key_N)
         cm.find_command("dicmdQaReplyStep")->execute_and_log();
-    else if (ev->key() == Qt::Key_9) {
-        cm.find_command("dicmdQaCompareSelection")->execute_and_log();
-        cm.find_command("dicmdQaCompareViewportRQ")->execute_and_log();
-        cm.find_command("dicmdQaCompareRuntime")->execute_and_log();
-    }
-    else if (ev->key() == Qt::Key_O)
-        Selection::getInstance().highlight_dehighlight_last_selected_region();
-    else if (ev->key() == Qt::Key_P) {
-        auto p = cm.get_qa_point();
-        int _x = p.x();
-        int _y = p.y();
-        m_renderer->set_cursor_pos_for_drawing(_x, _y);
-        m_renderer->hint_drawing_cursor_one_time();
-    }
     else if (ev->key()==Qt::Key_A && (QGuiApplication::keyboardModifiers() & Qt::ControlModifier))
         cm.find_command("dicmdSelectAllShapes")->execute_and_log();
+    else if (ev->key() == Qt::Key_9) {
+        //Selection::getInstance().highlight_last_selected_region(false);
+		Selection::getInstance().highlight_last_selected_region(true);
+	}
     else
     {
         if (cm.is_idle())
@@ -168,20 +183,6 @@ void canvas::keyPressEvent(QKeyEvent *ev)
         cm.key_pressed();
     }
     update();
-}
-
-void canvas::mousePressEvent(QMouseEvent *e)
-{
-    if (cm.is_idle())
-        return;
-
-    QPoint p(e->pos());
-    // if(!Application::is_replay_mode())
-    // if(!Application::is_log_mode())
-    // dicmdCanvasMouseClick(p).log();
-    cm.mouse_clicked(p.x(), p.y());
-    m_renderer->set_cursor_pos_for_drawing(p.x(), p.y());
-    m_renderer->click_hint();
 }
 
 // FIXME not needed anymore
@@ -194,11 +195,15 @@ void canvas::current_type_changed()
 
 void canvas::mouseMoveEvent(QMouseEvent *e)
 {
-    m_last_cursor = e->pos();
-    if (cm.is_idle())
-    {
-        return;
-    }
+    //std::cout << "move x: " << e->pos().x() << std::endl;
+    //assert(0);
+	//m_renderer->click_hint(false);
+
+	m_last_cursor = e->pos();
+    //if (cm.is_idle())
+    //{
+    //    return;
+    //}
 
     int _x = e->pos().x();
     int _y = e->pos().y();
@@ -209,20 +214,20 @@ void canvas::mouseMoveEvent(QMouseEvent *e)
     cm.mouse_moved(_x, _y);
 
     // if Preference::isSet("guiLogMouseMove")
-    if ( m_need_motionlog )
-        dicmdCanvasMouseMove(e->pos()).log();
-
+    // if ( m_need_motionlog )
+    // dicmdCanvasMouseMove(e->pos()).log();
+    /**/
     m_renderer->set_cursor_pos_for_drawing(_x, _y);
-    update();
+    //if ( ! m_mouse_hold )
+	//	m_renderer->click_hint(false);
+
+	update();
 }
 
 void canvas::wheelEvent(QWheelEvent *e)
 {
     // fixme need log?
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-    m_renderer->zoom((e->angleDelta().y() / 120), e->pos());
-#pragma GCC diagnostic pop
+    m_renderer->zoom((e->delta() / 120), e->pos());
     update();
 }
 
@@ -236,11 +241,84 @@ void canvas::mouseDoubleClickEvent(QMouseEvent *e)
     update();
 }
 
+void canvas::mousePressEvent(QMouseEvent *e)
+{
+    m_last_click_cursor = e->pos();
+	m_mouse_hold = true;
+    // if (!Application::is_replay_mode())
+    //	cm.mouse_pressed2(m_last_cursor.x(), m_last_cursor.y());
+    // else
+
+	std::cout << " ---hold---" << m_last_click_cursor.x() << "--" << m_last_click_cursor.y()<< std::endl;
+        // dicmdCanvasMousePress(m_last_click_cursor).log();
+    cm.mouse_pressed(m_last_click_cursor.x(), m_last_click_cursor.y());
+        // dicmdCanvasMousePress(m_last_click_cursor).log();
+
+    //cm.mouse_pressed2(m_last_cursor.x(), m_last_cursor.y());
+    QPoint p(e->pos());
+    m_renderer->set_cursor_pos_for_drawing(p.x(), p.y());
+    m_renderer->click_hint(true);
+	update();
+
+    if (cm.is_idle())
+        return;
+
+    // m_last_cursor = e->pos();
+    // QPoint p(e->pos());
+    // if(!Application::is_replay_mode())
+    // if(!Application::is_log_mode())
+
+    // dicmdCanvasMouseClick(p).log();
+    // cm.mouse_clicked(p.x(), p.y());
+    // m_renderer->click_hint();
+}
+
 void canvas::mouseReleaseEvent(QMouseEvent *e)
 {
-    cm.mouse_released(e->pos().x(), e->pos().y());
+    // dicmdCanvasMouseClick(p).log();
+    // cm.mouse_clicked(p.x(), p.y());
+    
+    QPoint p(e->pos());
+    m_renderer->set_cursor_pos_for_drawing(p.x(), p.y());
+    m_renderer->click_hint(false);
+
+    // std::cout << "release x: " << e->pos().x() << std::endl;
+
+    std::cout << "release x: " << e->pos().x() << "----- lastpos x: " << m_last_click_cursor.x() << std::endl;
+	m_mouse_hold = false;
+
+    
+	if (e->pos() == m_last_click_cursor)
+    {
+        std::cout << " ---click---" << std::endl;
+        //if(!Application::is_replay_mode())
+			dicmdCanvasMouseClick(p).log();
+        //cm.mouse_clicked(p.x(), p.y());
+        //m_renderer->set_cursor_pos_for_drawing(p.x(), p.y());
+        //m_renderer->click_hint();
+    }
+    else
+    {
+        
+		std::cout << " ---hold---" << std::endl;
+        std::cout << " ---release---" << std::endl;
+
+		//if(!Application::is_replay_mode()) {
+			//dicmdCanvasMousePress(m_last_click_cursor).log();
+			//dicmdCanvasMouseRelease(p).log();
+		//}
+        //cm.mouse_pressed(m_last_click_cursor.x(), m_last_click_cursor.y());
+        // dicmdCanvasMousePress(m_last_click_cursor).log();
+
+    }
+	cm.mouse_released(e->pos().x(), e->pos().y());
+	m_last_click_cursor = p;
+
+	//m_renderer->click_hint(false);
+
     // dicmdCanvasMouseDblClick(e->pos()).log();
-    update();
+    QApplication::processEvents();
+	update();
 }
 
 void canvas::on_update()
@@ -251,8 +329,12 @@ void canvas::on_update()
 
 void canvas::paintEvent(QPaintEvent *)
 {
+    //if ( ! m_mouse_hold )
+	//	m_renderer->click_hint(false);
+
     m_renderer->render();
-    // update(); why?
+    update();
+	// update(); why?
 }
 
 void canvas::invoke_create_line()
