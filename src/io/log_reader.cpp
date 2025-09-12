@@ -116,6 +116,7 @@ bool LogReader::replay_logfile_imi(const std::string &fname)
         replay_cmd(line.toStdString());
     }
 
+    //Application::getInstance().set_mode(APPNORM);
     Application::getInstance().set_replay_mode(false);
 
     return true;

@@ -305,7 +305,7 @@ Qt::BrushStyle get_brush_style_from_string(const QString &s)
 }
 } // namespace
 
-void pen_brush_gui::pen_color_changed(const QString &s)
+void pen_brush_gui::pen_color_changed(const QString &)
 {
     controller &c = controller::getInstance();
     // c->change_pen_coyylor(get_color_from_string(s));

@@ -8,6 +8,8 @@
 
 // Qt
 #include <QColor>
+#include <QRect>
+#include <QRectF>
 #include <QPoint>
 
 // STL
@@ -67,6 +69,8 @@ struct ShapeProperties
     Qt::PenJoinStyle pen_join_style = Qt::BevelJoin;
     Qt::BrushStyle brush_style = Qt::SolidPattern;
 
+    bool operator < (const ShapeProperties &t) const;
+
     // fixme temporary fix
     std::map<std::string, int> toStringsMap() const
     {
@@ -92,6 +96,8 @@ struct ShapeProperties
         brush_color = QColor(QString(color.c_str()));
         // pen_color = QColor(QString(color.c_str()));
     }
+private:
+    std::string generateKey() const;
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -147,12 +153,12 @@ class IShape
     }
     virtual void draw(QPainter *) = 0;
 
-#ifdef NO_RQ
-    virtual bool contains(const QPoint &point) const = 0;
-#endif
+    virtual bool contains( const QPoint& ) const = 0;
+    virtual bool intersects( const QRect& ) const = 0;
+    virtual bool isDisjointFrom( const QRect& ) const = 0;
 
-    // virtual bool contains() const = 0;
-    // virtual bool intersects() const = 0;
+    virtual QPoint center() const = 0;
+    virtual QRectF getBBox() const = 0;
 
   protected:
     //

@@ -90,6 +90,8 @@ class renderer
     void rendering_mode_change();
     void rendering_rt_mode_change();
     void rendering_des_mode_change();
+    void hint_drawing_cursor_one_time();
+    QRect get_viewport();
 
   private:
     QPainter *get_painter();
@@ -126,8 +128,8 @@ class renderer
     bool m_des_renderer = true;
 
     QPainter *m_qt_painter;
-    ObjectPoolPtr m_working_set;
     RuntimePoolManagerPtr m_sandbox;
+    ObjectPoolPtr m_working_set;
     int m_scale = 30;
     int m_pan_step = 10;
     QPoint m_origin_point = {0, 0};
@@ -137,6 +139,7 @@ class renderer
     int c_cursor_x = 0;
     int c_cursor_y = 0;
     bool m_need_draw_clicked = false;
+    bool m_need_draw_cursor = false;
     QRect *m_users_pov_rect;
 };
 

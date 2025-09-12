@@ -12,6 +12,7 @@ class MockWorkingSet : public IObjectPool
     }
     virtual std::vector<IShapePtr> getObjects() const noexcept override
     {
+        return {};
     }
     IShapePtr addObject(IShapePtr s) override
     {
@@ -19,7 +20,8 @@ class MockWorkingSet : public IObjectPool
         return s;
     }
     virtual std::string getName() const noexcept override
-    {
+    {   
+        return "MockWorkingSet";
     }
     virtual void dumpToFile(const std::string &) const
     {
@@ -42,7 +44,7 @@ class MockShape : public IShape
     virtual void addPoint(const QPoint &)
     {
     }
-    virtual void updateProperties(ShapeProperties b)
+    virtual void updateProperties(ShapeProperties)
     {
     }
     virtual bool is_draw_mode()
@@ -61,10 +63,31 @@ class MockShape : public IShape
     }
     virtual std::vector<QPoint> getPoints()
     {
+        return {};
     }
-    virtual ObjectType getType() const {};
+    virtual ObjectType getType() const {return ObjectType::LINE;};
     virtual void moveCenterToPoint(QPoint &)
     {
+    }
+    bool contains( const QPoint& ) const override
+    {
+        return false;
+    }
+    bool intersects( const QRect& ) const override
+    {
+        return false;
+    }
+    bool isDisjointFrom( const QRect& ) const override
+    {
+        return false;
+    }
+    QPoint center() const override
+    {
+        return {};
+    }
+    QRectF getBBox() const override
+    {
+        return {};
     }
 };
 
@@ -81,7 +104,7 @@ IShapePtr ShapeCreator::create(ObjectType)
 }
 
 // Mocking!: Implementations
-void Messenger::expose_msg(const LogMsgSeverity &s, const std::string &, bool)
+void Messenger::expose_msg(const LogMsgSeverity &, const std::string &, bool)
 {
 }
 void Messenger::log_command(const std::string &, bool)
@@ -103,9 +126,9 @@ void RegionQuery::removeObject(IShapePtr)
 void RegionQuery::clear()
 {
 }
-IShapePtr RegionQuery::getShapeUnderPos(QPoint const &) const
+std::vector<IShapePtr> RegionQuery::getShapeUnderPos(QPoint const &) const
 {
-    return nullptr;
+    return {};
 }
 
 void ServiceManager::shutDown()
@@ -132,6 +155,7 @@ bool UT_load_save_commands()
     // Expecting!: should be called properly with called arguments
     cmd.set_arg("-filename", "morqur");
     cmd.execute();
+    return true;
 }
 
 int main()
