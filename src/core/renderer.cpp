@@ -157,7 +157,7 @@ void renderer::zoomin()
 void renderer::zoomout()
 {
     // std::cout << "zzomout" << m_scale_factor << std::endl;
-    if (m_scale_factor > 0.005)
+    if (m_scale_factor > 0.0005)
     {
         m_scale_factor /= m_zoom_factor;
         // notify_viewport_changed();
@@ -260,20 +260,56 @@ void renderer::draw_objects()
 
     //if (m_rq_renderer)
     //{
-        auto objs = rq.getShapesUnderRect(QRect(startx, starty, _width, _height));
-        //std::cout << " Objects:" << format_number(objs.size()) << std::endl;
-	    for (auto& shape : objs) {
-            auto bbox = shape->getBBox();
-            auto sw = std::abs(bbox.width()/_width);
-            auto sh = std::abs(bbox.height()/_height);
-            std::cout << "    ----" << sw << " X " << sh << std::endl;
-            if (sh > 0.001 && sw > 0.001 ) {
-                std::cout << "less" << std::endl;
-                shape->draw(m_qt_painter);
-            } else {
-                m_qt_painter->drawPoint(shape->center());
+    //RegionQuery &rq = RegionQuery::getInstance();
+    auto objs = rq.getShapesUnderRect(QRect(startx, starty, _width, _height));
+    std::cout << " Objects:" << format_number(objs.size()) << std::endl;
+    //return;
+
+    for (auto& shape : objs) {
+        auto bbox = shape->getBBox();
+        auto sw = std::abs(bbox.width()/_width);
+        auto sh = std::abs(bbox.height()/_height);
+        //continue;
+        //std::cout << "    ----" << sw << " X " << sh << std::endl;
+        //if (sh > 0.001 && sw > 0.001 ) {
+        if (1) {
+            //std::cout << "too big" << std::endl;
+            shape->draw(m_qt_painter);
+        } else {
+            //std::cout << "small now" << std::endl;
+            //auto getPoints
+            //QPen pen(m_properties.pen_color, m_properties.pen_width, m_properties.pen_style, m_properties.pen_cap_style,
+            // m_properties.pen_join_style);
+            //QBrush brush(m_properties.brush_color, m_properties.brush_style);
+            m_qt_painter->setBrush(Qt::red);
+            m_qt_painter->setPen(Qt::red);
+            //auto pointb = shape->center();
+            QPointF pointb = shape->getPoints()[1];
+            QPointF p1 = pointb;
+            auto p2 = p1;
+            auto p3 = p1;
+            p1 += QPointF(0,10);
+            p2 += QPointF(0,10);
+            p3 += QPointF(0,10);
+            //m_qt_painter->setPen(pen);
+            for (int i=1; i<=10; i++)
+            {
+                //for (int j = 0; j <= 10; j++)
+                {
+                    m_qt_painter->drawPoint(pointb);
+                    pointb += QPointF(5, 0);
+                    m_qt_painter->drawPoint(p1);
+                    p1 += QPointF(5,0);
+                    m_qt_painter->drawPoint(p2);
+                    p2 += QPointF(5,0);
+                    m_qt_painter->drawPoint(p3);
+                    p3 += QPointF(5,0);
+                    //m_qt_painter->drawPoint(pointb);
+                }
             }
         }
+    }
+
     //}
     //else
     //{
@@ -540,7 +576,7 @@ void renderer::render()
     draw_all();
     auto end1 = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end1 - start1);
-    //std::cout << "Function took " << format_duration(duration) << " \n";
+    std::cout << "Function took " << format_duration(duration) << " \n";
     stop();
 }
 
