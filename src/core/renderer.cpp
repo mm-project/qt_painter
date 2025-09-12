@@ -6,6 +6,43 @@
 
 #include <cassert>
 
+struct dot_separator : std::numpunct<char> {
+protected:
+    char do_thousands_sep() const override { return '.'; }
+    std::string do_grouping() const override { return "\3"; } // groups of 3
+};
+
+std::string format_number(long long value) {
+    std::stringstream ss;
+    ss.imbue(std::locale(std::locale(), new dot_separator));
+    ss << value;
+    return ss.str();
+}
+
+template <typename Duration>
+std::string format_duration(Duration d) {
+    using namespace std::chrono;
+
+    auto ms = duration_cast<milliseconds>(d).count();
+
+    if (ms < 1000) {
+        return std::to_string(ms) + " ms";
+    }
+
+    auto sec = duration_cast<seconds>(d).count();
+    if (sec < 60) {
+        return std::to_string(sec) + " s";
+    }
+
+    auto min = duration_cast<minutes>(d).count();
+    if (min < 60) {
+        return std::to_string(min) + " min";
+    }
+
+    //auto hours = duration_cast<hours>(d).count();
+    //return std::to_string(hours) + " h";
+}
+
 renderer::renderer(QWidget *w, RuntimePoolManagerPtr r, ObjectPoolPtr s) : m_sandbox(r), m_working_set(s)
 {
     m_scale_factor = 1;
@@ -224,7 +261,9 @@ void renderer::draw_objects()
     if (m_rq_renderer)
     {
         RegionQuery &rq = RegionQuery::getInstance();
-	for (auto& shape : rq.getShapesUnderRect(QRect(startx, starty, _width, _height)))
+        auto objs = rq.getShapesUnderRect(QRect(startx, starty, _width, _height));
+        std::cout << " Objects:" << format_number(objs.size()) << std::endl;
+	    for (auto& shape : objs)
             shape->draw(m_qt_painter);
     }
     else
@@ -361,6 +400,7 @@ std::vector<QRect> renderer::init_query_rects(int num_regions)
     return query_rects;
 }
 
+/*
 void renderer::draw_all()
 {
     RegionQuery &rq = RegionQuery::getInstance();
@@ -406,6 +446,21 @@ void renderer::draw_all()
     //canvas.save("canvas.bmp");
     //delete painter;
 }
+*/
+
+
+void renderer::draw_all()
+{
+    //draw_background();
+    //draw_grid();
+    draw_objects();
+    //if (m_rt_renderer)
+    //    draw_runtime_pools();
+    //if (m_need_draw_cursor || Application::is_replay_mode())
+    //    draw_cursor();
+
+}
+/**/
 
 /*
 void renderer::draw_all()
@@ -472,7 +527,11 @@ void renderer::render()
 {
     start();
     make_viewport_adjustments();
+    auto start1 = std::chrono::high_resolution_clock::now();
     draw_all();
+    auto end1 = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end1 - start1);
+    std::cout << "Function took " << format_duration(duration) << " \n";
     stop();
 }
 
