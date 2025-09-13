@@ -1,0 +1,36 @@
+### Running All tests
+
+    To run all tests sequentally. ( no arguments needed )
+        ./sqa/bin/runRegTests.sh
+
+    To run all tests in parallel. ( no arguments needed )
+        ./sqa/bin/runTestsParallel.sh
+
+
+
+### Running single test
+
+    To run single test
+        ./sqa/bin/runTest.sh <testpath>
+
+    To regolden single test
+        ./sqa/bin/runTest.sh <testpath> regolden
+
+    To run single test and stop on first failure 
+        ./sqa/bin/runTest.sh <testpath> debug
+
+    To run single test and stop on given failure 
+        ./sqa/bin/runTest.sh <testpath> debug <type>=<id>
+
+    To run single test to stop on given validation (even if passing) 
+        ./sqa/bin/runTest.sh <testpath> compare_debug <type>=<id>
+
+    To run single test to stop on given validation (even if passing) 
+        ./sqa/bin/runTest.sh <testpath> compare_debug <type>=<id>
+
+
+
+### etc
+    
+    To run in current branch and dev in parallel
+        ./sqa/bin/helpMeDebug.sh <testpath> compare_debug <type>=<id>
