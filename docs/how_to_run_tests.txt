@@ -19,11 +19,11 @@
     To run single test and stop on first failure 
         ./sqa/bin/runTest.sh <testpath> debug
 
+    To run single test and stop on first validation (even if passing) 
+        ./sqa/bin/runTest.sh <testpath> compare_debug
+
     To run single test and stop on given failure 
         ./sqa/bin/runTest.sh <testpath> debug <type>=<id>
-
-    To run single test to stop on given validation (even if passing) 
-        ./sqa/bin/runTest.sh <testpath> compare_debug <type>=<id>
 
     To run single test to stop on given validation (even if passing) 
         ./sqa/bin/runTest.sh <testpath> compare_debug <type>=<id>
