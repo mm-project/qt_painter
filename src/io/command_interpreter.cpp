@@ -1,4 +1,6 @@
 #include "command_interpreter.hpp"
+#include "../core/rq/RegionQueryService.hpp"
+//#include <QTimer>
 
 #define PY_SSIZE_T_CLEAN
 #pragma push_macro("slots")
@@ -180,6 +182,32 @@ static PyObject* python_dicmdQaCompareSelection(PyObject *, PyObject *args)
 
 }
 
+static PyObject* python_dicmdCanvasReset(PyObject *, PyObject *args)
+{
+
+    //std::cout << "ihiihihihihi" << std::endl;
+    RegionQuery::getInstance().clear();
+    command_manager::getInstance().get_main_widget()->findChild<QWidget *>("CANVAS")->update();
+    return PyLong_FromLong(0);
+    
+    /*
+    QTimer::singleShot(2, []() {
+        RegionQuery::getInstance().clear();
+        command_manager::getInstance().get_main_widget()->findChild<QWidget *>("CANVAS")->update();
+    });
+    */
+    /*
+    command_manager& cm = command_manager::getInstance();
+    CommandBase* cmd = cm.find_command("dicmdQaCompareSelection");
+
+    if(!PyArg_ParseTuple(args, ""))
+        return NULL;
+
+    cmd->execute_and_log();
+    return PyLong_FromLong(0);
+    */
+
+}
 
 //mmproject.dicmdCreateObjLine(128,219,328,100)
 //mmproject.dicmdCreateObjLine -brush 1 -color #000000 -fill 9 -points {(128,219);(328,100)}
@@ -187,6 +215,7 @@ static PyObject* python_dicmdQaCompareSelection(PyObject *, PyObject *args)
 //dicmdSelectShapesByRegion -end (471,236) -start (112,24)
 //mmproject.dicmdQaCompareSelection()
 static PyMethodDef MMProjectMethods[] = {
+    {"dicmdCanvasReset", python_dicmdCanvasReset, METH_VARARGS , "Creates line on canvas given coordinates."},
     {"dicmdCanvasMouseClick", python_dicmdCanvasMouseClick, METH_VARARGS , "Mouse click action on canvas."},
     {"dicmdCanvasMousePress", python_dicmdCanvasMousePress, METH_VARARGS , "Mouse press (and hold) action on canvas."},
     {"dicmdCanvasMouseRelease", python_dicmdCanvasMouseRelease, METH_VARARGS , "Mouse release action on canvas."},
