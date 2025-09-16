@@ -8,7 +8,17 @@ class GameOfLife:
         self.cols = cols
         self.cell_size = cell_size
         # Initialize with random 0/1
-        self.grid = [[random.randint(0, 1) for _ in range(cols)] for _ in range(rows)]
+        #self.grid = [[random.randint(0, 1) for _ in range(cols)] for _ in range(rows)]
+        #self.grid = [[1 if random.random() < 0.2 else 0 for _ in range(cols)] for _ in range(rows)]
+        self.grid = [[0 for _ in range(cols)] for _ in range(rows)]
+        for _ in range(int(rows * cols * 0.2)):  # seed 20% of cells
+            r = random.randrange(rows)
+            c = random.randrange(cols)
+            # seed a 3x3 cluster around (r,c)
+            for dr in (-1, 0, 1):
+                for dc in (-1, 0, 1):
+                    if 0 <= r+dr < rows and 0 <= c+dc < cols:
+                        self.grid[r+dr][c+dc] = 1
 
     def step(self):
         #mmproject.dicmdCanvasReset()
@@ -53,8 +63,8 @@ class GameOfLife:
 
 
 if __name__ == "__main__":
-    game = GameOfLife(rows=60, cols=60, cell_size=15)
-    time.sleep(1)
+    game = GameOfLife(rows=50, cols=50, cell_size=50)
+    time.sleep(5)
     
     game.draw()
     #time.sleep(0.7)

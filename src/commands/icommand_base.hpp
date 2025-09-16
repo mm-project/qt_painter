@@ -50,7 +50,7 @@ class CommandBase : public ICommand
 
     virtual void execute_and_log()
     {
-        log();
+        //log();
         try
         {
             // pre_execute();
@@ -82,7 +82,7 @@ class CommandBase : public ICommand
     // for anothers like directive commands, they can redifne what they need to do
     virtual void log()
     {
-        log_impl(get_name());
+        //log_impl(get_name());
     }
 
     // virtual void activate() {}
