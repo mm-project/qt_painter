@@ -120,14 +120,8 @@ static PyObject* python_dicmdCreateObjRectangle(PyObject *, PyObject *args)
     cmd->set_arg("-color","#0000ff");
     cmd->set_arg("-fill","9");
     cmd->set_arg("-points",final_str.toStdString());
-    //cm.activate_command(dynamic_cast<CommandBase *>(cmd));
-    //auto res = cmd->execute_and_log();
     auto res = cmd->execute();
-    //std::cout << "reeeeeeeees:::::" << res << std::endl;
-    //auto o = 
     return res->get_python_object();
-    //return PyLong_FromLong(0);
-
 }
 
 static PyObject* python_dicmdSelectShapesByRegion(PyObject *, PyObject *args)

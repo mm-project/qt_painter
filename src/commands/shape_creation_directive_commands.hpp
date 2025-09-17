@@ -21,11 +21,6 @@
 #define S_ARG(s) GET_CMD_ARG(StringCommandOptionValue, s)
 #define I_ARG(s) GET_CMD_ARG(IntCommandOptionValue, s)
 
-namespace {
-    std::map<int, IShapePtr> global_fixme;
-    int global_id = 1;
-}
-
 template <ObjectType T> class dicmdCreateObj : public DirectCommandBase
 {
 
@@ -77,7 +72,8 @@ template <ObjectType T> class dicmdCreateObj : public DirectCommandBase
         obj->updateProperties(pr);
         m_executed_object = ws->addObject(obj);
         rq.insertObject(m_executed_object);
-        global_fixme[global_id] = m_executed_object;
+        global_fixme1[global_id] = m_executed_object;
+        global_fixme2[m_executed_object] = global_id;
         global_id++;
 
         CommandResult<IShapePtr>* res = new CommandResult<IShapePtr>(m_executed_object); 
