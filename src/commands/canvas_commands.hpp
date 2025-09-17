@@ -21,7 +21,7 @@ template <panDirection T> class dicmdCanvasOrigin : public NonTransactionalDirec
         return "dicmdCanvasOrigin" + panDirection2str(T);
     }
 
-    virtual void execute()
+    virtual ICommandResult* execute()
     {
         command_manager::getInstance().get_main_renderer()->pan(T);
         command_manager::getInstance().get_main_widget()->update();
@@ -53,7 +53,7 @@ template <zoomDirection T> class dicmdCanvasViewport : public NonTransactionalDi
         return "dicmdCanvasViewport" + zoomDirection2str(T);
     }
 
-    virtual void execute()
+    virtual ICommandResult* execute()
     {
         m_p = GET_CMD_ARG(PointCommandOptionValue, "-point");
         command_manager::getInstance().get_main_renderer()->zoom_internal(T, m_p);

@@ -62,7 +62,7 @@ template <relocAction T> class dicmdObjRelocateBy : public DirectCommandBase
         return "dicmdObjRelocateBy" + relocAction2string(T);
     }
 
-    virtual void execute() override
+    virtual ICommandResult* execute() override
     {
         if (m_se.getObjects().empty())
             throw 1;
@@ -115,7 +115,7 @@ template <relocAction T> class incmdObjRelocateBy : public InteractiveCommandBas
         // return m_need_mouserelase_log;
     }
 
-    virtual void execute()
+    virtual ICommandResult* execute()
     {
         // set_next_handler(HANDLE_FUNCTION(incmdObjRelocateBy<T>,idle));
         m_sb->clear();

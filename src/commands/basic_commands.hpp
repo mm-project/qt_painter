@@ -11,7 +11,7 @@ class incmdIdle : public NonTransactionalDirectCommandBase
     {
         return "incmdIdle";
     }
-    virtual void execute()
+    virtual ICommandResult* execute()
     {
     }
 };
@@ -24,7 +24,7 @@ class dicmdAbortActiveCommand : public NonTransactionalDirectCommandBase
         return "dicmdAbortActiveCommand";
     }
 
-    virtual void execute()
+    virtual ICommandResult* execute()
     {
         // command_manager::getInstance().disactivate_active_command();//get_active_command()->abort();
         command_manager::getInstance().get_active_command()->abort();

@@ -118,7 +118,7 @@ class dicmdQaReplyStep : public NonTransactionalDirectCommandBase
         return "dicmdQaReplyStep";
     }
 
-    virtual void execute()
+    virtual ICommandResult* execute()
     {
         LeCallbackData d;
         NOTIFY(STEP_REPLY, d);
@@ -133,7 +133,7 @@ class dicmdQaReplyingBreak : public NonTransactionalDirectCommandBase
         return "dicmdQaReplyingBreak";
     }
 
-    virtual void execute()
+    virtual ICommandResult* execute()
     {
         LeCallbackData d;
         NOTIFY(STOP_REPLY, d);
@@ -148,7 +148,7 @@ class dicmdQaReplyingResume : public NonTransactionalDirectCommandBase
         return "dicmdQaReplyingResume";
     }
 
-    virtual void execute()
+    virtual ICommandResult* execute()
     {
         LeCallbackData d;
         NOTIFY(RESUME_REPLY, d);
@@ -163,11 +163,11 @@ class dicmdQaToolExit : public NonTransactionalDirectCommandBase
         return "dicmdQaToolExit";
     }
 
-    virtual void execute()
+    virtual ICommandResult* execute()
     {
         // FIXME
-        if (Application::getInstance().is_debug_mode())
-            return;
+        //if (Application::getInstance().is_debug_mode())
+        //    return;
 
         QApplication::quit();
         QApplication::exit();
@@ -218,31 +218,31 @@ template <qaCompType T> class dicmdQaDump : public NonTransactionalDirectCommand
         return "dicmdQaDump" + qaCompType2string(T);
     }
 
-    virtual void execute()
+    virtual ICommandResult* execute()
     {
         m_fname = GET_CMD_ARG(StringCommandOptionValue, "-filename");
         switch (T)
         {
         case RUNTIME:
-            return dump_runtimes();
+            dump_runtimes();
             break;
         case DESIGN:
-            return dump_design();
+            dump_design();
             break;
         case SELECTION:
-            return dump_selection();
+            dump_selection();
             break;
         case CANVAS:
-            return dump_canvas();
+            dump_canvas();
             break;
         case SELECTIONCANVAS:
-            return dump_canvas_wrapper();
+            dump_canvas_wrapper();
             break;
         case SELECTIONCANVAS2:
-            return dump_canvas_wrapper(true);
+            dump_canvas_wrapper(true);
             break;
         case VIEWPORT_RQ:
-            return dump_rq();
+            dump_rq();
             break;
         }
     }
@@ -362,7 +362,7 @@ template <qaCompType T> class dicmdQaCompare : public NonTransactionalDirectComm
         return n_index;
     }
 
-    virtual void execute();
+    virtual ICommandResult* execute();
 };
 
 template <qaCompType T> class dicmdQaCompareInternal : public NonTransactionalDirectCommandBase
@@ -379,7 +379,7 @@ template <qaCompType T> class dicmdQaCompareInternal : public NonTransactionalDi
         return "dicmdQaCompareInternal" + qaCompType2string(T);
     }
 
-    virtual void execute()
+    virtual ICommandResult* execute()
     {
         std::stringstream z;
         std::string f(GET_CMD_ARG(StringCommandOptionValue, "-dumpfile"));
@@ -399,7 +399,7 @@ template <qaCompType T> class dicmdQaCompareInternal : public NonTransactionalDi
         
         if (creationmode) {
             Messenger::expose_msg(info, "Created comparision checkpoint:" + qaCompType2string(T) + " " + g);
-            return;
+            //return;
         }
 
         if (regoldenmode)
@@ -508,7 +508,7 @@ template <qaCompType T> class dicmdQaCompareInternal : public NonTransactionalDi
 };
 
 template <qaCompType T> 
-void dicmdQaCompare<T>::execute()
+ICommandResult* dicmdQaCompare<T>::execute()
 {
     // if not a canvas compare, do extra canvas compare in any case
     
@@ -556,7 +556,7 @@ class dicmdTestCmdListOptions : public NonTransactionalDirectCommandBase
         return "dicmdTestCmdListOptions";
     }
 
-    virtual void execute()
+    virtual ICommandResult* execute()
     {
         // std::string f(GET_CMD_ARG(StringListCommandOptionValue,"-list1"));
         // std::string g(GET_CMD_ARG(StringListCommandOptionValue,"-list2"));

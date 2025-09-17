@@ -27,7 +27,7 @@ class dicmdDeleteObj : public DirectCommandBase
         return "dicmdDeleteShape";
     }
 
-    virtual void execute() override
+    virtual ICommandResult* execute() override
     {
         RegionQuery &rq = RegionQuery::getInstance();
         QPoint pos = GET_CMD_ARG(PointCommandOptionValue, "-point");
@@ -68,7 +68,7 @@ class InteractiveDeleteAction : public InteractiveCommandBase
         command_manager::getInstance().return_to_idle();
     }
 
-    virtual void execute() override
+    virtual ICommandResult* execute() override
     {
         StatusBarManager::getInstance().updateStatusBar("Click and delete object", 1, 0);
         InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(InteractiveDeleteAction, idle));

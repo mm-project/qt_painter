@@ -15,10 +15,16 @@
 
 #include <iostream>
 #include <string>
+#include <map>
 
 #define PL_ARG(s) GET_CMD_ARG(PointListCommandOptionValue, s)
 #define S_ARG(s) GET_CMD_ARG(StringCommandOptionValue, s)
 #define I_ARG(s) GET_CMD_ARG(IntCommandOptionValue, s)
+
+namespace {
+    std::map<int, IShapePtr> global_fixme;
+    int global_id = 1;
+}
 
 template <ObjectType T> class dicmdCreateObj : public DirectCommandBase
 {
@@ -58,7 +64,7 @@ template <ObjectType T> class dicmdCreateObj : public DirectCommandBase
         m_cmdfile->close();
     }
 
-    virtual void execute()
+    virtual ICommandResult* execute()
     {
         //* //std::vector<QPoint> v(GET_CMD_ARG(PointListCommandOptionValue,"-points"));
         auto obj = ShapeCreator::getInstance().create(T);
@@ -71,6 +77,12 @@ template <ObjectType T> class dicmdCreateObj : public DirectCommandBase
         obj->updateProperties(pr);
         m_executed_object = ws->addObject(obj);
         rq.insertObject(m_executed_object);
+        global_fixme[global_id] = m_executed_object;
+        global_id++;
+
+        CommandResult<IShapePtr>* res = new CommandResult<IShapePtr>(m_executed_object); 
+        //std::cout << res << " " << res->get_python_object() << std::endl;
+        return res;
     }
 
     virtual std::string get_name()
