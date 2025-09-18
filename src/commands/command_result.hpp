@@ -27,6 +27,12 @@ class ICommandResult
         virtual ~ICommandResult() = default;
 };
 
+class EmptyResult: public ICommandResult
+{
+    public:
+        virtual PyObject* get_python_object() { return 0; }
+};
+
 template<typename T>
 struct is_vector : std::false_type {};
 

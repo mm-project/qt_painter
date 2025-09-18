@@ -121,7 +121,24 @@ static PyObject* python_dicmdCreateObjRectangle(PyObject *, PyObject *args)
     cmd->set_arg("-fill","9");
     cmd->set_arg("-points",final_str.toStdString());
     auto res = cmd->execute();
+    //auto res = cmd->get_result();
     return res->get_python_object();
+}
+
+static PyObject* python_dicmdDeleteObj2(PyObject *, PyObject *args)
+{
+
+    int object_id;
+    command_manager& cm = command_manager::getInstance();
+    CommandBase* cmd = cm.find_command("dicmdDeleteObj2");
+
+    if(!PyArg_ParseTuple(args, "i", &object_id))
+        return NULL;
+
+
+    cmd->set_arg("-object_id",std::to_string(object_id));
+    cmd->execute();
+    return PyLong_FromLong(0);
 }
 
 static PyObject* python_dicmdSelectShapesByRegion(PyObject *, PyObject *args)
@@ -190,6 +207,7 @@ static PyMethodDef MMProjectMethods[] = {
     {"dicmdCanvasMouseRelease", python_dicmdCanvasMouseRelease, METH_VARARGS , "Mouse release action on canvas."},
     {"dicmdCreateObjLine", python_dicmdCreateObjLine, METH_VARARGS , "Creates line on canvas given coordinates."},
     {"dicmdCreateObjRectangle", python_dicmdCreateObjRectangle, METH_VARARGS , "Creates rectangle on canvas given coordinates."},
+    {"dicmdDeleteObj2", python_dicmdDeleteObj2, METH_VARARGS , "Creates rectangle on canvas given coordinates."},
     {"dicmdSelectShapesByRegion", python_dicmdSelectShapesByRegion, METH_VARARGS , "Selects shapes in canvas given coordinates."},
     {"dicmdQaCompareSelection", python_dicmdQaCompareSelection, METH_VARARGS , "Selects shapes in canvas given coordinates."},
     {"dicmdQaToolExit", python_dicmdQaToolExit, METH_VARARGS , "Exit the tool."},
