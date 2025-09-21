@@ -86,3 +86,5 @@ class command_manager : public Service<command_manager>
 };
 
 #endif
+
+
