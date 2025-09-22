@@ -20,6 +20,10 @@ b=0
 e=1
 declare -A PIDS 
 
+wdir="test_out"
+rm -rf $wdir
+mkdir $wdir
+
 function runAll
 {
     threads_num=8
@@ -52,8 +56,7 @@ function runParallel
     beg=$2
     end=$3
     beg=`expr $beg + 1`
-    
-    outfile="chunk$i.OUT"
+    outfile="$wdir/chunk$i.OUT"
     export PAINTER_QA_TEST_RUN_PARALLEL=1
     $DIR/runRegTests.sh $beg $end &> $outfile &
     pid=$!
@@ -112,16 +115,36 @@ function printResult
     fi
 }
 
+function printFailedTests
+{
+    failed_tests_files=$(find $wdir -name .failed_tsts* )
+    rm -f FAILURES.html
+    fail_id=1
+    for f in $failed_tests_files; do
+        failures=$(cat $f)
+        cat $f | sed 's/^/\t/'
+        for failure in $failures; do
+            echo "$fail_id: <a href=\"sqa/$failure/output/DIFF.html\"> $failure </a><br><br>" >> FAILURES.html
+            fail_id=$(expr $fail_id + 1)
+        done
+    done
+}
+
 function reportAll
 {
     fails=0
-
-    echo 
+    fails=`expr $file_len - $passs`
+    if [ "$fails" != 0 ]; then
+        echo 
+        echo "Failed test(s):"
+        printFailedTests
+    fi
+    
+    echo
     echo "Summary:"
     echo "         Total:   $file_len "
     echo
 
-    fails=`expr $file_len - $passs`
     if [ "$fails" == 0 ]; then
         echo "         ALL TESTS PASS"
         exit 0

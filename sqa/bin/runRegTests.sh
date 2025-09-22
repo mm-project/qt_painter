@@ -9,8 +9,6 @@ done
 DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 
 cdir=$PWD
-failed_test_list_file=$PWD/.failed_tsts
-rm -f $failed_test_list_file
 
 options="$@"
 BEG=$1
@@ -42,12 +40,20 @@ crashed=0
 t_id=1
 t_res=5
 
+wdir="test_out"
+
 if [ "$PAINTER_QA_TEST_RUN_PARALLEL" != "" ]; then
     TESTLST=`awk -v b=$BEG -v e=$END 'NR >= b && NR <= e' $PAINTER_QA_DIR/tests.lst`
+    failed_test_list_file=$PWD/$wdir/.failed_tsts_${BEG}_${END}
 else
     TESTLST=`cat $PAINTER_QA_DIR/tests.lst`
+    rm -rf $wdir
+    mkdir $wdir
+    failed_test_list_file=$PWD/$wdir/.failed_tsts
     #echo "DEBUG: awk -v b=$BEG -v e=$END 'NR >= b && NR <= e' $PAINTER_QA_DIR/tests.lst"
 fi
+
+rm -f $failed_test_list_file
 
 for i in $TESTLST; do
     total=`expr $total + 1`
@@ -61,7 +67,7 @@ for i in $TESTLST; do
             t_res=1
             passed=`expr $passed + 1`
             if [ "$PAINTER_NEED_TEST_PASS_ARTIFACTS" != "" ]; then
-	    	cp output $ARTIFACTS_DIR/$testname -rf
+	    	cp -rf output $ARTIFACTS_DIR/$testname 
 	    fi
         elif [ "$r" == 3 ]; then
             echo -e "\e[4;5;41mC R A S H\e[0;25m"
@@ -70,7 +76,7 @@ for i in $TESTLST; do
             echo "==========="
             res=1
             crashed=`expr $crashed + 1`
-            cp output $ARTIFACTS_DIR/$testname -rf
+            cp -rf output $ARTIFACTS_DIR/$testname 
             echo "$i" >> $failed_test_list_file
         else
             echo -e "\e[31mError (code:$r) \e[0m"
@@ -79,7 +85,7 @@ for i in $TESTLST; do
             echo "==========="
             failed=`expr $failed + 1`
             res=1
-            cp output $ARTIFACTS_DIR/$testname -rf
+            cp -rf output $ARTIFACTS_DIR/$testname 
             echo "$i" >> $failed_test_list_file
         fi
         echo  "------------------------------------------------------------------------------------"
