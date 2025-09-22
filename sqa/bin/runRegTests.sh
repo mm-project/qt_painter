@@ -8,6 +8,10 @@ while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symli
 done
 DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 
+cdir=$PWD
+failed_test_list_file=$PWD/.failed_tsts
+rm -f $failed_test_list_file
+
 options="$@"
 BEG=$1
 END=$2
@@ -67,6 +71,7 @@ for i in $TESTLST; do
             res=1
             crashed=`expr $crashed + 1`
             cp output $ARTIFACTS_DIR/$testname -rf
+            echo "$i" >> $failed_test_list_file
         else
             echo -e "\e[31mError (code:$r) \e[0m"
             echo "************"
@@ -75,6 +80,7 @@ for i in $TESTLST; do
             failed=`expr $failed + 1`
             res=1
             cp output $ARTIFACTS_DIR/$testname -rf
+            echo "$i" >> $failed_test_list_file
         fi
         echo  "------------------------------------------------------------------------------------"
     cd - &> /dev/null
@@ -98,6 +104,11 @@ if [ "$PAINTER_QA_TEST_RUN_PARALLEL" == "" ]; then
         echo "         Failed:  $failed"
         echo "         Passed:  $passed"
         echo "         Crashd:  $crashed"
+	    echo "*****************************************"
+	    echo
+	    cat $failed_test_list_file
+	    echo
+	    echo "*****************************************"
         exit 1
     fi
 else
