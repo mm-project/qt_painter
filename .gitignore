@@ -24,3 +24,4 @@ output
 *.OUT
 test_out
 test.info
+FAILURES.html
