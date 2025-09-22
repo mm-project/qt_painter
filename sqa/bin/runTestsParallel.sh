@@ -121,15 +121,16 @@ function printFailedTests
     failed_tests_files=$(find $wdir -name .failed_tsts* )
     rm -f FAILURES.html
     fail_id=1
-    url_prefix="sqa"
+    url_prefix="sqa/tests"
     if [ "$CI_CHECK" == "1" ]; then
-        url_prefix="/root/project/artifacts"
+        url_prefix=""
     fi
 
     for f in $failed_tests_files; do
         failures=$(cat $f)
         cat $f | sed 's/^/\t/'
-        for failure in $failures; do
+        for failed_test in $failures; do
+            failure=$(echo $failed_test | cut -d/ -f2-)
             echo "$fail_id: <a href=\"$url_prefix/$failure/output/DIFF.html\"> $failure </a><br><br>" >> FAILURES.html
             fail_id=$(expr $fail_id + 1)
         done
