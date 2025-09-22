@@ -22,3 +22,5 @@ src/io/io_autogen
 CMakeFiles
 output
 *.OUT
+test_out
+test.info

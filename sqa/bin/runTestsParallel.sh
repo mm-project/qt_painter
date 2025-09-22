@@ -9,6 +9,7 @@ done
 DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 
 PAINTER_QA_DIR=$DIR/..
+ARTIFACTS_DIR=$DIR/../../artifacts
 
 tst_lst=$1
 if [ "$tst_lst" == "" ]; then
@@ -151,6 +152,7 @@ function reportAll
     else
         echo "         Failed:  $fails"
         echo "         Passed:  $passs"
+        cp FAILURES.html $ARTIFACTS_DIR
         exit 1
     fi
 }
