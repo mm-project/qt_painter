@@ -146,6 +146,7 @@ function printFailedTests
             done
         done    
     fi
+    cat $PAINTER_QA_DIR/etc/webrelated/failures_js.html >> FAILURES.html
 
 }
 
