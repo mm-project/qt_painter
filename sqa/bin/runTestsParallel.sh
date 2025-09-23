@@ -21,6 +21,7 @@ b=0
 e=1
 declare -A PIDS 
 
+cwd=$(pwd)
 wdir="test_out"
 rm -rf $wdir
 mkdir $wdir
@@ -129,18 +130,18 @@ function printFailedTests
             for failed_test in $failures; do
                 failure1=$(echo $failed_test | cut -d/ -f2-)
                 failure2=$(basename $failed_test)
-                echo "$fail_id: <a href=\"${failure2}/DIFF.html\"> $failed_test </a><br><br>" >> FAILURES.html
+                echo "$fail_id: <a href=\"${failure2}/DIFF.html\"> sqa/$failed_test </a><br><br>" >> FAILURES.html
                 fail_id=$(expr $fail_id + 1)
             done
         done    
     else
-        url_prefix="sqa/tests/"
+        url_prefix="sqa/tests"
         for f in $failed_tests_files; do
             failures=$(cat $f)
             cat $f | sed 's/^/\t/'
             for failed_test in $failures; do
                 failure=$(echo $failed_test | cut -d/ -f2-)
-                echo "$fail_id: <a href=\"${url_prefix}${failure}/output/DIFF.html\"> $failure </a><br><br>" >> FAILURES.html
+                echo "$fail_id: <a href=\"${url_prefix}/${failure}/output/DIFF.html\"> ${url_prefix}/$failure </a><br><br>" >> FAILURES.html
                 fail_id=$(expr $fail_id + 1)
             done
         done    
@@ -156,6 +157,8 @@ function reportAll
         echo 
         echo "Failed test(s):"
         printFailedTests
+        echo 
+        echo "See: $cwd/FAILURES.html"
     fi
     
     echo
