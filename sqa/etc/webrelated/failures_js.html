@@ -1,0 +1,156 @@
+ 
+    </tbody>
+  </table>
+</div>
+
+<style>
+/* Centering wrapper */
+.table-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 40px 0;
+}
+
+/* Table style */
+#link-table {
+  table-layout: fixed;
+  width: 90%;
+  max-width: 1000px;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Column widths */
+#link-table th:first-child,
+#link-table td:first-child {
+  width: 5%;  /* Test ID */
+  text-align: center;
+}
+#link-table th:nth-child(2),
+#link-table td:nth-child(2) {
+  width: 60%;  /* Link */
+  word-wrap: break-word;
+}
+#link-table th:last-child,
+#link-table td:last-child {
+  width: 35%;  /* Comment */
+}
+
+/* Header */
+#link-table thead {
+  background: #f5f5f5;
+}
+#link-table th {
+  text-align: left;
+  padding: 12px;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 2px solid #ddd;
+}
+
+/* Body */
+#link-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #eee;
+  vertical-align: middle;
+}
+
+/* Alternate rows */
+#link-table tbody tr:nth-child(even) {
+  background: #fafafa;
+}
+
+/* Hover effect */
+#link-table tbody tr:hover {
+  background: #f0f8ff;
+}
+
+/* Links */
+#link-table a {
+  color: #0078d7;
+  text-decoration: none;
+}
+#link-table a:hover {
+  text-decoration: underline;
+}
+
+/* Editable comments */
+td[contenteditable="true"] {
+  min-height: 20px;
+  background: #fffdf7;
+  border: 1px solid transparent;
+  transition: border 0.2s, background 0.2s;
+  overflow-wrap: break-word;
+}
+td[contenteditable="true"]:focus {
+  outline: none;
+  border: 1px solid #0078d7;
+  background: #ffffff;
+}
+
+/* Copy icon */
+.copy-icon {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  margin-left: 6px;
+  vertical-align: middle;
+  fill: #666;
+  transition: fill 0.2s;
+}
+.copy-icon:hover {
+  fill: #000;
+}
+</style>
+
+<script>
+// SVG copy icon
+const copySVG = `
+<svg xmlns="http://www.w3.org/2000/svg" class="copy-icon" viewBox="0 0 24 24">
+  <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 
+           .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 
+           2-.9 2-2V7c0-1.1-.9-2-2-2zm0 
+           16H8V7h11v14z"/>
+</svg>`;
+
+// Add copy icons
+document.querySelectorAll("#link-table a").forEach(a => {
+  const span = document.createElement("span");
+  span.innerHTML = copySVG;
+  const icon = span.firstElementChild;
+
+  icon.onclick = () => {
+    const text = "./sqa/bin/runTest.sh " + a.textContent.trim();
+    navigator.clipboard.writeText(text);
+    icon.style.fill = "green";
+    setTimeout(() => icon.style.fill = "#666", 1000);
+  };
+
+  a.insertAdjacentElement("afterend", icon);
+});
+
+// LocalStorage persistence (for comments only)
+const table = document.getElementById("link-table");
+
+window.addEventListener("load", () => {
+  const saved = JSON.parse(localStorage.getItem("comments") || "{}");
+  [...table.rows].forEach((row, i) => {
+    if (i === 0) return;
+    const comment = row.cells[2];
+    if (saved[i]) comment.textContent = saved[i];
+  });
+});
+
+table.addEventListener("input", () => {
+  const saved = {};
+  [...table.rows].forEach((row, i) => {
+    if (i === 0) return;
+    saved[i] = row.cells[2].textContent.trim();
+  });
+  localStorage.setItem("comments", JSON.stringify(saved));
+});
+</script>

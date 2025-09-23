@@ -123,6 +123,17 @@ function printFailedTests
     rm -f FAILURES.html
     fail_id=1
     
+    echo "<div class=\"table-wrapper\">" > FAILURES.html
+    echo "<table id=\"link-table\">" >> FAILURES.html
+    echo "<thead>" >> FAILURES.html
+    echo " <tr>" >> FAILURES.html
+    echo "   <th>ID</th>" >> FAILURES.html
+    echo "   <th>Test</th>" >> FAILURES.html
+    echo "   <th>My Notes</th>" >> FAILURES.html
+    echo " </tr>" >> FAILURES.html
+    echo "</thead>" >> FAILURES.html
+    echo "<tbody>" >> FAILURES.html
+
     if [ "$CI_CHECK" == "1" ]; then
         for f in $failed_tests_files; do
             failures=$(cat $f)
@@ -130,7 +141,13 @@ function printFailedTests
             for failed_test in $failures; do
                 failure1=$(echo $failed_test | cut -d/ -f2-)
                 failure2=$(basename $failed_test)
-                echo "$fail_id: <a href=\"${failure2}/DIFF.html\"> sqa/$failed_test </a><br><br>" >> FAILURES.html
+
+                #echo "$fail_id: <a href=\"${failure2}/DIFF.html\"> sqa/$failed_test </a><br><br>" >> FAILURES.html
+                echo "  <tr>" >> FAILURES.html
+                echo "      <td>$fail_id</td>" >> FAILURES.html
+                echo "      <td><a href=\"${failure2}/DIFF.html\"> sqa/$failed_test </a></td>" >> FAILURES.html
+                echo "      <td contenteditable="true"></td>" >> FAILURES.html
+                echo "  </tr>" >> FAILURES.html
                 fail_id=$(expr $fail_id + 1)
             done
         done    
@@ -140,8 +157,13 @@ function printFailedTests
             failures=$(cat $f)
             cat $f | sed 's/^/\t/'
             for failed_test in $failures; do
-                failure=$(echo $failed_test | cut -d/ -f2-)
-                echo "$fail_id: <a href=\"${url_prefix}/${failure}/output/DIFF.html\"> ${url_prefix}/$failure </a><br><br>" >> FAILURES.html
+                failure=$(echo $failed_test | cut -d/ -f2-)                
+                #echo "$fail_id: <a href=\"${url_prefix}/${failure}/output/DIFF.html\"> ${url_prefix}/$failure </a><br><br>" >> FAILURES.html
+                echo "  <tr>" >> FAILURES.html
+                echo "      <td>$fail_id</td>" >> FAILURES.html
+                echo "      <td><a href=\"${url_prefix}/${failure}/output/DIFF.html\"> ${url_prefix}/$failure </a></td>" >> FAILURES.html
+                echo "      <td contenteditable="true"></td>" >> FAILURES.html
+                echo "  </tr>" >> FAILURES.html
                 fail_id=$(expr $fail_id + 1)
             done
         done    

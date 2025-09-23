@@ -1,0 +1,38 @@
+<style>
+.copy-icon {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  margin-left: 6px;
+  vertical-align: middle;
+  fill: #555; /* icon color */
+}
+.copy-icon:hover {
+  fill: #000; /* darker on hover */
+}
+</style>
+
+<script>
+const copySVG = `
+<svg xmlns="http://www.w3.org/2000/svg" class="copy-icon" viewBox="0 0 24 24">
+  <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 
+           .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 
+           2-.9 2-2V7c0-1.1-.9-2-2-2zm0 
+           16H8V7h11v14z"/>
+</svg>`;
+
+document.querySelectorAll("a").forEach(a => {
+  const span = document.createElement("span");
+  span.innerHTML = copySVG;
+  const icon = span.firstElementChild;
+
+  icon.onclick = () => {
+    const text = "./sqa/bin/runTest.sh " + a.textContent.trim();
+    navigator.clipboard.writeText(text);
+    icon.style.fill = "green"; // feedback
+    setTimeout(() => icon.style.fill = "#555", 1000);
+  };
+
+  a.insertAdjacentElement("afterend", icon);
+});
+</script>
