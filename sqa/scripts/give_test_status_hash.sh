@@ -26,3 +26,4 @@ filename=$2
 file_hash=$(sha256sum $filename | cut -c1-8)
 mismatches_hash=$(check_mismatches "$filename")
 echo "$file_hash:$mismatches_hash"
+
