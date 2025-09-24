@@ -123,7 +123,11 @@ function printFailedTests
     rm -f FAILURES.html
     fail_id=1
     
-    echo "<div class=\"table-wrapper\">" > FAILURES.html
+    branch=$(git branch --show-current)
+    
+    echo "<meta name=\"file-version\" content=\"$branch\" />" >  FAILURES.html
+    echo "" >> FAILURES.html
+    echo "<div class=\"table-wrapper\">" >> FAILURES.html
     echo "<table id=\"link-table\">" >> FAILURES.html
     echo "<thead>" >> FAILURES.html
     echo " <tr>" >> FAILURES.html
@@ -139,13 +143,14 @@ function printFailedTests
             failures=$(cat $f)
             cat $f | sed 's/^/\t/'
             for failed_test in $failures; do
+                hash=$($PAINTER_QA_DIR/scripts/give_test_status_hash.sh -test sqa/$failed_test/test.info)
                 failure1=$(echo $failed_test | cut -d/ -f2-)
                 failure2=$(basename $failed_test)
 
                 #echo "$fail_id: <a href=\"${failure2}/DIFF.html\"> sqa/$failed_test </a><br><br>" >> FAILURES.html
                 echo "  <tr>" >> FAILURES.html
                 echo "      <td>$fail_id</td>" >> FAILURES.html
-                echo "      <td><a href=\"${failure2}/DIFF.html\"> sqa/$failed_test </a></td>" >> FAILURES.html
+                echo "      <td><a href=\"${failure2}/DIFF.html\" data-id=\"$hash\"> sqa/$failed_test </a></td>" >> FAILURES.html
                 echo "      <td contenteditable="true"></td>" >> FAILURES.html
                 echo "  </tr>" >> FAILURES.html
                 fail_id=$(expr $fail_id + 1)
@@ -157,11 +162,12 @@ function printFailedTests
             failures=$(cat $f)
             cat $f | sed 's/^/\t/'
             for failed_test in $failures; do
+                hash=$($PAINTER_QA_DIR/scripts/give_test_status_hash.sh -test sqa/$failed_test/test.info)
                 failure=$(echo $failed_test | cut -d/ -f2-)                
                 #echo "$fail_id: <a href=\"${url_prefix}/${failure}/output/DIFF.html\"> ${url_prefix}/$failure </a><br><br>" >> FAILURES.html
                 echo "  <tr>" >> FAILURES.html
                 echo "      <td>$fail_id</td>" >> FAILURES.html
-                echo "      <td><a href=\"${url_prefix}/${failure}/output/DIFF.html\"> ${url_prefix}/$failure </a></td>" >> FAILURES.html
+                echo "      <td><a href=\"${url_prefix}/${failure}/output/DIFF.html\" data-id=\"$hash\"> ${url_prefix}/$failure </a></td>" >> FAILURES.html
                 echo "      <td contenteditable="true"></td>" >> FAILURES.html
                 echo "  </tr>" >> FAILURES.html
                 fail_id=$(expr $fail_id + 1)

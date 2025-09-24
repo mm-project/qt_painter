@@ -107,50 +107,68 @@ td[contenteditable="true"]:focus {
 }
 </style>
 
-<script>
-// SVG copy icon
-const copySVG = `
-<svg xmlns="http://www.w3.org/2000/svg" class="copy-icon" viewBox="0 0 24 24">
-  <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 
-           .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 
-           2-.9 2-2V7c0-1.1-.9-2-2-2zm0 
-           16H8V7h11v14z"/>
-</svg>`;
+  <script>
+    // ===== Copy icon =====
+    const copySVG = `
+    <svg xmlns="http://www.w3.org/2000/svg" class="copy-icon" viewBox="0 0 24 24">
+      <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 
+               .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 
+               2-.9 2-2V7c0-1.1-.9-2-2-2zm0 
+               16H8V7h11v14z"/>
+    </svg>`;
+    document.querySelectorAll("#link-table a").forEach(a => {
+      const span = document.createElement("span");
+      span.innerHTML = copySVG;
+      const icon = span.firstElementChild;
+      icon.onclick = () => {
+        const text = "hello " + a.textContent.trim();
+        navigator.clipboard.writeText(text);
+        icon.style.fill = "green";
+        setTimeout(() => icon.style.fill = "#666", 1000);
+      };
+      a.insertAdjacentElement("afterend", icon);
+    });
 
-// Add copy icons
-document.querySelectorAll("#link-table a").forEach(a => {
-  const span = document.createElement("span");
-  span.innerHTML = copySVG;
-  const icon = span.firstElementChild;
+    // ===== Path + multi-version storage, keyed by checksum =====
+    const pathKey = "comments:" + window.location.pathname;
+    const currentVersion = document.querySelector('meta[name="file-version"]').content;
+    const table = document.getElementById("link-table");
 
-  icon.onclick = () => {
-    const text = "./sqa/bin/runTest.sh " + a.textContent.trim();
-    navigator.clipboard.writeText(text);
-    icon.style.fill = "green";
-    setTimeout(() => icon.style.fill = "#666", 1000);
-  };
+    function rowChecksum(row, indexFallback) {
+      const a = row.querySelector("a");
+      return a?.dataset.id || ("row-" + indexFallback);
+    }
 
-  a.insertAdjacentElement("afterend", icon);
-});
+    function loadAll() {
+      const savedAll = JSON.parse(localStorage.getItem(pathKey) || "{}");
+      return savedAll[currentVersion] || {};
+    }
 
-// LocalStorage persistence (for comments only)
-const table = document.getElementById("link-table");
+    function saveAll(map) {
+      const savedAll = JSON.parse(localStorage.getItem(pathKey) || "{}");
+      savedAll[currentVersion] = map;
+      localStorage.setItem(pathKey, JSON.stringify(savedAll));
+    }
 
-window.addEventListener("load", () => {
-  const saved = JSON.parse(localStorage.getItem("comments") || "{}");
-  [...table.rows].forEach((row, i) => {
-    if (i === 0) return;
-    const comment = row.cells[2];
-    if (saved[i]) comment.textContent = saved[i];
-  });
-});
+    // Load on start
+    window.addEventListener("load", () => {
+      const map = loadAll();
+      [...table.tBodies[0].rows].forEach((row, i) => {
+        const checksum = rowChecksum(row, i);
+        const commentCell = row.cells[2];
+        if (map[checksum]) commentCell.textContent = map[checksum];
+      });
+    });
 
-table.addEventListener("input", () => {
-  const saved = {};
-  [...table.rows].forEach((row, i) => {
-    if (i === 0) return;
-    saved[i] = row.cells[2].textContent.trim();
-  });
-  localStorage.setItem("comments", JSON.stringify(saved));
-});
-</script>
+    // Save on edits
+    table.addEventListener("input", () => {
+      const map = {};
+      [...table.tBodies[0].rows].forEach((row, i) => {
+        const checksum = rowChecksum(row, i);
+        map[checksum] = row.cells[2].textContent.trim();
+      });
+      saveAll(map);
+    });
+  </script>
+</body>
+</html>
