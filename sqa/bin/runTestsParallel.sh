@@ -197,6 +197,7 @@ function reportAll
 
     if [ "$fails" == 0 ]; then
         echo "         ALL TESTS PASS"
+        rm FAILURES.html
         exit 0
     else
         echo "         Failed:  $fails"

@@ -103,8 +103,6 @@ bool are_imagefiles_different(const QString &file1, const QString &file2)
 
 bool are_two_files_different(qaCompType type, const QString &file1, const QString &file2)
 {
-    return true;
-    
     if (type == CANVAS)
         return are_imagefiles_different(file1, file2);
     return are_textfiles_different(file1, file2);
