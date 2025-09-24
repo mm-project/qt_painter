@@ -121,7 +121,7 @@ td[contenteditable="true"]:focus {
       span.innerHTML = copySVG;
       const icon = span.firstElementChild;
       icon.onclick = () => {
-        const text = "hello " + a.textContent.trim();
+        const text = "./sqa/bin/runTest.sh " + a.textContent.trim() + " debug";
         navigator.clipboard.writeText(text);
         icon.style.fill = "green";
         setTimeout(() => icon.style.fill = "#666", 1000);
