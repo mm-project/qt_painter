@@ -220,6 +220,8 @@ dicmdCanvasOriginPanRight
 dicmdCanvasOriginPanRight 
 dicmdQaCompareViewportRQ 
 #t --> CompareViewportRQ: ViewportRQ_Compare_16.txt ViewportRQ_Compare_16.txt.golden
+dicmdQaCompareCanvas
+#t --> 0
 dicmdCanvasOriginPanLeft 
 dicmdCanvasOriginPanLeft 
 dicmdQaCompareViewportRQ 

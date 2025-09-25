@@ -67,7 +67,7 @@ bool are_textfiles_different(const QString &file1, const QString &file2)
     return false;
 }
 
-bool are_imagefiles_different(const QString &file1, const QString &file2)
+bool are_imagefiles_different3(const QString &file1, const QString &file2)
 {
     QImage img1(file1);
     QImage img2(file2);
@@ -99,6 +99,53 @@ bool are_imagefiles_different(const QString &file1, const QString &file2)
     }
 
     return false;
+}
+
+bool are_imagefiles_different(const QString &file1, const QString &file2)
+{
+    QImage img1(file1);
+    QImage img2(file2);
+
+    if (img1.isNull() || img2.isNull()) {
+        return true;
+    }
+
+    int w = img1.width();
+    int h = img1.height();
+
+    // Prepare diff file name
+    QString diffFile = file1;
+    if (diffFile.endsWith(".png", Qt::CaseInsensitive)) {
+        diffFile.chop(4); // remove ".png"
+        diffFile += ".diff.png";
+    } else {
+        diffFile += ".diff.png";
+    }
+
+    // Allocate diff image with same size and ARGB format
+    QImage diff(w, h, QImage::Format_ARGB32);
+    diff.fill(Qt::white); // background for unchanged pixels
+
+    bool different = false;
+
+    for (int ii = 0; ii < w; ++ii) {
+        for (int jj = 0; jj < h; ++jj) {
+            const QRgb px1 = img1.pixel(ii, jj);
+            const QRgb px2 = img2.pixel(ii, jj);
+
+            if (px1 != px2) {
+                different = true;
+                diff.setPixel(ii, jj, qRgb(0, 0, 0)); // highlight differences in red
+            } 
+            //else {
+            //    diff.setPixel(ii, jj, px1); // keep original pixel for context
+            //}
+        }
+    }
+
+    diff.save(diffFile);
+
+    return different;
 }
 
 bool are_two_files_different(qaCompType type, const QString &file1, const QString &file2)
@@ -532,12 +579,23 @@ void dicmdQaCompare<T>::execute()
                     .set_arg("-filename", "CanvasFor_" + get_index_str() + ".golden.png")
                     ->execute();
         }
+    
+        dicmdQaCompareInternal<T>()
+            .set_arg("-dumpfile", get_index_str())
+            ->set_arg("-goldenfile", get_index_str() + ".golden")
+            ->execute();
+    } else {
+        if (!QString::fromLocal8Bit(qgetenv("ELEN_PAINTER_REGOLDEN").constData()).isEmpty())
+            dicmdQaDump<CANVAS>()
+                .set_arg("-filename", "CanvasFor_" + get_index_str() + ".golden.png")
+                ->execute();
+        //else 
+            dicmdQaCompareInternal<CANVAS>()
+                .set_arg("-dumpfile", "CanvasFor_" + get_index_str())
+                ->set_arg("-goldenfile", "CanvasFor_" + get_index_str() + ".golden.png")
+                ->execute();
     }
 
-    dicmdQaCompareInternal<T>()
-        .set_arg("-dumpfile", get_index_str())
-        ->set_arg("-goldenfile", get_index_str() + ".golden")
-        ->execute();
 
     n_index++;
 }
