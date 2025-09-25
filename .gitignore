@@ -6,6 +6,7 @@ cmake_install.cmake
 .vscode
 artifacts
 bin/linux/logs
+bin/
 logs
 build
 painter_autogen
