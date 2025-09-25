@@ -67,6 +67,21 @@ bool are_textfiles_different(const QString &file1, const QString &file2)
     return false;
 }
 
+bool are_imagefiles_different(const QString &file1, const QString &file2)
+{
+    auto qa_dir = QString::fromLocal8Bit(qgetenv("PAINTER_QA_DIR").constData()).toStdString();
+    std::string script(qa_dir + "/etc/scripts/image_diff.py");
+    std::string current = file1.toStdString();
+    std::string expected = file2.toStdString();
+    QString diffFile = file1;
+    diffFile.chop(4); // remove ".png"
+    diffFile += ".diff.png";
+    std::string diff = diffFile.toStdString();
+    std::string cmd = "python3 " + script + " " + current + " " + expected + " " + diff;
+
+    return system(cmd.c_str());
+}
+
 bool are_imagefiles_different3(const QString &file1, const QString &file2)
 {
     QImage img1(file1);
@@ -101,7 +116,7 @@ bool are_imagefiles_different3(const QString &file1, const QString &file2)
     return false;
 }
 
-bool are_imagefiles_different(const QString &file1, const QString &file2)
+bool are_imagefiles_different2(const QString &file1, const QString &file2)
 {
     QImage img1(file1);
     QImage img2(file2);

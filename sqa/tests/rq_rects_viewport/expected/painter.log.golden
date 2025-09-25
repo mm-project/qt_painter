@@ -375,6 +375,8 @@ dicmdCanvasOriginPanRight
 dicmdCanvasOriginPanRight 
 dicmdQaCompareViewportRQ 
 #t --> Test: comparision->ViewportRQ:PASS ViewportRQ_Compare_16.txt ViewportRQ_Compare_16.txt.golden
+dicmdQaCompareCanvas 
+#t --> Test: comparision->Canvas:PASS CanvasFor_Canvas_Compare_0.png CanvasFor_Canvas_Compare_0.png.golden.png
 dicmdCanvasOriginPanLeft 
 dicmdCanvasOriginPanLeft 
 dicmdCanvasOriginPanLeft 

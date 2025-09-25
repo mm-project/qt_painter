@@ -117,6 +117,8 @@ void canvas::keyPressEvent(QKeyEvent *ev)
         cm.find_command("dicmdQaCompareSelection")->execute_and_log();
     else if (ev->key() == Qt::Key_0)
         cm.find_command("dicmdQaCompareViewportRQ")->execute_and_log();
+    else if (ev->key() == Qt::Key_8)
+        cm.find_command("dicmdQaCompareCanvas")->execute_and_log();
     else if (ev->key() == Qt::Key_1)
         m_renderer->rendering_mode_change();
     else if (ev->key() == Qt::Key_4)

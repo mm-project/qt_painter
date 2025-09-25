@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+if [ "$CI_CHECK" != "" ]; then
+    pip3 install opencv-python
+    pip3 install scikit-image
+fi
+
 SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
   DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
