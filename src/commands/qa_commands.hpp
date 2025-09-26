@@ -67,22 +67,32 @@ bool are_textfiles_different(const QString &file1, const QString &file2)
     return false;
 }
 
-bool are_imagefiles_different(const QString &file1, const QString &file2)
+
+bool are_imagefiles_different_python_magic(const QString &file1, const QString &file2)
 {
     auto qa_dir = QString::fromLocal8Bit(qgetenv("PAINTER_QA_DIR").constData()).toStdString();
     std::string script(qa_dir + "/etc/scripts/image_diff.py");
     std::string current = file1.toStdString();
     std::string expected = file2.toStdString();
-    QString diffFile = file1;
-    diffFile.chop(4); // remove ".png"
-    diffFile += ".diff.png";
-    std::string diff = diffFile.toStdString();
-    std::string cmd = "python3 " + script + " " + current + " " + expected + " " + diff;
+    //QString diffFile = file1;
+    //diffFile.chop(4); // remove ".png"
+    //diffFile += ".diff.png";
+    //std::string diff = diffFile.toStdString();
+    std::string cmd1 = "python3 " + script + " " + current + " " + expected + " " + " method1";
+    std::string cmd2 = "python3 " + script + " " + current + " " + expected + " " + " method2";
+    std::string cmd3 = "python3 " + script + " " + current + " " + expected + " " + " method3";
 
-    return system(cmd.c_str());
+    bool res1 = system(cmd1.c_str());
+    bool res2 = system(cmd2.c_str());
+    bool res3 = system(cmd3.c_str());
+
+    if (res1 && res2 && res3 )
+        return false;
+    
+    return true;
 }
 
-bool are_imagefiles_different3(const QString &file1, const QString &file2)
+bool are_imagefiles_different_old(const QString &file1, const QString &file2)
 {
     QImage img1(file1);
     QImage img2(file2);
@@ -116,7 +126,7 @@ bool are_imagefiles_different3(const QString &file1, const QString &file2)
     return false;
 }
 
-bool are_imagefiles_different2(const QString &file1, const QString &file2)
+bool are_imagefiles_different_per_pixel(const QString &file1, const QString &file2)
 {
     QImage img1(file1);
     QImage img2(file2);
@@ -161,6 +171,16 @@ bool are_imagefiles_different2(const QString &file1, const QString &file2)
     diff.save(diffFile);
 
     return different;
+}
+
+bool are_imagefiles_different(const QString &file1, const QString &file2)
+{
+    //first check per pixel
+    if (are_imagefiles_different_per_pixel(file1,file2)) {
+        //if different per pixel do more sophisiticated comparisions
+        return are_imagefiles_different_python_magic(file1,file2);
+    }
+    return false;
 }
 
 bool are_two_files_different(qaCompType type, const QString &file1, const QString &file2)
