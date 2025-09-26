@@ -78,18 +78,26 @@ bool are_imagefiles_different_python_magic(const QString &file1, const QString &
     //diffFile.chop(4); // remove ".png"
     //diffFile += ".diff.png";
     //std::string diff = diffFile.toStdString();
-    std::string cmd1 = "python3 " + script + " " + current + " " + expected + " " + " method1";
-    std::string cmd2 = "python3 " + script + " " + current + " " + expected + " " + " method2";
-    std::string cmd3 = "python3 " + script + " " + current + " " + expected + " " + " method3";
+    std::string cmd1 = "python3 " + script + " " + current + " " + expected + " " + " method1 &> method1.txt";
+    std::string cmd2 = "python3 " + script + " " + current + " " + expected + " " + " method2 &> method2.txt";
+    std::string cmd3 = "python3 " + script + " " + current + " " + expected + " " + " method3 &> method3.txt";
 
     bool res1 = system(cmd1.c_str());
     bool res2 = system(cmd2.c_str());
     bool res3 = system(cmd3.c_str());
 
-    if (res1 && res2 && res3 )
-        return false;
+    std::cout << "========= IMGDIFF RES:" << std::endl;
+    std::cout << "                       res1 " << res1 << std::endl;
+    std::cout << "                       res2 " << res2 << std::endl;
+    std::cout << "                       res3 " << res3 << std::endl;
+    std::cout << "********* IMGDIFF RES:" << std::endl;
     
-    return true;
+    //we conclude images different if all 3 methods fail
+    if (res1 && res2 && res3 )
+        return true;
+    
+    //otherwise they are the same (even if 1 or 2 methods failed)
+    return false;
 }
 
 bool are_imagefiles_different_old(const QString &file1, const QString &file2)
@@ -176,11 +184,11 @@ bool are_imagefiles_different_per_pixel(const QString &file1, const QString &fil
 bool are_imagefiles_different(const QString &file1, const QString &file2)
 {
     //first check per pixel
-    if (are_imagefiles_different_per_pixel(file1,file2)) {
+    //if (are_imagefiles_different_per_pixel(file1,file2)) {
         //if different per pixel do more sophisiticated comparisions
         return are_imagefiles_different_python_magic(file1,file2);
-    }
-    return false;
+    //}
+    //return false;
 }
 
 bool are_two_files_different(qaCompType type, const QString &file1, const QString &file2)
