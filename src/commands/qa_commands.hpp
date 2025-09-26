@@ -78,9 +78,13 @@ bool are_imagefiles_different_python_magic(const QString &file1, const QString &
     //diffFile.chop(4); // remove ".png"
     //diffFile += ".diff.png";
     //std::string diff = diffFile.toStdString();
-    std::string cmd1 = "python3 " + script + " " + current + " " + expected + " " + " method1 &> method1.txt";
-    std::string cmd2 = "python3 " + script + " " + current + " " + expected + " " + " method2 &> method2.txt";
-    std::string cmd3 = "python3 " + script + " " + current + " " + expected + " " + " method3 &> method3.txt";
+    //std::string cmd1 = "python3 " + script + " " + current + " " + expected + " " + " method1 &> method1.txt";
+    //std::string cmd2 = "python3 " + script + " " + current + " " + expected + " " + " method2 &> method2.txt";
+    //std::string cmd3 = "python3 " + script + " " + current + " " + expected + " " + " method3 &> method3.txt";
+
+    std::string cmd1 = "python3 " + script + " " + current + " " + expected + " method1 > method1.txt 2>&1";
+    std::string cmd2 = "python3 " + script + " " + current + " " + expected + " method2 > method2.txt 2>&1";
+    std::string cmd3 = "python3 " + script + " " + current + " " + expected + " method3 > method3.txt 2>&1";
 
     bool res1 = system(cmd1.c_str());
     bool res2 = system(cmd2.c_str());

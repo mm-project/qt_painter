@@ -106,4 +106,5 @@ if __name__ == "__main__":
     else:
         success = compare_cv(img1_path, img2_path)
 
-    sys.exit(0 if success else 1)
+    sys.exit(1)
+    #sys.exit(0 if success else 1)
