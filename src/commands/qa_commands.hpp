@@ -186,7 +186,8 @@ bool are_imagefiles_different(const QString &file1, const QString &file2)
     //first check per pixel
     //if (are_imagefiles_different_per_pixel(file1,file2)) {
         //if different per pixel do more sophisiticated comparisions
-        return are_imagefiles_different_python_magic(file1,file2);
+        are_imagefiles_different_python_magic(file1,file2);
+        return true;
     //}
     //return false;
 }
