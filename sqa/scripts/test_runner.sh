@@ -82,6 +82,7 @@ function prepocess
     mkdir -p $GDIRNAME
     mkdir output
     cd output
+    cwd=$(pwd)
     
     cp -r $PAINTER_QA_DIR/etc/webrelated/* .
     cp $PAINTER_QA_DIR/designs/* ./
@@ -249,6 +250,9 @@ IFS="
         fi
         
         if [ "$succ" != 4 ]; then
+            echo
+            echo "See: $cwd/$htmlout"
+            echo
             echo "Test failed."
             exit 1
         else
