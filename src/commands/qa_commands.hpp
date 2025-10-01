@@ -16,6 +16,7 @@
 #include <QApplication>
 #include <QImage>
 #include <QPixmap>
+#include <QPicture>
 #include <QWidget>
 
 #include <fstream>
@@ -185,13 +186,29 @@ bool are_imagefiles_different_per_pixel(const QString &file1, const QString &fil
     return different;
 }
 
+bool comparePictureData(const QString &f1, const QString &f2) 
+{
+    std::cout << "comparing " << f1.toStdString() << " with " << f2.toStdString() << std::endl;
+    QFile file1(f1), file2(f2);
+    if (!file1.open(QIODevice::ReadOnly) || !file2.open(QIODevice::ReadOnly))
+        return false;
+
+    QByteArray d1 = file1.readAll();
+    QByteArray d2 = file2.readAll();
+    return d1 != d2;
+}
+
 bool are_imagefiles_different(const QString &file1, const QString &file2)
 {
+    auto f1 = file1 + ".pic";
+    auto f2 = file2 + ".pic";
+
+    return comparePictureData(f1, f2);
     //first check per pixel
     //if (are_imagefiles_different_per_pixel(file1,file2)) {
         //if different per pixel do more sophisiticated comparisions
-        are_imagefiles_different_python_magic(file1,file2);
-        return true;
+        //are_imagefiles_different_python_magic(file1,file2);
+        //return true;
     //}
     //return false;
 }
@@ -366,10 +383,18 @@ template <qaCompType T> class dicmdQaDump : public NonTransactionalDirectCommand
 
         if (onlyrt)
             dynamic_cast<canvas *>(w)->get_renderer()->rendering_des_mode_change();
-
-        QPixmap pixmap(w->size());
+        
+            QPixmap pixmap(w->size());
         w->render(&pixmap);
         pixmap.save(m_fname.c_str());
+
+        QPicture picture;
+        QPainter painter(&picture);
+        w->render(&painter);
+        painter.end();
+        auto pic_name = m_fname + ".pic";
+        picture.save(pic_name.c_str());
+
         //dynamic_cast<canvas *>(w)->get_renderer()->hint_drawing_cursor_one_time();
 
         if (onlyrt)
