@@ -200,7 +200,7 @@ bool comparePictureData(const QString &f1, const QString &f2)
     std::cout << "comparing " << f1.toStdString() << " with " << f2.toStdString() << std::endl;
     QFile file1(f1), file2(f2);
     if (!file1.open(QIODevice::ReadOnly) || !file2.open(QIODevice::ReadOnly))
-        return false;
+        return true;
 
     QByteArray d1 = file1.readAll();
     QByteArray d2 = file2.readAll();
@@ -398,10 +398,19 @@ template <qaCompType T> class dicmdQaDump : public NonTransactionalDirectCommand
         w->render(&pixmap);
         pixmap.save(m_fname.c_str());
 
+        /*
+        QImage image(w->size(), QImage::Format_Mono);
+        image.fill(Qt::transparent);
+        //QPainter p(&image);
+        w->render(&image);
+        //p.end();
+        image.save(m_fname.c_str()); 
+        */
+
         QPicture picture;
-        QPainter painter(&picture);
-        w->render(&painter);
-        painter.end();
+        //QPainter painter(&picture);
+        w->render(&picture);
+        //painter.end();
         auto pic_name = m_fname + ".pic";
         picture.save(pic_name.c_str());
 

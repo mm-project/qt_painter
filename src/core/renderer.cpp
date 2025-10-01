@@ -308,7 +308,7 @@ void renderer::draw_selection_rubberband()
 */
 void renderer::draw_all()
 {
-    draw_background();
+    //draw_background();
     draw_grid();
     if (m_des_renderer)
         draw_objects();
