@@ -384,7 +384,7 @@ template <qaCompType T> class dicmdQaDump : public NonTransactionalDirectCommand
         if (onlyrt)
             dynamic_cast<canvas *>(w)->get_renderer()->rendering_des_mode_change();
         
-            QPixmap pixmap(w->size());
+        QPixmap pixmap(w->size());
         w->render(&pixmap);
         pixmap.save(m_fname.c_str());
 
