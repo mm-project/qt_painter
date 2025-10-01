@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-if [ "$CI_CHECK" != "" ]; then
-    pip3 install opencv-python
-    pip3 install scikit-image
-    pip3 install pillow
-    pip3 install imagehash
-    pip3 install torch torchvision lpips
-fi
+#if [ "$CI_CHECK" != "" ]; then
+#    pip3 install opencv-python
+#    pip3 install scikit-image
+#    pip3 install pillow
+#    pip3 install imagehash
+#    pip3 install torch torchvision lpips
+#fi
 
 SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
