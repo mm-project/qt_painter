@@ -186,6 +186,15 @@ bool are_imagefiles_different_per_pixel(const QString &file1, const QString &fil
     return different;
 }
 
+double similarity(const QByteArray &a, const QByteArray &b) {
+    int len = std::min(a.size(), b.size());
+    int same = 0;
+    for (int i = 0; i < len; ++i) {
+        if (a[i] == b[i]) same++;
+    }
+    return 100.0 * same / std::max(a.size(), b.size());
+}
+
 bool comparePictureData(const QString &f1, const QString &f2) 
 {
     std::cout << "comparing " << f1.toStdString() << " with " << f2.toStdString() << std::endl;
@@ -195,6 +204,7 @@ bool comparePictureData(const QString &f1, const QString &f2)
 
     QByteArray d1 = file1.readAll();
     QByteArray d2 = file2.readAll();
+    std::cout << "similarity: " << similarity(d1,d2) << std::endl;
     return d1 != d2;
 }
 
