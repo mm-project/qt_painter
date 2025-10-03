@@ -98,11 +98,11 @@ bool are_imagefiles_different_python_magic(const QString &file1, const QString &
     std::cout << "********* IMGDIFF RES:" << std::endl;
     
     //we conclude images different if all 3 methods fail
-    if (res1 && res2 && res3 )
-        return true;
+    //if (res1 && res2 && res3 )
+        return res3;
     
     //otherwise they are the same (even if 1 or 2 methods failed)
-    return false;
+    //return false;
 }
 
 bool are_imagefiles_different_old(const QString &file1, const QString &file2)
@@ -208,18 +208,20 @@ bool comparePictureData(const QString &f1, const QString &f2)
     return d1 != d2;
 }
 
-bool are_imagefiles_different(const QString &file1, const QString &file2)
+bool check_pics(const QString &file1, const QString &file2)
 {
     auto f1 = file1 + ".pic";
     auto f2 = file2 + ".pic";
 
     return comparePictureData(f1, f2);
+}
+
+bool are_imagefiles_different(const QString &file1, const QString &file2)
+{
     //first check per pixel
-    //if (are_imagefiles_different_per_pixel(file1,file2)) {
+    if (are_imagefiles_different_per_pixel(file1,file2)) 
         //if different per pixel do more sophisiticated comparisions
-        //are_imagefiles_different_python_magic(file1,file2);
-        //return true;
-    //}
+        return are_imagefiles_different_python_magic(file1,file2);
     //return false;
 }
 
@@ -394,9 +396,11 @@ template <qaCompType T> class dicmdQaDump : public NonTransactionalDirectCommand
         if (onlyrt)
             dynamic_cast<canvas *>(w)->get_renderer()->rendering_des_mode_change();
         
+        //*
         QPixmap pixmap(w->size());
         w->render(&pixmap);
         pixmap.save(m_fname.c_str());
+        /**/
 
         /*
         QImage image(w->size(), QImage::Format_Mono);

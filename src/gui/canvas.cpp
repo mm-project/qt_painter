@@ -37,6 +37,7 @@ canvas::canvas(QWidget *p) : QWidget(p), is_runtime_mode(false)
     setFocusPolicy(Qt::StrongFocus);
     setMouseTracking(true);
     setObjectName("CANVAS");
+    setStyleSheet("background-color: black;");
     // setStyleSheet("background-color:black;");
 
     // fixme need preferences
