@@ -79,8 +79,11 @@ canvas::canvas(QWidget *p) : QWidget(p), is_runtime_mode(false)
     cm.register_command(new dicmdObjRelocateBy<COPY>());
     cm.register_command(new incmdObjRelocateBy<MOVE>(m_runtime));
     cm.register_command(new incmdObjRelocateBy<COPY>(m_runtime));
+    // create a new design from scratch 
+    cm.activate_command(cm.find_command("incmdDesignNew"), false);
     cm.set_idle_command(cm.find_command("incmdSelectUnderCursoer"));
     // cm.set_idle_command(new INCMD_HIGHLIGHT_BY_POINT);
+
 }
 
 renderer *canvas::get_renderer()
