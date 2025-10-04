@@ -1,8 +1,8 @@
 import random
 
 def get_rand_point(start_x=None, start_y=None, delta=None):
-    MIN_X, MAX_X = -1800, 1800
-    MIN_Y, MAX_Y = -800, 800
+    MIN_X, MAX_X = -18000, 18000
+    MIN_Y, MAX_Y = -8000, 8000
     MIN_WIDTH, MAX_WIDTH = 10, 100
     MIN_HEIGHT, MAX_HEIGHT = 10, 100
 
@@ -62,21 +62,22 @@ def get_random_color():
 
 def create_rand_obj():
     #objs = ["dicmdCreateObjRectangle", "dicmdCreateObjLine", "dicmdCreateObjEllipse", "dicmdCreateObjPolygon"]
-    objs = ["dicmdCreateObjLine"]
+    objs = ["dicmdCreateObjRectangle"]
     obj = random.choice(objs)
     brush = random.randint(1, 9)
     fill = random.randint(1, 9)
     #color = "{:06X}".format(random.randint(0, 0xFFFFFF))
-    #color = get_random_color()
-    color = "000000"
-    brush = "1" 
-    fill = "9" 
-    points = get_rand_points(obj, delta=50)  # polygon points max 50px apart
+    color = get_random_color()
+    
+    #color = "000000"
+    #brush = "1" 
+    #fill = "9" 
+    points = get_rand_points(obj, delta=100)  # polygon points max 50px apart
     cmd_line = f"{obj} -brush {brush} -color #{color} -fill {fill} -points {points}"
     print(cmd_line)
 
 def create_design():
-    for _ in range(1000):
+    for _ in range(10000):
         create_rand_obj()
 
 if __name__ == "__main__":

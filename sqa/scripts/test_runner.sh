@@ -221,8 +221,12 @@ IFS="
                     #echo "($s)"
                     f=`echo $s | cut -d' ' -f1`
                     g=`echo $s | cut -d' ' -f2`
-                    #echo "($f) ($g)"
-                    $PAINTER_QA_DIR/scripts/make_diff_html.sh $f $g
+                    #echo "====== ($f) ($g) ======"
+                    image_diff=""
+                    if [[ $f == *.png ]]; then
+                        image_diff="1"
+                    fi
+                    $PAINTER_QA_DIR/scripts/make_diff_html.sh $f $g $image_diff
                     echo "<a href=\"$f.html\">$f <--> $g</a><br>" >> $htmlout
                 fi
             done

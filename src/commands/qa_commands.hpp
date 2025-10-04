@@ -16,6 +16,7 @@
 #include <QApplication>
 #include <QImage>
 #include <QPixmap>
+#include <QPicture>
 #include <QWidget>
 
 #include <fstream>
@@ -67,7 +68,44 @@ bool are_textfiles_different(const QString &file1, const QString &file2)
     return false;
 }
 
-bool are_imagefiles_different(const QString &file1, const QString &file2)
+
+bool are_imagefiles_different_python_magic(const QString &file1, const QString &file2)
+{
+    auto qa_dir = QString::fromLocal8Bit(qgetenv("PAINTER_QA_DIR").constData()).toStdString();
+    std::string script(qa_dir + "/etc/scripts/image_diff.py");
+    std::string current = file1.toStdString();
+    std::string expected = file2.toStdString();
+    //QString diffFile = file1;
+    //diffFile.chop(4); // remove ".png"
+    //diffFile += ".diff.png";
+    //std::string diff = diffFile.toStdString();
+    //std::string cmd1 = "python3 " + script + " " + current + " " + expected + " " + " method1 &> method1.txt";
+    //std::string cmd2 = "python3 " + script + " " + current + " " + expected + " " + " method2 &> method2.txt";
+    //std::string cmd3 = "python3 " + script + " " + current + " " + expected + " " + " method3 &> method3.txt";
+
+    //std::string cmd1 = "python3 " + script + " " + current + " " + expected + " method1 > method1.txt 2>&1";
+    //std::string cmd2 = "python3 " + script + " " + current + " " + expected + " method2 > method2.txt 2>&1";
+    std::string cmd3 = "python3 " + script + " " + current + " " + expected + " method3 > method3.txt 2>&1";
+
+    //bool res1 = system(cmd1.c_str());
+    //bool res2 = system(cmd2.c_str());
+    bool res3 = system(cmd3.c_str());
+
+    std::cout << "========= IMGDIFF RES:" << std::endl;
+    //std::cout << "                       res1 " << res1 << std::endl;
+    //std::cout << "                       res2 " << res2 << std::endl;
+    std::cout << "                       res3 " << res3 << std::endl;
+    std::cout << "********* IMGDIFF RES:" << std::endl;
+    
+    //we conclude images different if all 3 methods fail
+    //if (res1 && res2 && res3 )
+        return res3;
+    
+    //otherwise they are the same (even if 1 or 2 methods failed)
+    //return false;
+}
+
+bool are_imagefiles_different_old(const QString &file1, const QString &file2)
 {
     QImage img1(file1);
     QImage img2(file2);
@@ -97,6 +135,97 @@ bool are_imagefiles_different(const QString &file1, const QString &file2)
             }
         }
     }
+
+    return false;
+}
+
+bool are_imagefiles_different_per_pixel(const QString &file1, const QString &file2)
+{
+    QImage img1(file1);
+    QImage img2(file2);
+
+    if (img1.isNull() || img2.isNull()) {
+        return true;
+    }
+
+    int w = img1.width();
+    int h = img1.height();
+
+    // Prepare diff file name
+    QString diffFile = file1;
+    if (diffFile.endsWith(".png", Qt::CaseInsensitive)) {
+        diffFile.chop(4); // remove ".png"
+        diffFile += ".diff.png";
+    } else {
+        diffFile += ".diff.png";
+    }
+
+    // Allocate diff image with same size and ARGB format
+    QImage diff(w, h, QImage::Format_ARGB32);
+    diff.fill(Qt::white); // background for unchanged pixels
+
+    bool different = false;
+
+    for (int ii = 0; ii < w; ++ii) {
+        for (int jj = 0; jj < h; ++jj) {
+            const QRgb px1 = img1.pixel(ii, jj);
+            const QRgb px2 = img2.pixel(ii, jj);
+
+            if (px1 != px2) {
+                different = true;
+                diff.setPixel(ii, jj, qRgb(0, 0, 0)); // highlight differences in red
+            } 
+            //else {
+            //    diff.setPixel(ii, jj, px1); // keep original pixel for context
+            //}
+        }
+    }
+
+    diff.save(diffFile);
+
+    return different;
+}
+
+double similarity(const QByteArray &a, const QByteArray &b) {
+    int len = std::min(a.size(), b.size());
+    int same = 0;
+    for (int i = 0; i < len; ++i) {
+        if (a[i] == b[i]) same++;
+    }
+    return 100.0 * same / std::max(a.size(), b.size());
+}
+
+bool comparePictureData(const QString &f1, const QString &f2) 
+{
+    std::cout << "comparing " << f1.toStdString() << " with " << f2.toStdString() << std::endl;
+    QFile file1(f1), file2(f2);
+    if (!file1.open(QIODevice::ReadOnly) || !file2.open(QIODevice::ReadOnly))
+        return true;
+
+    QByteArray d1 = file1.readAll();
+    QByteArray d2 = file2.readAll();
+    std::cout << "similarity: " << similarity(d1,d2) << std::endl;
+    return d1 != d2;
+}
+
+bool check_pics(const QString &file1, const QString &file2)
+{
+    auto f1 = file1 + ".pic";
+    auto f2 = file2 + ".pic";
+
+    return comparePictureData(f1, f2);
+}
+
+bool are_imagefiles_different(const QString &file1, const QString &file2)
+{
+    //first check per pixel
+    if (are_imagefiles_different_per_pixel(file1,file2))
+        //if different per pixel do more sophisiticated comparisions
+        return are_imagefiles_different_python_magic(file1,file2);
+
+    //check_pics(file1, file2);
+    //are_imagefiles_different_per_pixel(file1,file2);
+    //are_imagefiles_different_python_magic(file1,file2);
 
     return false;
 }
@@ -271,10 +400,33 @@ template <qaCompType T> class dicmdQaDump : public NonTransactionalDirectCommand
 
         if (onlyrt)
             dynamic_cast<canvas *>(w)->get_renderer()->rendering_des_mode_change();
-
-        QPixmap pixmap(w->size());
+        
+        std::cout << " ----- CANVAS SIZE W ---- "  << w->size().width() << std::endl;
+        std::cout << " ----- CANVAS SIZE H ---- "  << w->size().height() << std::endl;
+        //*
+        //QPixmap pixmap(w->size());
+        //resize(1200, 800);
+        QPixmap pixmap(1200,380);
         w->render(&pixmap);
         pixmap.save(m_fname.c_str());
+        /**/
+
+        /*
+        QImage image(w->size(), QImage::Format_Mono);
+        image.fill(Qt::transparent);
+        //QPainter p(&image);
+        w->render(&image);
+        //p.end();
+        image.save(m_fname.c_str()); 
+        */
+
+        QPicture picture;
+        //QPainter painter(&picture);
+        w->render(&picture);
+        //painter.end();
+        auto pic_name = m_fname + ".pic";
+        picture.save(pic_name.c_str());
+
         //dynamic_cast<canvas *>(w)->get_renderer()->hint_drawing_cursor_one_time();
 
         if (onlyrt)
@@ -532,12 +684,23 @@ void dicmdQaCompare<T>::execute()
                     .set_arg("-filename", "CanvasFor_" + get_index_str() + ".golden.png")
                     ->execute();
         }
+    
+        dicmdQaCompareInternal<T>()
+            .set_arg("-dumpfile", get_index_str())
+            ->set_arg("-goldenfile", get_index_str() + ".golden")
+            ->execute();
+    } else {
+        if (!QString::fromLocal8Bit(qgetenv("ELEN_PAINTER_REGOLDEN").constData()).isEmpty())
+            dicmdQaDump<CANVAS>()
+                .set_arg("-filename", "CanvasFor_" + get_index_str() + ".golden.png")
+                ->execute();
+        //else 
+            dicmdQaCompareInternal<CANVAS>()
+                .set_arg("-dumpfile", "CanvasFor_" + get_index_str())
+                ->set_arg("-goldenfile", "CanvasFor_" + get_index_str() + ".golden.png")
+                ->execute();
     }
 
-    dicmdQaCompareInternal<T>()
-        .set_arg("-dumpfile", get_index_str())
-        ->set_arg("-goldenfile", get_index_str() + ".golden")
-        ->execute();
 
     n_index++;
 }

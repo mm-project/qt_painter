@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Diff Viewer</title>
+  <link rel="stylesheet" href="./diffengjs/diffview.css">
+  <script src="./diffengjs/diffview.js"></script>
+  <script src="./diffengjs/difflib.js"></script>
+  <style>
+    body {
+      font-family: "Segoe UI", Roboto, sans-serif;
+      font-size: 14px;
+      background: #f9f9f9;
+      margin: 20px;
+      color: #333;
+    }
+
+    /* --- Image Gallery --- */
+    .image-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .image-card {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      overflow: hidden;
+      text-align: center;
+      transition: transform 0.2s;
+    }
+    .image-card:hover {
+      transform: translateY(-5px);
+    }
+    .image-card img {
+      width: 100%;
+      height: 150px;
+      object-fit: contain;
+      cursor: pointer;
+      background: #fafafa;
+    }
+    .image-card a {
+      display: block;
+      padding: 10px;
+      text-decoration: none;
+      color: #0077cc;
+      font-weight: bold;
+    }
+    .image-card a:hover {
+      text-decoration: underline;
+    }
+
+    /* --- Lightbox --- */
+    .lightbox {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.9);
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+    .lightbox img {
+      max-width: 90%;
+      max-height: 85%;
+      border-radius: 8px;
+    }
+    .lightbox-controls {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+    }
+    .lightbox button {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      font-size: 2em;
+      padding: 0.2em 0.6em;
+      cursor: pointer;
+      border-radius: 50%;
+      margin: 0 20px;
+      transition: background 0.3s;
+    }
+    .lightbox button:hover {
+      background: rgba(255,255,255,0.5);
+    }
+  </style>
+</head>
+<body onload="diffUsingJS(0)">
+
+<div id="diffoutput"></div>
+
+<div class="image-gallery">
+  <div class="image-card">
+    <img src="./CanvasFor_%fname1%.png" alt="Golden" onclick="openLightbox(0)">
+    <a href="">Golden</a>
+  </div>
+  <div class="image-card">
+    <img src="./CanvasFor_%fname2%.png" alt="Current" onclick="openLightbox(1)">
+    <a href="">Current</a>
+  </div>
+  <div class="image-card">
+    <img src="./CanvasFor_%fname3%.diff.png" alt="Diff" onclick="openLightbox(2)">
+    <a href="">Diff</a>
+  </div>
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <div class="lightbox-controls">
+    <button onclick="prevImage(event)">&#10094;</button>
+    <button onclick="nextImage(event)">&#10095;</button>
+  </div>
+  <img id="lightbox-img" src="">
+</div>
+
+<script>
+const images = [
+  "./CanvasFor_%fname1%.png",
+  "./CanvasFor_%fname2%.png",
+  "./CanvasFor_%fname3%.diff.png"
+];
+let currentIndex = 0;
+
+function openLightbox(index) {
+  currentIndex = index;
+  document.getElementById('lightbox-img').src = images[currentIndex];
+  document.getElementById('lightbox').style.display = 'flex';
+}
+
+function closeLightbox(event) {
+  if (event.target.id === 'lightbox' || event.target.id === 'lightbox-img') {
+    document.getElementById('lightbox').style.display = 'none';
+  }
+}
+
+function nextImage(event) {
+  event.stopPropagation();
+  currentIndex = (currentIndex + 1) % images.length;
+  document.getElementById('lightbox-img').src = images[currentIndex];
+}
+
+function prevImage(event) {
+  event.stopPropagation();
+  currentIndex = (currentIndex - 1 + images.length) % images.length;
+  document.getElementById('lightbox-img').src = images[currentIndex];
+}
+</script>
+
+
+</body>
+</html>
