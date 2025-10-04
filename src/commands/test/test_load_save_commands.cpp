@@ -89,6 +89,14 @@ class MockShape : public IShape
     {
         return {};
     }
+
+    const ClassGuid& guid() const override { return staticGuid(); }
+
+    static const ClassGuid& staticGuid() 
+    { 
+        static const ClassGuid g = make_guid({1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16}); 
+        return g; 
+    }
 };
 
 // Mocking!: Implementations

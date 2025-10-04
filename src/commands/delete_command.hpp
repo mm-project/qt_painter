@@ -8,6 +8,7 @@
 #include "../core/design.hpp"
 #include "../core/rq/RegionQueryService.hpp"
 #include "../gui/statusbar_manager.hpp"
+#include "../core/design/design_manager.hpp"
 
 class dicmdDeleteObj : public DirectCommandBase
 {
