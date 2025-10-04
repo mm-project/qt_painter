@@ -16,6 +16,7 @@ class RegionQuery : public Service<RegionQuery>
 {
   public:
     void insertObject(IShapePtr);
+    void insertObjects(const std::vector<IShapePtr> &);
     void removeObject(IShapePtr);
     std::vector<IShapePtr> getShapeUnderPos(const QPoint &) const;
     std::vector<IShapePtr> getShapesUnderRect(const QRect &) const;

@@ -13,6 +13,7 @@
 #include <iostream>
 
 #include "../core/design/design_manager.hpp"
+#include "../core/rq/RegionQueryService.hpp"
 
 class dicmdDesignLoad : public DirectCommandBase
 {
@@ -41,7 +42,9 @@ class dicmdDesignLoad : public DirectCommandBase
             }
             dm.openDesign(fname, 0);
             dm.setActiveDesign(0);
-
+            auto arrObjects = dm.getActiveDesign()->getObjects();
+            auto& rq = RegionQuery::getInstance();
+            rq.insertObjects(arrObjects);
         }
         else
         {
@@ -81,27 +84,30 @@ class dicmdDesignSave : public DirectCommandBase
             pActiveDesign->saveToFile(fname);
             return;
         }
-        for (auto it : pActiveDesign->getObjects())
+        auto arrIds = pActiveDesign->getObjectIDs();
+        std::sort(arrIds.begin(), arrIds.end());
+        for (auto it : arrIds)
         {
-            switch (it->getType())
+            IShapePtr pObject = std::dynamic_pointer_cast<IShape>(pActiveDesign->getObject(it));
+            switch (pObject->getType())
             {
             case LINE:
-                cmd = new dicmdCreateObj<LINE>(transform(it->getPoints()), it->getProperties());
+                cmd = new dicmdCreateObj<LINE>(transform(pObject->getPoints()), pObject->getProperties());
                 // cmd->set_arg("-points",PointListCommandOptionValue(transform(it->getPoints())).to_string());
                 dynamic_cast<dicmdCreateObj<LINE> *>(cmd)->dump(fname);
                 break;
             case RECTANGLE:
-                cmd = new dicmdCreateObj<RECTANGLE>(transform(it->getPoints()), it->getProperties());
+                cmd = new dicmdCreateObj<RECTANGLE>(transform(pObject->getPoints()), pObject->getProperties());
                 // cmd->set_arg("-points",PointListCommandOptionValue(transform(it->getPoints())).to_string());
                 dynamic_cast<dicmdCreateObj<RECTANGLE> *>(cmd)->dump(fname);
                 break;
             case ELLIPSE:
-                cmd = new dicmdCreateObj<ELLIPSE>(transform(it->getPoints()), it->getProperties());
+                cmd = new dicmdCreateObj<ELLIPSE>(transform(pObject->getPoints()), pObject->getProperties());
                 // cmd->set_arg("-points",PointListCommandOptionValue(transform(it->getPoints())).to_string());
                 dynamic_cast<dicmdCreateObj<ELLIPSE> *>(cmd)->dump(fname);
                 break;
             case POLYGON:
-                cmd = new dicmdCreateObj<POLYGON>(transform(it->getPoints()), it->getProperties());
+                cmd = new dicmdCreateObj<POLYGON>(transform(pObject->getPoints()), pObject->getProperties());
                 // cmd->set_arg("-points",PointListCommandOptionValue(transform(it->getPoints())).to_string());
                 dynamic_cast<dicmdCreateObj<POLYGON> *>(cmd)->dump(fname);
                 break;

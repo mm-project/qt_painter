@@ -48,4 +48,9 @@ int RegionQuery::getSize() const
     return m_tree->getSize();
 }
 
+void RegionQuery::insertObjects(const std::vector<IShapePtr> &objects)
+{
+    m_tree->insert(objects);
+}
+
 #endif // ifndef NO_RQ
