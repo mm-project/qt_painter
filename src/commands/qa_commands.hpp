@@ -83,17 +83,17 @@ bool are_imagefiles_different_python_magic(const QString &file1, const QString &
     //std::string cmd2 = "python3 " + script + " " + current + " " + expected + " " + " method2 &> method2.txt";
     //std::string cmd3 = "python3 " + script + " " + current + " " + expected + " " + " method3 &> method3.txt";
 
-    std::string cmd1 = "python3 " + script + " " + current + " " + expected + " method1 > method1.txt 2>&1";
-    std::string cmd2 = "python3 " + script + " " + current + " " + expected + " method2 > method2.txt 2>&1";
+    //std::string cmd1 = "python3 " + script + " " + current + " " + expected + " method1 > method1.txt 2>&1";
+    //std::string cmd2 = "python3 " + script + " " + current + " " + expected + " method2 > method2.txt 2>&1";
     std::string cmd3 = "python3 " + script + " " + current + " " + expected + " method3 > method3.txt 2>&1";
 
-    bool res1 = system(cmd1.c_str());
-    bool res2 = system(cmd2.c_str());
+    //bool res1 = system(cmd1.c_str());
+    //bool res2 = system(cmd2.c_str());
     bool res3 = system(cmd3.c_str());
 
     std::cout << "========= IMGDIFF RES:" << std::endl;
-    std::cout << "                       res1 " << res1 << std::endl;
-    std::cout << "                       res2 " << res2 << std::endl;
+    //std::cout << "                       res1 " << res1 << std::endl;
+    //std::cout << "                       res2 " << res2 << std::endl;
     std::cout << "                       res3 " << res3 << std::endl;
     std::cout << "********* IMGDIFF RES:" << std::endl;
     
@@ -218,10 +218,13 @@ bool check_pics(const QString &file1, const QString &file2)
 
 bool are_imagefiles_different(const QString &file1, const QString &file2)
 {
+    check_pics(file1, file2);
     //first check per pixel
-    if (are_imagefiles_different_per_pixel(file1,file2)) 
+    if (are_imagefiles_different_per_pixel(file1,file2)) {
         //if different per pixel do more sophisiticated comparisions
-        return are_imagefiles_different_python_magic(file1,file2);
+        are_imagefiles_different_python_magic(file1,file2);
+        return true;
+    }
     return false;
 }
 
