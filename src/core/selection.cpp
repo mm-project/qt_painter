@@ -166,13 +166,19 @@ void Selection::find_and_highlightselect_shapes_from_region(const std::pair<QPoi
     m_sel_highlight_set->highlight_on();
 }
 
+void Selection::highlight_dehighlight_last_selected_region()
+{
+    m_draw_last_selection = !m_draw_last_selection;
+    highlight_last_selected_region(m_draw_last_selection);
+}
+
 void Selection::highlight_last_selected_region(bool on_off)
 {
     // std::cout << "hiiiiiiiiiiiiiiiiiiiiii" << std::endl;
     if (!on_off)
     {
         m_qa_highlight_set->clear();
-        m_last_region = QRect(0, 0, 0, 0);
+        //m_last_region = QRect(0, 0, 0, 0);
         return;
     }
 

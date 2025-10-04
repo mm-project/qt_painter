@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 exit 0
 for f in `cat tests.lst`; do
     echo "***" > $f/Readme.md

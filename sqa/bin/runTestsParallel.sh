@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
@@ -9,16 +9,22 @@ done
 DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 
 PAINTER_QA_DIR=$DIR/..
+ARTIFACTS_DIR=$DIR/../../artifacts
 
 tst_lst=$1
 if [ "$tst_lst" == "" ]; then
     tst_lst=$PAINTER_QA_DIR/tests.lst
 fi
 
-file_len=`wc -l $tst_lst | cut -d' ' -f1`
+file_len=`wc -l "$tst_lst" | xargs | cut -d' ' -f1`
 b=0
 e=1
 declare -A PIDS 
+
+cwd=$(pwd)
+wdir="test_out"
+rm -rf $wdir
+mkdir $wdir
 
 function runAll
 {
@@ -29,6 +35,7 @@ function runAll
     echo "Threads: $threads_num ( tests running in 1 thread: $testnum_in_chunk )"
     echo
     #echo "file_len: $file_len"
+    i=0
     while [[ "$e" -le "$file_len" ]]; do
         i=`expr $i + 1`
         runParallel $i $b $e
@@ -51,8 +58,7 @@ function runParallel
     beg=$2
     end=$3
     beg=`expr $beg + 1`
-    
-    outfile="chunk$i.OUT"
+    outfile="$wdir/chunk$i.OUT"
     export PAINTER_QA_TEST_RUN_PARALLEL=1
     $DIR/runRegTests.sh $beg $end &> $outfile &
     pid=$!
@@ -111,22 +117,92 @@ function printResult
     fi
 }
 
+function printFailedTests
+{
+    failed_tests_files=$(find $wdir -name .failed_tsts* )
+    rm -f FAILURES.html
+    fail_id=1
+    
+    branch=$(git branch --show-current)
+    
+    echo "<meta name=\"file-version\" content=\"$branch\" />" >  FAILURES.html
+    echo "" >> FAILURES.html
+    echo "<div class=\"table-wrapper\">" >> FAILURES.html
+    echo "<table id=\"link-table\">" >> FAILURES.html
+    echo "<thead>" >> FAILURES.html
+    echo " <tr>" >> FAILURES.html
+    echo "   <th>ID</th>" >> FAILURES.html
+    echo "   <th>Test</th>" >> FAILURES.html
+    echo "   <th>My Notes</th>" >> FAILURES.html
+    echo " </tr>" >> FAILURES.html
+    echo "</thead>" >> FAILURES.html
+    echo "<tbody>" >> FAILURES.html
+
+    if [ "$CI_CHECK" == "1" ]; then
+        for f in $failed_tests_files; do
+            failures=$(cat $f)
+            cat $f | sed 's/^/\t/'
+            for failed_test in $failures; do
+                hash=$($PAINTER_QA_DIR/scripts/give_test_status_hash.sh -test sqa/$failed_test/test.info)
+                failure1=$(echo $failed_test | cut -d/ -f2-)
+                failure2=$(basename $failed_test)
+
+                #echo "$fail_id: <a href=\"${failure2}/DIFF.html\"> sqa/$failed_test </a><br><br>" >> FAILURES.html
+                echo "  <tr>" >> FAILURES.html
+                echo "      <td>$fail_id</td>" >> FAILURES.html
+                echo "      <td><a href=\"${failure2}/DIFF.html\" data-id=\"$hash\"> sqa/$failed_test </a></td>" >> FAILURES.html
+                echo "      <td contenteditable="true"></td>" >> FAILURES.html
+                echo "  </tr>" >> FAILURES.html
+                fail_id=$(expr $fail_id + 1)
+            done
+        done    
+    else
+        url_prefix="sqa/tests"
+        for f in $failed_tests_files; do
+            failures=$(cat $f)
+            cat $f | sed 's/^/\t/'
+            for failed_test in $failures; do
+                hash=$($PAINTER_QA_DIR/scripts/give_test_status_hash.sh -test sqa/$failed_test/test.info)
+                failure=$(echo $failed_test | cut -d/ -f2-)                
+                #echo "$fail_id: <a href=\"${url_prefix}/${failure}/output/DIFF.html\"> ${url_prefix}/$failure </a><br><br>" >> FAILURES.html
+                echo "  <tr>" >> FAILURES.html
+                echo "      <td>$fail_id</td>" >> FAILURES.html
+                echo "      <td><a href=\"${url_prefix}/${failure}/output/DIFF.html\" data-id=\"$hash\"> ${url_prefix}/$failure </a></td>" >> FAILURES.html
+                echo "      <td contenteditable="true"></td>" >> FAILURES.html
+                echo "  </tr>" >> FAILURES.html
+                fail_id=$(expr $fail_id + 1)
+            done
+        done    
+    fi
+    cat $PAINTER_QA_DIR/etc/webrelated/failures_js.html >> FAILURES.html
+
+}
+
 function reportAll
 {
     fails=0
-
-    echo 
+    fails=`expr $file_len - $passs`
+    if [ "$fails" != 0 ]; then
+        echo 
+        echo "Failed test(s):"
+        printFailedTests
+        echo 
+        echo "See: $cwd/FAILURES.html"
+    fi
+    
+    echo
     echo "Summary:"
     echo "         Total:   $file_len "
     echo
 
-    fails=`expr $file_len - $passs`
     if [ "$fails" == 0 ]; then
         echo "         ALL TESTS PASS"
+        rm FAILURES.html
         exit 0
     else
         echo "         Failed:  $fails"
         echo "         Passed:  $passs"
+        cp FAILURES.html $ARTIFACTS_DIR
         exit 1
     fi
 }

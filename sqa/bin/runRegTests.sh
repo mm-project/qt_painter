@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
@@ -7,6 +7,8 @@ while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symli
   [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
 done
 DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+
+cdir=$PWD
 
 options="$@"
 BEG=$1
@@ -38,12 +40,20 @@ crashed=0
 t_id=1
 t_res=5
 
+wdir="test_out"
+
 if [ "$PAINTER_QA_TEST_RUN_PARALLEL" != "" ]; then
     TESTLST=`awk -v b=$BEG -v e=$END 'NR >= b && NR <= e' $PAINTER_QA_DIR/tests.lst`
+    failed_test_list_file=$PWD/$wdir/.failed_tsts_${BEG}_${END}
 else
     TESTLST=`cat $PAINTER_QA_DIR/tests.lst`
+    rm -rf $wdir
+    mkdir $wdir
+    failed_test_list_file=$PWD/$wdir/.failed_tsts
     #echo "DEBUG: awk -v b=$BEG -v e=$END 'NR >= b && NR <= e' $PAINTER_QA_DIR/tests.lst"
 fi
+
+rm -f $failed_test_list_file
 
 for i in $TESTLST; do
     total=`expr $total + 1`
@@ -57,7 +67,7 @@ for i in $TESTLST; do
             t_res=1
             passed=`expr $passed + 1`
             if [ "$PAINTER_NEED_TEST_PASS_ARTIFACTS" != "" ]; then
-	    	cp output $ARTIFACTS_DIR/$testname -rf
+	    	cp -rf output $ARTIFACTS_DIR/$testname 
 	    fi
         elif [ "$r" == 3 ]; then
             echo -e "\e[4;5;41mC R A S H\e[0;25m"
@@ -66,7 +76,8 @@ for i in $TESTLST; do
             echo "==========="
             res=1
             crashed=`expr $crashed + 1`
-            cp output $ARTIFACTS_DIR/$testname -rf
+            cp -rf output $ARTIFACTS_DIR/$testname 
+            echo "$i" >> $failed_test_list_file
         else
             echo -e "\e[31mError (code:$r) \e[0m"
             echo "************"
@@ -74,7 +85,8 @@ for i in $TESTLST; do
             echo "==========="
             failed=`expr $failed + 1`
             res=1
-            cp output $ARTIFACTS_DIR/$testname -rf
+            cp -rf output $ARTIFACTS_DIR/$testname 
+            echo "$i" >> $failed_test_list_file
         fi
         echo  "------------------------------------------------------------------------------------"
     cd - &> /dev/null
@@ -82,7 +94,7 @@ for i in $TESTLST; do
         r=`python3 $PAINTER_SCRIPTS_DIR/testrail_binder.py -action update_test_result --runid $run_id --resultid $t_res --testname "$i" `
         echo "RESULT:<$r>" &> testrail.io
     fi
-    t_id=`expr $ti + 1`
+    t_id=`expr $t_id + 1`
 done
 
 if [ "$PAINTER_QA_TEST_RUN_PARALLEL" == "" ]; then
@@ -98,6 +110,11 @@ if [ "$PAINTER_QA_TEST_RUN_PARALLEL" == "" ]; then
         echo "         Failed:  $failed"
         echo "         Passed:  $passed"
         echo "         Crashd:  $crashed"
+	    echo "*****************************************"
+	    echo
+	    cat $failed_test_list_file
+	    echo
+	    echo "*****************************************"
         exit 1
     fi
 else

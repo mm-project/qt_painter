@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 exit_code=""
 need_dbg=""
@@ -9,6 +9,7 @@ testname=`basename $PWD`
 export PAINTER_LOGFILE_PREFIX="painter"
 #mode="regolden"
 mode=""
+other_args=""
 extras=""
 
 function extra_comparision {
@@ -19,7 +20,16 @@ function process_options
 {
     verbose "process_options"
     unset ELEN_PAINTER_REGOLDEN
-    mode=$1
+    unset ELEN_PAINTER_TESTTYPE
+    unset ELEN_PAINTER_COUNTER
+    unset ELEN_PAINTER_TESTDBG
+    unset ELEN_PAINTER_STARTDBG
+    unset ELEN_PAINTER_COMPAREDBG
+    args="$1"
+
+    read -r mode other_args <<< "$args"
+    #mode="regolden"
+    echo "mode:[$mode]< options:[$other_args]<"
     #if [ "$1" == "regolden" ]; then
     #    mode="regolden"
     #fi
@@ -33,6 +43,17 @@ function verbose
     fi
 }
 
+function process_debug_options
+{
+    #args="$1"
+    if [ "$other_args" != "" ]; then
+        var1="${other_args%%=*}"
+        var2="${other_args#*=}"
+        export ELEN_PAINTER_TESTTYPE=$var1
+        export ELEN_PAINTER_COUNTER=$var2
+    fi
+}
+
 function prepocess
 {
     if [ "$mode" = "regolden" ]; then
@@ -41,19 +62,33 @@ function prepocess
     
     if [ "$mode" = "debug" ]; then
         export ELEN_PAINTER_TESTDBG="1"
-        export ELEN_PAINTER_STARTDBG="1"
+        process_debug_options
     fi
-    
+
+    if [ "$mode" = "start_debug" ]; then
+        export ELEN_PAINTER_TESTDBG="1"
+        export ELEN_PAINTER_STARTDBG="1"
+        process_debug_options
+    fi
+
+    if [ "$mode" = "compare_debug" ]; then
+        export ELEN_PAINTER_TESTDBG="1"
+        export ELEN_PAINTER_COMPAREDBG="1"
+        process_debug_options
+    fi
+
     verbose "prepocess..."
     rm -rf output
     mkdir -p $GDIRNAME
     mkdir output
     cd output
+    cwd=$(pwd)
     
-    cp $PAINTER_QA_DIR/etc/webrelated/* . -r
+    cp -r $PAINTER_QA_DIR/etc/webrelated/* .
+    cp $PAINTER_QA_DIR/designs/* ./
     
     if [ "$mode" != "regolden" ]; then
-        cp ../$GDIRNAME/* ./ -rf
+        cp -rf ../$GDIRNAME/* ./
         if [ "$?" != 0 ]; then
             succ=`expr $succ - 1`
         fi
@@ -77,9 +112,12 @@ function postprocess
             done
             cp ./logs/painter.log ../$GDIRNAME/painter.log.golden
             cp ./logs/painter.lvi ../$GDIRNAME/painter.lvi.golden
-	     mv ./$testname.mp4 ../$GDIRNAME/$testname.golden.mp4
+            mv ./$testname.mp4 ../$GDIRNAME/$testname.golden.mp4
             #cp painter.out ../$GDIRNAME/painter.out.golden
-            cp `find -name "*.golden*"` ../$GDIRNAME
+            golden_files=$(find ./ -name "*.golden*")
+            for f in $golden_files; do
+                cp $f ../$GDIRNAME
+            done            
             #cnvscprs=`find -name "*compare*"`
             #for i in $cnvscprs; do
             #    cp $i ../$GDIRNAME/$i.golden
@@ -212,6 +250,9 @@ IFS="
         fi
         
         if [ "$succ" != 4 ]; then
+            echo
+            echo "See: $cwd/$htmlout"
+            echo
             echo "Test failed."
             exit 1
         else
@@ -231,6 +272,9 @@ function run
     local options="$1"
     verbose "running..."
     platform=linux
+    if [[ "$(uname)" == "Darwin" ]]; then
+        platform=mac
+    fi
     toolexe=painter
     toolpath=$PAINTER_QA_DIR/../bin/$platform
     tool=$toolpath/$toolexe

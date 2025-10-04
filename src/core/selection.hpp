@@ -26,6 +26,7 @@ class Selection : public Service<Selection>, public ObjectPoolBase
     RuntimePoolManagerPtr m_rt_pools;
     // bool m_h_on;
     RegionQuery &rq = RegionQuery::getInstance();
+    bool m_draw_last_selection = false;
 
   public:
     virtual std::string getName() const noexcept override;
@@ -42,6 +43,7 @@ class Selection : public Service<Selection>, public ObjectPoolBase
     // private:
     void on_controller_update(LeCallbackData &);
     void highlight_last_selected_region(bool);
+    void highlight_dehighlight_last_selected_region();
     void temporary_highlight();
     void highlightselect_all();
 };

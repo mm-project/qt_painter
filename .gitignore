@@ -6,6 +6,7 @@ cmake_install.cmake
 .vscode
 artifacts
 bin/linux/logs
+bin/
 logs
 build
 painter_autogen
@@ -23,3 +24,6 @@ CMakeFiles
 output
 *.OUT
 src/core/design/design_autogen
+test_out
+test.info
+FAILURES.html
