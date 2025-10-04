@@ -53,7 +53,6 @@ class canvas : public QWidget
   private:
     bool is_runtime_mode;
     bool m_need_motionlog = false;
-    ObjectPoolPtr m_design;
     RuntimePoolManagerPtr m_runtime;
     command_manager &cm = command_manager::getInstance();
     renderer *m_renderer;

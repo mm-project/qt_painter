@@ -23,11 +23,10 @@
 /// FIXME ????
 // int dicmdQaCanvasCompare::n_index = 0;
 
-void command_manager::init2(RuntimePoolManagerPtr r, ObjectPoolPtr s)
+void command_manager::init2(RuntimePoolManagerPtr r)
 {
     // r = re;
     re = r;
-    ws = {s};
     m_current_command = nullptr;
     m_idle_command = new incmdIdle();
 

@@ -12,12 +12,12 @@
 class dicmdDeleteObj : public DirectCommandBase
 {
   public:
-    dicmdDeleteObj(ObjectPoolPtr ptr, QPoint pos) : m_workingSet(std::dynamic_pointer_cast<Design>(ptr))
+    dicmdDeleteObj(QPoint pos) 
     {
         add_option("-point", new PointCommandOptionValue(pos));
     }
 
-    dicmdDeleteObj(ObjectPoolPtr ptr) : m_workingSet(std::dynamic_pointer_cast<Design>(ptr))
+    dicmdDeleteObj() 
     {
         add_option("-point", new PointCommandOptionValue());
     }
@@ -37,24 +37,25 @@ class dicmdDeleteObj : public DirectCommandBase
         //for (auto& obj : m_workingSet->getObjects())
         //	rq.insertObject(obj);
 
+        auto& dm = DesignManager::getInstance();
+        auto pActiveDesign = dm.getActiveDesign();
         for ( auto& shape : shapes )
         {
             if (shape != nullptr)
             {
                 rq.removeObject(shape);
-                m_workingSet->removeObject(shape);
+                pActiveDesign->removeObject(shape);
             }
         }
     }
 
   private:
-    DesignPtr m_workingSet = nullptr;
 };
 
 class InteractiveDeleteAction : public InteractiveCommandBase
 {
   public:
-    InteractiveDeleteAction(ObjectPoolPtr ptr) : m_workingSet(std::dynamic_pointer_cast<Design>(ptr))
+    InteractiveDeleteAction() : m_position()
     {
     }
 
@@ -76,7 +77,7 @@ class InteractiveDeleteAction : public InteractiveCommandBase
 
     void on_commit(const EvType &)
     {
-        dicmdDeleteObj(m_workingSet, m_position).silent_execute();
+        dicmdDeleteObj(m_position).silent_execute();
         InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(InteractiveDeleteAction, idle));
     }
 
@@ -100,6 +101,5 @@ class InteractiveDeleteAction : public InteractiveCommandBase
 
   private:
     QPoint m_position;
-    DesignPtr m_workingSet = nullptr;
 };
 #endif

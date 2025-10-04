@@ -34,7 +34,7 @@ class command_manager : public Service<command_manager>
     void set_main_renderer(renderer *r);
     renderer *get_main_renderer();
 
-    void init2(RuntimePoolManagerPtr r, ObjectPoolPtr s);
+    void init2(RuntimePoolManagerPtr r);
     void init();
 
     void set_idle_command(CommandBase *cmd);
@@ -70,7 +70,6 @@ class command_manager : public Service<command_manager>
     CommandBase *m_idle_command = nullptr;
 
     RuntimePoolManagerPtr re;
-    ObjectPoolPtr ws;
     // bool m_is_idle;
     QWidget *m_main_widget = nullptr;
     float m_kx = 1;

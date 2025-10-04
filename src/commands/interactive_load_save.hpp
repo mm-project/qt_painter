@@ -6,6 +6,7 @@
 #include "load_save_commands.hpp"
 
 #include "../core/rq/RegionQueryService.hpp"
+#include "../core/design/design_manager.hpp"
 
 #include "../gui/modal_dialog.hpp"
 
@@ -40,15 +41,13 @@ std::string sl_action2string(desAction a)
 
 template <desAction T> class InteractiveDesAction : public InteractiveCommandBase
 {
-
-    ObjectPoolPtr m_ws;
     std::string m_fn;
     std::string m_helpstr;
     bool m_is_saved = false;
     RegionQuery &rq = RegionQuery::getInstance();
 
   public:
-    InteractiveDesAction(ObjectPoolPtr s) : m_ws(s)
+    InteractiveDesAction() 
     {
         m_helpstr = sl_action2string(T);
     }
@@ -78,7 +77,7 @@ template <desAction T> class InteractiveDesAction : public InteractiveCommandBas
             {
                 m_fn = QFileDialog::getOpenFileName(0, "Load Design", "", "*.*", 0, QFileDialog::DontUseNativeDialog)
                            .toStdString();
-                dicmdDesignLoad(m_ws, m_fn).silent_execute();
+                dicmdDesignLoad(m_fn).silent_execute();
             }
         }
         else if (T == SAVE)
@@ -87,7 +86,7 @@ template <desAction T> class InteractiveDesAction : public InteractiveCommandBas
             {
                 m_fn = QFileDialog::getSaveFileName(0, "Save Design", "", "*.*", 0, QFileDialog::DontUseNativeDialog)
                            .toStdString();
-                dicmdDesignSave(m_ws, m_fn).silent_execute();
+                dicmdDesignSave(m_fn).silent_execute();
                 m_is_saved = true;
             }
         }
@@ -95,7 +94,10 @@ template <desAction T> class InteractiveDesAction : public InteractiveCommandBas
         {
             if (is_agreed_with_user())
             {
-                m_ws->clear();
+                auto& dm = DesignManager::getInstance();
+                dm.closeDesign(0);
+                dm.createDesign(0);
+                dm.setActiveDesign(0);
                 rq.clear();
                 command_manager::getInstance().get_main_widget()->update();
             }

@@ -15,6 +15,7 @@
 
 #include <iostream>
 #include <string>
+#include "../core/design/design_manager.hpp"
 
 #define PL_ARG(s) GET_CMD_ARG(PointListCommandOptionValue, s)
 #define S_ARG(s) GET_CMD_ARG(StringCommandOptionValue, s)
@@ -22,14 +23,12 @@
 
 template <ObjectType T> class dicmdCreateObj : public DirectCommandBase
 {
-
     IShapePtr m_executed_object;
     IShapePtr m_shape;
-    ObjectPoolPtr ws;
     RegionQuery &rq = RegionQuery::getInstance();
 
   public:
-    dicmdCreateObj(ObjectPoolPtr s) : ws(s)
+    dicmdCreateObj() 
     { // rq(RegionQuery::getInstance()) {
         add_option("-points", new PointListCommandOptionValue());
         add_option("-color", new StringCommandOptionValue("#000000"));
@@ -37,7 +36,7 @@ template <ObjectType T> class dicmdCreateObj : public DirectCommandBase
         add_option("-fill", new IntCommandOptionValue(0));
     }
 
-    dicmdCreateObj(const std::vector<PointCommandOptionValue> &pl, const ShapeProperties &pr, ObjectPoolPtr s) : ws(s)
+    dicmdCreateObj(const std::vector<PointCommandOptionValue> &pl, const ShapeProperties &pr) 
     {
         // m_pr = pr;
         // std::to_string(pr.toStringsMap()["color"])
@@ -69,7 +68,10 @@ template <ObjectType T> class dicmdCreateObj : public DirectCommandBase
         ShapeProperties pr;
         pr.fromString(S_ARG("-color"), I_ARG("-brush"), I_ARG("-fill"));
         obj->updateProperties(pr);
-        m_executed_object = ws->addObject(obj);
+
+        auto& dm = DesignManager::getInstance();
+        auto pActiveDesign = dm.getActiveDesign();
+        m_executed_object = pActiveDesign->addObject(obj);
         rq.insertObject(m_executed_object);
     }
 

@@ -1,4 +1,6 @@
 #include "polygon.hpp"
+#include "../design/tlv.hpp"
+#include "../design/tlv_helper.hpp"
 
 #include <QPainter>
 #include <QPen>
@@ -78,4 +80,27 @@ bool Polygon::contains(const QPoint &point) const
 QRectF Polygon::getBBox() const 
 {
     return QRectF(m_object.boundingRect());
+}
+
+void Polygon::writeTlv(TlvWriter& w) const 
+{ 
+    // get all points from QPolygon
+    std::vector<QPoint> points(m_object.begin(), m_object.end());
+    tlv_write_vec_qpoint(w, F_pts, points);
+    m_properties.writePropertiesTlv(w);
+}
+
+void Polygon::readTlv(TlvReader& r) 
+{ 
+    TlvReader::Item it{};
+    r.next(it);
+    if (it.id == F_pts)
+    {
+        std::vector<QPoint> points = tlv_read_vec_qpoint_std(r, it); 
+        for (const auto& p : points)
+                {
+                    addPoint(p);
+                }
+    }
+    m_properties.readPropertiesTlv(r);
 }

@@ -1,4 +1,5 @@
 #include "rectangle.hpp"
+#include "../design/tlv.hpp"
 
 #include <QPainter>
 #include <QPen>
@@ -81,4 +82,36 @@ bool Rectangle::isDisjointFrom( const QRect& oRect ) const
 QRectF Rectangle::getBBox() const 
 {
     return QRectF(m_object);
+}
+
+void Rectangle::writeTlv(TlvWriter& w) const 
+{ 
+    w.pod(F_p0, getTopLeft());
+    w.pod(F_p1, getBottomRight());
+    m_properties.writePropertiesTlv(w);
+}
+
+void Rectangle::readTlv(TlvReader& r) 
+{ 
+    TlvReader::Item it{}; 
+    auto nCount = 0;
+    while(nCount < 2 && r.next(it))
+    { 
+        ++nCount;
+        QPoint p;
+        switch(it.id)
+        { 
+            case F_p0:
+                r.read_pod(it, p); 
+                setTopLeft(p);
+                break; 
+            case F_p1: 
+                r.read_pod(it, p); 
+                setBottomRight(p); 
+                break; 
+            default:
+                break; 
+        } 
+    } 
+    m_properties.readPropertiesTlv(r);
 }

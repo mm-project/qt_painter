@@ -5,6 +5,7 @@
 //
 // Includes
 //
+#include "design/design_object.hpp"
 
 // Qt
 #include <QColor>
@@ -57,8 +58,19 @@ std::string ObjType2String(const ObjectType &t)
 //	@struct ShapeProperties
 //	collection of parameters and properties for drawing
 //
-struct ShapeProperties
+struct ShapeProperties 
 {
+    enum : FieldId 
+    {
+        BRUSH_COLOR = 10000,
+        BRUSH_STYLE,
+        PEN_COLOR,
+        PEN_STYLE,
+        PEN_WIDTH,
+        PEN_CAP_STYLE,
+        PEN_JOIN_STYLE
+    };
+    
     inline ShapeProperties() = default;
 
     QColor pen_color = Qt::white;
@@ -96,6 +108,12 @@ struct ShapeProperties
         brush_color = QColor(QString(color.c_str()));
         // pen_color = QColor(QString(color.c_str()));
     }
+
+    // TODO: write the pointer, avoid duplications
+    // Another posibility don't duplcate the strings
+    virtual void writePropertiesTlv(TlvWriter& w) const;
+    virtual void readPropertiesTlv(TlvReader& r);
+
 private:
     std::string generateKey() const;
 };
@@ -104,10 +122,9 @@ private:
 //
 // interface for the shapes
 //
-class IShape
+class IShape : public DesignObject
 {
-  public:
-  public:
+public:
     // @Constructor
     inline IShape() = default;
     inline IShape(ObjectType t) : m_type(t)
@@ -121,7 +138,7 @@ class IShape
     // @Destructor
     virtual ~IShape() = default;
 
-  public:
+public:
     virtual void moveCenterToPoint(QPoint &) = 0;
     virtual void reset() = 0;
 

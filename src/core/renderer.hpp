@@ -75,7 +75,7 @@ class renderer
 {
     // Q_OBJECT
   public:
-    renderer(QWidget *w, RuntimePoolManagerPtr r, ObjectPoolPtr s);
+    renderer(QWidget *w, RuntimePoolManagerPtr r);
     ~renderer();
     void render();
     void pan(const panDirection &d);
@@ -127,7 +127,6 @@ class renderer
 
     QPainter *m_qt_painter;
     RuntimePoolManagerPtr m_sandbox;
-    ObjectPoolPtr m_working_set;
     int m_scale = 30;
     int m_pan_step = 10;
     QPoint m_origin_point = {0, 0};

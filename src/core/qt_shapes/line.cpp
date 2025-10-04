@@ -1,4 +1,5 @@
 #include "line.hpp"
+#include "../design/tlv.hpp"
 
 #include <QPainter>
 #include <QPen>
@@ -132,4 +133,36 @@ bool Line::isDisjointFrom( const QRect& ) const
 QRectF Line::getBBox() const 
 {
     return QRectF(m_object.p1(), m_object.p2());
+}
+
+void Line::writeTlv(TlvWriter& w) const 
+{ 
+    w.pod(F_p0, getP1());
+    w.pod(F_p1, getP2());
+    m_properties.writePropertiesTlv(w);
+}
+
+void Line::readTlv(TlvReader& r) 
+{ 
+    TlvReader::Item it{}; 
+    auto nCount = 0;
+    while(nCount < 2 && r.next(it))
+    { 
+        ++nCount;
+        QPoint p;
+        switch(it.id)
+        { 
+            case F_p0:
+                r.read_pod(it, p); 
+                setP1(p);
+                break; 
+            case F_p1: 
+                r.read_pod(it, p); 
+                setP2(p); 
+                break; 
+            default:
+                break; 
+        } 
+    }
+    m_properties.readPropertiesTlv(r); 
 }

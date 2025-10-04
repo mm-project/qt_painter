@@ -20,7 +20,6 @@ class incmdSelectUnderCursoer : public InteractiveCommandBase
     bool m_shape_added = false;
     RuntimePoolPtr m_sb;
     RuntimePoolManagerPtr m_re;
-    ObjectPoolPtr m_ws;
     command_manager &m_cm = command_manager::getInstance();
     Selection &m_se = Selection::getInstance();
     IShapePtr m_original_shape = nullptr;
@@ -30,7 +29,7 @@ class incmdSelectUnderCursoer : public InteractiveCommandBase
     int dy = 0;
 
   public:
-    incmdSelectUnderCursoer(RuntimePoolManagerPtr r, ObjectPoolPtr s) : m_re(r), m_ws(s)
+    incmdSelectUnderCursoer(RuntimePoolManagerPtr r) : m_re(r)
     {
         // m_sb = std::shared_ptr<RuntimePool>(new RuntimePool);
         // m_re->addChild(m_sb,"aaa");
@@ -121,9 +120,11 @@ class incmdSelectUnderCursoer : public InteractiveCommandBase
             rq.insertObject(it);*/
 
         IShapePtr commited_obj = nullptr;
+        auto& dm = DesignManager::getInstance();
+        auto pActiveDesign = dm.getActiveDesign();
         for (auto it : m_sb->getObjects())
         {
-            commited_obj = m_ws->addObject(it);
+            commited_obj = pActiveDesign->addObject(it);
             rq.insertObject(commited_obj);
         }
 
@@ -260,7 +261,7 @@ class incmdSelectShapesByRegion : public incmdCreateObj<RECTANGLE>
 {
 
   public:
-    incmdSelectShapesByRegion(RuntimePoolManagerPtr r, ObjectPoolPtr s) : incmdCreateObj<RECTANGLE>(r, s)
+    incmdSelectShapesByRegion(RuntimePoolManagerPtr r) : incmdCreateObj<RECTANGLE>(r)
     {
         m_first_click = true;
     }
