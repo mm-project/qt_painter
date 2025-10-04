@@ -52,9 +52,6 @@ int main(int argc, char **argv)
     QApplication app(argc, argv);
     main_window window;
     window.show();
-    // create a new design from scratch 
-    auto& cm = command_manager::getInstance();
-    cm.activate_command(cm.find_command("incmdDesignNew"));
     // FIXME ehnance handling cmd args
     hande_commandline_options(argc, argv);
     return app.exec();

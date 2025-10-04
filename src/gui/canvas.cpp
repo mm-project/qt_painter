@@ -83,7 +83,6 @@ canvas::canvas(QWidget *p) : QWidget(p), is_runtime_mode(false)
     cm.activate_command(cm.find_command("incmdDesignNew"), false);
     cm.set_idle_command(cm.find_command("incmdSelectUnderCursoer"));
     // cm.set_idle_command(new INCMD_HIGHLIGHT_BY_POINT);
-
 }
 
 renderer *canvas::get_renderer()

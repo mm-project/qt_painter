@@ -159,9 +159,11 @@ void command_manager::return_to_idle()
     // delete m_last_command;
     StatusBarManager::getInstance().updateStatusBar("cmIdle.", 1, 0);
     m_current_command = m_idle_command;
-    dynamic_cast<main_window *>(m_main_widget)->onCommandDiscard();
+    if (m_main_widget)
+        dynamic_cast<main_window *>(m_main_widget)->onCommandDiscard();
     m_current_command->execute();
-    m_main_widget->update();
+    if (m_main_widget)
+        m_main_widget->update();
 }
 
 // FIXME by keeping wrapper to function

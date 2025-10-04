@@ -99,7 +99,8 @@ template <desAction T> class InteractiveDesAction : public InteractiveCommandBas
                 dm.createDesign(0);
                 dm.setActiveDesign(0);
                 rq.clear();
-                command_manager::getInstance().get_main_widget()->update();
+                if (command_manager::getInstance().get_main_widget())
+                    command_manager::getInstance().get_main_widget()->update();
             }
         }
         abort();
