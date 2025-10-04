@@ -6,7 +6,7 @@ jobs:
       - checkout
       - run:
           name: compile
-          command: export TERM=xterm; make clean; cmake CMakeLists.txt; make -j8
+          command: export TERM=xterm; cmake CMakeLists.txt; make -j8
       - run:
           name: testing_integrations
           command: export CI_BUILD="CCI_INTG_TEST$CIRCLE_BUILD_NUM"; export CI_CHECK=1; export TERM=xterm; export PAINTER_QA_XVFB=1; ./sqa/bin/runTestsParallel.sh
