@@ -401,8 +401,12 @@ template <qaCompType T> class dicmdQaDump : public NonTransactionalDirectCommand
         if (onlyrt)
             dynamic_cast<canvas *>(w)->get_renderer()->rendering_des_mode_change();
         
+        std::cout << " ----- CANVAS SIZE W ---- "  << w->size().width() << std::endl;
+        std::cout << " ----- CANVAS SIZE H ---- "  << w->size().height() << std::endl;
         //*
-        QPixmap pixmap(w->size());
+        //QPixmap pixmap(w->size());
+        //resize(1200, 800);
+        QPixmap pixmap(1200,380);
         w->render(&pixmap);
         pixmap.save(m_fname.c_str());
         /**/
