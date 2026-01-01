@@ -84,11 +84,13 @@ function diffUsingJS(viewType) {
         <tr>
             <td><a href="">Golden:  Canvas for %fname1%</a></td>
             <td><a href="">Current: Canvas for %fname2%</a></td>
+            <td><a href="">Diff: Canvas for %fname3%</a></td>
         </tr>
 
         <tr>
             <td><img src="./CanvasFor_%fname1%.png"></img></td>
             <td><img src="./CanvasFor_%fname2%.png"></img></td>
+            <td><img src="./CanvasFor_%fname3%.diff.png"></img></td>
         </tr>
     </tbody>
 </table>
