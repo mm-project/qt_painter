@@ -130,7 +130,7 @@ template <ObjectType T> class incmdCreateObj : public ObjCreatorCommandBase<T>
     {
     }
 
-    virtual void execute()
+    virtual ICommandResult* execute()
     {
         // ObjCreatorCommandBase<T>::create_runtime_object();
         StatusBarManager::getInstance().updateStatusBar("Click and drag on canvas to create shape", 1, 0);
@@ -213,7 +213,7 @@ template <> class incmdCreateObj<POLYGON> : public ObjCreatorCommandBase<POLYGON
         return "incmdCreateObj" + ObjType2String(POLYGON);
     }
 
-    virtual void execute()
+    virtual ICommandResult* execute()
     {
         InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdCreateObj<POLYGON>, idle));
     }

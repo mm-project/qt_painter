@@ -47,7 +47,7 @@ class incmdSelectUnderCursoer : public InteractiveCommandBase
         return "incmdSelectUnderCursoer";
     }
 
-    virtual void execute()
+    virtual ICommandResult* execute()
     {
         InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(incmdSelectUnderCursoer, on_idle));
     }
@@ -212,7 +212,7 @@ class dicmdSelectShapesByRegion : public DirectCommandBase
         add_option("-end", new PointCommandOptionValue(p2));
     }
 
-    virtual void execute()
+    virtual ICommandResult* execute()
     {
 
         m_reg = std::make_pair<QPoint, QPoint>(GET_CMD_ARG(PointCommandOptionValue, "-start"),
@@ -244,7 +244,7 @@ class dicmdSelectAllShapes : public DirectCommandBase
     {
     }
 
-    void execute() override
+    ICommandResult* execute() override
     {
 
         Selection::getInstance().highlightselect_all();
@@ -271,7 +271,7 @@ class incmdSelectShapesByRegion : public incmdCreateObj<RECTANGLE>
         return "incmdSelectShapesByRegion";
     }
 
-    virtual void execute()
+    virtual ICommandResult* execute()
     {
         StatusBarManager::getInstance().updateStatusBar("Click to select by region", 1, 0);
 

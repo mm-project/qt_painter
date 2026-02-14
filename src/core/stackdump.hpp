@@ -29,14 +29,14 @@
 #include "../gui/modal_dialog.hpp"
 #include "../io/messenger.hpp"
 
-#ifdef OS_LINUX
+//#ifdef OS_LINUX
 #include <cxxabi.h>   // for __cxa_demangle
 #include <dlfcn.h>    // for dladdr
 #include <execinfo.h> // for backtrace
 #include <execinfo.h>
 #include <stdlib.h>
 #include <unistd.h>
-#endif //  OS_LINUX
+//#endif //  OS_LINUX
 
 #include <cstdio>
 #include <cstdlib>
@@ -49,7 +49,7 @@ namespace
 // This function produces a stack backtrace with demangled function & method names.
 std::string Backtrace(int skip = 1)
 {
-#ifdef OS_LINUX
+//#ifdef OS_LINUX
     void *callstack[128];
     const int nMaxFrames = sizeof(callstack) / sizeof(callstack[0]);
     char buf[1024];
@@ -86,8 +86,8 @@ std::string Backtrace(int skip = 1)
     if (nFrames == nMaxFrames)
         trace_buf << "[truncated]\n";
     return trace_buf.str();
-#endif // OS_LINUX
-    return "";
+//#endif // OS_LINUX
+//    return "";
 }
 
 void handler(int)

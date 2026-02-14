@@ -7,6 +7,7 @@
 
 #include "../core/design.hpp"
 #include "../core/rq/RegionQueryService.hpp"
+#include "../core/runtime_pool.hpp"
 #include "../gui/statusbar_manager.hpp"
 
 class dicmdDeleteObj : public DirectCommandBase
@@ -27,7 +28,7 @@ class dicmdDeleteObj : public DirectCommandBase
         return "dicmdDeleteShape";
     }
 
-    virtual void execute() override
+    virtual ICommandResult* execute() override
     {
         RegionQuery &rq = RegionQuery::getInstance();
         QPoint pos = GET_CMD_ARG(PointCommandOptionValue, "-point");
@@ -68,7 +69,7 @@ class InteractiveDeleteAction : public InteractiveCommandBase
         command_manager::getInstance().return_to_idle();
     }
 
-    virtual void execute() override
+    virtual ICommandResult* execute() override
     {
         StatusBarManager::getInstance().updateStatusBar("Click and delete object", 1, 0);
         InteractiveCommandBase::set_next_handler(HANDLE_FUNCTION(InteractiveDeleteAction, idle));
@@ -102,4 +103,39 @@ class InteractiveDeleteAction : public InteractiveCommandBase
     QPoint m_position;
     DesignPtr m_workingSet = nullptr;
 };
+
+
+class dicmdDeleteObj2 : public DirectCommandBase
+{
+
+    ObjectPoolPtr ws;
+    RegionQuery &rq = RegionQuery::getInstance();
+
+  public:
+    dicmdDeleteObj2(ObjectPoolPtr s) : ws(s)
+    { 
+        add_option("-object_id", new IntCommandOptionValue(0));
+    }
+
+    dicmdDeleteObj2(ObjectPoolPtr s, int object_id) : ws(s)
+    {
+        add_option("-object_id", new IntCommandOptionValue(object_id));
+    }
+
+    virtual ICommandResult* execute()
+    {
+        int object_id = GET_CMD_ARG(IntCommandOptionValue, "-object_id");
+        auto object = global_fixme1[object_id];
+
+        rq.removeObject(object);
+        ws->removeObject(object);
+        return 0;
+    }
+
+    virtual std::string get_name()
+    {
+        return "dicmdDeleteObj2";
+    }
+};
+
 #endif

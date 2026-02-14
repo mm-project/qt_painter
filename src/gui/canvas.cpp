@@ -65,6 +65,7 @@ canvas::canvas(QWidget *p) : QWidget(p), is_runtime_mode(false)
     cm.register_command(new INCMD_CREATE_OBJ(POLYGON));
     cm.register_command(new INCMD_HIGHLIGHT_BY_REGION);
     cm.register_command(new INCMD_HIGHLIGHT_BY_POINT);
+    cm.register_command(new dicmdDeleteObj2(m_design));
     cm.register_command(new dicmdCreateObj<RECTANGLE>(m_design));
     cm.register_command(new dicmdCreateObj<LINE>(m_design));
     cm.register_command(new dicmdCreateObj<ELLIPSE>(m_design));

@@ -27,7 +27,7 @@ class dicmdDesignLoad : public DirectCommandBase
         add_option("-filename", new StringCommandOptionValue(fname));
     }
 
-    virtual void execute()
+    virtual ICommandResult* execute()
     {
         ws->clear();
         RegionQuery::getInstance().clear();
@@ -59,7 +59,7 @@ class dicmdDesignSave : public DirectCommandBase
     }
 
     // fixme , refactor
-    virtual void execute()
+    virtual ICommandResult* execute()
     {
         std::string fname(GET_CMD_ARG(StringCommandOptionValue, "-filename"));
         CommandBase *cmd;

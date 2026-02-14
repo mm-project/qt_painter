@@ -58,7 +58,7 @@ template <desAction T> class InteractiveDesAction : public InteractiveCommandBas
         return "incmdDesign" + m_helpstr;
     }
 
-    virtual void execute()
+    virtual ICommandResult* execute()
     {
         // set_next_handler(HANDLE_FUNCTION(InteractiveDesAction<T>,on_commit));
         on_commit(OTHER);

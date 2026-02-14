@@ -46,7 +46,7 @@ class dicmdguiSelectComboValue : public NonTransactionalDirectCommandBase
         return "dicmdguiSelectComboValue";
     }
 
-    virtual void execute()
+    virtual ICommandResult* execute()
     {
         /*//FIXME add checks
         //FIXME some trick to be more easy?
@@ -85,7 +85,7 @@ class dicmdguiClickModalButton : public NonTransactionalDirectCommandBase
         return "dicmdguiClickModalButton";
     }
 
-    virtual void execute()
+    virtual ICommandResult* execute()
     {
         QWidget *w = command_manager::getInstance().get_main_widget();
         m_op1 = GET_CMD_ARG(StringCommandOptionValue, "-btn");
@@ -96,7 +96,7 @@ class dicmdguiClickModalButton : public NonTransactionalDirectCommandBase
             if (it->text().toStdString() == m_op1)
             {
                 it->click();
-                return;
+                //return;
             }
 
         // std::cout <<  it->objectName().toStdString() << "  " << it->text().toStdString() << std::endl;
@@ -128,7 +128,7 @@ class dicmdguiClickButton : public NonTransactionalDirectCommandBase
         return "dicmdguiClickButton";
     }
 
-    virtual void execute()
+    virtual ICommandResult* execute()
     {
         // FIXME add checks
         // FIXME some trick to be more easy?
@@ -164,7 +164,7 @@ class dicmdguiSelectRadioButton : public NonTransactionalDirectCommandBase
         return "dicmdguiSelectRadioButton";
     }
 
-    virtual void execute()
+    virtual ICommandResult* execute()
     {
         // FIXME add checks
         // FIXME some trick to be more easy?
@@ -200,7 +200,7 @@ class dicmdCanvasMouseMove : public NonTransactionalDirectCommandBase
     }
 
     // FIXME check dynamic_cast before *
-    virtual void execute()
+    virtual ICommandResult* execute()
     {
         m_p = GET_CMD_ARG(PointCommandOptionValue, "-point");
         // m_p = (dynamic_cast<PointCommandOptionValue*>(get_option_val("-point")))->get();
@@ -230,7 +230,7 @@ class dicmdCanvasMouseClick : public NonTransactionalDirectCommandBase
         return "dicmdCanvasMouseClick";
     }
 
-    virtual void execute()
+    virtual ICommandResult* execute()
     {
         // m_p = (dynamic_cast<PointCommandOptionValue*>(get_option_val("-point")))->get();
         m_p = GET_CMD_ARG(PointCommandOptionValue, "-point");
@@ -261,7 +261,7 @@ class dicmdCanvasMousePress : public NonTransactionalDirectCommandBase
         return "dicmdCanvasMousePress";
     }
 
-    virtual void execute()
+    virtual ICommandResult* execute()
     {
         // m_p = (dynamic_cast<PointCommandOptionValue*>(get_option_val("-point")))->get();
         m_p = GET_CMD_ARG(PointCommandOptionValue, "-point");
@@ -293,7 +293,7 @@ class dicmdCanvasMouseRelease : public NonTransactionalDirectCommandBase
         return "dicmdCanvasMouseRelease";
     }
 
-    virtual void execute()
+    virtual ICommandResult* execute()
     {
         // m_p = (dynamic_cast<PointCommandOptionValue*>(get_option_val("-point")))->get();
         m_p = GET_CMD_ARG(PointCommandOptionValue, "-point");
@@ -326,7 +326,7 @@ class dicmdCanvasMouseDblClick : public NonTransactionalDirectCommandBase
         return "dicmdCanvasMouseDblClick";
     }
 
-    virtual void execute()
+    virtual ICommandResult* execute()
     {
         // m_p = (dynamic_cast<PointCommandOptionValue*>(get_option_val("-point")))->get();
         m_p = GET_CMD_ARG(PointCommandOptionValue, "-point");

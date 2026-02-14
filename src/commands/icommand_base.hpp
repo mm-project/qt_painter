@@ -2,6 +2,7 @@
 #define icommand_base_hpp
 
 #include "command_manager.hpp"
+#include "command_result.hpp"
 
 #include "../io/messenger.hpp"
 
@@ -19,7 +20,7 @@ class ICommand
 {
   public:
     // virtual void pre_execute() = 0;
-    virtual void execute() = 0;
+    virtual ICommandResult* execute() = 0;
     // virtual void post_execute() = 0;
     virtual void abort() = 0;
     virtual void log() = 0;
@@ -28,7 +29,7 @@ class ICommand
     // FIXME
 
     // FIXME
-    virtual void execute_and_log() = 0;
+    virtual ICommandResult* execute_and_log() = 0;
 
     // FIXME bug, pure virtual dtor makes compiler sad:/
     virtual ~ICommand()
@@ -48,7 +49,7 @@ class CommandBase : public ICommand
         // m_cm = command_manager::get_instance();
     }
 
-    virtual void execute_and_log()
+    virtual ICommandResult* execute_and_log()
     {
         log();
         try

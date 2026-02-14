@@ -42,13 +42,13 @@ void hande_commandline_options(int argc, char **argv)
 int main(int argc, char **argv)
 {
 
-#ifdef OS_LINUX
+//#ifdef OS_LINUX
     signal(SIGSEGV, handler);
     signal(SIGILL, handler);
     signal(SIGFPE, handler);
     signal(SIGTERM, handler);
     signal(SIGABRT, handler);
-#endif
+//#endif
     QApplication app(argc, argv);
     main_window window;
     window.show();
