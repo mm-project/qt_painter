@@ -22,27 +22,27 @@ void Selection::highlightselect_all()
     for (const auto& obj : m_ws->getObjects())
     {
         addObject(obj);
-        m_sel_highlight_set->addObject(obj);
+        //m_sel_highlight_set->addObject(obj);
     }
-    m_sel_highlight_set->highlight_on();
+    //m_sel_highlight_set->highlight_on();
 }
 
 void Selection::temporary_highlight()
 {
-    m_sel_highlight_set->highlight_on();
+    //m_sel_highlight_set->highlight_on();
 }
 
 void Selection::addObjectFixme(IShapePtr p)
 {
     addObject(p);
-    m_sel_highlight_set->addObject(p);
+    //m_sel_highlight_set->addObject(p);
 }
 
 void Selection::clear() noexcept
 {
     ObjectPoolBase::clear();
-    m_sel_highlight_set->clear();
-    m_ao_highlight_set->clear();
+    //m_sel_highlight_set->clear();
+    //m_ao_highlight_set->clear();
     // m_sb->clear();
 }
 
@@ -96,8 +96,8 @@ void Selection::set_sandbox(RuntimePoolManagerPtr sanboxes)
     m_sel_highlight_set = new HighlightSet("Selection", p2);
     m_qa_highlight_set = new HighlightSet("QASelectionsTintirid", p3);
 
-    m_sel_highlight_set->create_sandbox(m_rt_pools);
-    m_ao_highlight_set->create_sandbox(m_rt_pools);
+    //m_sel_highlight_set->create_sandbox(m_rt_pools);
+    //m_ao_highlight_set->create_sandbox(m_rt_pools);
     m_qa_highlight_set->create_sandbox(m_rt_pools);
 }
 
@@ -111,8 +111,8 @@ void Selection::highlightselect_shape_under_pos(const QPoint &p)
         if (shape != nullptr)
         {
             addObject(shape);
-            m_sel_highlight_set->addObject(shape);
-            m_sel_highlight_set->highlight_on();
+            //m_sel_highlight_set->addObject(shape);
+            //m_sel_highlight_set->highlight_on();
         }
     }
 }
@@ -120,6 +120,7 @@ void Selection::highlightselect_shape_under_pos(const QPoint &p)
 // just highlight active object
 void Selection::highlight_shape_under_pos(const QPoint &p)
 {
+    return;
     auto arrShapes = rq.getShapeUnderPos(p);
     m_ao_highlight_set->clear();
     for ( const auto& shape : arrShapes )
@@ -160,11 +161,11 @@ void Selection::find_and_highlightselect_shapes_from_region(const std::pair<QPoi
     for (auto it : rq.getShapesUnderRect(QRect(point.first, point.second)))
     {
         addObject(it);
-        m_sel_highlight_set->addObject(it);
+        //m_sel_highlight_set->addObject(it);
     }
 
     m_last_region = QRect(point.first, point.second);
-    m_sel_highlight_set->highlight_on();
+    //m_sel_highlight_set->highlight_on();
 }
 
 void Selection::highlight_dehighlight_last_selected_region()

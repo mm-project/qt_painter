@@ -6,6 +6,43 @@
 
 #include <cassert>
 
+struct dot_separator : std::numpunct<char> {
+protected:
+    char do_thousands_sep() const override { return '.'; }
+    std::string do_grouping() const override { return "\3"; } // groups of 3
+};
+
+std::string format_number(long long value) {
+    std::stringstream ss;
+    ss.imbue(std::locale(std::locale(), new dot_separator));
+    ss << value;
+    return ss.str();
+}
+
+template <typename Duration>
+std::string format_duration(Duration d) {
+    using namespace std::chrono;
+
+    auto ms = duration_cast<milliseconds>(d).count();
+
+    if (ms < 1000) {
+        return std::to_string(ms) + " ms";
+    }
+
+    auto sec = duration_cast<seconds>(d).count();
+    if (sec < 60) {
+        return std::to_string(sec) + " s";
+    }
+
+    auto min = duration_cast<minutes>(d).count();
+    if (min < 60) {
+        return std::to_string(min) + " min";
+    }
+
+    //auto hours = duration_cast<hours>(d).count();
+    //return std::to_string(hours) + " h";
+}
+
 renderer::renderer(QWidget *w, RuntimePoolManagerPtr r, ObjectPoolPtr s) : m_sandbox(r), m_working_set(s)
 {
     m_scale_factor = 1;
@@ -120,7 +157,7 @@ void renderer::zoomin()
 void renderer::zoomout()
 {
     // std::cout << "zzomout" << m_scale_factor << std::endl;
-    if (m_scale_factor > 0.005)
+    if (m_scale_factor > 0.0005)
     {
         m_scale_factor /= m_zoom_factor;
         // notify_viewport_changed();
@@ -219,19 +256,66 @@ void renderer::draw_objects()
     int starty = -1 * m_origin_point.y();
     int _height = 1 / get_zoom_factor() * (m_plane->height() - starty);
     int _width = 1 / get_zoom_factor() * (m_plane->width() - startx);    
-    // std::cout << "renderer" << startx << " " << starty << "      " << _width << " " << _height << std::endl;
+    //std::cout << "renderer" << startx << " " << starty << "      " << _width << " " << _height << std::endl;
 
-    if (m_rq_renderer)
-    {
-        RegionQuery &rq = RegionQuery::getInstance();
-	for (auto& shape : rq.getShapesUnderRect(QRect(startx, starty, _width, _height)))
+    //if (m_rq_renderer)
+    //{
+    //RegionQuery &rq = RegionQuery::getInstance();
+    auto objs = rq.getShapesUnderRect(QRect(startx, starty, _width, _height));
+    std::cout << " Objects:" << format_number(objs.size()) << std::endl;
+    //return;
+
+    for (auto& shape : objs) {
+        auto bbox = shape->getBBox();
+        auto sw = std::abs(bbox.width()/_width);
+        auto sh = std::abs(bbox.height()/_height);
+        //continue;
+        //std::cout << "    ----" << sw << " X " << sh << std::endl;
+        //if (sh > 0.001 && sw > 0.001 ) {
+        if (1) {
+            //std::cout << "too big" << std::endl;
             shape->draw(m_qt_painter);
+        } else {
+            //std::cout << "small now" << std::endl;
+            //auto getPoints
+            //QPen pen(m_properties.pen_color, m_properties.pen_width, m_properties.pen_style, m_properties.pen_cap_style,
+            // m_properties.pen_join_style);
+            //QBrush brush(m_properties.brush_color, m_properties.brush_style);
+            m_qt_painter->setBrush(Qt::red);
+            m_qt_painter->setPen(Qt::red);
+            //auto pointb = shape->center();
+            QPointF pointb = shape->getPoints()[1];
+            QPointF p1 = pointb;
+            auto p2 = p1;
+            auto p3 = p1;
+            p1 += QPointF(0,10);
+            p2 += QPointF(0,10);
+            p3 += QPointF(0,10);
+            //m_qt_painter->setPen(pen);
+            for (int i=1; i<=10; i++)
+            {
+                //for (int j = 0; j <= 10; j++)
+                {
+                    m_qt_painter->drawPoint(pointb);
+                    pointb += QPointF(5, 0);
+                    m_qt_painter->drawPoint(p1);
+                    p1 += QPointF(5,0);
+                    m_qt_painter->drawPoint(p2);
+                    p2 += QPointF(5,0);
+                    m_qt_painter->drawPoint(p3);
+                    p3 += QPointF(5,0);
+                    //m_qt_painter->drawPoint(pointb);
+                }
+            }
+        }
     }
-    else
-    {
-        for (auto i : m_working_set->getObjects())
-            i->draw(m_qt_painter);
-    }
+
+    //}
+    //else
+    //{
+    //    for (auto i : m_working_set->getObjects())
+    //        i->draw(m_qt_painter);
+    //}
 }
 
 void renderer::make_viewport_adjustments()
@@ -306,8 +390,163 @@ void renderer::draw_selection_rubberband()
             obj->draw(m_qt_painter);
 }
 */
+
+
+QPixmap renderer::put_shapes_on_pixmap(auto shapes, int i, int w, int h)
+{
+    QPixmap pixmap(w,h);
+    QColor color(255/(1+i), 255/(1+i), 255/(1+i));
+    pixmap.fill(color);
+
+    QPainter *painter = new QPainter(&pixmap);
+    for (const auto& shape : shapes)
+        shape->draw(painter);
+
+    pixmap.save("region" + QString::number(i) + ".bmp");
+
+    delete painter;
+    return pixmap;
+
+}
+
+std::vector<QRect> renderer::init_query_rects(int num_regions)
+{
+
+    std::vector<QRect> query_rects(num_regions);
+
+    int factor;
+    switch(num_regions) {
+        case 4:
+            factor = 2;
+            break;
+        case 16:
+            factor = 4;
+            break;
+        case 64:
+            factor = 8;
+            break;
+    }
+
+
+    int canvas_h = 1 / get_zoom_factor() * (m_plane->height()) - m_origin_point.y();
+    int canvas_w = 1 / get_zoom_factor() * (m_plane->width()) - m_origin_point.x();
+
+    int query_w = canvas_w/factor;
+    int query_h = canvas_h/factor;
+
+    int k=0;
+    for(int i=0;i<factor;i++)
+        for(int j=0;j<factor;j++) {
+            std::cout << "creating region " << k << std::endl;
+            query_rects[k] = QRect(j*canvas_w/factor,i*canvas_h/factor,query_w,query_h);
+            k++;
+        }
+
+    return query_rects;
+}
+
+/*
 void renderer::draw_all()
 {
+    RegionQuery &rq = RegionQuery::getInstance();
+
+    int canvas_h = 1 / get_zoom_factor() * (m_plane->height()) - m_origin_point.y();
+    int canvas_w = 1 / get_zoom_factor() * (m_plane->width()) - m_origin_point.x();
+
+    int num_threads = 4;
+    int num_regions = num_threads;
+    int factor;
+    switch(num_regions) {
+        case 4:
+            factor = 2;
+            break;
+        case 16:
+            factor = 4;
+            break;
+        case 64:
+            factor = 8;
+            break;
+    }
+
+    int query_w = canvas_w/factor;
+    int query_h = canvas_h/factor;
+
+    std::vector<QRect> query_rects = init_query_rects(num_regions);
+    std::vector<QPixmap> pixmaps(num_regions);
+
+    #pragma omp parallel for
+    for(int i=0;i<num_regions;i++){
+        auto shapes = rq.getShapesUnderRect(query_rects[i]);
+        //std::cout << "region" << i << ":   shapes:" << shapes.size() << std::endl;
+        pixmaps[i] = put_shapes_on_pixmap(shapes,i,canvas_w,canvas_h);
+    }
+
+    QPixmap canvas(canvas_w,canvas_h);
+    canvas.fill(Qt::black);
+    //QPainter *painter = new QPainter(&canvas);
+    m_qt_painter->setPen(QColor(255,34,255,255));
+    #pragma omp parallel for
+    for(int i=0;i<num_regions;i++)
+        m_qt_painter->drawPixmap(query_rects[i].x(),query_rects[i].y(),query_w,query_h,pixmaps[i],query_rects[i].x(),query_rects[i].y(),query_w,query_h);
+    //canvas.save("canvas.bmp");
+    //delete painter;
+}
+*/
+
+
+void renderer::draw_all()
+{
+    //draw_background();
+    //draw_grid();
+    draw_objects();
+    //if (m_rt_renderer)
+    //    draw_runtime_pools();
+    //if (m_need_draw_cursor || Application::is_replay_mode())
+    //    draw_cursor();
+
+}
+/**/
+
+/*
+void renderer::draw_all()
+{
+    RegionQuery &rq = RegionQuery::getInstance();
+    //int canvas_w = m_plane->width();
+    //int canvas_h = m_plane->height();
+
+    int canvas_h = 1 / get_zoom_factor() * (m_plane->height()) - m_origin_point.y();
+    int canvas_w = 1 / get_zoom_factor() * (m_plane->width()) - m_origin_point.x();
+
+    //int canvas_h = get_zoom_factor() * (m_plane->height());
+    //int canvas_w = get_zoom_factor() * (m_plane->width());
+
+    int query_w = canvas_w/2;
+    int query_h = canvas_h/2;
+    int mid_x = canvas_w/2;
+    int mid_y = canvas_h/2;
+
+    int regions = 4;
+    query_regions = init_regions(regions)
+    std::vector<QPixmap> regions(regions);
+    #pragma omp parallel for
+    for(int i=0;i<regions;i++){
+        auto shapes = rq.getShapesUnderRect(query_regions[i]);
+        std::cout << "region" << i << ":   shapes:" << shapes.size() << std::endl;
+        regions[i] = get_shapes_on_pixmap(shapes,i,canvas_w,canvas_h);
+    }
+
+    QPixmap canvas(canvas_w,canvas_h);
+    canvas.fill(Qt::black);
+    //QPainter *painter = new QPainter(&canvas);
+    m_qt_painter->setPen(QColor(255,34,255,255));
+    m_qt_painter->drawPixmap(0,0,query_w,query_h,regions[0],0,0,query_w,query_h);
+    m_qt_painter->drawPixmap(mid_x,0,query_w,query_h,regions[1],mid_x,0,query_w,query_h);
+    m_qt_painter->drawPixmap(0,mid_y,query_w,query_h,regions[2],0,mid_y,query_w,query_h);
+    m_qt_painter->drawPixmap(mid_x,mid_y,query_w,query_h,regions[3],mid_x,mid_y,query_w,query_h);
+
+    //draw_grid();
+
+    /*
     draw_background();
     draw_grid();
     if (m_des_renderer)
@@ -316,7 +555,9 @@ void renderer::draw_all()
         draw_runtime_pools();
     if (m_need_draw_cursor || Application::is_replay_mode())
         draw_cursor();
-}
+    */
+//}
+//*/
 
 void renderer::draw_all_wno_cursor()
 {
@@ -331,7 +572,11 @@ void renderer::render()
 {
     start();
     make_viewport_adjustments();
+    auto start1 = std::chrono::high_resolution_clock::now();
     draw_all();
+    auto end1 = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end1 - start1);
+    std::cout << "Function took " << format_duration(duration) << " \n";
     stop();
 }
 

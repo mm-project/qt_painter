@@ -9,6 +9,7 @@
 
 #include <QPainter>
 #include <QPoint>
+#include <QPixmap>
 #include <QWidget>
 
 #include <iostream>
@@ -90,6 +91,8 @@ class renderer
     void rendering_mode_change();
     void rendering_rt_mode_change();
     void rendering_des_mode_change();
+    QPixmap put_shapes_on_pixmap(auto shapes, int i, int w, int h);
+    std::vector<QRect> init_query_rects(int num_regions);
     void hint_drawing_cursor_one_time();
     QRect get_viewport();
 
@@ -141,6 +144,9 @@ class renderer
     bool m_need_draw_clicked = false;
     bool m_need_draw_cursor = false;
     QRect *m_users_pov_rect;
+
+    RegionQuery &rq = RegionQuery::getInstance();
+
 };
 
 #endif

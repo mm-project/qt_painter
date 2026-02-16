@@ -73,6 +73,19 @@ template <ObjectType T> class dicmdCreateObj : public DirectCommandBase
         rq.insertObject(m_executed_object);
     }
 
+    virtual void direct_execute(int x1, int y1, int x2, int y2)
+    {
+        m_shape = ShapeCreator::getInstance().create(T);
+        m_shape->addPoint(QPoint(x1,y1));
+        m_shape->addPoint(QPoint(x2,y2));
+
+        //ShapeProperties pr;
+        //pr.fromString(S_ARG("-color"), I_ARG("-brush"), I_ARG("-fill"));
+        //obj->updateProperties(pr);
+        //m_executed_object = ws->addObject(m_shape);
+        rq.insertObject(m_shape);
+    }
+
     virtual std::string get_name()
     {
         return "dicmdCreateObj" + ObjType2String(T);
