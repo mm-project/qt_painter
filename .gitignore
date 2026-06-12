@@ -26,3 +26,6 @@ output
 test_out
 test.info
 FAILURES.html
+src/core/design/design_autogen
+src/core/rq/test/test_RegionQueryService2_autogen
+unit_test_bin
