@@ -157,8 +157,11 @@ void ServiceManager::shutDown()
 bool UT_load_save_commands()
 {
     // Expecting!: dicmdDesignSave command to be properly created
-    ObjectPoolPtr ws = std::shared_ptr<MockWorkingSet>(new MockWorkingSet);
-    dicmdDesignSave cmd(ws);
+    auto& dm = DesignManager::getInstance();
+    dm.closeDesign(0);
+    dm.createDesign(0);
+    dm.setActiveDesign(0);
+    dicmdDesignSave cmd;
 
     // Expecting!: should be called properly with called arguments
     cmd.set_arg("-filename", "morqur");

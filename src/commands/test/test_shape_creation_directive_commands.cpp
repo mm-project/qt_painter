@@ -159,24 +159,26 @@ void ServiceManager::shutDown()
 */
 bool UT_shape_creation_directive_commands()
 {
-
     // Expecting!: dicmdCreateObj to be created
-    ObjectPoolPtr ws = std::shared_ptr<MockWorkingSet>(new MockWorkingSet);
-    dicmdCreateObj<RECTANGLE> rect_cmd(ws);
+    auto& dm = DesignManager::getInstance();
+    dm.closeDesign(0);
+    dm.createDesign(0);
+    dm.setActiveDesign(0);
+    dicmdCreateObj<RECTANGLE> rect_cmd;
 
     // Expecting!: adding arguments and no impact on working set
     rect_cmd.set_arg("-points", "{(0,0;100,100)}");
-    assert("SHAPES COUNT IN WS BEFORE EXECUTING" && dynamic_cast<MockWorkingSet *>(ws.get())->m_shapes_count == 0);
+    assert("SHAPES COUNT IN WS BEFORE EXECUTING" && dm.getActiveDesign()->getObjects().size() == 0);
 
     // Expecting!: executing command and working set should be added with 1 shape
     rect_cmd.execute();
     assert("SHAPES COUNT IN WS AFTER EXECUTING FIRST TIME" &&
-           dynamic_cast<MockWorkingSet *>(ws.get())->m_shapes_count == 1);
+           dm.getActiveDesign()->getObjects().size() == 1);
 
     // Expecting!: executing command and working set should have addional shapes
     rect_cmd.execute();
     assert("SHAPES COUNT IN WS AFTER EXECUTING SECOND TIME" &&
-           dynamic_cast<MockWorkingSet *>(ws.get())->m_shapes_count == 2);
+           dm.getActiveDesign()->getObjects().size() == 2);
     return true;
 }
 

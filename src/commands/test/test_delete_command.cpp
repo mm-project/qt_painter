@@ -159,8 +159,11 @@ bool UT_delete_command()
 {
 
     // Expecting!: dicmdDeleteObj command to be created
-    ObjectPoolPtr ws = std::shared_ptr<Design>(new Design);
-    dicmdDeleteObj cmd(ws);
+    auto& dm = DesignManager::getInstance();
+    dm.closeDesign(0);
+    dm.createDesign(0);
+    dm.setActiveDesign(0);
+    dicmdDeleteObj cmd;
 
     // Expecting!: dicmdCreateObj to be executed on point 0,0 without issues
     cmd.set_arg("-point", "(0,0)");
