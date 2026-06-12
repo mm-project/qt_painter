@@ -1,6 +1,7 @@
+#include "RegionQueryService.hpp"
+
 #ifndef DUMMY_RQ
 
-#include "RegionQueryService.hpp"
 #include "debug_helper.hpp"
 #include "rq_object.hpp"
 #include "quard_tree.hpp"
@@ -48,9 +49,18 @@ int RegionQuery::getSize() const
     return m_tree->getSize();
 }
 
-void RegionQuery::insertObjects(const std::vector<IShapePtr> &objects)
+void RegionQuery::insertObjects(const std::vector<IShapePtr>& objects)
 {
     m_tree->insert(objects);
 }
 
-#endif // ifndef NO_RQ
+#else 
+
+void RegionQuery::insertObjects(const std::vector<IShapePtr>& objects)
+{
+    for (auto& object : objects) {
+        m_ws->addObject(object);
+    }
+}
+
+#endif
