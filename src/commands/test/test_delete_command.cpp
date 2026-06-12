@@ -93,6 +93,14 @@ class MockShape : public IShape
     {
         return {};
     }
+
+    const ClassGuid& guid() const override { return staticGuid(); }
+
+    static const ClassGuid& staticGuid() 
+    { 
+        static const ClassGuid g = make_guid({1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16}); 
+        return g; 
+    }
 };
 
 // Mocking!: Implementations
@@ -151,8 +159,11 @@ bool UT_delete_command()
 {
 
     // Expecting!: dicmdDeleteObj command to be created
-    ObjectPoolPtr ws = std::shared_ptr<Design>(new Design);
-    dicmdDeleteObj cmd(ws);
+    auto& dm = DesignManager::getInstance();
+    dm.closeDesign(0);
+    dm.createDesign(0);
+    dm.setActiveDesign(0);
+    dicmdDeleteObj cmd;
 
     // Expecting!: dicmdCreateObj to be executed on point 0,0 without issues
     cmd.set_arg("-point", "(0,0)");

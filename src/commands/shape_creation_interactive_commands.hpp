@@ -18,7 +18,7 @@ template <ObjectType T> class ObjCreatorCommandBase : public InteractiveCommandB
     LePostman &m_postman = LePostman::getInstance();
 
   public:
-    ObjCreatorCommandBase(RuntimePoolManagerPtr r, ObjectPoolPtr s) : ws(s)
+    ObjCreatorCommandBase(RuntimePoolManagerPtr r) 
     {
         // re = std::shared_ptr<RuntimePool>(new RuntimePool);
         // r->addChildren(re);
@@ -41,7 +41,7 @@ template <ObjectType T> class ObjCreatorCommandBase : public InteractiveCommandB
         // m_postman->notify(INTERACTIVE_COMMAND_PRE_COMMIT,a);
         auto ob = re->getObjects();
         for (auto i : ob)
-            dicmdCreateObj<T>(m_internal_vec, m_controller.get_shape_properties(), ws).silent_execute();
+            dicmdCreateObj<T>(m_internal_vec, m_controller.get_shape_properties()).silent_execute();
         // ws->addObject(i);
         // end transaction
         finish();
@@ -112,7 +112,6 @@ template <ObjectType T> class ObjCreatorCommandBase : public InteractiveCommandB
     RuntimePoolPtr re = nullptr;
 
   private:
-    ObjectPoolPtr ws = nullptr;
     controller &m_controller = controller::getInstance();
     // TODO: chage into shared_ptr
     IShape *m_rt_shape = nullptr;
@@ -126,7 +125,7 @@ template <ObjectType T> class ObjCreatorCommandBase : public InteractiveCommandB
 template <ObjectType T> class incmdCreateObj : public ObjCreatorCommandBase<T>
 {
   public:
-    incmdCreateObj(RuntimePoolManagerPtr r, ObjectPoolPtr s) : ObjCreatorCommandBase<T>(r, s)
+    incmdCreateObj(RuntimePoolManagerPtr r) : ObjCreatorCommandBase<T>(r)
     {
     }
 
@@ -204,7 +203,7 @@ template <ObjectType T> class incmdCreateObj : public ObjCreatorCommandBase<T>
 template <> class incmdCreateObj<POLYGON> : public ObjCreatorCommandBase<POLYGON>
 {
   public:
-    incmdCreateObj(RuntimePoolManagerPtr r, ObjectPoolPtr s) : ObjCreatorCommandBase<POLYGON>(r, s)
+    incmdCreateObj(RuntimePoolManagerPtr r) : ObjCreatorCommandBase<POLYGON>(r)
     {
     }
 

@@ -40,6 +40,9 @@ StatusBarManager::~StatusBarManager()
 
 void StatusBarManager::updateStatusBar(const QString &text, bool error, bool processing)
 {
+    if (m_pStatusBar == nullptr)
+        return;
+    
     !error ? m_pStatusBar->setStyleSheet("color: red") : m_pStatusBar->setStyleSheet("color: black");
     m_pStatusBarLabel->setText(text);
 

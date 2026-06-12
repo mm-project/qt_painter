@@ -19,11 +19,14 @@
 //
 class Ellipse : public IShape
 {
-  public:
+public:
+    SPD_DECLARE_TYPE(make_guid({0xE1,0x1E,0x56,0x78,0x90,0xAB,0xCD,0xEF,0x10,0x32,0x54,0x76,0x98,0xBA,0xDC,0xFE}))
+    enum : FieldId { F_p0 = 1, F_p1 = 2 };
+
     Ellipse(QRect = QRect(), ShapeProperties = ShapeProperties());
     virtual ~Ellipse() = default;
 
-  public:
+public:
     Ellipse *clone() override;
     void draw(QPainter *) override;
 
@@ -67,7 +70,12 @@ class Ellipse : public IShape
 
     QRectF getBBox() const override;
     
+    void writeTlv(TlvWriter& w) const override;
+    void readTlv(TlvReader& r) override;
+    
   private:
     QRect m_object;
     bool m_waitForSecondClick;
 };
+
+SPD_REGISTER_TYPE(Ellipse)

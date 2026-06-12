@@ -19,15 +19,19 @@
 //
 class Polygon : public IShape
 {
-  public:
+public:
+    SPD_DECLARE_TYPE(make_guid({0xCC,0xDD,0x56,0x78,0x90,0xAB,0xCD,0xEF,0x10,0x32,0x54,0x76,0x98,0xBA,0xDC,0xFE}))
+    
+    enum : FieldId { F_pts=1, F_fill=2, F_props=3 };
+
     Polygon(QPolygon = QPolygon(), ShapeProperties = ShapeProperties());
     virtual ~Polygon() = default;
 
-  public:
+public:
     Polygon *clone() override;
     void draw(QPainter *) override;
 
-  public:
+public:
     void reset() override;
     void addPoint(const QPoint &) override;
     void movePoint(const QPoint &) override;
@@ -63,7 +67,12 @@ class Polygon : public IShape
 
     QRectF getBBox() const override;
 
+    void writeTlv(TlvWriter& w) const override;
+    void readTlv(TlvReader& r) override;
+
   private:
     QPolygon m_object;
     bool m_first = true;
 };
+
+SPD_REGISTER_TYPE(Polygon)

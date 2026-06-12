@@ -89,6 +89,14 @@ class MockShape : public IShape
     {
         return {};
     }
+
+    const ClassGuid& guid() const override { return staticGuid(); }
+
+    static const ClassGuid& staticGuid() 
+    { 
+        static const ClassGuid g = make_guid({1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16}); 
+        return g; 
+    }
 };
 
 // Mocking!: Implementations
@@ -149,8 +157,11 @@ void ServiceManager::shutDown()
 bool UT_load_save_commands()
 {
     // Expecting!: dicmdDesignSave command to be properly created
-    ObjectPoolPtr ws = std::shared_ptr<MockWorkingSet>(new MockWorkingSet);
-    dicmdDesignSave cmd(ws);
+    auto& dm = DesignManager::getInstance();
+    dm.closeDesign(0);
+    dm.createDesign(0);
+    dm.setActiveDesign(0);
+    dicmdDesignSave cmd;
 
     // Expecting!: should be called properly with called arguments
     cmd.set_arg("-filename", "morqur");

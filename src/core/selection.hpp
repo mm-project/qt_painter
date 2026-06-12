@@ -22,7 +22,6 @@ class Selection : public Service<Selection>, public ObjectPoolBase
     HighlightSet *m_ao_highlight_set;
     HighlightSet *m_qa_highlight_set;
     QRect m_last_region = {0, 0, 0, 0};
-    ObjectPoolPtr m_ws;
 
     RuntimePoolManagerPtr m_rt_pools;
     // bool m_h_on;
@@ -35,7 +34,7 @@ class Selection : public Service<Selection>, public ObjectPoolBase
 
   public:
     void addObjectFixme(IShapePtr p);
-    void set_working_set(ObjectPoolPtr ws);
+    void set_working_set();
     void set_sandbox(RuntimePoolManagerPtr ops);
     void find_and_highlightselect_shapes_from_region(const std::pair<QPoint, QPoint> &point);
     void select_shape_under_pos(const QPoint &p);

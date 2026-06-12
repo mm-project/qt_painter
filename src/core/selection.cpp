@@ -3,10 +3,7 @@
 #include "postman.hpp"
 #include "rq/RegionQueryService.hpp"
 #include "qt_shapes/rectangle.hpp"
-
-#include <QDir>
-#include <QFile>
-#include <QTextStream>
+#include "design/design_manager.hpp"
 
 #include <iostream>
 
@@ -19,7 +16,9 @@ std::string Selection::getName() const noexcept
 void Selection::highlightselect_all()
 {
     clear();
-    for (const auto& obj : m_ws->getObjects())
+    auto& dm = DesignManager::getInstance();
+    auto pActiveDesign = dm.getActiveDesign();
+    for (const auto& obj : pActiveDesign->getObjects())
     {
         addObject(obj);
         m_sel_highlight_set->addObject(obj);
@@ -46,10 +45,8 @@ void Selection::clear() noexcept
     // m_sb->clear();
 }
 
-void Selection::set_working_set(ObjectPoolPtr ws)
+void Selection::set_working_set()
 {
-    m_ws = ws;
-    // m_h_on = false;
     REGISTER_CALLBACK(CONTROLLER_CHANGED, &Selection::on_controller_update);
 }
 
@@ -57,7 +54,7 @@ void Selection::on_controller_update(LeCallbackData &)
 {
     std::cout << "changed.." << std::endl;
 
-    if (m_ws->getObjects().empty() || getObjects().empty())
+    if (getObjects().empty())
         return;
 
     for (auto obj : getObjects())
@@ -154,7 +151,9 @@ void Selection::select_shape_under_pos(const QPoint &p)
 void Selection::find_and_highlightselect_shapes_from_region(const std::pair<QPoint, QPoint> &point)
 {
     clear();
-    if (m_ws->getObjects().empty())
+    auto& dm = DesignManager::getInstance();
+    auto pActiveDesign = dm.getActiveDesign();
+    if (pActiveDesign->getObjects().empty())
         return;
 
     for (auto it : rq.getShapesUnderRect(QRect(point.first, point.second)))

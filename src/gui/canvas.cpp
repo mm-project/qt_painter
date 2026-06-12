@@ -27,10 +27,10 @@
 #include <cassert>
 #include <iostream>
 
-#define INCMD_CREATE_OBJ(S) incmdCreateObj<S>(m_runtime, m_design)
-#define INCMD_CREATE_OBJ_POLYGON(N) incmdCreateNthgon<N>(m_runtime, m_design)
-#define INCMD_HIGHLIGHT_BY_REGION incmdSelectShapesByRegion(m_runtime, m_design)
-#define INCMD_HIGHLIGHT_BY_POINT incmdSelectUnderCursoer(m_runtime, m_design)
+#define INCMD_CREATE_OBJ(S) incmdCreateObj<S>(m_runtime)
+#define INCMD_CREATE_OBJ_POLYGON(N) incmdCreateNthgon<N>(m_runtime)
+#define INCMD_HIGHLIGHT_BY_REGION incmdSelectShapesByRegion(m_runtime)
+#define INCMD_HIGHLIGHT_BY_POINT incmdSelectUnderCursoer(m_runtime)
 
 canvas::canvas(QWidget *p) : QWidget(p), is_runtime_mode(false)
 {
@@ -43,18 +43,17 @@ canvas::canvas(QWidget *p) : QWidget(p), is_runtime_mode(false)
     m_need_motionlog = !(QString::fromLocal8Bit(qgetenv("PAINTER_LOG_MOTION").constData()).isEmpty());
 
     // FIXME move to services
-    m_design = std::shared_ptr<Design>(new Design);
     m_runtime = std::shared_ptr<RuntimePoolManager>(&RuntimePoolManager::getInstance());
     //	Global runtime pool
     auto runtimePool = std::shared_ptr<RuntimePool>(new RuntimePool);
     m_runtime->addChild(runtimePool, "Generic-InteractiveCommand");
 
-    Selection::getInstance().set_working_set(m_design);
+    Selection::getInstance().set_working_set();
     Selection::getInstance().set_sandbox(m_runtime);
 
-    m_renderer = new renderer(this, m_runtime, m_design);
+    m_renderer = new renderer(this, m_runtime);
 
-    cm.init2(m_runtime, m_design);
+    cm.init2(m_runtime);
     cm.init();
     cm.set_main_renderer(m_renderer);
 
@@ -65,21 +64,23 @@ canvas::canvas(QWidget *p) : QWidget(p), is_runtime_mode(false)
     cm.register_command(new INCMD_CREATE_OBJ(POLYGON));
     cm.register_command(new INCMD_HIGHLIGHT_BY_REGION);
     cm.register_command(new INCMD_HIGHLIGHT_BY_POINT);
-    cm.register_command(new dicmdCreateObj<RECTANGLE>(m_design));
-    cm.register_command(new dicmdCreateObj<LINE>(m_design));
-    cm.register_command(new dicmdCreateObj<ELLIPSE>(m_design));
-    cm.register_command(new dicmdCreateObj<POLYGON>(m_design));
-    cm.register_command(new InteractiveDesAction<LOAD>(m_design));
-    cm.register_command(new InteractiveDesAction<SAVE>(m_design));
-    cm.register_command(new InteractiveDesAction<NEW>(m_design));
-    cm.register_command(new dicmdDesignSave(m_design));
-    cm.register_command(new dicmdDesignLoad(m_design));
-    cm.register_command(new InteractiveDeleteAction(m_design));
-    cm.register_command(new dicmdDeleteObj(m_design));
-    cm.register_command(new dicmdObjRelocateBy<MOVE>(m_design));
-    cm.register_command(new dicmdObjRelocateBy<COPY>(m_design));
-    cm.register_command(new incmdObjRelocateBy<MOVE>(m_runtime, m_design));
-    cm.register_command(new incmdObjRelocateBy<COPY>(m_runtime, m_design));
+    cm.register_command(new dicmdCreateObj<RECTANGLE>());
+    cm.register_command(new dicmdCreateObj<LINE>());
+    cm.register_command(new dicmdCreateObj<ELLIPSE>());
+    cm.register_command(new dicmdCreateObj<POLYGON>());
+    cm.register_command(new InteractiveDesAction<LOAD>());
+    cm.register_command(new InteractiveDesAction<SAVE>());
+    cm.register_command(new InteractiveDesAction<NEW>());
+    cm.register_command(new dicmdDesignSave());
+    cm.register_command(new dicmdDesignLoad());
+    cm.register_command(new InteractiveDeleteAction());
+    cm.register_command(new dicmdDeleteObj());
+    cm.register_command(new dicmdObjRelocateBy<MOVE>());
+    cm.register_command(new dicmdObjRelocateBy<COPY>());
+    cm.register_command(new incmdObjRelocateBy<MOVE>(m_runtime));
+    cm.register_command(new incmdObjRelocateBy<COPY>(m_runtime));
+    // create a new design from scratch 
+    cm.activate_command(cm.find_command("incmdDesignNew"), false);
     cm.set_idle_command(cm.find_command("incmdSelectUnderCursoer"));
     // cm.set_idle_command(new INCMD_HIGHLIGHT_BY_POINT);
 }

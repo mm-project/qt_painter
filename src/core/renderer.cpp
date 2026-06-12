@@ -3,10 +3,11 @@
 #include "application.hpp"
 #include "core.hpp"
 #include "rq/RegionQueryService.hpp"
+#include "design/design_manager.hpp"
 
 #include <cassert>
 
-renderer::renderer(QWidget *w, RuntimePoolManagerPtr r, ObjectPoolPtr s) : m_sandbox(r), m_working_set(s)
+renderer::renderer(QWidget *w, RuntimePoolManagerPtr r) : m_sandbox(r)
 {
     m_scale_factor = 1;
     m_qt_painter = new QPainter(w);
@@ -224,12 +225,15 @@ void renderer::draw_objects()
     if (m_rq_renderer)
     {
         RegionQuery &rq = RegionQuery::getInstance();
-	for (auto& shape : rq.getShapesUnderRect(QRect(startx, starty, _width, _height)))
+	    for (auto& shape : rq.getShapesUnderRect(QRect(startx, starty, _width, _height)))
             shape->draw(m_qt_painter);
     }
     else
     {
-        for (auto i : m_working_set->getObjects())
+        auto& dm = DesignManager::getInstance();
+        auto pActiveDesign = dm.getActiveDesign();
+        auto arrObjects = pActiveDesign->getObjects();
+        for (const auto& i : arrObjects)
             i->draw(m_qt_painter);
     }
 }

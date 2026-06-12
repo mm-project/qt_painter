@@ -23,6 +23,7 @@ src/io/io_autogen
 CMakeFiles
 output
 *.OUT
+src/core/design/design_autogen
 test_out
 test.info
 FAILURES.html

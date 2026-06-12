@@ -43,14 +43,14 @@ template <relocAction T> class dicmdObjRelocateBy : public DirectCommandBase
     Selection &m_se = Selection::getInstance();
 
   public:
-    dicmdObjRelocateBy(ObjectPoolPtr ptr, QPoint fpos, QPoint tpos) : m_ws(std::dynamic_pointer_cast<Design>(ptr))
+    dicmdObjRelocateBy(QPoint fpos, QPoint tpos)
     {
         // add_option("-from_region",new PointListCommandOptionValue(pl));
         add_option("-to", new PointCommandOptionValue(tpos));
         add_option("-from", new PointCommandOptionValue(fpos));
     }
 
-    dicmdObjRelocateBy(ObjectPoolPtr ptr) : m_ws(std::dynamic_pointer_cast<Design>(ptr))
+    dicmdObjRelocateBy() 
     {
         // add_option("-from_region",new PointListCommandOptionValue(pl));
         add_option("-to", new PointCommandOptionValue());
@@ -86,7 +86,7 @@ template <relocAction T> class dicmdObjRelocateBy : public DirectCommandBase
     }
 
   private:
-    DesignPtr m_ws = nullptr;
+    Design1Ptr m_ws = nullptr;
 };
 
 template <relocAction T> class incmdObjRelocateBy : public InteractiveCommandBase
@@ -94,14 +94,13 @@ template <relocAction T> class incmdObjRelocateBy : public InteractiveCommandBas
 
     RuntimePoolPtr m_sb;
     RuntimePoolManagerPtr m_re;
-    ObjectPoolPtr m_ws;
     Selection &m_se = Selection::getInstance();
     command_manager &m_cm = command_manager::getInstance();
     LeCallback *m_sel_cb = nullptr;
     bool m_move_move = false;
 
   public:
-    incmdObjRelocateBy(RuntimePoolManagerPtr r, ObjectPoolPtr s) : m_re(r), m_ws(s)
+    incmdObjRelocateBy(RuntimePoolManagerPtr r) : m_re(r)
     {
         // m_sb = std::shared_ptr<ObjectSandbox>(new ObjectSandbox);
         // m_re->addChildren(m_sb);
@@ -154,15 +153,17 @@ template <relocAction T> class incmdObjRelocateBy : public InteractiveCommandBas
         // std::cout << "SELECTION" << m_se.getObjects().size() << "   RTSHAPES: " <<
         // m_sb->getPool()->getObjects().size() << "\n";
         //*
+        auto& dm = DesignManager::getInstance();
+        auto pActiveDesign = dm.getActiveDesign();
         for (auto it : m_sb->getObjects())
         {
-            rq.insertObject(m_ws->addObject(it));
+            rq.insertObject(pActiveDesign->addObject(it));
             if (T == MOVE)
             {
                 // remove working set's object that has been selected
                 // be fetching from the mapping : runtime_obj -> select_obj
                 rq.removeObject(m_sb2se[it]);
-                m_ws->removeObject(m_sb2se[it]);
+                pActiveDesign->removeObject(m_sb2se[it]);
             }
         }
         /**/

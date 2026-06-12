@@ -7,13 +7,13 @@
 #include <QObject>
 #include <vector>
 
-class Design final : public ObjectPoolBase
+class Design1 final : public ObjectPoolBase
 {
   public:
     //
     //	Interface
     //
-    virtual ~Design() = default;
+    virtual ~Design1() = default;
 
   public:
     IShapePtr addObject(IShapePtr) override;
@@ -33,6 +33,6 @@ class Design final : public ObjectPoolBase
     bool m_is_saved = false;
 };
 
-using DesignPtr = std::shared_ptr<Design>;
+using Design1Ptr = std::shared_ptr<Design1>;
 
 #endif

@@ -19,24 +19,28 @@
 //
 class Line : public IShape
 {
-  public:
+public:
+    SPD_DECLARE_TYPE(make_guid({0x12,0x34,0x56,0x78,0x90,0xAB,0xCD,0xEF,0x10,0x32,0x54,0x76,0x98,0xBA,0xDC,0xFE}))
+
+    enum : FieldId { F_p0 = 1, F_p1 = 2 };
+
     Line(QLineF = QLineF(), ShapeProperties = ShapeProperties());
     virtual ~Line() = default;
 
-  public:
+public:
     Line *clone() override;
     void draw(QPainter *) override;
 
-  public:
+public:
     void reset() override;
     void addPoint(const QPoint &) override;
 
-  private:
+private:
     void setP1(const QPoint &);
     void setP2(const QPoint &);
     bool intersectsLine( const QPoint& a1, const QPoint& b1) const;
 
-  public:
+public:
     QPoint getP1() const;
     QPoint getP2() const;
 
@@ -64,7 +68,12 @@ class Line : public IShape
 
     QRectF getBBox() const override;
 
-  private:
+    void writeTlv(TlvWriter& w) const override;
+    void readTlv(TlvReader& r) override;
+
+private:
     QLineF m_object;
     bool m_waitForSecondClick;
 };
+
+SPD_REGISTER_TYPE(Line)
