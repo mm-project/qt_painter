@@ -1,0 +1,76 @@
+name: Build and Test
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: hopar/qtpainter:dev-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Compile with DUMMY_RQ
+        run: |
+          export TERM=xterm
+          export DUMMY_RQ=1
+          cmake CMakeLists.txt
+          make -j8
+
+      - name: Compile unit tests with DUMMY_RQ
+        run: |
+          export TERM=xterm
+          export DUMMY_RQ=1
+          ./etc/bsys/bin/makeUnitTests.sh
+
+      - name: Run unit tests with DUMMY_RQ
+        run: |
+          export CI_BUILD="CCI_UNIT_TEST${{ github.run_number }}"
+          export CI_CHECK=1
+          export TERM=xterm
+          xvfb-run ./sqa/bin/runUnitTests.sh
+
+      - name: Compile unit tests
+        run: |
+          export TERM=xterm
+          make clean
+          ./etc/bsys/bin/makeUnitTests.sh
+
+      - name: Run unit tests
+        run: |
+          export CI_BUILD="CCI_UNIT_TEST${{ github.run_number }}"
+          export CI_CHECK=1
+          export TERM=xterm
+          xvfb-run ./sqa/bin/runUnitTests.sh
+
+      - name: Compile
+        run: |
+          export TERM=xterm
+          make clean
+          cmake CMakeLists.txt
+          make -j8
+
+      - name: Run integration tests
+        run: |
+          export CI_BUILD="CCI_INTG_TEST${{ github.run_number }}"
+          export CI_CHECK=1
+          export TERM=xterm
+          export PAINTER_QA_XVFB=1
+          ./sqa/bin/runTestsParallel.sh
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: artifacts
+
